@@ -1,2 +1,26 @@
+# Environment variables
 .env
+
+# Large datasets
 data/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/Trade_DetailedTradeMatrix_E_All_Data.csv
+
+# Airflow logs and pids
+logs/*
+!logs/.gitkeep
+airflow-webserver.pid
+airflow-scheduler.pid
+
+# Python & Jupyter
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+~$*.xlsx
+
+# IDE
+.vscode/
+.idea/
