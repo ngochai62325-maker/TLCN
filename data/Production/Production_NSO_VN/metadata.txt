@@ -1,0 +1,17 @@
+12. Diện tích gieo trồng và sản lượng lúa cả năm
+
+13. Diện tích lúa cả năm phân theo địa phương
+14. Năng suất gieo trồng lúa cả năm phân theo địa phương
+15. Sản lượng lúa cả năm phân theo địa phương
+
+16. Diện tích gieo trồng lúa đông xuân phân theo địa phương
+17. Năng suất gieo trồng lúa đông xuân phân theo địa phương
+18. Sản lượng lúa đông xuân phân theo địa phương
+
+19. Diện tích gieo trồng lúa hè thu và thu đông phân theo địa phương
+20. Năng suất gieo trồng lúa hè thu và thu đông phân theo địa phương
+21. Sản lượng lúa hè thu và thu đông phân theo địa phương
+
+22. Diện tích gieo trồng lúa mùa phân theo địa phương
+23. Năng suất gieo trồng lúa mùa phân theo địa phương
+24. Sản lượng lúa mùa phân theo địa phương
