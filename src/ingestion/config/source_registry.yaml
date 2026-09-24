@@ -1,0 +1,174 @@
+sources:
+  faostat_production:
+    provider: FAOSTAT
+    dataset: Production_Crops_Livestock_E_All_Data_(Normalized)
+    source_type: HTTP_BULK_ZIP
+    load_strategy: FULL
+    format: CSV
+    endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip"
+    chunk_size: 50000
+    frequency: annual
+    encoding: utf-8
+    expected_columns: ["Domain Code", "Domain", "Area Code (M49)", "Area", "Element Code", "Element", "Item Code (CPC)", "Item", "Year Code", "Year", "Unit", "Value", "Flag", "Flag Description"]
+    readiness:
+      require_http_200: true
+    retry:
+      max_attempts: 5
+      initial_delay_seconds: 2
+      max_delay_seconds: 120
+    adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
+
+  faostat_price:
+    provider: FAOSTAT
+    dataset: Prices_Monthly_E_All_Data_(Normalized)
+    source_type: HTTP_BULK_ZIP
+    load_strategy: FULL
+    format: CSV
+    endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/Prices_Monthly_E_All_Data_(Normalized).zip"
+    chunk_size: 50000
+    frequency: annual
+    encoding: utf-8
+    readiness:
+      require_http_200: true
+    retry:
+      max_attempts: 5
+    adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
+
+  faostat_trade:
+    provider: FAOSTAT
+    dataset: Trade_DetailedTradeMatrix_E_All_Data_(Normalized)
+    source_type: HTTP_BULK_ZIP
+    load_strategy: FULL
+    format: CSV
+    endpoint: "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip"
+    chunk_size: 50000
+    frequency: annual
+    encoding: utf-8
+    readiness:
+      require_http_200: true
+      require_content_length: true
+    retry:
+      max_attempts: 5
+      initial_delay_seconds: 5
+      max_delay_seconds: 120
+    adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
+    extra:
+      note: "Very large dataset ~8GB uncompressed. Must use streaming/chunking."
+
+  faostat_trade_validation:
+    provider: FAOSTAT
+    dataset: Trade_DetailedTradeMatrix_E_All_Data_(Normalized)
+    source_type: HTTP_BULK_ZIP
+    load_strategy: FULL
+    format: CSV
+    local_path: "data/fixtures/trade_matrix_fixture.zip"
+    endpoint: "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip"
+    chunk_size: 1000
+    frequency: annual
+    encoding: utf-8
+    readiness:
+      require_http_200: true
+      min_file_size_bytes: 100
+    retry:
+      max_attempts: 3
+      initial_delay_seconds: 1
+      max_delay_seconds: 10
+    adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
+    extra:
+      note: "Validation slice of Trade Matrix using exact production FaostatBulkAdapter"
+
+  faostat_sua:
+    provider: FAOSTAT
+    dataset: SUA_Crops_Livestock_E_All_Data_(Normalized)
+    source_type: HTTP_BULK_ZIP
+    load_strategy: FULL
+    format: CSV
+    endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/SUA_Crops_Livestock_E_All_Data_(Normalized).zip"
+    chunk_size: 50000
+    frequency: annual
+    encoding: utf-8
+    readiness:
+      require_http_200: true
+    retry:
+      max_attempts: 5
+    adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
+
+  usda_psd:
+    provider: USDA
+    dataset: PSD_Grains_Pulses
+    source_type: HTTP_BULK_ZIP
+    load_strategy: FULL
+    format: CSV
+    endpoint: "https://apps.fas.usda.gov/psdonline/download/psd_grains_pulses_csv.zip"
+    chunk_size: 50000
+    frequency: monthly
+    encoding: utf-8
+    readiness:
+      require_http_200: true
+    retry:
+      max_attempts: 5
+    adapter_class: "ingestion.adapters.usda_adapter.UsdaPsdAdapter"
+    extra:
+      commodity_filter: "Rice"
+      subset: "grains_pulses"
+
+  usda_export_prices:
+    provider: USDA
+    dataset: Export_Prices_Rice
+    source_type: LOCAL_FILE
+    load_strategy: FULL
+    format: CSV
+    local_path: "data/raw/usda/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv"
+    chunk_size: 50000
+    frequency: monthly
+    encoding: utf-8
+    readiness:
+      min_file_size_bytes: 100
+    adapter_class: "ingestion.adapters.usda_adapter.UsdaLocalAdapter"
+
+  worldbank_pinksheet:
+    provider: WorldBank
+    dataset: CMO_Historical_Monthly
+    source_type: HTTP_FILE
+    load_strategy: FULL
+    format: EXCEL
+    endpoint: "https://thedocs.worldbank.org/en/doc/5d903e848db1d1b83e0ec8f744e55570-0350012021/related/CMO-Historical-Data-Monthly.xlsx"
+    chunk_size: 50000
+    frequency: monthly
+    encoding: utf-8
+    readiness:
+      require_http_200: true
+    retry:
+      max_attempts: 5
+    adapter_class: "ingestion.adapters.worldbank_adapter.WorldBankAdapter"
+
+  nso_vietnam:
+    provider: GSO_Vietnam
+    dataset: V06_Rice_Statistics
+    source_type: LOCAL_FILE
+    load_strategy: FULL
+    format: CSV
+    local_path: "data/raw/nso"
+    chunk_size: 50000
+    frequency: annual
+    encoding: utf-8
+    readiness:
+      min_file_size_bytes: 100
+    adapter_class: "ingestion.adapters.nso_adapter.NsoVietnamAdapter"
+    extra:
+      file_pattern: "V06.*.csv"
+      metadata_file: "metadata.txt"
+
+  thitruongnongsan:
+    provider: IPSARD
+    dataset: Daily_Rice_Market_Prices
+    source_type: LOCAL_FILE
+    load_strategy: FULL
+    format: EXCEL
+    local_path: "data/raw/thitruongnongsan/price_luagao.xlsx"
+    chunk_size: 50000
+    frequency: daily
+    encoding: utf-8
+    readiness:
+      min_file_size_bytes: 100
+    adapter_class: "ingestion.adapters.thitruongnongsan_adapter.ThitruongNongsanAdapter"

@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rice-lakehouse-ingestion"
+version = "0.1.0"
+description = "Data Ingestion Engine for Vietnam Rice Market Data Lakehouse"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31.0",
+    "PyYAML>=6.0.1",
+    "pandas>=2.1.0",
+    "openpyxl>=3.1.2",
+    "boto3>=1.34.0",
+    "psycopg2-binary>=2.9.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "responses>=0.23.0",
+    "moto[s3]>=5.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-v --tb=short"
+markers = [
+    "integration: marks tests requiring Docker services",
+    "slow: marks tests that take a long time",
+]
