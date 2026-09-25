@@ -155,10 +155,12 @@ class FullLoader(BaseLoader):
                 chunks_iter = self.adapter.extract_full(config, download_dir=staging)
 
             # If resuming, load previously completed chunks count
+            prior_chunk_ids: set = set()
             if last_ckpt:
                 all_prior_ckpts = self.checkpoint_store.get_all(config.source_id, active_resume_run)
                 for prior in all_prior_ckpts:
                     if prior.status == ChunkStatus.SUCCESS.value:
+                        prior_chunk_ids.add(prior.chunk_id)
                         chunks_total += 1
                         chunks_processed += 1
                         prior_count = (prior.row_end - prior.row_start + 1) if (prior.row_end is not None and prior.row_start is not None) else 0
@@ -172,15 +174,19 @@ class FullLoader(BaseLoader):
                     existing_bronze_files = set()
 
             for chunk in chunks_iter:
-                chunks_total += 1
                 chunk_id = chunk.chunk_id if isinstance(chunk.chunk_id, int) else int(chunk.chunk_id)
 
                 # Skip if already processed in prior failed run
                 if resume_chunk_id is not None and chunk_id <= resume_chunk_id:
-                    total_records += chunk.record_count
-                    chunks_processed += 1
+                    if chunk_id not in prior_chunk_ids:
+                        total_records += chunk.record_count
+                        chunks_processed += 1
+                        chunks_total += 1
+                        prior_chunk_ids.add(chunk_id)
                     logger.info("Skipping already-processed chunk", chunk_id=chunk_id)
                     continue
+
+                chunks_total += 1
 
                 # File-arrival incremental skip: if chunk contains data for files already in Bronze
                 if (

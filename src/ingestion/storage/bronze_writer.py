@@ -1,7 +1,8 @@
 """Bronze Iceberg table writer.
 
 Responsible for writing raw extracted data chunks into queryable Apache Iceberg
-tables in the Bronze layer via the Trino / Iceberg REST catalog interface.
+tables in the Bronze layer via native Iceberg Parquet append commit (PyIceberg)
+with seamless fallback to Trino REST interface.
 
 Enforces:
 1. Lossless pass-through of raw columns.
@@ -14,6 +15,7 @@ Enforces:
    - _source_checksum: SHA-256 checksum of source artifact
    - _source_snapshot_id: Foreign key / ID to source_snapshots table
 3. Append-only immutable batch semantics into Iceberg tables.
+4. High-performance bulk write: 1 Parquet data file + 1 atomic snapshot commit per chunk.
 """
 
 from __future__ import annotations
@@ -64,6 +66,11 @@ class BronzeIcebergWriter:
         trino_user: str = "admin",
         catalog: str = "iceberg",
         schema: str = "bronze",
+        iceberg_rest_uri: Optional[str] = None,
+        minio_endpoint: Optional[str] = None,
+        minio_access_key: Optional[str] = None,
+        minio_secret_key: Optional[str] = None,
+        minio_region: str = "us-east-1",
     ) -> None:
         self.host = trino_host or os.environ.get("TRINO_HOST", "localhost")
         self.port = trino_port or int(os.environ.get("TRINO_PORT", "8088"))
@@ -71,6 +78,45 @@ class BronzeIcebergWriter:
         self.catalog = catalog
         self.schema = schema
         self.base_url = f"http://{self.host}:{self.port}/v1/statement"
+
+        # Resolve Iceberg REST URI and MinIO S3 parameters
+        rest_host = os.environ.get("ICEBERG_REST_HOST")
+        if not rest_host:
+            rest_host = "iceberg-rest" if self.host == "trino" else "localhost"
+        rest_port = os.environ.get("ICEBERG_REST_PORT", "8181")
+        self.rest_uri = iceberg_rest_uri or os.environ.get("ICEBERG_REST_URI", f"http://{rest_host}:{rest_port}")
+
+        raw_endpoint = minio_endpoint or os.environ.get("MINIO_ENDPOINT", "localhost:9000")
+        if not raw_endpoint.startswith("http://") and not raw_endpoint.startswith("https://"):
+            raw_endpoint = f"http://{raw_endpoint}"
+        self.minio_endpoint = raw_endpoint
+        self.s3_access_key = minio_access_key or os.environ.get("MINIO_ROOT_USER", "admin")
+        self.s3_secret_key = minio_secret_key or os.environ.get("MINIO_ROOT_PASSWORD", "password123")
+        self.s3_region = minio_region
+        self._iceberg_catalog = None
+
+    def get_iceberg_catalog(self) -> Any:
+        """Get or lazily initialize the PyIceberg REST catalog."""
+        if self._iceberg_catalog is None:
+            try:
+                from pyiceberg.catalog import load_catalog
+                self._iceberg_catalog = load_catalog(
+                    self.catalog,
+                    **{
+                        "type": "rest",
+                        "uri": self.rest_uri,
+                        "s3.endpoint": self.minio_endpoint,
+                        "s3.access-key-id": self.s3_access_key,
+                        "s3.secret-access-key": self.s3_secret_key,
+                        "s3.path-style-access": "true",
+                        "s3.region": self.s3_region,
+                    }
+                )
+            except Exception as e:
+                logger = create_ingestion_logger(f"{self.catalog}.{self.schema}")
+                logger.warning(f"Could not initialize PyIceberg REST catalog: {e}")
+                return None
+        return self._iceberg_catalog
 
     def execute_query(self, sql: str) -> Tuple[List[str], List[List[Any]]]:
         """Execute a SQL query via Trino REST API and return (columns, rows)."""
@@ -172,6 +218,71 @@ class BronzeIcebergWriter:
 
         return full_table
 
+    def _dataframe_to_arrow(self, df: pd.DataFrame, iceberg_schema: Any) -> Any:
+        """Align pandas DataFrame to Iceberg table schema and convert to PyArrow Table."""
+        import pyarrow as pa
+        from pyiceberg.types import (
+            BooleanType,
+            IntegerType,
+            LongType,
+            FloatType,
+            DoubleType,
+            StringType,
+            TimestampType,
+            TimestamptzType,
+            DateType,
+        )
+
+        def iceberg_type_to_arrow(field_type):
+            if isinstance(field_type, BooleanType):
+                return pa.bool_()
+            elif isinstance(field_type, IntegerType):
+                return pa.int32()
+            elif isinstance(field_type, LongType):
+                return pa.int64()
+            elif isinstance(field_type, FloatType):
+                return pa.float32()
+            elif isinstance(field_type, DoubleType):
+                return pa.float64()
+            elif isinstance(field_type, (TimestampType, TimestamptzType)):
+                return pa.timestamp("us", tz="UTC")
+            elif isinstance(field_type, DateType):
+                return pa.date32()
+            else:
+                return pa.string()
+
+        clean_df = df.copy()
+        arrow_fields = []
+
+        for f in iceberg_schema.fields:
+            col = f.name
+            target_arrow_type = iceberg_type_to_arrow(f.field_type)
+            arrow_fields.append((col, target_arrow_type))
+
+            if col not in clean_df.columns:
+                clean_df[col] = None
+
+            if isinstance(f.field_type, LongType):
+                clean_df[col] = pd.to_numeric(clean_df[col], errors="coerce").astype("Int64")
+            elif isinstance(f.field_type, IntegerType):
+                clean_df[col] = pd.to_numeric(clean_df[col], errors="coerce").astype("Int32")
+            elif isinstance(f.field_type, DoubleType):
+                clean_df[col] = pd.to_numeric(clean_df[col], errors="coerce").astype("float64")
+            elif isinstance(f.field_type, FloatType):
+                clean_df[col] = pd.to_numeric(clean_df[col], errors="coerce").astype("float32")
+            elif isinstance(f.field_type, (TimestampType, TimestamptzType)):
+                clean_df[col] = pd.to_datetime(clean_df[col], utc=True, format="mixed")
+            elif isinstance(f.field_type, BooleanType):
+                clean_df[col] = clean_df[col].astype("boolean")
+            elif isinstance(f.field_type, DateType):
+                clean_df[col] = pd.to_datetime(clean_df[col]).dt.date
+            elif isinstance(f.field_type, StringType):
+                clean_df[col] = clean_df[col].where(clean_df[col].notna(), None).astype("string")
+
+        pa_schema = pa.schema(arrow_fields)
+        cols_ordered = [f.name for f in iceberg_schema.fields]
+        return pa.Table.from_pandas(clean_df[cols_ordered], schema=pa_schema, preserve_index=False)
+
     def write_chunk(
         self,
         source_id: str,
@@ -186,10 +297,14 @@ class BronzeIcebergWriter:
         """Append a data chunk into the Bronze Iceberg table.
 
         Adds all 7 technical metadata columns before writing.
+        Uses high-performance PyIceberg bulk write (1 Parquet file + 1 atomic commit per chunk)
+        with fallback to Trino sub-batch INSERT VALUES if PyIceberg is unavailable.
         Returns the number of rows inserted.
         """
         if chunk_df.empty:
             return 0
+
+        logger = create_ingestion_logger(source_id, run_id, batch_id)
 
         # Copy to avoid mutating original
         df = chunk_df.copy()
@@ -229,6 +344,28 @@ class BronzeIcebergWriter:
         df["_source_snapshot_id"] = source_snapshot_id
 
         full_table = self.ensure_table(source_id, chunk_df)
+        table_name = sanitize_column_name(source_id)
+
+        # ── High-Performance PyIceberg Bulk Write Path ────────────────
+        try:
+            catalog = self.get_iceberg_catalog()
+            if catalog is not None:
+                table = catalog.load_table(f"{self.schema}.{table_name}")
+                arrow_table = self._dataframe_to_arrow(df, table.schema())
+                table.append(arrow_table)
+                logger.info(
+                    "Chunk written to Iceberg via PyIceberg bulk path",
+                    rows=len(df),
+                    table=full_table,
+                )
+                return len(df)
+        except Exception as bulk_err:
+            logger.warning(
+                f"PyIceberg bulk write failed ({bulk_err}); falling back to Trino INSERT VALUES",
+                exc_info=True,
+            )
+
+        # ── Fallback: Trino Sub-Batch INSERT VALUES ──────────────────
         cols = list(df.columns)
         quoted_cols = ", ".join(f'"{c}"' for c in cols)
 
@@ -308,4 +445,3 @@ class BronzeIcebergWriter:
             return [str(row[0]) for row in data if row and row[0] is not None]
         except Exception:
             return []
-

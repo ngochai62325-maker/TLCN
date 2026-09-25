@@ -532,6 +532,7 @@ class TestPhase2EEndToEndIntegration:
             ("usda_psd", 15),
             ("worldbank_pinksheet", 792),
             ("thitruongnongsan", 16394),
+            ("faostat_trade", 1226470),
         ]
 
         for source_id, expected_rows in reconciliation_targets:
@@ -541,9 +542,8 @@ class TestPhase2EEndToEndIntegration:
                 f"Expected {expected_rows} rows, got {actual_rows} in Iceberg Bronze"
             )
 
-        # faostat_trade contains >= 977,000 rows (under investigation / partial load from interrupted run)
         trade_rows = writer.get_row_count("faostat_trade")
-        assert trade_rows >= 977000, f"Expected faostat_trade >= 977000, got {trade_rows}"
+        assert trade_rows == 1226470, f"Expected faostat_trade == 1226470, got {trade_rows}"
 
     # ──────────────────────────────────────────────────────────────────
     # 9. Airflow DAG Integrity (Validated via Live Airflow Container)
@@ -596,3 +596,29 @@ class TestPhase2EEndToEndIntegration:
             assert f"readiness_{sid}" in task_ids, f"Missing readiness task for {sid}"
             assert f"ingest_{sid}" in task_ids, f"Missing ingest task for {sid}"
             assert f"validate_{sid}" in task_ids, f"Missing validate task for {sid}"
+
+    # ──────────────────────────────────────────────────────────────────
+    # 10. Large-Volume Dataset Ingestion & Idempotency Verification
+    # ──────────────────────────────────────────────────────────────────
+    def test_10_large_volume_write_and_idempotency(self, infra):
+        """Verify faostat_trade 1.2M rows reconciliation and snapshot idempotency."""
+        writer: BronzeIcebergWriter = infra["writer"]
+        source_id = "faostat_trade"
+
+        # Assert full 1.2M row count in Iceberg Bronze
+        trade_rows = writer.get_row_count(source_id)
+        assert trade_rows == 1226470, f"Expected faostat_trade == 1226470, got {trade_rows}"
+
+        # Assert Trino direct SQL count
+        _, data = writer.execute_query(f"SELECT COUNT(*) FROM iceberg.bronze.{source_id}")
+        assert int(data[0][0]) == 1226470
+
+        # Rerun ingestion on faostat_trade via IngestionEngine -> must skip idempotently
+        engine = IngestionEngine.create_default()
+        res = engine.run(source_id)
+        assert res.status == IngestionStatus.SKIPPED
+        assert (res.source_metadata or {}).get("skipped_reason") == "unchanged_snapshot"
+
+        # Ensure no duplicates created
+        assert writer.get_row_count(source_id) == 1226470
+
