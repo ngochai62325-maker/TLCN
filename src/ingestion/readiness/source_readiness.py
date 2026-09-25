@@ -59,23 +59,38 @@ class ReadinessChecker:
              return ReadinessResult(ready=False, reason=f"HTTP request failed: {str(e)}")
 
     def _check_local_file(self, config: SourceConfig) -> ReadinessResult:
-        if not config.local_path:
-             return ReadinessResult(ready=False, reason="Missing local_path")
-             
-        if not os.path.exists(config.local_path):
-             return ReadinessResult(ready=False, reason=f"File not found: {config.local_path}")
-             
-        if not os.access(config.local_path, os.R_OK):
-             return ReadinessResult(ready=False, reason=f"File not readable: {config.local_path}")
-             
-        size = os.path.getsize(config.local_path)
+        path = config.local_path or config.local_fallback
+        if not path:
+            return ReadinessResult(ready=False, reason="Missing local_path")
+
+        if not os.path.exists(path):
+            return ReadinessResult(ready=False, reason=f"File not found: {path}")
+
+        if not os.access(path, os.R_OK):
+            return ReadinessResult(ready=False, reason=f"File not readable: {path}")
+
+        if os.path.isdir(path):
+            files = [f for f in os.listdir(path) if not f.startswith(".")]
+            if not files:
+                return ReadinessResult(ready=False, reason=f"Directory is empty: {path}")
+            size = sum(os.path.getsize(os.path.join(path, f)) for f in files if os.path.isfile(os.path.join(path, f)))
+            file_count = len(files)
+        else:
+            size = os.path.getsize(path)
+            file_count = 1
+
+        if size == 0:
+            return ReadinessResult(ready=False, reason=f"File is empty (0 bytes): {path}")
+
         if config.readiness and config.readiness.min_file_size_bytes is not None:
-             if size < config.readiness.min_file_size_bytes:
-                 return ReadinessResult(ready=False, reason=f"File size {size} < {config.readiness.min_file_size_bytes}")
-                 
+            if size < config.readiness.min_file_size_bytes:
+                return ReadinessResult(ready=False, reason=f"File size {size} < {config.readiness.min_file_size_bytes}")
+
         metadata = {
             "size": size,
-            "last_modified": str(os.path.getmtime(config.local_path))
+            "path": path,
+            "file_count": file_count,
+            "last_modified": str(os.path.getmtime(path)),
         }
         return ReadinessResult(ready=True, reason="Local file readiness check passed", source_metadata=metadata)
 

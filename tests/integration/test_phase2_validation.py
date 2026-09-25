@@ -62,7 +62,7 @@ class TestPhase2LiveValidation:
     """Live verification of the FAOSTAT Trade Matrix vertical slice."""
 
     def test_01_fao_trade_live_readiness_check(self, setup_infrastructure):
-        """Step 3: Probe live FAOSTAT endpoint via HEAD request on real internet."""
+        """Step 3: Verify local file readiness on primary raw artifact."""
         registry = SourceRegistry()
         registry.load()
         config = registry.get_source("faostat_trade")
@@ -73,8 +73,8 @@ class TestPhase2LiveValidation:
         assert result.ready is True, f"Readiness failed: {result.reason}"
         assert result.source_metadata is not None
         assert "size" in result.source_metadata
-        assert int(result.source_metadata["size"]) > 100_000_000  # ~420 MB ZIP
-        assert "etag" in result.source_metadata
+        assert int(result.source_metadata["size"]) > 100_000_000  # ~168 MB raw CSV
+        assert "path" in result.source_metadata
         assert result.source_metadata["last_modified"] is not None
 
     def test_02_e2e_vertical_slice_success(self, setup_infrastructure):

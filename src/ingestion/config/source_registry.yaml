@@ -3,11 +3,12 @@ sources:
     source_name: "FAOSTAT - Production (Crops and Livestock World)"
     provider: FAOSTAT
     dataset: Production_Crops_Livestock_E_All_Data_(Normalized)
-    source_type: HTTP_BULK_ZIP
+    source_type: LOCAL_FILE
     load_strategy: FULL
     format: CSV
-    endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip"
+    local_path: "data/raw/faostat/production_world.csv"
     local_fallback: "data/raw/faostat/production_world.csv"
+    endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip"
     chunk_size: 50000
     frequency: annual
     encoding: utf-8
@@ -30,12 +31,15 @@ sources:
       - "Flag Description"
       - "Note"
     readiness:
-      require_http_200: true
+      min_file_size_bytes: 100
     retry:
       max_attempts: 5
       initial_delay_seconds: 2
       max_delay_seconds: 120
     adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
+    extra:
+      source_reference_url: "https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip"
+      note: "Primary Bronze input is local raw snapshot file; endpoint retained strictly for lineage/reference."
 
   faostat_monthly_price:
     source_name: "FAOSTAT - Monthly Producer Prices"
@@ -43,11 +47,12 @@ sources:
     dataset: Prices_Monthly_E_All_Data_(Normalized)
     aliases:
       - "faostat_price"
-    source_type: HTTP_BULK_ZIP
+    source_type: LOCAL_FILE
     load_strategy: FULL
     format: CSV
-    endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/Prices_Monthly_E_All_Data_(Normalized).zip"
+    local_path: "data/raw/faostat/price.csv"
     local_fallback: "data/raw/faostat/price.csv"
+    endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/Prices_Monthly_E_All_Data_(Normalized).zip"
     chunk_size: 50000
     frequency: monthly
     encoding: utf-8
@@ -71,20 +76,24 @@ sources:
       - "Flag"
       - "Flag Description"
     readiness:
-      require_http_200: true
+      min_file_size_bytes: 100
     retry:
       max_attempts: 5
     adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
+    extra:
+      source_reference_url: "https://fenixservices.fao.org/faostat/static/bulkdownloads/Prices_Monthly_E_All_Data_(Normalized).zip"
+      note: "Primary Bronze input is local raw snapshot file; endpoint retained strictly for lineage/reference."
 
   faostat_trade:
     source_name: "FAOSTAT - Detailed Trade Matrix"
     provider: FAOSTAT
     dataset: Trade_DetailedTradeMatrix_E_All_Data_(Normalized)
-    source_type: HTTP_BULK_ZIP
+    source_type: LOCAL_FILE
     load_strategy: FULL
     format: CSV
-    endpoint: "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip"
+    local_path: "data/raw/faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv"
     local_fallback: "data/raw/faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv"
+    endpoint: "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip"
     chunk_size: 50000
     frequency: annual
     encoding: utf-8
@@ -104,23 +113,22 @@ sources:
       - "Unit"
       - "Value"
       - "Flag"
-      - "Flag Description"
     readiness:
-      require_http_200: true
-      require_content_length: true
+      min_file_size_bytes: 100
     retry:
       max_attempts: 5
       initial_delay_seconds: 5
       max_delay_seconds: 120
     adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
     extra:
-      note: "Very large dataset ~8GB uncompressed, ~35M rows. Must use streaming/chunking."
+      source_reference_url: "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip"
+      note: "Very large dataset ~8GB uncompressed, ~35M rows. Primary Bronze input is local raw file."
 
   faostat_trade_validation:
     source_name: "FAOSTAT - Trade Matrix Validation Slice"
     provider: FAOSTAT
     dataset: Trade_DetailedTradeMatrix_E_All_Data_(Normalized)
-    source_type: HTTP_BULK_ZIP
+    source_type: LOCAL_FILE
     load_strategy: FULL
     format: CSV
     local_path: "data/fixtures/trade_matrix_fixture.zip"
@@ -145,9 +153,7 @@ sources:
       - "Unit"
       - "Value"
       - "Flag"
-      - "Flag Description"
     readiness:
-      require_http_200: true
       min_file_size_bytes: 100
     retry:
       max_attempts: 3
@@ -155,7 +161,8 @@ sources:
       max_delay_seconds: 10
     adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
     extra:
-      note: "Validation slice of Trade Matrix using exact production FaostatBulkAdapter"
+      source_reference_url: "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip"
+      note: "Validation slice of Trade Matrix using exact production FaostatBulkAdapter with local fixture"
 
   faostat_supply_utilization:
     source_name: "FAOSTAT - Supply Utilization Accounts (SUA)"
@@ -163,11 +170,12 @@ sources:
     dataset: SUA_Crops_Livestock_E_All_Data_(Normalized)
     aliases:
       - "faostat_sua"
-    source_type: HTTP_BULK_ZIP
+    source_type: LOCAL_FILE
     load_strategy: FULL
     format: CSV
-    endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/SUA_Crops_Livestock_E_All_Data_(Normalized).zip"
+    local_path: "data/raw/faostat/supply_utilization.csv"
     local_fallback: "data/raw/faostat/supply_utilization.csv"
+    endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/SUA_Crops_Livestock_E_All_Data_(Normalized).zip"
     chunk_size: 50000
     frequency: annual
     encoding: utf-8
@@ -190,10 +198,13 @@ sources:
       - "Flag Description"
       - "Note"
     readiness:
-      require_http_200: true
+      min_file_size_bytes: 100
     retry:
       max_attempts: 5
     adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
+    extra:
+      source_reference_url: "https://fenixservices.fao.org/faostat/static/bulkdownloads/SUA_Crops_Livestock_E_All_Data_(Normalized).zip"
+      note: "Primary Bronze input is local raw snapshot file; endpoint retained strictly for lineage/reference."
 
   nso_vietnam:
     source_name: "NSO Vietnam - General Statistics Office V06 Rice Statistics"
@@ -256,11 +267,12 @@ sources:
     source_name: "USDA FAS - Production, Supply and Distribution (PSD)"
     provider: USDA
     dataset: PSD_Grains_Pulses
-    source_type: HTTP_BULK_ZIP
+    source_type: LOCAL_FILE
     load_strategy: FULL
     format: CSV
-    endpoint: "https://apps.fas.usda.gov/psdonline/download/psd_grains_pulses_csv.zip"
+    local_path: "data/raw/usda/usda.xls"
     local_fallback: "data/raw/usda/usda.xls"
+    endpoint: "https://apps.fas.usda.gov/psdonline/download/psd_grains_pulses_csv.zip"
     chunk_size: 50000
     frequency: monthly
     encoding: utf-8
@@ -268,24 +280,26 @@ sources:
     schema_status: pending_adapter_profiling
     expected_columns: null
     readiness:
-      require_http_200: true
+      min_file_size_bytes: 100
     retry:
       max_attempts: 5
     adapter_class: "ingestion.adapters.usda_adapter.UsdaPsdAdapter"
     extra:
       commodity_filter: "Rice"
       subset: "grains_pulses"
-      limitation: "Bulk ZIP from USDA FAS requires online download or offline usda.xls reference."
+      source_reference_url: "https://apps.fas.usda.gov/psdonline/download/psd_grains_pulses_csv.zip"
+      note: "Primary Bronze input is local raw file data/raw/usda/usda.xls; endpoint retained strictly for lineage/reference."
 
   worldbank_pinksheet:
     source_name: "World Bank - Commodity Markets Pink Sheet (Monthly)"
     provider: WorldBank
     dataset: CMO_Historical_Monthly
-    source_type: HTTP_FILE
+    source_type: LOCAL_FILE
     load_strategy: FULL
     format: EXCEL
-    endpoint: "https://thedocs.worldbank.org/en/doc/5d903e848db1d1b83e0ec8f744e55570-0350012021/related/CMO-Historical-Data-Monthly.xlsx"
+    local_path: "data/raw/world_bank/CMO-Historical-Data-Monthly.xlsx"
     local_fallback: "data/raw/world_bank/CMO-Historical-Data-Monthly.xlsx"
+    endpoint: "https://thedocs.worldbank.org/en/doc/5d903e848db1d1b83e0ec8f744e55570-0350012021/related/CMO-Historical-Data-Monthly.xlsx"
     chunk_size: 50000
     frequency: monthly
     encoding: utf-8
@@ -293,14 +307,16 @@ sources:
     schema_status: pending_adapter_profiling
     expected_columns: null
     readiness:
-      require_http_200: true
+      min_file_size_bytes: 100
     retry:
       max_attempts: 5
     adapter_class: "ingestion.adapters.worldbank_adapter.WorldBankAdapter"
     extra:
       sheet_name: "Monthly Prices"
       header_rows: [4, 5, 6]
+      source_reference_url: "https://thedocs.worldbank.org/en/doc/5d903e848db1d1b83e0ec8f744e55570-0350012021/related/CMO-Historical-Data-Monthly.xlsx"
       limitation: "Multi-row header in Excel sheet 'Monthly Prices' requires specialized adapter parsing before final column schema can be locked."
+      note: "Primary Bronze input is local Excel file; endpoint retained strictly for lineage/reference."
 
   thitruongnongsan:
     source_name: "IPSARD - Daily Rice Market Prices (Thị trường nông sản)"

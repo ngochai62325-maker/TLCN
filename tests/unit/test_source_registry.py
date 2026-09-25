@@ -23,7 +23,7 @@ class TestSourceRegistry:
         assert config is not None
         assert config.source_id == "faostat_trade"
         assert config.provider == "FAOSTAT"
-        assert config.source_type == SourceType.HTTP_BULK_ZIP
+        assert config.source_type == SourceType.LOCAL_FILE
 
     def test_get_source_not_found(self, registry):
         with pytest.raises(PermanentError, match="not found"):
@@ -44,11 +44,11 @@ class TestSourceRegistry:
     def test_readiness_config_parsed(self, registry):
         config = registry.get_source("faostat_trade")
         assert config.readiness is not None
-        assert config.readiness.require_content_length is True
+        assert config.readiness.min_file_size_bytes is not None
 
     def test_source_type_enum(self, registry):
         config = registry.get_source("faostat_trade")
-        assert config.source_type == SourceType.HTTP_BULK_ZIP
+        assert config.source_type == SourceType.LOCAL_FILE
         local_config = registry.get_source("nso_vietnam")
         assert local_config.source_type == SourceType.LOCAL_FILE
 

@@ -87,24 +87,22 @@ class BronzeIcebergWriter:
         all_data: List[List[Any]] = []
         columns: List[str] = []
 
-        while "nextUri" in res:
-            if "columns" in res:
+        while True:
+            if "columns" in res and not columns:
                 columns = [c["name"] for c in res["columns"]]
             if "data" in res:
                 all_data.extend(res["data"])
             if "error" in res:
                 error_msg = res["error"].get("message", "Unknown Trino error")
-                raise RuntimeError(f"Trino query failed: {error_msg}\nSQL: {sql[:300]}")
+                error_code = res["error"].get("errorCode", "Unknown code")
+                raise RuntimeError(f"Trino query failed ({error_code}): {error_msg}\nSQL: {sql[:300]}")
+            if "nextUri" not in res:
+                break
             next_resp = requests.get(res["nextUri"], headers=headers, timeout=60)
             if not next_resp.text:
                 time.sleep(0.1)
                 continue
             res = next_resp.json()
-
-        if "data" in res:
-            all_data.extend(res["data"])
-        if "columns" in res and not columns:
-            columns = [c["name"] for c in res["columns"]]
 
         return columns, all_data
 
@@ -166,7 +164,7 @@ class BronzeIcebergWriter:
         source_checksum: str,
         source_snapshot_id: int = 0,
         source_file: str = "",
-        batch_size: int = 1000,
+        batch_size: int = 1500,
     ) -> int:
         """Append a data chunk into the Bronze Iceberg table.
 
@@ -203,16 +201,15 @@ class BronzeIcebergWriter:
             sub_df = df.iloc[start_idx : start_idx + batch_size]
             val_rows: List[str] = []
 
-            for _, row in sub_df.iterrows():
+            for row in sub_df.itertuples(index=False):
                 vals: List[str] = []
-                for col in cols:
-                    val = row[col]
+                for val, col in zip(row, cols):
                     if pd.isna(val) or val is None:
                         vals.append("NULL")
-                    elif isinstance(val, (int, float)) and not isinstance(val, bool):
-                        vals.append(str(val))
                     elif isinstance(val, bool):
                         vals.append("TRUE" if val else "FALSE")
+                    elif isinstance(val, (int, float)):
+                        vals.append(str(val))
                     elif col == "_ingestion_timestamp":
                         vals.append(f"TIMESTAMP '{val}'")
                     else:

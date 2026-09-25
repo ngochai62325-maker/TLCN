@@ -60,6 +60,24 @@ class TestLocalFileReadiness:
         assert result.ready is False
         assert "local_path" in result.reason.lower() or "Missing" in result.reason
 
+    def test_local_directory_ready(self, checker, tmp_path):
+        sub_file = tmp_path / "part_1.csv"
+        sub_file.write_text("a,b\n1,2\n")
+        config = _make_config(SourceType.LOCAL_FILE, local_path=str(tmp_path))
+        result = checker.check(config)
+        assert result.ready is True
+        assert result.source_metadata["file_count"] >= 1
+
+    def test_local_file_no_http_call_when_local_file(self, checker, tmp_path):
+        """Verify that when SourceType is LOCAL_FILE, zero HTTP calls are made even if endpoint is configured."""
+        f = tmp_path / "valid.csv"
+        f.write_text("x,y\n3,4\n")
+        # Provide an unroutable endpoint to prove it is never contacted
+        config = _make_config(SourceType.LOCAL_FILE, endpoint="http://0.0.0.0:1/unreachable", local_path=str(f))
+        result = checker.check(config)
+        assert result.ready is True
+        assert "local" in result.reason.lower()
+
 
 class TestHttpReadiness:
     @responses.activate

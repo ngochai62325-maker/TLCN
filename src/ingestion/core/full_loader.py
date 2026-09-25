@@ -364,13 +364,14 @@ class FullLoader(BaseLoader):
     # ------------------------------------------------------------------
     def _find_source_artifact(self, config: SourceConfig, staging_dir: str) -> Optional[str]:
         """Locate the original raw source artifact before extraction."""
-        if config.local_path and os.path.exists(config.local_path):
-            if os.path.isfile(config.local_path):
-                return config.local_path
-            elif os.path.isdir(config.local_path):
+        path = config.local_path or config.local_fallback
+        if path and os.path.exists(path):
+            if os.path.isfile(path):
+                return path
+            elif os.path.isdir(path):
                 files = [
-                    os.path.join(config.local_path, f)
-                    for f in os.listdir(config.local_path)
+                    os.path.join(path, f)
+                    for f in os.listdir(path)
                     if not f.startswith(".")
                 ]
                 if files:
@@ -380,13 +381,14 @@ class FullLoader(BaseLoader):
             return staged_zip
         return None
 
+
     def _find_artifact(self, staging_dir: str, config: SourceConfig) -> Optional[str]:
         """Locate the primary extracted or downloaded artifact."""
         for root, _dirs, files in os.walk(staging_dir):
             for f in sorted(files, key=lambda x: os.path.getsize(os.path.join(root, x)), reverse=True):
                 if f.endswith((".zip", ".csv", ".xlsx", ".xls", ".parquet")):
                     return os.path.join(root, f)
-        return None
+        return self._find_source_artifact(config, staging_dir)
 
     def _check_existing_snapshot(self, source_id: str, checksum: str) -> Optional[dict]:
         """Return existing snapshot dict if same checksum was already ingested successfully."""
