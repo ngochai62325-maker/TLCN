@@ -49,9 +49,48 @@ class FaostatBulkAdapter(BaseSourceAdapter):
     """Adapter for FAOSTAT bulk download and snapshot datasets."""
 
     def check_readiness(self, config: SourceConfig) -> ReadinessResult:
-        """Check availability of the FAOSTAT endpoint or local fallback."""
+        """Check availability of the FAOSTAT local file or remote endpoint."""
         logger = create_ingestion_logger(config.source_id)
 
+        # 1. Primary: LOCAL_FILE checks local file/directory directly without network
+        if config.source_type == SourceType.LOCAL_FILE:
+            local_candidate = config.local_path or config.local_fallback
+            if not local_candidate:
+                return ReadinessResult(ready=False, reason="Missing local_path for LOCAL_FILE source")
+            if not os.path.exists(local_candidate):
+                return ReadinessResult(ready=False, reason=f"Local file not found: {local_candidate}")
+            if not os.access(local_candidate, os.R_OK):
+                return ReadinessResult(ready=False, reason=f"Local file not readable: {local_candidate}")
+
+            if os.path.isdir(local_candidate):
+                files = [f for f in os.listdir(local_candidate) if not f.startswith(".")]
+                if not files:
+                    return ReadinessResult(ready=False, reason=f"Directory is empty: {local_candidate}")
+                size = sum(os.path.getsize(os.path.join(local_candidate, f)) for f in files if os.path.isfile(os.path.join(local_candidate, f)))
+                file_count = len(files)
+            else:
+                size = os.path.getsize(local_candidate)
+                file_count = 1
+
+            if size == 0:
+                return ReadinessResult(ready=False, reason=f"Local file is empty (0 bytes): {local_candidate}")
+
+            min_size = getattr(config.readiness, "min_file_size_bytes", 0) if config.readiness else 0
+            if min_size and size < min_size:
+                return ReadinessResult(ready=False, reason=f"File size {size} < min_file_size_bytes {min_size}")
+
+            return ReadinessResult(
+                ready=True,
+                reason="Local file readiness check passed",
+                source_metadata={
+                    "path": local_candidate,
+                    "size": size,
+                    "file_count": file_count,
+                    "last_modified": str(os.path.getmtime(local_candidate)),
+                },
+            )
+
+        # 2. Check local fallback preference if configured
         use_fallback_pref = (
             os.environ.get("INGESTION_USE_LOCAL_FALLBACK", "").lower() in ("1", "true", "yes")
             or config.extra.get("use_local_fallback", False)
@@ -64,7 +103,7 @@ class FaostatBulkAdapter(BaseSourceAdapter):
                 source_metadata={"fallback": True, "local_path": config.local_fallback, "size": file_size},
             )
 
-        # 1. Try live endpoint if configured
+        # 3. Live endpoint probe only for remote sources
         if config.endpoint:
             try:
                 client = HttpClient(config.retry)
@@ -90,17 +129,14 @@ class FaostatBulkAdapter(BaseSourceAdapter):
             except Exception as e:
                 logger.warning(f"Endpoint HEAD check failed for {config.source_id}: {e}")
 
-        # 2. Check local_path or local_fallback if endpoint unavailable or failed
-        local_candidate = config.local_path or config.local_fallback
-        if local_candidate and os.path.exists(local_candidate):
-            file_size = os.path.getsize(local_candidate)
-            min_size = getattr(config.readiness, "min_file_size_bytes", 0) if config.readiness else 0
-            if file_size >= min_size:
-                return ReadinessResult(
-                    ready=True,
-                    reason=f"Local fallback file is ready: {local_candidate}",
-                    source_metadata={"fallback": True, "local_path": local_candidate, "size": file_size},
-                )
+        # 4. Fallback to local_fallback if endpoint failed
+        if config.local_fallback and os.path.exists(config.local_fallback):
+            file_size = os.path.getsize(config.local_fallback)
+            return ReadinessResult(
+                ready=True,
+                reason=f"Local fallback file is ready: {config.local_fallback}",
+                source_metadata={"fallback": True, "local_path": config.local_fallback, "size": file_size},
+            )
 
         if not config.endpoint:
             return ReadinessResult(ready=False, reason="Missing endpoint and no valid local path in configuration")
@@ -111,7 +147,44 @@ class FaostatBulkAdapter(BaseSourceAdapter):
         """Resolve the source CSV path from local_path, live download, or local_fallback."""
         logger = create_ingestion_logger(config.source_id)
 
-        # A. Check environment or config flag to prefer local fallback (e.g. in test or offline mode)
+        # 1. Primary: If source_type == LOCAL_FILE or explicit local_path provided
+        if config.source_type == SourceType.LOCAL_FILE or config.local_path:
+            local_candidate = config.local_path or config.local_fallback
+            if not local_candidate:
+                raise FileNotFoundError(f"Missing local_path configuration for '{config.source_id}'.")
+            if not os.path.exists(local_candidate):
+                raise FileNotFoundError(f"Local source file not found for '{config.source_id}': {local_candidate}")
+
+            if os.path.isdir(local_candidate):
+                csv_candidates = [
+                    os.path.join(local_candidate, f)
+                    for f in os.listdir(local_candidate)
+                    if f.endswith(".csv")
+                ]
+                if csv_candidates:
+                    return max(csv_candidates, key=os.path.getsize)
+
+                zip_candidates = [
+                    os.path.join(local_candidate, f)
+                    for f in os.listdir(local_candidate)
+                    if f.endswith(".zip")
+                ]
+                if zip_candidates:
+                    return self._extract_zip(max(zip_candidates, key=os.path.getsize), download_dir)
+
+                raise DataQualityError(f"No CSV or ZIP files found in directory '{local_candidate}'.")
+
+            if local_candidate.lower().endswith(".zip"):
+                return self._extract_zip(local_candidate, download_dir)
+
+            if local_candidate.lower().endswith(".csv"):
+                return local_candidate
+
+            raise PermanentError(
+                f"Unsupported file format for '{config.source_id}': '{local_candidate}'. Expected .csv or .zip"
+            )
+
+        # 2. Preferred local fallback check for non-LOCAL_FILE sources
         use_fallback_pref = (
             os.environ.get("INGESTION_USE_LOCAL_FALLBACK", "").lower() in ("1", "true", "yes")
             or config.extra.get("use_local_fallback", False)
@@ -122,22 +195,7 @@ class FaostatBulkAdapter(BaseSourceAdapter):
                 return self._extract_zip(config.local_fallback, download_dir)
             return config.local_fallback
 
-        # B. If explicit local_path is specified and exists
-        if config.local_path and os.path.exists(config.local_path):
-            if os.path.isdir(config.local_path):
-                csv_candidates = [
-                    os.path.join(config.local_path, f)
-                    for f in os.listdir(config.local_path)
-                    if f.endswith(".csv")
-                ]
-                if csv_candidates:
-                    return max(csv_candidates, key=os.path.getsize)
-            elif config.local_path.endswith(".csv"):
-                return config.local_path
-            elif config.local_path.endswith(".zip"):
-                return self._extract_zip(config.local_path, download_dir)
-
-        # C. If endpoint is configured, attempt download
+        # 3. Live download only for HTTP/remote sources
         download_err = None
         if config.endpoint:
             zip_path = os.path.join(download_dir, f"{config.source_id}_bulk.zip")
@@ -154,19 +212,18 @@ class FaostatBulkAdapter(BaseSourceAdapter):
                     download_err = e
                     logger.warning(f"Download failed from {config.endpoint}: {e}")
 
-        # D. Fallback to local_fallback if download failed or not configured
+        # 4. Fallback if download failed
         if config.local_fallback and os.path.exists(config.local_fallback):
             logger.info(f"Using local fallback for '{config.source_id}': {config.local_fallback}")
             if config.local_fallback.endswith(".zip"):
                 return self._extract_zip(config.local_fallback, download_dir)
             return config.local_fallback
 
-        # E. Neither available
         if download_err:
             raise PermanentError(f"Failed to download from endpoint and no fallback available: {download_err}")
 
         target = config.local_path or config.local_fallback or "unknown"
-        raise PermanentError(f"Source file not found: {target}")
+        raise FileNotFoundError(f"Source file not found: {target}")
 
     def _extract_zip(self, zip_path: str, extract_to: str) -> str:
         """Extract the largest CSV file from a ZIP archive."""
@@ -196,10 +253,8 @@ class FaostatBulkAdapter(BaseSourceAdapter):
 
         try:
             csv_file_path = self._resolve_source_file(config, download_dir)
-        except Exception as e:
-            if isinstance(e, (PermanentError, DataQualityError, SchemaError)):
-                raise
-            raise PermanentError(f"Failed to resolve source file for '{config.source_id}': {e}")
+        except (FileNotFoundError, PermanentError, DataQualityError, SchemaError):
+            raise
 
         # Check empty file
         if not os.path.exists(csv_file_path):
