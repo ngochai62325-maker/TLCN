@@ -151,13 +151,7 @@ services:
     command: >
       bash -c "
       airflow db migrate &&
-      airflow users create \
-        --username ${AIRFLOW_USER:-airflow} \
-        --password ${AIRFLOW_PASSWORD:-airflow} \
-        --firstname Admin \
-        --lastname User \
-        --role Admin \
-        --email admin@lakehouse.local || true
+      airflow users create --username $${AIRFLOW_USER:-airflow} --password $${AIRFLOW_PASSWORD:-airflow} --firstname Admin --lastname User --role Admin --email admin@lakehouse.local || true
       "
 
   # -------------------------------------------------------------
@@ -177,11 +171,20 @@ services:
       AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-admin}
       AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-password123}
       AWS_DEFAULT_REGION: us-east-1
+      PYTHONPATH: "/opt/airflow/src"
+      MINIO_ENDPOINT: "minio:9000"
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-password123}
+      INGESTION_DB_URL: "postgresql://${POSTGRES_USER:-airflow}:${POSTGRES_PASSWORD:-airflow}@postgres:5432/${POSTGRES_DB:-airflow}"
+      TRINO_HOST: "trino"
+      TRINO_PORT: "8080"
+      _PIP_ADDITIONAL_REQUIREMENTS: "openpyxl"
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
       - ./data:/opt/airflow/data
+      - ./src:/opt/airflow/src
     depends_on:
       airflow-init:
         condition: service_completed_successfully
@@ -203,11 +206,20 @@ services:
       AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-admin}
       AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-password123}
       AWS_DEFAULT_REGION: us-east-1
+      PYTHONPATH: "/opt/airflow/src"
+      MINIO_ENDPOINT: "minio:9000"
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-password123}
+      INGESTION_DB_URL: "postgresql://${POSTGRES_USER:-airflow}:${POSTGRES_PASSWORD:-airflow}@postgres:5432/${POSTGRES_DB:-airflow}"
+      TRINO_HOST: "trino"
+      TRINO_PORT: "8080"
+      _PIP_ADDITIONAL_REQUIREMENTS: "openpyxl"
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
       - ./data:/opt/airflow/data
+      - ./src:/opt/airflow/src
     depends_on:
       airflow-init:
         condition: service_completed_successfully

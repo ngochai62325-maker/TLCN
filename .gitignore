@@ -26,6 +26,7 @@ Thumbs.db
 .idea/
 
 Bao_cao
-docs
+docs/*
+!docs/ingestion/
 
 data/raw/faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv

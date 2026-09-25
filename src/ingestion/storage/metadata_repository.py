@@ -3,12 +3,14 @@ import json
 from typing import Optional, Dict, Any, List
 import psycopg2
 from psycopg2.extras import DictCursor
-
 class MetadataRepository:
     def __init__(self, connection_string: Optional[str] = None):
-        self.connection_string = connection_string or os.environ.get(
+        raw_conn = connection_string or os.environ.get(
             'INGESTION_DB_URL', 'postgresql://airflow:airflow@localhost:5432/airflow'
         )
+        if raw_conn.startswith('postgresql+psycopg2://'):
+            raw_conn = raw_conn.replace('postgresql+psycopg2://', 'postgresql://', 1)
+        self.connection_string = raw_conn
 
     def _get_connection(self):
         return psycopg2.connect(self.connection_string)
