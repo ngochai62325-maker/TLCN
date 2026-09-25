@@ -133,7 +133,7 @@ class NsoVietnamAdapter(BaseSourceAdapter):
             # 2. Try candidate encodings
             for enc in candidate_encodings:
                 try:
-                    df = pd.read_csv(file_path, encoding=enc, low_memory=False)
+                    df = pd.read_csv(file_path, encoding=enc, dtype=str, low_memory=False)
                     break
                 except UnicodeDecodeError as ue:
                     last_err = ue

@@ -137,9 +137,13 @@ class BronzeIcebergWriter:
 
         # Build column definitions from DataFrame
         col_defs: List[str] = []
+        df_cols_map: Dict[str, str] = {}
         for col in df.columns:
             clean_col = sanitize_column_name(col)
+            if clean_col in TECHNICAL_METADATA_COLUMNS:
+                continue
             sql_type = self._map_dtype_to_trino(df[col].dtype)
+            df_cols_map[clean_col] = sql_type
             col_defs.append(f'"{clean_col}" {sql_type}')
 
         # Add mandatory technical metadata columns
@@ -153,6 +157,19 @@ class BronzeIcebergWriter:
         )
         """
         self.execute_query(create_sql)
+
+        # Schema evolution: dynamically add any new columns to existing Iceberg table
+        try:
+            _, existing_cols_data = self.execute_query(f"DESCRIBE {full_table}")
+            existing_col_names = {row[0].lower() for row in existing_cols_data}
+            for clean_col, sql_type in df_cols_map.items():
+                if clean_col.lower() not in existing_col_names:
+                    alter_sql = f'ALTER TABLE {full_table} ADD COLUMN "{clean_col}" {sql_type}'
+                    self.execute_query(alter_sql)
+                    existing_col_names.add(clean_col.lower())
+        except Exception:
+            pass
+
         return full_table
 
     def write_chunk(
@@ -164,7 +181,7 @@ class BronzeIcebergWriter:
         source_checksum: str,
         source_snapshot_id: int = 0,
         source_file: str = "",
-        batch_size: int = 1500,
+        batch_size: int = 500,
     ) -> int:
         """Append a data chunk into the Bronze Iceberg table.
 
@@ -177,6 +194,17 @@ class BronzeIcebergWriter:
         # Copy to avoid mutating original
         df = chunk_df.copy()
 
+        # Preserve per-file _source_file or _source_checksum if already set by adapter
+        existing_source_file = None
+        if "_source_file" in df.columns:
+            existing_source_file = df["_source_file"].copy()
+            df.drop(columns=["_source_file"], inplace=True)
+
+        existing_source_checksum = None
+        if "_source_checksum" in df.columns:
+            existing_source_checksum = df["_source_checksum"].copy()
+            df.drop(columns=["_source_checksum"], inplace=True)
+
         # Sanitize column names
         rename_map = {col: sanitize_column_name(col) for col in df.columns}
         df.rename(columns=rename_map, inplace=True)
@@ -187,8 +215,17 @@ class BronzeIcebergWriter:
         df["_ingestion_batch_id"] = batch_id
         df["_ingestion_timestamp"] = now_utc
         df["_source_id"] = source_id
-        df["_source_file"] = source_file
-        df["_source_checksum"] = source_checksum
+
+        if existing_source_file is not None:
+            df["_source_file"] = existing_source_file
+        else:
+            df["_source_file"] = source_file
+
+        if existing_source_checksum is not None:
+            df["_source_checksum"] = existing_source_checksum
+        else:
+            df["_source_checksum"] = source_checksum
+
         df["_source_snapshot_id"] = source_snapshot_id
 
         full_table = self.ensure_table(source_id, chunk_df)
@@ -232,3 +269,24 @@ class BronzeIcebergWriter:
             return int(data[0][0]) if data else 0
         except Exception:
             return 0
+
+    def get_ingested_files(self, source_id: str) -> List[str]:
+        """Return list of distinct _source_file names already in the Bronze table."""
+        table_name = sanitize_column_name(source_id)
+        full_table = f"{self.catalog}.{self.schema}.{table_name}"
+        try:
+            _, data = self.execute_query(f'SELECT DISTINCT "_source_file" FROM {full_table}')
+            return [str(row[0]) for row in data if row and row[0] is not None]
+        except Exception:
+            return []
+
+    def get_ingested_checksums(self, source_id: str) -> List[str]:
+        """Return list of distinct _source_checksum strings already in the Bronze table."""
+        table_name = sanitize_column_name(source_id)
+        full_table = f"{self.catalog}.{self.schema}.{table_name}"
+        try:
+            _, data = self.execute_query(f'SELECT DISTINCT "_source_checksum" FROM {full_table}')
+            return [str(row[0]) for row in data if row and row[0] is not None]
+        except Exception:
+            return []
+

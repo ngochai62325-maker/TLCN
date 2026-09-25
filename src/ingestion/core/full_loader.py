@@ -35,7 +35,7 @@ from ingestion.storage.bronze_writer import BronzeIcebergWriter
 from ingestion.storage.metadata_repository import MetadataRepository
 from ingestion.storage.minio_storage import MinioStorage
 from ingestion.utils.error_classifier import classify_error
-from ingestion.utils.hashing import compute_file_checksum
+from ingestion.utils.hashing import compute_directory_checksum, compute_file_checksum
 from ingestion.utils.logging_config import create_ingestion_logger
 
 
@@ -115,8 +115,7 @@ class FullLoader(BaseLoader):
                 )
 
             # ── 1b. Up-front idempotency / snapshot check ───────────
-            source_file = self._find_source_artifact(config, staging)
-            initial_checksum = compute_file_checksum(source_file) if (source_file and os.path.exists(source_file)) else None
+            initial_checksum = self._compute_source_checksum(config, staging)
 
             if initial_checksum:
                 existing = self._check_existing_snapshot(config.source_id, initial_checksum)
@@ -165,16 +164,36 @@ class FullLoader(BaseLoader):
                         prior_count = (prior.row_end - prior.row_start + 1) if (prior.row_end is not None and prior.row_start is not None) else 0
                         total_records += prior_count
 
+            existing_bronze_files: set = set()
+            if self.bronze_writer:
+                try:
+                    existing_bronze_files = set(self.bronze_writer.get_ingested_files(config.source_id))
+                except Exception:
+                    existing_bronze_files = set()
+
             for chunk in chunks_iter:
                 chunks_total += 1
                 chunk_id = chunk.chunk_id if isinstance(chunk.chunk_id, int) else int(chunk.chunk_id)
 
-                # Skip if already processed
+                # Skip if already processed in prior failed run
                 if resume_chunk_id is not None and chunk_id <= resume_chunk_id:
                     total_records += chunk.record_count
                     chunks_processed += 1
                     logger.info("Skipping already-processed chunk", chunk_id=chunk_id)
                     continue
+
+                # File-arrival incremental skip: if chunk contains data for files already in Bronze
+                if (
+                    existing_bronze_files
+                    and hasattr(chunk, "data")
+                    and chunk.data is not None
+                    and "_source_file" in chunk.data.columns
+                ):
+                    chunk_files = set(chunk.data["_source_file"].dropna().unique())
+                    if chunk_files and chunk_files.issubset(existing_bronze_files):
+                        logger.info("Skipping chunk for already-ingested file(s)", files=list(chunk_files), chunk_id=chunk_id)
+                        chunks_processed += 1
+                        continue
 
                 try:
                     total_records += chunk.record_count
@@ -183,12 +202,14 @@ class FullLoader(BaseLoader):
                     # Write chunk into Bronze Iceberg table if configured
                     if self.bronze_writer and hasattr(chunk, "data") and chunk.data is not None:
                         source_file_label = os.path.basename(config.local_path or config.endpoint or config.source_id)
+                        is_dir_source = bool(config.local_path and os.path.exists(config.local_path) and os.path.isdir(config.local_path))
+                        source_chk = chunk.checksum if is_dir_source else (initial_checksum or chunk.checksum or "unknown")
                         self.bronze_writer.write_chunk(
                             source_id=config.source_id,
                             chunk_df=chunk.data,
                             run_id=run_id,
                             batch_id=batch_id,
-                            source_checksum=initial_checksum or chunk.checksum or "unknown",
+                            source_checksum=source_chk,
                             source_snapshot_id=0,
                             source_file=source_file_label,
                         )
@@ -362,6 +383,19 @@ class FullLoader(BaseLoader):
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
+    def _compute_source_checksum(self, config: SourceConfig, staging_dir: str) -> Optional[str]:
+        """Compute the deterministic SHA-256 checksum of the source (file or directory)."""
+        path = config.local_path or config.local_fallback
+        if path and os.path.exists(path):
+            if os.path.isdir(path):
+                pattern = (config.extra.get("file_pattern") if config.extra else None) or "*"
+                return compute_directory_checksum(path, pattern=pattern)
+            return compute_file_checksum(path)
+        source_file = self._find_source_artifact(config, staging_dir)
+        if source_file and os.path.exists(source_file):
+            return compute_file_checksum(source_file)
+        return None
+
     def _find_source_artifact(self, config: SourceConfig, staging_dir: str) -> Optional[str]:
         """Locate the original raw source artifact before extraction."""
         path = config.local_path or config.local_fallback
@@ -369,13 +403,18 @@ class FullLoader(BaseLoader):
             if os.path.isfile(path):
                 return path
             elif os.path.isdir(path):
-                files = [
-                    os.path.join(path, f)
-                    for f in os.listdir(path)
-                    if not f.startswith(".")
-                ]
-                if files:
-                    return max(files, key=os.path.getsize)
+                # For directories, package all matching files into a deterministic zip in staging
+                zip_path = os.path.join(staging_dir, f"{config.source_id}_raw.zip")
+                if not os.path.exists(zip_path):
+                    import glob
+                    import zipfile
+                    pattern = (config.extra.get("file_pattern") if config.extra else None) or "*"
+                    matched_files = sorted(glob.glob(os.path.join(path, pattern)))
+                    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+                        for f in matched_files:
+                            if os.path.isfile(f):
+                                zf.write(f, arcname=os.path.basename(f))
+                return zip_path
         staged_zip = os.path.join(staging_dir, f"{config.source_id}_bulk.zip")
         if os.path.exists(staged_zip):
             return staged_zip

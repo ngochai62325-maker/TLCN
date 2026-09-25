@@ -21,3 +21,21 @@ def compute_bytes_checksum(data: bytes, algorithm: str = 'sha256') -> str:
     hasher = hashlib.new(algorithm)
     hasher.update(data)
     return hasher.hexdigest()
+
+
+def compute_directory_checksum(dir_path: str, pattern: str = "*", algorithm: str = 'sha256') -> str:
+    """Compute a deterministic SHA-256 checksum of all matching files in a directory."""
+    import glob
+    import os
+
+    hasher = hashlib.new(algorithm)
+    files = sorted(glob.glob(os.path.join(dir_path, pattern)))
+    for f in files:
+        if os.path.isfile(f):
+            rel = os.path.relpath(f, dir_path)
+            hasher.update(rel.encode("utf-8"))
+            with open(f, "rb") as fh:
+                for chunk in iter(lambda: fh.read(65536), b""):
+                    hasher.update(chunk)
+    return hasher.hexdigest()
+
