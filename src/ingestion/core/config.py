@@ -62,6 +62,7 @@ class SourceConfig:
     # Access
     endpoint: Optional[str] = None
     local_path: Optional[str] = None
+    local_fallback: Optional[str] = None
 
     # Processing
     chunk_size: int = 50_000
@@ -83,3 +84,16 @@ class SourceConfig:
 
     # Extension point — arbitrary provider-specific settings
     extra: Dict[str, Any] = field(default_factory=dict)
+
+    # Standardized metadata
+    source_name: Optional[str] = None
+    enabled: bool = True
+    schema_status: str = "pending_adapter_profiling"
+    expected_schema: Optional[Dict[str, Any]] = None
+    aliases: List[str] = field(default_factory=list)
+
+    @property
+    def source_url(self) -> Optional[str]:
+        """Convenience property mapping to endpoint for contract standard."""
+        return self.endpoint
+

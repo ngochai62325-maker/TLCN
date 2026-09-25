@@ -1,15 +1,34 @@
 sources:
   faostat_production:
+    source_name: "FAOSTAT - Production (Crops and Livestock World)"
     provider: FAOSTAT
     dataset: Production_Crops_Livestock_E_All_Data_(Normalized)
     source_type: HTTP_BULK_ZIP
     load_strategy: FULL
     format: CSV
     endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip"
+    local_fallback: "data/raw/faostat/production_world.csv"
     chunk_size: 50000
     frequency: annual
     encoding: utf-8
-    expected_columns: ["Domain Code", "Domain", "Area Code (M49)", "Area", "Element Code", "Element", "Item Code (CPC)", "Item", "Year Code", "Year", "Unit", "Value", "Flag", "Flag Description"]
+    enabled: true
+    schema_status: defined
+    expected_columns:
+      - "Domain Code"
+      - "Domain"
+      - "Area Code (M49)"
+      - "Area"
+      - "Element Code"
+      - "Element"
+      - "Item Code (CPC)"
+      - "Item"
+      - "Year Code"
+      - "Year"
+      - "Unit"
+      - "Value"
+      - "Flag"
+      - "Flag Description"
+      - "Note"
     readiness:
       require_http_200: true
     retry:
@@ -18,16 +37,39 @@ sources:
       max_delay_seconds: 120
     adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
 
-  faostat_price:
+  faostat_monthly_price:
+    source_name: "FAOSTAT - Monthly Producer Prices"
     provider: FAOSTAT
     dataset: Prices_Monthly_E_All_Data_(Normalized)
+    aliases:
+      - "faostat_price"
     source_type: HTTP_BULK_ZIP
     load_strategy: FULL
     format: CSV
     endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/Prices_Monthly_E_All_Data_(Normalized).zip"
+    local_fallback: "data/raw/faostat/price.csv"
     chunk_size: 50000
-    frequency: annual
+    frequency: monthly
     encoding: utf-8
+    enabled: true
+    schema_status: defined
+    expected_columns:
+      - "Domain Code"
+      - "Domain"
+      - "Area Code (M49)"
+      - "Area"
+      - "Element Code"
+      - "Element"
+      - "Item Code (CPC)"
+      - "Item"
+      - "Year Code"
+      - "Year"
+      - "Months Code"
+      - "Months"
+      - "Unit"
+      - "Value"
+      - "Flag"
+      - "Flag Description"
     readiness:
       require_http_200: true
     retry:
@@ -35,15 +77,34 @@ sources:
     adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
 
   faostat_trade:
+    source_name: "FAOSTAT - Detailed Trade Matrix"
     provider: FAOSTAT
     dataset: Trade_DetailedTradeMatrix_E_All_Data_(Normalized)
     source_type: HTTP_BULK_ZIP
     load_strategy: FULL
     format: CSV
     endpoint: "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip"
+    local_fallback: "data/raw/faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv"
     chunk_size: 50000
     frequency: annual
     encoding: utf-8
+    enabled: true
+    schema_status: defined
+    expected_columns:
+      - "Reporter Countries"
+      - "Reporter Country Code (M49)"
+      - "Partner Countries"
+      - "Partner Country Code (M49)"
+      - "Item"
+      - "Item Code (CPC)"
+      - "Element"
+      - "Element Code"
+      - "Year"
+      - "Year Code"
+      - "Unit"
+      - "Value"
+      - "Flag"
+      - "Flag Description"
     readiness:
       require_http_200: true
       require_content_length: true
@@ -53,19 +114,38 @@ sources:
       max_delay_seconds: 120
     adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
     extra:
-      note: "Very large dataset ~8GB uncompressed. Must use streaming/chunking."
+      note: "Very large dataset ~8GB uncompressed, ~35M rows. Must use streaming/chunking."
 
   faostat_trade_validation:
+    source_name: "FAOSTAT - Trade Matrix Validation Slice"
     provider: FAOSTAT
     dataset: Trade_DetailedTradeMatrix_E_All_Data_(Normalized)
     source_type: HTTP_BULK_ZIP
     load_strategy: FULL
     format: CSV
     local_path: "data/fixtures/trade_matrix_fixture.zip"
+    local_fallback: "data/fixtures/trade_matrix_fixture.zip"
     endpoint: "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip"
     chunk_size: 1000
     frequency: annual
     encoding: utf-8
+    enabled: true
+    schema_status: defined
+    expected_columns:
+      - "Reporter Countries"
+      - "Reporter Country Code (M49)"
+      - "Partner Countries"
+      - "Partner Country Code (M49)"
+      - "Item"
+      - "Item Code (CPC)"
+      - "Element"
+      - "Element Code"
+      - "Year"
+      - "Year Code"
+      - "Unit"
+      - "Value"
+      - "Flag"
+      - "Flag Description"
     readiness:
       require_http_200: true
       min_file_size_bytes: 100
@@ -77,32 +157,116 @@ sources:
     extra:
       note: "Validation slice of Trade Matrix using exact production FaostatBulkAdapter"
 
-  faostat_sua:
+  faostat_supply_utilization:
+    source_name: "FAOSTAT - Supply Utilization Accounts (SUA)"
     provider: FAOSTAT
     dataset: SUA_Crops_Livestock_E_All_Data_(Normalized)
+    aliases:
+      - "faostat_sua"
     source_type: HTTP_BULK_ZIP
     load_strategy: FULL
     format: CSV
     endpoint: "https://fenixservices.fao.org/faostat/static/bulkdownloads/SUA_Crops_Livestock_E_All_Data_(Normalized).zip"
+    local_fallback: "data/raw/faostat/supply_utilization.csv"
     chunk_size: 50000
     frequency: annual
     encoding: utf-8
+    enabled: true
+    schema_status: defined
+    expected_columns:
+      - "Domain Code"
+      - "Domain"
+      - "Area Code (M49)"
+      - "Area"
+      - "Element Code"
+      - "Element"
+      - "Item Code (CPC)"
+      - "Item"
+      - "Year Code"
+      - "Year"
+      - "Unit"
+      - "Value"
+      - "Flag"
+      - "Flag Description"
+      - "Note"
     readiness:
       require_http_200: true
     retry:
       max_attempts: 5
     adapter_class: "ingestion.adapters.faostat_bulk_adapter.FaostatBulkAdapter"
 
+  nso_vietnam:
+    source_name: "NSO Vietnam - General Statistics Office V06 Rice Statistics"
+    provider: GSO_Vietnam
+    dataset: V06_Rice_Statistics
+    source_type: LOCAL_FILE
+    load_strategy: FULL
+    format: CSV
+    local_path: "data/raw/nso"
+    local_fallback: "data/raw/nso"
+    chunk_size: 50000
+    frequency: annual
+    encoding: utf-8
+    enabled: true
+    schema_status: pending_adapter_profiling
+    expected_columns: null
+    readiness:
+      min_file_size_bytes: 100
+    adapter_class: "ingestion.adapters.nso_adapter.NsoVietnamAdapter"
+    extra:
+      file_pattern: "V06.*.csv"
+      metadata_file: "metadata.txt"
+      note: "13 annual files (V06.12.csv to V06.24.csv) with multi-encoding Vietnamese headers. Schema pending adapter profiling."
+
+  usda_rice_yearbook:
+    source_name: "USDA ERS - Rice Yearbook (Export Price Quotes)"
+    provider: USDA
+    dataset: Export_Prices_Rice
+    aliases:
+      - "usda_export_prices"
+    source_type: LOCAL_FILE
+    load_strategy: FULL
+    format: CSV
+    local_path: "data/raw/usda/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv"
+    local_fallback: "data/raw/usda/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv"
+    chunk_size: 50000
+    frequency: monthly
+    encoding: utf-8
+    enabled: true
+    schema_status: defined
+    expected_columns:
+      - "TABLE_NAME"
+      - "TABLE_NUMBER"
+      - "COMMODITY_DESCRIPTION"
+      - "CLASS_DESCRIPTION"
+      - "YEAR"
+      - "REFERENCE_PERIOD_DESCRIPTION"
+      - "LOCATION_DESCRIPTION"
+      - "STATISTIC_DESCRIPTION"
+      - "VALUE"
+      - "UNIT_DESCRIPTION"
+    readiness:
+      min_file_size_bytes: 100
+    adapter_class: "ingestion.adapters.usda_adapter.UsdaLocalAdapter"
+    extra:
+      secondary_local_path: "data/raw/usda/usda.xls"
+      limitation: "Yearbook tables 18-21 export prices in CSV format; PSD multi-year summary table in usda.xls (HTML format). Dedicated parser adapter to be completed in subsequent phase."
+
   usda_psd:
+    source_name: "USDA FAS - Production, Supply and Distribution (PSD)"
     provider: USDA
     dataset: PSD_Grains_Pulses
     source_type: HTTP_BULK_ZIP
     load_strategy: FULL
     format: CSV
     endpoint: "https://apps.fas.usda.gov/psdonline/download/psd_grains_pulses_csv.zip"
+    local_fallback: "data/raw/usda/usda.xls"
     chunk_size: 50000
     frequency: monthly
     encoding: utf-8
+    enabled: true
+    schema_status: pending_adapter_profiling
+    expected_columns: null
     readiness:
       require_http_200: true
     retry:
@@ -111,64 +275,58 @@ sources:
     extra:
       commodity_filter: "Rice"
       subset: "grains_pulses"
-
-  usda_export_prices:
-    provider: USDA
-    dataset: Export_Prices_Rice
-    source_type: LOCAL_FILE
-    load_strategy: FULL
-    format: CSV
-    local_path: "data/raw/usda/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv"
-    chunk_size: 50000
-    frequency: monthly
-    encoding: utf-8
-    readiness:
-      min_file_size_bytes: 100
-    adapter_class: "ingestion.adapters.usda_adapter.UsdaLocalAdapter"
+      limitation: "Bulk ZIP from USDA FAS requires online download or offline usda.xls reference."
 
   worldbank_pinksheet:
+    source_name: "World Bank - Commodity Markets Pink Sheet (Monthly)"
     provider: WorldBank
     dataset: CMO_Historical_Monthly
     source_type: HTTP_FILE
     load_strategy: FULL
     format: EXCEL
     endpoint: "https://thedocs.worldbank.org/en/doc/5d903e848db1d1b83e0ec8f744e55570-0350012021/related/CMO-Historical-Data-Monthly.xlsx"
+    local_fallback: "data/raw/world_bank/CMO-Historical-Data-Monthly.xlsx"
     chunk_size: 50000
     frequency: monthly
     encoding: utf-8
+    enabled: true
+    schema_status: pending_adapter_profiling
+    expected_columns: null
     readiness:
       require_http_200: true
     retry:
       max_attempts: 5
     adapter_class: "ingestion.adapters.worldbank_adapter.WorldBankAdapter"
-
-  nso_vietnam:
-    provider: GSO_Vietnam
-    dataset: V06_Rice_Statistics
-    source_type: LOCAL_FILE
-    load_strategy: FULL
-    format: CSV
-    local_path: "data/raw/nso"
-    chunk_size: 50000
-    frequency: annual
-    encoding: utf-8
-    readiness:
-      min_file_size_bytes: 100
-    adapter_class: "ingestion.adapters.nso_adapter.NsoVietnamAdapter"
     extra:
-      file_pattern: "V06.*.csv"
-      metadata_file: "metadata.txt"
+      sheet_name: "Monthly Prices"
+      header_rows: [4, 5, 6]
+      limitation: "Multi-row header in Excel sheet 'Monthly Prices' requires specialized adapter parsing before final column schema can be locked."
 
   thitruongnongsan:
+    source_name: "IPSARD - Daily Rice Market Prices (Thị trường nông sản)"
     provider: IPSARD
     dataset: Daily_Rice_Market_Prices
     source_type: LOCAL_FILE
     load_strategy: FULL
     format: EXCEL
     local_path: "data/raw/thitruongnongsan/price_luagao.xlsx"
+    local_fallback: "data/raw/thitruongnongsan/price_luagao.xlsx"
     chunk_size: 50000
     frequency: daily
     encoding: utf-8
+    enabled: true
+    schema_status: defined
+    expected_columns:
+      - "Tên_mặt_hàng"
+      - "Thị_trường"
+      - "Loại_giá"
+      - "Đơn_vị_tính"
+      - "Loại_tiền"
+      - "Nguồn"
+      - "Ngày"
+      - "Giá"
     readiness:
       min_file_size_bytes: 100
     adapter_class: "ingestion.adapters.thitruongnongsan_adapter.ThitruongNongsanAdapter"
+    extra:
+      sheet_name: "price_lua_gao"
