@@ -232,6 +232,14 @@ class BronzeIcebergWriter:
         cols = list(df.columns)
         quoted_cols = ", ".join(f'"{c}"' for c in cols)
 
+        # Retrieve table schema types for exact type formatting in SQL VALUES
+        table_schema: Dict[str, str] = {}
+        try:
+            _, schema_rows = self.execute_query(f"DESCRIBE {full_table}")
+            table_schema = {str(r[0]).lower(): str(r[1]).upper() for r in schema_rows}
+        except Exception:
+            pass
+
         # Insert in sub-batches for Trino query size safety
         total_inserted = 0
         for start_idx in range(0, len(df), batch_size):
@@ -241,14 +249,25 @@ class BronzeIcebergWriter:
             for row in sub_df.itertuples(index=False):
                 vals: List[str] = []
                 for val, col in zip(row, cols):
+                    col_type = table_schema.get(col.lower(), "")
                     if pd.isna(val) or val is None:
                         vals.append("NULL")
-                    elif isinstance(val, bool):
-                        vals.append("TRUE" if val else "FALSE")
-                    elif isinstance(val, (int, float)):
-                        vals.append(str(val))
-                    elif col == "_ingestion_timestamp":
+                    elif col == "_ingestion_timestamp" or "TIMESTAMP" in col_type:
                         vals.append(f"TIMESTAMP '{val}'")
+                    elif isinstance(val, bool) or col_type == "BOOLEAN":
+                        vals.append("TRUE" if val else "FALSE")
+                    elif any(num_t in col_type for num_t in ("DOUBLE", "REAL", "FLOAT")):
+                        try:
+                            float_val = float(val)
+                            vals.append(f"DOUBLE '{float_val}'")
+                        except (ValueError, TypeError):
+                            vals.append("NULL")
+                    elif any(int_t in col_type for int_t in ("BIGINT", "INTEGER", "SMALLINT", "TINYINT")):
+                        try:
+                            int_val = int(val)
+                            vals.append(str(int_val))
+                        except (ValueError, TypeError):
+                            vals.append("NULL")
                     else:
                         escaped = str(val).replace("'", "''")
                         vals.append(f"'{escaped}'")

@@ -422,12 +422,15 @@ class FullLoader(BaseLoader):
 
 
     def _find_artifact(self, staging_dir: str, config: SourceConfig) -> Optional[str]:
-        """Locate the primary extracted or downloaded artifact."""
+        """Locate the primary raw source artifact, falling back to staging files."""
+        source_art = self._find_source_artifact(config, staging_dir)
+        if source_art and os.path.exists(source_art):
+            return source_art
         for root, _dirs, files in os.walk(staging_dir):
             for f in sorted(files, key=lambda x: os.path.getsize(os.path.join(root, x)), reverse=True):
                 if f.endswith((".zip", ".csv", ".xlsx", ".xls", ".parquet")):
                     return os.path.join(root, f)
-        return self._find_source_artifact(config, staging_dir)
+        return None
 
     def _check_existing_snapshot(self, source_id: str, checksum: str) -> Optional[dict]:
         """Return existing snapshot dict if same checksum was already ingested successfully."""
