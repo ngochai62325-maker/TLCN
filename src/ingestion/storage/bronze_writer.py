@@ -168,8 +168,18 @@ class BronzeIcebergWriter:
 
     def ensure_schema(self) -> None:
         """Ensure the target catalog schema exists (e.g. iceberg.bronze)."""
-        sql = f"CREATE SCHEMA IF NOT EXISTS {self.catalog}.{self.schema}"
-        self.execute_query(sql)
+        try:
+            sql = f"CREATE SCHEMA IF NOT EXISTS {self.catalog}.{self.schema}"
+            self.execute_query(sql)
+        except Exception:
+            # Re-check if schema already exists to be resilient to concurrent execution
+            try:
+                _, schemas = self.execute_query(f"SHOW SCHEMAS IN {self.catalog}")
+                existing = [s[0].lower() for s in schemas]
+                if self.schema.lower() in existing:
+                    return
+            except Exception:
+                pass
 
     def _map_dtype_to_trino(self, dtype: Any) -> str:
         """Map pandas/numpy dtype to Trino Iceberg data type."""

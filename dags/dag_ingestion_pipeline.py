@@ -1,12 +1,21 @@
-"""Airflow DAG for Rice Lakehouse Bronze Ingestion Pipeline.
+"""Airflow DAG for Vietnam Rice Market Data Lakehouse Bronze Ingestion.
 
-Orchestrates:
-1. Metadata schema initialization (PostgreSQL schema `ingestion`).
-2. Per-source pipeline:
-   Readiness Check → Ingestion Engine → Result Validation
-3. Separation of Concerns:
-   - Orchestration, retries, and scheduling handled by Airflow.
-   - Core ingestion, adapters, chunking, checkpointing, and storage handled by `ingestion` package.
+Implements the strict enterprise 8-stage sequential fail-safe dependency graph:
+    check_source 
+         ↓ 
+    readiness_check (Sensor/Gate) 
+         ↓ 
+    extract (Person 1's module) 
+         ↓ 
+    pre_audit (Person 2's validation) 
+         ↓ 
+    write_bronze (Person 2's writer) 
+         ↓ 
+    post_audit (Reconciliation & sanity checks) 
+         ↓ 
+    update_metadata (Watermark, audit catalog) 
+         ↓ 
+    publish (Signal downstream layers)
 """
 
 from __future__ import annotations
@@ -15,11 +24,12 @@ import logging
 import os
 import sys
 from datetime import datetime, timedelta
+from typing import Any, Dict
 
 from airflow import DAG
 from airflow.decorators import task
-from airflow.exceptions import AirflowException, AirflowSkipException
 from airflow.operators.empty import EmptyOperator
+from airflow.utils.task_group import TaskGroup
 
 # Ensure src/ is on sys.path for container execution
 for p in ["/opt/airflow/src", os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))]:
@@ -27,9 +37,16 @@ for p in ["/opt/airflow/src", os.path.abspath(os.path.join(os.path.dirname(__fil
         sys.path.insert(0, p)
 
 from ingestion.config.registry import SourceRegistry
-from ingestion.core.enums import IngestionStatus
-from ingestion.core.ingestion_engine import IngestionEngine
-from ingestion.readiness.source_readiness import ReadinessChecker
+from ingestion.orchestration.pipeline_tasks import (
+    check_source,
+    extract,
+    post_audit,
+    pre_audit,
+    publish,
+    readiness_check,
+    update_metadata,
+    write_bronze,
+)
 from ingestion.storage.metadata_repository import MetadataRepository
 
 default_args = {
@@ -38,103 +55,123 @@ default_args = {
     "email_on_failure": False,
     "email_on_retry": False,
     "retries": 1,
-    "retry_delay": timedelta(minutes=5),
+    "retry_delay": timedelta(minutes=2),
 }
 
 with DAG(
     dag_id="rice_lakehouse_ingestion",
     default_args=default_args,
-    description="Ingestion Pipeline for Vietnam Rice Market Data Lakehouse",
+    description="Enterprise 8-Stage Fail-Safe Ingestion Pipeline for Vietnam Rice Lakehouse",
     schedule="0 6 15 * *",  # 15th of each month at 6 AM
-    start_date=datetime(2023, 1, 1),
+    start_date=datetime(2026, 9, 26),
     catchup=False,
     max_active_runs=1,
-    max_active_tasks=2,
+    max_active_tasks=4,
     tags=["ingestion", "bronze", "lakehouse"],
 ) as dag:
 
     @task(task_id="initialize_metadata")
     def initialize_metadata_task():
-        """Initialize PostgreSQL ingestion metadata schema and tables."""
+        """Initialize PostgreSQL ingestion metadata schema and tables, and Iceberg schema."""
+        repo = MetadataRepository()
+        repo.initialize()
+
+        # Pre-create Iceberg Bronze schema to prevent race conditions during parallel source ingestion
         try:
-            repo = MetadataRepository()
-            repo.initialize()
-            logging.info("Metadata repository tables verified / initialized successfully.")
-            return True
+            from ingestion.storage.bronze_writer import BronzeIcebergWriter
+            writer = BronzeIcebergWriter()
+            writer.ensure_schema()
         except Exception as e:
-            logging.error(f"Failed to initialize metadata repo: {e}")
-            raise AirflowException(f"Metadata init failed: {e}")
+            logging.warning(f"Could not pre-initialize Iceberg schema: {e}")
+
+        logging.info("PostgreSQL metadata repository and Iceberg schema verified/initialized.")
+        return True
 
     init_task = initialize_metadata_task()
 
-    # Load registry
+    start_all = EmptyOperator(task_id="start_lakehouse_ingestion")
+    end_all = EmptyOperator(task_id="end_lakehouse_ingestion")
+
+    init_task >> start_all
+
+    # Load active sources from registry
     registry = SourceRegistry()
     registry.load()
     all_sources = list(registry.get_all_sources().values())
 
-    faostat_sources = [s for s in all_sources if "faostat" in s.source_id.lower()]
-    other_sources = [s for s in all_sources if "faostat" not in s.source_id.lower()]
+    # Build subpipeline function implementing the strict 8-step lifecycle
+    def create_source_pipeline(source_id: str):
+        with TaskGroup(group_id=f"pipeline_{source_id}", tooltip=f"8-Stage Lifecycle for {source_id}") as tg:
 
-    start_faostat = EmptyOperator(task_id="start_faostat_sources")
-    start_other = EmptyOperator(task_id="start_other_sources")
-    end_all = EmptyOperator(task_id="end_ingestion")
+            @task(task_id="check_source")
+            def t_check():
+                return check_source(source_id)
 
-    init_task >> [start_faostat, start_other]
+            @task(task_id="readiness_check")
+            def t_ready(source_ctx: Dict[str, Any]):
+                return readiness_check(source_ctx)
 
-    def build_source_subpipeline(source_config, upstream_marker):
-        source_id = source_config.source_id
+            @task(task_id="extract", retries=2, retry_delay=timedelta(seconds=10))
+            def t_extract(source_ctx: Dict[str, Any]):
+                return extract(source_ctx)
 
-        @task(task_id=f"readiness_{source_id}")
-        def check_source_readiness():
-            checker = ReadinessChecker()
-            res = checker.check(source_config)
-            if not res.ready:
-                logging.warning(f"Source {source_id} is not ready: {res.reason}")
-                raise AirflowSkipException(f"Source not ready: {res.reason}")
-            logging.info(f"Source {source_id} readiness check passed: {res.source_metadata}")
-            return True
+            @task(task_id="pre_audit")
+            def t_pre_audit(source_ctx: Dict[str, Any], extract_ctx: Dict[str, Any]):
+                return pre_audit(source_ctx, extract_ctx)
 
-        @task(task_id=f"ingest_{source_id}", retries=0)  # Engine handles inner retry
-        def execute_ingest(is_ready: bool = True):
-            if is_ready is False:
-                raise AirflowSkipException("Skipped due to unready upstream")
-            engine = IngestionEngine.create_default()
-            result = engine.run(source_id)
-            return result.to_dict()
+            @task(task_id="write_bronze", retries=2, retry_delay=timedelta(seconds=15))
+            def t_write(
+                source_ctx: Dict[str, Any],
+                extract_ctx: Dict[str, Any],
+                pre_audit_ctx: Dict[str, Any],
+            ):
+                return write_bronze(source_ctx, extract_ctx, pre_audit_ctx)
 
-        @task(task_id=f"validate_{source_id}")
-        def validate_result(res_dict: dict = None):
-            if res_dict is None:
-                repo = MetadataRepository()
-                res_dict = repo.get_latest_run(source_id) or {"status": "SUCCESS"}
-            status = res_dict.get("status")
-            error_msg = res_dict.get("error_message", "")
-            logging.info(f"Source {source_id} ingestion completed with status: {status}")
+            @task(task_id="post_audit")
+            def t_post_audit(
+                source_ctx: Dict[str, Any],
+                extract_ctx: Dict[str, Any],
+                write_ctx: Dict[str, Any],
+            ):
+                return post_audit(source_ctx, extract_ctx, write_ctx)
 
-            if status == IngestionStatus.SUCCESS.value:
-                records = res_dict.get("records_extracted", 0)
-                artifact = res_dict.get("artifact_uri")
-                logging.info(f"SUCCESS: {records} records extracted -> {artifact}")
-                return True
-            elif status == IngestionStatus.SKIPPED.value:
-                reason = (res_dict.get("source_metadata") or {}).get("skipped_reason", "idempotent")
-                logging.info(f"SKIPPED: {reason}")
-                return True
-            elif status == IngestionStatus.NOT_READY.value:
-                raise AirflowSkipException(f"Source reported NOT_READY: {error_msg}")
-            else:
-                raise AirflowException(f"Ingestion FAILED for {source_id}: {error_msg}")
+            @task(task_id="update_metadata")
+            def t_meta(
+                source_ctx: Dict[str, Any],
+                extract_ctx: Dict[str, Any],
+                write_ctx: Dict[str, Any],
+                post_audit_ctx: Dict[str, Any],
+            ):
+                return update_metadata(source_ctx, extract_ctx, write_ctx, post_audit_ctx)
 
-        t_ready = check_source_readiness()
-        t_ingest = execute_ingest(t_ready)
-        t_validate = validate_result(t_ingest)
+            @task(task_id="publish")
+            def t_pub(
+                source_ctx: Dict[str, Any],
+                write_ctx: Dict[str, Any],
+                post_audit_ctx: Dict[str, Any],
+            ):
+                return publish(source_ctx, write_ctx, post_audit_ctx)
 
-        upstream_marker >> t_ready
-        t_validate >> end_all
-        return t_validate
+            # Strict sequential fail-safe task dependency chain
+            ctx_check = t_check()
+            ctx_ready = t_ready(ctx_check)
+            ctx_extract = t_extract(ctx_check)
+            ctx_pre_audit = t_pre_audit(ctx_check, ctx_extract)
+            ctx_write = t_write(ctx_check, ctx_extract, ctx_pre_audit)
+            ctx_post_audit = t_post_audit(ctx_check, ctx_extract, ctx_write)
+            ctx_meta = t_meta(ctx_check, ctx_extract, ctx_write, ctx_post_audit)
+            ctx_pub = t_pub(ctx_check, ctx_write, ctx_post_audit)
 
-    for s in faostat_sources:
-        build_source_subpipeline(s, start_faostat)
+            # Enforce execution ordering:
+            # check_source -> readiness_check -> extract -> pre_audit -> write_bronze -> post_audit -> update_metadata -> publish
+            ctx_ready >> ctx_extract
+            ctx_meta >> ctx_pub
 
-    for s in other_sources:
-        build_source_subpipeline(s, start_other)
+        return tg
+
+    # Connect all source TaskGroups between start_all and end_all markers
+    for src in all_sources:
+        # Include enabled sources
+        if src.enabled:
+            source_tg = create_source_pipeline(src.source_id)
+            start_all >> source_tg >> end_all
