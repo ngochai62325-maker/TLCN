@@ -31,6 +31,20 @@ import requests
 
 from ingestion.utils.logging_config import create_ingestion_logger
 
+# Backward compatibility patch: pyiceberg 0.12+ passes 'store_decimal_as_integer'
+# to pyarrow.parquet.ParquetWriter, which is unsupported in pyarrow < 18.0.
+try:
+    import inspect
+    import pyarrow.parquet as _pq
+    if "store_decimal_as_integer" not in inspect.signature(_pq.ParquetWriter.__init__).parameters:
+        _orig_pq_init = _pq.ParquetWriter.__init__
+        def _compat_pq_init(self, *args, **kwargs):
+            kwargs.pop("store_decimal_as_integer", None)
+            return _orig_pq_init(self, *args, **kwargs)
+        _pq.ParquetWriter.__init__ = _compat_pq_init
+except Exception:
+    pass
+
 
 # Standard technical metadata column definitions for Bronze Iceberg tables
 TECHNICAL_METADATA_COLUMNS: Dict[str, str] = {

@@ -49,6 +49,7 @@ with DAG(
     start_date=datetime(2023, 1, 1),
     catchup=False,
     max_active_runs=1,
+    max_active_tasks=2,
     tags=["ingestion", "bronze", "lakehouse"],
 ) as dag:
 

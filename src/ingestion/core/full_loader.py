@@ -31,8 +31,18 @@ from ingestion.core.config import SourceConfig
 from ingestion.core.enums import ChunkStatus, IngestionStatus, LoadStrategy
 from ingestion.core.result import IngestionResult
 from ingestion.manifest.manifest import IngestionManifest
+from ingestion.reliability.bronze_quality_validator import BronzeQualityValidator
+from ingestion.reliability.idempotency_controller import IdempotencyController
+from ingestion.reliability.quarantine_manager import QuarantineManager
+from ingestion.storage.bronze_storage_layout import BronzeStorageLayout, resolve_source_group
 from ingestion.storage.bronze_writer import BronzeIcebergWriter
 from ingestion.storage.metadata_repository import MetadataRepository
+from ingestion.storage.metadata_schemas import (
+    AuditLogEntry,
+    BatchMetadata,
+    BatchStatus,
+    QuarantineErrorType,
+)
 from ingestion.storage.minio_storage import MinioStorage
 from ingestion.utils.error_classifier import classify_error
 from ingestion.utils.hashing import compute_directory_checksum, compute_file_checksum
@@ -50,6 +60,10 @@ class FullLoader(BaseLoader):
         metadata_repo: MetadataRepository,
         bronze_writer: Optional[BronzeIcebergWriter] = None,
         manifest_builder_cls: Type[IngestionManifest] = IngestionManifest,
+        bronze_layout: Optional[BronzeStorageLayout] = None,
+        quality_validator: Optional[BronzeQualityValidator] = None,
+        quarantine_manager: Optional[QuarantineManager] = None,
+        idempotency_controller: Optional[IdempotencyController] = None,
     ) -> None:
         self.adapter = adapter
         self.checkpoint_store = checkpoint_store
@@ -57,6 +71,12 @@ class FullLoader(BaseLoader):
         self.metadata_repo = metadata_repo
         self.bronze_writer = bronze_writer
         self.manifest_cls = manifest_builder_cls
+        self.bronze_layout = bronze_layout or BronzeStorageLayout(minio_storage=self.minio_storage)
+        self.quality_validator = quality_validator or BronzeQualityValidator()
+        self.quarantine_manager = quarantine_manager or QuarantineManager(layout=self.bronze_layout)
+        self.idempotency_controller = idempotency_controller or IdempotencyController(
+            layout=self.bronze_layout, metadata_repo=self.metadata_repo
+        )
 
     def execute(
         self,
@@ -118,6 +138,34 @@ class FullLoader(BaseLoader):
             initial_checksum = self._compute_source_checksum(config, staging)
 
             if initial_checksum:
+                # Check with IdempotencyController
+                idempotency_decision = self.idempotency_controller.evaluate_batch(
+                    source_id=config.source_id,
+                    batch_id=batch_id,
+                    current_checksum=initial_checksum,
+                )
+                if not idempotency_decision.should_process:
+                    logger.info(
+                        "Batch skipped via IdempotencyController",
+                        reason=idempotency_decision.reason,
+                        batch_id=batch_id,
+                    )
+                    completed_at = datetime.now(timezone.utc)
+                    return IngestionResult(
+                        source_id=config.source_id,
+                        run_id=run_id,
+                        batch_id=batch_id,
+                        load_type=LoadStrategy.FULL,
+                        status=IngestionStatus.SKIPPED,
+                        records_extracted=0,
+                        chunks_processed=0,
+                        chunks_total=0,
+                        checksum=initial_checksum,
+                        started_at=started_at,
+                        completed_at=completed_at,
+                        source_metadata={"skipped_reason": idempotency_decision.reason},
+                    )
+
                 existing = self._check_existing_snapshot(config.source_id, initial_checksum)
                 if existing is not None and existing.get("status") == IngestionStatus.SUCCESS.value:
                     logger.info(
@@ -139,6 +187,40 @@ class FullLoader(BaseLoader):
                         started_at=started_at,
                         completed_at=completed_at,
                         source_metadata={"skipped_reason": "unchanged_snapshot"},
+                    )
+
+            # Pre-flight Quality Validation on source artifact (if local file exists)
+            local_src = config.local_path or config.local_fallback
+            if local_src and os.path.exists(local_src) and os.path.isfile(local_src):
+                v_res = self.quality_validator.validate_file(local_src)
+                if not v_res.is_valid:
+                    logger.warning(
+                        "Source artifact failed Bronze Quality Validation; routing to quarantine",
+                        file=local_src,
+                        error=v_res.error_message,
+                    )
+                    q_res = self.quarantine_manager.quarantine_artifact(
+                        source_id=config.source_id,
+                        file_path=local_src,
+                        validation_result=v_res,
+                        run_id=run_id,
+                        batch_id=batch_id,
+                    )
+                    completed_at = datetime.now(timezone.utc)
+                    return IngestionResult(
+                        source_id=config.source_id,
+                        run_id=run_id,
+                        batch_id=batch_id,
+                        load_type=LoadStrategy.FULL,
+                        status=IngestionStatus.FAILED,
+                        records_extracted=0,
+                        records_quarantined=v_res.record_count,
+                        error_type=v_res.error_type.value if v_res.error_type else "QUALITY_ERROR",
+                        error_message=v_res.error_message,
+                        started_at=started_at,
+                        completed_at=completed_at,
+                        artifact_uri=q_res.quarantined_uri,
+                        source_metadata={"diagnostic_uri": q_res.diagnostic_uri},
                     )
 
             # Pass resume hints to adapter if supported
@@ -304,6 +386,12 @@ class FullLoader(BaseLoader):
                 artifact_uri = self.minio_storage.upload_file(artifact_path, "bronze", artifact_key)
                 logger.info("Raw artifact uploaded", artifact_uri=artifact_uri, size=artifact_size)
 
+                # Archive into Bronze 5-folder storage layout: {source_group}/raw/{batch_id}/{filename}
+                try:
+                    self.bronze_layout.archive_raw_artifact(config.source_id, batch_id, artifact_path)
+                except Exception as layout_err:
+                    logger.warning(f"Could not archive to bronze raw layout: {layout_err}")
+
             # ── 6. Build & upload manifest ──────────────────────────
             completed_at = datetime.now(timezone.utc)
             manifest.set_artifact_info(artifact_uri, config.format.value, artifact_size, artifact_checksum)
@@ -313,6 +401,49 @@ class FullLoader(BaseLoader):
 
             manifest_key = self.minio_storage.build_manifest_key(config.source_id, ingestion_date, run_id)
             manifest_uri = manifest.save_to_storage(self.minio_storage, "bronze", manifest_key)
+
+            # Save manifest into Bronze 5-folder layout: {source_group}/manifest/run_{run_id}.json
+            try:
+                self.bronze_layout.save_manifest(config.source_id, run_id, manifest.to_dict())
+            except Exception as m_err:
+                logger.warning(f"Could not save manifest to bronze layout: {m_err}")
+
+            # ── 6b. Persist Batch Metadata & Audit Entry ─────────────
+            batch_meta = BatchMetadata(
+                batch_id=batch_id,
+                source_name=config.source_id,
+                source_group=resolve_source_group(config.source_id),
+                extracted_at=started_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                record_count=total_records,
+                checksum=artifact_checksum,
+                file_size_bytes=artifact_size,
+                status=BatchStatus.COMMITTED,
+                committed_at=completed_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                target_table=f"iceberg.bronze.{config.source_id}",
+            )
+            try:
+                self.bronze_layout.save_batch_metadata(batch_meta)
+                self.idempotency_controller.register_committed_batch(batch_meta)
+            except Exception as meta_err:
+                logger.warning(f"Could not save batch metadata: {meta_err}")
+
+            audit_entry = AuditLogEntry(
+                run_id=run_id,
+                batch_id=batch_id,
+                source_id=config.source_id,
+                source_group=resolve_source_group(config.source_id),
+                started_at=started_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                ended_at=completed_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                status=BatchStatus.COMMITTED,
+                records_processed=total_records,
+                records_quarantined=0,
+                checksum=artifact_checksum,
+                duration_seconds=(completed_at - started_at).total_seconds(),
+            )
+            try:
+                self.bronze_layout.save_audit_entry(audit_entry)
+            except Exception as audit_err:
+                logger.warning(f"Could not save audit entry: {audit_err}")
 
             # ── 7. Record snapshot in PostgreSQL ────────────────────
             snapshot_id = self._record_snapshot(
@@ -369,6 +500,24 @@ class FullLoader(BaseLoader):
             manifest.set_status(IngestionStatus.FAILED)
             manifest.set_error(str(exc), error_type.value)
             manifest.set_timing(started_at.isoformat(), completed_at.isoformat())
+
+            try:
+                fail_audit = AuditLogEntry(
+                    run_id=run_id,
+                    batch_id=batch_id,
+                    source_id=config.source_id,
+                    source_group=resolve_source_group(config.source_id),
+                    started_at=started_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                    ended_at=completed_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                    status=BatchStatus.FAILED,
+                    records_processed=total_records,
+                    records_quarantined=0,
+                    error_message=str(exc),
+                    duration_seconds=(completed_at - started_at).total_seconds(),
+                )
+                self.bronze_layout.save_audit_entry(fail_audit)
+            except Exception:
+                pass
 
             return IngestionResult(
                 source_id=config.source_id,
