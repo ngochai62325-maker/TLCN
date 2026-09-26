@@ -62,7 +62,9 @@ services:
       AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-admin}
       AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-password123}
       AWS_REGION: us-east-1
-      CATALOG_URI: "jdbc:sqlite:/tmp/iceberg_rest.db?journal_mode=WAL&busy_timeout=60000"
+      CATALOG_URI: "jdbc:sqlite:/data/catalog/iceberg_rest.db?journal_mode=WAL&busy_timeout=60000"
+    volumes:
+      - ./data/catalog:/data/catalog
     depends_on:
       mc-init:
         condition: service_completed_successfully
@@ -73,7 +75,7 @@ services:
   # Query Engine: Trino
   # -------------------------------------------------------------
   trino:
-    image: trinodb/trino:455
+    image: trinodb/trino:448
     container_name: trino
     ports:
       - "${TRINO_PORT:-8080}:8080"
