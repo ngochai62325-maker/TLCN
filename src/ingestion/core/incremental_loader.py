@@ -47,7 +47,7 @@ class IncrementalLoader(BaseLoader):
         self.minio_storage = minio_storage
         self.metadata_repo = metadata_repo
 
-    def execute(self, config: SourceConfig, run_id: str, batch_id: str) -> IngestionResult:
+    def execute(self, config: SourceConfig, run_id: str, batch_id: str, **kwargs: Any) -> IngestionResult:
         logger = create_ingestion_logger(config.source_id, run_id, batch_id)
         started_at = datetime.now(timezone.utc)
 

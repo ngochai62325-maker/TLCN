@@ -84,6 +84,8 @@ class FullLoader(BaseLoader):
         run_id: str,
         batch_id: str,
         resume_from_run_id: Optional[str] = None,
+        force_reprocess: bool = False,
+        **kwargs: Any,
     ) -> IngestionResult:
         logger = create_ingestion_logger(config.source_id, run_id, batch_id)
         started_at = datetime.now(timezone.utc)
@@ -143,6 +145,7 @@ class FullLoader(BaseLoader):
                     source_id=config.source_id,
                     batch_id=batch_id,
                     current_checksum=initial_checksum,
+                    force_reprocess=force_reprocess,
                 )
                 if not idempotency_decision.should_process:
                     logger.info(
@@ -163,11 +166,14 @@ class FullLoader(BaseLoader):
                         checksum=initial_checksum,
                         started_at=started_at,
                         completed_at=completed_at,
-                        source_metadata={"skipped_reason": idempotency_decision.reason},
+                        source_metadata={
+                            "skipped_reason": "unchanged_snapshot",
+                            "idempotency_reason": idempotency_decision.reason,
+                        },
                     )
 
                 existing = self._check_existing_snapshot(config.source_id, initial_checksum)
-                if existing is not None and existing.get("status") == IngestionStatus.SUCCESS.value:
+                if not force_reprocess and existing is not None and existing.get("status") == IngestionStatus.SUCCESS.value:
                     logger.info(
                         "Snapshot already ingested (idempotent skip before extraction)",
                         existing_run=existing.get("run_id"),

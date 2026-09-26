@@ -29,5 +29,6 @@ Thumbs.db
 Bao_cao
 docs/*
 !docs/ingestion/
+!docs/bronze/
 
 data/raw/faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv
