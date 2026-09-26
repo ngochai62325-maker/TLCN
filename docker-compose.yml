@@ -3,7 +3,7 @@ services:
   # Storage Layer: MinIO (S3 compatible object storage)
   # -------------------------------------------------------------
   minio:
-    image: quay.io/minio/minio:latest
+    image: ghcr.io/coollabsio/minio:latest
     container_name: minio
     ports:
       - "${MINIO_API_PORT:-9000}:9000"
@@ -17,7 +17,7 @@ services:
     networks:
       - lakehouse-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test: ["CMD-SHELL", "bash -c '(echo > /dev/tcp/127.0.0.1/9000)' || exit 1"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -26,7 +26,7 @@ services:
   # MinIO Bucket Initializer: Auto-create bronze, silver, gold, warehouse
   # -------------------------------------------------------------
   mc-init:
-    image: quay.io/minio/mc:latest
+    image: ghcr.io/coollabsio/minio:latest
     container_name: mc-init
     depends_on:
       minio:
