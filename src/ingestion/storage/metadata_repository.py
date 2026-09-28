@@ -1,5 +1,6 @@
 import os
 import json
+import contextlib
 from typing import Optional, Dict, Any, List
 import psycopg2
 from psycopg2.extras import DictCursor
@@ -24,6 +25,51 @@ class MetadataRepository:
             with conn.cursor() as cur:
                 cur.execute(sql)
             conn.commit()
+
+    @staticmethod
+    def _derive_lock_key(source_id: str) -> int:
+        """Derive a deterministic signed 64-bit integer lock key from source_id."""
+        if not source_id or not str(source_id).strip():
+            raise ValueError("Concurrency control failure: source_id cannot be null or empty.")
+        import hashlib
+        digest = hashlib.sha256(source_id.encode('utf-8')).digest()
+        # Take first 8 bytes and interpret as signed 64-bit integer
+        return int.from_bytes(digest[:8], byteorder='big', signed=True)
+
+    @contextlib.contextmanager
+    def source_lock(self, source_id: str):
+        """Context manager to acquire a session-level PostgreSQL advisory lock for the given source_id.
+        
+        Uses pg_try_advisory_lock to fail fast if the lock is held, enforcing mutually 
+        exclusive operations (e.g., ingestion or cleanup) for the same source.
+        """
+        lock_key = self._derive_lock_key(source_id)
+        
+        # Open a dedicated connection for the lock lifecycle
+        conn = self._get_connection()
+        locked = False
+        try:
+            with conn.cursor() as cur:
+                cur.execute("SELECT pg_try_advisory_lock(%s)", (lock_key,))
+                locked = cur.fetchone()[0]
+                
+            if not locked:
+                # LockAcquisitionError semantics
+                raise RuntimeError(f"LockAcquisitionError: Could not acquire advisory lock for source '{source_id}'. "
+                                   f"Another ingestion or cleanup process is currently running for this source.")
+            
+            yield
+        finally:
+            if locked:
+                try:
+                    with conn.cursor() as cur:
+                        cur.execute("SELECT pg_advisory_unlock(%s)", (lock_key,))
+                except Exception:
+                    pass
+            try:
+                conn.close()
+            except Exception:
+                pass
 
     def create_run(self, run_id: str, source_id: str, load_type: str, started_at: Any) -> None:
         query = """

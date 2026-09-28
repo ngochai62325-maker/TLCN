@@ -110,3 +110,39 @@ class IdempotencyController:
             batch_id=metadata.batch_id,
             records=metadata.record_count,
         )
+
+    def cleanup_failed_run(
+        self,
+        run_id: str,
+        source_id: str,
+        bronze_writer: Optional[Any] = None,
+    ) -> None:
+        """Clean up orphaned Bronze data from a failed ingestion run.
+
+        Uses the provided BronzeIcebergWriter (or creates a default one) to execute
+        a deterministic physical deletion of all chunks belonging to the given run_id.
+        """
+        if not run_id or not str(run_id).strip():
+            raise ValueError("Orphan cleanup failure: run_id cannot be null or empty.")
+            
+        if not source_id or not str(source_id).strip():
+            raise ValueError("Orphan cleanup failure: source_id cannot be null or empty.")
+
+        self.logger.info("Initiating orphan cleanup for failed run", run_id=run_id, source_id=source_id)
+        
+        writer = bronze_writer
+        if writer is None:
+            # We can lazily import and instantiate to avoid circular dependencies
+            from ingestion.storage.bronze_writer import BronzeIcebergWriter
+            writer = BronzeIcebergWriter()
+
+        # Acquire lock to ensure cleanup does not race with an active ingestion for the same source
+        # If metadata_repo is missing (e.g. in some isolated tests), we proceed without lock
+        if self.metadata_repo:
+            with self.metadata_repo.source_lock(source_id):
+                writer.cleanup_run(source_id=source_id, run_id=run_id)
+        else:
+            # Fallback for isolated tests that don't pass a metadata_repo
+            writer.cleanup_run(source_id=source_id, run_id=run_id)
+        
+        self.logger.info("Orphan cleanup completed successfully", run_id=run_id, source_id=source_id)

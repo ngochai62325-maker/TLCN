@@ -90,39 +90,43 @@ class IngestionEngine:
         logger.info("Starting ingestion engine run")
 
         try:
-            config = self.registry.get_source(source_id)
+            # ── Acquire Source-Level Advisory Lock ──
+            # Prevents concurrent ingestion operations for the same source,
+            # avoiding Iceberg commit conflicts and ensuring metadata integrity.
+            with self.metadata_repo.source_lock(source_id):
+                config = self.registry.get_source(source_id)
 
-            # Record run start in metadata DB (best-effort)
-            self._record_run_start(run_id, source_id, config.load_strategy.value, now)
+                # Record run start in metadata DB (best-effort)
+                self._record_run_start(run_id, source_id, config.load_strategy.value, now)
 
-            adapter = self._resolve_adapter(config)
-            loader = self._select_loader(config, adapter)
+                adapter = self._resolve_adapter(config)
+                loader = self._select_loader(config, adapter)
 
-            result = loader.execute(config, run_id, batch_id, **kwargs)
+                result = loader.execute(config, run_id, batch_id, **kwargs)
 
-            # Watermark update — only for genuine INCREMENTAL success
-            if (
-                config.load_strategy == LoadStrategy.INCREMENTAL
-                and result.status == IngestionStatus.SUCCESS
-                and result.watermark_after is not None
-            ):
-                self.watermark_store.set(
-                    source_id,
-                    str(result.watermark_after),
-                    run_id,
-                    batch_id,
-                    IngestionStatus.SUCCESS.value,
-                )
-                logger.info(
-                    "Watermark updated",
-                    watermark_before=result.watermark_before,
-                    watermark_after=result.watermark_after,
-                )
+                # Watermark update — only for genuine INCREMENTAL success
+                if (
+                    config.load_strategy == LoadStrategy.INCREMENTAL
+                    and result.status == IngestionStatus.SUCCESS
+                    and result.watermark_after is not None
+                ):
+                    self.watermark_store.set(
+                        source_id,
+                        str(result.watermark_after),
+                        run_id,
+                        batch_id,
+                        IngestionStatus.SUCCESS.value,
+                    )
+                    logger.info(
+                        "Watermark updated",
+                        watermark_before=result.watermark_before,
+                        watermark_after=result.watermark_after,
+                    )
 
-            # Record run completion
-            self._record_run_end(run_id, result)
-            logger.info("Ingestion engine run completed", status=result.status.value)
-            return result
+                # Record run completion
+                self._record_run_end(run_id, result)
+                logger.info("Ingestion engine run completed", status=result.status.value)
+                return result
 
         except Exception as exc:
             error_type = classify_error(exc)

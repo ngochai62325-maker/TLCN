@@ -506,3 +506,44 @@ class BronzeIcebergWriter:
             return [str(row[0]) for row in data if row and row[0] is not None]
         except Exception:
             return []
+
+    def cleanup_run(self, source_id: str, run_id: str) -> None:
+        """Clean up all chunks associated with a specific ingestion run.
+
+        Used for orphan cleanup of failed runs to ensure they leave no garbage behind.
+        Executes an idempotent DELETE WHERE _ingestion_run_id = run_id.
+        Raises an exception if the run_id is invalid or if the database deletion fails.
+        """
+        if not run_id or not str(run_id).strip():
+            raise ValueError("Orphan cleanup failure: _ingestion_run_id cannot be null, empty, or whitespace.")
+
+        # Ensure the schema exists so we can safely form the table name
+        self.ensure_schema()
+        table_name = sanitize_column_name(source_id)
+        full_table = f"{self.catalog}.{self.schema}.{table_name}"
+
+        # Note: We do not call self.ensure_table here because if the table doesn't exist,
+        # there is no data to clean up. We can just execute the DELETE and let Trino raise
+        # an error if the table is missing, which we can catch and ignore.
+
+        delete_sql = (
+            f"DELETE FROM {full_table} "
+            f"WHERE _ingestion_run_id = '{run_id}'"
+        )
+        
+        logger = create_ingestion_logger(source_id, run_id)
+        logger.info(f"Starting orphan cleanup for run {run_id} in {full_table}")
+
+        try:
+            self.execute_query(delete_sql)
+            logger.info("Successfully executed orphan cleanup DELETE", run_id=run_id, table=full_table)
+        except Exception as e:
+            # If the table simply doesn't exist, it means there are no orphans.
+            # Trino returns an error like "Table 'iceberg.bronze.table_name' does not exist"
+            error_str = str(e).lower()
+            if "does not exist" in error_str or "not found" in error_str:
+                logger.info("Table does not exist; no orphan cleanup needed.", run_id=run_id, table=full_table)
+                return
+            
+            logger.error("Failed to execute orphan cleanup DELETE", error=str(e))
+            raise RuntimeError(f"Orphan cleanup failure: could not delete data for run {run_id}: {e}") from e
