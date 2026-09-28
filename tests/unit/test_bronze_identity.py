@@ -41,6 +41,7 @@ def test_chunk_metadata_5(chunk_df):
     """Test 2: chunk_id = 5 -> _ingestion_chunk_id == 5"""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
+    writer.execute_query = MagicMock(return_value=([], []))
     catalog_mock = MagicMock()
     catalog_mock.load_table.return_value = MagicMock()
     writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)
@@ -65,6 +66,7 @@ def test_different_chunks(chunk_df):
     """Test 3: Different chunks"""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
+    writer.execute_query = MagicMock(return_value=([], []))
     catalog_mock = MagicMock()
     catalog_mock.load_table.return_value = MagicMock()
     writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)
@@ -93,6 +95,7 @@ def test_same_retry(chunk_df):
     """Test 4: Same retry"""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
+    writer.execute_query = MagicMock(return_value=([], []))
     catalog_mock = MagicMock()
     catalog_mock.load_table.return_value = MagicMock()
     writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)

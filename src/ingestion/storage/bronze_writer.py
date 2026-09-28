@@ -335,6 +335,19 @@ class BronzeIcebergWriter:
         if chunk_df.empty:
             return 0
 
+        # Validate Identity
+        if not run_id:
+            raise ValueError("Idempotency failure: _ingestion_run_id is missing or empty.")
+        if chunk_id is None:
+            raise ValueError("Idempotency failure: _ingestion_chunk_id is missing.")
+        if not isinstance(chunk_id, int):
+            try:
+                chunk_id = int(chunk_id)
+            except (ValueError, TypeError):
+                raise TypeError(f"Idempotency failure: _ingestion_chunk_id must be an integer, got {type(chunk_id).__name__}")
+        if chunk_id < 0:
+            raise ValueError(f"Idempotency failure: _ingestion_chunk_id cannot be negative, got {chunk_id}")
+
         logger = create_ingestion_logger(source_id, run_id, batch_id)
 
         # Copy to avoid mutating original
@@ -377,6 +390,22 @@ class BronzeIcebergWriter:
 
         full_table = self.ensure_table(source_id, chunk_df)
         table_name = sanitize_column_name(source_id)
+
+        # ── Idempotency: Remove existing chunk data before append ──────
+        # Transaction limitation: This DELETE and the subsequent APPEND are NOT atomic.
+        # If APPEND fails after DELETE, the chunk is temporarily missing until a successful retry.
+        # However, it guarantees that upon success, exactly one copy of the chunk exists.
+        delete_sql = (
+            f"DELETE FROM {full_table} "
+            f"WHERE _ingestion_run_id = '{run_id}' "
+            f"AND _ingestion_chunk_id = {chunk_id}"
+        )
+        try:
+            self.execute_query(delete_sql)
+            logger.info("Executed idempotent DELETE", run_id=run_id, chunk_id=chunk_id, table=full_table)
+        except Exception as e:
+            logger.error("Failed to execute idempotent DELETE before APPEND", error=str(e))
+            raise RuntimeError(f"Idempotency failure: could not delete existing chunk before append: {e}") from e
 
         # ── High-Performance PyIceberg Bulk Write Path ────────────────
         try:
