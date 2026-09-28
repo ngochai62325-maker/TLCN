@@ -303,6 +303,7 @@ class FullLoader(BaseLoader):
                             run_id=run_id,
                             batch_id=batch_id,
                             source_checksum=source_chk,
+                            chunk_id=chunk_id,
                             source_snapshot_id=0,
                             source_file=source_file_label,
                         )

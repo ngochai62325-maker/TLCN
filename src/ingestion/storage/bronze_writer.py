@@ -50,6 +50,7 @@ except Exception:
 TECHNICAL_METADATA_COLUMNS: Dict[str, str] = {
     "_ingestion_run_id": "VARCHAR",
     "_ingestion_batch_id": "VARCHAR",
+    "_ingestion_chunk_id": "BIGINT",
     "_ingestion_timestamp": "TIMESTAMP(6) WITH TIME ZONE",
     "_source_id": "VARCHAR",
     "_source_file": "VARCHAR",
@@ -232,7 +233,12 @@ class BronzeIcebergWriter:
         try:
             _, existing_cols_data = self.execute_query(f"DESCRIBE {full_table}")
             existing_col_names = {row[0].lower() for row in existing_cols_data}
-            for clean_col, sql_type in df_cols_map.items():
+            
+            # Combine source columns and technical columns for evolution
+            all_cols_to_check = dict(df_cols_map)
+            all_cols_to_check.update(TECHNICAL_METADATA_COLUMNS)
+            
+            for clean_col, sql_type in all_cols_to_check.items():
                 if clean_col.lower() not in existing_col_names:
                     alter_sql = f'ALTER TABLE {full_table} ADD COLUMN "{clean_col}" {sql_type}'
                     self.execute_query(alter_sql)
@@ -314,13 +320,14 @@ class BronzeIcebergWriter:
         run_id: str,
         batch_id: str,
         source_checksum: str,
+        chunk_id: int,
         source_snapshot_id: int = 0,
         source_file: str = "",
         batch_size: int = 500,
     ) -> int:
         """Append a data chunk into the Bronze Iceberg table.
 
-        Adds all 7 technical metadata columns before writing.
+        Adds all technical metadata columns before writing.
         Uses high-performance PyIceberg bulk write (1 Parquet file + 1 atomic commit per chunk)
         with fallback to Trino sub-batch INSERT VALUES if PyIceberg is unavailable.
         Returns the number of rows inserted.
@@ -352,6 +359,7 @@ class BronzeIcebergWriter:
         now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S.%f UTC")
         df["_ingestion_run_id"] = run_id
         df["_ingestion_batch_id"] = batch_id
+        df["_ingestion_chunk_id"] = chunk_id
         df["_ingestion_timestamp"] = now_utc
         df["_source_id"] = source_id
 
