@@ -19,7 +19,6 @@ import shutil
 import tempfile
 import time
 from datetime import datetime, timezone
-from typing import Any, List
 import pandas as pd
 import pytest
 
@@ -28,7 +27,7 @@ from ingestion.adapters.nso_adapter import NsoVietnamAdapter
 from ingestion.config.registry import SourceRegistry
 from ingestion.core.checkpoint import PostgresCheckpointStore
 from ingestion.core.config import SourceConfig
-from ingestion.core.enums import ArtifactFormat, ChunkStatus, IngestionStatus, LoadStrategy, SourceType
+from ingestion.core.enums import ArtifactFormat, IngestionStatus, LoadStrategy, SourceType
 from ingestion.core.full_loader import FullLoader
 from ingestion.core.ingestion_engine import IngestionEngine
 from ingestion.core.result import DataChunk, IngestionResult
@@ -37,7 +36,6 @@ from ingestion.storage.bronze_writer import BronzeIcebergWriter
 from ingestion.storage.metadata_repository import MetadataRepository
 from ingestion.storage.minio_storage import MinioStorage
 from ingestion.utils.error_classifier import DataQualityError, PermanentError, SchemaError, TransientError
-from ingestion.utils.hashing import compute_file_checksum
 
 
 @pytest.fixture(scope="module")

@@ -1,7 +1,7 @@
 """Tests for ingestion.utils.retry."""
 
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 from ingestion.core.config import RetryConfig
 from ingestion.utils.retry import retry_with_backoff, retryable

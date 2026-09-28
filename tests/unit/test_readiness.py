@@ -1,11 +1,7 @@
-"""Tests for ingestion.readiness.source_readiness.ReadinessChecker."""
-
-import os
 import pytest
 import responses
-from unittest.mock import MagicMock, patch
 
-from ingestion.core.config import SourceConfig, ReadinessConfig, RetryConfig
+from ingestion.core.config import SourceConfig, ReadinessConfig
 from ingestion.core.enums import SourceType, LoadStrategy, ArtifactFormat
 from ingestion.readiness.source_readiness import ReadinessChecker
 

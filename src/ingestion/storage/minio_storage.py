@@ -2,7 +2,7 @@ import os
 import json
 import boto3
 from botocore.exceptions import ClientError
-from typing import Dict, List, Optional
+from typing import List, Optional
 
 class MinioStorage:
     def __init__(self, endpoint: Optional[str] = None, access_key: Optional[str] = None, secret_key: Optional[str] = None, region: str = 'us-east-1', secure: bool = False):

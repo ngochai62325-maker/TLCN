@@ -1,7 +1,6 @@
 """Tests for ingestion.manifest.manifest.IngestionManifest."""
 
 import json
-import pytest
 from ingestion.manifest.manifest import IngestionManifest
 from ingestion.core.enums import IngestionStatus
 

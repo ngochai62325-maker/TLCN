@@ -22,7 +22,7 @@ from __future__ import annotations
 import os
 import tempfile
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Type
+from typing import Any, Dict, Optional, Type
 
 from ingestion.adapters.base_adapter import BaseSourceAdapter
 from ingestion.core.base_loader import BaseLoader
@@ -41,7 +41,6 @@ from ingestion.storage.metadata_schemas import (
     AuditLogEntry,
     BatchMetadata,
     BatchStatus,
-    QuarantineErrorType,
 )
 from ingestion.storage.minio_storage import MinioStorage
 from ingestion.utils.error_classifier import classify_error

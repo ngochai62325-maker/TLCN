@@ -1,9 +1,7 @@
 """Tests for ingestion.core.incremental_loader.IncrementalLoader."""
 
-import pytest
 import pandas as pd
 from unittest.mock import MagicMock
-from datetime import datetime, timezone
 
 from ingestion.core.incremental_loader import IncrementalLoader
 from ingestion.core.result import DataChunk

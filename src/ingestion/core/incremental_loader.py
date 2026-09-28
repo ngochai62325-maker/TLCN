@@ -23,7 +23,6 @@ from ingestion.core.config import SourceConfig
 from ingestion.core.enums import ChunkStatus, IngestionStatus, LoadStrategy
 from ingestion.core.result import IngestionResult
 from ingestion.core.watermark import WatermarkStore
-from ingestion.manifest.manifest import IngestionManifest
 from ingestion.storage.metadata_repository import MetadataRepository
 from ingestion.storage.minio_storage import MinioStorage
 from ingestion.utils.error_classifier import classify_error

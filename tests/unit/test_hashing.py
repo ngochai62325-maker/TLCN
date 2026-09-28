@@ -1,4 +1,3 @@
-import pytest
 import os
 from ingestion.utils.hashing import compute_file_checksum, compute_bytes_checksum
 

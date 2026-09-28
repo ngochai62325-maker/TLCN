@@ -23,7 +23,6 @@ import pandas as pd
 
 from ingestion.adapters.base_adapter import BaseSourceAdapter
 from ingestion.core.config import SourceConfig
-from ingestion.core.enums import SourceType
 from ingestion.core.result import DataChunk, ReadinessResult
 from ingestion.utils.error_classifier import (
     DataQualityError,

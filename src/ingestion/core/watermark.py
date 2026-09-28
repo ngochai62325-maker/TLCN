@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Optional, Any
+from typing import Optional
 from datetime import datetime
 
 from ingestion.storage.metadata_repository import MetadataRepository

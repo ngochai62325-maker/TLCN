@@ -1,15 +1,13 @@
 """Tests for ingestion.core.full_loader.FullLoader."""
 
 import os
-import pytest
 import pandas as pd
-from unittest.mock import MagicMock, patch, PropertyMock
+from unittest.mock import MagicMock
 
 from ingestion.core.full_loader import FullLoader
-from ingestion.core.result import DataChunk, IngestionResult
-from ingestion.core.enums import IngestionStatus, LoadStrategy, ChunkStatus
-from ingestion.core.config import SourceConfig, RetryConfig, ReadinessConfig
-from ingestion.core.enums import SourceType, ArtifactFormat
+from ingestion.core.result import DataChunk
+from ingestion.core.enums import IngestionStatus, LoadStrategy, SourceType, ArtifactFormat
+from ingestion.core.config import SourceConfig
 
 
 def _make_config():

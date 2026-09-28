@@ -11,11 +11,18 @@ logs/*
 airflow-webserver.pid
 airflow-scheduler.pid
 
-# Python & Jupyter
+# Python, Build & Jupyter
 __pycache__/
 *.py[cod]
 *$py.class
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.coverage
+htmlcov/
 .ipynb_checkpoints/
+scratch/
 
 # OS metadata
 .DS_Store

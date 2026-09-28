@@ -15,13 +15,11 @@ from __future__ import annotations
 import json
 import os
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from ingestion.storage.metadata_schemas import (
     AuditLogEntry,
     BatchMetadata,
-    BatchStatus,
     QuarantineDiagnostic,
 )
 from ingestion.storage.minio_storage import MinioStorage

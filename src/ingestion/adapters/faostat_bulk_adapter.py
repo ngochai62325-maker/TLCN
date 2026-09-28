@@ -18,27 +18,18 @@ from __future__ import annotations
 
 import os
 import zipfile
-from pathlib import Path
-from typing import Any, Dict, Generator, Optional, List
+from typing import Any, Dict, Generator, Optional
 
 import pandas as pd
 
 from ingestion.adapters.base_adapter import BaseSourceAdapter
 from ingestion.core.config import SourceConfig
-from ingestion.core.enums import (
-    ArtifactFormat,
-    ChunkStatus,
-    ErrorType,
-    IngestionStatus,
-    LoadStrategy,
-    SourceType,
-)
+from ingestion.core.enums import SourceType
 from ingestion.core.result import DataChunk, ReadinessResult
 from ingestion.utils.error_classifier import (
     DataQualityError,
     PermanentError,
     SchemaError,
-    TransientError,
 )
 from ingestion.utils.hashing import compute_bytes_checksum, compute_file_checksum
 from ingestion.utils.http_client import HttpClient

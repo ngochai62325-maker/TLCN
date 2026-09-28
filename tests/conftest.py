@@ -1,13 +1,10 @@
 import pytest
 from unittest.mock import MagicMock
-from pathlib import Path
 
 from ingestion.core.config import SourceConfig, RetryConfig, ReadinessConfig
-from ingestion.core.enums import LoadStrategy, SourceType, ArtifactFormat, IngestionStatus, ChunkStatus
-from ingestion.core.result import DataChunk, ReadinessResult, IngestionResult
+from ingestion.core.enums import LoadStrategy, SourceType, ArtifactFormat
+from ingestion.core.result import ReadinessResult
 from ingestion.adapters.base_adapter import BaseSourceAdapter
-from ingestion.core.checkpoint import CheckpointStore, CheckpointEntry
-from ingestion.core.watermark import WatermarkStore, WatermarkEntry
 
 @pytest.fixture
 def sample_retry_config():

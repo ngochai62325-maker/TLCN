@@ -1,5 +1,4 @@
 import os
-from typing import Any, Dict
 
 from ingestion.core.enums import SourceType
 from ingestion.core.config import SourceConfig

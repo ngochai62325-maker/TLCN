@@ -8,10 +8,8 @@ Covers:
 
 import json
 import os
-import tempfile
 import pytest
-from datetime import datetime, timezone
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pandas as pd
 
@@ -27,7 +25,6 @@ from ingestion.storage.metadata_schemas import (
     AuditLogEntry,
     BatchMetadata,
     BatchStatus,
-    QuarantineDiagnostic,
     QuarantineErrorType,
 )
 

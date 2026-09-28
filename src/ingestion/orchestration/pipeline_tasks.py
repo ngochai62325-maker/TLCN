@@ -19,18 +19,16 @@ import shutil
 import tempfile
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import pandas as pd
 
 from ingestion.config.registry import SourceRegistry
-from ingestion.core.config import SourceConfig
-from ingestion.core.enums import IngestionStatus, LoadStrategy
-from ingestion.core.result import DataChunk, ReadinessResult
-from ingestion.core.watermark import PostgresWatermarkStore
+from ingestion.core.enums import IngestionStatus
+from ingestion.core.result import ReadinessResult
 from ingestion.manifest.manifest import IngestionManifest
 from ingestion.readiness.source_readiness import ReadinessChecker
-from ingestion.reliability.bronze_quality_validator import BronzeQualityValidator, ValidationResult
+from ingestion.reliability.bronze_quality_validator import BronzeQualityValidator
 from ingestion.reliability.idempotency_controller import IdempotencyController, IdempotencyDecision
 from ingestion.reliability.quarantine_manager import QuarantineManager
 from ingestion.storage.bronze_storage_layout import BronzeStorageLayout, resolve_source_group
@@ -42,7 +40,6 @@ from ingestion.storage.metadata_schemas import (
     BatchStatus,
     QuarantineErrorType,
 )
-from ingestion.storage.minio_storage import MinioStorage
 from ingestion.utils.error_classifier import classify_error
 from ingestion.utils.hashing import compute_directory_checksum, compute_file_checksum
 from ingestion.utils.logging_config import create_ingestion_logger

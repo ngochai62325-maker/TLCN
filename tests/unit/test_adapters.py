@@ -6,7 +6,7 @@ import pandas as pd
 from unittest.mock import MagicMock, patch
 
 from ingestion.config.registry import SourceRegistry
-from ingestion.core.config import SourceConfig, ReadinessConfig
+from ingestion.core.config import SourceConfig
 from ingestion.core.enums import SourceType, LoadStrategy, ArtifactFormat, IngestionStatus
 from ingestion.core.full_loader import FullLoader
 from ingestion.core.result import DataChunk, ReadinessResult

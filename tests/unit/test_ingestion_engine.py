@@ -5,7 +5,6 @@ from unittest.mock import MagicMock, patch
 from ingestion.core.ingestion_engine import IngestionEngine
 from ingestion.core.enums import IngestionStatus, LoadStrategy, SourceType, ArtifactFormat
 from ingestion.core.config import SourceConfig
-from ingestion.core.result import IngestionResult
 
 
 def _make_config():

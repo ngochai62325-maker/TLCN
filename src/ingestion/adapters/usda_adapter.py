@@ -18,7 +18,7 @@ Features:
 from __future__ import annotations
 
 import os
-from typing import Any, Generator, List, Optional
+from typing import Any, Generator, Optional
 
 import pandas as pd
 
