@@ -134,6 +134,7 @@ def test_data_contract_test(chunk_df):
     """Test 16: Ensure data contract test"""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
+    writer.execute_query = MagicMock(return_value=([], []))
     catalog_mock = MagicMock()
     catalog_mock.load_table.return_value = MagicMock()
     writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)
