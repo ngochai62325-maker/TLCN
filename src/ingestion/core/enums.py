@@ -39,9 +39,6 @@ class ErrorType(str, Enum):
 class SourceType(str, Enum):
     """How the ingestion engine accesses a source."""
 
-    HTTP_BULK_ZIP = "HTTP_BULK_ZIP"
-    HTTP_FILE = "HTTP_FILE"
-    API = "API"
     LOCAL_FILE = "LOCAL_FILE"
 
 

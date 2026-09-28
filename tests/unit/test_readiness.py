@@ -75,25 +75,3 @@ class TestLocalFileReadiness:
         assert "local" in result.reason.lower()
 
 
-class TestHttpReadiness:
-    @responses.activate
-    def test_http_200_ready(self, checker):
-        url = "http://example.com/data.zip"
-        responses.add(responses.HEAD, url, status=200, headers={"Content-Length": "1024"})
-        config = _make_config(SourceType.HTTP_BULK_ZIP, endpoint=url)
-        result = checker.check(config)
-        assert result.ready is True
-
-    @responses.activate
-    def test_http_500_not_ready(self, checker):
-        url = "http://example.com/data.zip"
-        responses.add(responses.HEAD, url, status=500)
-        config = _make_config(SourceType.HTTP_BULK_ZIP, endpoint=url)
-        result = checker.check(config)
-        assert result.ready is False
-
-    def test_missing_endpoint(self, checker):
-        config = _make_config(SourceType.HTTP_BULK_ZIP, endpoint=None)
-        result = checker.check(config)
-        assert result.ready is False
-        assert "endpoint" in result.reason.lower() or "Missing" in result.reason

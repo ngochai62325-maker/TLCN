@@ -32,7 +32,6 @@ from ingestion.utils.error_classifier import (
     SchemaError,
 )
 from ingestion.utils.hashing import compute_bytes_checksum, compute_file_checksum
-from ingestion.utils.http_client import HttpClient
 from ingestion.utils.logging_config import create_ingestion_logger
 
 
@@ -94,45 +93,8 @@ class FaostatBulkAdapter(BaseSourceAdapter):
                 source_metadata={"fallback": True, "local_path": config.local_fallback, "size": file_size},
             )
 
-        # 3. Live endpoint probe only for remote sources
-        if config.endpoint:
-            try:
-                client = HttpClient(config.retry)
-                head_result = client.head(config.endpoint)
-
-                if hasattr(head_result, "status_code") and head_result.status_code == 200:
-                    metadata: Dict[str, Any] = {}
-                    if hasattr(head_result, "headers"):
-                        headers = head_result.headers
-                        content_length = headers.get("Content-Length")
-                        if config.readiness and config.readiness.require_content_length and not content_length:
-                            return ReadinessResult(ready=False, reason="Missing Content-Length header")
-
-                        content_type = headers.get("Content-Type")
-                        if content_type:
-                            metadata["content_type"] = content_type
-                        if content_length:
-                            metadata["size"] = int(content_length)
-                        metadata["etag"] = headers.get("ETag")
-                        metadata["last_modified"] = headers.get("Last-Modified")
-
-                    return ReadinessResult(ready=True, reason="Endpoint is accessible", source_metadata=metadata)
-            except Exception as e:
-                logger.warning(f"Endpoint HEAD check failed for {config.source_id}: {e}")
-
-        # 4. Fallback to local_fallback if endpoint failed
-        if config.local_fallback and os.path.exists(config.local_fallback):
-            file_size = os.path.getsize(config.local_fallback)
-            return ReadinessResult(
-                ready=True,
-                reason=f"Local fallback file is ready: {config.local_fallback}",
-                source_metadata={"fallback": True, "local_path": config.local_fallback, "size": file_size},
-            )
-
-        if not config.endpoint:
-            return ReadinessResult(ready=False, reason="Missing endpoint and no valid local path in configuration")
-
-        return ReadinessResult(ready=False, reason=f"Endpoint '{config.endpoint}' is inaccessible and no valid local fallback found")
+        # 3. If we get here, it means source_type wasn't LOCAL_FILE, which is unsupported.
+        return ReadinessResult(ready=False, reason=f"Unsupported source_type: {config.source_type}. Only LOCAL_FILE is supported.")
 
     def _resolve_source_file(self, config: SourceConfig, download_dir: str) -> str:
         """Resolve the source CSV path from local_path, live download, or local_fallback."""
@@ -175,46 +137,8 @@ class FaostatBulkAdapter(BaseSourceAdapter):
                 f"Unsupported file format for '{config.source_id}': '{local_candidate}'. Expected .csv or .zip"
             )
 
-        # 2. Preferred local fallback check for non-LOCAL_FILE sources
-        use_fallback_pref = (
-            os.environ.get("INGESTION_USE_LOCAL_FALLBACK", "").lower() in ("1", "true", "yes")
-            or config.extra.get("use_local_fallback", False)
-        )
-        if use_fallback_pref and config.local_fallback and os.path.exists(config.local_fallback):
-            logger.info(f"Using preferred local fallback for '{config.source_id}': {config.local_fallback}")
-            if config.local_fallback.endswith(".zip"):
-                return self._extract_zip(config.local_fallback, download_dir)
-            return config.local_fallback
-
-        # 3. Live download only for HTTP/remote sources
-        download_err = None
-        if config.endpoint:
-            zip_path = os.path.join(download_dir, f"{config.source_id}_bulk.zip")
-            if os.path.exists(zip_path) and os.path.getsize(zip_path) > 0:
-                logger.info(f"Using existing cached ZIP at {zip_path}")
-                return self._extract_zip(zip_path, download_dir)
-            else:
-                try:
-                    logger.info(f"Downloading ZIP from {config.endpoint}")
-                    client = HttpClient(config.retry)
-                    client.download_streaming(config.endpoint, zip_path, chunk_size_bytes=1024 * 1024)
-                    return self._extract_zip(zip_path, download_dir)
-                except Exception as e:
-                    download_err = e
-                    logger.warning(f"Download failed from {config.endpoint}: {e}")
-
-        # 4. Fallback if download failed
-        if config.local_fallback and os.path.exists(config.local_fallback):
-            logger.info(f"Using local fallback for '{config.source_id}': {config.local_fallback}")
-            if config.local_fallback.endswith(".zip"):
-                return self._extract_zip(config.local_fallback, download_dir)
-            return config.local_fallback
-
-        if download_err:
-            raise PermanentError(f"Failed to download from endpoint and no fallback available: {download_err}")
-
         target = config.local_path or config.local_fallback or "unknown"
-        raise FileNotFoundError(f"Source file not found: {target}")
+        raise FileNotFoundError(f"Source file not found or unsupported source type: {target}")
 
     def _extract_zip(self, zip_path: str, extract_to: str) -> str:
         """Extract the largest CSV file from a ZIP archive."""

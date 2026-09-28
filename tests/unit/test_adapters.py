@@ -19,23 +19,6 @@ from ingestion.utils.error_classifier import SchemaError, PermanentError, DataQu
 
 
 
-class TestFaostatBulkAdapterReadiness:
-    def test_no_endpoint(self):
-        config = SourceConfig(
-            source_id="test",
-            provider="FAOSTAT",
-            dataset="Test",
-            source_type=SourceType.HTTP_BULK_ZIP,
-            load_strategy=LoadStrategy.FULL,
-            format=ArtifactFormat.CSV,
-            endpoint=None,
-        )
-        adapter = FaostatBulkAdapter()
-        result = adapter.check_readiness(config)
-        assert result.ready is False
-        assert "endpoint" in result.reason.lower() or "Missing" in result.reason
-
-
 class TestNsoVietnamAdapter:
     def test_readiness_with_files(self, tmp_path):
         """Create V06 CSV files and check readiness."""

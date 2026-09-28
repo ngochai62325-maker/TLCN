@@ -15,7 +15,7 @@ def _make_config():
         source_id="test_incr",
         provider="Test",
         dataset="TestIncr",
-        source_type=SourceType.API,
+        source_type=SourceType.LOCAL_FILE,
         load_strategy=LoadStrategy.INCREMENTAL,
         format=ArtifactFormat.CSV,
         endpoint="http://example.com/api",
