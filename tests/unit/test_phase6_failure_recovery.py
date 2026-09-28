@@ -84,6 +84,22 @@ class FailingAdapter(BaseSourceAdapter):
                 checksum="chk"
             )
 
+    def check_readiness(self, config, **kwargs):
+        from ingestion.core.result import ReadinessResult
+        return ReadinessResult(ready=True, reason="ok")
+
+def _make_dummy_config(source_id: str, load_strategy: LoadStrategy) -> SourceConfig:
+    from ingestion.core.enums import SourceType, ArtifactFormat
+    return SourceConfig(
+        source_id=source_id,
+        provider="dummy",
+        dataset="dummy",
+        source_type=SourceType.LOCAL_FILE,
+        load_strategy=load_strategy,
+        format=ArtifactFormat.CSV,
+        adapter_class="dummy"
+    )
+
 def _setup_full_loader(fail_on_chunk=None):
     adapter = FailingAdapter(fail_on_chunk=fail_on_chunk)
     ckpt = InMemoryCheckpointStore()
@@ -110,7 +126,7 @@ def _setup_full_loader(fail_on_chunk=None):
 def test_scenario_a_extraction_failure():
     """Scenario A: Extraction failure propagates exception and returns FAILED result."""
     loader, ckpt, writer, adapter = _setup_full_loader(fail_on_chunk=1)
-    config = SourceConfig(source_id="test", load_strategy=LoadStrategy.FULL, adapter_class="dummy", file_format="CSV")
+    config = _make_dummy_config(source_id="test", load_strategy=LoadStrategy.FULL)
     
     result = loader.execute(config, "run_a", "batch_a")
     
@@ -122,7 +138,7 @@ def test_scenario_a_extraction_failure():
 def test_scenario_b_and_e_chunk_write_failure_and_recovery():
     """Scenario B & E: Chunk write failure creates failed checkpoint, retry skips processed chunks."""
     loader, ckpt, writer, adapter = _setup_full_loader(fail_on_chunk=3)
-    config = SourceConfig(source_id="test_b", load_strategy=LoadStrategy.FULL, adapter_class="dummy", file_format="CSV")
+    config = _make_dummy_config(source_id="test_b", load_strategy=LoadStrategy.FULL)
     
     # Run 1: Fails on chunk 3
     result1 = loader.execute(config, "run_fail", "batch_b")
@@ -157,14 +173,14 @@ def test_scenario_b_and_e_chunk_write_failure_and_recovery():
 def test_scenario_c_failure_after_write_orphan_cleanup():
     """Scenario C: Failure after write triggers cleanup."""
     loader, ckpt, writer, adapter = _setup_full_loader(fail_on_chunk=None)
-    # Simulate failure in manifest upload
-    loader.minio_storage.upload_file.side_effect = RuntimeError("Network error uploading artifact")
+    # Simulate failure in manifest upload which is not swallowed
+    loader.minio_storage.upload_json.side_effect = RuntimeError("Network error saving manifest")
     
-    config = SourceConfig(source_id="test_c", load_strategy=LoadStrategy.FULL, adapter_class="dummy", file_format="CSV")
+    config = _make_dummy_config(source_id="test_c", load_strategy=LoadStrategy.FULL)
     result = loader.execute(config, "run_c", "batch_c")
     
     assert result.status == IngestionStatus.FAILED
-    assert "Network error uploading artifact" in result.error_message
+    assert "Network error saving manifest" in result.error_message
     
     # Airflow layer receives FAILED, orchestrates retry.
     # Meanwhile, IdempotencyController can cleanup the run
@@ -188,7 +204,9 @@ def test_scenario_d_watermark_safety_on_incremental_failure():
     
     wm_store = MagicMock()
     # Previous watermark
-    wm_store.get.return_value = "2026-09-01"
+    wm_entry_mock = MagicMock()
+    wm_entry_mock.watermark_value = "2026-09-01"
+    wm_store.get.return_value = wm_entry_mock
     
     loader = IncrementalLoader(
         adapter=adapter,
@@ -198,7 +216,7 @@ def test_scenario_d_watermark_safety_on_incremental_failure():
         metadata_repo=MagicMock(),
     )
     
-    config = SourceConfig(source_id="test_d", load_strategy=LoadStrategy.INCREMENTAL, adapter_class="dummy", file_format="CSV")
+    config = _make_dummy_config(source_id="test_d", load_strategy=LoadStrategy.INCREMENTAL)
     result = loader.execute(config, "run_d", "batch_d")
     
     assert result.status == IngestionStatus.FAILED
