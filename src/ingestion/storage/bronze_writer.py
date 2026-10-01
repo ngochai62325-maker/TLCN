@@ -36,12 +36,17 @@ from ingestion.utils.logging_config import create_ingestion_logger
 try:
     import inspect
     import pyarrow.parquet as _pq
+    import pyarrow.types as _pat
     if "store_decimal_as_integer" not in inspect.signature(_pq.ParquetWriter.__init__).parameters:
         _orig_pq_init = _pq.ParquetWriter.__init__
         def _compat_pq_init(self, *args, **kwargs):
             kwargs.pop("store_decimal_as_integer", None)
             return _orig_pq_init(self, *args, **kwargs)
         _pq.ParquetWriter.__init__ = _compat_pq_init
+    if not hasattr(_pat, "is_string_view"):
+        _pat.is_string_view = lambda t: False
+    if not hasattr(_pat, "is_binary_view"):
+        _pat.is_binary_view = lambda t: False
 except Exception:
     pass
 
@@ -169,18 +174,17 @@ class BronzeIcebergWriter:
 
     def ensure_schema(self) -> None:
         """Ensure the target catalog schema exists (e.g. iceberg.bronze)."""
+        catalog = self.get_iceberg_catalog()
+        if catalog is not None:
+            try:
+                catalog.create_namespace_if_not_exists(self.schema)
+            except Exception:
+                pass
         try:
             sql = f"CREATE SCHEMA IF NOT EXISTS {self.catalog}.{self.schema}"
             self.execute_query(sql)
         except Exception:
-            # Re-check if schema already exists to be resilient to concurrent execution
-            try:
-                _, schemas = self.execute_query(f"SHOW SCHEMAS IN {self.catalog}")
-                existing = [s[0].lower() for s in schemas]
-                if self.schema.lower() in existing:
-                    return
-            except Exception:
-                pass
+            pass
 
     def _map_dtype_to_trino(self, dtype: Any) -> str:
         """Map pandas/numpy dtype to Trino Iceberg data type."""
@@ -206,6 +210,15 @@ class BronzeIcebergWriter:
         table_name = sanitize_column_name(source_id)
         full_table = f"{self.catalog}.{self.schema}.{table_name}"
 
+        # Fast path: If table already exists in Iceberg catalog, skip redundant DDL
+        catalog = self.get_iceberg_catalog()
+        if catalog is not None:
+            try:
+                if catalog.table_exists(f"{self.schema}.{table_name}"):
+                    return full_table
+            except Exception:
+                pass
+
         # Build column definitions from DataFrame
         col_defs: List[str] = []
         df_cols_map: Dict[str, str] = {}
@@ -227,7 +240,17 @@ class BronzeIcebergWriter:
             {cols_str}
         )
         """
-        self.execute_query(create_sql)
+        # Execute CREATE TABLE with retry and backoff to handle SQLite busy lock in Iceberg REST catalog
+        max_retries = 6
+        for attempt in range(max_retries):
+            try:
+                self.execute_query(create_sql)
+                break
+            except Exception as create_err:
+                if attempt == max_retries - 1:
+                    raise
+                import random
+                time.sleep(0.5 * (2 ** attempt) + random.uniform(0.1, 0.4))
 
         # Schema evolution: dynamically add any new columns to existing Iceberg table
         try:
@@ -400,12 +423,20 @@ class BronzeIcebergWriter:
             f"WHERE _ingestion_run_id = '{run_id}' "
             f"AND _ingestion_chunk_id = {chunk_id}"
         )
-        try:
-            self.execute_query(delete_sql)
-            logger.info("Executed idempotent DELETE", run_id=run_id, chunk_id=chunk_id, table=full_table)
-        except Exception as e:
-            logger.error("Failed to execute idempotent DELETE before APPEND", error=str(e))
-            raise RuntimeError(f"Idempotency failure: could not delete existing chunk before append: {e}") from e
+        for del_attempt in range(5):
+            try:
+                self.execute_query(delete_sql)
+                logger.info("Executed idempotent DELETE", run_id=run_id, chunk_id=chunk_id, table=full_table)
+                break
+            except Exception as e:
+                if "does not exist" in str(e).lower():
+                    # Brand new table, no previous chunks to delete
+                    break
+                if del_attempt == 4:
+                    logger.error("Failed to execute idempotent DELETE before APPEND", error=str(e))
+                    raise RuntimeError(f"Idempotency failure: could not delete existing chunk before append: {e}") from e
+                import random
+                time.sleep(0.5 * (2 ** del_attempt) + random.uniform(0.1, 0.4))
 
         # ── High-Performance PyIceberg Bulk Write Path ────────────────
         try:

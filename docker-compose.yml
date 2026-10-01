@@ -50,6 +50,7 @@ services:
   iceberg-rest:
     image: tabulario/iceberg-rest:0.8.0
     container_name: iceberg-rest
+    user: root
     ports:
       - "${ICEBERG_REST_PORT:-8181}:8181"
     environment:
@@ -64,7 +65,7 @@ services:
       AWS_REGION: us-east-1
       CATALOG_URI: "jdbc:sqlite:/data/catalog/iceberg_rest.db?journal_mode=WAL&busy_timeout=60000"
     volumes:
-      - ./data/catalog:/data/catalog
+      - catalog_data:/data/catalog
     depends_on:
       mc-init:
         condition: service_completed_successfully
@@ -233,6 +234,7 @@ services:
 volumes:
   minio_data:
   postgres_data:
+  catalog_data:
 
 networks:
   lakehouse-net:
