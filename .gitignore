@@ -34,7 +34,7 @@ Thumbs.db
 .idea/
 
 Bao_cao
-docs/*
+docs
 !docs/ingestion/
 !docs/bronze/
 
