@@ -80,13 +80,52 @@ with DAG(
         """Airflow thin wrapper executing the IngestionEngine."""
         return run_ingestion_task(source_id)
 
+    @task(task_id="run_silver", retries=2, retry_delay=timedelta(minutes=1))
+    def build_run_silver_task(dataset_id: str, run_id: str):
+        """Executes the Silver Transformation Framework using a local PySpark session connected to spark-iceberg."""
+        from pyspark.sql import SparkSession
+        from silver.framework import SilverTransformationFramework
+
+        # Initialize SparkSession connecting to the Spark cluster Master
+        spark = SparkSession.builder \
+            .appName(f"silver-{dataset_id}") \
+            .master("spark://spark-iceberg:7077") \
+            .config("spark.jars.packages", "org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.4.3,org.projectnessie.nessie-integrations:nessie-spark-extensions-3.5_2.12:0.77.1") \
+            .config("spark.sql.catalog.iceberg", "org.apache.iceberg.spark.SparkCatalog") \
+            .config("spark.sql.catalog.iceberg.type", "rest") \
+            .config("spark.sql.catalog.iceberg.uri", "http://iceberg-rest:8181") \
+            .config("spark.sql.catalog.iceberg.io-impl", "org.apache.iceberg.aws.s3.S3FileIO") \
+            .config("spark.sql.catalog.iceberg.s3.endpoint", "http://minio:9000") \
+            .config("spark.sql.catalog.iceberg.s3.access-key-id", "admin") \
+            .config("spark.sql.catalog.iceberg.s3.secret-access-key", "password123") \
+            .config("spark.sql.catalog.iceberg.s3.path-style-access", "true") \
+            .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions") \
+            .getOrCreate()
+        
+        try:
+            logging.info(f"Starting Silver Transformation for {dataset_id}, Bronze Run ID: {run_id}")
+            framework = SilverTransformationFramework(spark, contract_dir="/opt/airflow/contracts/silver")
+            result = framework.run(dataset_id, run_id)
+            logging.info(f"Silver Transformation result: {result}")
+            return result
+        except Exception as e:
+            logging.error(f"Silver Transformation failed: {e}")
+            raise
+        finally:
+            spark.stop()
+
     # Connect all source tasks between start_all and end_all markers
     for src in all_sources:
-        # Include enabled sources
         if src.enabled:
-            # We explicitly set task_id dynamically by mapping or calling in loop?
-            # With @task, calling it multiple times creates task instances.
-            # But we must ensure unique task_ids. We can override task_id in the call:
             ingest_task = build_run_ingestion_task.override(task_id=f"ingest_{src.source_id}")(src.source_id)
-            start_all >> ingest_task >> end_all
+            
+            if src.source_id == "faostat_production":
+                # Silver runs after Bronze. The Bronze task returns a dict with 'run_id'
+                silver_task = build_run_silver_task.override(task_id=f"silver_{src.source_id}")(
+                    dataset_id=src.source_id,
+                    run_id=ingest_task["run_id"]
+                )
+                start_all >> ingest_task >> silver_task >> end_all
+            else:
+                start_all >> ingest_task >> end_all
 
