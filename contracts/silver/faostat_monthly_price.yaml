@@ -1,0 +1,167 @@
+dataset:
+  name: "FAOSTAT Monthly Producer Prices (Silver)"
+  source_id: "faostat_monthly_price"
+  source_system: "FAOSTAT"
+  bronze_input: "iceberg.bronze.faostat_monthly_price"
+  silver_output: "iceberg.silver.faostat_monthly_price"
+
+contract_status: READY
+
+grain:
+  description: "One record represents the producer price for a specific commodity in a specific country/area for a specific month and year."
+  business_key:
+    - "country_code"
+    - "commodity_code"
+    - "year"
+    - "month_code"
+    - "element_code"
+
+schema:
+  columns:
+    - name: "domain_code"
+      source_column: "Domain Code"
+      data_type: "string"
+      nullable: false
+      description: "FAOSTAT domain code"
+      transformation: "cast to string, trim"
+    - name: "domain"
+      source_column: "Domain"
+      data_type: "string"
+      nullable: false
+      description: "FAOSTAT domain description"
+      transformation: "cast to string, trim"
+    - name: "country_code"
+      source_column: "Area Code (M49)"
+      data_type: "string"
+      nullable: false
+      description: "M49 Area Code"
+      transformation: "cast to string, trim, pad left with zero if necessary"
+    - name: "country_name"
+      source_column: "Area"
+      data_type: "string"
+      nullable: false
+      description: "Country or Area name"
+      transformation: "cast to string, trim"
+    - name: "element_code"
+      source_column: "Element Code"
+      data_type: "string"
+      nullable: false
+      description: "Indicator element code (e.g., 5530 for Producer Price (LCU/tonne))"
+      transformation: "cast to string, trim"
+    - name: "element"
+      source_column: "Element"
+      data_type: "string"
+      nullable: false
+      description: "Indicator description"
+      transformation: "cast to string, trim"
+    - name: "commodity_code"
+      source_column: "Item Code (CPC)"
+      data_type: "string"
+      nullable: false
+      description: "CPC Item Code"
+      transformation: "cast to string, trim"
+    - name: "commodity_name"
+      source_column: "Item"
+      data_type: "string"
+      nullable: false
+      description: "Commodity description"
+      transformation: "cast to string, trim"
+    - name: "year"
+      source_column: "Year"
+      data_type: "integer"
+      nullable: false
+      description: "Reference year"
+      transformation: "cast to integer"
+    - name: "month_code"
+      source_column: "Months Code"
+      data_type: "string"
+      nullable: false
+      description: "Month code (e.g., 7021 for Annual value, 7001 for Jan)"
+      transformation: "cast to string, trim"
+    - name: "month_name"
+      source_column: "Months"
+      data_type: "string"
+      nullable: false
+      description: "Month description"
+      transformation: "cast to string, trim"
+    - name: "unit"
+      source_column: "Unit"
+      data_type: "string"
+      nullable: true
+      description: "Unit of measurement (e.g., LCU, USD, SLC)"
+      transformation: "cast to string, trim"
+    - name: "value"
+      source_column: "Value"
+      data_type: "decimal(18,4)"
+      nullable: true
+      description: "The actual price value"
+      transformation: "cast to decimal"
+    - name: "flag"
+      source_column: "Flag"
+      data_type: "string"
+      nullable: true
+      description: "Observation status flag"
+      transformation: "cast to string, trim"
+    - name: "flag_description"
+      source_column: "Flag Description"
+      data_type: "string"
+      nullable: true
+      description: "Description of the observation status flag"
+      transformation: "cast to string, trim"
+
+normalization:
+  country: "Use M49 code."
+  commodity: "Use CPC code."
+  date: "If month_code == '7021', record represents annual average. For monthly (7001-7012), map to actual calendar months."
+  unit: "Standardize currency units if cross-currency analysis is required (may delegate complex conversion to Gold)."
+  numeric: "Negative prices are invalid."
+
+data_quality:
+  - rule_id: "PRICE_DQ_001"
+    rule: "Value must be non-negative"
+    dimension: "Validity"
+    severity: "ERROR"
+    action: "QUARANTINE"
+  - rule_id: "PRICE_DQ_002"
+    rule: "country_code, commodity_code, year, month_code, element_code cannot be null"
+    dimension: "Completeness"
+    severity: "ERROR"
+    action: "QUARANTINE"
+
+deduplication:
+  key:
+    - "country_code"
+    - "commodity_code"
+    - "year"
+    - "month_code"
+    - "element_code"
+  strategy: "Timestamp-based survivorship"
+  survivorship: "Keep record with most recent _ingestion_timestamp"
+  duplicate_action: "Overwrite in Silver"
+
+quarantine:
+  conditions:
+    - "Fails DQ rules with severity ERROR"
+  required_fields:
+    - "quarantine_record_id"
+    - "source_system"
+    - "dataset"
+    - "failed_column"
+    - "error_message"
+    - "ingestion_run_id"
+
+metadata:
+  propagated_columns:
+    - "_ingestion_run_id"
+    - "_source_file"
+    - "_source_checksum"
+    - "_source_snapshot_id"
+    - "_ingestion_timestamp"
+
+incremental:
+  strategy: "MERGE"
+  change_detection: "Business key match"
+  late_arriving_data: "UPSERT pattern using MERGE"
+
+gold_dependency:
+  target_domain: "Price Trend Analysis, Market Forecasting"

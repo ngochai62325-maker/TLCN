@@ -1,0 +1,167 @@
+dataset:
+  name: "FAOSTAT Production (Silver)"
+  source_id: "faostat_production"
+  source_system: "FAOSTAT"
+  bronze_input: "iceberg.bronze.faostat_production"
+  silver_output: "iceberg.silver.faostat_production"
+
+contract_status: READY
+
+grain:
+  description: "One record represents the production fact (Area, Yield, or Production quantity) for a specific commodity in a specific country/area for a specific year."
+  business_key:
+    - "country_code"
+    - "commodity_code"
+    - "year"
+    - "element_code"
+
+schema:
+  columns:
+    - name: "domain_code"
+      source_column: "Domain Code"
+      data_type: "string"
+      nullable: false
+      description: "FAOSTAT domain code"
+      transformation: "cast to string, trim"
+    - name: "domain"
+      source_column: "Domain"
+      data_type: "string"
+      nullable: false
+      description: "FAOSTAT domain description"
+      transformation: "cast to string, trim"
+    - name: "country_code"
+      source_column: "Area Code (M49)"
+      data_type: "string"
+      nullable: false
+      description: "M49 Area Code"
+      transformation: "cast to string, trim, pad with leading zeros if needed to ensure standard 3-digit length (e.g., '004' instead of '4')"
+      standardization_rule: "reference to canonical dim_country if available"
+    - name: "country_name"
+      source_column: "Area"
+      data_type: "string"
+      nullable: false
+      description: "Country or Area name"
+      transformation: "cast to string, trim"
+    - name: "element_code"
+      source_column: "Element Code"
+      data_type: "string"
+      nullable: false
+      description: "Indicator element code (e.g., 5312 for Area harvested, 5510 for Production)"
+      transformation: "cast to string, trim"
+    - name: "element"
+      source_column: "Element"
+      data_type: "string"
+      nullable: false
+      description: "Indicator description"
+      transformation: "cast to string, trim"
+    - name: "commodity_code"
+      source_column: "Item Code (CPC)"
+      data_type: "string"
+      nullable: false
+      description: "CPC Item Code"
+      transformation: "cast to string, trim"
+      standardization_rule: "reference to canonical dim_commodity if available"
+    - name: "commodity_name"
+      source_column: "Item"
+      data_type: "string"
+      nullable: false
+      description: "Commodity description"
+      transformation: "cast to string, trim"
+    - name: "year"
+      source_column: "Year"
+      data_type: "integer"
+      nullable: false
+      description: "Reference year"
+      transformation: "cast to integer"
+    - name: "unit"
+      source_column: "Unit"
+      data_type: "string"
+      nullable: true
+      description: "Unit of measurement (ha, kg/ha, t, etc.)"
+      transformation: "cast to string, trim, convert to lower case standard"
+    - name: "value"
+      source_column: "Value"
+      data_type: "decimal(18,2)"
+      nullable: true
+      description: "The actual production or area value"
+      transformation: "cast to decimal, invalid values treated as NULL (or quarantined based on strictness)"
+    - name: "flag"
+      source_column: "Flag"
+      data_type: "string"
+      nullable: true
+      description: "Observation status flag"
+      transformation: "cast to string, trim"
+    - name: "flag_description"
+      source_column: "Flag Description"
+      data_type: "string"
+      nullable: true
+      description: "Description of the observation status flag"
+      transformation: "cast to string, trim"
+
+normalization:
+  country: "Use M49 code as standard identifier. Map to standard canonical country names if diverging from internal dim_country."
+  commodity: "Use CPC code as standard identifier. Filter/Map 'Rice' explicitly if needed."
+  date: "Treat 'Year' as calendar year. No month/day semantics applied."
+  unit: "Standardize units (e.g., 't' -> 'tonne', 'ha' -> 'hectare', 'kg/ha' -> 'kg/hectare')."
+  numeric: "NULL values remain NULL. Negative values are invalid for area and production."
+
+data_quality:
+  - rule_id: "PROD_DQ_001"
+    rule: "Value must be non-negative"
+    dimension: "Validity"
+    severity: "ERROR"
+    threshold: "100%"
+    action: "QUARANTINE"
+  - rule_id: "PROD_DQ_002"
+    rule: "Year must be <= current_year + 1 and >= 1960"
+    dimension: "Temporal Validity"
+    severity: "ERROR"
+    threshold: "100%"
+    action: "QUARANTINE"
+  - rule_id: "PROD_DQ_003"
+    rule: "country_code, commodity_code, year, element_code cannot be null"
+    dimension: "Completeness"
+    severity: "ERROR"
+    threshold: "100%"
+    action: "QUARANTINE"
+
+deduplication:
+  key:
+    - "country_code"
+    - "commodity_code"
+    - "year"
+    - "element_code"
+  strategy: "Timestamp-based survivorship"
+  survivorship: "Keep record with most recent _ingestion_timestamp"
+  duplicate_action: "Overwrite in Silver (idempotent update)"
+
+quarantine:
+  conditions:
+    - "Fails DQ rules with severity ERROR"
+    - "Unparsable mandatory fields (e.g., non-numeric year)"
+  required_fields:
+    - "quarantine_record_id"
+    - "source_system"
+    - "dataset"
+    - "failed_column"
+    - "error_message"
+    - "detected_at"
+    - "ingestion_run_id"
+    - "source_file"
+    - "source_record_id"
+
+metadata:
+  propagated_columns:
+    - "_ingestion_run_id"
+    - "_source_file"
+    - "_source_checksum"
+    - "_source_snapshot_id"
+    - "_ingestion_timestamp"
+
+incremental:
+  strategy: "FULL_OVERWRITE or MERGE based on Bronze snapshot"
+  change_detection: "Compare new Bronze snapshot against Silver current state using business key"
+  late_arriving_data: "MERGE statements handle late arriving data by updating existing years if newer data is available."
+
+gold_dependency:
+  target_domain: "Domestic and Global Rice Production Analytics, Yield Forecasting"

@@ -1,0 +1,62 @@
+dataset:
+  name: "World Bank - Commodity Markets Pink Sheet"
+  source_id: "worldbank_pinksheet"
+  source_system: "WorldBank"
+  bronze_input: "UNKNOWN"
+  silver_output: "UNKNOWN"
+
+contract_status: NEEDS_PROFILING
+
+grain:
+  description: "NEEDS_PROFILING"
+  business_key:
+    - "NEEDS_PROFILING"
+
+schema:
+  columns:
+    - name: "NEEDS_PROFILING"
+      source_column: "NEEDS_PROFILING"
+      data_type: "UNKNOWN"
+      nullable: true
+      description: "Schema is pending adapter profiling."
+      transformation: "UNKNOWN"
+
+normalization:
+  country: "UNKNOWN"
+  province: "UNKNOWN"
+  commodity: "UNKNOWN"
+  date: "UNKNOWN"
+  unit: "UNKNOWN"
+  numeric: "UNKNOWN"
+
+data_quality:
+  - rule_id: "WB_DQ_PENDING"
+    rule: "NEEDS_PROFILING"
+    dimension: "UNKNOWN"
+    severity: "UNKNOWN"
+    action: "UNKNOWN"
+
+deduplication:
+  key:
+    - "NEEDS_PROFILING"
+  strategy: "UNKNOWN"
+  survivorship: "UNKNOWN"
+  duplicate_action: "UNKNOWN"
+
+quarantine:
+  conditions:
+    - "NEEDS_PROFILING"
+  required_fields:
+    - "UNKNOWN"
+
+metadata:
+  propagated_columns:
+    - "NEEDS_PROFILING"
+
+incremental:
+  strategy: "UNKNOWN"
+  change_detection: "UNKNOWN"
+  late_arriving_data: "UNKNOWN"
+
+gold_dependency:
+  target_domain: "UNKNOWN"

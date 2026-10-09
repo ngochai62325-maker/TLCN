@@ -189,6 +189,7 @@ services:
       - ./plugins:/opt/airflow/plugins
       - ./data:/opt/airflow/data
       - ./src:/opt/airflow/src
+      - ./config:/opt/airflow/config
     depends_on:
       airflow-init:
         condition: service_completed_successfully
@@ -224,6 +225,7 @@ services:
       - ./plugins:/opt/airflow/plugins
       - ./data:/opt/airflow/data
       - ./src:/opt/airflow/src
+      - ./config:/opt/airflow/config
     depends_on:
       airflow-init:
         condition: service_completed_successfully

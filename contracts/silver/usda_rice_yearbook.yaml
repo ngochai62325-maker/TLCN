@@ -1,0 +1,136 @@
+dataset:
+  name: "USDA Rice Yearbook Export Prices (Silver)"
+  source_id: "usda_rice_yearbook"
+  source_system: "USDA"
+  bronze_input: "iceberg.bronze.usda_rice_yearbook"
+  silver_output: "iceberg.silver.usda_rice_yearbook"
+
+contract_status: READY
+
+grain:
+  description: "One record represents the export price for a specific rice class from a specific location (country) during a specific reference period (month/year)."
+  business_key:
+    - "location"
+    - "commodity_class"
+    - "year"
+    - "reference_period"
+    - "statistic_type"
+
+schema:
+  columns:
+    - name: "table_name"
+      source_column: "TABLE_NAME"
+      data_type: "string"
+      nullable: true
+      description: "Source table name"
+      transformation: "cast to string, trim"
+    - name: "table_number"
+      source_column: "TABLE_NUMBER"
+      data_type: "integer"
+      nullable: true
+      description: "Source table number"
+      transformation: "cast to integer"
+    - name: "commodity"
+      source_column: "COMMODITY_DESCRIPTION"
+      data_type: "string"
+      nullable: false
+      description: "Commodity description (usually RICE)"
+      transformation: "cast to string, trim"
+    - name: "commodity_class"
+      source_column: "CLASS_DESCRIPTION"
+      data_type: "string"
+      nullable: false
+      description: "Class or variety of rice (e.g., 5-PERCENT BROKEN, FRAGRANT WHITE RICE)"
+      transformation: "cast to string, trim"
+    - name: "year"
+      source_column: "YEAR"
+      data_type: "integer"
+      nullable: false
+      description: "Reference year"
+      transformation: "cast to integer"
+    - name: "reference_period"
+      source_column: "REFERENCE_PERIOD_DESCRIPTION"
+      data_type: "string"
+      nullable: false
+      description: "Reference period, usually a Month (e.g., August)"
+      transformation: "cast to string, trim"
+    - name: "location"
+      source_column: "LOCATION_DESCRIPTION"
+      data_type: "string"
+      nullable: false
+      description: "Location/Country of the export price (e.g., THAILAND, VIETNAM)"
+      transformation: "cast to string, trim, map to canonical country name if required"
+    - name: "statistic_type"
+      source_column: "STATISTIC_DESCRIPTION"
+      data_type: "string"
+      nullable: false
+      description: "Type of statistic (e.g., FREIGHT ON BOARD PRICE)"
+      transformation: "cast to string, trim"
+    - name: "value"
+      source_column: "VALUE"
+      data_type: "decimal(18,2)"
+      nullable: true
+      description: "Price value"
+      transformation: "cast to decimal, invalid values ('NA') treated as NULL"
+    - name: "unit"
+      source_column: "UNIT_DESCRIPTION"
+      data_type: "string"
+      nullable: true
+      description: "Unit of measurement (e.g., DOLLARS PER METRIC TON)"
+      transformation: "cast to string, trim"
+
+normalization:
+  country: "Map LOCATION_DESCRIPTION to standard country names or M49 codes if integrating with FAOSTAT."
+  date: "Combine YEAR and REFERENCE_PERIOD_DESCRIPTION (month name) to create a standard date/month field if required by Gold."
+  unit: "Standardize 'DOLLARS PER METRIC TON' to standard USD/tonne."
+  numeric: "'NA' string values in Bronze mapped to true NULL in Silver."
+
+data_quality:
+  - rule_id: "USDA_PRICE_DQ_001"
+    rule: "Value must be non-negative if not null"
+    dimension: "Validity"
+    severity: "ERROR"
+    action: "QUARANTINE"
+  - rule_id: "USDA_PRICE_DQ_002"
+    rule: "location, commodity_class, year, reference_period cannot be null"
+    dimension: "Completeness"
+    severity: "ERROR"
+    action: "QUARANTINE"
+
+deduplication:
+  key:
+    - "location"
+    - "commodity_class"
+    - "year"
+    - "reference_period"
+    - "statistic_type"
+  strategy: "Timestamp-based survivorship"
+  survivorship: "Keep record with most recent _ingestion_timestamp"
+  duplicate_action: "Overwrite in Silver"
+
+quarantine:
+  conditions:
+    - "Fails DQ rules with severity ERROR"
+  required_fields:
+    - "quarantine_record_id"
+    - "source_system"
+    - "dataset"
+    - "failed_column"
+    - "error_message"
+    - "ingestion_run_id"
+
+metadata:
+  propagated_columns:
+    - "_ingestion_run_id"
+    - "_source_file"
+    - "_source_checksum"
+    - "_source_snapshot_id"
+    - "_ingestion_timestamp"
+
+incremental:
+  strategy: "MERGE"
+  change_detection: "Business key match"
+  late_arriving_data: "UPSERT pattern using MERGE"
+
+gold_dependency:
+  target_domain: "Export Price Benchmarking, Competitor Analysis"

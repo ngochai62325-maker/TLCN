@@ -1,0 +1,127 @@
+dataset:
+  name: "IPSARD Daily Rice Market Prices (Silver)"
+  source_id: "thitruongnongsan"
+  source_system: "IPSARD"
+  bronze_input: "iceberg.bronze.thitruongnongsan"
+  silver_output: "iceberg.silver.thitruongnongsan"
+
+contract_status: READY
+
+grain:
+  description: "One record represents the daily price for a specific rice commodity/variety in a specific local market/province for a specific price type."
+  business_key:
+    - "market"
+    - "commodity"
+    - "price_type"
+    - "date"
+
+schema:
+  columns:
+    - name: "commodity"
+      source_column: "Tên_mặt_hàng"
+      data_type: "string"
+      nullable: false
+      description: "Name of the rice variety or commodity"
+      transformation: "cast to string, trim"
+    - name: "market"
+      source_column: "Thị_trường"
+      data_type: "string"
+      nullable: false
+      description: "Market location (usually a province or specific market in Vietnam)"
+      transformation: "cast to string, trim, map to canonical province if applicable"
+    - name: "price_type"
+      source_column: "Loại_giá"
+      data_type: "string"
+      nullable: false
+      description: "Type of price (e.g., Wholesale, Retail)"
+      transformation: "cast to string, trim"
+    - name: "unit"
+      source_column: "Đơn_vị_tính"
+      data_type: "string"
+      nullable: true
+      description: "Unit of measurement (e.g., VNĐ/kg)"
+      transformation: "cast to string, trim"
+    - name: "currency"
+      source_column: "Loại_tiền"
+      data_type: "string"
+      nullable: true
+      description: "Currency type (e.g., VND)"
+      transformation: "cast to string, trim"
+    - name: "source"
+      source_column: "Nguồn"
+      data_type: "string"
+      nullable: true
+      description: "Source of the price information"
+      transformation: "cast to string, trim"
+    - name: "date"
+      source_column: "Ngày"
+      data_type: "date"
+      nullable: false
+      description: "Date of the price observation"
+      transformation: "parse as date (format needs validation against Bronze data, e.g., dd/MM/yyyy or yyyy-MM-dd)"
+    - name: "price_value"
+      source_column: "Giá"
+      data_type: "decimal(18,2)"
+      nullable: true
+      description: "The actual price value"
+      transformation: "cast to decimal. Handle any string formatting (like commas for thousands) before casting."
+
+normalization:
+  province: "Map 'Thị_trường' to standard Vietnam province/city names (dim_province)."
+  date: "Standardize to ISO 8601 YYYY-MM-DD format."
+  unit: "Standardize units. E.g., 'VNĐ/kg' or 'đồng/kg' mapped to standard notation."
+
+data_quality:
+  - rule_id: "VN_PRICE_DQ_001"
+    rule: "price_value must be non-negative"
+    dimension: "Validity"
+    severity: "ERROR"
+    action: "QUARANTINE"
+  - rule_id: "VN_PRICE_DQ_002"
+    rule: "market, commodity, price_type, date cannot be null"
+    dimension: "Completeness"
+    severity: "ERROR"
+    action: "QUARANTINE"
+  - rule_id: "VN_PRICE_DQ_003"
+    rule: "date must not be in the future"
+    dimension: "Temporal Validity"
+    severity: "WARNING"
+    action: "KEEP"
+
+deduplication:
+  key:
+    - "market"
+    - "commodity"
+    - "price_type"
+    - "date"
+  strategy: "Timestamp-based survivorship"
+  survivorship: "Keep record with most recent _ingestion_timestamp"
+  duplicate_action: "Overwrite in Silver"
+
+quarantine:
+  conditions:
+    - "Fails DQ rules with severity ERROR"
+    - "Unparsable date format"
+  required_fields:
+    - "quarantine_record_id"
+    - "source_system"
+    - "dataset"
+    - "failed_column"
+    - "error_message"
+    - "ingestion_run_id"
+
+metadata:
+  propagated_columns:
+    - "_ingestion_run_id"
+    - "_source_file"
+    - "_source_checksum"
+    - "_source_snapshot_id"
+    - "_ingestion_timestamp"
+
+incremental:
+  strategy: "MERGE"
+  change_detection: "Business key match"
+  late_arriving_data: "UPSERT pattern using MERGE"
+
+gold_dependency:
+  target_domain: "Domestic Price Monitoring, Market Trend Analysis"

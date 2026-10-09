@@ -42,7 +42,8 @@ class SourceRegistry:
 
     def __init__(self, registry_path: Optional[str] = None) -> None:
         if not registry_path:
-            self.registry_path = os.path.join(os.path.dirname(__file__), "source_registry.yaml")
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+            self.registry_path = os.path.join(project_root, "config", "ingestion", "source_registry.yaml")
         else:
             self.registry_path = registry_path
         self._sources: Dict[str, SourceConfig] = {}

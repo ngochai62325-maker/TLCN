@@ -1,0 +1,148 @@
+dataset:
+  name: "FAOSTAT Detailed Trade Matrix (Silver)"
+  source_id: "faostat_trade"
+  source_system: "FAOSTAT"
+  bronze_input: "iceberg.bronze.faostat_trade"
+  silver_output: "iceberg.silver.faostat_trade"
+
+contract_status: READY
+
+grain:
+  description: "One record represents a specific trade flow (import/export, quantity/value) of a specific commodity between a Reporter country and a Partner country for a specific year."
+  business_key:
+    - "reporter_country_code"
+    - "partner_country_code"
+    - "commodity_code"
+    - "year"
+    - "element_code"
+
+schema:
+  columns:
+    - name: "reporter_country_name"
+      source_column: "Reporter Countries"
+      data_type: "string"
+      nullable: false
+      description: "Reporting country name"
+      transformation: "cast to string, trim"
+    - name: "reporter_country_code"
+      source_column: "Reporter Country Code (M49)"
+      data_type: "string"
+      nullable: false
+      description: "M49 code for reporter country"
+      transformation: "cast to string, trim, format to 3 digits"
+    - name: "partner_country_name"
+      source_column: "Partner Countries"
+      data_type: "string"
+      nullable: false
+      description: "Partner country name"
+      transformation: "cast to string, trim"
+    - name: "partner_country_code"
+      source_column: "Partner Country Code (M49)"
+      data_type: "string"
+      nullable: false
+      description: "M49 code for partner country"
+      transformation: "cast to string, trim, format to 3 digits"
+    - name: "commodity_name"
+      source_column: "Item"
+      data_type: "string"
+      nullable: false
+      description: "Commodity description"
+      transformation: "cast to string, trim"
+    - name: "commodity_code"
+      source_column: "Item Code (CPC)"
+      data_type: "string"
+      nullable: false
+      description: "CPC item code"
+      transformation: "cast to string, trim"
+    - name: "element_name"
+      source_column: "Element"
+      data_type: "string"
+      nullable: false
+      description: "Element description (e.g., Import quantity, Export value)"
+      transformation: "cast to string, trim"
+    - name: "element_code"
+      source_column: "Element Code"
+      data_type: "string"
+      nullable: false
+      description: "Element code"
+      transformation: "cast to string, trim"
+    - name: "year"
+      source_column: "Year"
+      data_type: "integer"
+      nullable: false
+      description: "Reference year"
+      transformation: "cast to integer"
+    - name: "unit"
+      source_column: "Unit"
+      data_type: "string"
+      nullable: true
+      description: "Unit of measurement (e.g., t, 1000 USD)"
+      transformation: "cast to string, trim"
+    - name: "value"
+      source_column: "Value"
+      data_type: "decimal(18,2)"
+      nullable: true
+      description: "Trade quantity or value"
+      transformation: "cast to decimal"
+    - name: "flag"
+      source_column: "Flag"
+      data_type: "string"
+      nullable: true
+      description: "Observation status flag"
+      transformation: "cast to string, trim"
+
+normalization:
+  country: "Use M49 for both Reporter and Partner."
+  commodity: "Use CPC code."
+  unit: "Standardize units. Differentiate between quantities (tonnes) and monetary values (1000 USD)."
+  numeric: "Negative values are invalid for trade quantities and values."
+
+data_quality:
+  - rule_id: "TRADE_DQ_001"
+    rule: "Value must be non-negative"
+    dimension: "Validity"
+    severity: "ERROR"
+    action: "QUARANTINE"
+  - rule_id: "TRADE_DQ_002"
+    rule: "reporter_country_code, partner_country_code, commodity_code, year, element_code cannot be null"
+    dimension: "Completeness"
+    severity: "ERROR"
+    action: "QUARANTINE"
+
+deduplication:
+  key:
+    - "reporter_country_code"
+    - "partner_country_code"
+    - "commodity_code"
+    - "year"
+    - "element_code"
+  strategy: "Timestamp-based survivorship"
+  survivorship: "Keep record with most recent _ingestion_timestamp"
+  duplicate_action: "Overwrite in Silver"
+
+quarantine:
+  conditions:
+    - "Fails DQ rules with severity ERROR"
+  required_fields:
+    - "quarantine_record_id"
+    - "source_system"
+    - "dataset"
+    - "failed_column"
+    - "error_message"
+    - "ingestion_run_id"
+
+metadata:
+  propagated_columns:
+    - "_ingestion_run_id"
+    - "_source_file"
+    - "_source_checksum"
+    - "_source_snapshot_id"
+    - "_ingestion_timestamp"
+
+incremental:
+  strategy: "MERGE"
+  change_detection: "Business key match"
+  late_arriving_data: "UPSERT pattern using MERGE"
+
+gold_dependency:
+  target_domain: "International Trade Network Analysis, Import/Export Balances"
