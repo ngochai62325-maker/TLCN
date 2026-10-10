@@ -82,21 +82,25 @@ data_quality:
     dimension: "Completeness"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "commodity_code IS NOT NULL AND period_date IS NOT NULL"
   - rule_id: "WB_DQ_002"
     rule: "month must be between 1 and 12, year between 1960 and 2050"
     dimension: "Validity"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "month BETWEEN 1 AND 12 AND year BETWEEN 1960 AND 2050"
   - rule_id: "WB_DQ_003"
     rule: "price must be positive (> 0) if not null"
     dimension: "Validity"
     severity: "WARNING"
     action: "LOG"
+    sql_expr: "price IS NULL OR price > 0"
 
 deduplication:
   key:
     - "commodity_code"
     - "period_date"
+
   strategy: "Timestamp-based survivorship"
   survivorship: "Keep record with most recent _ingestion_timestamp"
   duplicate_action: "Overwrite in Silver"
@@ -115,10 +119,16 @@ quarantine:
 metadata:
   propagated_columns:
     - "_ingestion_run_id"
+    - "_ingestion_batch_id"
+    - "_ingestion_chunk_id"
+    - "_ingestion_timestamp"
+    - "_source_id"
     - "_source_file"
     - "_source_checksum"
     - "_source_snapshot_id"
-    - "_ingestion_timestamp"
+    - "_bronze_iceberg_snapshot_id"
+    - "_source_payload"
+    - "_raw_value"
 
 incremental:
   strategy: "MERGE"

@@ -3,18 +3,18 @@ dataset:
   source_id: "usda_rice_yearbook"
   source_system: "USDA"
   bronze_input: "iceberg.bronze.usda_rice_yearbook"
-  silver_output: "iceberg.silver.usda_rice_yearbook"
+  silver_output: "iceberg.silver.usda_export_price"
 
 contract_status: READY
 
 grain:
   description: "One record represents the export price for a specific rice class from a specific location (country) during a specific reference period (month/year)."
   business_key:
-    - "location"
-    - "commodity_class"
+    - "exporter_country"
+    - "rice_class"
     - "year"
     - "reference_period"
-    - "statistic_type"
+    - "statistic_description"
 
 schema:
   columns:
@@ -36,7 +36,7 @@ schema:
       nullable: false
       description: "Commodity description (usually RICE)"
       transformation: "cast to string, trim"
-    - name: "commodity_class"
+    - name: "rice_class"
       source_column: "CLASS_DESCRIPTION"
       data_type: "string"
       nullable: false
@@ -54,19 +54,19 @@ schema:
       nullable: false
       description: "Reference period, usually a Month (e.g., August)"
       transformation: "cast to string, trim"
-    - name: "location"
+    - name: "exporter_country"
       source_column: "LOCATION_DESCRIPTION"
       data_type: "string"
       nullable: false
       description: "Location/Country of the export price (e.g., THAILAND, VIETNAM)"
       transformation: "cast to string, trim, map to canonical country name if required"
-    - name: "statistic_type"
+    - name: "statistic_description"
       source_column: "STATISTIC_DESCRIPTION"
       data_type: "string"
       nullable: false
       description: "Type of statistic (e.g., FREIGHT ON BOARD PRICE)"
       transformation: "cast to string, trim"
-    - name: "value"
+    - name: "price_fob"
       source_column: "VALUE"
       data_type: "decimal(18,2)"
       nullable: true
@@ -91,19 +91,22 @@ data_quality:
     dimension: "Validity"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "price_fob IS NULL OR price_fob >= 0"
   - rule_id: "USDA_PRICE_DQ_002"
     rule: "location, commodity_class, year, reference_period cannot be null"
     dimension: "Completeness"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "exporter_country IS NOT NULL AND rice_class IS NOT NULL AND year IS NOT NULL AND reference_period IS NOT NULL"
 
 deduplication:
   key:
-    - "location"
-    - "commodity_class"
+    - "exporter_country"
+    - "rice_class"
     - "year"
     - "reference_period"
-    - "statistic_type"
+    - "statistic_description"
+
   strategy: "Timestamp-based survivorship"
   survivorship: "Keep record with most recent _ingestion_timestamp"
   duplicate_action: "Overwrite in Silver"
@@ -122,10 +125,16 @@ quarantine:
 metadata:
   propagated_columns:
     - "_ingestion_run_id"
+    - "_ingestion_batch_id"
+    - "_ingestion_chunk_id"
+    - "_ingestion_timestamp"
+    - "_source_id"
     - "_source_file"
     - "_source_checksum"
     - "_source_snapshot_id"
-    - "_ingestion_timestamp"
+    - "_bronze_iceberg_snapshot_id"
+    - "_source_payload"
+    - "_raw_value"
 
 incremental:
   strategy: "MERGE"

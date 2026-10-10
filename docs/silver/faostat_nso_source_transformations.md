@@ -1,5 +1,7 @@
 # Silver FAOSTAT + NSO — triển khai phần Hoàng
 
+> **Tài liệu giai đoạn trước tích hợp phần A.** Framework hiện đã gọi source DQ, giữ lineage/diagnostics và dùng contracts đã được duyệt; các trạng thái integration và test counts bên dưới là lịch sử. Xem [audit hiện tại](silver_integration_audit.md), [DQ/reconciliation](silver_dq_reconciliation_report.md) và [test results](silver_integration_test_results.md). NSO vẫn blocked; chưa ghi dữ liệu chung.
+
 Ngày xác minh: 10/10/2026. Audit trước thay đổi và proposal tích hợp:
 [`faostat_nso_repository_audit.md`](faostat_nso_repository_audit.md).
 

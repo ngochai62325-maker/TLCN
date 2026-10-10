@@ -184,6 +184,10 @@ def test_nso_matrix_unknown_province_and_unconfirmed_unit_are_visible(spark):
     df = sql_rows(spark, [{"_source_file": "V06.18.csv", "t_nh_th_nh_ph_": "C? NU?C", "so_b_2024": "15"},
                          {"_source_file": "V06.18.csv", "t_nh_th_nh_ph_": "Hà N?i", "so_b_2024": "10"}])
     transformer = NsoVietnamTransformer()
+    # Fixture intentionally represents a one-year source; absent source columns
+    # must never be treated as NULL cells from the recovered 30-year snapshot.
+    transformer.inventory["V06.18.csv"]["measure_columns"] = ["so_b_2024"]
+    transformer.inventory["V06.18.csv"]["source_columns"] = ["t_nh_th_nh_ph_", "so_b_2024"]
     result = transformer.preprocess(df)
     assert result.count() == 2
     assert result.filter(F.col("geography_level") == "national").first().season == "winter_spring"

@@ -56,37 +56,20 @@ class BaseSilverTransformer(ABC):
         run_id: Optional[str] = None,
     ) -> DataFrame:
         """Read data from Bronze Iceberg table with optional incremental filters."""
-        df = self.spark.table(self.source_table)
+        from silver.framework import SilverTransformationFramework
+        return SilverTransformationFramework.filter_input(self.spark.table(self.source_table), mode, watermark, run_id)
 
-        if mode == "incremental":
-            if watermark:
-                logger.info(f"Filtering {self.source_table} with watermark > {watermark}")
-                df = df.filter(F.col("_ingestion_timestamp") > F.lit(watermark))
-            elif run_id:
-                logger.info(f"Filtering {self.source_table} with _ingestion_run_id = {run_id}")
-                df = df.filter(F.col("_ingestion_run_id") == F.lit(run_id))
-
+    @staticmethod
+    def prepare_source(df):
+        if "_source_payload" not in df.columns:
+            df = df.withColumn("_source_payload", F.to_json(F.struct(*[F.col(c) for c in sorted(df.columns) if c != "_bronze_iceberg_snapshot_id"]),
+                                                        {"ignoreNullFields": "false"}))
         return df
 
     def deduplicate(self, df: DataFrame) -> DataFrame:
         """Deduplicate records based on business keys, keeping most recent _ingestion_timestamp."""
-        # Find available timestamp/order column
-        if "_ingestion_timestamp" in df.columns:
-            order_expr = F.col("_ingestion_timestamp").desc_nulls_last()
-        elif "_source_snapshot_id" in df.columns:
-            order_expr = F.col("_source_snapshot_id").desc_nulls_last()
-        elif "_ingestion_run_id" in df.columns:
-            order_expr = F.col("_ingestion_run_id").desc_nulls_last()
-        else:
-            order_expr = F.lit(1)
-        
-        window_spec = Window.partitionBy([F.col(k) for k in self.business_keys]).orderBy(order_expr)
-
-        return (
-            df.withColumn("_row_num", F.row_number().over(window_spec))
-            .filter(F.col("_row_num") == 1)
-            .drop("_row_num")
-        )
+        from silver.engine.merge import IcebergMergeEngine
+        return IcebergMergeEngine(self.spark).deduplicate(df, self.business_keys)
 
     def write_silver(
         self,
@@ -94,42 +77,13 @@ class BaseSilverTransformer(ABC):
         mode: str = "merge",
     ) -> Dict[str, Any]:
         """Write transformed DataFrame to Silver Iceberg table with idempotency guarantee."""
-        # Add technical processing timestamp
-        now_utc = datetime.now(timezone.utc)
-        df_to_write = df.withColumn("_silver_processed_at", F.lit(now_utc))
-
-        record_count = df_to_write.count()
-        logger.info(f"Writing {record_count} records to {self.target_table} in mode '{mode}'")
-
-        if record_count == 0:
-            return {"status": "SUCCESS", "records_written": 0, "target_table": self.target_table}
-
-        # Idempotent MERGE INTO via Spark SQL
-        temp_view = f"temp_silver_{abs(hash(self.target_table))}"
-        df_to_write.createOrReplaceTempView(temp_view)
-
-        join_conditions = " AND ".join([f"target.{k} = source.{k}" for k in self.business_keys])
-
-        merge_sql = f"""
-        MERGE INTO {self.target_table} AS target
-        USING {temp_view} AS source
-        ON {join_conditions}
-        WHEN MATCHED THEN
-            UPDATE SET *
-        WHEN NOT MATCHED THEN
-            INSERT *
-        """
-
-        self.spark.sql(merge_sql)
-        self.spark.catalog.dropTempView(temp_view)
-
-        logger.info(f"Successfully merged {record_count} records into {self.target_table}")
-        return {
-            "status": "SUCCESS",
-            "records_written": record_count,
-            "target_table": self.target_table,
-            "processed_at": now_utc.isoformat(),
-        }
+        from silver.engine.merge import IcebergMergeEngine
+        if mode != "merge":
+            raise ValueError("Only merge writes are supported")
+        count = df.count()
+        result = IcebergMergeEngine(self.spark).merge(df, self.target_table, self.business_keys)
+        return {"status": "SUCCESS", "records_processed": count, "records_written": result["records_changed"],
+                "target_table": self.target_table, "write_result": result}
 
     def execute(
         self,
@@ -138,8 +92,10 @@ class BaseSilverTransformer(ABC):
         run_id: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Run the complete Silver pipeline: Read -> Transform -> Deduplicate -> Write."""
-        logger.info(f"Starting {self.__class__.__name__} execution (mode: {mode})")
-        bronze_df = self.read_bronze(mode=mode, watermark=watermark, run_id=run_id)
-        transformed_df = self.transform(bronze_df)
-        deduped_df = self.deduplicate(transformed_df)
-        return self.write_silver(deduped_df, mode="merge")
+        from uuid import uuid4
+        from silver.framework import SilverTransformationFramework
+        result = SilverTransformationFramework(self.spark).run(
+            self.source_table.rsplit(".", 1)[-1], run_id or uuid4().hex,
+            mode=mode, watermark=watermark, run_id=run_id, transformer=self)
+        result["records_written"] = (result.get("write_result") or {}).get("records_changed", 0)
+        return result

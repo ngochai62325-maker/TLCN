@@ -109,6 +109,27 @@ schema:
       description: "Description of the observation status flag"
       transformation: "cast to string, trim"
 
+    - name: "time_grain"
+      source_column: "time_grain"
+      data_type: "string"
+      nullable: false
+      description: "Preserves source price semantics"
+    - name: "month"
+      source_column: "month"
+      data_type: "int"
+      nullable: true
+      description: "Preserves source price semantics"
+    - name: "currency"
+      source_column: "currency"
+      data_type: "string"
+      nullable: true
+      description: "Preserves source price semantics"
+    - name: "price_kind"
+      source_column: "price_kind"
+      data_type: "string"
+      nullable: false
+      description: "Preserves source price semantics"
+
 normalization:
   country: "Use M49 code."
   commodity: "Use CPC code."
@@ -122,11 +143,13 @@ data_quality:
     dimension: "Validity"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "value IS NULL OR value >= 0"
   - rule_id: "PRICE_DQ_002"
     rule: "country_code, commodity_code, year, month_code, element_code cannot be null"
     dimension: "Completeness"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "country_code IS NOT NULL AND commodity_code IS NOT NULL AND year IS NOT NULL AND month_code IS NOT NULL AND element_code IS NOT NULL"
 
 deduplication:
   key:
@@ -135,6 +158,7 @@ deduplication:
     - "year"
     - "month_code"
     - "element_code"
+
   strategy: "Timestamp-based survivorship"
   survivorship: "Keep record with most recent _ingestion_timestamp"
   duplicate_action: "Overwrite in Silver"
@@ -153,10 +177,16 @@ quarantine:
 metadata:
   propagated_columns:
     - "_ingestion_run_id"
+    - "_ingestion_batch_id"
+    - "_ingestion_chunk_id"
+    - "_ingestion_timestamp"
+    - "_source_id"
     - "_source_file"
     - "_source_checksum"
     - "_source_snapshot_id"
-    - "_ingestion_timestamp"
+    - "_bronze_iceberg_snapshot_id"
+    - "_source_payload"
+    - "_raw_value"
 
 incremental:
   strategy: "MERGE"

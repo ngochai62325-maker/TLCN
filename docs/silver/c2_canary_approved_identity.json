@@ -1,0 +1,775 @@
+{
+  "source": "faostat_production",
+  "target": "iceberg.silver.faostat_production",
+  "snapshot": 3250087836768729857,
+  "inventory": {
+    "qualified_table": "iceberg.bronze.faostat_production",
+    "schema": [
+      {
+        "type": "struct",
+        "schema-id": 0,
+        "fields": [
+          {
+            "id": 1,
+            "name": "domain_code",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 2,
+            "name": "domain",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 3,
+            "name": "area_code_m49_",
+            "required": false,
+            "type": "long"
+          },
+          {
+            "id": 4,
+            "name": "area",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 5,
+            "name": "element_code",
+            "required": false,
+            "type": "long"
+          },
+          {
+            "id": 6,
+            "name": "element",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 7,
+            "name": "item_code_cpc_",
+            "required": false,
+            "type": "long"
+          },
+          {
+            "id": 8,
+            "name": "item",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 9,
+            "name": "year_code",
+            "required": false,
+            "type": "long"
+          },
+          {
+            "id": 10,
+            "name": "year",
+            "required": false,
+            "type": "long"
+          },
+          {
+            "id": 11,
+            "name": "unit",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 12,
+            "name": "value",
+            "required": false,
+            "type": "double"
+          },
+          {
+            "id": 13,
+            "name": "flag",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 14,
+            "name": "flag_description",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 15,
+            "name": "note",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 16,
+            "name": "_ingestion_run_id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 17,
+            "name": "_ingestion_batch_id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 18,
+            "name": "_ingestion_chunk_id",
+            "required": false,
+            "type": "long"
+          },
+          {
+            "id": 19,
+            "name": "_ingestion_timestamp",
+            "required": false,
+            "type": "timestamptz"
+          },
+          {
+            "id": 20,
+            "name": "_source_id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 21,
+            "name": "_source_file",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 22,
+            "name": "_source_checksum",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "id": 23,
+            "name": "_source_snapshot_id",
+            "required": false,
+            "type": "long"
+          }
+        ]
+      }
+    ],
+    "current_snapshot_id": 3250087836768729857,
+    "snapshot_count": 2,
+    "snapshots": [
+      {
+        "sequence-number": 1,
+        "snapshot-id": 4276432520519080109,
+        "timestamp-ms": 1791125905574,
+        "summary": {
+          "operation": "append",
+          "trino_query_id": "20261004_145824_00009_7jnwj",
+          "changed-partition-count": "0",
+          "total-records": "0",
+          "total-files-size": "0",
+          "total-data-files": "0",
+          "total-delete-files": "0",
+          "total-position-deletes": "0",
+          "total-equality-deletes": "0"
+        },
+        "manifest-list": "s3://warehouse/bronze/faostat_production-50c5c86523c24ade81e872a1e45e8960/metadata/snap-4276432520519080109-1-7cecea45-b60b-4644-83e6-f0eb489b81db.avro",
+        "schema-id": 0
+      },
+      {
+        "sequence-number": 2,
+        "snapshot-id": 3250087836768729857,
+        "parent-snapshot-id": 4276432520519080109,
+        "timestamp-ms": 1791125912725,
+        "summary": {
+          "operation": "append",
+          "added-files-size": "126700",
+          "added-data-files": "1",
+          "added-records": "22738",
+          "total-data-files": "1",
+          "total-delete-files": "0",
+          "total-records": "22738",
+          "total-files-size": "126700",
+          "total-position-deletes": "0",
+          "total-equality-deletes": "0"
+        },
+        "manifest-list": "s3://warehouse/bronze/faostat_production-50c5c86523c24ade81e872a1e45e8960/metadata/snap-3250087836768729857-0-698972ed-d30f-458e-81d7-cf8f0678942f.avro",
+        "schema-id": 0
+      }
+    ],
+    "totals": {
+      "rows": 22738,
+      "files": 1,
+      "runs": 1,
+      "checksums": 1,
+      "first_ingestion": "2026-10-04 14:58:23.496 UTC",
+      "last_ingestion": "2026-10-04 14:58:23.496 UTC",
+      "missing_lineage": 0,
+      "unlinked_snapshot_rows": 22738
+    },
+    "files": [
+      {
+        "_source_file": "production_world.csv",
+        "_source_checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+        "_source_snapshot_id": 0,
+        "_ingestion_run_id": "faostat_production_20261004145822_c4ff8851",
+        "rows": 22738
+      }
+    ],
+    "sample": [
+      {
+        "domain_code": "QCL",
+        "domain": "Crops and livestock products",
+        "area_code_m49_": 4,
+        "area": "Afghanistan",
+        "element_code": 5312,
+        "element": "Area harvested",
+        "item_code_cpc_": 113,
+        "item": "Rice",
+        "year_code": 1961,
+        "year": 1961,
+        "unit": "ha",
+        "value": 210000.0,
+        "flag": "A",
+        "flag_description": "Official value",
+        "note": null,
+        "_ingestion_run_id": "faostat_production_20261004145822_c4ff8851",
+        "_ingestion_batch_id": "faostat_production_20261004_c944",
+        "_ingestion_chunk_id": 0,
+        "_ingestion_timestamp": "2026-10-04 14:58:23.496 UTC",
+        "_source_id": "faostat_production",
+        "_source_file": "production_world.csv",
+        "_source_checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+        "_source_snapshot_id": 0
+      },
+      {
+        "domain_code": "QCL",
+        "domain": "Crops and livestock products",
+        "area_code_m49_": 4,
+        "area": "Afghanistan",
+        "element_code": 5412,
+        "element": "Yield",
+        "item_code_cpc_": 113,
+        "item": "Rice",
+        "year_code": 1961,
+        "year": 1961,
+        "unit": "kg/ha",
+        "value": 1519.0,
+        "flag": "A",
+        "flag_description": "Official value",
+        "note": null,
+        "_ingestion_run_id": "faostat_production_20261004145822_c4ff8851",
+        "_ingestion_batch_id": "faostat_production_20261004_c944",
+        "_ingestion_chunk_id": 0,
+        "_ingestion_timestamp": "2026-10-04 14:58:23.496 UTC",
+        "_source_id": "faostat_production",
+        "_source_file": "production_world.csv",
+        "_source_checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+        "_source_snapshot_id": 0
+      },
+      {
+        "domain_code": "QCL",
+        "domain": "Crops and livestock products",
+        "area_code_m49_": 4,
+        "area": "Afghanistan",
+        "element_code": 5510,
+        "element": "Production",
+        "item_code_cpc_": 113,
+        "item": "Rice",
+        "year_code": 1961,
+        "year": 1961,
+        "unit": "t",
+        "value": 319000.0,
+        "flag": "A",
+        "flag_description": "Official value",
+        "note": null,
+        "_ingestion_run_id": "faostat_production_20261004145822_c4ff8851",
+        "_ingestion_batch_id": "faostat_production_20261004_c944",
+        "_ingestion_chunk_id": 0,
+        "_ingestion_timestamp": "2026-10-04 14:58:23.496 UTC",
+        "_source_id": "faostat_production",
+        "_source_file": "production_world.csv",
+        "_source_checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+        "_source_snapshot_id": 0
+      }
+    ],
+    "temporal": {
+      "year": {
+        "minimum": "1961",
+        "maximum": "2024",
+        "nonnull": 22738
+      }
+    }
+  },
+  "preview": {
+    "dataset": "faostat_production",
+    "bronze_count": 22738,
+    "observation_count": 22738,
+    "valid_count": 22738,
+    "quarantine_count": 0,
+    "dedup_count": 22738,
+    "deduplicated_count": 0,
+    "excluded_count": 0,
+    "excluded_columns": [],
+    "eligible_observation_count": 22738,
+    "target_table": "iceberg.silver.faostat_production",
+    "writes_performed": false,
+    "dq_errors": {},
+    "warning_count": 22738,
+    "null_values": {
+      "value": 229
+    },
+    "status": "PREVIEW_VALIDATED",
+    "output_schema": {
+      "type": "struct",
+      "fields": [
+        {
+          "name": "domain_code",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "country_code",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "country_name",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "element_code",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "element",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "commodity_code",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "commodity_name",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "value",
+          "type": "decimal(18,2)",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "flag",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "flag_description",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_ingestion_run_id",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_ingestion_batch_id",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_ingestion_chunk_id",
+          "type": "long",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_ingestion_timestamp",
+          "type": "timestamp",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_source_id",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_source_file",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_source_checksum",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_source_snapshot_id",
+          "type": "long",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_bronze_iceberg_snapshot_id",
+          "type": "long",
+          "nullable": false,
+          "metadata": {}
+        },
+        {
+          "name": "_source_payload",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_raw_value",
+          "type": "string",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_negative_value",
+          "type": "boolean",
+          "nullable": false,
+          "metadata": {}
+        },
+        {
+          "name": "_country_mapping_status",
+          "type": "string",
+          "nullable": false,
+          "metadata": {}
+        },
+        {
+          "name": "_value_parse_error",
+          "type": "boolean",
+          "nullable": false,
+          "metadata": {}
+        },
+        {
+          "name": "_unit_mapping_valid",
+          "type": "boolean",
+          "nullable": true,
+          "metadata": {}
+        },
+        {
+          "name": "_conversion_overflow",
+          "type": "boolean",
+          "nullable": false,
+          "metadata": {}
+        },
+        {
+          "name": "_contract_cast_error",
+          "type": "boolean",
+          "nullable": false,
+          "metadata": {}
+        },
+        {
+          "name": "dq_warnings",
+          "type": {
+            "type": "array",
+            "elementType": {
+              "type": "struct",
+              "fields": [
+                {
+                  "name": "rule_id",
+                  "type": "string",
+                  "nullable": false,
+                  "metadata": {}
+                },
+                {
+                  "name": "error_message",
+                  "type": "string",
+                  "nullable": false,
+                  "metadata": {}
+                },
+                {
+                  "name": "failed_column",
+                  "type": "string",
+                  "nullable": false,
+                  "metadata": {}
+                }
+              ]
+            },
+            "containsNull": true
+          },
+          "nullable": false,
+          "metadata": {}
+        }
+      ]
+    },
+    "bronze_iceberg_snapshot_id": 3250087836768729857,
+    "baseline_comparison": {
+      "bronze_count": {
+        "previous": 22738,
+        "actual": 22738,
+        "matches": true
+      },
+      "dedup_count": {
+        "previous": 22738,
+        "actual": 22738,
+        "matches": true
+      },
+      "quarantine_count": {
+        "previous": 0,
+        "actual": 0,
+        "matches": true
+      },
+      "excluded_count": {
+        "previous": 0,
+        "actual": 0,
+        "matches": true
+      },
+      "deduplicated_count": {
+        "previous": 0,
+        "actual": 0,
+        "matches": true
+      }
+    }
+  },
+  "contract": {
+    "dataset": {
+      "name": "FAOSTAT Production (Silver)",
+      "source_id": "faostat_production",
+      "source_system": "FAOSTAT",
+      "bronze_input": "iceberg.bronze.faostat_production",
+      "silver_output": "iceberg.silver.faostat_production"
+    },
+    "status": "READY",
+    "keys": [
+      "country_code",
+      "commodity_code",
+      "year",
+      "element_code"
+    ],
+    "columns": [
+      {
+        "name": "domain_code",
+        "source_column": "Domain Code",
+        "data_type": "string",
+        "nullable": false,
+        "description": "FAOSTAT domain code",
+        "transformation": "cast to string, trim"
+      },
+      {
+        "name": "domain",
+        "source_column": "Domain",
+        "data_type": "string",
+        "nullable": false,
+        "description": "FAOSTAT domain description",
+        "transformation": "cast to string, trim"
+      },
+      {
+        "name": "country_code",
+        "source_column": "Area Code (M49)",
+        "data_type": "string",
+        "nullable": false,
+        "description": "M49 Area Code",
+        "transformation": "cast to string, trim, pad with leading zeros if needed to ensure standard 3-digit length (e.g., '004' instead of '4')",
+        "standardization_rule": "reference to canonical dim_country if available"
+      },
+      {
+        "name": "country_name",
+        "source_column": "Area",
+        "data_type": "string",
+        "nullable": false,
+        "description": "Country or Area name",
+        "transformation": "cast to string, trim"
+      },
+      {
+        "name": "element_code",
+        "source_column": "Element Code",
+        "data_type": "string",
+        "nullable": false,
+        "description": "Indicator element code (e.g., 5312 for Area harvested, 5510 for Production)",
+        "transformation": "cast to string, trim"
+      },
+      {
+        "name": "element",
+        "source_column": "Element",
+        "data_type": "string",
+        "nullable": false,
+        "description": "Indicator description",
+        "transformation": "cast to string, trim"
+      },
+      {
+        "name": "commodity_code",
+        "source_column": "Item Code (CPC)",
+        "data_type": "string",
+        "nullable": false,
+        "description": "CPC Item Code",
+        "transformation": "cast to string, trim",
+        "standardization_rule": "reference to canonical dim_commodity if available"
+      },
+      {
+        "name": "commodity_name",
+        "source_column": "Item",
+        "data_type": "string",
+        "nullable": false,
+        "description": "Commodity description",
+        "transformation": "cast to string, trim"
+      },
+      {
+        "name": "year",
+        "source_column": "Year",
+        "data_type": "integer",
+        "nullable": false,
+        "description": "Reference year",
+        "transformation": "cast to integer"
+      },
+      {
+        "name": "unit",
+        "source_column": "Unit",
+        "data_type": "string",
+        "nullable": true,
+        "description": "Unit of measurement (ha, kg/ha, t, etc.)",
+        "transformation": "cast to string, trim, convert to lower case standard"
+      },
+      {
+        "name": "value",
+        "source_column": "Value",
+        "data_type": "decimal(18,2)",
+        "nullable": true,
+        "description": "The actual production or area value",
+        "transformation": "cast to decimal, invalid values treated as NULL (or quarantined based on strictness)"
+      },
+      {
+        "name": "flag",
+        "source_column": "Flag",
+        "data_type": "string",
+        "nullable": true,
+        "description": "Observation status flag",
+        "transformation": "cast to string, trim"
+      },
+      {
+        "name": "flag_description",
+        "source_column": "Flag Description",
+        "data_type": "string",
+        "nullable": true,
+        "description": "Description of the observation status flag",
+        "transformation": "cast to string, trim"
+      }
+    ],
+    "rules": [
+      {
+        "rule_id": "PROD_DQ_001",
+        "rule": "Value must be non-negative",
+        "dimension": "Validity",
+        "severity": "ERROR",
+        "threshold": "100%",
+        "action": "QUARANTINE",
+        "sql_expr": "value IS NULL OR value >= 0"
+      },
+      {
+        "rule_id": "PROD_DQ_002",
+        "rule": "Year must be <= current_year + 1 and >= 1960",
+        "dimension": "Temporal Validity",
+        "severity": "ERROR",
+        "threshold": "100%",
+        "action": "QUARANTINE",
+        "sql_expr": "year BETWEEN 1960 AND year(current_date()) + 1"
+      },
+      {
+        "rule_id": "PROD_DQ_003",
+        "rule": "country_code, commodity_code, year, element_code cannot be null",
+        "dimension": "Completeness",
+        "severity": "ERROR",
+        "threshold": "100%",
+        "action": "QUARANTINE",
+        "sql_expr": "country_code IS NOT NULL AND commodity_code IS NOT NULL AND year IS NOT NULL AND element_code IS NOT NULL"
+      }
+    ]
+  },
+  "manifests": [
+    {
+      "uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-04/run_id=faostat_production_20261004145822_c4ff8851/manifest.json",
+      "content": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-04T14:58:22.828861+00:00",
+        "source_id": "faostat_production",
+        "run_id": "faostat_production_20261004145822_c4ff8851",
+        "batch_id": "faostat_production_20261004_c944",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-04/run_id=faostat_production_20261004145822_c4ff8851/production_world.csv",
+          "format": "CSV",
+          "size_bytes": 3292244,
+          "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+        },
+        "source_metadata": {
+          "provider": "FAOSTAT",
+          "dataset": "Production_Crops_Livestock_E_All_Data_(Normalized)",
+          "uri": "https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip",
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 22738,
+          "chunks_processed": 1,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-04T14:58:22.828838+00:00",
+          "completed_at": "2026-10-04T14:58:33.323682+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      }
+    }
+  ],
+  "current_code_sha256": {
+    "contracts/silver/faostat_production.yaml": "19f1c4bc77132103b10ce726d7f32baff5d150a3641f47b72745bddfaf229466",
+    "src/silver/transformers/faostat_production.py": "c5fec0f00a00a0e99d1534b749f0efc34619fab526e831a37fc0d10ea4cc6d15",
+    "src/silver/transformers/faostat_source.py": "5210e72f82cf33563f7c1342662c10b6416edc566cbea6625e6ef7b6f267e913",
+    "src/silver/framework.py": "0997c9f3168a4d3db2bfa6ef99da8177050f8f446554723b9549135ee327567a",
+    "src/silver/engine/quality.py": "3814caa3751b0aef5372f8b24549bacd6c770915b1ffd95ba7658cf337fc7884",
+    "src/silver/engine/merge.py": "f40dc734f915ab3f4e07ba439ba134dd565bd4f5abd8c9210cc7dcba104851c7",
+    "src/silver/engine/quarantine.py": "9ce665197a6198a8bdbdfb51d0843d232c7f97f161d5c4788f30ed39a665284c",
+    "src/silver/contract/loader.py": "2326dc7cfbc0377a646f8449c2a07fd5e9a1ab3fea8cb031ecb180c152e79ecf",
+    "jobs/silver/run_all_silver.py": "47554464e88b982a9701a28817119675337c3951f34f0e50ea038c6ac7981534",
+    "jobs/silver/spark_api_server.py": "c1d508dbad0d80b347ec9c21ce9c3c467fc0662f8a459323cd12dd2e872ffcc4",
+    "src/ingestion/storage/metadata_repository.py": "dfac5b115da0584c69ded941355bb421dcc39214260e53390bcb8b2d40948619"
+  }
+}

@@ -1,5 +1,7 @@
 # Audit Silver FAOSTAT + NSO — 10/10/2026
 
+> **Audit lịch sử trước phần A.** Sau khi người dùng duyệt phần A, framework/contracts/DAG đã được tích hợp và kiểm thử isolated. Các mô tả lỗi dưới đây ghi lại trạng thái trước sửa; xem [audit tích hợp hiện tại](silver_integration_audit.md), [coverage](bronze_silver_coverage_matrix.md) và [kết quả kiểm thử](silver_integration_test_results.md). Live Silver vẫn chưa được ghi; NSO recovery và shared E2E chưa được duyệt.
+
 ## Repository và bằng chứng
 
 - Root: `TLCN`; branch `feat_silver_role2`; working tree sạch trước khi làm việc.

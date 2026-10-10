@@ -72,16 +72,19 @@ data_quality:
     dimension: "Completeness"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "country IS NOT NULL AND commodity IS NOT NULL AND attribute IS NOT NULL AND market_year IS NOT NULL"
   - rule_id: "PSD_DQ_002"
     rule: "market_year must be between 1950 and 2050"
     dimension: "Validity"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "market_year BETWEEN 1950 AND 2050"
   - rule_id: "PSD_DQ_003"
     rule: "value must be non-negative if not null"
     dimension: "Validity"
     severity: "WARNING"
     action: "LOG"
+    sql_expr: "value IS NULL OR value >= 0"
 
 deduplication:
   key:
@@ -89,6 +92,7 @@ deduplication:
     - "commodity"
     - "attribute"
     - "market_year"
+
   strategy: "Timestamp-based survivorship"
   survivorship: "Keep record with most recent _ingestion_timestamp"
   duplicate_action: "Overwrite in Silver"
@@ -107,10 +111,16 @@ quarantine:
 metadata:
   propagated_columns:
     - "_ingestion_run_id"
+    - "_ingestion_batch_id"
+    - "_ingestion_chunk_id"
+    - "_ingestion_timestamp"
+    - "_source_id"
     - "_source_file"
     - "_source_checksum"
     - "_source_snapshot_id"
-    - "_ingestion_timestamp"
+    - "_bronze_iceberg_snapshot_id"
+    - "_source_payload"
+    - "_raw_value"
 
 incremental:
   strategy: "MERGE"

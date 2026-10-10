@@ -7,7 +7,8 @@ def test_dag_loaded_and_dependencies():
     assert not dagbag.import_errors, f"DAG import errors: {dagbag.import_errors}"
     
     dag_id = "rice_lakehouse_ingestion"
-    dag = dagbag.get_dag(dag_id)
+    # Inspect the imported graph without querying an Airflow metadata database.
+    dag = dagbag.dags.get(dag_id)
     
     assert dag is not None, f"DAG {dag_id} not found"
     
@@ -29,9 +30,16 @@ def test_dag_loaded_and_dependencies():
     end_all = dag.get_task("end_lakehouse_ingestion")
     assert end_all.task_id in silver_faostat.downstream_task_ids
     
-    # Check another source (e.g., usda_psd) to ensure silver is NOT created for it
+    # Every business source has Silver dependency; fixtures remain manual tests.
     ingest_usda = dag.get_task("ingest_usda_psd")
     assert ingest_usda is not None
-    assert end_all.task_id in ingest_usda.downstream_task_ids
+    assert "silver_usda_psd" in ingest_usda.downstream_task_ids
     with pytest.raises(Exception):
-        dag.get_task("silver_usda_psd")
+        dag.get_task("ingest_faostat_trade_validation")
+    from silver.registry import TRANSFORMERS
+    for source in TRANSFORMERS:
+        assert f"ingest_{source}" in dag.get_task(f"silver_{source}").upstream_task_ids
+    silver = dagbag.dags.get("rice_lakehouse_silver_pipeline")
+    transforms = [task for task in silver.tasks if task.task_id.startswith("transform_")]
+    assert len(transforms) == len(TRANSFORMERS) == 9
+    assert "publish_silver_signal" in silver.get_task("silver_data_quality_audit").downstream_task_ids

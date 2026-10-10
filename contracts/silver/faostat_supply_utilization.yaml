@@ -113,11 +113,13 @@ data_quality:
     dimension: "Validity"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "value IS NULL OR value >= 0 OR element_code = '5071'"
   - rule_id: "SUA_DQ_002"
     rule: "country_code, commodity_code, year, element_code cannot be null"
     dimension: "Completeness"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "country_code IS NOT NULL AND commodity_code IS NOT NULL AND year IS NOT NULL AND element_code IS NOT NULL"
 
 deduplication:
   key:
@@ -125,6 +127,7 @@ deduplication:
     - "commodity_code"
     - "year"
     - "element_code"
+
   strategy: "Timestamp-based survivorship"
   survivorship: "Keep record with most recent _ingestion_timestamp"
   duplicate_action: "Overwrite in Silver"
@@ -143,10 +146,16 @@ quarantine:
 metadata:
   propagated_columns:
     - "_ingestion_run_id"
+    - "_ingestion_batch_id"
+    - "_ingestion_chunk_id"
+    - "_ingestion_timestamp"
+    - "_source_id"
     - "_source_file"
     - "_source_checksum"
     - "_source_snapshot_id"
-    - "_ingestion_timestamp"
+    - "_bronze_iceberg_snapshot_id"
+    - "_source_payload"
+    - "_raw_value"
 
 incremental:
   strategy: "MERGE"

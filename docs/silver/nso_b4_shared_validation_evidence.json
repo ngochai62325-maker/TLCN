@@ -1,0 +1,927 @@
+{
+  "observed_at": "2026-10-10T13:55:02.630801+00:00",
+  "status": "B4_COMPLETE_AND_VERIFIED",
+  "overall_silver_status": "PARTIALLY_COMPLETE",
+  "authorization_scope": "iceberg.bronze.nso_vietnam only; user conditional Phase B4 approval",
+  "target": "iceberg.bronze.nso_vietnam",
+  "checks": {
+    "preflight_matches_approved_plan": true,
+    "source_lock_held": true,
+    "no_active_nso_during_execution": true,
+    "atomic_recovery_validated": true,
+    "native_trino_full_cells_equal": true,
+    "exact_counts": true,
+    "protected_state_unchanged": true,
+    "noop_and_metadata_unchanged": true,
+    "schema_files_rollback_verified": true,
+    "repair_identity_on_new_snapshots": true,
+    "13_source_files_checksums_and_lineage": true,
+    "written_objects_within_nso_table": true
+  },
+  "shared_recovery": {
+    "status": "RECOVERED",
+    "snapshot_before": 8554544144555949741,
+    "snapshot_after": 3499764399995403202,
+    "rows": 833,
+    "schema_fields": 49
+  },
+  "schema_id_before": 0,
+  "schema_id_after": 1,
+  "schema_fields_before": 18,
+  "schema_fields_after": 49,
+  "archive_sha256": "eb231503f3a1051d226100c699983c7f1b420f11e205cc1e419a90373f5d700d",
+  "source_files": [
+    {
+      "file": "V06.12.csv",
+      "sha256": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb",
+      "rows": 71,
+      "numeric_cells": 0,
+      "missing_marker_cells": 0,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "0",
+        "_ingestion_timestamp": "2026-10-04 14:58:36.678308+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.12.csv",
+        "_source_checksum": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.13.csv",
+      "sha256": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110",
+      "rows": 72,
+      "numeric_cells": 2086,
+      "missing_marker_cells": 44,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "1",
+        "_ingestion_timestamp": "2026-10-04 14:58:38.793498+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.13.csv",
+        "_source_checksum": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.14.csv",
+      "sha256": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc",
+      "rows": 72,
+      "numeric_cells": 2086,
+      "missing_marker_cells": 44,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "2",
+        "_ingestion_timestamp": "2026-10-04 14:58:39.714269+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.14.csv",
+        "_source_checksum": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.15.csv",
+      "sha256": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7",
+      "rows": 72,
+      "numeric_cells": 2086,
+      "missing_marker_cells": 44,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "3",
+        "_ingestion_timestamp": "2026-10-04 14:58:40.569032+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.15.csv",
+        "_source_checksum": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.16.csv",
+      "sha256": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5",
+      "rows": 72,
+      "numeric_cells": 2073,
+      "missing_marker_cells": 57,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "4",
+        "_ingestion_timestamp": "2026-10-04 14:58:41.332122+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.16.csv",
+        "_source_checksum": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.17.csv",
+      "sha256": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be",
+      "rows": 72,
+      "numeric_cells": 2073,
+      "missing_marker_cells": 57,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "5",
+        "_ingestion_timestamp": "2026-10-04 14:58:41.936022+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.17.csv",
+        "_source_checksum": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.18.csv",
+      "sha256": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84",
+      "rows": 72,
+      "numeric_cells": 2073,
+      "missing_marker_cells": 57,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "6",
+        "_ingestion_timestamp": "2026-10-04 14:58:42.745426+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.18.csv",
+        "_source_checksum": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.19.csv",
+      "sha256": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6",
+      "rows": 38,
+      "numeric_cells": 1059,
+      "missing_marker_cells": 51,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "7",
+        "_ingestion_timestamp": "2026-10-04 14:58:43.890361+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.19.csv",
+        "_source_checksum": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.20.csv",
+      "sha256": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8",
+      "rows": 38,
+      "numeric_cells": 1056,
+      "missing_marker_cells": 54,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "8",
+        "_ingestion_timestamp": "2026-10-04 14:58:45.267604+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.20.csv",
+        "_source_checksum": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.21.csv",
+      "sha256": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab",
+      "rows": 38,
+      "numeric_cells": 1058,
+      "missing_marker_cells": 52,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "9",
+        "_ingestion_timestamp": "2026-10-04 14:58:46.536554+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.21.csv",
+        "_source_checksum": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.22.csv",
+      "sha256": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7",
+      "rows": 72,
+      "numeric_cells": 1968,
+      "missing_marker_cells": 162,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "10",
+        "_ingestion_timestamp": "2026-10-04 14:58:47.559499+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.22.csv",
+        "_source_checksum": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.23.csv",
+      "sha256": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76",
+      "rows": 72,
+      "numeric_cells": 1968,
+      "missing_marker_cells": 162,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "11",
+        "_ingestion_timestamp": "2026-10-04 14:58:48.432040+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.23.csv",
+        "_source_checksum": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76",
+        "_source_snapshot_id": "0"
+      }
+    },
+    {
+      "file": "V06.24.csv",
+      "sha256": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b",
+      "rows": 72,
+      "numeric_cells": 1968,
+      "missing_marker_cells": 162,
+      "lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+        "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+        "_ingestion_chunk_id": "12",
+        "_ingestion_timestamp": "2026-10-04 14:58:49.074188+00:00",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.24.csv",
+        "_source_checksum": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b",
+        "_source_snapshot_id": "0"
+      }
+    }
+  ],
+  "post_commit_cells": {
+    "nonnull": 22500,
+    "numeric": 21554,
+    "missing_markers": 946
+  },
+  "preserved_state": {
+    "ingestion_runs": true,
+    "source_snapshots": true,
+    "source_watermarks": true,
+    "ingestion_checkpoints": true,
+    "dead_letter_records": true,
+    "raw_objects": true,
+    "dags_paused": true,
+    "other_catalog_tables": true,
+    "original_snapshots": true
+  },
+  "source_lock_acquired": true,
+  "source_lock_released": true,
+  "trino_full_cell_comparison": {
+    "rows": 833,
+    "fields": 49,
+    "timestamp_read": "server-side varchar retains microseconds",
+    "full_cell_multiset_matches_pyiceberg": true
+  },
+  "trino_schema": [
+    {
+      "Column": "gi_tr_v_ch_s_ph_t_tri_n",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "nam",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "t_ng_di_n_t_ch_ngh_n_ha_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "di_n_t_ch_l_a_h_thu_ngh_n_ha_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "di_n_t_ch_l_a_m_a_ngh_n_ha_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "t_ng_s_n_lu_ng_ngh_n_t_n_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "s_n_lu_ng_l_a_h_thu_ngh_n_t_n_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "s_n_lu_ng_l_a_m_a_ngh_n_t_n_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_run_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_batch_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_chunk_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_timestamp",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_file",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_checksum",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_1995",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_1996",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_1997",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_1998",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_1999",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2000",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2001",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2002",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2003",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2004",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2005",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2006",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2007",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2008",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2009",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2010",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2011",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2012",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2013",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2014",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2015",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2016",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2017",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2018",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2019",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2020",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2021",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2022",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2023",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "so_b_2024",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "t_nh_th_nh_ph_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    }
+  ],
+  "noop_result": {
+    "status": "NOOP",
+    "snapshot_before": 3499764399995403202,
+    "snapshot_after": 3499764399995403202
+  },
+  "noop_validation": {
+    "rerun_status_noop": true,
+    "rerun_no_shared_write": true,
+    "snapshot_unchanged": true,
+    "metadata_location_unchanged": true,
+    "catalog_inventory_unchanged": true,
+    "source_lock_released": true,
+    "dags_still_paused": true,
+    "no_active_runs_or_tasks": true
+  },
+  "snapshot_history_before": 14,
+  "snapshot_history_after": 16,
+  "new_snapshots_in_single_catalog_commit": [
+    {
+      "snapshot-id": 2995248014055073657,
+      "parent-snapshot-id": 8554544144555949741,
+      "sequence-number": 15,
+      "timestamp-ms": 1791639994685,
+      "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-2995248014055073657-0-c09f581f-0381-47d5-b787-b4d63030f284.avro",
+      "summary": {
+        "operation": "delete",
+        "removed-files-size": "120624",
+        "deleted-data-files": "13",
+        "deleted-records": "833",
+        "repair-id": "nso-eb231503f3a1051d",
+        "repair-kind": "nso-raw-matrix-recovery",
+        "total-data-files": "0",
+        "total-delete-files": "0",
+        "total-records": "0",
+        "total-files-size": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0"
+      },
+      "schema-id": 1
+    },
+    {
+      "snapshot-id": 3499764399995403202,
+      "parent-snapshot-id": 2995248014055073657,
+      "sequence-number": 16,
+      "timestamp-ms": 1791639994859,
+      "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-3499764399995403202-0-39a4103f-2e5c-46cb-bd71-bbf55f4fc680.avro",
+      "summary": {
+        "operation": "append",
+        "added-files-size": "104403",
+        "added-data-files": "1",
+        "added-records": "833",
+        "repair-id": "nso-eb231503f3a1051d",
+        "repair-kind": "nso-raw-matrix-recovery",
+        "total-data-files": "1",
+        "total-delete-files": "0",
+        "total-records": "833",
+        "total-files-size": "104403",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0"
+      },
+      "schema-id": 1
+    }
+  ],
+  "repair_id": "nso-eb231503f3a1051d",
+  "written_data_files": [
+    {
+      "path": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-39a4103f-2e5c-46cb-bd71-bbf55f4fc680.parquet",
+      "rows": 833,
+      "bytes": 104403
+    }
+  ],
+  "written_objects": [
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-39a4103f-2e5c-46cb-bd71-bbf55f4fc680.parquet",
+      "bytes": 104403,
+      "etag": "\"4cbdf68a0f5f68c39a076934ca0a3be4-1\"",
+      "last_modified": "2026-10-10 13:46:34.754000+00:00"
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/00014-e318f6a9-9431-4bba-9923-7487598af010.metadata.json",
+      "bytes": 23982,
+      "etag": "\"fdcc30be5c5b12d36b57c12bdd67a495\"",
+      "last_modified": "2026-10-10 13:46:35.164000+00:00"
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/39a4103f-2e5c-46cb-bd71-bbf55f4fc680-m0.avro",
+      "bytes": 8181,
+      "etag": "\"af1e8f28bf206da243cbce1eff453887-1\"",
+      "last_modified": "2026-10-10 13:46:34.802000+00:00"
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/c09f581f-0381-47d5-b787-b4d63030f284-m0.avro",
+      "bytes": 12086,
+      "etag": "\"7f335d618201ef1e6063c24f34065f7a-1\"",
+      "last_modified": "2026-10-10 13:46:34.626000+00:00"
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-2995248014055073657-0-c09f581f-0381-47d5-b787-b4d63030f284.avro",
+      "bytes": 1826,
+      "etag": "\"a656d9d7f966434f45c22111803f9b54-1\"",
+      "last_modified": "2026-10-10 13:46:34.676000+00:00"
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-3499764399995403202-0-39a4103f-2e5c-46cb-bd71-bbf55f4fc680.avro",
+      "bytes": 1821,
+      "etag": "\"d95d12eb11105d22bacf168ec928cd21-1\"",
+      "last_modified": "2026-10-10 13:46:34.850000+00:00"
+    }
+  ],
+  "rollback_readiness": {
+    "snapshot_before": 8554544144555949741,
+    "snapshot_after": 3499764399995403202,
+    "baseline_files_retained": true,
+    "baseline_snapshot_retained": true,
+    "nullable_schema_retained_on_rollback": true,
+    "rollback_executed": false,
+    "requires_current_snapshot_guard_and_user_decision": true
+  },
+  "baseline_file_heads_verified": [
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-05823461-6332-4e51-91e1-513b4171d75a.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-0824722c-785a-48a5-8f26-bafc34aea806.parquet",
+      "bytes": 8938,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-0ee83d6b-975c-4562-91b1-4926defd74c4.parquet",
+      "bytes": 9049,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-1dc83423-b27b-4d28-b0fd-73ba1c0057fc.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-34caa84b-8d1f-4d08-9b57-1b0cdb81ce7d.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-42eb93ec-acb4-4c4c-b24a-e9a3fc1b959d.parquet",
+      "bytes": 9051,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-517e31dd-f8e0-442f-9905-88dfdf1ab948.parquet",
+      "bytes": 8937,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-521a666f-cf46-46d4-9bb7-993f6e5e1c57.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-80e20280-0aa3-4143-976e-4e5bc510699b.parquet",
+      "bytes": 12362,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-9b83c7d5-2596-4ad0-8ade-a74996caa899.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-aa6ed4a1-40e8-437b-85d6-a561a1d34892.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-c1a91f63-2852-4d15-b865-51654aefc506.parquet",
+      "bytes": 8937,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-f223143c-5da5-4b26-a976-14929840164c.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    }
+  ],
+  "phase_e_profile": {
+    "national_rows": 71,
+    "national_statistic_labels": [
+      {
+        "label": "Giá tr?",
+        "rows": 35
+      },
+      {
+        "label": "Ch? s? phát tri?n (Nam tru?c =100) - %",
+        "rows": 35
+      },
+      {
+        "label": null,
+        "rows": 1
+      }
+    ],
+    "national_periods": [
+      "1990",
+      "1991",
+      "1992",
+      "1993",
+      "1994",
+      "1995",
+      "1996",
+      "1997",
+      "1998",
+      "1999",
+      "2000",
+      "2001",
+      "2002",
+      "2003",
+      "2004",
+      "2005",
+      "2006",
+      "2007",
+      "2008",
+      "2009",
+      "2010",
+      "2011",
+      "2012",
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "So b? 2024"
+    ],
+    "national_null_period_rows": 1,
+    "national_null_period_examples": [
+      {
+        "nam": null,
+        "gi_tr_v_ch_s_ph_t_tri_n": null,
+        "t_ng_di_n_t_ch_ngh_n_ha_": null,
+        "di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_": null,
+        "di_n_t_ch_l_a_h_thu_ngh_n_ha_": null,
+        "di_n_t_ch_l_a_m_a_ngh_n_ha_": null,
+        "t_ng_s_n_lu_ng_ngh_n_t_n_": null,
+        "s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_": null,
+        "s_n_lu_ng_l_a_h_thu_ngh_n_t_n_": null,
+        "s_n_lu_ng_l_a_m_a_ngh_n_t_n_": null
+      }
+    ],
+    "national_nonnull_measure_cells": 560,
+    "matrix_rows": 762,
+    "matrix_null_measure_cells": 360,
+    "matrix_unique_raw_labels": [
+      "An Giang",
+      "B?c Giang",
+      "B?c K?n",
+      "B?c Liêu",
+      "B?c Ninh",
+      "B?c Trung B? và Duyên h?i mi?n Trung",
+      "B?n Tre",
+      "Bà R?a - Vtng Tàu",
+      "Bình Duong",
+      "Bình Phu?c",
+      "Bình Thu?n",
+      "Bình Ð?nh",
+      "C? NU?C",
+      "C?n Tho",
+      "Cao B?ng",
+      "Cà Mau",
+      "Gia Lai",
+      "H?i Duong",
+      "H?i Phòng",
+      "H?u Giang",
+      "Hoà Bình",
+      "Hung Yên",
+      "Hà Giang",
+      "Hà N?i",
+      "Hà Nam",
+      "Hà Tinh",
+      "Hà Tây",
+      "Khánh Hoà",
+      "Kiên Giang",
+      "Kon Tum",
+      "L?ng Son",
+      "Lai Châu",
+      "Long An",
+      "Lào Cai",
+      "Lâm Ð?ng",
+      "Nam Ð?nh",
+      "Ngh? An",
+      "Ninh Bình",
+      "Ninh Thu?n",
+      "Phú Th?",
+      "Phú Yên",
+      "Qu?ng Bình",
+      "Qu?ng Nam",
+      "Qu?ng Ngãi",
+      "Qu?ng Ninh",
+      "Qu?ng Tr?",
+      "Son La",
+      "Sóc Trang",
+      "TP.H? Chí Minh",
+      "Th?a Thiên Hu?",
+      "Thanh Hoá",
+      "Thái Bình",
+      "Thái Nguyên",
+      "Ti?n Giang",
+      "Trung du và mi?n núi phía B?c",
+      "Trà Vinh",
+      "Tuyên Quang",
+      "Tây Nguyên",
+      "Tây Ninh",
+      "Vinh Long",
+      "Vinh Phúc",
+      "Yên Bái",
+      "Ð?k L?k",
+      "Ð?k Nông",
+      "Ð?ng Nai",
+      "Ð?ng Tháp",
+      "Ð?ng b?ng sông C?u Long",
+      "Ð?ng b?ng sông H?ng",
+      "Ði?n Biên",
+      "Ðà N?ng",
+      "Ðông Nam B?"
+    ],
+    "provisional_2024_nonnull_cells": 750
+  },
+  "silver_namespace_present": false,
+  "dags": [
+    [
+      "rice_lakehouse_ingestion",
+      true
+    ],
+    [
+      "rice_lakehouse_silver_pipeline",
+      true
+    ]
+  ],
+  "active_tasks": [],
+  "logs": [
+    "nso_b4_execute.log",
+    "nso_b4_post_commit.log",
+    "nso_b4_noop.log",
+    "nso_b4_noop_validation.log",
+    "nso_b4_file_and_schema.log",
+    "nso_b4_regression.log"
+  ]
+}

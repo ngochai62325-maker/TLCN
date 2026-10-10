@@ -1,0 +1,20 @@
+{
+  "dags": [
+    [
+      "rice_lakehouse_ingestion",
+      true
+    ],
+    [
+      "rice_lakehouse_silver_pipeline",
+      true
+    ]
+  ],
+  "dag_runs": [
+    [
+      "rice_lakehouse_ingestion",
+      "success",
+      2
+    ]
+  ],
+  "active_task_instances": []
+}

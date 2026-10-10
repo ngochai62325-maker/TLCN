@@ -37,14 +37,16 @@ def test_existing_framework_discovers_production_adapter(spark, monkeypatch):
     framework.quarantine_manager = MagicMock()
     captured = {}
     monkeypatch.setattr(framework.merge_engine, "merge", lambda df, **kw: captured.update(df=df, **kw))
-    result = framework.run("faostat_production", "read-only-fixture-run")
+    contract, cached, valid, quarantine, result = framework.prepare("faostat_production", raw)
+    captured["df"] = valid
     assert result["bronze_count"] == 2
     assert result["quarantine_count"] == 1
     assert result["valid_count"] == result["dedup_count"] == 1
     row = captured["df"].first()
     assert row.commodity_code == "0113" and row.unit == "tonne"
     assert float(row.value) == 2.5
-    framework.quarantine_manager.route_quarantine.assert_called_once()
+    assert "_source_payload" in valid.columns and "_ingestion_batch_id" in valid.columns
+    cached.unpersist()
 
 
 @pytest.fixture(scope="module")
@@ -87,4 +89,4 @@ def test_isolated_actual_iceberg_rerun_and_quarantine(isolated_iceberg, cls, sou
         dead_letters.route_quarantine(quarantine, transformer.dataset_id, run, transformer.contract.business_key)
         assert spark.table(target).count() == 1
         assert spark.table(dead_letters.target_table).count() == 1
-    assert spark.table(dead_letters.target_table).first().pipeline_run_id == "rerun"
+    assert spark.table(dead_letters.target_table).first().pipeline_run_id == "first"

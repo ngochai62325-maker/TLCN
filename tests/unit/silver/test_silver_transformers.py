@@ -85,7 +85,7 @@ class TestFaostatTradeTransformer:
         # Check aggregate row
         row_world = [r for r in result_df if r.reporter_country_name == "World"][0]
         assert row_world.is_reporter_aggregate is True
-        assert row_world.value is None  # negative value converted to null
+        assert row_world.value == -10.0  # preserve raw sign so shared DQ can quarantine
 
 
 class TestUsdaPsdTransformer:

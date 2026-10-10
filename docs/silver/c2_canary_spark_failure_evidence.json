@@ -1,0 +1,64 @@
+﻿{
+    "State":  {
+                  "Status":  "exited",
+                  "Running":  false,
+                  "Paused":  false,
+                  "Restarting":  false,
+                  "OOMKilled":  false,
+                  "Dead":  false,
+                  "Pid":  0,
+                  "ExitCode":  0,
+                  "Error":  "",
+                  "StartedAt":  "2026-10-10T15:49:15.074011143Z",
+                  "FinishedAt":  "2026-10-10T15:49:25.770042983Z"
+              },
+    "Entrypoint":  [
+                       "./entrypoint.sh"
+                   ],
+    "Command":  [
+                    "bash",
+                    "-c",
+                    "python3 /home/iceberg/jobs/silver/spark_api_server.py \u0026 exec notebook"
+                ],
+    "WorkingDir":  "/opt/spark",
+    "Mounts":  [
+                   {
+                       "Type":  "bind",
+                       "Destination":  "/opt/spark/conf/spark-defaults.conf",
+                       "RW":  true
+                   },
+                   {
+                       "Type":  "bind",
+                       "Destination":  "/home/iceberg/data",
+                       "RW":  true
+                   },
+                   {
+                       "Type":  "bind",
+                       "Destination":  "/home/iceberg/jobs",
+                       "RW":  true
+                   },
+                   {
+                       "Type":  "bind",
+                       "Destination":  "/home/iceberg/notebooks",
+                       "RW":  true
+                   },
+                   {
+                       "Type":  "bind",
+                       "Destination":  "/home/iceberg/src",
+                       "RW":  true
+                   },
+                   {
+                       "Type":  "bind",
+                       "Destination":  "/home/iceberg/contracts",
+                       "RW":  false
+                   },
+                   {
+                       "Type":  "bind",
+                       "Destination":  "/home/iceberg/tests",
+                       "RW":  true
+                   }
+               ],
+    "ResourceOverrides":  [
+
+                          ]
+}

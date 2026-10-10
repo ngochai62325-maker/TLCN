@@ -112,18 +112,21 @@ data_quality:
     severity: "ERROR"
     threshold: "100%"
     action: "QUARANTINE"
+    sql_expr: "value IS NULL OR value >= 0"
   - rule_id: "PROD_DQ_002"
     rule: "Year must be <= current_year + 1 and >= 1960"
     dimension: "Temporal Validity"
     severity: "ERROR"
     threshold: "100%"
     action: "QUARANTINE"
+    sql_expr: "year BETWEEN 1960 AND year(current_date()) + 1"
   - rule_id: "PROD_DQ_003"
     rule: "country_code, commodity_code, year, element_code cannot be null"
     dimension: "Completeness"
     severity: "ERROR"
     threshold: "100%"
     action: "QUARANTINE"
+    sql_expr: "country_code IS NOT NULL AND commodity_code IS NOT NULL AND year IS NOT NULL AND element_code IS NOT NULL"
 
 deduplication:
   key:
@@ -131,6 +134,7 @@ deduplication:
     - "commodity_code"
     - "year"
     - "element_code"
+
   strategy: "Timestamp-based survivorship"
   survivorship: "Keep record with most recent _ingestion_timestamp"
   duplicate_action: "Overwrite in Silver (idempotent update)"
@@ -153,10 +157,16 @@ quarantine:
 metadata:
   propagated_columns:
     - "_ingestion_run_id"
+    - "_ingestion_batch_id"
+    - "_ingestion_chunk_id"
+    - "_ingestion_timestamp"
+    - "_source_id"
     - "_source_file"
     - "_source_checksum"
     - "_source_snapshot_id"
-    - "_ingestion_timestamp"
+    - "_bronze_iceberg_snapshot_id"
+    - "_source_payload"
+    - "_raw_value"
 
 incremental:
   strategy: "FULL_OVERWRITE or MERGE based on Bronze snapshot"

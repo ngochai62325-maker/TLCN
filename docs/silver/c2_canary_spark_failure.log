@@ -1,0 +1,16 @@
+﻿starting org.apache.spark.deploy.master.Master, logging to /opt/spark/logs/spark--org.apache.spark.deploy.master.Master-1-bb3dfbb09844.out
+starting org.apache.spark.deploy.worker.Worker, logging to /opt/spark/logs/spark--org.apache.spark.deploy.worker.Worker-1-bb3dfbb09844.out
+starting org.apache.spark.deploy.history.HistoryServer, logging to /opt/spark/logs/spark--org.apache.spark.deploy.history.HistoryServer-1-bb3dfbb09844.out
+failed to launch: nice -n 0 /opt/spark/bin/spark-class org.apache.spark.deploy.history.HistoryServer
+  	at org.apache.spark.deploy.history.FsHistoryProvider.start(FsHistoryProvider.scala:388)
+  	at org.apache.spark.deploy.history.HistoryServer$.main(HistoryServer.scala:311)
+  	at org.apache.spark.deploy.history.HistoryServer.main(HistoryServer.scala)
+  Caused by: java.io.FileNotFoundException: File file:/tmp/spark-events does not exist
+  	at org.apache.hadoop.fs.RawLocalFileSystem.deprecatedGetFileStatus(RawLocalFileSystem.java:779)
+  	at org.apache.hadoop.fs.RawLocalFileSystem.getFileLinkStatusInternal(RawLocalFileSystem.java:1100)
+  	at org.apache.hadoop.fs.RawLocalFileSystem.getFileStatus(RawLocalFileSystem.java:769)
+  	at org.apache.hadoop.fs.FilterFileSystem.getFileStatus(FilterFileSystem.java:462)
+  	at org.apache.spark.deploy.history.FsHistoryProvider.startPolling(FsHistoryProvider.scala:260)
+  	... 4 more
+full log in /opt/spark/logs/spark--org.apache.spark.deploy.history.HistoryServer-1-bb3dfbb09844.out
+starting org.apache.spark.sql.hive.thriftserver.HiveThriftServer2, logging to /opt/spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-1-bb3dfbb09844.out

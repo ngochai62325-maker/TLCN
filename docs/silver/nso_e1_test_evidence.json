@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "generated_at": "2026-10-10T15:12:17.832692+00:00",
+  "contract_status": "DRAFT",
+  "shared_writes": false,
+  "tests": [
+    {
+      "suite": "Final E1 unit + actual isolated Iceberg integration",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 94.16,
+      "log": "nso_e1_final_validation.log"
+    },
+    {
+      "suite": "Shared framework / eight other source adapters / NSO regression",
+      "passed": 78,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 238.27,
+      "log": "nso_e1_regression.log",
+      "note": "Includes 12 E1 tests before two additional NSO guards; suites overlap, counts are not additive."
+    },
+    {
+      "suite": "Focused NSO grain/duplicate assertions added to existing E1 test",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 15.8,
+      "log": "nso_e1_grain_duplicate.log",
+      "note": "Same existing test case rerun after adding exact-duplicate dedup and national/region/province separation assertions; not an additional unique test."
+    }
+  ],
+  "contract_validation": {
+    "passed": 9,
+    "log": "nso_e1_contract_validation.log"
+  },
+  "preview_evidence": "nso_e1_preview_evidence.json",
+  "safety_evidence": "nso_e1_safety_evidence.json",
+  "implementation_sha256": {
+    "src/silver/transformers/nso_vietnam.py": "e9c58e5f85d880369dae97269c526950b0bbd056462f961739933a9867e0a053",
+    "src/silver/mappings/nso_geography.py": "872169f5b2e1ca64f0437c5a5e12955a12899fe661ed3933df5d02c824996ee7",
+    "src/silver/framework.py": "0997c9f3168a4d3db2bfa6ef99da8177050f8f446554723b9549135ee327567a",
+    "src/silver/contract/loader.py": "2326dc7cfbc0377a646f8449c2a07fd5e9a1ab3fea8cb031ecb180c152e79ecf",
+    "contracts/silver/nso_vietnam.yaml": "45df9884bb4db3bc92f4821e08d691ab075f99c2294dee7ea83a2e2d0199ae7a",
+    "config/silver/nso_source_tables.json": "4c075d36d40201f19192f5b084a20799f8a212b22fdc509f419788e1791b5ceb",
+    "config/silver/nso_geography_candidates.json": "3a6770d6cffcfc537e853e439393ade2d8e7d6191f570567c7a04047f6d1a6bf",
+    "config/silver/nso_geography_reviewed.json": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+  }
+}

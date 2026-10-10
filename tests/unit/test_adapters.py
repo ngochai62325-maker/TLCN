@@ -1036,7 +1036,7 @@ class TestUsdaAdaptersPhase2D:
         assert res_psd.ready is True
         assert res_psd.source_metadata["detected_format"] == "HTML"
         assert res_psd.source_metadata["tables_count"] == 1
-        assert res_psd.source_metadata["size_bytes"] == 45542
+        assert res_psd.source_metadata["size_bytes"] == os.path.getsize(psd_config.local_path)
 
     def test_03_missing_file_handling(self, yb_adapter, psd_adapter, tmp_path):
         """3. Missing source file returns ready=False in readiness and raises FileNotFoundError in extract."""

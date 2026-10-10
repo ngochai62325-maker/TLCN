@@ -242,17 +242,18 @@ def test_scenario_f_idempotent_retry_logic():
     """Scenario F: Bronze writer idempotent logical retry."""
     # Test that write_chunk calls DELETE before APPEND.
     # Phase 2 implementation handles this inside BronzeIcebergWriter.
-    from ingestion.storage.bronze_writer import BronzeIcebergWriter
+    from ingestion.storage.bronze_writer import BronzeIcebergWriter, TECHNICAL_METADATA_COLUMNS
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
-    writer.execute_query = MagicMock() # mock Trino execution
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["col", *TECHNICAL_METADATA_COLUMNS]]))
+    writer.get_iceberg_catalog = MagicMock(return_value=None)
     writer._load_table = MagicMock() 
     
     df = pd.DataFrame({"col": [1]})
     writer.write_chunk("test_f", df, "run_f", "batch_f", "chk", 1, source_file="a.csv")
     
     # Assert execute_query was called with DELETE
-    delete_call = writer.execute_query.call_args_list[0][0][0]
+    delete_call = next(c.args[0] for c in writer.execute_query.call_args_list if c.args[0].startswith("DELETE"))
     assert "DELETE FROM" in delete_call
     assert "_ingestion_run_id = 'run_f'" in delete_call
     assert "_ingestion_chunk_id = 1" in delete_call

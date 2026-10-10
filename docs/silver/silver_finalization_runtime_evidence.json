@@ -1,0 +1,28 @@
+{
+  "pyiceberg": "0.12.0",
+  "pyarrow": "16.1.0",
+  "postgresql_readonly_available": true,
+  "dag_import_errors": {},
+  "silver_source_tasks": [
+    "transform_faostat_monthly_price",
+    "transform_faostat_production",
+    "transform_faostat_supply_utilization",
+    "transform_faostat_trade",
+    "transform_nso_vietnam",
+    "transform_thitruongnongsan",
+    "transform_usda_export_price",
+    "transform_usda_psd",
+    "transform_worldbank_commodity"
+  ],
+  "ingestion_silver_tasks": [
+    "silver_faostat_monthly_price",
+    "silver_faostat_production",
+    "silver_faostat_supply_utilization",
+    "silver_faostat_trade",
+    "silver_nso_vietnam",
+    "silver_thitruongnongsan",
+    "silver_usda_psd",
+    "silver_usda_rice_yearbook",
+    "silver_worldbank_pinksheet"
+  ]
+}

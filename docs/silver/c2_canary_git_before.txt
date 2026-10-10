@@ -1,0 +1,142 @@
+ M config/ingestion/source_registry.yaml
+ M contracts/silver/faostat_monthly_price.yaml
+ M contracts/silver/faostat_production.yaml
+ M contracts/silver/faostat_supply_utilization.yaml
+ M contracts/silver/faostat_trade.yaml
+ M contracts/silver/nso_vietnam.yaml
+ M contracts/silver/thitruongnongsan.yaml
+ M contracts/silver/usda_psd.yaml
+ M contracts/silver/usda_rice_yearbook.yaml
+ M contracts/silver/worldbank_pinksheet.yaml
+ M dags/dag_ingestion_pipeline.py
+ M dags/dag_silver_pipeline.py
+ M docker-compose.yml
+ M docs/silver/faostat_nso_repository_audit.md
+ M docs/silver/faostat_nso_source_transformations.md
+ M docs/silver/silver_layer_architecture.md
+ M jobs/silver/run_all_silver.py
+ M jobs/silver/spark_api_server.py
+ M scripts/test_faostat_nso_isolated.ps1
+ M scripts/validate_silver_contracts.py
+ M src/ingestion/storage/bronze_writer.py
+ M src/silver/contract/loader.py
+ M src/silver/core/base_transformer.py
+ M src/silver/engine/merge.py
+ M src/silver/engine/quality.py
+ M src/silver/engine/quarantine.py
+ M src/silver/framework.py
+ M src/silver/transformers/faostat_source.py
+ M src/silver/transformers/faostat_trade_transformer.py
+ M src/silver/transformers/nso_vietnam.py
+ M src/silver/transformers/usda_export_price_transformer.py
+ M src/silver/transformers/usda_psd_transformer.py
+ M src/silver/transformers/worldbank_transformer.py
+ M tests/integration/test_faostat_nso_silver.py
+ M tests/unit/silver/test_faostat_nso_transformers.py
+ M tests/unit/silver/test_silver_transformers.py
+ M tests/unit/test_adapters.py
+ M tests/unit/test_bronze_identity.py
+ M tests/unit/test_chunk_idempotency.py
+ M tests/unit/test_dag_structure.py
+ M tests/unit/test_phase6_failure_recovery.py
+?? config/silver/
+?? docs/silver/bronze_finalization_inventory_evidence.json
+?? docs/silver/bronze_finalization_profile_evidence.json
+?? docs/silver/bronze_inventory_evidence.json
+?? docs/silver/bronze_profile_evidence.json
+?? docs/silver/bronze_silver_coverage_matrix.md
+?? docs/silver/c2_canary_approved_identity.json
+?? docs/silver/ingestion_metadata_evidence.json
+?? docs/silver/ingestion_metadata_finalization_evidence.json
+?? docs/silver/nso_arrow16_dependencies.log
+?? docs/silver/nso_arrow16_isolated.log
+?? docs/silver/nso_arrow16_isolated_evidence.json
+?? docs/silver/nso_b4_after_audit.json
+?? docs/silver/nso_b4_before_audit.json
+?? docs/silver/nso_b4_execute.log
+?? docs/silver/nso_b4_file_and_schema.log
+?? docs/silver/nso_b4_file_and_schema_evidence.json
+?? docs/silver/nso_b4_noop.log
+?? docs/silver/nso_b4_noop_result.json
+?? docs/silver/nso_b4_noop_validation.json
+?? docs/silver/nso_b4_noop_validation.log
+?? docs/silver/nso_b4_post_commit.log
+?? docs/silver/nso_b4_preflight_comparison.json
+?? docs/silver/nso_b4_preflight_evidence.json
+?? docs/silver/nso_b4_regression.log
+?? docs/silver/nso_b4_shared_recovery_results.md
+?? docs/silver/nso_b4_shared_validation_evidence.json
+?? docs/silver/nso_bronze_recovery_report.md
+?? docs/silver/nso_bronze_regression.log
+?? docs/silver/nso_business_profile_evidence.json
+?? docs/silver/nso_e1_bronze_profile.json
+?? docs/silver/nso_e1_contract_validation.log
+?? docs/silver/nso_e1_final_validation.log
+?? docs/silver/nso_e1_grain_duplicate.log
+?? docs/silver/nso_e1_isolated_tests.log
+?? docs/silver/nso_e1_preview.log
+?? docs/silver/nso_e1_preview_evidence.json
+?? docs/silver/nso_e1_regression.log
+?? docs/silver/nso_e1_safety_evidence.json
+?? docs/silver/nso_e1_shared_controls.json
+?? docs/silver/nso_e1_test_evidence.json
+?? docs/silver/nso_historical_geography_mapping.md
+?? docs/silver/nso_historical_geography_proposal.csv
+?? docs/silver/nso_historical_geography_proposal.json
+?? docs/silver/nso_linux_dependencies.log
+?? docs/silver/nso_official_unit_evidence.json
+?? docs/silver/nso_phase_e_decisions.md
+?? docs/silver/nso_recovery_evidence.json
+?? docs/silver/nso_recovery_isolated.log
+?? docs/silver/nso_recovery_tests.log
+?? docs/silver/nso_shared_recovery_plan.md
+?? docs/silver/nso_shared_recovery_result.json
+?? docs/silver/nso_silver_contract_proposal.md
+?? docs/silver/nso_silver_dq_policy.md
+?? docs/silver/nso_silver_isolated_test_results.md
+?? docs/silver/nso_silver_shared_write_plan.md
+?? docs/silver/nso_unit_season_mapping.md
+?? docs/silver/silver_api_regression.log
+?? docs/silver/silver_business_quality_review.md
+?? docs/silver/silver_dag_tests.log
+?? docs/silver/silver_dq_reconciliation_report.md
+?? docs/silver/silver_final_regression.log
+?? docs/silver/silver_finalization_dag_state.log
+?? docs/silver/silver_finalization_dag_state_evidence.json
+?? docs/silver/silver_finalization_isolated.log
+?? docs/silver/silver_finalization_preview.log
+?? docs/silver/silver_finalization_preview_evidence.json
+?? docs/silver/silver_finalization_runtime.log
+?? docs/silver/silver_finalization_runtime_evidence.json
+?? docs/silver/silver_gold_readiness.md
+?? docs/silver/silver_integration_approval_proposal.md
+?? docs/silver/silver_integration_audit.md
+?? docs/silver/silver_integration_test_results.md
+?? docs/silver/silver_isolated_tests.log
+?? docs/silver/silver_live_preview.log
+?? docs/silver/silver_live_preview_evidence.json
+?? docs/silver/silver_remaining_blockers.md
+?? docs/silver/silver_shared_execution_plan.md
+?? docs/silver/silver_unit_regression.log
+?? jobs/bronze/
+?? jobs/silver/audit_bronze_coverage.py
+?? jobs/silver/job_faostat_monthly_price.py
+?? jobs/silver/job_faostat_production.py
+?? jobs/silver/job_faostat_supply_utilization.py
+?? jobs/silver/job_nso_vietnam.py
+?? jobs/silver/job_thitruongnongsan.py
+?? jobs/silver/preview_nso_contract.py
+?? jobs/silver/profile_nso_contract.py
+?? jobs/silver/validate_shared_controls.py
+?? scripts/test_nso_silver_isolated.ps1
+?? src/ingestion/recovery/
+?? src/silver/mappings/
+?? src/silver/registry.py
+?? src/silver/transformers/thitruongnongsan.py
+?? tests/integration/test_nso_recovery_isolated.py
+?? tests/integration/test_nso_silver_contract.py
+?? tests/integration/test_silver_controls_isolated.py
+?? tests/unit/silver/test_nso_contract.py
+?? tests/unit/silver/test_silver_integration_controls.py
+?? tests/unit/test_bronze_schema_preservation.py
+?? tests/unit/test_silver_api_execution.py

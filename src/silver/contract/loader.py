@@ -1,10 +1,20 @@
 import os
 import yaml
+from pathlib import Path
 from typing import Any, Dict, List
 
 class SilverContract:
     def __init__(self, data: Dict[str, Any]):
         self._data = data
+
+    @property
+    def status(self) -> str:
+        # Legacy source contracts without a status retain their existing behavior.
+        return self._data.get("contract_status", "READY")
+
+    def require_ready(self):
+        if self.status != "READY" or self._data.get("critical_blockers"):
+            raise ValueError(f"{self.dataset_name}: pending contract ({self.status}); preview only")
 
     @property
     def dataset_name(self) -> str:
@@ -53,6 +63,8 @@ class SilverContract:
 
 class SilverContractLoader:
     def __init__(self, contract_dir: str = "contracts/silver"):
+        if contract_dir == "contracts/silver" and not Path(contract_dir).is_dir():
+            contract_dir = str(Path(__file__).resolve().parents[3] / "contracts" / "silver")
         self.contract_dir = contract_dir
 
     def load_contract(self, dataset_id: str) -> SilverContract:

@@ -1,0 +1,1154 @@
+{
+  "domestic_units": {
+    "sql": "SELECT _n_v_t_nh AS unit,lo_i_ti_n AS currency,count(*) AS rows,min(ng_y) AS first_raw_date,max(ng_y) AS last_raw_date FROM iceberg.bronze.thitruongnongsan GROUP BY 1,2 ORDER BY 3 DESC",
+    "rows": [
+      {
+        "unit": "VNĐ/Kg",
+        "currency": "VNĐ",
+        "rows": 10064,
+        "first_raw_date": "1/1/2026 12:00:00 AM",
+        "last_raw_date": "9/9/2025 12:00:00 AM"
+      },
+      {
+        "unit": "Vnđ/Kg",
+        "currency": "VNĐ",
+        "rows": 5072,
+        "first_raw_date": "1/10/2023 12:00:00 AM",
+        "last_raw_date": "9/8/2023 12:00:00 AM"
+      },
+      {
+        "unit": "VNĐ/kg",
+        "currency": "VNĐ",
+        "rows": 3880,
+        "first_raw_date": "1/10/2024 12:00:00 AM",
+        "last_raw_date": "9/6/2024 12:00:00 AM"
+      },
+      {
+        "unit": "Đồng/kg",
+        "currency": "VNĐ",
+        "rows": 1378,
+        "first_raw_date": "1/10/2024 12:00:00 AM",
+        "last_raw_date": "9/6/2024 12:00:00 AM"
+      }
+    ]
+  },
+  "domestic_categories": {
+    "sql": "SELECT lo_i_gi_ AS price_type,th_tr_ng AS market,count(*) AS rows FROM iceberg.bronze.thitruongnongsan GROUP BY 1,2 ORDER BY 3 DESC",
+    "rows": [
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "An Giang",
+        "rows": 2591
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Cần Thơ",
+        "rows": 2485
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Kiên Giang",
+        "rows": 1969
+      },
+      {
+        "price_type": "Thu mua",
+        "market": "Kiên Giang",
+        "rows": 1482
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Đồng Tháp",
+        "rows": 1172
+      },
+      {
+        "price_type": "Thu mua",
+        "market": "Thái Bình",
+        "rows": 1144
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Sóc Trăng",
+        "rows": 1101
+      },
+      {
+        "price_type": "Bán lẻ",
+        "market": "Thái Bình",
+        "rows": 1045
+      },
+      {
+        "price_type": "Thu mua",
+        "market": "Đồng Tháp",
+        "rows": 728
+      },
+      {
+        "price_type": "Bán ra",
+        "market": "An Giang",
+        "rows": 728
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Hậu Giang",
+        "rows": 708
+      },
+      {
+        "price_type": "Thu mua",
+        "market": "An Giang",
+        "rows": 656
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Vĩnh Long",
+        "rows": 559
+      },
+      {
+        "price_type": "Thu mua",
+        "market": "Cần Thơ",
+        "rows": 520
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Trà Vinh",
+        "rows": 410
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Thái Bình",
+        "rows": 371
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Tiền Giang",
+        "rows": 307
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Bến Tre",
+        "rows": 293
+      },
+      {
+        "price_type": "Xuất khẩu",
+        "market": "Đồng Tháp",
+        "rows": 291
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Cà Mau",
+        "rows": 275
+      },
+      {
+        "price_type": "Khác",
+        "market": "Kiên Giang",
+        "rows": 273
+      },
+      {
+        "price_type": "Khác",
+        "market": "Hà Nội",
+        "rows": 223
+      },
+      {
+        "price_type": "Tại chợ",
+        "market": "Đồng Tháp",
+        "rows": 194
+      },
+      {
+        "price_type": "Khác",
+        "market": "An Giang",
+        "rows": 190
+      },
+      {
+        "price_type": "Khác",
+        "market": "Thái Bình",
+        "rows": 160
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Hà Nội",
+        "rows": 143
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Bạc Liêu",
+        "rows": 91
+      },
+      {
+        "price_type": "Khác",
+        "market": "Đồng Tháp",
+        "rows": 84
+      },
+      {
+        "price_type": "Khác",
+        "market": "Cần Thơ",
+        "rows": 77
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Long An",
+        "rows": 56
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Tây Ninh",
+        "rows": 50
+      },
+      {
+        "price_type": "Thương lái thu mua",
+        "market": "Hậu GIang",
+        "rows": 12
+      },
+      {
+        "price_type": "Đại lý thu mua",
+        "market": "Bến Tre",
+        "rows": 6
+      }
+    ]
+  },
+  "domestic_time": {
+    "sql": "SELECT min(cast(try(date_parse(ng_y,'%c/%e/%Y %h:%i:%s %p')) AS date)) AS first_date,max(cast(try(date_parse(ng_y,'%c/%e/%Y %h:%i:%s %p')) AS date)) AS last_date,count_if(try(date_parse(ng_y,'%c/%e/%Y %h:%i:%s %p')) IS NULL) AS invalid_date FROM iceberg.bronze.thitruongnongsan",
+    "rows": [
+      {
+        "first_date": "2021-01-04",
+        "last_date": "2026-08-03",
+        "invalid_date": 0
+      }
+    ]
+  },
+  "price_grain": {
+    "sql": "SELECT element_code,months_code,months,unit,count(*) AS rows FROM iceberg.bronze.faostat_monthly_price GROUP BY 1,2,3,4 ORDER BY 1,2",
+    "rows": [
+      {
+        "element_code": 5530,
+        "months_code": 7001,
+        "months": "January",
+        "unit": "LCU",
+        "rows": 522
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7002,
+        "months": "February",
+        "unit": "LCU",
+        "rows": 444
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7003,
+        "months": "March",
+        "unit": "LCU",
+        "rows": 448
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7004,
+        "months": "April",
+        "unit": "LCU",
+        "rows": 438
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7005,
+        "months": "May",
+        "unit": "LCU",
+        "rows": 438
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7006,
+        "months": "June",
+        "unit": "LCU",
+        "rows": 432
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7007,
+        "months": "July",
+        "unit": "LCU",
+        "rows": 422
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7008,
+        "months": "August",
+        "unit": "LCU",
+        "rows": 423
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7009,
+        "months": "September",
+        "unit": "LCU",
+        "rows": 423
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7010,
+        "months": "October",
+        "unit": "LCU",
+        "rows": 444
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7011,
+        "months": "November",
+        "unit": "LCU",
+        "rows": 451
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7012,
+        "months": "December",
+        "unit": "LCU",
+        "rows": 456
+      },
+      {
+        "element_code": 5530,
+        "months_code": 7021,
+        "months": "Annual value",
+        "unit": "LCU",
+        "rows": 2313
+      },
+      {
+        "element_code": 5531,
+        "months_code": 7021,
+        "months": "Annual value",
+        "unit": "SLC",
+        "rows": 2310
+      },
+      {
+        "element_code": 5532,
+        "months_code": 7021,
+        "months": "Annual value",
+        "unit": "USD",
+        "rows": 2234
+      },
+      {
+        "element_code": 5539,
+        "months_code": 7021,
+        "months": "Annual value",
+        "unit": null,
+        "rows": 3136
+      }
+    ]
+  },
+  "production_elements": {
+    "sql": "SELECT element_code,element,unit,count(*) AS rows,min(year) AS first_year,max(year) AS last_year FROM iceberg.bronze.faostat_production GROUP BY 1,2,3 ORDER BY 1",
+    "rows": [
+      {
+        "element_code": 5312,
+        "element": "Area harvested",
+        "unit": "ha",
+        "rows": 7713,
+        "first_year": 1961,
+        "last_year": 2024
+      },
+      {
+        "element_code": 5412,
+        "element": "Yield",
+        "unit": "kg/ha",
+        "rows": 7311,
+        "first_year": 1961,
+        "last_year": 2024
+      },
+      {
+        "element_code": 5510,
+        "element": "Production",
+        "unit": "t",
+        "rows": 7714,
+        "first_year": 1961,
+        "last_year": 2024
+      }
+    ]
+  },
+  "sua_signs": {
+    "sql": "SELECT element_code,element,unit,count(*) AS rows,count_if(value < 0) AS negative,min(value) AS minimum,max(value) AS maximum FROM iceberg.bronze.faostat_supply_utilization GROUP BY 1,2,3 ORDER BY 1",
+    "rows": [
+      {
+        "element_code": 5016,
+        "element": "Loss",
+        "unit": "t",
+        "rows": 1574,
+        "negative": 0,
+        "minimum": 0.0,
+        "maximum": 8481778.69
+      },
+      {
+        "element_code": 5023,
+        "element": "Processed",
+        "unit": "t",
+        "rows": 3041,
+        "negative": 0,
+        "minimum": 0.0,
+        "maximum": 196590125.96
+      },
+      {
+        "element_code": 5071,
+        "element": "Stock Variation",
+        "unit": "t",
+        "rows": 4538,
+        "negative": 1280,
+        "minimum": -6425000.0,
+        "maximum": 12000000.0
+      },
+      {
+        "element_code": 5113,
+        "element": "Opening stocks",
+        "unit": "t",
+        "rows": 4607,
+        "negative": 0,
+        "minimum": 0.0,
+        "maximum": 116533778.55
+      },
+      {
+        "element_code": 5141,
+        "element": "Food supply quantity (tonnes)",
+        "unit": "t",
+        "rows": 2719,
+        "negative": 0,
+        "minimum": 0.0,
+        "maximum": 127179514.21
+      },
+      {
+        "element_code": 5165,
+        "element": "Other uses (non-food)",
+        "unit": "t",
+        "rows": 545,
+        "negative": 0,
+        "minimum": 0.0,
+        "maximum": 13468305.03
+      },
+      {
+        "element_code": 5166,
+        "element": "Residuals",
+        "unit": "t",
+        "rows": 4766,
+        "negative": 236,
+        "minimum": -474083.0,
+        "maximum": 942409.0
+      },
+      {
+        "element_code": 5510,
+        "element": "Production",
+        "unit": "t",
+        "rows": 3287,
+        "negative": 0,
+        "minimum": 0.0,
+        "maximum": 214429949.05
+      },
+      {
+        "element_code": 5520,
+        "element": "Feed",
+        "unit": "t",
+        "rows": 1709,
+        "negative": 0,
+        "minimum": 0.0,
+        "maximum": 19456666.9
+      },
+      {
+        "element_code": 5525,
+        "element": "Seed",
+        "unit": "t",
+        "rows": 1446,
+        "negative": 0,
+        "minimum": 0.0,
+        "maximum": 6913200.84
+      },
+      {
+        "element_code": 5610,
+        "element": "Import quantity",
+        "unit": "t",
+        "rows": 4586,
+        "negative": 0,
+        "minimum": 0.0,
+        "maximum": 3444152.8
+      },
+      {
+        "element_code": 5910,
+        "element": "Export quantity",
+        "unit": "t",
+        "rows": 3562,
+        "negative": 0,
+        "minimum": 0.0,
+        "maximum": 17866081.6
+      }
+    ]
+  },
+  "sua_negative_examples": {
+    "sql": "SELECT area,item,year,value,flag FROM iceberg.bronze.faostat_supply_utilization WHERE element_code=5166 AND value < 0 ORDER BY value LIMIT 8",
+    "rows": [
+      {
+        "area": "Mexico",
+        "item": "Rice",
+        "year": 2022,
+        "value": -474083.0,
+        "flag": "I"
+      },
+      {
+        "area": "Mexico",
+        "item": "Rice",
+        "year": 2023,
+        "value": -428268.0,
+        "flag": "I"
+      },
+      {
+        "area": "Guinea",
+        "item": "Rice",
+        "year": 2014,
+        "value": -332614.0,
+        "flag": "I"
+      },
+      {
+        "area": "Paraguay",
+        "item": "Rice",
+        "year": 2023,
+        "value": -286333.0,
+        "flag": "I"
+      },
+      {
+        "area": "Egypt",
+        "item": "Rice",
+        "year": 2016,
+        "value": -271560.0,
+        "flag": "I"
+      },
+      {
+        "area": "Egypt",
+        "item": "Rice",
+        "year": 2014,
+        "value": -263448.0,
+        "flag": "I"
+      },
+      {
+        "area": "Egypt",
+        "item": "Rice",
+        "year": 2017,
+        "value": -255799.0,
+        "flag": "I"
+      },
+      {
+        "area": "Egypt",
+        "item": "Rice",
+        "year": 2015,
+        "value": -249969.0,
+        "flag": "I"
+      }
+    ]
+  },
+  "trade_elements": {
+    "sql": "SELECT element_code,element,unit,count(*) AS rows,min(year) AS first_year,max(year) AS last_year FROM iceberg.bronze.faostat_trade GROUP BY 1,2,3 ORDER BY 1",
+    "rows": [
+      {
+        "element_code": 5610,
+        "element": "Import quantity",
+        "unit": "t",
+        "rows": 314937,
+        "first_year": 1986,
+        "last_year": 2024
+      },
+      {
+        "element_code": 5622,
+        "element": "Import value",
+        "unit": "1000 USD",
+        "rows": 314937,
+        "first_year": 1986,
+        "last_year": 2024
+      },
+      {
+        "element_code": 5910,
+        "element": "Export quantity",
+        "unit": "t",
+        "rows": 298297,
+        "first_year": 1986,
+        "last_year": 2024
+      },
+      {
+        "element_code": 5922,
+        "element": "Export value",
+        "unit": "1000 USD",
+        "rows": 298299,
+        "first_year": 1986,
+        "last_year": 2024
+      }
+    ]
+  },
+  "psd_attributes": {
+    "sql": "SELECT attribute,unit_description,count(*) AS rows FROM iceberg.bronze.usda_psd GROUP BY 1,2 ORDER BY 1",
+    "rows": [
+      {
+        "attribute": "Area Harvested",
+        "unit_description": "(1000 HA)",
+        "rows": 1
+      },
+      {
+        "attribute": "Beginning Stocks",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "Domestic Consumption",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "Ending Stocks",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "Exports",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "Imports",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "Milling Rate (.9999)",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "Production",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "Rough Production",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "TY Exports",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "TY Imp. from U.S.",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "TY Imports",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "Total Distribution",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "Total Supply",
+        "unit_description": "(1000 MT)",
+        "rows": 1
+      },
+      {
+        "attribute": "Yield",
+        "unit_description": "(MT/HA)",
+        "rows": 1
+      }
+    ]
+  },
+  "yearbook_periods": {
+    "sql": "SELECT table_number,reference_period_description,unit_description,count(*) AS rows FROM iceberg.bronze.usda_rice_yearbook GROUP BY 1,2,3 ORDER BY 1,2",
+    "rows": [
+      {
+        "table_number": 25,
+        "reference_period_description": "April",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 360
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "August",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 369
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "December",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 369
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "February",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 369
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "January",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 369
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "July",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 360
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "June",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 360
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "MARKETING",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 369
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "March",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 360
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "May",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 360
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "November",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 369
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "October",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 369
+      },
+      {
+        "table_number": 25,
+        "reference_period_description": "September",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 369
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "April",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 196
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "August",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "December",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "February",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "January",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "July",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 196
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "June",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 196
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "MARKETING",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "March",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 196
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "May",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 196
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "November",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "October",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 26,
+        "reference_period_description": "September",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "April",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "August",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 210
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "December",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 210
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "February",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 210
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "January",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 210
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "July",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "June",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "MARKETING",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 210
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "March",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "May",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 203
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "November",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 210
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "October",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 210
+      },
+      {
+        "table_number": 27,
+        "reference_period_description": "September",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 210
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "April",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 232
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "August",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 240
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "December",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 240
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "February",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 240
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "January",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 240
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "July",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 232
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "June",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 232
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "MARKETING",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 240
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "March",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 232
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "May",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 232
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "November",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 240
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "October",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 240
+      },
+      {
+        "table_number": 28,
+        "reference_period_description": "September",
+        "unit_description": "DOLLARS PER METRIC TON",
+        "rows": 240
+      }
+    ]
+  },
+  "yearbook_duplicates": {
+    "sql": "SELECT table_number,location_description,class_description,year,reference_period_description,statistic_description,count(*) AS copies,min(value) AS min_value,max(value) AS max_value FROM iceberg.bronze.usda_rice_yearbook GROUP BY 1,2,3,4,5,6 HAVING count(*) > 1 ORDER BY 4 LIMIT 10",
+    "rows": [
+      {
+        "table_number": 27,
+        "location_description": "INDIA",
+        "class_description": "25-PERCENT BROKEN",
+        "year": 2000,
+        "reference_period_description": "January",
+        "statistic_description": "FREIGHT ON BOARD PRICE",
+        "copies": 2,
+        "min_value": 210.0,
+        "max_value": 210.0
+      },
+      {
+        "table_number": 27,
+        "location_description": "INDIA",
+        "class_description": "25-PERCENT BROKEN",
+        "year": 2000,
+        "reference_period_description": "March",
+        "statistic_description": "FREIGHT ON BOARD PRICE",
+        "copies": 2,
+        "min_value": 210.0,
+        "max_value": 210.0
+      },
+      {
+        "table_number": 27,
+        "location_description": "INDIA",
+        "class_description": "15-PERCENT BROKEN",
+        "year": 2000,
+        "reference_period_description": "June",
+        "statistic_description": "FREIGHT ON BOARD PRICE",
+        "copies": 2,
+        "min_value": null,
+        "max_value": null
+      },
+      {
+        "table_number": 27,
+        "location_description": "INDIA",
+        "class_description": "25-PERCENT BROKEN",
+        "year": 2000,
+        "reference_period_description": "MARKETING",
+        "statistic_description": "FREIGHT ON BOARD PRICE",
+        "copies": 2,
+        "min_value": 201.5,
+        "max_value": 201.5
+      },
+      {
+        "table_number": 27,
+        "location_description": "INDIA",
+        "class_description": "PUSA BASMATI",
+        "year": 2000,
+        "reference_period_description": "August",
+        "statistic_description": "FREIGHT ON BOARD PRICE",
+        "copies": 2,
+        "min_value": null,
+        "max_value": null
+      },
+      {
+        "table_number": 27,
+        "location_description": "INDIA",
+        "class_description": "25-PERCENT BROKEN",
+        "year": 2000,
+        "reference_period_description": "October",
+        "statistic_description": "FREIGHT ON BOARD PRICE",
+        "copies": 2,
+        "min_value": 222.0,
+        "max_value": 222.0
+      },
+      {
+        "table_number": 27,
+        "location_description": "INDIA",
+        "class_description": "5-PERCENT PARBOILED",
+        "year": 2000,
+        "reference_period_description": "November",
+        "statistic_description": "FREIGHT ON BOARD PRICE",
+        "copies": 2,
+        "min_value": 233.0,
+        "max_value": 233.0
+      },
+      {
+        "table_number": 27,
+        "location_description": "INDIA",
+        "class_description": "5-PERCENT PARBOILED",
+        "year": 2000,
+        "reference_period_description": "December",
+        "statistic_description": "FREIGHT ON BOARD PRICE",
+        "copies": 2,
+        "min_value": 230.0,
+        "max_value": 230.0
+      },
+      {
+        "table_number": 27,
+        "location_description": "INDIA",
+        "class_description": "5-PERCENT BROKEN",
+        "year": 2000,
+        "reference_period_description": "April",
+        "statistic_description": "FREIGHT ON BOARD PRICE",
+        "copies": 2,
+        "min_value": 240.0,
+        "max_value": 240.0
+      },
+      {
+        "table_number": 27,
+        "location_description": "INDIA",
+        "class_description": "10-PERCENT BROKEN",
+        "year": 2000,
+        "reference_period_description": "November",
+        "statistic_description": "FREIGHT ON BOARD PRICE",
+        "copies": 2,
+        "min_value": 233.0,
+        "max_value": 233.0
+      }
+    ]
+  },
+  "nso_null_rows": {
+    "sql": "SELECT _source_file,count(*) AS rows,count(nam) AS year_rows FROM iceberg.bronze.nso_vietnam GROUP BY 1 ORDER BY 1",
+    "rows": [
+      {
+        "_source_file": "V06.12.csv",
+        "rows": 71,
+        "year_rows": 70
+      },
+      {
+        "_source_file": "V06.13.csv",
+        "rows": 72,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.14.csv",
+        "rows": 72,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.15.csv",
+        "rows": 72,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.16.csv",
+        "rows": 72,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.17.csv",
+        "rows": 72,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.18.csv",
+        "rows": 72,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.19.csv",
+        "rows": 38,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.20.csv",
+        "rows": 38,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.21.csv",
+        "rows": 38,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.22.csv",
+        "rows": 72,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.23.csv",
+        "rows": 72,
+        "year_rows": 0
+      },
+      {
+        "_source_file": "V06.24.csv",
+        "rows": 72,
+        "year_rows": 0
+      }
+    ]
+  }
+}

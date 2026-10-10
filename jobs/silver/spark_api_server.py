@@ -44,9 +44,14 @@ class SparkApiHandler(BaseHTTPRequestHandler):
                 job_file = req.get("job")
                 mode = req.get("mode", "full")
                 run_id = req.get("run_id")
+                dataset = req.get("dataset")
+                pipeline_run_id = req.get("pipeline_run_id")
 
                 if not job_file:
                     self._send_json(400, {"error": "Missing 'job' parameter"})
+                    return
+                if os.path.basename(job_file) != job_file or not job_file.endswith(".py"):
+                    self._send_json(400, {"error": "Invalid job filename"})
                     return
 
                 script_path = os.path.join(JOBS_DIR, job_file)
@@ -54,13 +59,26 @@ class SparkApiHandler(BaseHTTPRequestHandler):
                     self._send_json(404, {"error": f"Job script '{job_file}' not found in {JOBS_DIR}"})
                     return
 
-                cmd = ["/opt/spark/bin/spark-submit", script_path, "--mode", mode]
+                # Keep API jobs within the resource envelope validated by preview.
+                cmd = ["/opt/spark/bin/spark-submit",
+                       "--master", os.environ.get("SILVER_SPARK_MASTER", "local[2]"),
+                       "--driver-memory", os.environ.get("SILVER_DRIVER_MEMORY", "2g"),
+                       "--conf", "spark.sql.shuffle.partitions=" + os.environ.get("SILVER_SHUFFLE_PARTITIONS", "4"),
+                       script_path, "--mode", mode]
                 if run_id:
                     cmd.extend(["--run-id", str(run_id)])
+                if dataset:
+                    if job_file != "run_all_silver.py":
+                        self._send_json(400, {"error": "dataset is supported by run_all_silver.py only"})
+                        return
+                    cmd.extend(["--dataset", str(dataset)])
+                if pipeline_run_id and job_file == "run_all_silver.py":
+                    cmd.extend(["--pipeline-run-id", str(pipeline_run_id)])
 
                 logger.info(f"Executing Spark Job: {' '.join(cmd)}")
                 proc = subprocess.run(
                     cmd,
+                    cwd=os.path.abspath(os.path.join(JOBS_DIR, "../..")),
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
                     text=True,
@@ -68,6 +86,10 @@ class SparkApiHandler(BaseHTTPRequestHandler):
                 )
 
                 status = "SUCCESS" if proc.returncode == 0 else "FAILED"
+                result = None
+                for line in proc.stdout.splitlines():
+                    if line.startswith("SILVER_RESULT_JSON="):
+                        result = json.loads(line.split("=", 1)[1])
                 logger.info(f"Job {job_file} finished with code {proc.returncode} ({status})")
 
                 self._send_json(
@@ -77,6 +99,7 @@ class SparkApiHandler(BaseHTTPRequestHandler):
                         "status": status,
                         "exit_code": proc.returncode,
                         "output": proc.stdout[-4000:],  # return tail of logs
+                        "result": result,
                     },
                 )
 

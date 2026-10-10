@@ -30,6 +30,7 @@ import pandas as pd
 import requests
 
 from ingestion.utils.logging_config import create_ingestion_logger
+from ingestion.utils.error_classifier import SchemaError
 
 # Backward compatibility patch: pyiceberg 0.12+ passes 'store_decimal_as_integer'
 # to pyarrow.parquet.ParquetWriter, which is unsupported in pyarrow < 18.0.
@@ -91,7 +92,13 @@ class BronzeIcebergWriter:
         minio_access_key: Optional[str] = None,
         minio_secret_key: Optional[str] = None,
         minio_region: str = "us-east-1",
+        schema_policy: str = "fail_fast",
+        approved_schema_additions: Optional[Dict[str, Dict[str, str]]] = None,
     ) -> None:
+        if schema_policy not in ("fail_fast", "approved_evolution"):
+            raise ValueError("schema_policy must be fail_fast or approved_evolution")
+        self.schema_policy = schema_policy
+        self.approved_schema_additions = approved_schema_additions or {}
         self.host = trino_host or os.environ.get("TRINO_HOST", "localhost")
         self.port = trino_port or int(os.environ.get("TRINO_PORT", "8088"))
         self.user = trino_user
@@ -206,6 +213,10 @@ class BronzeIcebergWriter:
 
         Returns the full table name (e.g. iceberg.bronze.faostat_trade).
         """
+        incoming = [sanitize_column_name(c) for c in df.columns]
+        self._validate_schema_columns(incoming, incoming)
+        if any(not c for c in incoming):
+            raise SchemaError("Empty sanitized source column; refusing write")
         self.ensure_schema()
         table_name = sanitize_column_name(source_id)
         full_table = f"{self.catalog}.{self.schema}.{table_name}"
@@ -215,8 +226,21 @@ class BronzeIcebergWriter:
         if catalog is not None:
             try:
                 if catalog.table_exists(f"{self.schema}.{table_name}"):
+                    table = catalog.load_table(f"{self.schema}.{table_name}")
+                    additions = self.plan_schema_additions(source_id, incoming, table.schema())
+                    if additions:
+                        from pyiceberg.types import StringType
+                        # One metadata commit for all approved nullable additions.
+                        # Never changes existing field IDs/types or drops fields.
+                        with table.update_schema() as update:
+                            for name in additions:
+                                update.add_column(name, StringType(), required=False)
                     return full_table
+            except SchemaError:
+                raise
             except Exception:
+                if self.schema_policy == "approved_evolution":
+                    raise  # No partial ALTER/fallback after an evolution failure.
                 pass
 
         # Build column definitions from DataFrame
@@ -235,6 +259,22 @@ class BronzeIcebergWriter:
             col_defs.append(f'"{col_name}" {sql_type}')
 
         cols_str = ",\n    ".join(col_defs)
+        # The Trino fallback must obey the same lossless gate as PyIceberg.
+        # Existing schema changes require an approved migration, not a best-
+        # effort ALTER hidden inside a source write.
+        try:
+            _, existing_schema = self.execute_query(f"DESCRIBE {full_table}")
+        except RuntimeError as exc:
+            if "does not exist" not in str(exc).lower() and "not found" not in str(exc).lower():
+                raise
+        else:
+            missing = set([*df_cols_map, *TECHNICAL_METADATA_COLUMNS]) - {str(row[0]) for row in existing_schema}
+            if missing and self.schema_policy == "approved_evolution":
+                raise SchemaError("Approved evolution requires the native Iceberg transaction path; no Trino ALTER fallback")
+            self._validate_schema_columns(
+                [*df_cols_map, *TECHNICAL_METADATA_COLUMNS],
+                [str(row[0]) for row in existing_schema], full_table)
+            return full_table
         create_sql = f"""
         CREATE TABLE IF NOT EXISTS {full_table} (
             {cols_str}
@@ -252,27 +292,62 @@ class BronzeIcebergWriter:
                 import random
                 time.sleep(0.5 * (2 ** attempt) + random.uniform(0.1, 0.4))
 
-        # Schema evolution: dynamically add any new columns to existing Iceberg table
-        try:
-            _, existing_cols_data = self.execute_query(f"DESCRIBE {full_table}")
-            existing_col_names = {row[0].lower() for row in existing_cols_data}
-            
-            # Combine source columns and technical columns for evolution
-            all_cols_to_check = dict(df_cols_map)
-            all_cols_to_check.update(TECHNICAL_METADATA_COLUMNS)
-            
-            for clean_col, sql_type in all_cols_to_check.items():
-                if clean_col.lower() not in existing_col_names:
-                    alter_sql = f'ALTER TABLE {full_table} ADD COLUMN "{clean_col}" {sql_type}'
-                    self.execute_query(alter_sql)
-                    existing_col_names.add(clean_col.lower())
-        except Exception:
-            pass
-
+        # Recheck after CREATE to detect races; never silently ALTER or ignore drift.
+        _, existing_cols_data = self.execute_query(f"DESCRIBE {full_table}")
+        self._validate_schema_columns([*df_cols_map, *TECHNICAL_METADATA_COLUMNS],
+                                      [str(row[0]) for row in existing_cols_data], full_table)
         return full_table
+
+    def plan_schema_additions(self, source_id: str, incoming, iceberg_schema: Any) -> List[str]:
+        """Pure fail-fast/allowlist gate, reusable inside a recovery transaction."""
+        self._validate_schema_columns(incoming, incoming)
+        existing = {field.name: field for field in iceberg_schema.fields}
+        missing = sorted(set(incoming) - set(existing))
+        missing_metadata = set(TECHNICAL_METADATA_COLUMNS) - set(existing)
+        if missing_metadata:
+            raise SchemaError(f"Missing technical metadata: {sorted(missing_metadata)}")
+        approved = self.approved_schema_additions.get(source_id, {})
+        if self.schema_policy == "approved_evolution":
+            for name, dtype in approved.items():
+                if dtype != "string" or name in TECHNICAL_METADATA_COLUMNS or sanitize_column_name(name) != name:
+                    raise SchemaError("Evolution permits only explicitly approved nullable source strings")
+                if name in existing and str(existing[name].field_type) != "string":
+                    raise SchemaError(f"Unsafe type change requested for {name}")
+        if missing and (self.schema_policy != "approved_evolution" or set(missing) - set(approved)):
+            raise SchemaError(f"{source_id}: schema lacks incoming columns {missing}; approved evolution/replay required")
+        return missing
+
+    @staticmethod
+    def _validate_numeric_values(df: pd.DataFrame, schema_types: Dict[str, str]) -> None:
+        """Reject unrepresentable raw values before DELETE or append, never coerce to NULL."""
+        for name, dtype in schema_types.items():
+            if name not in df:
+                continue
+            kind = dtype.upper()
+            integer = any(t in kind for t in ("BIGINT", "INTEGER", "SMALLINT", "TINYINT"))
+            numeric = integer or any(t in kind for t in ("DOUBLE", "REAL", "FLOAT", "DECIMAL"))
+            if not numeric:
+                continue
+            try:
+                values = pd.to_numeric(df[name].dropna(), errors="raise")
+                if integer:
+                    bits = 64 if "BIGINT" in kind else 16 if "SMALLINT" in kind else 8 if "TINYINT" in kind else 32
+                    if ((values % 1 != 0) | (values < -(2 ** (bits - 1))) | (values >= 2 ** (bits - 1))).any():
+                        raise ValueError("fractional or out-of-range integer")
+            except (ValueError, TypeError, OverflowError) as exc:
+                raise SchemaError(f"{name}: raw values do not fit {dtype}; refusing lossy coercion") from exc
+
+    @staticmethod
+    def _validate_schema_columns(incoming, existing, table_name="Bronze"):
+        if len(incoming) != len(set(incoming)):
+            raise SchemaError(f"{table_name}: column sanitization collision; refusing lossy write")
+        missing = sorted(set(incoming) - set(existing))
+        if missing:
+            raise SchemaError(f"{table_name}: schema lacks incoming columns {missing}; approved evolution/replay required")
 
     def _dataframe_to_arrow(self, df: pd.DataFrame, iceberg_schema: Any) -> Any:
         """Align pandas DataFrame to Iceberg table schema and convert to PyArrow Table."""
+        self._validate_schema_columns(list(df.columns), [field.name for field in iceberg_schema.fields])
         import pyarrow as pa
         from pyiceberg.types import (
             BooleanType,
@@ -316,13 +391,13 @@ class BronzeIcebergWriter:
                 clean_df[col] = None
 
             if isinstance(f.field_type, LongType):
-                clean_df[col] = pd.to_numeric(clean_df[col], errors="coerce").astype("Int64")
+                clean_df[col] = pd.to_numeric(clean_df[col], errors="raise").astype("Int64")
             elif isinstance(f.field_type, IntegerType):
-                clean_df[col] = pd.to_numeric(clean_df[col], errors="coerce").astype("Int32")
+                clean_df[col] = pd.to_numeric(clean_df[col], errors="raise").astype("Int32")
             elif isinstance(f.field_type, DoubleType):
-                clean_df[col] = pd.to_numeric(clean_df[col], errors="coerce").astype("float64")
+                clean_df[col] = pd.to_numeric(clean_df[col], errors="raise").astype("float64")
             elif isinstance(f.field_type, FloatType):
-                clean_df[col] = pd.to_numeric(clean_df[col], errors="coerce").astype("float32")
+                clean_df[col] = pd.to_numeric(clean_df[col], errors="raise").astype("float32")
             elif isinstance(f.field_type, (TimestampType, TimestamptzType)):
                 clean_df[col] = pd.to_datetime(clean_df[col], utc=True, format="mixed")
             elif isinstance(f.field_type, BooleanType):
@@ -390,6 +465,8 @@ class BronzeIcebergWriter:
         # Sanitize column names
         rename_map = {col: sanitize_column_name(col) for col in df.columns}
         df.rename(columns=rename_map, inplace=True)
+        if len(df.columns) != len(set(df.columns)):
+            raise SchemaError("Bronze column sanitization collision; refusing lossy write")
 
         # Inject technical metadata
         now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S.%f UTC")
@@ -413,6 +490,20 @@ class BronzeIcebergWriter:
 
         full_table = self.ensure_table(source_id, chunk_df)
         table_name = sanitize_column_name(source_id)
+        # Validate before idempotent DELETE: a schema failure must not remove
+        # the previously committed chunk. No implicit schema repair here.
+        _, schema_rows = self.execute_query(f"DESCRIBE {full_table}")
+        self._validate_schema_columns(list(df.columns), [str(row[0]) for row in schema_rows], full_table)
+        self._validate_numeric_values(df, {str(row[0]): str(row[1]) for row in schema_rows})
+        catalog = self.get_iceberg_catalog()
+        arrow_table = None
+        if catalog is not None:
+            # Conversion is part of preflight, not a fallback after destructive DELETE.
+            table = catalog.load_table(f"{self.schema}.{table_name}")
+            try:
+                arrow_table = self._dataframe_to_arrow(df, table.schema())
+            except (ValueError, TypeError, OverflowError) as exc:
+                raise SchemaError("Arrow conversion failed before write; raw values preserved") from exc
 
         # ── Idempotency: Remove existing chunk data before append ──────
         # Transaction limitation: This DELETE and the subsequent APPEND are NOT atomic.
@@ -440,10 +531,7 @@ class BronzeIcebergWriter:
 
         # ── High-Performance PyIceberg Bulk Write Path ────────────────
         try:
-            catalog = self.get_iceberg_catalog()
             if catalog is not None:
-                table = catalog.load_table(f"{self.schema}.{table_name}")
-                arrow_table = self._dataframe_to_arrow(df, table.schema())
                 table.append(arrow_table)
                 logger.info(
                     "Chunk written to Iceberg via PyIceberg bulk path",
@@ -451,6 +539,8 @@ class BronzeIcebergWriter:
                     table=full_table,
                 )
                 return len(df)
+        except SchemaError:
+            raise
         except Exception as bulk_err:
             logger.warning(
                 f"PyIceberg bulk write failed ({bulk_err}); falling back to Trino INSERT VALUES",

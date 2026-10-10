@@ -16,7 +16,7 @@ class SilverQualityEngine:
         if not self.rules:
             # If no rules, return original df and empty quarantine df (with same schema plus dq_errors)
             df_with_errors = df.withColumn("dq_errors", array())
-            return df_with_errors, df_with_errors.filter(F.lit(False))
+            return df, df_with_errors.filter(F.lit(False))
 
         # We will build an array of error structs.
         # Initialize an empty array of structs for dq_errors
@@ -24,6 +24,7 @@ class SilverQualityEngine:
         # Instead, we will construct the array by collecting the results of each rule.
         
         error_conditions = []
+        warning_conditions = []
         for r in self.rules:
             rule_id = r.get("rule_id", "UNKNOWN")
             sql_rule = r.get("rule", "1=1") # In a real implementation we'd compile the YAML natural language to SQL or assume YAML contains SQL.
@@ -31,7 +32,10 @@ class SilverQualityEngine:
             # The YAML currently has natural language like "Value must be non-negative".
             # We need to translate known rules or assume the YAML is updated to have sql_expr.
             # Let's map the specific ones from faostat_production for the PoC.
-            if rule_id == "PROD_DQ_001":
+            if "sql_expr" in r:
+                sql_expr = r["sql_expr"]
+                failed_column = r.get("failed_column", "unknown")
+            elif rule_id == "PROD_DQ_001":
                 sql_expr = "value >= 0 OR value IS NULL"
                 failed_column = "value"
             elif rule_id == "PROD_DQ_002":
@@ -66,7 +70,7 @@ class SilverQualityEngine:
             condition_expr = expr(sql_expr)
             
             error_struct = when(
-                ~condition_expr,
+                ~F.coalesce(condition_expr, F.lit(False)),
                 struct(
                     F.lit(rule_id).alias("rule_id"),
                     F.lit(error_message).alias("error_message"),
@@ -74,10 +78,19 @@ class SilverQualityEngine:
                 )
             ).otherwise(F.lit(None))
             
-            error_conditions.append(error_struct)
+            action = r.get("action", "QUARANTINE").upper()
+            if action in ("LOG", "KEEP"):
+                warning_conditions.append(error_struct)
+            elif action == "QUARANTINE":
+                error_conditions.append(error_struct)
+            else:
+                raise ValueError(f"Unsupported DQ action: {action}")
             
         # Combine into an array and remove nulls
-        df_with_errors = df.withColumn("raw_dq_errors", array(*error_conditions))
+        empty_errors = F.expr("cast(array() as array<struct<rule_id:string,error_message:string,failed_column:string>>)")
+        df_with_errors = df.withColumn("raw_dq_errors", array(*error_conditions) if error_conditions else empty_errors)
+        if warning_conditions:
+            df_with_errors = df_with_errors.withColumn("dq_warnings", F.filter(array(*warning_conditions), lambda x: x.isNotNull()))
         
         # Filter out nulls from the array
         # array_remove(col("raw_dq_errors"), None) doesn't work directly if the type is complex in some Spark versions,

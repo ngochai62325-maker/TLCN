@@ -1,0 +1,165 @@
+{
+  "status": "BLOCKED",
+  "observed_at": "2026-10-10T16:04:00.715232+00:00",
+  "source": "faostat_production",
+  "conditional_approval": "Production canary only; preflight must PASS before shared write",
+  "preflight": {
+    "native_status": "NATIVE_PREFLIGHT_PASS_SPARK_PENDING",
+    "native_checks": {
+      "target_absent": true,
+      "bronze_snapshot": true,
+      "bronze_schema": true,
+      "bronze_rows": true,
+      "source_identity": true,
+      "lineage_complete": true,
+      "source_id": true,
+      "contract_and_DQ_identical": true,
+      "DAGs_paused": true,
+      "no_active_tasks": true,
+      "no_active_ingestion": true,
+      "no_active_source_locks": true,
+      "real_run_id": true,
+      "manifest_identity": true,
+      "raw_artifact_checksum": true,
+      "trino_functional": true,
+      "REST_catalog": true,
+      "source_lock_contention": true,
+      "lock_released_after_probe": true
+    },
+    "spark_status": "BLOCKED",
+    "API_health": "UNREACHABLE because container exited",
+    "fresh_source_contract_DQ": "NOT_EXECUTED",
+    "resource_capacity": {
+      "docker_memory_bytes": 8326950912,
+      "docker_cpus": 12
+    },
+    "actual_spark_resource_limits": "NOT_VALIDATED: Spark submit could not run"
+  },
+  "blocker": {
+    "root_cause": "Image entrypoint evaluates only first argument; Compose supplies [bash,-c,script], so it evaluates bash and exits before API/Jupyter command",
+    "secondary_issue": "HistoryServer startup reports missing file:/tmp/spark-events",
+    "container_state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-10T15:49:15.074011143Z",
+      "FinishedAt": "2026-10-10T15:49:25.770042983Z"
+    },
+    "container_command": [
+      "bash",
+      "-c",
+      "python3 /home/iceberg/jobs/silver/spark_api_server.py & exec notebook"
+    ],
+    "entrypoint_evidence": "c2_spark_entrypoint_evidence.txt"
+  },
+  "scope": {
+    "services_started": [
+      "spark-iceberg"
+    ],
+    "spark_recreated_by_compose": true,
+    "shared_namespace_created": false,
+    "shared_tables_created": [],
+    "shared_writes": 0,
+    "Bronze_writes": 0,
+    "PostgreSQL_ingestion_updates": 0,
+    "Airflow_triggers": 0,
+    "DAG_unpause": false,
+    "Gold_changes": false,
+    "delete_tables_files_snapshots_volumes": false
+  },
+  "input": {
+    "snapshot_before": 3250087836768729857,
+    "snapshot_after": 3250087836768729857,
+    "raw_rows": 22738,
+    "source_identity": [
+      {
+        "_source_file": "production_world.csv",
+        "_source_checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+        "_source_snapshot_id": 0,
+        "_ingestion_run_id": "faostat_production_20261004145822_c4ff8851",
+        "rows": 22738
+      }
+    ],
+    "expected_output_rows": 22738,
+    "expected_quarantine_rows": 0,
+    "real_incremental_run_id": "faostat_production_20261004145822_c4ff8851"
+  },
+  "target": {
+    "identifier": "iceberg.silver.faostat_production",
+    "before": null,
+    "after": null,
+    "snapshot_before": null,
+    "snapshot_after": null,
+    "actual_rows": null,
+    "publish_status": "NOT_CREATED"
+  },
+  "execution": {
+    "pipeline_run_id": null,
+    "full_load": "NOT_EXECUTED",
+    "full_rerun": "NOT_EXECUTED",
+    "incremental_rerun": "NOT_EXECUTED",
+    "reason": "Stopped before shared write because strict preflight did not PASS"
+  },
+  "preservation_checks": {
+    "catalog_inventory": true,
+    "namespaces": true,
+    "bronze_snapshot": true,
+    "bronze_schema": true,
+    "bronze_metadata_location": true,
+    "bronze_data_files": true,
+    "source_identity": true,
+    "lineage_identity": true,
+    "raw_objects": true,
+    "manifests": true,
+    "raw_artifact": true,
+    "metadata.ingestion_runs": true,
+    "metadata.source_snapshots": true,
+    "metadata.source_watermarks": true,
+    "metadata.ingestion_checkpoints": true,
+    "metadata.dead_letter_records": true,
+    "metadata.dags": true,
+    "metadata.active_tasks": true,
+    "existing_code_and_contract_unchanged": true,
+    "other_service_IDs_and_states_unchanged": true
+  },
+  "service_before": [
+    "dda81f6af606",
+    "exited",
+    ""
+  ],
+  "service_after": [
+    "bb3dfbb09844",
+    "exited",
+    ""
+  ],
+  "unexpected_shared_changes": [],
+  "Trino_queries": [
+    {
+      "sql": "SELECT count(*) AS rows, count(DISTINCT _source_checksum) AS checksums FROM iceberg.bronze.faostat_production",
+      "columns": [
+        "rows",
+        "checksums"
+      ],
+      "rows": [
+        [
+          22738,
+          1
+        ]
+      ]
+    }
+  ],
+  "rollback": {
+    "executed": false,
+    "needed": false,
+    "reason": "No Silver table/namespace/data snapshot created; Bronze metadata unchanged; no automatic deletion or rollback"
+  },
+  "expansion_to_seven_sources": "NOT_AUTHORIZED; no request to expand until Production canary PASS",
+  "READY_FOR_GOLD": false,
+  "NSO_status": "DRAFT / NEEDS_APPROVAL; no NSO write or mapping approval"
+}

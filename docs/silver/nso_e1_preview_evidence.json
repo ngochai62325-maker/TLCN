@@ -1,0 +1,1049 @@
+{
+  "dataset": "nso_vietnam",
+  "bronze_count": 833,
+  "observation_count": 23428,
+  "valid_count": 560,
+  "quarantine_count": 22500,
+  "dedup_count": 560,
+  "deduplicated_count": 0,
+  "excluded_count": 368,
+  "excluded_columns": [],
+  "eligible_observation_count": 23060,
+  "target_table": "iceberg.silver.nso_rice_statistics",
+  "writes_performed": false,
+  "excluded_record_count": 13,
+  "excluded_records": [
+    {
+      "source_table": "V06.12.csv",
+      "_source_file": "V06.12.csv",
+      "_source_checksum": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb",
+      "_exclusion_record_id": "6feb91e7c3e808709d145628083548a398ef8e5e42f9e86e1c8e0b37876cf226",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 8
+    },
+    {
+      "source_table": "V06.13.csv",
+      "_source_file": "V06.13.csv",
+      "_source_checksum": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110",
+      "_exclusion_record_id": "6d35d4cd943965075db8e6839df1c487331ade2625350cf7be46241c998c09a9",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.14.csv",
+      "_source_file": "V06.14.csv",
+      "_source_checksum": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc",
+      "_exclusion_record_id": "bbbe48006d164491d264fbf8cf5edbdb0618cc3a31dfd720f3adf0b8e5ee1fe1",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.15.csv",
+      "_source_file": "V06.15.csv",
+      "_source_checksum": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7",
+      "_exclusion_record_id": "83a95c5f993b29d292c8cf7c05f9e63b4407b93aa8ab6585b162e4bb2e355ffa",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.16.csv",
+      "_source_file": "V06.16.csv",
+      "_source_checksum": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5",
+      "_exclusion_record_id": "3c16e5116b65075f17bc2470f725e47bb5d4653e11bf17687d1585ddd9fc3002",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.17.csv",
+      "_source_file": "V06.17.csv",
+      "_source_checksum": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be",
+      "_exclusion_record_id": "39b6f5b11f2745f46ec3a5d164e18c18af0fb3cdf592522cdec319fc8229a650",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.18.csv",
+      "_source_file": "V06.18.csv",
+      "_source_checksum": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84",
+      "_exclusion_record_id": "b8e57d13c98e195919f72249b51b8c2534c19c53a62514a7ae42fa5d3f7c7749",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.19.csv",
+      "_source_file": "V06.19.csv",
+      "_source_checksum": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6",
+      "_exclusion_record_id": "6af2948e62237cfba1f58d74dc75aa89070d98e317bdf43478e27487dee1eb5d",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.20.csv",
+      "_source_file": "V06.20.csv",
+      "_source_checksum": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8",
+      "_exclusion_record_id": "10743201a4a4ace55c9ae6e071a16418c9cc727122e29ddcc463bb4e16923219",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.21.csv",
+      "_source_file": "V06.21.csv",
+      "_source_checksum": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab",
+      "_exclusion_record_id": "9bd928fb117e63f18154c24108bec8f73ad951591db0e482dc1dc01872534006",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.22.csv",
+      "_source_file": "V06.22.csv",
+      "_source_checksum": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7",
+      "_exclusion_record_id": "cbd350b3eae6efff4c48f0754308c842759776d0dd14e4bf3a1d1bac4805d2a7",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.23.csv",
+      "_source_file": "V06.23.csv",
+      "_source_checksum": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76",
+      "_exclusion_record_id": "2aa7e01661e15fd37f898897736a6ff93a3edcf713352ea402ae5a6a783419e6",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    },
+    {
+      "source_table": "V06.24.csv",
+      "_source_file": "V06.24.csv",
+      "_source_checksum": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b",
+      "_exclusion_record_id": "0290c9dd303883e1fbf38b2bb5fe7b9df782dfb70af82ba92dde705511ab719e",
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_candidate_observation_count": 30
+    }
+  ],
+  "contract_status": "DRAFT",
+  "status": "PREVIEW_NEEDS_APPROVAL",
+  "bronze_snapshot_id": 3499764399995403202,
+  "local_export_sha256": "2f682fe7e92e0e65c5266e5b3c5d496d23eaa50653ec1855fd24e6bd1c8a36c4",
+  "network_disabled": true,
+  "writes_shared_data": false,
+  "implementation_sha256": {
+    "src/silver/transformers/nso_vietnam.py": "e9c58e5f85d880369dae97269c526950b0bbd056462f961739933a9867e0a053",
+    "src/silver/mappings/nso_geography.py": "872169f5b2e1ca64f0437c5a5e12955a12899fe661ed3933df5d02c824996ee7",
+    "src/silver/framework.py": "0997c9f3168a4d3db2bfa6ef99da8177050f8f446554723b9549135ee327567a",
+    "src/silver/contract/loader.py": "2326dc7cfbc0377a646f8449c2a07fd5e9a1ab3fea8cb031ecb180c152e79ecf",
+    "contracts/silver/nso_vietnam.yaml": "45df9884bb4db3bc92f4821e08d691ab075f99c2294dee7ea83a2e2d0199ae7a",
+    "config/silver/nso_source_tables.json": "4c075d36d40201f19192f5b084a20799f8a212b22fdc509f419788e1791b5ceb",
+    "config/silver/nso_geography_candidates.json": "3a6770d6cffcfc537e853e439393ade2d8e7d6191f570567c7a04047f6d1a6bf",
+    "config/silver/nso_geography_reviewed.json": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+  },
+  "dq_errors": {
+    "NSO_UNIT": 22500,
+    "NSO_GEOGRAPHY": 22140
+  },
+  "by_source": [
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "development_index",
+      "season": "annual",
+      "measure": "area",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "development_index",
+      "season": "annual",
+      "measure": "production",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "development_index",
+      "season": "mua",
+      "measure": "area",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "development_index",
+      "season": "mua",
+      "measure": "production",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "development_index",
+      "season": "summer_autumn",
+      "measure": "area",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "development_index",
+      "season": "summer_autumn",
+      "measure": "production",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "development_index",
+      "season": "winter_spring",
+      "measure": "area",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "development_index",
+      "season": "winter_spring",
+      "measure": "production",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "quantity",
+      "season": "annual",
+      "measure": "area",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "quantity",
+      "season": "annual",
+      "measure": "production",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "quantity",
+      "season": "mua",
+      "measure": "area",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "quantity",
+      "season": "mua",
+      "measure": "production",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "quantity",
+      "season": "summer_autumn",
+      "measure": "area",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "quantity",
+      "season": "summer_autumn",
+      "measure": "production",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "quantity",
+      "season": "winter_spring",
+      "measure": "area",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.12.csv",
+      "statistic_kind": "quantity",
+      "season": "winter_spring",
+      "measure": "production",
+      "observations": 35,
+      "numeric_cells": 35,
+      "missing_markers": 0
+    },
+    {
+      "source_table": "V06.13.csv",
+      "statistic_kind": "quantity",
+      "season": "annual",
+      "measure": "area",
+      "observations": 2130,
+      "numeric_cells": 2086,
+      "missing_markers": 44
+    },
+    {
+      "source_table": "V06.14.csv",
+      "statistic_kind": "quantity",
+      "season": "annual",
+      "measure": "yield",
+      "observations": 2130,
+      "numeric_cells": 2086,
+      "missing_markers": 44
+    },
+    {
+      "source_table": "V06.15.csv",
+      "statistic_kind": "quantity",
+      "season": "annual",
+      "measure": "production",
+      "observations": 2130,
+      "numeric_cells": 2086,
+      "missing_markers": 44
+    },
+    {
+      "source_table": "V06.16.csv",
+      "statistic_kind": "quantity",
+      "season": "winter_spring",
+      "measure": "area",
+      "observations": 2130,
+      "numeric_cells": 2073,
+      "missing_markers": 57
+    },
+    {
+      "source_table": "V06.17.csv",
+      "statistic_kind": "quantity",
+      "season": "winter_spring",
+      "measure": "yield",
+      "observations": 2130,
+      "numeric_cells": 2073,
+      "missing_markers": 57
+    },
+    {
+      "source_table": "V06.18.csv",
+      "statistic_kind": "quantity",
+      "season": "winter_spring",
+      "measure": "production",
+      "observations": 2130,
+      "numeric_cells": 2073,
+      "missing_markers": 57
+    },
+    {
+      "source_table": "V06.19.csv",
+      "statistic_kind": "quantity",
+      "season": "summer_autumn_autumn_winter",
+      "measure": "area",
+      "observations": 1110,
+      "numeric_cells": 1059,
+      "missing_markers": 51
+    },
+    {
+      "source_table": "V06.20.csv",
+      "statistic_kind": "quantity",
+      "season": "summer_autumn_autumn_winter",
+      "measure": "yield",
+      "observations": 1110,
+      "numeric_cells": 1056,
+      "missing_markers": 54
+    },
+    {
+      "source_table": "V06.21.csv",
+      "statistic_kind": "quantity",
+      "season": "summer_autumn_autumn_winter",
+      "measure": "production",
+      "observations": 1110,
+      "numeric_cells": 1058,
+      "missing_markers": 52
+    },
+    {
+      "source_table": "V06.22.csv",
+      "statistic_kind": "quantity",
+      "season": "mua",
+      "measure": "area",
+      "observations": 2130,
+      "numeric_cells": 1968,
+      "missing_markers": 162
+    },
+    {
+      "source_table": "V06.23.csv",
+      "statistic_kind": "quantity",
+      "season": "mua",
+      "measure": "yield",
+      "observations": 2130,
+      "numeric_cells": 1968,
+      "missing_markers": 162
+    },
+    {
+      "source_table": "V06.24.csv",
+      "statistic_kind": "quantity",
+      "season": "mua",
+      "measure": "production",
+      "observations": 2130,
+      "numeric_cells": 1968,
+      "missing_markers": 162
+    }
+  ],
+  "missing_kinds": {
+    "present": 22114,
+    "source_marker": 946
+  },
+  "provisional_observations": 766,
+  "gold_ready_count": 0,
+  "warning_count": 560,
+  "source_checksum_count": 13,
+  "duplicate_key_count": 0,
+  "output_schema": {
+    "type": "struct",
+    "fields": [
+      {
+        "name": "_ingestion_run_id",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_ingestion_batch_id",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_ingestion_chunk_id",
+        "type": "long",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_ingestion_timestamp",
+        "type": "timestamp",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_source_id",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_source_file",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_source_checksum",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_source_snapshot_id",
+        "type": "long",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_bronze_iceberg_snapshot_id",
+        "type": "long",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "_source_payload",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "source_table",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "geography_name_raw",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "period_raw",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "statistic_raw",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "source_column",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "value_raw",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "measure",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "season",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "proposed_source_unit",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "proposed_unit",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "proposed_factor",
+        "type": "integer",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "unit_status",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "unit_source_reference",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "year",
+        "type": "integer",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_period_valid",
+        "type": "boolean",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "is_provisional",
+        "type": "boolean",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "statistic_kind",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_missing_value",
+        "type": "boolean",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "missing_kind",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "value_source",
+        "type": "decimal(28,8)",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "source_unit",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "unit",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "conversion_factor",
+        "type": "decimal(18,6)",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "value",
+        "type": "decimal(28,8)",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "geography_level",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "geography_name",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "geography_code",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "geography_code_scheme",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "geography_source_reference",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "geography_valid_from",
+        "type": "date",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "geography_valid_to",
+        "type": "date",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "parent_geography",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "mapping_status",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "country_code",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "commodity_name",
+        "type": "string",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "province_code",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "_column_present",
+        "type": "boolean",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "gold_ready",
+        "type": "boolean",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "_contract_cast_error",
+        "type": "boolean",
+        "nullable": false,
+        "metadata": {}
+      },
+      {
+        "name": "dq_warnings",
+        "type": {
+          "type": "array",
+          "elementType": {
+            "type": "struct",
+            "fields": [
+              {
+                "name": "rule_id",
+                "type": "string",
+                "nullable": false,
+                "metadata": {}
+              },
+              {
+                "name": "error_message",
+                "type": "string",
+                "nullable": false,
+                "metadata": {}
+              },
+              {
+                "name": "failed_column",
+                "type": "string",
+                "nullable": false,
+                "metadata": {}
+              }
+            ]
+          },
+          "containsNull": true
+        },
+        "nullable": false,
+        "metadata": {}
+      }
+    ]
+  },
+  "all_source_null_record_audit": [
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 0,
+      "_ingestion_timestamp": "2026-10-04T14:58:36.678Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.12.csv",
+      "_source_checksum": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.12.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":0,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:36.678Z\",\"_source_checksum\":\"22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb\",\"_source_file\":\"V06.12.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 8,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "6feb91e7c3e808709d145628083548a398ef8e5e42f9e86e1c8e0b37876cf226",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 1,
+      "_ingestion_timestamp": "2026-10-04T14:58:38.793Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.13.csv",
+      "_source_checksum": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.13.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":1,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:38.793Z\",\"_source_checksum\":\"4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110\",\"_source_file\":\"V06.13.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "6d35d4cd943965075db8e6839df1c487331ade2625350cf7be46241c998c09a9",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 2,
+      "_ingestion_timestamp": "2026-10-04T14:58:39.714Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.14.csv",
+      "_source_checksum": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.14.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":2,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:39.714Z\",\"_source_checksum\":\"8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc\",\"_source_file\":\"V06.14.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "bbbe48006d164491d264fbf8cf5edbdb0618cc3a31dfd720f3adf0b8e5ee1fe1",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 3,
+      "_ingestion_timestamp": "2026-10-04T14:58:40.569Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.15.csv",
+      "_source_checksum": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.15.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":3,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:40.569Z\",\"_source_checksum\":\"a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7\",\"_source_file\":\"V06.15.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "83a95c5f993b29d292c8cf7c05f9e63b4407b93aa8ab6585b162e4bb2e355ffa",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 4,
+      "_ingestion_timestamp": "2026-10-04T14:58:41.332Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.16.csv",
+      "_source_checksum": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.16.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":4,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:41.332Z\",\"_source_checksum\":\"57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5\",\"_source_file\":\"V06.16.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "3c16e5116b65075f17bc2470f725e47bb5d4653e11bf17687d1585ddd9fc3002",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 5,
+      "_ingestion_timestamp": "2026-10-04T14:58:41.936Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.17.csv",
+      "_source_checksum": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.17.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":5,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:41.936Z\",\"_source_checksum\":\"fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be\",\"_source_file\":\"V06.17.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "39b6f5b11f2745f46ec3a5d164e18c18af0fb3cdf592522cdec319fc8229a650",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 6,
+      "_ingestion_timestamp": "2026-10-04T14:58:42.745Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.18.csv",
+      "_source_checksum": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.18.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":6,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:42.745Z\",\"_source_checksum\":\"07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84\",\"_source_file\":\"V06.18.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "b8e57d13c98e195919f72249b51b8c2534c19c53a62514a7ae42fa5d3f7c7749",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 7,
+      "_ingestion_timestamp": "2026-10-04T14:58:43.890Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.19.csv",
+      "_source_checksum": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.19.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":7,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:43.890Z\",\"_source_checksum\":\"b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6\",\"_source_file\":\"V06.19.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "6af2948e62237cfba1f58d74dc75aa89070d98e317bdf43478e27487dee1eb5d",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 8,
+      "_ingestion_timestamp": "2026-10-04T14:58:45.267Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.20.csv",
+      "_source_checksum": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.20.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":8,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:45.267Z\",\"_source_checksum\":\"b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8\",\"_source_file\":\"V06.20.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "10743201a4a4ace55c9ae6e071a16418c9cc727122e29ddcc463bb4e16923219",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 9,
+      "_ingestion_timestamp": "2026-10-04T14:58:46.536Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.21.csv",
+      "_source_checksum": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.21.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":9,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:46.536Z\",\"_source_checksum\":\"0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab\",\"_source_file\":\"V06.21.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "9bd928fb117e63f18154c24108bec8f73ad951591db0e482dc1dc01872534006",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 10,
+      "_ingestion_timestamp": "2026-10-04T14:58:47.559Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.22.csv",
+      "_source_checksum": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.22.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":10,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:47.559Z\",\"_source_checksum\":\"fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7\",\"_source_file\":\"V06.22.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "cbd350b3eae6efff4c48f0754308c842759776d0dd14e4bf3a1d1bac4805d2a7",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 11,
+      "_ingestion_timestamp": "2026-10-04T14:58:48.432Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.23.csv",
+      "_source_checksum": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.23.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":11,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:48.432Z\",\"_source_checksum\":\"6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76\",\"_source_file\":\"V06.23.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "2aa7e01661e15fd37f898897736a6ff93a3edcf713352ea402ae5a6a783419e6",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    },
+    {
+      "_ingestion_run_id": "nso_vietnam_20261004145836_dbf324d8",
+      "_ingestion_batch_id": "nso_vietnam_20261004_3682",
+      "_ingestion_chunk_id": 12,
+      "_ingestion_timestamp": "2026-10-04T14:58:49.074Z",
+      "_source_id": "nso_vietnam",
+      "_source_file": "V06.24.csv",
+      "_source_checksum": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b",
+      "_source_snapshot_id": 0,
+      "_bronze_iceberg_snapshot_id": 3499764399995403202,
+      "source_table": "V06.24.csv",
+      "_source_payload": "{\"_ingestion_batch_id\":\"nso_vietnam_20261004_3682\",\"_ingestion_chunk_id\":12,\"_ingestion_run_id\":\"nso_vietnam_20261004145836_dbf324d8\",\"_ingestion_timestamp\":\"2026-10-04T14:58:49.074Z\",\"_source_checksum\":\"4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b\",\"_source_file\":\"V06.24.csv\",\"_source_id\":\"nso_vietnam\",\"_source_snapshot_id\":0,\"col_1995\":null,\"col_1996\":null,\"col_1997\":null,\"col_1998\":null,\"col_1999\":null,\"col_2000\":null,\"col_2001\":null,\"col_2002\":null,\"col_2003\":null,\"col_2004\":null,\"col_2005\":null,\"col_2006\":null,\"col_2007\":null,\"col_2008\":null,\"col_2009\":null,\"col_2010\":null,\"col_2011\":null,\"col_2012\":null,\"col_2013\":null,\"col_2014\":null,\"col_2015\":null,\"col_2016\":null,\"col_2017\":null,\"col_2018\":null,\"col_2019\":null,\"col_2020\":null,\"col_2021\":null,\"col_2022\":null,\"col_2023\":null,\"di_n_t_ch_l_a_h_thu_ngh_n_ha_\":null,\"di_n_t_ch_l_a_m_a_ngh_n_ha_\":null,\"di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_\":null,\"gi_tr_v_ch_s_ph_t_tri_n\":null,\"nam\":null,\"s_n_lu_ng_l_a_h_thu_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_m_a_ngh_n_t_n_\":null,\"s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_\":null,\"so_b_2024\":null,\"t_ng_di_n_t_ch_ngh_n_ha_\":null,\"t_ng_s_n_lu_ng_ngh_n_t_n_\":null,\"t_nh_th_nh_ph_\":null}",
+      "_all_source_null": true,
+      "_candidate_observation_count": 30,
+      "_exclusion_reason": "ALL_SOURCE_FIELDS_NULL",
+      "_exclusion_record_id": "0290c9dd303883e1fbf38b2bb5fe7b9df782dfb70af82ba92dde705511ab719e",
+      "dq_errors": [
+        {
+          "rule_id": "NSO_EMPTY_SOURCE_RECORD",
+          "error_message": "All source fields NULL; no observations generated",
+          "failed_column": "source_record"
+        }
+      ]
+    }
+  ]
+}

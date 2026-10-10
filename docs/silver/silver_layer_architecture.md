@@ -1,4 +1,7 @@
 # Tài liệu Thiết kế & Triển khai Tầng Silver (Silver Layer Architecture)
+
+> **Cập nhật kiểm chứng 10/10/2026:** Tài liệu này lưu thiết kế và báo cáo của giai đoạn trước audit tích hợp. Các bảng PASS/live counts bên dưới chưa được tái xác nhận trên catalog hiện tại: REST chỉ có namespace Bronze, live Silver coverage 0/9. Kiến trúc và hành vi code sau phần A nằm trong [audit tích hợp](silver_integration_audit.md); counts hiện tại là [preview/DQ](silver_dq_reconciliation_report.md), không phải dữ liệu đã ghi. Trade giữ giá trị âm để DQ xử lý; không chuyển âm thành NULL. Không dùng bảng nghiệm thu lịch sử bên dưới để quyết định Gold readiness.
+
 **Dự án**: Vietnam Rice Market Data Lakehouse (`TLCN`)  
 **Giai đoạn**: Tuần 8 (05/10/2026 – 11/10/2026)  
 **Phụ trách**: Người 2 — Pipeline & Storage Engineer (Data Platform & Lakehouse)

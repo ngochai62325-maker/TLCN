@@ -27,9 +27,10 @@ class UsdaPsdTransformer(BaseSilverTransformer):
 
     def transform(self, df: DataFrame) -> DataFrame:
         """Unpivot wide crop year columns and clean USDA PSD."""
+        df = self.prepare_source(df)
         # 1. Fill default commodity for Rice PSD if empty or null
         clean_df = (
-            df.filter(F.trim(F.coalesce(F.col("attribute"), F.lit(""))) != "")
+            df
             .withColumn(
                 "commodity",
                 F.when(
@@ -37,13 +38,7 @@ class UsdaPsdTransformer(BaseSilverTransformer):
                     F.lit("Rice, Milled"),
                 ).otherwise(F.trim(F.col("commodity"))),
             )
-            .withColumn(
-                "country",
-                F.when(
-                    (F.col("country").isNull()) | (F.trim(F.col("country")) == ""),
-                    F.lit("Vietnam"),
-                ).otherwise(F.trim(F.col("country"))),
-            )
+            .withColumn("country", F.trim(F.col("country")))
             .withColumn("attribute", F.trim(F.col("attribute")))
             .withColumn(
                 "unit",
@@ -66,18 +61,16 @@ class UsdaPsdTransformer(BaseSilverTransformer):
             start_yr, end_yr = m.group(1), m.group(2)
             crop_yr_str = f"{start_yr}/{end_yr}"
             mkt_yr_int = int(start_yr)
-            stack_parts.append(f"'{crop_yr_str}', {mkt_yr_int}, `{c}`")
+            stack_parts.append(f"'{crop_yr_str}', {mkt_yr_int}, cast(`{c}` as string)")
 
-        stack_expr = f"stack({len(year_cols)}, {', '.join(stack_parts)}) as (crop_year, market_year, value)"
+        stack_expr = f"stack({len(year_cols)}, {', '.join(stack_parts)}) as (crop_year, market_year, raw_value)"
 
         unpivoted_df = clean_df.select(
             "country",
             "commodity",
             "attribute",
             "unit",
-            "_source_file",
-            "_ingestion_run_id",
-            "_ingestion_timestamp",
+            *[c for c in df.columns if c.startswith("_")],
             F.expr(stack_expr),
         )
 
@@ -88,13 +81,17 @@ class UsdaPsdTransformer(BaseSilverTransformer):
             F.col("market_year").cast("int").alias("market_year"),
             F.col("crop_year"),
             F.col("unit"),
-            F.col("value").cast("double").alias("value"),
-            F.col("_source_file"),
-            F.col("_ingestion_run_id"),
-            F.col("_ingestion_timestamp"),
-        ).filter(
-            F.col("country").isNotNull()
-            & F.col("commodity").isNotNull()
-            & F.col("attribute").isNotNull()
-            & F.col("market_year").isNotNull()
+            F.expr("try_cast(raw_value as double)").alias("value"),
+            F.col("raw_value").alias("_raw_value"),
+            (F.col("raw_value").isNotNull() & F.expr("try_cast(raw_value as double)").isNull()).alias("_numeric_parse_error"),
+            *[F.col(c) for c in df.columns if c.startswith("_")],
         )
+
+    def quality_rules(self):
+        from silver.transformers.faostat_source import sql_rule
+        return [sql_rule("PSD_PARSE", "NOT _numeric_parse_error", "value", "Malformed observation"),
+                sql_rule("PSD_CROP_YEAR", "cast(substring(crop_year,1,4) as int) = market_year AND "
+                         "cast(substring(crop_year,6,4) as int) = market_year + 1", "crop_year", "Marketing-year interval must remain intact"),
+                sql_rule("PSD_UNIT", "unit IN ('1000 MT','1000 HA','MT/HA')", "unit", "Source unit requires review"),
+                sql_rule("PSD_RATE_DEFINITION", "attribute NOT LIKE 'Milling Rate%'", "unit",
+                         "Raw source labels Milling Rate (.9999) as 1000 MT; scaled ratio definition requires review")]

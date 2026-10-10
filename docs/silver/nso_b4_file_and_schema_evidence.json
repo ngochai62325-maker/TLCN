@@ -1,0 +1,561 @@
+{
+  "status": "PASSED",
+  "writes_shared_data": false,
+  "checks": {
+    "trino_schema_49": true,
+    "native_trino_types_match": true,
+    "retained_18_field_projection_exact": true,
+    "all_13_baseline_data_files_still_exist": true,
+    "baseline_metadata_file_exists": true,
+    "recorded_snapshot_still_current": true
+  },
+  "trino_schema": [
+    {
+      "Column": "gi_tr_v_ch_s_ph_t_tri_n",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "nam",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "t_ng_di_n_t_ch_ngh_n_ha_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "di_n_t_ch_l_a_h_thu_ngh_n_ha_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "di_n_t_ch_l_a_m_a_ngh_n_ha_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "t_ng_s_n_lu_ng_ngh_n_t_n_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "s_n_lu_ng_l_a_h_thu_ngh_n_t_n_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "s_n_lu_ng_l_a_m_a_ngh_n_t_n_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_run_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_batch_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_chunk_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_timestamp",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_file",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_checksum",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_1995",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_1996",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_1997",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_1998",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_1999",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2000",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2001",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2002",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2003",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2004",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2005",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2006",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2007",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2008",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2009",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2010",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2011",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2012",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2013",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2014",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2015",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2016",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2017",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2018",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2019",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2020",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2021",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2022",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "col_2023",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "so_b_2024",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "t_nh_th_nh_ph_",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    }
+  ],
+  "written_objects_since_commit_intent": [
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-39a4103f-2e5c-46cb-bd71-bbf55f4fc680.parquet",
+      "bytes": 104403,
+      "etag": "\"4cbdf68a0f5f68c39a076934ca0a3be4-1\"",
+      "last_modified": "2026-10-10 13:46:34.754000+00:00"
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/00014-e318f6a9-9431-4bba-9923-7487598af010.metadata.json",
+      "bytes": 23982,
+      "etag": "\"fdcc30be5c5b12d36b57c12bdd67a495\"",
+      "last_modified": "2026-10-10 13:46:35.164000+00:00"
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/39a4103f-2e5c-46cb-bd71-bbf55f4fc680-m0.avro",
+      "bytes": 8181,
+      "etag": "\"af1e8f28bf206da243cbce1eff453887-1\"",
+      "last_modified": "2026-10-10 13:46:34.802000+00:00"
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/c09f581f-0381-47d5-b787-b4d63030f284-m0.avro",
+      "bytes": 12086,
+      "etag": "\"7f335d618201ef1e6063c24f34065f7a-1\"",
+      "last_modified": "2026-10-10 13:46:34.626000+00:00"
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-2995248014055073657-0-c09f581f-0381-47d5-b787-b4d63030f284.avro",
+      "bytes": 1826,
+      "etag": "\"a656d9d7f966434f45c22111803f9b54-1\"",
+      "last_modified": "2026-10-10 13:46:34.676000+00:00"
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-3499764399995403202-0-39a4103f-2e5c-46cb-bd71-bbf55f4fc680.avro",
+      "bytes": 1821,
+      "etag": "\"d95d12eb11105d22bacf168ec928cd21-1\"",
+      "last_modified": "2026-10-10 13:46:34.850000+00:00"
+    }
+  ],
+  "written_objects_selection": "NSO table prefix; LastModified >= floor(commit_intent_at, second)",
+  "retained_baseline_data_files": [
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-05823461-6332-4e51-91e1-513b4171d75a.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-0824722c-785a-48a5-8f26-bafc34aea806.parquet",
+      "bytes": 8938,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-0ee83d6b-975c-4562-91b1-4926defd74c4.parquet",
+      "bytes": 9049,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-1dc83423-b27b-4d28-b0fd-73ba1c0057fc.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-34caa84b-8d1f-4d08-9b57-1b0cdb81ce7d.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-42eb93ec-acb4-4c4c-b24a-e9a3fc1b959d.parquet",
+      "bytes": 9051,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-517e31dd-f8e0-442f-9905-88dfdf1ab948.parquet",
+      "bytes": 8937,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-521a666f-cf46-46d4-9bb7-993f6e5e1c57.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-80e20280-0aa3-4143-976e-4e5bc510699b.parquet",
+      "bytes": 12362,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-9b83c7d5-2596-4ad0-8ade-a74996caa899.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-aa6ed4a1-40e8-437b-85d6-a561a1d34892.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-c1a91f63-2852-4d15-b865-51654aefc506.parquet",
+      "bytes": 8937,
+      "head_verified": true
+    },
+    {
+      "uri": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/data/00000-0-f223143c-5da5-4b26-a976-14929840164c.parquet",
+      "bytes": 9050,
+      "head_verified": true
+    }
+  ],
+  "original_18_field_projection_preserved": true,
+  "phase_e_profile": {
+    "national_rows": 71,
+    "national_statistic_labels": [
+      {
+        "label": "Giá tr?",
+        "rows": 35
+      },
+      {
+        "label": "Ch? s? phát tri?n (Nam tru?c =100) - %",
+        "rows": 35
+      },
+      {
+        "label": null,
+        "rows": 1
+      }
+    ],
+    "national_periods": [
+      "1990",
+      "1991",
+      "1992",
+      "1993",
+      "1994",
+      "1995",
+      "1996",
+      "1997",
+      "1998",
+      "1999",
+      "2000",
+      "2001",
+      "2002",
+      "2003",
+      "2004",
+      "2005",
+      "2006",
+      "2007",
+      "2008",
+      "2009",
+      "2010",
+      "2011",
+      "2012",
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "So b? 2024"
+    ],
+    "national_null_period_rows": 1,
+    "national_null_period_examples": [
+      {
+        "nam": null,
+        "gi_tr_v_ch_s_ph_t_tri_n": null,
+        "t_ng_di_n_t_ch_ngh_n_ha_": null,
+        "di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_": null,
+        "di_n_t_ch_l_a_h_thu_ngh_n_ha_": null,
+        "di_n_t_ch_l_a_m_a_ngh_n_ha_": null,
+        "t_ng_s_n_lu_ng_ngh_n_t_n_": null,
+        "s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_": null,
+        "s_n_lu_ng_l_a_h_thu_ngh_n_t_n_": null,
+        "s_n_lu_ng_l_a_m_a_ngh_n_t_n_": null
+      }
+    ],
+    "national_nonnull_measure_cells": 560,
+    "matrix_rows": 762,
+    "matrix_null_measure_cells": 360,
+    "matrix_unique_raw_labels": [
+      "An Giang",
+      "B?c Giang",
+      "B?c K?n",
+      "B?c Liêu",
+      "B?c Ninh",
+      "B?c Trung B? và Duyên h?i mi?n Trung",
+      "B?n Tre",
+      "Bà R?a - Vtng Tàu",
+      "Bình Duong",
+      "Bình Phu?c",
+      "Bình Thu?n",
+      "Bình Ð?nh",
+      "C? NU?C",
+      "C?n Tho",
+      "Cao B?ng",
+      "Cà Mau",
+      "Gia Lai",
+      "H?i Duong",
+      "H?i Phòng",
+      "H?u Giang",
+      "Hoà Bình",
+      "Hung Yên",
+      "Hà Giang",
+      "Hà N?i",
+      "Hà Nam",
+      "Hà Tinh",
+      "Hà Tây",
+      "Khánh Hoà",
+      "Kiên Giang",
+      "Kon Tum",
+      "L?ng Son",
+      "Lai Châu",
+      "Long An",
+      "Lào Cai",
+      "Lâm Ð?ng",
+      "Nam Ð?nh",
+      "Ngh? An",
+      "Ninh Bình",
+      "Ninh Thu?n",
+      "Phú Th?",
+      "Phú Yên",
+      "Qu?ng Bình",
+      "Qu?ng Nam",
+      "Qu?ng Ngãi",
+      "Qu?ng Ninh",
+      "Qu?ng Tr?",
+      "Son La",
+      "Sóc Trang",
+      "TP.H? Chí Minh",
+      "Th?a Thiên Hu?",
+      "Thanh Hoá",
+      "Thái Bình",
+      "Thái Nguyên",
+      "Ti?n Giang",
+      "Trung du và mi?n núi phía B?c",
+      "Trà Vinh",
+      "Tuyên Quang",
+      "Tây Nguyên",
+      "Tây Ninh",
+      "Vinh Long",
+      "Vinh Phúc",
+      "Yên Bái",
+      "Ð?k L?k",
+      "Ð?k Nông",
+      "Ð?ng Nai",
+      "Ð?ng Tháp",
+      "Ð?ng b?ng sông C?u Long",
+      "Ð?ng b?ng sông H?ng",
+      "Ði?n Biên",
+      "Ðà N?ng",
+      "Ðông Nam B?"
+    ],
+    "provisional_2024_nonnull_cells": 750
+  }
+}

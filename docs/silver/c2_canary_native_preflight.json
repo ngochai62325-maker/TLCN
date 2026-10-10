@@ -1,0 +1,4058 @@
+{
+  "status": "NATIVE_PREFLIGHT_PASS_SPARK_PENDING",
+  "observed_at": "2026-10-10T15:45:56.834875+00:00",
+  "shared_writes": false,
+  "checks": {
+    "target_absent": true,
+    "bronze_snapshot": true,
+    "bronze_schema": true,
+    "bronze_rows": true,
+    "source_identity": true,
+    "lineage_complete": true,
+    "source_id": true,
+    "contract_and_DQ_identical": true,
+    "DAGs_paused": true,
+    "no_active_tasks": true,
+    "no_active_ingestion": true,
+    "no_active_source_locks": true,
+    "real_run_id": true,
+    "manifest_identity": true,
+    "raw_artifact_checksum": true,
+    "trino_functional": true,
+    "REST_catalog": true,
+    "source_lock_contention": true,
+    "lock_released_after_probe": true
+  },
+  "errors": [],
+  "catalog_inventory": {
+    "bronze.faostat_monthly_price": {
+      "snapshot": 7180512843532517583,
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "domain_code",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "domain",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "area_code_m49_",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "area",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "element_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "element",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "item_code_cpc_",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "item",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "year_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "year",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "months_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "months",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "unit",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "value",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "flag",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "flag_description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 17,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 18,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 19,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 20,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 21,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 22,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 23,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 24,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          }
+        ],
+        "schema-id": 0,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot-id": 8951042382312262161,
+          "sequence-number": 1,
+          "timestamp-ms": 1791125905574,
+          "manifest-list": "s3://warehouse/bronze/faostat_monthly_price-e5f229e35e434c8db8e220c44dc5d083/metadata/snap-8951042382312262161-1-8263ea4a-3eb9-48e9-a47e-6ee1cd0bc6c5.avro",
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261004_145824_00007_7jnwj",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 7180512843532517583,
+          "parent-snapshot-id": 8951042382312262161,
+          "sequence-number": 2,
+          "timestamp-ms": 1791125912690,
+          "manifest-list": "s3://warehouse/bronze/faostat_monthly_price-e5f229e35e434c8db8e220c44dc5d083/metadata/snap-7180512843532517583-0-b70895eb-003e-4320-bff0-07dff2606c9b.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "86114",
+            "added-data-files": "1",
+            "added-records": "15334",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "15334",
+            "total-files-size": "86114",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        }
+      ]
+    },
+    "bronze.faostat_production": {
+      "snapshot": 3250087836768729857,
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "domain_code",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "domain",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "area_code_m49_",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "area",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "element_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "element",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "item_code_cpc_",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "item",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "year_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "year",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "unit",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "value",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "flag",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "flag_description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "note",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 17,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 18,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 19,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 20,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 21,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 22,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 23,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          }
+        ],
+        "schema-id": 0,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot-id": 4276432520519080109,
+          "sequence-number": 1,
+          "timestamp-ms": 1791125905574,
+          "manifest-list": "s3://warehouse/bronze/faostat_production-50c5c86523c24ade81e872a1e45e8960/metadata/snap-4276432520519080109-1-7cecea45-b60b-4644-83e6-f0eb489b81db.avro",
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261004_145824_00009_7jnwj",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 3250087836768729857,
+          "parent-snapshot-id": 4276432520519080109,
+          "sequence-number": 2,
+          "timestamp-ms": 1791125912725,
+          "manifest-list": "s3://warehouse/bronze/faostat_production-50c5c86523c24ade81e872a1e45e8960/metadata/snap-3250087836768729857-0-698972ed-d30f-458e-81d7-cf8f0678942f.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "126700",
+            "added-data-files": "1",
+            "added-records": "22738",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "22738",
+            "total-files-size": "126700",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        }
+      ]
+    },
+    "bronze.faostat_supply_utilization": {
+      "snapshot": 5236669643868971539,
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "domain_code",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "domain",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "area_code_m49_",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "area",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "element_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "element",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "item_code_cpc_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "item",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "year_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "year",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "unit",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "value",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "flag",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "flag_description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "note",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 17,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 18,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 19,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 20,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 21,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 22,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 23,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          }
+        ],
+        "schema-id": 0,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot-id": 8179418546324433434,
+          "sequence-number": 1,
+          "timestamp-ms": 1791125918410,
+          "manifest-list": "s3://warehouse/bronze/faostat_supply_utilization-f13e79dc72ed4c7e8e8be1bb12c94b10/metadata/snap-8179418546324433434-1-e077489f-82fb-4628-bef2-c2120a97a4e8.avro",
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261004_145838_00026_7jnwj",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 5236669643868971539,
+          "parent-snapshot-id": 8179418546324433434,
+          "sequence-number": 2,
+          "timestamp-ms": 1791125919885,
+          "manifest-list": "s3://warehouse/bronze/faostat_supply_utilization-f13e79dc72ed4c7e8e8be1bb12c94b10/metadata/snap-5236669643868971539-0-3d5f8402-e436-445b-9f4d-09ec3b9f147d.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "226496",
+            "added-data-files": "1",
+            "added-records": "36380",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "36380",
+            "total-files-size": "226496",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        }
+      ]
+    },
+    "bronze.faostat_trade": {
+      "snapshot": 5969648367205304379,
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "reporter_country_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "reporter_country_code_m49_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "reporter_countries",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "partner_country_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "partner_country_code_m49_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "partner_countries",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "item_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "item_code_cpc_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "item",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "element_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "element",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "year_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "year",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "unit",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "value",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "flag",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 17,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 18,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 19,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 20,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 21,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 22,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 23,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 24,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          }
+        ],
+        "schema-id": 0,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot-id": 5910075476178902628,
+          "sequence-number": 1,
+          "timestamp-ms": 1791125924935,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-5910075476178902628-1-f45dd025-b194-40f0-9af0-981deca111ce.avro",
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261004_145844_00049_7jnwj",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 9090256270200803751,
+          "parent-snapshot-id": 5910075476178902628,
+          "sequence-number": 2,
+          "timestamp-ms": 1791125927510,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-9090256270200803751-0-d6e8d551-ca8f-4a41-b170-e4f778b4adbe.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "398702",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "50000",
+            "total-files-size": "398702",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 5615304466037346139,
+          "parent-snapshot-id": 9090256270200803751,
+          "sequence-number": 3,
+          "timestamp-ms": 1791125930014,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-5615304466037346139-0-9340ab47-19ce-464c-a365-af844b1d235d.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "381648",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "2",
+            "total-delete-files": "0",
+            "total-records": "100000",
+            "total-files-size": "780350",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 8823273118708851930,
+          "parent-snapshot-id": 5615304466037346139,
+          "sequence-number": 4,
+          "timestamp-ms": 1791125931852,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-8823273118708851930-0-0ab2d90e-a666-4f40-840f-af8bff538b72.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "364565",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "3",
+            "total-delete-files": "0",
+            "total-records": "150000",
+            "total-files-size": "1144915",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 1514763139274971079,
+          "parent-snapshot-id": 8823273118708851930,
+          "sequence-number": 5,
+          "timestamp-ms": 1791125933176,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-1514763139274971079-0-c21c9748-0d6c-430b-bd8b-224788659bfc.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "360731",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "4",
+            "total-delete-files": "0",
+            "total-records": "200000",
+            "total-files-size": "1505646",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 8573076318167849562,
+          "parent-snapshot-id": 1514763139274971079,
+          "sequence-number": 6,
+          "timestamp-ms": 1791125934412,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-8573076318167849562-0-39ab4db9-ad0e-49c3-aa11-9958497d81ea.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "350042",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "5",
+            "total-delete-files": "0",
+            "total-records": "250000",
+            "total-files-size": "1855688",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 1216628985317958916,
+          "parent-snapshot-id": 8573076318167849562,
+          "sequence-number": 7,
+          "timestamp-ms": 1791125935787,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-1216628985317958916-0-74a195e7-d0b1-4e3e-aa93-19c170db99f1.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "342658",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "6",
+            "total-delete-files": "0",
+            "total-records": "300000",
+            "total-files-size": "2198346",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 7570422249661088192,
+          "parent-snapshot-id": 1216628985317958916,
+          "sequence-number": 8,
+          "timestamp-ms": 1791125937455,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-7570422249661088192-0-d65e40a0-867e-455f-9b2c-b7f42b795e52.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "376104",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "7",
+            "total-delete-files": "0",
+            "total-records": "350000",
+            "total-files-size": "2574450",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 325620664488287671,
+          "parent-snapshot-id": 7570422249661088192,
+          "sequence-number": 9,
+          "timestamp-ms": 1791125938889,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-325620664488287671-0-11836d25-1bd1-4b56-93e2-52a707559a14.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "375597",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "8",
+            "total-delete-files": "0",
+            "total-records": "400000",
+            "total-files-size": "2950047",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 5694975077375084762,
+          "parent-snapshot-id": 325620664488287671,
+          "sequence-number": 10,
+          "timestamp-ms": 1791125940169,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-5694975077375084762-0-e244100d-5514-4b84-8ff2-4bf4f14303fd.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "371116",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "9",
+            "total-delete-files": "0",
+            "total-records": "450000",
+            "total-files-size": "3321163",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 2429694389060259327,
+          "parent-snapshot-id": 5694975077375084762,
+          "sequence-number": 11,
+          "timestamp-ms": 1791125941576,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-2429694389060259327-0-aa4d2da3-8811-43c7-9ed9-b42fd8556ddf.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "353257",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "10",
+            "total-delete-files": "0",
+            "total-records": "500000",
+            "total-files-size": "3674420",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 4642999045829825085,
+          "parent-snapshot-id": 2429694389060259327,
+          "sequence-number": 12,
+          "timestamp-ms": 1791125943121,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-4642999045829825085-0-58aa1c63-15aa-4266-9258-483fc336920e.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "348950",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "11",
+            "total-delete-files": "0",
+            "total-records": "550000",
+            "total-files-size": "4023370",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 9183072474390146781,
+          "parent-snapshot-id": 4642999045829825085,
+          "sequence-number": 13,
+          "timestamp-ms": 1791125944424,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-9183072474390146781-0-f19215c1-8cdc-4509-851d-ba838d0519f0.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "342205",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "12",
+            "total-delete-files": "0",
+            "total-records": "600000",
+            "total-files-size": "4365575",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 6669339123838722452,
+          "parent-snapshot-id": 9183072474390146781,
+          "sequence-number": 14,
+          "timestamp-ms": 1791125945516,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-6669339123838722452-0-8bf0cda1-782b-418f-b2a0-ff377f69327c.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "327148",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "13",
+            "total-delete-files": "0",
+            "total-records": "650000",
+            "total-files-size": "4692723",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 7196067918262441720,
+          "parent-snapshot-id": 6669339123838722452,
+          "sequence-number": 15,
+          "timestamp-ms": 1791125946573,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-7196067918262441720-0-ef161a5c-a4c5-44d4-a826-46b0b8b974a4.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "318432",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "14",
+            "total-delete-files": "0",
+            "total-records": "700000",
+            "total-files-size": "5011155",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 7499857385060622952,
+          "parent-snapshot-id": 7196067918262441720,
+          "sequence-number": 16,
+          "timestamp-ms": 1791125947674,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-7499857385060622952-0-f539907e-b7d8-4596-bdab-d04528caf908.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "299339",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "15",
+            "total-delete-files": "0",
+            "total-records": "750000",
+            "total-files-size": "5310494",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 5265995922357124947,
+          "parent-snapshot-id": 7499857385060622952,
+          "sequence-number": 17,
+          "timestamp-ms": 1791125948669,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-5265995922357124947-0-216c5bbb-ae94-41b1-ab6e-641e7982bdf7.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "286276",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "16",
+            "total-delete-files": "0",
+            "total-records": "800000",
+            "total-files-size": "5596770",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 5890263770908168287,
+          "parent-snapshot-id": 5265995922357124947,
+          "sequence-number": 18,
+          "timestamp-ms": 1791125950474,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-5890263770908168287-0-148f3ac1-9efe-44f1-a799-4fc44e02d4cf.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "280288",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "17",
+            "total-delete-files": "0",
+            "total-records": "850000",
+            "total-files-size": "5877058",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 1551443142854796521,
+          "parent-snapshot-id": 5890263770908168287,
+          "sequence-number": 19,
+          "timestamp-ms": 1791125951675,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-1551443142854796521-0-91dc5cf6-d480-4d1d-8c89-51aba91e3da1.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "278687",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "18",
+            "total-delete-files": "0",
+            "total-records": "900000",
+            "total-files-size": "6155745",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 1437635506985337172,
+          "parent-snapshot-id": 1551443142854796521,
+          "sequence-number": 20,
+          "timestamp-ms": 1791125953012,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-1437635506985337172-0-457ca46b-7127-4fff-972a-1a1c63395cc2.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "266321",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "19",
+            "total-delete-files": "0",
+            "total-records": "950000",
+            "total-files-size": "6422066",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 4273857680956580881,
+          "parent-snapshot-id": 1437635506985337172,
+          "sequence-number": 21,
+          "timestamp-ms": 1791125954590,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-4273857680956580881-0-dcda6327-26c5-41dc-8e3f-3ec7001e72a9.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "274358",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "20",
+            "total-delete-files": "0",
+            "total-records": "1000000",
+            "total-files-size": "6696424",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 7838970159050521855,
+          "parent-snapshot-id": 4273857680956580881,
+          "sequence-number": 22,
+          "timestamp-ms": 1791125956192,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-7838970159050521855-0-6ad0f229-2fd4-4e91-a1b4-626916c51013.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "257121",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "21",
+            "total-delete-files": "0",
+            "total-records": "1050000",
+            "total-files-size": "6953545",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 6616408332978913087,
+          "parent-snapshot-id": 7838970159050521855,
+          "sequence-number": 23,
+          "timestamp-ms": 1791125957851,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-6616408332978913087-0-40962a12-d52d-496c-80b7-32c7339035a0.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "243226",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "22",
+            "total-delete-files": "0",
+            "total-records": "1100000",
+            "total-files-size": "7196771",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 445573376738695968,
+          "parent-snapshot-id": 6616408332978913087,
+          "sequence-number": 24,
+          "timestamp-ms": 1791125959183,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-445573376738695968-0-a337906b-3304-4c6a-85eb-d2f4948452de.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "229050",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "23",
+            "total-delete-files": "0",
+            "total-records": "1150000",
+            "total-files-size": "7425821",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 4269200097310960310,
+          "parent-snapshot-id": 445573376738695968,
+          "sequence-number": 25,
+          "timestamp-ms": 1791125960663,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-4269200097310960310-0-d92fb80c-8d04-4caa-9800-38070356273c.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "217269",
+            "added-data-files": "1",
+            "added-records": "50000",
+            "total-data-files": "24",
+            "total-delete-files": "0",
+            "total-records": "1200000",
+            "total-files-size": "7643090",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 5969648367205304379,
+          "parent-snapshot-id": 4269200097310960310,
+          "sequence-number": 26,
+          "timestamp-ms": 1791125961981,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade-100b1f7aa7d548098cbfa0cebff91110/metadata/snap-5969648367205304379-0-e6ca77fd-54d9-4960-9b3c-7791b778333e.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "117874",
+            "added-data-files": "1",
+            "added-records": "26470",
+            "total-data-files": "25",
+            "total-delete-files": "0",
+            "total-records": "1226470",
+            "total-files-size": "7760964",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        }
+      ]
+    },
+    "bronze.faostat_trade_validation": {
+      "snapshot": 3446010833399871936,
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "reporter_country_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "reporter_country_code_m49_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "reporter_countries",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "partner_country_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "partner_country_code_m49_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "partner_countries",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "item_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "item_code_cpc_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "item",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "element_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "element",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "year_code",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "year",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "unit",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "value",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "flag",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 17,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 18,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 19,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 20,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 21,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 22,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 23,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 24,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          }
+        ],
+        "schema-id": 0,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot-id": 6826959083684050211,
+          "sequence-number": 1,
+          "timestamp-ms": 1791125905574,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade_validation-0da19b24c6cd466596b17162a2792e02/metadata/snap-6826959083684050211-1-f80cfad5-2f89-4b9c-a14a-26f8f410d3b8.avro",
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261004_145824_00005_7jnwj",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 6418065586276717768,
+          "parent-snapshot-id": 6826959083684050211,
+          "sequence-number": 2,
+          "timestamp-ms": 1791125912632,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade_validation-0da19b24c6cd466596b17162a2792e02/metadata/snap-6418065586276717768-0-17dd7041-a05d-4404-8cc8-48ba44012486.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "24836",
+            "added-data-files": "1",
+            "added-records": "1000",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "1000",
+            "total-files-size": "24836",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 3446010833399871936,
+          "parent-snapshot-id": 6418065586276717768,
+          "sequence-number": 3,
+          "timestamp-ms": 1791125913668,
+          "manifest-list": "s3://warehouse/bronze/faostat_trade_validation-0da19b24c6cd466596b17162a2792e02/metadata/snap-3446010833399871936-0-8df79e93-1d94-44f7-a378-c85ce85c882a.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "24320",
+            "added-data-files": "1",
+            "added-records": "1000",
+            "total-data-files": "2",
+            "total-delete-files": "0",
+            "total-records": "2000",
+            "total-files-size": "49156",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        }
+      ]
+    },
+    "bronze.nso_vietnam": {
+      "snapshot": 3499764399995403202,
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "gi_tr_v_ch_s_ph_t_tri_n",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "nam",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "t_ng_di_n_t_ch_ngh_n_ha_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "di_n_t_ch_l_a_h_thu_ngh_n_ha_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "di_n_t_ch_l_a_m_a_ngh_n_ha_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "t_ng_s_n_lu_ng_ngh_n_t_n_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "s_n_lu_ng_l_a_h_thu_ngh_n_t_n_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "s_n_lu_ng_l_a_m_a_ngh_n_t_n_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 17,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 18,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 19,
+            "name": "col_1995",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 20,
+            "name": "col_1996",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 21,
+            "name": "col_1997",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 22,
+            "name": "col_1998",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 23,
+            "name": "col_1999",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 24,
+            "name": "col_2000",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 25,
+            "name": "col_2001",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 26,
+            "name": "col_2002",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 27,
+            "name": "col_2003",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 28,
+            "name": "col_2004",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 29,
+            "name": "col_2005",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 30,
+            "name": "col_2006",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 31,
+            "name": "col_2007",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 32,
+            "name": "col_2008",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 33,
+            "name": "col_2009",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 34,
+            "name": "col_2010",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 35,
+            "name": "col_2011",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 36,
+            "name": "col_2012",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 37,
+            "name": "col_2013",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 38,
+            "name": "col_2014",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 39,
+            "name": "col_2015",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 40,
+            "name": "col_2016",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 41,
+            "name": "col_2017",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 42,
+            "name": "col_2018",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 43,
+            "name": "col_2019",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 44,
+            "name": "col_2020",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 45,
+            "name": "col_2021",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 46,
+            "name": "col_2022",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 47,
+            "name": "col_2023",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 48,
+            "name": "so_b_2024",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 49,
+            "name": "t_nh_th_nh_ph_",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "schema-id": 1,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot-id": 5781727684523283465,
+          "sequence-number": 1,
+          "timestamp-ms": 1791125917745,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-5781727684523283465-1-121d9c9c-adb0-44a2-9bb2-2b4d5ef634b8.avro",
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261004_145837_00021_7jnwj",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 1733369177253061459,
+          "parent-snapshot-id": 5781727684523283465,
+          "sequence-number": 2,
+          "timestamp-ms": 1791125918626,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-1733369177253061459-0-80e20280-0aa3-4143-976e-4e5bc510699b.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "12362",
+            "added-data-files": "1",
+            "added-records": "71",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "71",
+            "total-files-size": "12362",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 6458586593059651472,
+          "parent-snapshot-id": 1733369177253061459,
+          "sequence-number": 3,
+          "timestamp-ms": 1791125919421,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-6458586593059651472-0-aa6ed4a1-40e8-437b-85d6-a561a1d34892.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "9050",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "2",
+            "total-delete-files": "0",
+            "total-records": "143",
+            "total-files-size": "21412",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 7930358630140589644,
+          "parent-snapshot-id": 6458586593059651472,
+          "sequence-number": 4,
+          "timestamp-ms": 1791125920433,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-7930358630140589644-0-1dc83423-b27b-4d28-b0fd-73ba1c0057fc.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "9050",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "3",
+            "total-delete-files": "0",
+            "total-records": "215",
+            "total-files-size": "30462",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 5741744408798949123,
+          "parent-snapshot-id": 7930358630140589644,
+          "sequence-number": 5,
+          "timestamp-ms": 1791125921229,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-5741744408798949123-0-34caa84b-8d1f-4d08-9b57-1b0cdb81ce7d.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "9050",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "4",
+            "total-delete-files": "0",
+            "total-records": "287",
+            "total-files-size": "39512",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 451901140586854216,
+          "parent-snapshot-id": 5741744408798949123,
+          "sequence-number": 6,
+          "timestamp-ms": 1791125921821,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-451901140586854216-0-42eb93ec-acb4-4c4c-b24a-e9a3fc1b959d.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "9051",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "5",
+            "total-delete-files": "0",
+            "total-records": "359",
+            "total-files-size": "48563",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 7938987805303395356,
+          "parent-snapshot-id": 451901140586854216,
+          "sequence-number": 7,
+          "timestamp-ms": 1791125922572,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-7938987805303395356-0-05823461-6332-4e51-91e1-513b4171d75a.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "9050",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "6",
+            "total-delete-files": "0",
+            "total-records": "431",
+            "total-files-size": "57613",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 6514091774903550405,
+          "parent-snapshot-id": 7938987805303395356,
+          "sequence-number": 8,
+          "timestamp-ms": 1791125923737,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-6514091774903550405-0-f223143c-5da5-4b26-a976-14929840164c.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "9050",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "7",
+            "total-delete-files": "0",
+            "total-records": "503",
+            "total-files-size": "66663",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 8358666116652348386,
+          "parent-snapshot-id": 6514091774903550405,
+          "sequence-number": 9,
+          "timestamp-ms": 1791125925025,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-8358666116652348386-0-0824722c-785a-48a5-8f26-bafc34aea806.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "8938",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "8",
+            "total-delete-files": "0",
+            "total-records": "541",
+            "total-files-size": "75601",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 2612518123814631857,
+          "parent-snapshot-id": 8358666116652348386,
+          "sequence-number": 10,
+          "timestamp-ms": 1791125926385,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-2612518123814631857-0-c1a91f63-2852-4d15-b865-51654aefc506.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "8937",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "9",
+            "total-delete-files": "0",
+            "total-records": "579",
+            "total-files-size": "84538",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 7920794511777408043,
+          "parent-snapshot-id": 2612518123814631857,
+          "sequence-number": 11,
+          "timestamp-ms": 1791125927460,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-7920794511777408043-0-517e31dd-f8e0-442f-9905-88dfdf1ab948.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "8937",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "10",
+            "total-delete-files": "0",
+            "total-records": "617",
+            "total-files-size": "93475",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 7108109082784667481,
+          "parent-snapshot-id": 7920794511777408043,
+          "sequence-number": 12,
+          "timestamp-ms": 1791125928319,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-7108109082784667481-0-521a666f-cf46-46d4-9bb7-993f6e5e1c57.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "9050",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "11",
+            "total-delete-files": "0",
+            "total-records": "689",
+            "total-files-size": "102525",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 1053529658555491144,
+          "parent-snapshot-id": 7108109082784667481,
+          "sequence-number": 13,
+          "timestamp-ms": 1791125928952,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-1053529658555491144-0-9b83c7d5-2596-4ad0-8ade-a74996caa899.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "9050",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "12",
+            "total-delete-files": "0",
+            "total-records": "761",
+            "total-files-size": "111575",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 8554544144555949741,
+          "parent-snapshot-id": 1053529658555491144,
+          "sequence-number": 14,
+          "timestamp-ms": 1791125929968,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-8554544144555949741-0-0ee83d6b-975c-4562-91b1-4926defd74c4.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "9049",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "13",
+            "total-delete-files": "0",
+            "total-records": "833",
+            "total-files-size": "120624",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 2995248014055073657,
+          "parent-snapshot-id": 8554544144555949741,
+          "sequence-number": 15,
+          "timestamp-ms": 1791639994685,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-2995248014055073657-0-c09f581f-0381-47d5-b787-b4d63030f284.avro",
+          "summary": {
+            "operation": "delete",
+            "removed-files-size": "120624",
+            "deleted-data-files": "13",
+            "deleted-records": "833",
+            "repair-id": "nso-eb231503f3a1051d",
+            "repair-kind": "nso-raw-matrix-recovery",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 1
+        },
+        {
+          "snapshot-id": 3499764399995403202,
+          "parent-snapshot-id": 2995248014055073657,
+          "sequence-number": 16,
+          "timestamp-ms": 1791639994859,
+          "manifest-list": "s3://warehouse/bronze/nso_vietnam-7fe07be6a54e43059e5fc487c8e48749/metadata/snap-3499764399995403202-0-39a4103f-2e5c-46cb-bd71-bbf55f4fc680.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "104403",
+            "added-data-files": "1",
+            "added-records": "833",
+            "repair-id": "nso-eb231503f3a1051d",
+            "repair-kind": "nso-raw-matrix-recovery",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "833",
+            "total-files-size": "104403",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 1
+        }
+      ]
+    },
+    "bronze.thitruongnongsan": {
+      "snapshot": 8924386602570103506,
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "t_n_m_t_h_ng",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "th_tr_ng",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "lo_i_gi_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "_n_v_t_nh",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "lo_i_ti_n",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "ngu_n",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "ng_y",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "gi_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          }
+        ],
+        "schema-id": 0,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot-id": 4425986626571642149,
+          "sequence-number": 1,
+          "timestamp-ms": 1791125938145,
+          "manifest-list": "s3://warehouse/bronze/thitruongnongsan-60170614635e436d8ff6b0208dc94946/metadata/snap-4425986626571642149-1-6bd5c1a7-b38a-46ab-a6d1-2979d382ffb0.avro",
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261004_145858_00087_7jnwj",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 8924386602570103506,
+          "parent-snapshot-id": 4425986626571642149,
+          "sequence-number": 2,
+          "timestamp-ms": 1791125939022,
+          "manifest-list": "s3://warehouse/bronze/thitruongnongsan-60170614635e436d8ff6b0208dc94946/metadata/snap-8924386602570103506-0-bb977de8-9de0-4706-be56-0fe0161448ec.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "46404",
+            "added-data-files": "1",
+            "added-records": "20394",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "20394",
+            "total-files-size": "46404",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        }
+      ]
+    },
+    "bronze.usda_psd": {
+      "snapshot": 794008497907757228,
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "commodity",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "attribute",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "country",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "col_1960_1961",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "col_1961_1962",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "col_1962_1963",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "col_1963_1964",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "col_1964_1965",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "col_1965_1966",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "col_1966_1967",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "col_1967_1968",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "col_1968_1969",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "col_1969_1970",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "col_1970_1971",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "col_1971_1972",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "col_1972_1973",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 17,
+            "name": "col_1973_1974",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 18,
+            "name": "col_1974_1975",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 19,
+            "name": "col_1975_1976",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 20,
+            "name": "col_1976_1977",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 21,
+            "name": "col_1977_1978",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 22,
+            "name": "col_1978_1979",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 23,
+            "name": "col_1979_1980",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 24,
+            "name": "col_1980_1981",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 25,
+            "name": "col_1981_1982",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 26,
+            "name": "col_1982_1983",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 27,
+            "name": "col_1983_1984",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 28,
+            "name": "col_1984_1985",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 29,
+            "name": "col_1985_1986",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 30,
+            "name": "col_1986_1987",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 31,
+            "name": "col_1987_1988",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 32,
+            "name": "col_1988_1989",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 33,
+            "name": "col_1989_1990",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 34,
+            "name": "col_1990_1991",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 35,
+            "name": "col_1991_1992",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 36,
+            "name": "col_1992_1993",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 37,
+            "name": "col_1993_1994",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 38,
+            "name": "col_1994_1995",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 39,
+            "name": "col_1995_1996",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 40,
+            "name": "col_1996_1997",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 41,
+            "name": "col_1997_1998",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 42,
+            "name": "col_1998_1999",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 43,
+            "name": "col_1999_2000",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 44,
+            "name": "col_2000_2001",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 45,
+            "name": "col_2001_2002",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 46,
+            "name": "col_2002_2003",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 47,
+            "name": "col_2003_2004",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 48,
+            "name": "col_2004_2005",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 49,
+            "name": "col_2005_2006",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 50,
+            "name": "col_2006_2007",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 51,
+            "name": "col_2007_2008",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 52,
+            "name": "col_2008_2009",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 53,
+            "name": "col_2009_2010",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 54,
+            "name": "col_2010_2011",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 55,
+            "name": "col_2011_2012",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 56,
+            "name": "col_2012_2013",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 57,
+            "name": "col_2013_2014",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 58,
+            "name": "col_2014_2015",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 59,
+            "name": "col_2015_2016",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 60,
+            "name": "col_2016_2017",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 61,
+            "name": "col_2017_2018",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 62,
+            "name": "col_2018_2019",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 63,
+            "name": "col_2019_2020",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 64,
+            "name": "col_2020_2021",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 65,
+            "name": "col_2021_2022",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 66,
+            "name": "col_2022_2023",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 67,
+            "name": "col_2023_2024",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 68,
+            "name": "col_2024_2025",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 69,
+            "name": "col_2025_2026",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 70,
+            "name": "unit_description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 71,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 72,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 73,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 74,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 75,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 76,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 77,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 78,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          }
+        ],
+        "schema-id": 0,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot-id": 3800207763233660684,
+          "sequence-number": 1,
+          "timestamp-ms": 1791125929640,
+          "manifest-list": "s3://warehouse/bronze/usda_psd-5abdc420dc0348efb279a32dbe42adac/metadata/snap-3800207763233660684-1-a5d736be-06bf-449a-b5f7-a4e8d9d96030.avro",
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261004_145849_00067_7jnwj",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 794008497907757228,
+          "parent-snapshot-id": 3800207763233660684,
+          "sequence-number": 2,
+          "timestamp-ms": 1791125930915,
+          "manifest-list": "s3://warehouse/bronze/usda_psd-5abdc420dc0348efb279a32dbe42adac/metadata/snap-794008497907757228-0-3842a0f5-4d6f-44ba-b694-ae45f0ed64eb.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "43581",
+            "added-data-files": "1",
+            "added-records": "15",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "15",
+            "total-files-size": "43581",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        }
+      ]
+    },
+    "bronze.usda_rice_yearbook": {
+      "snapshot": 5981613253177296156,
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "table_name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "table_number",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "commodity_description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "class_description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "year",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "reference_period_description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "location_description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "statistic_description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "value",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "unit_description",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 17,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 18,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          }
+        ],
+        "schema-id": 0,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot-id": 4032660375723168356,
+          "sequence-number": 1,
+          "timestamp-ms": 1791125919285,
+          "manifest-list": "s3://warehouse/bronze/usda_rice_yearbook-53f35c17ba9d4930b6addf2e74ed386f/metadata/snap-4032660375723168356-1-f3702b04-6f8c-445b-a10b-2cdb288cc458.avro",
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261004_145839_00032_7jnwj",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 5981613253177296156,
+          "parent-snapshot-id": 4032660375723168356,
+          "sequence-number": 2,
+          "timestamp-ms": 1791125920476,
+          "manifest-list": "s3://warehouse/bronze/usda_rice_yearbook-53f35c17ba9d4930b6addf2e74ed386f/metadata/snap-5981613253177296156-0-46f052fa-40a8-4645-88ec-06767f634cd5.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "30410",
+            "added-data-files": "1",
+            "added-records": "13131",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "13131",
+            "total-files-size": "30410",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        }
+      ]
+    },
+    "bronze.worldbank_pinksheet": {
+      "snapshot": 1491155964568568519,
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "period",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "crude_oil_average_bbl_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "crude_oil_brent_bbl_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "crude_oil_dubai_bbl_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "crude_oil_wti_bbl_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "coal_australian_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "coal_south_african_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "natural_gas_us_mmbtu_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "natural_gas_europe_mmbtu_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "liquefied_natural_gas_japan_mmbtu_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "natural_gas_index_2010_100_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "cocoa_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "coffee_arabica_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "coffee_robusta_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "tea_avg_3_auctions_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "tea_colombo_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 17,
+            "name": "tea_kolkata_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 18,
+            "name": "tea_mombasa_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 19,
+            "name": "coconut_oil_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 20,
+            "name": "groundnuts_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 21,
+            "name": "fish_meal_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 22,
+            "name": "groundnut_oil_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 23,
+            "name": "palm_oil_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 24,
+            "name": "palm_kernel_oil_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 25,
+            "name": "soybeans_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 26,
+            "name": "soybean_oil_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 27,
+            "name": "soybean_meal_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 28,
+            "name": "rapeseed_oil_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 29,
+            "name": "sunflower_oil_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 30,
+            "name": "barley_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 31,
+            "name": "maize_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 32,
+            "name": "sorghum_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 33,
+            "name": "rice_thai_5_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 34,
+            "name": "rice_thai_25_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 35,
+            "name": "rice_thai_a_1_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 36,
+            "name": "rice_viet_namese_5_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 37,
+            "name": "wheat_us_srw_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 38,
+            "name": "wheat_us_hrw_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 39,
+            "name": "banana_europe_kg_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 40,
+            "name": "banana_us_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 41,
+            "name": "orange_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 42,
+            "name": "beef_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 43,
+            "name": "chicken_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 44,
+            "name": "lamb_kg_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 45,
+            "name": "shrimps_mexican_kg_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 46,
+            "name": "sugar_eu_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 47,
+            "name": "sugar_us_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 48,
+            "name": "sugar_world_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 49,
+            "name": "tobacco_us_import_u_v_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 50,
+            "name": "logs_cameroon_cubic_meter_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 51,
+            "name": "logs_malaysian_cubic_meter_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 52,
+            "name": "sawnwood_cameroon_cubic_meter_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 53,
+            "name": "sawnwood_malaysian_cubic_meter_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 54,
+            "name": "plywood_cents_sheet_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 55,
+            "name": "cotton_a_index_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 56,
+            "name": "rubber_tsr20_kg_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 57,
+            "name": "rubber_rss3_kg_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 58,
+            "name": "phosphate_rock_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 59,
+            "name": "dap_mt_",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 60,
+            "name": "tsp_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 61,
+            "name": "urea_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 62,
+            "name": "potassium_chloride_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 63,
+            "name": "aluminum_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 64,
+            "name": "iron_ore_cfr_spot_dmtu_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 65,
+            "name": "copper_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 66,
+            "name": "lead_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 67,
+            "name": "tin_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 68,
+            "name": "nickel_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 69,
+            "name": "zinc_mt_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 70,
+            "name": "gold_troy_oz_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 71,
+            "name": "platinum_troy_oz_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 72,
+            "name": "silver_troy_oz_",
+            "type": "double",
+            "required": false
+          },
+          {
+            "id": 73,
+            "name": "commodity_72",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 74,
+            "name": "commodity_73",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 75,
+            "name": "commodity_74",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 76,
+            "name": "commodity_75",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 77,
+            "name": "commodity_76",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 78,
+            "name": "commodity_77",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 79,
+            "name": "commodity_78",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 80,
+            "name": "commodity_79",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 81,
+            "name": "commodity_80",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 82,
+            "name": "commodity_81",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 83,
+            "name": "commodity_82",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 84,
+            "name": "commodity_83",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 85,
+            "name": "commodity_84",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 86,
+            "name": "commodity_85",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 87,
+            "name": "commodity_86",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 88,
+            "name": "commodity_87",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 89,
+            "name": "commodity_88",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 90,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 91,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 92,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 93,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 94,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 95,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 96,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 97,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          }
+        ],
+        "schema-id": 0,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot-id": 6394842180843891568,
+          "sequence-number": 1,
+          "timestamp-ms": 1791125930672,
+          "manifest-list": "s3://warehouse/bronze/worldbank_pinksheet-158bc96b7a7e4dda830c575ee980941f/metadata/snap-6394842180843891568-1-03e83c00-ad0f-4ee4-a6b9-08b352e5d04b.avro",
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261004_145850_00071_7jnwj",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        },
+        {
+          "snapshot-id": 1491155964568568519,
+          "parent-snapshot-id": 6394842180843891568,
+          "sequence-number": 2,
+          "timestamp-ms": 1791125931826,
+          "manifest-list": "s3://warehouse/bronze/worldbank_pinksheet-158bc96b7a7e4dda830c575ee980941f/metadata/snap-1491155964568568519-0-acadab83-f055-48c7-ba67-f4d9f9c86796.avro",
+          "summary": {
+            "operation": "append",
+            "added-files-size": "301075",
+            "added-data-files": "1",
+            "added-records": "792",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "792",
+            "total-files-size": "301075",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "schema-id": 0
+        }
+      ]
+    }
+  },
+  "namespaces": [
+    [
+      "bronze"
+    ]
+  ],
+  "table_before": null,
+  "bronze_snapshot": 3250087836768729857,
+  "bronze_schema": {
+    "type": "struct",
+    "fields": [
+      {
+        "id": 1,
+        "name": "domain_code",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 2,
+        "name": "domain",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 3,
+        "name": "area_code_m49_",
+        "type": "long",
+        "required": false
+      },
+      {
+        "id": 4,
+        "name": "area",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 5,
+        "name": "element_code",
+        "type": "long",
+        "required": false
+      },
+      {
+        "id": 6,
+        "name": "element",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 7,
+        "name": "item_code_cpc_",
+        "type": "long",
+        "required": false
+      },
+      {
+        "id": 8,
+        "name": "item",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 9,
+        "name": "year_code",
+        "type": "long",
+        "required": false
+      },
+      {
+        "id": 10,
+        "name": "year",
+        "type": "long",
+        "required": false
+      },
+      {
+        "id": 11,
+        "name": "unit",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 12,
+        "name": "value",
+        "type": "double",
+        "required": false
+      },
+      {
+        "id": 13,
+        "name": "flag",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 14,
+        "name": "flag_description",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 15,
+        "name": "note",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 16,
+        "name": "_ingestion_run_id",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 17,
+        "name": "_ingestion_batch_id",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 18,
+        "name": "_ingestion_chunk_id",
+        "type": "long",
+        "required": false
+      },
+      {
+        "id": 19,
+        "name": "_ingestion_timestamp",
+        "type": "timestamptz",
+        "required": false
+      },
+      {
+        "id": 20,
+        "name": "_source_id",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 21,
+        "name": "_source_file",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 22,
+        "name": "_source_checksum",
+        "type": "string",
+        "required": false
+      },
+      {
+        "id": 23,
+        "name": "_source_snapshot_id",
+        "type": "long",
+        "required": false
+      }
+    ],
+    "schema-id": 0,
+    "identifier-field-ids": []
+  },
+  "schema_comparison_normalization": "Only omitted identifier-field-ids is canonicalized to []",
+  "bronze_metadata_location": "s3://warehouse/bronze/faostat_production-50c5c86523c24ade81e872a1e45e8960/metadata/00001-3e36a8f4-8116-425d-93e1-807eebf7bb69.metadata.json",
+  "bronze_data_files": [
+    {
+      "path": "s3://warehouse/bronze/faostat_production-50c5c86523c24ade81e872a1e45e8960/data/00000-0-698972ed-d30f-458e-81d7-cf8f0678942f.parquet",
+      "rows": 22738,
+      "bytes": 126700
+    }
+  ],
+  "bronze_rows": 22738,
+  "source_identity": [
+    {
+      "_source_file": "production_world.csv",
+      "_source_checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+      "_source_snapshot_id": 0,
+      "_ingestion_run_id": "faostat_production_20261004145822_c4ff8851",
+      "rows": 22738
+    }
+  ],
+  "lineage_identity": [
+    {
+      "_ingestion_run_id": "faostat_production_20261004145822_c4ff8851",
+      "_ingestion_batch_id": "faostat_production_20261004_c944",
+      "_ingestion_chunk_id": 0,
+      "_ingestion_timestamp": "2026-10-04 14:58:23.496164+00:00",
+      "_source_id": "faostat_production",
+      "_source_file": "production_world.csv",
+      "_source_checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+      "_source_snapshot_id": 0
+    }
+  ],
+  "contract_sha256": "19f1c4bc77132103b10ce726d7f32baff5d150a3641f47b72745bddfaf229466",
+  "execution_state": {
+    "ingestion_runs": {
+      "rows": 20,
+      "sha256": "203c605ce5d398cd0066142d28b5cb18ade7be3498ca43bcac12104997987cc2"
+    },
+    "active_nso_runs": [],
+    "source_snapshots": {
+      "rows": 10,
+      "sha256": "15bc0a7fa05d085a92121bc0bf0348a73ca66576ecf9b789d523a1a2ab1b1141"
+    },
+    "source_watermarks": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "ingestion_checkpoints": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "dead_letter_records": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "dags": [
+      [
+        "rice_lakehouse_ingestion",
+        true
+      ],
+      [
+        "rice_lakehouse_silver_pipeline",
+        true
+      ]
+    ],
+    "active_tasks": [],
+    "nso_advisory_locks": []
+  },
+  "production_runs": [
+    {
+      "run_id": "faostat_production_20261004145822_c4ff8851",
+      "source_id": "faostat_production",
+      "started_at": "2026-10-04T14:58:22.739978+00:00",
+      "completed_at": "2026-10-04T14:58:33.323682+00:00",
+      "status": "SUCCESS",
+      "load_type": "FULL",
+      "records_extracted": 22738,
+      "records_quarantined": 0,
+      "chunks_processed": 1,
+      "chunks_total": 1,
+      "artifact_uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-04/run_id=faostat_production_20261004145822_c4ff8851/production_world.csv",
+      "manifest_uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-04/run_id=faostat_production_20261004145822_c4ff8851/manifest.json",
+      "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+      "error_message": null,
+      "error_type": null,
+      "source_metadata": null,
+      "created_at": "2026-10-04T14:58:22.760253+00:00"
+    },
+    {
+      "run_id": "faostat_production_20261004150110_49416cc3",
+      "source_id": "faostat_production",
+      "started_at": "2026-10-04T15:01:10.271889+00:00",
+      "completed_at": "2026-10-04T15:01:10.643827+00:00",
+      "status": "SKIPPED",
+      "load_type": "FULL",
+      "records_extracted": 0,
+      "records_quarantined": 0,
+      "chunks_processed": 0,
+      "chunks_total": 0,
+      "artifact_uri": null,
+      "manifest_uri": null,
+      "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+      "error_message": null,
+      "error_type": null,
+      "source_metadata": {
+        "skipped_reason": "unchanged_snapshot",
+        "idempotency_reason": "Snapshot for faostat_production already ingested in run faostat_production_20261004145822_c4ff8851"
+      },
+      "created_at": "2026-10-04T15:01:10.324394+00:00"
+    }
+  ],
+  "active_ingestion_runs": [],
+  "source_locks_before": {
+    "faostat_production": [],
+    "faostat_monthly_price": [],
+    "faostat_supply_utilization": [],
+    "faostat_trade": [],
+    "usda_psd": [],
+    "usda_rice_yearbook": [],
+    "worldbank_pinksheet": [],
+    "thitruongnongsan": [],
+    "nso_vietnam": []
+  },
+  "raw_objects": [
+    {
+      "Key": "raw/faostat_monthly_price/ingestion_date=2026-10-04/run_id=faostat_monthly_price_20261004145822_3f9bb134/manifest.json",
+      "LastModified": "2026-10-04 14:58:33.263000+00:00",
+      "ETag": "\"bb5a38fac6f3c23f673330d1900cc66d\"",
+      "Size": 1107,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/faostat_monthly_price/ingestion_date=2026-10-04/run_id=faostat_monthly_price_20261004145822_3f9bb134/price.csv",
+      "LastModified": "2026-10-04 14:58:33.023000+00:00",
+      "ETag": "\"56daace45b9ba83d63e7ec699ae46b06\"",
+      "Size": 2509272,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/faostat_production/ingestion_date=2026-10-04/run_id=faostat_production_20261004145822_c4ff8851/manifest.json",
+      "LastModified": "2026-10-04 14:58:33.329000+00:00",
+      "ETag": "\"24b2cbda58361be46d0d00d0ca2b1445\"",
+      "Size": 1127,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/faostat_production/ingestion_date=2026-10-04/run_id=faostat_production_20261004145822_c4ff8851/production_world.csv",
+      "LastModified": "2026-10-04 14:58:33.085000+00:00",
+      "ETag": "\"144fb2c11e82e1c778f1d5d4ce77b16f\"",
+      "Size": 3292244,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/faostat_supply_utilization/ingestion_date=2026-10-04/run_id=faostat_supply_utilization_20261004145836_781b456c/manifest.json",
+      "LastModified": "2026-10-04 14:58:40.700000+00:00",
+      "ETag": "\"cbec3b3f1bd6abdd2a765c1f5bfac935\"",
+      "Size": 1155,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/faostat_supply_utilization/ingestion_date=2026-10-04/run_id=faostat_supply_utilization_20261004145836_781b456c/supply_utilization.csv",
+      "LastModified": "2026-10-04 14:58:40.338000+00:00",
+      "ETag": "\"c8643796cbaf682f4c38179a642439a4\"",
+      "Size": 6096569,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/faostat_trade/ingestion_date=2026-10-04/run_id=faostat_trade_20261004145822_8243757c/manifest.json",
+      "LastModified": "2026-10-04 14:59:31.354000+00:00",
+      "ETag": "\"4905c7e4dc109c3b7a5c112e86a65526\"",
+      "Size": 1086,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/faostat_trade/ingestion_date=2026-10-04/run_id=faostat_trade_20261004145822_8243757c/rice_trade_data.csv",
+      "LastModified": "2026-10-04 14:59:25.888000+00:00",
+      "ETag": "\"54339bf2e6cefd01c3df813d3ff64571-21\"",
+      "Size": 167990400,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/faostat_trade_validation/ingestion_date=2026-10-04/run_id=faostat_trade_validation_20261004145822_3a61fe98/manifest.json",
+      "LastModified": "2026-10-04 14:58:33.876000+00:00",
+      "ETag": "\"be75a3c53161570e3db955fd8e452fe8\"",
+      "Size": 1138,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/faostat_trade_validation/ingestion_date=2026-10-04/run_id=faostat_trade_validation_20261004145822_3a61fe98/trade_matrix_fixture.zip",
+      "LastModified": "2026-10-04 14:58:33.828000+00:00",
+      "ETag": "\"95b1b988fb1c56334a4f3debc29af2c1\"",
+      "Size": 19921,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/nso_vietnam/ingestion_date=2026-10-04/run_id=nso_vietnam_20261004145836_dbf324d8/manifest.json",
+      "LastModified": "2026-10-04 14:58:50.544000+00:00",
+      "ETag": "\"18c7542a7b248356f968deb3b45028dc\"",
+      "Size": 924,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/nso_vietnam/ingestion_date=2026-10-04/run_id=nso_vietnam_20261004145836_dbf324d8/nso_vietnam_raw.zip",
+      "LastModified": "2026-10-04 14:58:50.466000+00:00",
+      "ETag": "\"b357c496ff9b234da314b86fe2a3c851\"",
+      "Size": 54901,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/thitruongnongsan/ingestion_date=2026-10-04/run_id=thitruongnongsan_20261004145854_b5228266/manifest.json",
+      "LastModified": "2026-10-04 14:58:59.298000+00:00",
+      "ETag": "\"8989b2790db3c3d9bc4a4f8fa4fab523\"",
+      "Size": 951,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/thitruongnongsan/ingestion_date=2026-10-04/run_id=thitruongnongsan_20261004145854_b5228266/price_luagao.xlsx",
+      "LastModified": "2026-10-04 14:58:59.230000+00:00",
+      "ETag": "\"b9cb827fdb9fc7447839116a3a6dc427\"",
+      "Size": 756440,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/usda_psd/ingestion_date=2026-10-04/run_id=usda_psd_20261004145847_78204c4c/manifest.json",
+      "LastModified": "2026-10-04 14:58:51.214000+00:00",
+      "ETag": "\"5e97cab8b512a51ae3bad16e1f582b4b\"",
+      "Size": 981,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/usda_psd/ingestion_date=2026-10-04/run_id=usda_psd_20261004145847_78204c4c/usda.xls",
+      "LastModified": "2026-10-04 14:58:51.148000+00:00",
+      "ETag": "\"61471e1df9c03654e430997626c92637\"",
+      "Size": 45549,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/usda_rice_yearbook/ingestion_date=2026-10-04/run_id=usda_rice_yearbook_20261004145837_1b51865c/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+      "LastModified": "2026-10-04 14:58:40.915000+00:00",
+      "ETag": "\"d8e751b9a22e81e6c20e9ac436d9719b\"",
+      "Size": 2122534,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/usda_rice_yearbook/ingestion_date=2026-10-04/run_id=usda_rice_yearbook_20261004145837_1b51865c/manifest.json",
+      "LastModified": "2026-10-04 14:58:41.130000+00:00",
+      "ETag": "\"64acef8ce950e3c3ecd978cfda60dca7\"",
+      "Size": 996,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/worldbank_pinksheet/ingestion_date=2026-10-04/run_id=worldbank_pinksheet_20261004145847_8e394587/CMO-Historical-Data-Monthly.xlsx",
+      "LastModified": "2026-10-04 14:58:52.043000+00:00",
+      "ETag": "\"5fc2bb779bd497d18841f3f07f99eeed\"",
+      "Size": 778415,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "raw/worldbank_pinksheet/ingestion_date=2026-10-04/run_id=worldbank_pinksheet_20261004145847_8e394587/manifest.json",
+      "LastModified": "2026-10-04 14:58:52.132000+00:00",
+      "ETag": "\"0ac081f907d4c1ca7071b2ceb6a9b879\"",
+      "Size": 1125,
+      "StorageClass": "STANDARD"
+    }
+  ],
+  "manifests": [
+    {
+      "uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-04/run_id=faostat_production_20261004145822_c4ff8851/manifest.json",
+      "content": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-04T14:58:22.828861+00:00",
+        "source_id": "faostat_production",
+        "run_id": "faostat_production_20261004145822_c4ff8851",
+        "batch_id": "faostat_production_20261004_c944",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-04/run_id=faostat_production_20261004145822_c4ff8851/production_world.csv",
+          "format": "CSV",
+          "size_bytes": 3292244,
+          "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+        },
+        "source_metadata": {
+          "provider": "FAOSTAT",
+          "dataset": "Production_Crops_Livestock_E_All_Data_(Normalized)",
+          "uri": "https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip",
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 22738,
+          "chunks_processed": 1,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-04T14:58:22.828838+00:00",
+          "completed_at": "2026-10-04T14:58:33.323682+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      }
+    }
+  ],
+  "raw_artifact": {
+    "uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-04/run_id=faostat_production_20261004145822_c4ff8851/production_world.csv",
+    "sha256": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+    "bytes": 3292244
+  },
+  "trino_probe": {
+    "sql": "SELECT count(*) AS rows, count(DISTINCT _source_checksum) AS checksums FROM iceberg.bronze.faostat_production",
+    "columns": [
+      "rows",
+      "checksums"
+    ],
+    "rows": [
+      [
+        22738,
+        1
+      ]
+    ]
+  },
+  "lock_probe": {
+    "source": "faostat_production",
+    "signed_key": -1388159559115176904,
+    "held": [
+      [
+        38787,
+        true
+      ]
+    ]
+  }
+}

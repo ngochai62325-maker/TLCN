@@ -1,0 +1,51 @@
+{
+  "checks": {
+    "rerun_status_noop": true,
+    "rerun_no_shared_write": true,
+    "snapshot_unchanged": true,
+    "metadata_location_unchanged": true,
+    "catalog_inventory_unchanged": true,
+    "source_lock_released": true,
+    "dags_still_paused": true,
+    "no_active_runs_or_tasks": true
+  },
+  "status": "PASSED",
+  "snapshot": 3499764399995403202,
+  "snapshot_history_count": 16,
+  "execution_state": {
+    "ingestion_runs": {
+      "rows": 20,
+      "sha256": "203c605ce5d398cd0066142d28b5cb18ade7be3498ca43bcac12104997987cc2"
+    },
+    "active_nso_runs": [],
+    "source_snapshots": {
+      "rows": 10,
+      "sha256": "15bc0a7fa05d085a92121bc0bf0348a73ca66576ecf9b789d523a1a2ab1b1141"
+    },
+    "source_watermarks": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "ingestion_checkpoints": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "dead_letter_records": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "dags": [
+      [
+        "rice_lakehouse_ingestion",
+        true
+      ],
+      [
+        "rice_lakehouse_silver_pipeline",
+        true
+      ]
+    ],
+    "active_tasks": [],
+    "nso_advisory_locks": []
+  },
+  "writes_shared_data": false
+}

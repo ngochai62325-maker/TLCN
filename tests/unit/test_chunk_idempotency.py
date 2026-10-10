@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 from unittest.mock import MagicMock
-from ingestion.storage.bronze_writer import BronzeIcebergWriter
+from ingestion.storage.bronze_writer import BronzeIcebergWriter, TECHNICAL_METADATA_COLUMNS
 
 @pytest.fixture
 def chunk_df():
@@ -21,7 +21,7 @@ def test_first_write_empty_delete(chunk_df):
     """Test 1 & 6: First write executes an empty delete."""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock(return_value="iceberg.bronze.test_src")
-    writer.execute_query = MagicMock(return_value=([], []))
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
     writer._dataframe_to_arrow = MagicMock()
     
     catalog_mock = MagicMock()
@@ -50,7 +50,7 @@ def test_retry_same_chunk(chunk_df):
     """Test 2 & 5: Retry same chunk (same run, same chunk_id, different data)."""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock(return_value="iceberg.bronze.test_src")
-    writer.execute_query = MagicMock(return_value=([], []))
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
     writer._dataframe_to_arrow = MagicMock()
     
     catalog_mock = MagicMock()
@@ -81,8 +81,7 @@ def test_retry_same_chunk(chunk_df):
     
     # DELETE should be called twice with the same predicate
     delete_sql = "DELETE FROM iceberg.bronze.test_src WHERE _ingestion_run_id = 'run_1' AND _ingestion_chunk_id = 3"
-    assert writer.execute_query.call_args_list[0][0][0] == delete_sql
-    assert writer.execute_query.call_args_list[1][0][0] == delete_sql
+    assert [c.args[0] for c in writer.execute_query.call_args_list if c.args[0].startswith("DELETE")] == [delete_sql, delete_sql]
     
     # Append should be called twice
     assert table_mock.append.call_count == 2
@@ -91,7 +90,7 @@ def test_different_chunks(chunk_df):
     """Test 3: Different chunks have distinct predicates."""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock(return_value="iceberg.bronze.test_src")
-    writer.execute_query = MagicMock(return_value=([], []))
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
     writer._dataframe_to_arrow = MagicMock()
     
     catalog_mock = MagicMock()
@@ -112,7 +111,7 @@ def test_different_runs(chunk_df):
     """Test 4: Different runs have distinct predicates."""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock(return_value="iceberg.bronze.test_src")
-    writer.execute_query = MagicMock(return_value=([], []))
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
     writer._dataframe_to_arrow = MagicMock()
     
     catalog_mock = MagicMock()
@@ -146,7 +145,11 @@ def test_writer_failure_delete_rollback(chunk_df):
     """Test 8: Writer failure injects a RuntimeError if DELETE fails."""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock(return_value="iceberg.bronze.test_src")
-    writer.execute_query = MagicMock(side_effect=Exception("Trino network error"))
+    def query(sql):
+        if sql.startswith("DESCRIBE"):
+            return [], [[c, "VARCHAR"] for c in ["business_key", "data_value", *TECHNICAL_METADATA_COLUMNS]]
+        raise RuntimeError("Trino network error")
+    writer.execute_query = MagicMock(side_effect=query)
     
     with pytest.raises(RuntimeError, match="Idempotency failure: could not delete existing chunk"):
         writer.write_chunk(

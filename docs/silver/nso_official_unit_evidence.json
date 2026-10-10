@@ -1,0 +1,162 @@
+{
+  "source_url": "https://www.nso.gov.vn/wp-content/uploads/2019/10/Nien-giam-2018-1.pdf",
+  "sha256": "e491e8a47a3119f3ad8d8fca935426aad3767cd1ded5e7ea785930385374d3e1",
+  "pages": 1025,
+  "rice_unit_pages": [
+    {
+      "pdf_page_zero_based": 507,
+      "printed_page": 508,
+      "units_present": [
+        "Thous. ha",
+        "Thous. tons"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 508,
+      "printed_page": 509,
+      "units_present": [
+        "Thous. ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 509,
+      "printed_page": 510,
+      "units_present": [
+        "Thous. ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 510,
+      "printed_page": 511,
+      "units_present": [
+        "Quintal/ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 511,
+      "printed_page": 512,
+      "units_present": [
+        "Quintal/ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 512,
+      "printed_page": 513,
+      "units_present": [
+        "Thous. tons"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 513,
+      "printed_page": 514,
+      "units_present": [
+        "Thous. tons"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 514,
+      "printed_page": 515,
+      "units_present": [
+        "Thous. ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 515,
+      "printed_page": 516,
+      "units_present": [
+        "Thous. ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 516,
+      "printed_page": 517,
+      "units_present": [
+        "Quintal/ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 517,
+      "printed_page": 518,
+      "units_present": [
+        "Quintal/ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 518,
+      "printed_page": 519,
+      "units_present": [
+        "Thous. tons"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 519,
+      "printed_page": 520,
+      "units_present": [
+        "Thous. tons"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 520,
+      "printed_page": 521,
+      "units_present": [
+        "Thous. ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 521,
+      "printed_page": 522,
+      "units_present": [
+        "Quintal/ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 522,
+      "printed_page": 523,
+      "units_present": [
+        "Thous. tons"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 523,
+      "printed_page": 524,
+      "units_present": [
+        "Thous. ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 524,
+      "printed_page": 525,
+      "units_present": [
+        "Thous. ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 525,
+      "printed_page": 526,
+      "units_present": [
+        "Quintal/ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 526,
+      "printed_page": 527,
+      "units_present": [
+        "Quintal/ha"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 527,
+      "printed_page": 528,
+      "units_present": [
+        "Thous. tons"
+      ]
+    },
+    {
+      "pdf_page_zero_based": 528,
+      "printed_page": 529,
+      "units_present": [
+        "Thous. tons"
+      ]
+    }
+  ]
+}

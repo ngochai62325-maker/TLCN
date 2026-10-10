@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "writes_shared_data": false,
+  "checks": {
+    "current_snapshot_id": true,
+    "schema_id_before": true,
+    "schema_before": true,
+    "archive_sha256": true,
+    "directory_content_sha256": true,
+    "archive_members": true,
+    "physical_rows": true,
+    "matrix_nonnull_cells": true,
+    "numeric_cells": true,
+    "missing_marker_cells": true,
+    "replay_identity_sha256": true,
+    "schema_additions": true,
+    "manifest": true,
+    "archive_uri": true,
+    "manifest_uri": true,
+    "files.file": true,
+    "files.sha256": true,
+    "files.rows": true,
+    "files.lineage": true,
+    "files.matrix_nonnull_cells": true,
+    "files.numeric_cells": true,
+    "files.missing_marker_cells": true,
+    "files.missing_markers": true,
+    "metadata_txt.sha256": true
+  }
+}

@@ -64,6 +64,13 @@ def validate_contracts():
             if len(col_names) != len(set(col_names)):
                 print(f"  [FAIL] Duplicate column names found in schema")
                 all_passed = False
+            keys = contract.get('grain', {}).get('business_key', [])
+            if not keys or set(keys) - set(col_names):
+                print("  [FAIL] Business keys must be declared schema columns")
+                all_passed = False
+            if any(not rule.get('sql_expr') for rule in contract.get('data_quality', [])):
+                print("  [FAIL] READY contracts need executable sql_expr for every DQ rule")
+                all_passed = False
 
         if all_passed:
             print(f"  [PASS] {filename} is valid.")

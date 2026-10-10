@@ -14,6 +14,8 @@ grain:
     - "commodity"
     - "price_type"
     - "date"
+    - "unit"
+    - "currency"
 
 schema:
   columns:
@@ -38,13 +40,13 @@ schema:
     - name: "unit"
       source_column: "Đơn_vị_tính"
       data_type: "string"
-      nullable: true
+      nullable: false
       description: "Unit of measurement (e.g., VNĐ/kg)"
       transformation: "cast to string, trim"
     - name: "currency"
       source_column: "Loại_tiền"
       data_type: "string"
-      nullable: true
+      nullable: false
       description: "Currency type (e.g., VND)"
       transformation: "cast to string, trim"
     - name: "source"
@@ -67,8 +69,8 @@ schema:
       transformation: "cast to decimal. Handle any string formatting (like commas for thousands) before casting."
 
 normalization:
-  province: "Map 'Thị_trường' to standard Vietnam province/city names (dim_province)."
-  date: "Standardize to ISO 8601 YYYY-MM-DD format."
+  province: "Keep source labels; province master mapping pending approval"
+  date: "Observed source format M/d/yyyy h:mm:ss a; keep daily grain"
   unit: "Standardize units. E.g., 'VNĐ/kg' or 'đồng/kg' mapped to standard notation."
 
 data_quality:
@@ -77,16 +79,19 @@ data_quality:
     dimension: "Validity"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "price_value IS NULL OR price_value >= 0"
   - rule_id: "VN_PRICE_DQ_002"
     rule: "market, commodity, price_type, date cannot be null"
     dimension: "Completeness"
     severity: "ERROR"
     action: "QUARANTINE"
+    sql_expr: "market IS NOT NULL AND commodity IS NOT NULL AND price_type IS NOT NULL AND date IS NOT NULL"
   - rule_id: "VN_PRICE_DQ_003"
     rule: "date must not be in the future"
     dimension: "Temporal Validity"
     severity: "WARNING"
     action: "KEEP"
+    sql_expr: "date <= current_date()"
 
 deduplication:
   key:
@@ -94,6 +99,9 @@ deduplication:
     - "commodity"
     - "price_type"
     - "date"
+    - "unit"
+    - "currency"
+
   strategy: "Timestamp-based survivorship"
   survivorship: "Keep record with most recent _ingestion_timestamp"
   duplicate_action: "Overwrite in Silver"
@@ -113,10 +121,16 @@ quarantine:
 metadata:
   propagated_columns:
     - "_ingestion_run_id"
+    - "_ingestion_batch_id"
+    - "_ingestion_chunk_id"
+    - "_ingestion_timestamp"
+    - "_source_id"
     - "_source_file"
     - "_source_checksum"
     - "_source_snapshot_id"
-    - "_ingestion_timestamp"
+    - "_bronze_iceberg_snapshot_id"
+    - "_source_payload"
+    - "_raw_value"
 
 incremental:
   strategy: "MERGE"

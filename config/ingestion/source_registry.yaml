@@ -163,6 +163,7 @@ sources:
     extra:
       source_reference_url: "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip"
       note: "Validation slice of Trade Matrix using exact production FaostatBulkAdapter with local fixture"
+      dataset_role: TEST_FIXTURE_ONLY
 
   faostat_supply_utilization:
     source_name: "FAOSTAT - Supply Utilization Accounts (SUA)"

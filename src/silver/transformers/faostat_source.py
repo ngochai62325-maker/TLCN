@@ -1,7 +1,7 @@
 """Source-local FAOSTAT preparation; shared engines own DQ, dedup and writes.
 
-The current framework only calls preprocess. Additional source rules and audit
-columns require the integration changes described in faostat_nso_repository_audit.md.
+The shared framework calls transform and quality_rules, preserving diagnostic
+columns and Bronze lineage through contract validation.
 """
 
 from __future__ import annotations
@@ -23,8 +23,7 @@ def identifier(name):
 
 
 def sql_rule(rule_id, sql, column, message):
-    # The shared DQ engine regards SQL UNKNOWN as passing. Close that gap for
-    # these sources explicitly without modifying shared behavior.
+    # Make the source rule's SQL UNKNOWN behavior explicit at its definition.
     return {"rule_id": rule_id, "sql_expr": f"coalesce(({sql}), false)",
             "failed_column": column, "rule": message, "action": "QUARANTINE"}
 
@@ -78,7 +77,7 @@ class FaostatSourceTransformer:
         raise NotImplementedError
 
     def project(self, prepared: DataFrame) -> DataFrame:
-        """Project existing YAML types plus diagnostic fields for read-only use."""
+        """Project contract types while preserving source diagnostics and lineage."""
         value_type = next(c["data_type"] for c in self.contract.columns if c["name"] == "value")
         prepared = prepared.withColumn("_value_parse_error", F.col("_value_parse_error") |
             (F.col("value").isNotNull() & F.expr(f"try_cast(value as {value_type})").isNull()))
@@ -90,7 +89,8 @@ class FaostatSourceTransformer:
             else:
                 expression = F.lit(None).cast(definition["data_type"])
             columns.append(expression.alias(definition["name"]))
-        extras = [c for c in prepared.columns if c.startswith("_") or c in self.derived_columns]
+        target_names = {c["name"] for c in self.contract.columns}
+        extras = [c for c in prepared.columns if c not in target_names and (c.startswith("_") or c in self.derived_columns)]
         return prepared.select(*columns, *[F.col(c) for c in extras])
 
     def transform(self, df: DataFrame) -> DataFrame:

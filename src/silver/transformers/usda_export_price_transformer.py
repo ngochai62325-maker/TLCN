@@ -32,12 +32,13 @@ class UsdaExportPriceTransformer(BaseSilverTransformer):
 
     def transform(self, df: DataFrame) -> DataFrame:
         """Filter export price tables and standardize price observations."""
+        df = self.prepare_source(df)
         # 1. Focus exclusively on export price tables:
         # Table 25: Thailand
         # Table 26: Vietnam
         # Table 27: India
         # Table 28: Pakistan
-        filtered_df = df.filter(F.col("table_number").isin([25, 26, 27, 28]))
+        filtered_df = df
 
         # Map exporter country canonically
         exporter_expr = (
@@ -51,7 +52,7 @@ class UsdaExportPriceTransformer(BaseSilverTransformer):
         clean_price = F.when(
             (F.col("value").isNull()) | (F.trim(F.col("value")) == "") | (F.trim(F.col("value")) == "NA"),
             None,
-        ).otherwise(F.col("value").cast("double"))
+        ).otherwise(F.expr("try_cast(value as double)"))
 
         return filtered_df.select(
             exporter_expr.alias("exporter_country"),
@@ -63,14 +64,14 @@ class UsdaExportPriceTransformer(BaseSilverTransformer):
             F.trim(F.col("reference_period_description")).alias("reference_period"),
             F.trim(F.col("statistic_description")).alias("statistic_description"),
             clean_price.alias("price_fob"),
+            F.col("value").cast("string").alias("_raw_value"),
+            (F.col("value").isNotNull() & ~F.trim(F.col("value").cast("string")).isin("", "NA") & clean_price.isNull()).alias("_numeric_parse_error"),
             F.trim(F.col("unit_description")).alias("unit"),
-            F.col("_source_file"),
-            F.col("_ingestion_run_id"),
-            F.col("_ingestion_timestamp"),
-        ).filter(
-            F.col("exporter_country").isNotNull()
-            & F.col("rice_class").isNotNull()
-            & F.col("year").isNotNull()
-            & F.col("reference_period").isNotNull()
-            & F.col("statistic_description").isNotNull()
+            *[F.col(c) for c in df.columns if c.startswith("_")],
         )
+
+    def quality_rules(self):
+        from silver.transformers.faostat_source import sql_rule
+        return [sql_rule("USDA_PRICE_PARSE", "NOT _numeric_parse_error", "price_fob", "Malformed observation"),
+                sql_rule("USDA_PRICE_TABLE", "table_number IN (25,26,27,28)", "table_number", "Unprofiled yearbook table"),
+                sql_rule("USDA_PRICE_UNIT", "unit = 'DOLLARS PER METRIC TON'", "unit", "FOB quote unit must be explicit")]

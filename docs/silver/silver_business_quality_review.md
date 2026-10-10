@@ -1,0 +1,26 @@
+# Business quality review — các quyết định còn cần duyệt
+
+Ngày 10/10/2026. [Source profiles](bronze_finalization_profile_evidence.json), [NSO raw examples](nso_business_profile_evidence.json), [preview/DQ](silver_finalization_preview_evidence.json). **B4 shared NSO Bronze đã verified**, nhưng không sửa policy trong lần review này. [NSO decisions trước E](nso_phase_e_decisions.md) có bảng unit/season và counts/missing/footer/geography profile sau recovery.
+
+| Vấn đề | Raw example / affected count | Rule hiện tại | Hệ quả / alternatives / đề xuất |
+|---|---|---|---|
+| SUA Residuals 5166 | Rice/Mexico 2022: −474083 t, flag I; Mexico 2023: −428268; **236 negatives** | Chỉ Stock Variation 5071 được âm; Residuals quarantine | Gold cân đối mất residual component nếu chỉ đọc valid. A: giữ quarantine; B: giữ signed residual có quality flag sau duyệt. Đề xuất B để giữ ý nghĩa thống kê, nhưng chưa áp dụng; không abs/NULL. |
+| PSD Milling Rate | Raw HTML `(1000 MT)`, `.9999`, gần đây `6250`; **66 crop-year cells** | Quarantine attribute Milling Rate; giữ raw value/unit | Không được cộng vào tonnes. A: giữ quarantine; B: xác nhận scaled ratio, giữ raw unit và thêm dimensionless ratio (6250→0,625) sau duyệt. Đề xuất B sau xác nhận USDA snapshot; không tự chia. |
+| NSO geography | Raw labels `C? NU?C`, damaged Hà Nội/region labels; **12 matrices/762 physical rows**, 21.554 numeric cells | Province code NULL, unknown needs_review; contract NEEDS_PROFILING | Không fuzzy-repair hoặc áp master hiện tại cho năm lịch sử. A: source labels + exact reviewed lookup/effective dates; B: hoãn provincial publish. Đề xuất A với nguồn chính thức và quarantine unmatched; chưa có mapping approved. |
+| NSO unit/season | V13 national 2010 `7489.4`; V14 `53.4`; V15 `40005.6`. **22.500 matrix non-null cells**, 946 markers riêng | Matrix units NULL; source proposal fail unit DQ; không shared normalization | Local metadata cho biết area/yield/production và mùa vụ, không ghi matrix units. Evidence chính thức củng cố area nghìn ha, yield tạ/ha, production nghìn tấn. Đề xuất bảng unit/season theo source table, duyệt trước nhân 1000/100 hoặc publish; không dùng 1000 cho yield. |
+| Price time/currency | 5.341 monthly, 9.993 annual (3.136 index); elements LCU/SLC/USD/index | Approved A giữ time_grain/month_code/currency/price_kind; index không currency | Không biến annual thành 12 tháng hoặc monthly average. LCU/SLC không mặc nhiên là cùng currency; master/effective currency review downstream. Giữ nguyên policy A, không cần đổi để chạy C2. |
+| Other mappings/duplicates | Trade reporter/partner/aggregate; Yearbook 195 dedup; Domestic 11 dedup; **mọi output còn lineage warning** | Source codes/labels và deterministic survivorship giữ nguyên; snapshot reference 0 warning | Không cộng country totals vào bilateral totals, không gộp quality/crop-year/calendar-year. Đề xuất review conflicting duplicate values và historical country/product mappings; liên kết ingestion snapshot phải có repair approval riêng. |
+
+## Source definitions và mức độ chắc chắn
+
+[FAO SUA metadata](https://data.fao.org/catalog/iso/e463c4cc-0ed1-4ef8-80c5-2add3a0b75ca) ghi Residuals là element với đơn vị t và coverage 2010–2023; không dùng unit `1000 t` của FBS để đổi SUA. [FAO Analytical Brief 72](https://nutritionconnect.org/media/1193) giải thích residual phản ánh discrepancy giữa nguồn/phương pháp. Suy luận của review: signed residual có thể có ý nghĩa accounting và nên giữ sau review, không chứng minh mọi negative source record đều hợp lệ. Policy 236 vẫn quarantine.
+
+[USDA Vietnam Grain and Feed Update 2021](https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Grain+and+Feed+Update_Hanoi_Vietnam_09-27-2021) có `.9999` và 6250 trong cùng bảng area/mass/yield. Raw HTML của snapshot đã mang unit mass, không phải Bronze writer tự gán. Conversion ratio là đề xuất cần duyệt; crop year luôn giữ interval, không calendar hóa.
+
+Local `metadata.txt`: V13–15 annual, V16–18 đông xuân, V19–21 **hè thu và thu đông**, V22–24 mùa. V06.12 national header chỉ ghi hè thu, nên không mặc nhiên coi national season và combined matrix season tương đương hoặc cộng hai cấp geography.
+
+[Niên giám NSO 2018](https://www.nso.gov.vn/wp-content/uploads/2019/10/Nien-giam-2018-1.pdf) ghi area nghìn ha và yield tạ/ha; [Niên giám 2021](https://www.nso.gov.vn/wp-content/uploads/2022/08/Sach-Nien-giam-TK-2021.pdf) ghi national năm 2010 area 7489,4 và production 40005,6 với nghìn ha/nghìn tấn, khớp raw examples. Đây là corroboration, không phải approval tự động của toàn bộ 12 matrix snapshots hoặc historical province master.
+
+Đề xuất contract NSO sau B4: source_table × source geography identity/level × year × season × measure × statistic_kind; giữ source unit, canonical unit sau mapping được duyệt, provisional flag 2024, missing marker raw, eight lineage fields và actual read snapshot. Không cộng national/region/province observations. 946 missing markers phải thành missing-value observations có flags, không thành numeric 0 hoặc bị tính vào 21.554 numeric cells.
+
+B4 đã hoàn thành; Phase E vẫn chờ contract/mapping/unit/missing/footer/DQ decisions được duyệt. Hiện chưa normalize/publish NSO Silver; không đổi YAML NEEDS_PROFILING để làm readiness gate pass.

@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "baseline": "nso_b4_after_audit.json",
+  "current": "nso_e1_shared_controls.json",
+  "checks": {
+    "current_snapshot_id": true,
+    "metadata_location": true,
+    "catalog_inventory": true,
+    "data_files": true,
+    "raw_objects": true,
+    "ingestion_runs": true,
+    "source_snapshots": true,
+    "source_watermarks": true,
+    "ingestion_checkpoints": true,
+    "dead_letter_records": true,
+    "dags": true
+  },
+  "snapshot_before": 3499764399995403202,
+  "snapshot_after": 3499764399995403202,
+  "new_registered_shared_data_files_since_b4": [],
+  "writes_shared_data": false,
+  "note": "Shared controls audit written_data_files compares B4 recovery against original pre-B4 baseline, not E1 writes."
+}

@@ -112,6 +112,7 @@ services:
       - ./jobs:/home/iceberg/jobs
       - ./notebooks:/home/iceberg/notebooks
       - ./src:/home/iceberg/src
+      - ./contracts:/home/iceberg/contracts:ro
       - ./tests:/home/iceberg/tests
     command: >
       bash -c "python3 /home/iceberg/jobs/silver/spark_api_server.py &

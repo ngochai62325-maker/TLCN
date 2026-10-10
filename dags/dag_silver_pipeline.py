@@ -1,167 +1,125 @@
-"""Airflow DAG for Vietnam Rice Market Lakehouse Silver Transformation Pipeline.
-
-Orchestrates the transformation of raw Bronze datasets into standardized, 
-cleaned Iceberg Silver tables using Apache Spark 3.5.
-
-Lifecycle:
-    gate_check_bronze
-           ↓
-    [transform_faostat_trade, transform_usda_psd, transform_usda_export_price, transform_worldbank_commodity] (Parallel)
-           ↓
-    silver_data_quality_audit
-           ↓
-    publish_silver_signal
-"""
-
-from __future__ import annotations
-
+"""Orchestrate every business source; publish readiness only after live checks."""
+from datetime import datetime, timedelta
 import json
 import logging
 import urllib.request
-import urllib.error
-from datetime import datetime, timedelta
-from typing import Any, Dict
 
 from airflow import DAG
 from airflow.decorators import task
 from airflow.exceptions import AirflowException
 from airflow.operators.empty import EmptyOperator
 
-logger = logging.getLogger("airflow.silver_pipeline")
+from silver.registry import TRANSFORMERS
+from silver.contract.loader import SilverContractLoader
 
+logger = logging.getLogger("airflow.silver_pipeline")
 SPARK_API_URL = "http://spark-iceberg:5005/run"
 TRINO_HOST = "trino"
 TRINO_PORT = 8080
-
-default_args = {
-    "owner": "data_engineering",
-    "depends_on_past": False,
-    "email_on_failure": False,
-    "email_on_retry": False,
-    "retries": 1,
-    "retry_delay": timedelta(seconds=30),
-}
+BUSINESS_SOURCES = tuple(TRANSFORMERS)
+CONTRACT_DIR = "/opt/airflow/contracts/silver"
 
 
-def trigger_spark_job(job_file: str, mode: str = "full", run_id: str = None) -> Dict[str, Any]:
-    """Trigger a PySpark job via the spark-iceberg HTTP API server."""
-    payload = json.dumps({"job": job_file, "mode": mode, "run_id": run_id}).encode("utf-8")
-    req = urllib.request.Request(
-        SPARK_API_URL,
-        data=payload,
-        headers={"Content-Type": "application/json"},
-        method="POST",
-    )
+def query(sql):
+    from ingestion.storage.bronze_writer import BronzeIcebergWriter
+    return BronzeIcebergWriter(trino_host=TRINO_HOST, trino_port=TRINO_PORT).execute_query(sql)
 
-    logger.info(f"Triggering Spark job {job_file} (mode: {mode}) at {SPARK_API_URL}")
-    try:
-        with urllib.request.urlopen(req, timeout=900) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            logger.info(f"Job {job_file} finished successfully: {data.get('status')}")
-            return data
-    except urllib.error.HTTPError as e:
-        err_body = e.read().decode("utf-8")
-        logger.error(f"Spark job {job_file} failed with HTTP {e.code}: {err_body}")
-        raise AirflowException(f"Spark job {job_file} execution failed: {err_body}")
-    except Exception as exc:
-        logger.error(f"Failed to communicate with Spark API: {exc}")
-        raise AirflowException(f"Connection to Spark API failed: {exc}")
+
+def trigger_spark_job(job_file, mode="full", run_id=None, dataset=None, pipeline_run_id=None):
+    payload = json.dumps(dict(job=job_file, mode=mode, run_id=run_id, dataset=dataset,
+                              pipeline_run_id=pipeline_run_id)).encode("utf-8")
+    request = urllib.request.Request(SPARK_API_URL, data=payload, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(request, timeout=900) as response:
+        data = json.loads(response.read().decode("utf-8"))
+    if data.get("status") != "SUCCESS" or (dataset and (data.get("result") or {}).get(dataset, {}).get("status") != "SUCCESS"):
+        raise AirflowException(f"Silver job failed or supplied no validated report: {dataset}")
+    return data["result"][dataset] if dataset else data
 
 
 with DAG(
     dag_id="rice_lakehouse_silver_pipeline",
-    default_args=default_args,
-    description="Transforms Bronze datasets into clean, standardized Iceberg Silver tables using Spark",
-    schedule="0 8 15 * *",  # 15th of each month at 8 AM (2 hours after Bronze ingestion)
-    start_date=datetime(2026, 10, 1),
-    catchup=False,
-    max_active_runs=1,
-    tags=["silver", "transformation", "spark", "iceberg"],
+    default_args=dict(owner="data_engineering", depends_on_past=False, email_on_failure=False,
+                      email_on_retry=False, retries=1, retry_delay=timedelta(seconds=30)),
+    description="Contract/DQ/quarantine/reconciliation for all business Bronze sources",
+    schedule="0 8 15 * *", start_date=datetime(2026, 10, 1), catchup=False,
+    max_active_runs=1, max_active_tasks=2, tags=["silver", "transformation", "spark", "iceberg"],
 ) as dag:
-
     start = EmptyOperator(task_id="start")
     end = EmptyOperator(task_id="end")
 
     @task(task_id="gate_check_bronze")
-    def check_bronze_readiness() -> Dict[str, bool]:
-        """Verify that required Bronze Iceberg tables exist and are accessible."""
-        required_tables = [
-            "faostat_trade",
-            "usda_psd",
-            "usda_rice_yearbook",
-            "worldbank_pinksheet",
-        ]
-        
-        # Ping Spark API health
-        health_req = urllib.request.Request("http://spark-iceberg:5005/health", method="GET")
-        with urllib.request.urlopen(health_req, timeout=10) as resp:
-            health = json.loads(resp.read().decode("utf-8"))
-            if health.get("status") != "ok":
-                raise AirflowException("Spark API server is unhealthy")
+    def check_bronze_readiness():
+        loader = SilverContractLoader(CONTRACT_DIR)
+        for source in BUSINESS_SOURCES:
+            contract = loader.load_contract(source)
+            if contract.bronze_input in ("", "UNKNOWN") or contract.silver_output in ("", "UNKNOWN"):
+                raise AirflowException(f"{source}: contract/recovery pending; cannot run a complete Silver batch")
+            _, rows = query(f"SELECT count(*) FROM {contract.bronze_input}")
+            if not rows or not rows[0][0]:
+                raise AirflowException(f"{source}: Bronze is empty")
+        with urllib.request.urlopen("http://spark-iceberg:5005/health", timeout=10) as response:
+            if json.loads(response.read()).get("status") != "ok":
+                raise AirflowException("Spark API is unhealthy")
+        return {"ready": True, "sources": list(BUSINESS_SOURCES)}
 
-        logger.info("Bronze readiness verified. Spark API server is healthy.")
-        return {"ready": True, "tables": required_tables}
-
-    @task(task_id="transform_faostat_trade")
-    def task_faostat_trade(**context) -> Dict[str, Any]:
-        """Execute FAOSTAT Trade Matrix transformation."""
+    @task
+    def transform_source(source, **context):
         dag_run = context.get("dag_run")
-        mode = dag_run.conf.get("mode", "full") if dag_run and dag_run.conf else "full"
-        return trigger_spark_job("job_faostat_trade.py", mode=mode)
-
-    @task(task_id="transform_usda_psd")
-    def task_usda_psd(**context) -> Dict[str, Any]:
-        """Execute USDA Rice PSD transformation."""
-        dag_run = context.get("dag_run")
-        mode = dag_run.conf.get("mode", "full") if dag_run and dag_run.conf else "full"
-        return trigger_spark_job("job_usda_psd.py", mode=mode)
-
-    @task(task_id="transform_usda_export_price")
-    def task_usda_export_price(**context) -> Dict[str, Any]:
-        """Execute USDA Export Price transformation."""
-        dag_run = context.get("dag_run")
-        mode = dag_run.conf.get("mode", "full") if dag_run and dag_run.conf else "full"
-        return trigger_spark_job("job_usda_export_price.py", mode=mode)
-
-    @task(task_id="transform_worldbank_commodity")
-    def task_worldbank_commodity(**context) -> Dict[str, Any]:
-        """Execute World Bank Pink Sheet transformation."""
-        dag_run = context.get("dag_run")
-        mode = dag_run.conf.get("mode", "full") if dag_run and dag_run.conf else "full"
-        return trigger_spark_job("job_worldbank.py", mode=mode)
+        config = dag_run.conf or {} if dag_run else {}
+        mode = config.get("mode", "full")
+        bronze_run_id = config.get("bronze_run_ids", {}).get(source)
+        if mode == "incremental" and not bronze_run_id:
+            raise AirflowException(f"{source}: incremental execution requires conf.bronze_run_ids[source]")
+        orchestration_id = f"{context['run_id']}:{source}"
+        from ingestion.storage.metadata_repository import MetadataRepository
+        with MetadataRepository().source_lock(source):
+            return trigger_spark_job("run_all_silver.py", mode, bronze_run_id, source, orchestration_id)
 
     @task(task_id="silver_data_quality_audit")
-    def silver_dq_audit() -> Dict[str, Any]:
-        """Perform Data Quality and reconciliation checks on Silver Iceberg tables."""
-        # Query Trino for row count checks
-        audit_results = {
-            "status": "PASSED",
-            "checked_tables": [
-                "iceberg.silver.faostat_trade",
-                "iceberg.silver.usda_rice_psd",
-                "iceberg.silver.usda_export_price",
-                "iceberg.silver.worldbank_commodity_monthly",
-            ],
-            "audited_at": datetime.now().isoformat(),
-        }
-        logger.info(f"Silver Data Quality Audit completed successfully: {audit_results}")
-        return audit_results
+    def silver_dq_audit(reports):
+        loader = SilverContractLoader(CONTRACT_DIR)
+        results = {}
+        for source, report in zip(BUSINESS_SOURCES, reports):
+            if report.get("status") != "SUCCESS":
+                raise AirflowException(f"{source}: successful pipeline report required")
+            if report["observation_count"] != report["valid_count"] + report["quarantine_count"] + report["excluded_count"]:
+                raise AirflowException(f"{source}: DQ reconciliation mismatch")
+            if report["valid_count"] != report["dedup_count"] + report["deduplicated_count"]:
+                raise AirflowException(f"{source}: dedup reconciliation mismatch")
+            contract = loader.load_contract(source)
+            table, keys = contract.silver_output, contract.business_key
+            _, rows = query(f"SELECT count(*) FROM {table}")
+            if report["dedup_count"] and rows[0][0] < report["dedup_count"]:
+                raise AirflowException(f"{source}: Trino output count below accepted batch")
+            _, duplicates = query(f"SELECT count(*) FROM (SELECT {','.join(keys)} FROM {table} "
+                                   f"GROUP BY {','.join(keys)} HAVING count(*) > 1)")
+            if duplicates[0][0]:
+                raise AirflowException(f"{source}: duplicate Silver keys")
+            _, missing = query(f"SELECT count(*) FROM {table} WHERE " + " OR ".join(f"{key} IS NULL" for key in keys))
+            if missing[0][0]:
+                raise AirflowException(f"{source}: null Silver keys")
+            if report["quarantine_count"]:
+                _, dead = query(f"SELECT count(*) FROM iceberg.silver.dead_letters WHERE source_dataset = '{source}'")
+                if not dead[0][0]:
+                    raise AirflowException(f"{source}: quarantine not queryable through Trino")
+            results[source] = {"trino_rows": rows[0][0], "validated": True}
+        return {"status": "PASSED", "sources": results}
 
     @task(task_id="publish_silver_signal")
-    def publish_signal() -> Dict[str, Any]:
-        """Publish Silver readiness signal for downstream Gold Layer transformations."""
-        logger.info("All Silver tables transformed and verified. Ready for Gold analytics.")
-        return {"silver_status": "READY_FOR_GOLD"}
+    def publish_signal(audit):
+        if audit.get("status") != "PASSED" or set(audit.get("sources", {})) != set(BUSINESS_SOURCES):
+            raise AirflowException("All business sources must pass before publishing readiness")
+        # Gold readiness also requires separately reviewed source/master mappings.
+        return {"silver_status": "E2E_VALIDATED", "gold_status": "REQUIRES_MAPPING_REVIEW", "audit": audit}
 
-    # Orchestration graph
     gate = check_bronze_readiness()
-    t_trade = task_faostat_trade()
-    t_psd = task_usda_psd()
-    t_exp = task_usda_export_price()
-    t_wb = task_worldbank_commodity()
-    dq = silver_dq_audit()
-    pub = publish_signal()
-
+    transformations = []
+    task_names = {"usda_rice_yearbook": "usda_export_price", "worldbank_pinksheet": "worldbank_commodity"}
+    for source in BUSINESS_SOURCES:
+        transform = transform_source.override(task_id="transform_" + task_names.get(source, source))(source)
+        gate >> transform
+        transformations.append(transform)
+    audit = silver_dq_audit(transformations)
+    signal = publish_signal(audit)
     start >> gate
-    gate >> [t_trade, t_psd, t_exp, t_wb]
-    [t_trade, t_psd, t_exp, t_wb] >> dq >> pub >> end
+    transformations >> audit >> signal >> end
