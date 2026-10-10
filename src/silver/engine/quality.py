@@ -54,12 +54,14 @@ class SilverQualityEngine:
         df_with_errors = df.withColumn("raw_dq_errors", array(*error_conditions))
         
         # Filter out nulls from the array
-        # array_remove(col("raw_dq_errors"), None) doesn't work directly if the type is complex in some Spark versions,
-        # but in recent Spark `filter` on arrays is better.
         df_with_errors = df_with_errors.withColumn(
             "dq_errors", 
             F.expr("filter(raw_dq_errors, x -> x is not null)")
         ).drop("raw_dq_errors")
+        
+        if "_sys_cast_errors" in df_with_errors.columns:
+            df_with_errors = df_with_errors.withColumn("dq_errors", F.concat(F.col("dq_errors"), F.col("_sys_cast_errors")))
+            df_with_errors = df_with_errors.drop("_sys_cast_errors")
 
         valid_df = df_with_errors.filter(size(col("dq_errors")) == 0).drop("dq_errors")
         quarantine_df = df_with_errors.filter(size(col("dq_errors")) > 0)

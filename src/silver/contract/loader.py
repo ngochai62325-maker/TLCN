@@ -8,7 +8,13 @@ class SilverContract:
         self._validate()
 
     def _validate(self):
-        dataset = self._data.get("dataset", {})
+        if not isinstance(self._data, dict):
+            raise ValueError("Contract data must be a valid dictionary. Empty or malformed YAML is not allowed.")
+            
+        dataset = self._data.get("dataset")
+        if not isinstance(dataset, dict):
+            raise ValueError("Contract is missing required field: dataset (must be a dictionary)")
+            
         if not dataset.get("name"):
             raise ValueError("Contract is missing required field: dataset.name")
         if not dataset.get("source_system"):
@@ -18,15 +24,25 @@ class SilverContract:
         if not dataset.get("silver_output"):
             raise ValueError("Contract is missing required field: dataset.silver_output")
             
-        grain = self._data.get("grain", {})
-        if not grain.get("business_key"):
-            raise ValueError("Contract is missing required field: grain.business_key")
+        grain = self._data.get("grain")
+        if not isinstance(grain, dict):
+            raise ValueError("Contract is missing required field: grain (must be a dictionary)")
             
-        schema = self._data.get("schema", {})
-        if not schema.get("columns"):
-            raise ValueError("Contract is missing required field: schema.columns")
+        business_key = grain.get("business_key")
+        if not isinstance(business_key, list) or len(business_key) == 0:
+            raise ValueError("Contract is missing required field: grain.business_key (must be a non-empty list)")
             
-        for col in schema.get("columns", []):
+        schema = self._data.get("schema")
+        if not isinstance(schema, dict):
+            raise ValueError("Contract is missing required field: schema (must be a dictionary)")
+            
+        columns = schema.get("columns")
+        if not isinstance(columns, list) or len(columns) == 0:
+            raise ValueError("Contract is missing required field: schema.columns (must be a non-empty list)")
+            
+        for col in columns:
+            if not isinstance(col, dict):
+                raise ValueError(f"Contract column definition must be a dictionary: {col}")
             if not col.get("name") or not col.get("data_type"):
                 raise ValueError(f"Contract column definition missing name or data_type: {col}")
 

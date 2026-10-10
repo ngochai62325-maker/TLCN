@@ -47,6 +47,7 @@ class SilverTransformationFramework:
             "_source_snapshot_id", "_ingestion_timestamp"
         ]
         
+        cast_error_cols = []
         for col_def in contract.columns:
             target_name = col_def["name"]
             source_col = col_def["source_column"]
@@ -56,15 +57,33 @@ class SilverTransformationFramework:
             target_type = self._map_type(col_def["data_type"])
             
             if sanitized_src in df_silver.columns:
+                # Add a cast error check
+                is_cast_error = F.col(sanitized_src).isNotNull() & F.col(sanitized_src).cast(target_type).isNull()
+                cast_error_struct = F.when(
+                    is_cast_error, 
+                    F.struct(
+                        F.lit("SYS_CAST_ERR").alias("rule_id"),
+                        F.lit(f"Cast failed from string for {target_name}").alias("error_message"),
+                        F.lit(target_name).alias("failed_column")
+                    )
+                ).otherwise(F.lit(None))
+                cast_error_cols.append(cast_error_struct)
+                
                 df_silver = df_silver.withColumn(target_name, F.col(sanitized_src).cast(target_type))
             else:
                 df_silver = df_silver.withColumn(target_name, F.lit(None).cast(target_type))
+
+        if cast_error_cols:
+            df_silver = df_silver.withColumn("_sys_cast_errors", F.array(*cast_error_cols))
+            df_silver = df_silver.withColumn("_sys_cast_errors", F.expr("filter(_sys_cast_errors, x -> x is not null)"))
+        else:
+            df_silver = df_silver.withColumn("_sys_cast_errors", F.array().cast("array<struct<rule_id:string,error_message:string,failed_column:string>>"))
                 
         # Select target columns and actual audit columns
         target_cols = [c["name"] for c in contract.columns]
         actual_audit_cols = [c for c in audit_cols if c in df_silver.columns]
         
-        df_silver = df_silver.select(*target_cols, *actual_audit_cols)
+        df_silver = df_silver.select(*target_cols, *actual_audit_cols, "_sys_cast_errors")
         
         # 4. Data Quality Engine
         quality_engine = SilverQualityEngine(contract.data_quality_rules)
