@@ -111,7 +111,10 @@ class MetadataRepository:
             SELECT * FROM ingestion.ingestion_runs 
             WHERE source_id = %s 
               AND status = 'SUCCESS'
-              AND (source_metadata->>'silver_status' IS NULL OR source_metadata->>'silver_status' != 'SUCCESS')
+              AND (
+                  source_metadata->>'silver_status' IS NULL 
+                  OR source_metadata->>'silver_status' NOT IN ('SUCCESS', 'true')
+              )
             ORDER BY started_at ASC
             LIMIT 1
         """

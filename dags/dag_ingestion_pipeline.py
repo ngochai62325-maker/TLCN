@@ -131,15 +131,16 @@ with DAG(
             .getOrCreate()
         
         try:
-            logging.info(f"Starting Silver Transformation for {dataset_id}, Bronze Run ID: {run_id}")
-            framework = SilverTransformationFramework(spark, contract_dir="/opt/airflow/contracts/silver")
-            result = framework.run(dataset_id, run_id)
-            
-            # Mark the run as successfully processed by Silver
-            repo.mark_silver_status(run_id, "SUCCESS")
-            
-            logging.info(f"Silver Transformation result: {result}")
-            return result
+            with repo.source_lock(dataset_id):
+                logging.info(f"Starting Silver Transformation for {dataset_id}, Bronze Run ID: {run_id}")
+                framework = SilverTransformationFramework(spark, contract_dir="/opt/airflow/contracts/silver")
+                result = framework.run(dataset_id, run_id)
+                
+                # Mark the run as successfully processed by Silver
+                repo.mark_silver_status(run_id, "SUCCESS")
+                
+                logging.info(f"Silver Transformation result: {result}")
+                return result
         except Exception as e:
             logging.error(f"Silver Transformation failed: {e}")
             raise
@@ -151,7 +152,7 @@ with DAG(
         if src.enabled:
             ingest_task = build_run_ingestion_task.override(task_id=f"ingest_{src.source_id}")(src.source_id)
             
-            if src.source_id == "faostat_production":
+            if src.source_id in ["faostat_production", "usda_psd"]:
                 # Silver runs after Bronze. trigger_rule="none_failed" ensures it can run if Bronze skipped
                 silver_task = build_run_silver_task.override(task_id=f"silver_{src.source_id}")(
                     dataset_id=src.source_id

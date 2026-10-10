@@ -24,6 +24,21 @@ class SilverTransformationFramework:
         df_bronze = self.spark.table(bronze_table)
         bronze_count = df_bronze.count()
         
+        # 2.5 Dataset-Specific Preprocessing (Adapter Pattern)
+        try:
+            import importlib
+            module = importlib.import_module(f"silver.transformers.{dataset_id}")
+            transformer_class_name = "".join(word.capitalize() for word in dataset_id.split('_')) + "Transformer"
+            transformer_class = getattr(module, transformer_class_name)
+            transformer = transformer_class()
+            df_bronze = transformer.preprocess(df_bronze)
+            # Re-eval count after unpivot/filtering
+            bronze_count = df_bronze.count()
+        except ImportError:
+            pass  # No custom transformer for this dataset
+        except Exception as e:
+            raise RuntimeError(f"Failed to execute transformer for {dataset_id}: {str(e)}")
+
         # 3. Schema Normalization & Type Casting
         df_silver = df_bronze
         

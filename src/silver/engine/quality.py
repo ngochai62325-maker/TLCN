@@ -43,6 +43,15 @@ class SilverQualityEngine:
                 else:
                     sql_expr = "country_code IS NOT NULL AND commodity_code IS NOT NULL AND year IS NOT NULL AND element_code IS NOT NULL"
                 failed_column = "business_key"
+            elif rule_id == "PSD_DQ_001":
+                sql_expr = "country IS NOT NULL AND commodity IS NOT NULL AND attribute IS NOT NULL AND market_year IS NOT NULL"
+                failed_column = "business_key"
+            elif rule_id == "PSD_DQ_002":
+                sql_expr = "market_year >= 1950 AND market_year <= 2050"
+                failed_column = "market_year"
+            elif rule_id == "PSD_DQ_003":
+                sql_expr = "value IS NULL OR value >= 0"
+                failed_column = "value"
             else:
                 if "sql_expr" in r:
                     sql_expr = r["sql_expr"]
