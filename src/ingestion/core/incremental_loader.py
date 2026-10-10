@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import tempfile
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Any, Optional
 
 from ingestion.adapters.base_adapter import BaseSourceAdapter
 from ingestion.core.base_loader import BaseLoader
