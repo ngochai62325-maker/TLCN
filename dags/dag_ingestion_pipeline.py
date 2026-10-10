@@ -75,22 +75,43 @@ with DAG(
     registry.load()
     all_sources = list(registry.get_all_sources().values())
 
-    @task(task_id="run_ingestion", retries=2, retry_delay=timedelta(seconds=30))
-    def build_run_ingestion_task(source_id: str):
+    @task(task_id="run_ingestion", retries=2, retry_delay=timedelta(seconds=30), multiple_outputs=True)
+    def build_run_ingestion_task(source_id: str, **context) -> Dict[str, Any]:
         """Airflow thin wrapper executing the IngestionEngine."""
-        return run_ingestion_task(source_id)
+        conf = context.get("dag_run").conf if context.get("dag_run") else {}
+        force = conf.get("force_reprocess", False)
+        forced_sources = conf.get("force_reprocess_sources", [])
+        if source_id in forced_sources:
+            force = True
+        return run_ingestion_task(source_id, force_reprocess=force)
 
-    @task(task_id="run_silver", retries=2, retry_delay=timedelta(minutes=1))
-    def build_run_silver_task(dataset_id: str, run_id: str):
+    @task(task_id="run_silver", retries=2, retry_delay=timedelta(minutes=1), trigger_rule="none_failed")
+    def build_run_silver_task(dataset_id: str):
         """Executes the Silver Transformation Framework using a local PySpark session connected to spark-iceberg."""
         from pyspark.sql import SparkSession
         from silver.framework import SilverTransformationFramework
+        from ingestion.storage.metadata_repository import MetadataRepository
+        from airflow.exceptions import AirflowSkipException
+
+        repo = MetadataRepository()
+        pending_run = repo.get_pending_silver_run(dataset_id)
+        
+        if not pending_run:
+            raise AirflowSkipException(f"No pending Silver runs found for dataset {dataset_id}. Safe to skip.")
+            
+        run_id = pending_run["run_id"]
+
+        # Set AWS Environment variables for S3FileIO default credential provider chain
+        import os
+        os.environ["AWS_REGION"] = "us-east-1"
+        os.environ["AWS_ACCESS_KEY_ID"] = "admin"
+        os.environ["AWS_SECRET_ACCESS_KEY"] = "password123"
 
         # Initialize SparkSession connecting to the Spark cluster Master
         spark = SparkSession.builder \
             .appName(f"silver-{dataset_id}") \
             .master("spark://spark-iceberg:7077") \
-            .config("spark.jars.packages", "org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.4.3,org.projectnessie.nessie-integrations:nessie-spark-extensions-3.5_2.12:0.77.1") \
+            .config("spark.jars.packages", "org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.8.1,org.apache.iceberg:iceberg-aws-bundle:1.8.1,org.projectnessie.nessie-integrations:nessie-spark-extensions-3.5_2.12:0.77.1,org.apache.hadoop:hadoop-aws:3.3.4") \
             .config("spark.sql.catalog.iceberg", "org.apache.iceberg.spark.SparkCatalog") \
             .config("spark.sql.catalog.iceberg.type", "rest") \
             .config("spark.sql.catalog.iceberg.uri", "http://iceberg-rest:8181") \
@@ -99,13 +120,24 @@ with DAG(
             .config("spark.sql.catalog.iceberg.s3.access-key-id", "admin") \
             .config("spark.sql.catalog.iceberg.s3.secret-access-key", "password123") \
             .config("spark.sql.catalog.iceberg.s3.path-style-access", "true") \
+            .config("spark.sql.catalog.iceberg.s3.region", "us-east-1") \
             .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions") \
+            .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
+            .config("spark.hadoop.fs.s3a.access.key", "admin") \
+            .config("spark.hadoop.fs.s3a.secret.key", "password123") \
+            .config("spark.hadoop.fs.s3a.path.style.access", "true") \
+            .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
+            .config("spark.hadoop.fs.s3a.aws.credentials.provider", "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider") \
             .getOrCreate()
         
         try:
             logging.info(f"Starting Silver Transformation for {dataset_id}, Bronze Run ID: {run_id}")
             framework = SilverTransformationFramework(spark, contract_dir="/opt/airflow/contracts/silver")
             result = framework.run(dataset_id, run_id)
+            
+            # Mark the run as successfully processed by Silver
+            repo.mark_silver_status(run_id, "SUCCESS")
+            
             logging.info(f"Silver Transformation result: {result}")
             return result
         except Exception as e:
@@ -120,10 +152,9 @@ with DAG(
             ingest_task = build_run_ingestion_task.override(task_id=f"ingest_{src.source_id}")(src.source_id)
             
             if src.source_id == "faostat_production":
-                # Silver runs after Bronze. The Bronze task returns a dict with 'run_id'
+                # Silver runs after Bronze. trigger_rule="none_failed" ensures it can run if Bronze skipped
                 silver_task = build_run_silver_task.override(task_id=f"silver_{src.source_id}")(
-                    dataset_id=src.source_id,
-                    run_id=ingest_task["run_id"]
+                    dataset_id=src.source_id
                 )
                 start_all >> ingest_task >> silver_task >> end_all
             else:

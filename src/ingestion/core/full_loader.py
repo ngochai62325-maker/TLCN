@@ -355,7 +355,7 @@ class FullLoader(BaseLoader):
 
             # ── 4. Idempotency / snapshot detection ─────────────────
             existing = self._check_existing_snapshot(config.source_id, artifact_checksum)
-            if existing is not None:
+            if not force_reprocess and existing is not None and existing.get("status") == IngestionStatus.SUCCESS.value:
                 logger.info(
                     "Snapshot already ingested (idempotent skip)",
                     existing_run=existing.get("run_id"),

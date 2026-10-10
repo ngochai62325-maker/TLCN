@@ -105,6 +105,34 @@ class MetadataRepository:
                                   error_message, error_type, meta_json, run_id))
             conn.commit()
 
+    def get_pending_silver_run(self, source_id: str) -> Optional[Dict[str, Any]]:
+        """Find the oldest successful Bronze run that has not yet been processed by Silver."""
+        query = """
+            SELECT * FROM ingestion.ingestion_runs 
+            WHERE source_id = %s 
+              AND status = 'SUCCESS'
+              AND (source_metadata->>'silver_status' IS NULL OR source_metadata->>'silver_status' != 'SUCCESS')
+            ORDER BY started_at ASC
+            LIMIT 1
+        """
+        with self._get_connection() as conn:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute(query, (source_id,))
+                row = cur.fetchone()
+                return dict(row) if row else None
+
+    def mark_silver_status(self, run_id: str, status: str) -> None:
+        """Update the silver_status inside the JSONB source_metadata column."""
+        query = """
+            UPDATE ingestion.ingestion_runs
+            SET source_metadata = COALESCE(source_metadata, '{}'::jsonb) || jsonb_build_object('silver_status', %s)
+            WHERE run_id = %s
+        """
+        with self._get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, (status, run_id))
+            conn.commit()
+
     def get_run(self, run_id: str) -> Optional[Dict[str, Any]]:
         query = "SELECT * FROM ingestion.ingestion_runs WHERE run_id = %s"
         with self._get_connection() as conn:
