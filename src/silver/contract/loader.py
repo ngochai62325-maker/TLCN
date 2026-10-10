@@ -5,6 +5,30 @@ from typing import Any, Dict, List
 class SilverContract:
     def __init__(self, data: Dict[str, Any]):
         self._data = data
+        self._validate()
+
+    def _validate(self):
+        dataset = self._data.get("dataset", {})
+        if not dataset.get("name"):
+            raise ValueError("Contract is missing required field: dataset.name")
+        if not dataset.get("source_system"):
+            raise ValueError("Contract is missing required field: dataset.source_system")
+        if not dataset.get("bronze_input"):
+            raise ValueError("Contract is missing required field: dataset.bronze_input")
+        if not dataset.get("silver_output"):
+            raise ValueError("Contract is missing required field: dataset.silver_output")
+            
+        grain = self._data.get("grain", {})
+        if not grain.get("business_key"):
+            raise ValueError("Contract is missing required field: grain.business_key")
+            
+        schema = self._data.get("schema", {})
+        if not schema.get("columns"):
+            raise ValueError("Contract is missing required field: schema.columns")
+            
+        for col in schema.get("columns", []):
+            if not col.get("name") or not col.get("data_type"):
+                raise ValueError(f"Contract column definition missing name or data_type: {col}")
 
     @property
     def dataset_name(self) -> str:

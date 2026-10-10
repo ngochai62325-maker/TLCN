@@ -19,8 +19,13 @@ class IcebergMergeEngine:
             
         # Ensure the order cols actually exist in df
         actual_order_cols = [F.col(c).desc() for c in order_cols if c in df.columns]
+        
+        # Add all columns as a deterministic tie-breaker
+        tie_breaker_cols = [F.col(c).asc() for c in df.columns if c not in order_cols]
+        actual_order_cols.extend(tie_breaker_cols)
+        
         if not actual_order_cols:
-            # Fallback if metadata cols don't exist
+            # Fallback (should never happen if df has columns)
             actual_order_cols = [F.lit(1).desc()]
             
         window_spec = Window.partitionBy(*business_keys).orderBy(*actual_order_cols)

@@ -1,121 +1,123 @@
 dataset:
-  name: "USDA FAS - Production, Supply and Distribution (PSD) (Silver)"
-  source_id: "usda_psd"
-  source_system: "USDA"
-  bronze_input: "iceberg.bronze.usda_psd"
-  silver_output: "iceberg.silver.usda_rice_psd"
-
+  name: USDA FAS - Production, Supply and Distribution (PSD) (Silver)
+  source_id: usda_psd
+  source_system: USDA
+  bronze_input: iceberg.bronze.usda_psd
+  silver_output: iceberg.silver.usda_rice_psd
 contract_status: READY
-
 grain:
-  description: "One record represents a specific agricultural attribute (e.g., Area Harvested, Production, Imports, Exports) for a specific commodity and country in a specific market year."
+  description: One record represents a specific agricultural attribute (e.g., Area
+    Harvested, Production, Imports, Exports) for a specific commodity and country
+    in a specific market year.
   business_key:
-    - "country"
-    - "commodity"
-    - "attribute"
-    - "market_year"
-
+  - country
+  - commodity
+  - attribute
+  - market_year
 schema:
   columns:
-    - name: "country"
-      source_column: "country"
-      data_type: "string"
-      nullable: false
-      description: "Reporting country name (e.g., Vietnam)"
-      transformation: "cast to string, trim, standard country case"
-    - name: "commodity"
-      source_column: "commodity"
-      data_type: "string"
-      nullable: false
-      description: "Agricultural commodity (e.g., Rice, Milled)"
-      transformation: "cast to string, trim, forward fill or default to 'Rice, Milled'"
-    - name: "attribute"
-      source_column: "attribute"
-      data_type: "string"
-      nullable: false
-      description: "Balance sheet attribute (e.g., Area Harvested, Production, Ending Stocks)"
-      transformation: "cast to string, trim"
-    - name: "market_year"
-      source_column: "market_year"
-      data_type: "integer"
-      nullable: false
-      description: "Market year beginning year (e.g., 1960 for 1960/1961)"
-      transformation: "extracted from wide column header (col_YYYY_YYYY+1 -> YYYY as int)"
-    - name: "crop_year"
-      source_column: "crop_year"
-      data_type: "string"
-      nullable: false
-      description: "Crop year string (e.g., '1960/1961') strictly preserved from source definition"
-      transformation: "extracted from wide column header (col_YYYY_YYYY+1 -> 'YYYY/YYYY+1')"
-    - name: "unit"
-      source_column: "unit_description"
-      data_type: "string"
-      nullable: true
-      description: "Unit of measurement (e.g., 1000 MT, 1000 HA, MT/HA)"
-      transformation: "cast to string, trim, strip parentheses"
-    - name: "value"
-      source_column: "value"
-      data_type: "decimal(18,2)"
-      nullable: true
-      description: "Numeric balance sheet value"
-      transformation: "cast to decimal, null for missing"
-
+  - name: country
+    source_column: country
+    data_type: string
+    nullable: false
+    description: Reporting country name (e.g., Vietnam)
+    transformation: cast to string, trim, standard country case
+  - name: commodity
+    source_column: commodity
+    data_type: string
+    nullable: false
+    description: Agricultural commodity (e.g., Rice, Milled)
+    transformation: cast to string, trim, forward fill or default to 'Rice, Milled'
+  - name: attribute
+    source_column: attribute
+    data_type: string
+    nullable: false
+    description: Balance sheet attribute (e.g., Area Harvested, Production, Ending
+      Stocks)
+    transformation: cast to string, trim
+  - name: market_year
+    source_column: market_year
+    data_type: integer
+    nullable: false
+    description: Market year beginning year (e.g., 1960 for 1960/1961)
+    transformation: extracted from wide column header (col_YYYY_YYYY+1 -> YYYY as
+      int)
+  - name: crop_year
+    source_column: crop_year
+    data_type: string
+    nullable: false
+    description: Crop year string (e.g., '1960/1961') strictly preserved from source
+      definition
+    transformation: extracted from wide column header (col_YYYY_YYYY+1 -> 'YYYY/YYYY+1')
+  - name: unit
+    source_column: unit_description
+    data_type: string
+    nullable: true
+    description: Unit of measurement (e.g., 1000 MT, 1000 HA, MT/HA)
+    transformation: cast to string, trim, strip parentheses
+  - name: value
+    source_column: value
+    data_type: decimal(18,2)
+    nullable: true
+    description: Numeric balance sheet value
+    transformation: cast to decimal, null for missing
 normalization:
-  country: "Standard country name matching ISO or FAOSTAT standard where applicable."
-  commodity: "Standardize Rice, Milled."
-  year: "Strictly preserve market_year and crop_year without forcing to calendar year."
-  unit: "Standardize (1000 MT) to '1000 MT', (1000 HA) to '1000 HA', (MT/HA) to 'MT/HA'."
-
+  country: Standard country name matching ISO or FAOSTAT standard where applicable.
+  commodity: Standardize Rice, Milled.
+  year: Strictly preserve market_year and crop_year without forcing to calendar year.
+  unit: Standardize (1000 MT) to '1000 MT', (1000 HA) to '1000 HA', (MT/HA) to 'MT/HA'.
 data_quality:
-  - rule_id: "PSD_DQ_001"
-    rule: "country, commodity, attribute, market_year cannot be null"
-    dimension: "Completeness"
-    severity: "ERROR"
-    action: "QUARANTINE"
-  - rule_id: "PSD_DQ_002"
-    rule: "market_year must be between 1950 and 2050"
-    dimension: "Validity"
-    severity: "ERROR"
-    action: "QUARANTINE"
-  - rule_id: "PSD_DQ_003"
-    rule: "value must be non-negative if not null"
-    dimension: "Validity"
-    severity: "WARNING"
-    action: "LOG"
-
+- rule_id: PSD_DQ_001
+  rule: country, commodity, attribute, market_year cannot be null
+  dimension: Completeness
+  severity: ERROR
+  action: QUARANTINE
+  sql_expr: country IS NOT NULL AND commodity IS NOT NULL AND attribute IS NOT NULL
+    AND market_year IS NOT NULL
+  failed_column: business_key
+- rule_id: PSD_DQ_002
+  rule: market_year must be between 1950 and 2050
+  dimension: Validity
+  severity: ERROR
+  action: QUARANTINE
+  sql_expr: market_year >= 1950 AND market_year <= 2050
+  failed_column: market_year
+- rule_id: PSD_DQ_003
+  rule: value must be non-negative if not null
+  dimension: Validity
+  severity: WARNING
+  action: LOG
+  sql_expr: value IS NULL OR value >= 0
+  failed_column: value
 deduplication:
   key:
-    - "country"
-    - "commodity"
-    - "attribute"
-    - "market_year"
-  strategy: "Timestamp-based survivorship"
-  survivorship: "Keep record with most recent _ingestion_timestamp"
-  duplicate_action: "Overwrite in Silver"
-
+  - country
+  - commodity
+  - attribute
+  - market_year
+  strategy: Timestamp-based survivorship
+  survivorship: Keep record with most recent _ingestion_timestamp
+  duplicate_action: Overwrite in Silver
 quarantine:
   conditions:
-    - "Fails DQ rules with severity ERROR"
+  - Fails DQ rules with severity ERROR
   required_fields:
-    - "quarantine_record_id"
-    - "source_system"
-    - "dataset"
-    - "failed_column"
-    - "error_message"
-    - "ingestion_run_id"
-
+  - quarantine_record_id
+  - source_system
+  - dataset
+  - failed_column
+  - error_message
+  - ingestion_run_id
 metadata:
   propagated_columns:
-    - "_ingestion_run_id"
-    - "_source_file"
-    - "_source_checksum"
-    - "_source_snapshot_id"
-    - "_ingestion_timestamp"
-
+  - _ingestion_run_id
+  - _source_file
+  - _source_checksum
+  - _source_snapshot_id
+  - _ingestion_timestamp
 incremental:
-  strategy: "MERGE"
-  change_detection: "Business key match (country, commodity, attribute, market_year)"
-  late_arriving_data: "UPSERT pattern using MERGE"
-
+  strategy: MERGE
+  change_detection: Business key match (country, commodity, attribute, market_year)
+  late_arriving_data: UPSERT pattern using MERGE
 gold_dependency:
-  target_domain: "Supply-Demand Balance Sheet, Production and Stocks Analytics"
+  target_domain: Supply-Demand Balance Sheet, Production and Stocks Analytics

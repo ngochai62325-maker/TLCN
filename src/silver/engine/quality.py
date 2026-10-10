@@ -28,45 +28,19 @@ class SilverQualityEngine:
             rule_id = r.get("rule_id", "UNKNOWN")
             sql_rule = r.get("rule", "1=1") # In a real implementation we'd compile the YAML natural language to SQL or assume YAML contains SQL.
             
-            # The YAML currently has natural language like "Value must be non-negative".
-            # We need to translate known rules or assume the YAML is updated to have sql_expr.
-            # Let's map the specific ones from faostat_production for the PoC.
-            if rule_id == "PROD_DQ_001":
-                sql_expr = "value >= 0 OR value IS NULL"
-                failed_column = "value"
-            elif rule_id == "PROD_DQ_002":
-                sql_expr = "year <= year(current_date()) + 1 AND year >= 1960"
-                failed_column = "year"
-            elif rule_id == "PROD_DQ_003":
-                if "business_key" in df.columns:
-                    sql_expr = "business_key IS NOT NULL"
-                else:
-                    sql_expr = "country_code IS NOT NULL AND commodity_code IS NOT NULL AND year IS NOT NULL AND element_code IS NOT NULL"
-                failed_column = "business_key"
-            elif rule_id == "PSD_DQ_001":
-                sql_expr = "country IS NOT NULL AND commodity IS NOT NULL AND attribute IS NOT NULL AND market_year IS NOT NULL"
-                failed_column = "business_key"
-            elif rule_id == "PSD_DQ_002":
-                sql_expr = "market_year >= 1950 AND market_year <= 2050"
-                failed_column = "market_year"
-            elif rule_id == "PSD_DQ_003":
-                sql_expr = "value IS NULL OR value >= 0"
-                failed_column = "value"
+            if "sql_expr" in r:
+                sql_expr = r["sql_expr"]
+                failed_column = r.get("failed_column", "unknown")
             else:
-                if "sql_expr" in r:
-                    sql_expr = r["sql_expr"]
-                    failed_column = r.get("failed_column", "unknown")
-                else:
-                    raise ValueError(f"Unsupported DQ rule: {rule_id}. Missing explicit sql_expr translation.")
+                raise ValueError(f"Unsupported DQ rule: {rule_id}. Missing explicit sql_expr translation.")
                 
             error_message = r.get("rule", "Rule failed")
             
-            # Check condition: if condition is FALSE, it's an error.
-            # So error is NOT (condition)
+            # Check condition: if condition is FALSE or NULL, it's an error.
             condition_expr = expr(sql_expr)
             
             error_struct = when(
-                ~condition_expr,
+                ~condition_expr | condition_expr.isNull(),
                 struct(
                     F.lit(rule_id).alias("rule_id"),
                     F.lit(error_message).alias("error_message"),

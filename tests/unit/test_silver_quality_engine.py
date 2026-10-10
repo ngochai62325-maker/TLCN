@@ -20,9 +20,9 @@ def test_quality_engine(spark):
     df = spark.createDataFrame(data, schema=columns)
     
     rules = [
-        {"rule_id": "PROD_DQ_001", "rule": "Value >= 0"},
-        {"rule_id": "PROD_DQ_002", "rule": "Year <= current"},
-        {"rule_id": "PROD_DQ_003", "rule": "NotNull key"}
+        {"rule_id": "GEN_DQ_001", "rule": "Value >= 0", "sql_expr": "value >= 0 OR value IS NULL", "failed_column": "value"},
+        {"rule_id": "GEN_DQ_002", "rule": "Year <= current", "sql_expr": "year <= year(current_date()) + 1 AND year >= 1960", "failed_column": "year"},
+        {"rule_id": "GEN_DQ_003", "rule": "NotNull key", "sql_expr": "business_key IS NOT NULL", "failed_column": "business_key"}
     ]
     
     # We mapped PROD_DQ_001 to value >= 0 OR value IS NULL

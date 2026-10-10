@@ -5,11 +5,9 @@ import uuid
 from datetime import datetime, timezone
 
 class SilverQuarantineManager:
-    def __init__(self, spark: Any, target_table: str = "iceberg.silver_system.dead_letters"):
+    def __init__(self, spark: Any, target_table: str = "iceberg.silver.dead_letters"):
         self.spark = spark
-        # According to architecture: silver.system.dead_letters, but iceberg.silver_system might be the catalog path
-        # Let's use iceberg.silver.dead_letters as a safe catalog.schema.table
-        self.target_table = "iceberg.silver.dead_letters"
+        self.target_table = target_table
 
     def ensure_table(self):
         """Ensure the quarantine table exists."""

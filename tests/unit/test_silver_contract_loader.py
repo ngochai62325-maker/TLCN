@@ -53,3 +53,20 @@ def test_load_contract(mock_contract_dir):
     
     assert len(contract.data_quality_rules) == 1
     assert contract.deduplication_strategy == "Timestamp-based survivorship"
+
+def test_load_contract_missing_fields(mock_contract_dir):
+    loader = SilverContractLoader(contract_dir=mock_contract_dir)
+    invalid_contract_data = {
+        "dataset": {
+            "name": "Invalid Dataset"
+            # Missing bronze_input, silver_output, etc.
+        }
+    }
+    
+    import yaml
+    file_path = os.path.join(mock_contract_dir, "invalid_dataset.yaml")
+    with open(file_path, "w", encoding="utf-8") as f:
+        yaml.dump(invalid_contract_data, f)
+        
+    with pytest.raises(ValueError, match="missing required field: dataset.source_system"):
+        loader.load_contract("invalid_dataset")
