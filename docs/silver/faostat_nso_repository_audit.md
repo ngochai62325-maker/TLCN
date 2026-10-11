@@ -2,7 +2,7 @@
 
 > Audit lịch sử trước tích hợp. Các khoảng trống framework/DQ/DAG được xử lý
 > trong đợt 11/10/2026; xem [runbook hiện tại](README.md) và
-> [kết quả kiểm thử](validation.md). NSO vẫn pending do thiếu input/schema.
+> [kết quả kiểm thử](validation.md). NSO đã hoàn thiện; xem [quy tắc hiện tại](nso.md).
 
 ## Repository và bằng chứng
 

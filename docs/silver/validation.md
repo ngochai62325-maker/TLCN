@@ -1,149 +1,177 @@
 # Kiểm thử Silver và kết quả nghiệm thu
 
-Ngày thực hiện: **11/10/2026**, timezone người dùng `Asia/Bangkok`.
-Nghiệm thu xử lý và ghi Iceberg trong catalog tạm độc lập. Không nghiệm thu
-triển khai live REST/MinIO vì các container hiện có mount checkout khác.
+Cập nhật **11/10/2026**, timezone `Asia/Bangkok`. **9/9 nguồn READY** đã chạy
+full, audit và replay trên catalog REST/MinIO, với **1.414.287 dòng Silver**.
+Container hiện mount đúng checkout này. Trino đối chiếu số dòng thành công
+trên cả chín bảng.
 
-## Môi trường
+## Bằng chứng
 
-| Thành phần | Runtime được chạy |
+- [Spark full + audit + replay](evidence/live_validation.json): metrics,
+  schema thực tế, checksum rows, Bronze/Silver snapshot IDs và audit. Thời gian
+  UTC 14:24:01–14:28:37, tương ứng khoảng 21:24–21:28 Bangkok.
+- [Đối chiếu Trino](evidence/trino_validation.json): counts qua engine khác,
+  NSO missing/geography và USDA fraction/type.
+- [Migration legacy](evidence/legacy_schema_migrations.json): DDL đã chạy trên
+  bảng Production rỗng trước nghiệm thu; giữ bảng, cột cũ và lịch sử.
+- [NSO sau phục hồi tên](evidence/nso_geography_validation.json) và
+  [đối chiếu tên bằng Trino](evidence/nso_geography_trino.json): full/audit/replay
+  sau bổ sung bảng candidates. Đây là snapshot NSO mới hơn report chín nguồn
+  phía trên; business keys/counts giữ nguyên, tên/level và checksum được cập nhật.
+
+Evidence mô tả snapshot được nghiệm thu. Chạy lại các lệnh dưới đây sau khi
+input thay đổi để lấy kết quả mới.
+
+## Môi trường và các kiểm tra
+
+| Thành phần | Runtime / kết quả |
 |---|---|
-| Spark test image | `tabulario/spark-iceberg:latest`, local image tại thời điểm kiểm tra |
-| Spark / Scala | 3.5.5 / 2.12 |
-| Java | 17 |
-| Python Spark container | 3.10.16 |
+| Spark image | `tabulario/spark-iceberg:latest`, image local tại thời điểm kiểm tra |
+| Spark / Scala / Java | 3.5.5 / 2.12 / 17 |
+| Python Spark container / pytest | 3.10.16 / 8.4.2 |
 | Iceberg runtime | 1.8.1 cho Spark 3.5 |
-| pytest | 8.4.2 |
-| Excel / HTML parsers | openpyxl 3.1.5, lxml 5.3.0 trong container tạm |
-| Catalog kiểm thử | HadoopCatalog trong `/tmp`, không REST/S3 |
-| Cách ly | `--network none`; repository bind read-only; container tự xóa |
+| Contract validator | 9 executable READY contracts đạt |
+| Suite độc lập | **103 passed**, không skip, **163,66 giây** |
+| Regression Bronze liên quan writer | **30 passed**, **14,53 giây** trên host |
+| Airflow DAG parse/dependencies | **1 passed**, **9,61 giây**, image `apache/airflow:2.10.4-python3.11` |
+| Live Spark | Full + replay + post-write audit 9 nguồn PASSED |
+| Live Trino | Counts khớp Spark; USDA decimal(18,4) đọc được |
+| Airflow → Spark HTTP | Scheduler gọi NSO audit, trả PASSED / 23.060 rows |
+| Spark API health | `healthy`; `/health` phản hồi trong lúc NSO audit đang chạy |
+| Bronze readiness sau cập nhật gate | Schema hợp lệ và có rows cho cả chín Bronze tables; PASSED |
 
-Image tag `latest` không pin digest. Khi triển khai, ghi nhận/pin digest
-image đã nghiệm thu để tránh thay Spark/Iceberg/Python không chủ ý.
+Suite độc lập dùng HadoopCatalog trong `/tmp`, repository read-only và
+`--network none`. Nó gồm Silver unit/integration, 13 tests Bronze schema
+preservation và union 13 CSV NSO. Regression Bronze 30 tests gồm identity,
+chunk idempotency, failure recovery và schema preservation; có tests trùng
+phạm vi suite độc lập nên không cộng các con số thành tổng test duy nhất.
+Nên pin digest image đã nghiệm thu khi triển khai môi trường khác.
 
-## Các kiểm tra đã thực hiện
+## Kết quả trên Bronze live
 
-- Validator: 8 READY contracts đạt executable checks, NSO PENDING đúng thiết kế.
-- Suite Silver: **69 passed**, không skip, trong **114,63 giây**; kiểm tra
-  source transformation, quality engine, MERGE, quarantine, API, incremental
-  và toàn bộ tám pipeline. Xem lệnh dưới đây để tái hiện.
-- Airflow: test parse hai DAG và dependencies chạy trong image
-  `apache/airflow:2.10.4-python3.11`; **1 passed**. Không trigger DAG thật.
-- Syntax: `python -m compileall` cho Silver/jobs/DAG/scripts/tests mới.
-- Whitespace: `git diff --check`.
-
-## Test cases chính
-
-| Case | Bằng chứng / expected behavior |
-|---|---|
-| M49/CPC bị infer numeric | `'704`, `113.0` → `704`, `0113`; không suy đoán mã lạ |
-| Source unit conversion | ha/kg/t/hg conversions, unit/element agreement |
-| Null value | Giữ NULL, không thay bằng zero |
-| Malformed/overflow | Row vào quarantine và payload vẫn chứa raw value |
-| Decimal rounding | Dấu âm được phát hiện trước rounding |
-| ANSI mode | `try_cast` không làm toàn job fail vì một row malformed |
-| Fraction → integer | Numeric `2020.0` hợp lệ; `2020.5` tạo `SYS_CAST_ERR` |
-| SQL UNKNOWN | Predicate NULL tạo DQ error |
-| Không có YAML DQ | System cast error vẫn quarantine |
-| LOG/KEEP | Giữ row, lưu `_dq_warnings` |
-| FAOSTAT annual/index | Annual month NULL; currency/index tách riêng |
-| SUA negative stock | Cho phép Stock Variation; Residuals âm quarantine |
-| PSD unpivot | Market year và crop year giữ đúng nguồn; missing country không default |
-| World Bank period | Invalid month không bị filter mất trước quarantine |
-| Excel trailing columns | Bỏ synthetic header rỗng chỉ khi mọi value NULL; giữ named series missing |
-| NSO thiếu ma trận | Fail rõ; không xuất bản UNKNOWN contract |
-| Missing source column | Required schema thiếu gây fail-fast |
-| Reconciliation | Prepared = valid + quarantine; valid = dedup + duplicates |
-| Deterministic dedup | Latest timestamp; stable tie-break trong batch |
-| Real Iceberg rerun | Không nhân bản keys; `_silver_processed_at` không đổi cho row không đổi |
-| Freshness | Batch cũ không ghi đè key mới hơn; key chưa có vẫn được insert |
-| Schema mismatch | Writer từ chối target có type khác contract; không drop/recreate |
-| Quarantine retry | Payload giống nhau không nhân bản ID; cập nhật pipeline run ID |
-| Incremental filter | Chỉ chọn Bronze run yêu cầu; batch rỗng trả zero metrics |
-| API boundary | Chặn script ngoài whitelist; truyền argv và parse structured result |
-
-Suite nằm trong `tests/unit/test_silver_*.py`, `tests/unit/silver/`,
-`tests/integration/test_faostat_nso_silver.py` và
-`tests/integration/test_silver_pipeline_isolated.py`.
-Các fixture cũ all-NULL/map errors được sửa thành explicit Spark schema;
-test PSD preprocess kiểm tra raw string trước cast rồi kiểm tra DQ trên
-projection contract thật.
-
-## Kết quả trên toàn bộ snapshot local
-
-Các adapter hiện có tạo Bronze tables tạm với cột sanitized và audit fields,
-sau đó chạy shared framework, MERGE, incremental replay và audit target.
-Trade dùng validation ZIP **2.000 row** do full raw Trade CSV thiếu trong
-checkout. Không thay fixture này vào production registry.
-
-| Dataset | Bronze rows | Prepared observations | Valid | Quarantine | Dedup / Silver rows | Duplicates |
+| Dataset | Bronze rows | Prepared | Valid | Quarantine | Silver / dedup | Duplicates |
 |---|---:|---:|---:|---:|---:|---:|
 | FAOSTAT Monthly Price | 15.334 | 15.334 | 15.334 | 0 | 15.334 | 0 |
 | FAOSTAT Production | 22.738 | 22.738 | 22.738 | 0 | 22.738 | 0 |
 | FAOSTAT SUA | 36.380 | 36.380 | 36.144 | 236 | 36.144 | 0 |
-| FAOSTAT Trade ZIP | 2.000 | 2.000 | 2.000 | 0 | 2.000 | 0 |
+| FAOSTAT Trade | 1.226.470 | 1.226.470 | 1.226.470 | 0 | 1.226.470 | 0 |
+| NSO Vietnam | 833 | 23.060 | 23.060 | 0 | 23.060 | 0 |
 | IPSARD | 20.394 | 20.394 | 20.394 | 0 | 20.383 | 11 |
 | USDA PSD | 15 | 990 | 990 | 0 | 990 | 0 |
-| USDA Yearbook | 13.131 | 13.131 | 13.131 | 0 | 12.936 | 195 |
+| USDA Rice Yearbook | 13.131 | 13.131 | 13.131 | 0 | 12.936 | 195 |
 | World Bank Pink Sheet | 792 | 56.232 | 56.232 | 0 | 56.232 | 0 |
 
-Full và incremental replay đều đạt reconciliation, giữ số row Silver;
-post-write audit PASSED trên tám bảng thử nghiệm. World Bank được kiểm tra
-lại riêng sau xử lý 17 trailing synthetic columns hoàn toàn NULL, với kết quả
-56.232 observations và zero quarantine. Các series có missing price vẫn giữ.
+Mỗi dataset đạt `prepared = valid + quarantine` và `valid = dedup + duplicates`.
+Replay giữ nguyên số dòng, checksum gồm `_silver_processed_at`, schema và
+**Silver snapshot ID**. Bronze snapshot trước/sau giữ nguyên. Quarantine retry
+có thể cập nhật run/detection timestamp và snapshot riêng.
 
-SUA quarantine 236 negative Residuals theo contract hiện hành; 1.280 negative
-Stock Variation vẫn được chấp nhận theo rule. Đây là routing dữ liệu theo
-specification, không phải pipeline failure.
+NSO có **23.428 candidate slots**, loại **368 slots** thuộc **13 record
+all-source-NULL** trước unpivot. Dead letters lưu 13 record dưới dataset
+`nso_vietnam_exclusions`; `23.428 = 23.060 + 368`. Giữ **946 missing
+observations** với value NULL và **22.140 observations** geography cần review
+với raw name/code NULL, theo quyết định người dùng. Trino xác nhận không có
+review code khác NULL hoặc missing value khác NULL. Xem [NSO](nso.md) trước
+khi join/aggregate theo địa lý.
 
-Snapshot thử nghiệm có heap 1 GB. Lần đầu writer IPSARD partition theo từng
-ngày/fanout bị Java heap OOM. Sau bổ sung year partition và các table properties
-hash distribution/fanout=false, full pipeline và replay chạy thành công.
+Exact candidates phục hồi tên ở trường riêng `geography_name` và phân loại
+province/region; raw names, NULL codes và warnings giữ nguyên. Trino kiểm tra
+**23.060/23.060 observations có tên chuẩn hóa**, zero tên chuẩn hóa chứa `?`.
+Tỉnh lịch sử Hà Tây vẫn riêng biệt; không áp modern province-code mapping.
 
-## Lệnh tái hiện
+USDA có **66 Milling Rate observations**: nguồn 6250–6600 → 0.6250–0.6600,
+`unit=fraction`, factor 0.0001, giữ value/unit gốc. Trino xác nhận zero
+conversion errors và precision `DECIMAL(18,4)`.
+
+236 negative Residuals SUA vào quarantine theo contract; negative Stock
+Variation được phép. Đây là routing dữ liệu theo quy tắc.
+
+## Test cases quan trọng
+
+| Case | Hành vi đã kiểm tra |
+|---|---|
+| Missing/schema | Required column thiếu fail-fast; optional NULL đúng kiểu |
+| Casting | Malformed/overflow/fraction-to-integer quarantine, kể cả ANSI bật |
+| Raw negative | Phát hiện dấu âm trước rounding |
+| SQL UNKNOWN, LOG/KEEP | NULL predicate là fail; warning giữ row; cast error vẫn chặn |
+| FAOSTAT | M49/CPC padding; unit/element; annual month NULL; currency/index tách riêng |
+| NSO | Unit/season/index đúng; raw geography giữ nguyên, code NULL + warning |
+| NSO schema drift | Unknown file/period có dữ liệu fail; NULL padding không tạo observation |
+| NSO candidate names | Exact source/canonical aliases; tỉnh lịch sử giữ riêng; unknown không đoán; mapping mâu thuẫn gây fail |
+| NSO missing | All-source-NULL được audit; NULL measurement có identity vẫn giữ |
+| USDA milling | 6250 → 0.6250; malformed/out-of-range quarantine, missing NULL |
+| World Bank | Invalid period không bị filter mất; chỉ loại synthetic column toàn NULL |
+| Bronze preservation | Missing/extra/type mismatch và sanitizer collision không silent data loss |
+| Dedup/freshness | Latest timestamp, deterministic tie-break; batch cũ không overwrite |
+| MERGE replay | Giữ processing timestamp và snapshot; giữ extra legacy target columns |
+| Quarantine retry | ID không nhân bản payload; raw payload dùng điều tra |
+| Incremental | Đúng run/watermark; empty batch zero metrics |
+| Bronze reset | Gate từ chối bảng còn schema nhưng zero rows; chấp nhận sau ingest |
+| API/Airflow | Whitelist, structured result, watermark, chín task sau Bronze; health phản hồi trong lúc job chạy, job subprocess vẫn tuần tự |
+
+## Lệnh chạy lại
+
+Từ root repository:
 
 ```powershell
 python scripts/validate_silver_contracts.py
 powershell -ExecutionPolicy Bypass -File scripts/test_silver_isolated.ps1
+# Đã có wheels thì dùng -SkipDownload để chạy offline.
 ```
 
-Kiểm tra snapshot offline; cần tải wheel trước khi bật network isolation:
+Kiểm tra live khi Bronze ổn định và không có job khác ghi cùng catalog:
 
 ```powershell
-python -m pip download --only-binary=:all: --platform manylinux_2_28_x86_64 --implementation cp --python-version 310 --abi cp310 --dest .pytest_cache/silver_wheels openpyxl==3.1.5 lxml==5.3.0
+docker compose up -d --no-deps spark-iceberg
+docker compose exec -T spark-iceberg /opt/spark/bin/spark-submit /home/iceberg/jobs/silver/validate_silver_e2e.py --output-json /home/iceberg/jobs/silver/validation_result.json
+docker compose exec -T spark-iceberg python3 /home/iceberg/jobs/silver/verify_silver_trino.py --spark-report /home/iceberg/jobs/silver/validation_result.json --output-json /home/iceberg/jobs/silver/trino_result.json
 
-$repositoryRoot = (Get-Location).Path
-$mountArgument = "type=bind,source=$repositoryRoot,target=/workspace,readonly"
-$snapshotCommand = 'python3 -m pip install --no-index --find-links /workspace/.pytest_cache/silver_wheels --target /tmp/silver_snapshot_deps openpyxl==3.1.5 lxml==5.3.0 && /opt/spark/bin/spark-submit --master local[2] --conf spark.sql.defaultCatalog=spark_catalog /workspace/scripts/validate_silver_local_snapshots.py'
-docker run --rm --network none --hostname localhost --mount $mountArgument --workdir /workspace -e SPARK_LOCAL_IP=127.0.0.1 -e SPARK_LOCAL_HOSTNAME=localhost -e PYTHONPATH=/tmp/silver_snapshot_deps:/workspace/src:/opt/spark/python:/opt/spark/python/lib/py4j-0.10.9.7-src.zip --entrypoint /bin/bash tabulario/spark-iceberg:latest -c $snapshotCommand
+# Chỉ audit bảng hiện có, không ghi Silver:
+docker compose exec -T spark-iceberg /opt/spark/bin/spark-submit /home/iceberg/jobs/silver/validate_silver_e2e.py --audit-only --output-json /home/iceberg/jobs/silver/audit_result.json
+
+# HTTP bridge từ Airflow:
+docker compose exec -T airflow-scheduler python -c "from silver.orchestration import trigger_spark_job; print(trigger_spark_job(dataset='nso_vietnam', action='audit'))"
 ```
 
-Script hỗ trợ `--dataset worldbank_pinksheet` để chạy riêng một nguồn.
-Kết quả stdout có `SNAPSHOT_RESULT` từng dataset và `SNAPSHOT_SUMMARY`.
-Warehouse/data files tạm tự xóa khi kết thúc; kết quả này không tạo bảng
-`iceberg.silver.*` trong catalog live.
+Trino utility nhận report full/replay, không dùng report `--audit-only`.
+Report được bind về `jobs/silver/` trên host; có thể sao chép sang evidence
+để lưu vào Git. Không có password trong report.
 
-## Regression ngoài Silver và giới hạn
+Chạy DAG test offline với wheels từ script trên:
 
-Regression Bronze trên host: **206 passed, 3 failed** trong 209 tests được
-chọn, sau chạy ngoài sandbox để pytest có quyền ghi Windows temp.
-Ba failure có sẵn từ snapshot/checkouts:
+```powershell
+$repositoryRoot = (Get-Location).Path
+$mountArgument = "type=bind,source=$repositoryRoot,target=/workspace,readonly"
+$dagCommand = 'python -m pip install --no-index --find-links /workspace/.pytest_cache/silver_wheels --target /tmp/airflow_test_deps pytest==8.4.2 && python -m pytest tests/unit/test_dag_structure.py -q -p no:cacheprovider'
+docker run --rm --network none --mount $mountArgument --workdir /workspace -e PYTHONPATH=/tmp/airflow_test_deps:/workspace/src --entrypoint /bin/bash apache/airflow:2.10.4-python3.11 -c $dagCommand
+```
 
-1. Trade large-file extraction thiếu
-   `data/raw/faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv`.
-2. Test all canonical FAOSTAT sources cũng fail vì cùng Trade file thiếu.
-3. USDA readiness test hardcode file size 45.542 bytes; file local hiện 45.549.
+Snapshot offline còn được hỗ trợ qua `scripts/validate_silver_local_snapshots.py`;
+cần openpyxl/lxml cho adapters. Trade offline dùng ZIP 2.000 rows vì CSV đầy đủ
+thiếu trong checkout; **live** ở trên dùng toàn bộ **1.226.470 rows hiện có
+trong Bronze**.
 
-`test_readiness.py` chưa được chạy vì host thiếu dependency `responses`;
-`test_dag_structure.py` được chạy riêng trong Airflow image. Không tuyên bố
-toàn bộ repository tests đã xanh. Không sửa các assertion/source artifacts
-ngoài Silver để tạo kết quả pass giả.
+## Migration, performance và phạm vi
 
-NSO vẫn pending: Bronze thiếu queryable matrix columns và contract chưa có
-schema/unit/province mapping production. Test national/matrix proposal và
-fail-fast có chạy, nhưng không chứng minh NSO production output hoàn chỉnh.
+Production legacy ban đầu rỗng, có timestamp NTZ và obsolete required diagnostics.
+Utility `migrate_empty_silver_schema.py` giữ timestamp cũ dưới
+`_ingestion_timestamp_legacy_ntz`, thêm timestamp UTC và chuyển bảy diagnostic
+cũ thành nullable. Giữ bảng, history và extra fields; utility từ chối nonempty
+table. PSD cũ `value DECIMAL(18,2)` cần migration riêng tới `(18,4)`; writer
+chặn type mismatch.
 
-Không chạy các integration PoC có DROP bảng/shared catalog hoặc gọi nguồn
-external. Nghiệm thu này chứng minh cleaning, DQ, dedup, quarantine và
-Iceberg writes trên local snapshots, chưa chứng minh throughput full Trade
-hàng chục triệu rows hay lifecycle của stack live đang chạy checkout khác.
+Đã kiểm tra Airflow parse/dependencies và HTTP bridge thật. Đợt này không
+trigger/unpause scheduled DAG hoặc cập nhật trạng thái PostgreSQL bằng test;
+lifecycle scheduled run đầy đủ chưa được trigger.
+Không nghiệm thu reset toàn bộ stack từ raw: Trade CSV local đang thiếu và
+metadata/checkpoint cũ có thể ảnh hưởng rebuild. Xem [runbook rebuild](rebuild.md).
+
+Regression toàn repository ở đợt trước: 206 passed/3 failed, do Trade CSV thiếu
+(hai tests) và USDA file-size assertion hardcoded. `test_readiness.py` trước
+đó thiếu `responses`. Đợt này chạy lại 30 Bronze tests liên quan và suite nêu
+trên; không tuyên bố toàn repository xanh.
+
+Performance dùng Spark expressions, `array + explode`, AQE, year partition,
+hash distribution, fanout=false, ZSTD và heap dev 1 GB. Pre-MERGE join tránh
+snapshot rỗng nhưng thêm lần đọc target. Chưa benchmark workload Trade hàng
+chục triệu rows; cần đo shuffle và partition pruning theo workload triển khai.

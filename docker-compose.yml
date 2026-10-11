@@ -114,9 +114,16 @@ services:
       - ./src:/home/iceberg/src
       - ./tests:/home/iceberg/tests
       - ./contracts:/home/iceberg/contracts:ro
-    command: >
-      bash -c "python3 /home/iceberg/jobs/silver/spark_api_server.py &
-      exec notebook"
+      - ./config/silver:/home/iceberg/config/silver:ro
+    # Image entrypoint evaluates only argv[0]. Run the API directly; Spark
+    # jobs use local[2] and do not require the image's background daemons.
+    entrypoint: ["python3"]
+    command: ["/home/iceberg/jobs/silver/spark_api_server.py"]
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5005/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     depends_on:
       - iceberg-rest
       - minio

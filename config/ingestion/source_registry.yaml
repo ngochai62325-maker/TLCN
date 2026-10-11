@@ -219,7 +219,7 @@ sources:
     frequency: annual
     encoding: utf-8
     enabled: true
-    schema_status: pending_adapter_profiling
+    schema_status: defined
     expected_columns: null
     readiness:
       min_file_size_bytes: 100
@@ -227,7 +227,7 @@ sources:
     extra:
       file_pattern: "V06.*.csv"
       metadata_file: "metadata.txt"
-      note: "13 annual files (V06.12.csv to V06.24.csv) with multi-encoding Vietnamese headers. Schema pending adapter profiling."
+      note: "13 annual files (V06.12.csv to V06.24.csv), union schema profiled in config/silver/nso_source_tables.json. Preserve per-file lineage and structural NULL padding."
 
   usda_rice_yearbook:
     source_name: "USDA ERS - Rice Yearbook (Export Price Quotes)"

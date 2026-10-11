@@ -21,7 +21,7 @@ AUDIT_COLUMNS = (
 
 
 class SilverTransformationFramework:
-    def __init__(self, spark: SparkSession, contract_dir: str = "contracts/silver"):
+    def __init__(self, spark: SparkSession, contract_dir: str = None):
         self.spark = spark
         self.contract_loader = SilverContractLoader(contract_dir)
         self.quarantine_manager = SilverQuarantineManager(spark)
@@ -64,6 +64,8 @@ class SilverTransformationFramework:
             typed = F.when(~missing, F.expr(f"try_cast(`{source}` AS {data_type})"))
             if data_type == "string":
                 typed = F.when(~missing, raw)
+                if definition.get("preserve_whitespace", False):
+                    typed = F.col(source).cast("string")
             if data_type in {"integer", "int", "long", "bigint"}:
                 source_type = df.schema[source].dataType
                 if isinstance(source_type, T.NumericType):
@@ -103,6 +105,11 @@ class SilverTransformationFramework:
                 F.struct(*[F.col(c) for c in sorted(bronze.columns)]),
                 options={"ignoreNullFields": "false"}))
             transformer = self.transformer(dataset_id)
+            observation_metrics = {}
+            exclusions = None
+            if transformer and hasattr(transformer, "observation_audit"):
+                observation_metrics = transformer.observation_audit(bronze)
+                exclusions = transformer.excluded_records(bronze)
             prepared = transformer.preprocess(bronze) if transformer else bronze
             normalized = self.normalize(prepared, contract)
             rules = list(contract.data_quality_rules)
@@ -120,10 +127,15 @@ class SilverTransformationFramework:
                 F.sum(F.when(F.size("_dq_warnings") > 0, 1).otherwise(0)).alias("warning_count"),
             ).first().asDict()
             prepared_count = stats["prepared_count"]
+            if observation_metrics and observation_metrics["observation_count"] != prepared_count + observation_metrics["excluded_count"]:
+                raise ValueError("Observation reconciliation failed: candidates != prepared + excluded")
             quarantine_count = stats["quarantine_count"] or 0
             valid_count = prepared_count - quarantine_count
             quarantine = checked.filter(F.size("dq_errors") > 0)
             self.quarantine_manager.ensure_table()
+            if exclusions is not None:
+                self.quarantine_manager.route_quarantine(
+                    exclusions, dataset_id + "_exclusions", pipeline_run_id, ["source_table"])
             self.quarantine_manager.route_quarantine(quarantine, dataset_id, pipeline_run_id, contract.business_key)
             valid = checked.filter(F.size("dq_errors") == 0).select(
                 *[c["name"] for c in contract.columns],
@@ -139,6 +151,7 @@ class SilverTransformationFramework:
                       "prepared_count": prepared_count, "valid_count": valid_count,
                       "quarantine_count": quarantine_count, "warning_count": stats["warning_count"] or 0,
                       "dedup_count": dedup_count, "duplicate_count": valid_count - dedup_count}
+            result.update(observation_metrics)
             logger.info("silver_complete %s", result)
             if result["warning_count"]:
                 logger.warning("silver_warnings dataset=%s rows=%s; see _dq_warnings", dataset_id, result["warning_count"])

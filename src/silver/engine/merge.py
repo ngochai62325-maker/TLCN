@@ -1,5 +1,6 @@
 """Deterministic deduplication and freshness-aware Iceberg upserts."""
 import uuid
+from functools import reduce
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 
@@ -61,6 +62,20 @@ class IcebergMergeEngine:
         self.ensure_table(df, target_table, partition_columns)
         if df.isEmpty():
             return
+        # Iceberg can commit an empty MERGE snapshot even when SQL UPDATE
+        # predicates reject every matched row. Avoid that commit on replay.
+        incoming = df.alias("s")
+        stored = self.spark.table(target_table).select(*df.columns).alias("t")
+        key_match = reduce(lambda a, b: a & b, [F.col(f"s.{quote(k)}") == F.col(f"t.{quote(k)}") for k in business_keys])
+        differences = reduce(lambda a, b: a | b, [~F.col(f"s.{quote(c)}").eqNullSafe(F.col(f"t.{quote(c)}"))
+                           for c in df.columns if c != "_silver_processed_at"])
+        fresh = F.lit(True)
+        if "_ingestion_timestamp" in df.columns:
+            fresh = F.col("t._ingestion_timestamp").isNull() | (F.col("s._ingestion_timestamp") >= F.col("t._ingestion_timestamp"))
+        changed = incoming.join(stored, key_match, "left").filter(
+            F.col(f"t.{quote(business_keys[0])}").isNull() | (fresh & differences))
+        if changed.limit(1).isEmpty():
+            return
         view = "incoming_updates_" + uuid.uuid4().hex
         df.createOrReplaceTempView(view)
         keys = " AND ".join(f"t.{quote(k)} = s.{quote(k)}" for k in business_keys)
@@ -71,7 +86,10 @@ class IcebergMergeEngine:
         # Processing time changes only when source/quality/audit data changes.
         changed = [c for c in df.columns if c != "_silver_processed_at"]
         differences = " OR ".join(f"NOT (t.{quote(c)} <=> s.{quote(c)})" for c in changed)
-        updates = ", ".join(f"t.{quote(c)} = s.{quote(c)}" for c in df.columns)
+        # Retain nullable legacy/additional target columns on UPDATE. Iceberg
+        # validates all target assignments; do not discard stored extra values.
+        target_columns = self.spark.table(target_table).columns
+        updates = ", ".join(f"t.{quote(c)} = {'s' if c in df.columns else 't'}.{quote(c)}" for c in target_columns)
         columns = ", ".join(quote(c) for c in df.columns)
         values = ", ".join(f"s.{quote(c)}" for c in df.columns)
         try:

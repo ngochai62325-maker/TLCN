@@ -38,9 +38,7 @@ def test_dag_loaded_and_dependencies():
 
     silver_dag = dagbag.dags.get("rice_lakehouse_silver_pipeline")
     assert silver_dag is not None
-    assert len([t for t in silver_dag.tasks if t.task_id.startswith("transform_")]) == 8
+    assert len([t for t in silver_dag.tasks if t.task_id.startswith("transform_")]) == 9
     audit = silver_dag.get_task("silver_data_quality_audit")
-    assert len(audit.upstream_task_ids) == 8
-    # Unprofiled NSO must never create a production Silver task.
-    with pytest.raises(Exception):
-        dag.get_task("silver_nso_vietnam")
+    assert len(audit.upstream_task_ids) == 9
+    assert dag.get_task("silver_nso_vietnam").task_id in dag.get_task("ingest_nso_vietnam").downstream_task_ids

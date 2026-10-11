@@ -180,16 +180,21 @@ def test_nso_national_quantities_indices_season_and_nulls(spark):
     assert valid.filter(F.col("statistic_kind") == "development_index").first().value == Decimal("2.5")
 
 
-def test_nso_matrix_unknown_province_and_unconfirmed_unit_are_visible(spark):
+def test_nso_matrix_candidate_province_is_retained_with_warning(spark):
     df = sql_rows(spark, [{"_source_file": "V06.18.csv", "t_nh_th_nh_ph_": "C? NU?C", "so_b_2024": "15"},
                          {"_source_file": "V06.18.csv", "t_nh_th_nh_ph_": "Hà N?i", "so_b_2024": "10"}])
-    transformer = NsoVietnamTransformer()
+    inventory = NsoVietnamTransformer().inventory
+    inventory = {"V06.18.csv": dict(inventory["V06.18.csv"], source_columns=["t_nh_th_nh_ph_", "so_b_2024"], measure_columns=["so_b_2024"])}
+    transformer = NsoVietnamTransformer(source_inventory=inventory)
     result = transformer.preprocess(df)
     assert result.count() == 2
     assert result.filter(F.col("geography_level") == "national").first().season == "winter_spring"
-    unknown = result.filter(F.col("geography_level") == "unknown").first()
+    unknown = result.filter(F.col("geography_level") == "province").first()
     assert unknown.geography_name_raw == "Hà N?i"
+    assert unknown.geography_name == "Hà Nội"
     assert unknown.province_code is None and unknown.mapping_status == "needs_review"
     assert unknown.year == 2024 and unknown.is_provisional
     valid, quarantine = transformer.validate(result)
-    assert valid.count() == 0 and quarantine.count() == 2
+    assert valid.count() == 2 and quarantine.count() == 0
+    assert unknown.unit == "tonne" and unknown.value == Decimal("10000")
+    assert valid.filter(F.col("geography_level") == "province").first()._dq_warnings[0].rule_id == "NSO_GEOGRAPHY_REVIEW"

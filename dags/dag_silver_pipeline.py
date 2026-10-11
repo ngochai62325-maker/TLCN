@@ -15,6 +15,7 @@ from silver.orchestration import trigger_spark_job
 CONTRACT_DIR = ROOT / "contracts/silver"
 loader = SilverContractLoader(str(CONTRACT_DIR))
 DATASETS = [p.stem for p in sorted(CONTRACT_DIR.glob("*.yaml")) if loader.load_contract(p.stem).status == "READY"]
+PENDING_DATASETS = [p.stem for p in sorted(CONTRACT_DIR.glob("*.yaml")) if loader.load_contract(p.stem).status != "READY"]
 
 with DAG(
     dag_id="rice_lakehouse_silver_pipeline",
@@ -37,7 +38,8 @@ with DAG(
         dag_run = context.get("dag_run")
         conf = dag_run.conf or {} if dag_run else {}
         return trigger_spark_job(dataset=dataset_id, mode=conf.get("mode", "full"),
-                                 run_id=conf.get("bronze_run_id"), pipeline_run_id=context.get("run_id"))
+                                 run_id=conf.get("bronze_run_id"), pipeline_run_id=context.get("run_id"),
+                                 watermark=conf.get("watermark"))
 
     @task(task_id="silver_data_quality_audit")
     def silver_dq_audit(results):
@@ -47,6 +49,8 @@ with DAG(
                     raise ValueError("Silver reconciliation failed")
                 if metrics["valid_count"] != metrics["dedup_count"] + metrics["duplicate_count"]:
                     raise ValueError("Silver dedup reconciliation failed")
+                if "observation_count" in metrics and metrics["observation_count"] != metrics["prepared_count"] + metrics["excluded_count"]:
+                    raise ValueError("Silver observation reconciliation failed")
         return trigger_spark_job(action="audit")
 
     @task(task_id="publish_silver_signal")
@@ -54,7 +58,7 @@ with DAG(
         if audit["status"] != "PASSED":
             raise ValueError("Silver audit did not pass")
         return {"silver_status": "READY_FOR_GOLD", "datasets": DATASETS,
-                "pending_datasets": ["nso_vietnam"]}
+                "pending_datasets": PENDING_DATASETS}
 
     gate = check_bronze_readiness()
     transformations = [transform_dataset.override(task_id=f"transform_{dataset}")(dataset) for dataset in DATASETS]

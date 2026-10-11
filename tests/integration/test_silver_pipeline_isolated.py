@@ -9,7 +9,7 @@ import pytest
 import yaml
 from pyspark.sql import SparkSession, functions as F
 
-from silver.audit import audit_tables
+from silver.audit import audit_tables, check_bronze
 from silver.contract.loader import SilverContract, SilverContractLoader
 from silver.engine.merge import IcebergMergeEngine
 from silver.engine.quality import SilverQualityEngine
@@ -88,9 +88,11 @@ def test_complete_pipeline_real_iceberg(spark, tmp_path, dataset):
     assert first["quarantine_count"] == 2
     table = data["dataset"]["silver_output"]
     original = spark.table(table).collect()
+    snapshot_before = spark.table(table + ".snapshots").count()
     second = framework.run(dataset, "second")
     assert second["dedup_count"] == 1
     assert original == spark.table(table).collect()  # Processing timestamp must stay unchanged.
+    assert spark.table(table + ".snapshots").count() == snapshot_before
     assert spark.table("silver_test.silver.dead_letters").filter(F.col("source_dataset") == dataset).count() == 2
     audit = audit_tables(spark, [SilverContract(data)])
     assert audit["status"] == "PASSED"
@@ -111,6 +113,17 @@ def test_merge_rejects_stale_updates_and_keeps_new_keys(spark):
     assert [(r.id, r.value) for r in spark.table(table).orderBy("id").collect()] == [("A", 20), ("B", 10)]
     with pytest.raises(ValueError, match="schema mismatch"):
         engine.merge(newer.withColumn("value", F.col("value").cast("string")), table, ["id"])
+
+
+def test_bronze_readiness_rejects_empty_tables_after_reset(spark):
+    data = copy.deepcopy(SilverContractLoader().load_contract('usda_psd')._data)
+    data['dataset']['bronze_input'] = 'silver_test.bronze.psd_empty_readiness'
+    source = source_fixture(spark, 'usda_psd')
+    source.limit(0).writeTo(data['dataset']['bronze_input']).using('iceberg').create()
+    with pytest.raises(ValueError, match='has no rows'):
+        check_bronze(spark, [SilverContract(data)])
+    source.writeTo(data['dataset']['bronze_input']).append()
+    assert check_bronze(spark, [SilverContract(data)])['status'] == 'PASSED'
 
 
 def test_cast_overflow_and_missing_markers_under_ansi(spark):
@@ -137,12 +150,15 @@ def test_warning_actions_keep_records(spark):
     assert valid.first()._dq_warnings[0].rule_id == "W"
 
 
-def test_incremental_requires_filter_and_draft_refused(spark):
+def test_incremental_requires_filter_and_draft_refused(spark, tmp_path):
     framework = SilverTransformationFramework(spark)
     with pytest.raises(ValueError, match="requires run_id or watermark"):
         framework.run("usda_psd", "test", mode="incremental")
+    draft = copy.deepcopy(SilverContractLoader().load_contract("nso_vietnam")._data)
+    draft["contract_status"] = "NEEDS_PROFILING"
+    (tmp_path / "nso_vietnam.yaml").write_text(yaml.safe_dump(draft), encoding="utf-8")
     with pytest.raises(ValueError, match="NEEDS_PROFILING"):
-        framework.run("nso_vietnam", "test")
+        SilverTransformationFramework(spark, str(tmp_path)).run("nso_vietnam", "test")
 
 
 def test_incremental_read_selects_requested_bronze_run(spark, tmp_path):
@@ -187,3 +203,43 @@ def test_integral_cast_rejects_numeric_truncation(spark):
     assert valid.count() == invalid.count() == 1
     assert valid.first().year == 2020
     assert invalid.first().dq_errors[0].rule_id == "SYS_CAST_ERR"
+
+
+def test_nso_real_pipeline_replay_exclusions_and_empty_incremental(spark, tmp_path):
+    from silver.transformers.nso_vietnam import NATIONAL_MEASURES
+    contract = copy.deepcopy(SilverContractLoader().load_contract("nso_vietnam")._data)
+    contract["dataset"]["bronze_input"] = "silver_test.bronze.nso_vietnam"
+    contract["dataset"]["silver_output"] = "silver_test.silver.nso_rice_statistics"
+    (tmp_path / "nso_vietnam.yaml").write_text(yaml.safe_dump(contract, allow_unicode=True), encoding="utf-8")
+    fields = {"_source_file": "V06.12.csv", "_ingestion_run_id": "nso-run", "_ingestion_timestamp": "2026-10-01 00:00:00",
+              "nam": "2020", "gi_tr_v_ch_s_ph_t_tri_n": "Giá tr?", **{c: "2.5" for c in NATIONAL_MEASURES}}
+    empty = dict(fields, nam=None, gi_tr_v_ch_s_ph_t_tri_n=None, **{c: None for c in NATIONAL_MEASURES})
+    bad = dict(fields, nam="2021", **{list(NATIONAL_MEASURES)[0]: "bad"})
+    sql_rows(spark, [fields, empty, bad]).writeTo(contract["dataset"]["bronze_input"]).using("iceberg").create()
+    framework = SilverTransformationFramework(spark, str(tmp_path))
+    framework.quarantine_manager.target_table = "silver_test.silver.dead_letters"
+    first = framework.run("nso_vietnam", "nso-first")
+    assert first["bronze_count"] == 3 and first["observation_count"] == 24
+    assert first["prepared_count"] == 16 and first["excluded_count"] == 8
+    assert first["excluded_record_count"] == 1
+    assert first["quarantine_count"] == 1 and first["dedup_count"] == 15
+    original = spark.table(contract["dataset"]["silver_output"]).collect()
+    framework.run("nso_vietnam", "nso-replay", mode="incremental", run_id="nso-run")
+    assert original == spark.table(contract["dataset"]["silver_output"]).collect()
+    dead = spark.table("silver_test.silver.dead_letters")
+    assert dead.filter(F.col("source_dataset") == "nso_vietnam_exclusions").count() == 1
+    assert dead.filter(F.col("source_dataset") == "nso_vietnam").count() == 1
+    result = framework.run("nso_vietnam", "nso-empty", mode="incremental", run_id="absent")
+    assert result["prepared_count"] == result["excluded_count"] == result["observation_count"] == 0
+    assert audit_tables(spark, [SilverContract(contract)])["status"] == "PASSED"
+
+
+def test_merge_preserves_extra_target_columns(spark):
+    engine = IcebergMergeEngine(spark)
+    table = "silver_test.silver.legacy_extras"
+    original = spark.createDataFrame([("A", 1, "retained")], "id string, value int, legacy string")
+    engine.merge(original, table, ["id"])
+    incoming = spark.createDataFrame([("A", 2), ("B", 3)], "id string, value int")
+    engine.merge(incoming, table, ["id"])
+    rows = spark.table(table).orderBy("id").collect()
+    assert [(r.id, r.value, r.legacy) for r in rows] == [("A", 2, "retained"), ("B", 3, None)]

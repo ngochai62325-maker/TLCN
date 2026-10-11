@@ -6,10 +6,10 @@ import urllib.error
 
 
 def trigger_spark_job(job_file="run_all_silver.py", mode="full", run_id=None,
-                      dataset="all", pipeline_run_id=None, action="run"):
+                      dataset="all", pipeline_run_id=None, action="run", watermark=None):
     url = os.environ.get("SPARK_API_URL", "http://spark-iceberg:5005/run")
     payload = {"job": job_file, "mode": mode, "run_id": run_id,
-               "dataset": dataset, "pipeline_run_id": pipeline_run_id, "action": action}
+               "dataset": dataset, "pipeline_run_id": pipeline_run_id, "action": action, "watermark": watermark}
     req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"),
                                  headers={"Content-Type": "application/json"}, method="POST")
     try:

@@ -30,7 +30,7 @@ class FaostatSourceTransformer:
     dataset_id = ""
     derived_columns = ()
 
-    def __init__(self, contract_dir="contracts/silver"):
+    def __init__(self, contract_dir=None):
         self.contract = SilverContractLoader(contract_dir).load_contract(self.dataset_id)
 
     def prepare(self, df: DataFrame) -> DataFrame:

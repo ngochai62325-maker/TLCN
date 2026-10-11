@@ -1,0 +1,29 @@
+{
+  "migrations": [
+    {
+      "dataset": "faostat_production",
+      "table": "iceberg.silver.faostat_production",
+      "executed": true,
+      "actions": [
+        "ALTER TABLE `iceberg`.`silver`.`faostat_production` RENAME COLUMN `_ingestion_timestamp` TO `_ingestion_timestamp_legacy_ntz`",
+        "ALTER TABLE `iceberg`.`silver`.`faostat_production` ADD COLUMN `_ingestion_timestamp` TIMESTAMP"
+      ],
+      "status": "MIGRATED"
+    },
+    {
+      "dataset": "faostat_production",
+      "table": "iceberg.silver.faostat_production",
+      "executed": true,
+      "actions": [
+        "ALTER TABLE `iceberg`.`silver`.`faostat_production` ALTER COLUMN `_bronze_iceberg_snapshot_id` DROP NOT NULL",
+        "ALTER TABLE `iceberg`.`silver`.`faostat_production` ALTER COLUMN `_negative_value` DROP NOT NULL",
+        "ALTER TABLE `iceberg`.`silver`.`faostat_production` ALTER COLUMN `_country_mapping_status` DROP NOT NULL",
+        "ALTER TABLE `iceberg`.`silver`.`faostat_production` ALTER COLUMN `_value_parse_error` DROP NOT NULL",
+        "ALTER TABLE `iceberg`.`silver`.`faostat_production` ALTER COLUMN `_conversion_overflow` DROP NOT NULL",
+        "ALTER TABLE `iceberg`.`silver`.`faostat_production` ALTER COLUMN `_contract_cast_error` DROP NOT NULL",
+        "ALTER TABLE `iceberg`.`silver`.`faostat_production` ALTER COLUMN `dq_warnings` DROP NOT NULL"
+      ],
+      "status": "MIGRATED"
+    }
+  ]
+}

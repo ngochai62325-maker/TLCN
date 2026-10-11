@@ -5,17 +5,17 @@
 | Vấn đề | Xử lý |
 |---|---|
 | Tên cột | Dùng cùng sanitizer Bronze: ký tự ngoài ASCII chữ/số/underscore → `_`, gộp underscore, lowercase, tiền tố `col_` nếu bắt đầu bằng số. |
-| Chuỗi | Trim hai đầu; chuỗi rỗng → NULL; giữ Unicode, country/product identity và nội dung có ý nghĩa. |
+| Chuỗi | Trim hai đầu; chuỗi rỗng → NULL; trường raw có `preserve_whitespace` giữ nguyên; giữ Unicode, country/product identity và nội dung có ý nghĩa. |
 | Missing numeric/date | NULL, blank, `NA`, `N/A`, `NULL`, `..`, `...`, `…` → NULL trước cast ở projection chung; preprocessing từng nguồn có thể nghiêm ngặt hơn. Không thay bằng 0. |
 | Kiểu dữ liệu | Cast theo `schema.columns[].data_type` bằng SQL `try_cast`, có hiệu lực cả khi ANSI mode bật. Overflow/malformed input tạo `SYS_CAST_ERR`; numeric fraction không được truncate thành integer. |
 | Bắt buộc | Tất cả business keys và cột `nullable: false` phải non-null; kiểm tra row-level bằng `SYS_REQUIRED_<column>`. Cột bắt buộc vắng khỏi schema gây fail-fast. |
 | Cột tùy chọn vắng | Tạo NULL có kiểu đúng; không tự tạo country/year/measure giả. |
-| Decimal | Theo scale contract: Production/Trade/SUA/PSD/Yearbook/IPSARD 2, FAOSTAT Price 4. Chuyển đơn vị trước khi làm tròn. |
+| Decimal | Theo scale contract: Production/Trade/SUA/Yearbook/IPSARD 2, FAOSTAT Price/PSD 4, NSO 8. Chuyển đơn vị trước khi làm tròn. |
 | Float | Nếu contract dùng float/double, NaN và infinity bị quarantine. Các contract hiện tại dùng decimal cho measurements. |
 | DQ SQL NULL | UNKNOWN được xem là fail; tránh lọt dữ liệu lỗi do SQL three-valued logic. |
 | DQ action | `QUARANTINE` chặn ghi Silver; `LOG` và `KEEP` giữ row, lưu `_dq_warnings` và log số row có warning. Severity dùng để mô tả; action quyết định routing. |
 | Lỗi nguồn | Source-specific `quality_rules()` được chạy cùng YAML DQ sau projection. Cast error luôn chặn kể cả khi YAML không có DQ rule. |
-| Lineage | Giữ tám audit fields Bronze nếu có; lưu payload nguồn trước biến đổi cho quarantine. Không đưa raw/diagnostic flags vào bảng Silver. |
+| Lineage | Giữ tám audit fields Bronze nếu có; lưu payload nguồn trước biến đổi cho quarantine. Raw fields được publish khi contract yêu cầu (NSO/USDA); `_source_payload` và diagnostic flags nội bộ chỉ dùng xử lý/quarantine. |
 
 Không tự thực thi các câu mô tả natural language trong `transformation` hoặc
 `normalization`. Các phép biến đổi phải được code hóa trong source preprocess;
@@ -67,7 +67,15 @@ wide columns cùng kiểu. Header phải có năm cuối = năm đầu + 1.
 Giữ `market_year` và `crop_year=YYYY/YYYY+1`, không ép thành calendar year.
 Commodity blank/NULL được default `Rice, Milled` theo dataset rice PSD đã biết.
 Không default country; country/attribute thiếu đi quarantine.
-Unit bỏ parentheses, giữ `1000 MT`, `1000 HA`, `MT/HA`; không tự đổi quantity.
+Unit quantity bỏ parentheses, giữ `1000 MT`, `1000 HA`, `MT/HA`.
+Theo quyết định người dùng 11/10/2026, exact attribute `Milling Rate (.9999)`
+được chia 10.000, dùng `fraction`: 6250 → 0,6250. Giữ `value_source`,
+`source_unit` và `conversion_factor`; không cộng fraction vào khối lượng.
+`value DECIMAL(18,4)` giữ đủ bốn số lẻ, nguồn `DECIMAL(28,8)`.
+Missing giữ NULL; fraction ngoài [0,1], malformed và conversion mismatch
+đi quarantine. Đây là quy tắc scale đã được người dùng xác nhận dựa trên
+header nguồn; nhãn mass gốc không được diễn giải thành khối lượng.
+Ví dụ nhãn/format trong [USDA PSD report](https://apps.fas.usda.gov/gainfiles/200103/65680145.pdf).
 Value missing giữ NULL. Rule negative hiện là **LOG** trong YAML, vì vậy giữ
 row với `_dq_warnings`; muốn chặn negative cần đổi action sang QUARANTINE.
 
@@ -112,6 +120,17 @@ số, ví dụ `12,500.25`; `12,5` không được đổi thành 125. Giữ sour
 commodity/variety và price type; không tự sửa tên tỉnh. Future date hiện
 `KEEP` và được lưu warning. Negative/malformed price đi quarantine.
 
+## NSO Vietnam
+
+Xem [NSO](nso.md) cho inventory 13 CSV, đơn vị, grain và reconciliation.
+Unpivot theo từng file, tách quantity/index và mùa vụ; giữ raw value và raw
+geography. Địa lý chưa xác minh giữ mã NULL, warning LOG, không chặn observation
+hợp lệ theo quyết định của người dùng. Record all-source-NULL được audit trước
+unpivot; NULL measurement trong record có identity vẫn được giữ.
+Tên chuẩn hóa lấy từ exact candidate lookup, giữ riêng với raw name. Nhận
+`Hà N?i` → `Hà Nội`, phân loại province/region nhưng vẫn needs_review về mã;
+không fuzzy matching và không gộp tỉnh lịch sử. Alias xung đột gây fail-fast.
+
 ## Deduplication, missing keys và lỗi
 
 Chỉ dedup **sau DQ**, tránh row mới lỗi che mất row cũ hợp lệ.
@@ -123,7 +142,8 @@ trong batch, kể cả sau repartition.
 MERGE không update khi input timestamp cũ hơn target; vẫn insert business key
 mới từ batch đến muộn. Timestamp bằng nhau được phép update nếu data khác;
 trong các batch riêng có timestamp bằng nhau, batch chạy sau thắng.
-Row không đổi bỏ qua UPDATE và giữ `_silver_processed_at`.
+Row không đổi bỏ qua MERGE bằng join kiểm tra changes trước SQL, giữ
+`_silver_processed_at` và không tạo Silver snapshot rỗng khi replay.
 Quarantine dùng ID hash của dataset + JSON payload có NULL explicit, và
 dedup ID trong batch trước MERGE. Business key hash dùng JSON struct để
 phân biệt NULL, empty string và các thành phần chứa separator.

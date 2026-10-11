@@ -16,7 +16,7 @@ luồng Silver độc lập và các kết quả nghiệm thu chưa được tá
 | `src/silver/framework.py` | Điều phối toàn bộ read → preprocess → normalize → DQ → quarantine → dedup → MERGE |
 | `src/silver/audit.py` | Read-only kiểm tra schema/key/DQ thực tế |
 | `src/silver/orchestration.py` | HTTP bridge standard library từ Airflow tới Spark container |
-| `contracts/silver/` | 8 contract READY và 1 NSO NEEDS_PROFILING |
+| `contracts/silver/` | 9 contract READY |
 | `jobs/silver/` | Unified CLI, compatibility jobs và HTTP API |
 | `dags/` | Bronze ingestion DAG có Silver hooks và Silver DAG độc lập |
 | `config/` | Source registry, Spark và Trino configuration |
@@ -76,9 +76,12 @@ Metrics cho một run:
 - `warning_count`: số observation có warning, có thể overlap quarantine.
 - `dedup_count`: số business keys hợp lệ sau dedup, được đưa tới MERGE.
 - `duplicate_count`: `valid_count - dedup_count`.
+- NSO thêm `observation_count`, `excluded_count`, `excluded_record_count`: audit
+  candidates trước unpivot và những record all-source-NULL.
 
 Invariant: `prepared_count = valid_count + quarantine_count`,
-`valid_count = dedup_count + duplicate_count`.
+`valid_count = dedup_count + duplicate_count`; với NSO thêm
+`observation_count = prepared_count + excluded_count`.
 Không so trực tiếp Bronze count với Silver count sau unpivot. Không dùng
 `dedup_count` làm số row thực sự INSERT/UPDATE: MERGE có thể bỏ qua row
 không đổi hoặc timestamp cũ; bảng đích có thể chứa keys từ các batch trước.
@@ -106,30 +109,34 @@ catalog/network failures thành “table missing”. Temp views có UUID riêng 
 mismatch yêu cầu migration rõ ràng, không overwrite table silently.
 
 Không tự cấu hình lại partition spec hoặc compression của bảng đã tồn tại.
-Không cam kết zero Iceberg snapshots cho rerun: row data và processing timestamp
-không đổi, nhưng engine/catalog vẫn có thể tạo commit metadata.
+Engine join incoming/stored theo key, freshness và data equality trước MERGE.
+Replay không đổi data bỏ qua SQL MERGE, giữ processing time và Silver snapshot.
+Quarantine vẫn có detection/run update riêng.
 
 ## Airflow và Spark API
 
 - Ingestion DAG: task Silver sau mỗi source READY; lock theo source, lấy
   oldest pending successful Bronze run, submit incremental đúng run ID.
   Không khởi tạo Spark driver hoặc download JARs bên trong Airflow.
-- Silver DAG: gate đọc/resolve Bronze schema thật, tám task transform,
+- Silver DAG: gate đọc/resolve Bronze schema thật, chín task transform,
   reconciliation kết quả XCom, audit Spark đọc target thật, rồi publish signal.
 - Cả hai lịch dùng `Asia/Bangkok`: Bronze 06:00 và Silver 08:00 ngày 15 hàng
   tháng. Silver gate vẫn độc lập với lịch vì Bronze có thể chạy lỗi/chậm.
-- `max_active_runs=1`; Silver DAG `max_active_tasks=1` và HTTPServer serial
+- `max_active_runs=1`; Silver DAG `max_active_tasks=1` và API job lock serial
   phù hợp tài nguyên dev/catalog hiện tại. Không dùng task song song để đẩy
   nhiều Spark drivers và dead-letter commits cạnh tranh trong môi trường 1 GB.
 - API whitelist job, validate action/mode, argv list không qua shell; chỉ trả
   SUCCESS khi spark-submit exit 0 và có structured `SILVER_RESULT`.
+  HTTP server dùng threads để healthcheck vẫn phản hồi trong lúc job chạy;
+  lock đảm bảo chỉ một Spark subprocess xử lý tại một thời điểm.
 - Metadata chỉ ghi SUCCESS sau khi Spark job trả thành công và input run có
   row queryable. Job fail propagates lên Airflow và có thể retry an toàn.
 
 Một trigger Bronze hook xử lý một pending run. Nếu có backlog nhiều run,
 chạy lại hooks hoặc CLI theo từng run; Silver full scan vẫn reconcile toàn bộ
 Bronze nhưng không tự đổi trạng thái metadata cho từng ingestion run.
-Signal nêu rõ READY datasets và pending NSO, không xác nhận tất cả nguồn NSO.
+Signal nêu rõ chín READY datasets. Downstream vẫn cần reviewed geography mapping
+cho NSO và phải tách quantity/index/season/source level.
 
 ## Hiệu năng
 
@@ -143,8 +150,9 @@ Signal nêu rõ READY datasets và pending NSO, không xác nhận tất cả ng
 4. Các metrics DQ được tính trong một aggregation; driver chỉ nhận một row
    metrics. Bronze count vẫn cần scan riêng để phân biệt physical rows và
    observations sau unpivot.
-5. Chuỗi raw payload lớn chỉ giữ trong cache/quarantine. Output valid không
-   có raw payload/diagnostic flags, giảm IO và sort payload.
+5. Chuỗi `_source_payload` lớn chỉ giữ trong cache/quarantine. Output valid
+   giữ các raw fields nhỏ khi contract yêu cầu (NSO/USDA), giúp truy nguyên
+   giá trị/đơn vị mà không mang toàn bộ source record vào Silver.
 6. AQE bật; tune `SILVER_SHUFFLE_PARTITIONS` theo dữ liệu và số cores. Không
    áp `coalesce(1)` để tạo bottleneck toàn job.
 7. Với Trade thực cỡ lớn, benchmark shuffle skew và memory từ Spark UI,
@@ -155,8 +163,11 @@ Signal nêu rõ READY datasets và pending NSO, không xác nhận tất cả ng
 
 ## Giới hạn đã biết
 
-NSO chưa đủ input/schema/mapping để publish. Trade full raw CSV không có trong
-checkout; kiểm thử Trade dùng validation ZIP. Container live đang mount
-checkout khác nên nghiệm thu lần này dùng catalog tạm, không ghi shared
-Silver/MinIO. Xem [validation.md](validation.md) cho bằng chứng và các test
-Bronze cũ không thuộc thay đổi Silver.
+NSO đã publish schema và pipeline; geography chưa xác minh giữ NULL code và
+warning; tên có dấu được phục hồi bằng exact candidate lookup, giữ raw name
+và tỉnh lịch sử. Không có historical province master tự đoán. Local Trade full CSV
+vẫn thiếu, nhưng Bronze catalog có dữ liệu Trade để nghiệm thu E2E thật;
+fixture 2.000 rows chỉ là smoke test offline. Full catalog acceptance chạy
+trên đúng checkout với REST/MinIO. Xem [validation.md](validation.md) cho
+counts và phạm vi thực sự đã kiểm chứng; benchmark toàn bộ 35 triệu rows
+và Gold aggregation nằm ngoài nghiệm thu này.

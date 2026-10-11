@@ -1,0 +1,59 @@
+{
+  "status": "PASSED",
+  "started_at": "2026-10-11T14:31:00.101839+00:00",
+  "datasets": [
+    {
+      "dataset": "thitruongnongsan",
+      "rows": 20383
+    },
+    {
+      "dataset": "faostat_monthly_price",
+      "rows": 15334
+    },
+    {
+      "dataset": "faostat_production",
+      "rows": 22738
+    },
+    {
+      "dataset": "worldbank_pinksheet",
+      "rows": 56232
+    },
+    {
+      "dataset": "usda_rice_yearbook",
+      "rows": 12936
+    },
+    {
+      "dataset": "faostat_trade",
+      "rows": 1226470
+    },
+    {
+      "dataset": "faostat_supply_utilization",
+      "rows": 36144
+    },
+    {
+      "dataset": "nso_vietnam",
+      "rows": 23060
+    },
+    {
+      "dataset": "usda_psd",
+      "rows": 990
+    }
+  ],
+  "nso": {
+    "rows": 23060,
+    "missing_observations": 946,
+    "geography_review": 22140,
+    "invalid_review_code": 0,
+    "invalid_missing_value": 0
+  },
+  "usda_milling_rate": {
+    "rows": 66,
+    "min_source_value": "6250.00000000",
+    "max_source_value": "6600.00000000",
+    "min_fraction": "0.6250",
+    "max_fraction": "0.6600",
+    "invalid_rates": 0
+  },
+  "usda_value_type": "decimal(18,4)",
+  "completed_at": "2026-10-11T14:31:01.911677+00:00"
+}

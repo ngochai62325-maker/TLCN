@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
-"""Serial HTTP bridge executing only known Silver entry points."""
+"""HTTP bridge with serial Spark jobs and a responsive health endpoint."""
 import json
 import logging
 import subprocess
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from threading import Lock
 
 JOBS_DIR = Path(__file__).resolve().parent
 ALLOWED_JOBS = {"run_all_silver.py", "job_faostat_trade.py", "job_usda_psd.py",
                 "job_usda_export_price.py", "job_worldbank.py", "job_faostat_production.py",
-                "job_faostat_monthly_price.py", "job_faostat_supply_utilization.py", "job_thitruongnongsan.py"}
+                "job_faostat_monthly_price.py", "job_faostat_supply_utilization.py", "job_thitruongnongsan.py",
+                "job_nso_vietnam.py"}
 logger = logging.getLogger("spark_api_server")
+JOB_LOCK = Lock()
 
 
 class SparkApiHandler(BaseHTTPRequestHandler):
@@ -40,13 +43,16 @@ class SparkApiHandler(BaseHTTPRequestHandler):
             if job not in ALLOWED_JOBS or mode not in {"full", "incremental"} or action not in {"run", "check-bronze", "audit"}:
                 raise ValueError("Unknown job, mode or action")
             command = ["/opt/spark/bin/spark-submit", str(JOBS_DIR / job), "--mode", mode]
-            for key, flag in [("run_id", "--run-id"), ("pipeline_run_id", "--pipeline-run-id"), ("dataset", "--dataset")]:
+            for key, flag in [("run_id", "--run-id"), ("pipeline_run_id", "--pipeline-run-id"),
+                              ("dataset", "--dataset"), ("watermark", "--watermark")]:
                 if request.get(key):
                     command += [flag, str(request[key])]
             if action != "run":
                 command += ["--" + action]
-            proc = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                  text=True, timeout=3300)
+            # Health requests remain responsive while writes stay serial.
+            with JOB_LOCK:
+                proc = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                      text=True, timeout=3300)
             result = None
             for line in proc.stdout.splitlines():
                 if line.startswith("SILVER_RESULT="):
@@ -66,7 +72,7 @@ class SparkApiHandler(BaseHTTPRequestHandler):
 
 def main():
     logging.basicConfig(level=logging.INFO)
-    HTTPServer(("0.0.0.0", 5005), SparkApiHandler).serve_forever()
+    ThreadingHTTPServer(("0.0.0.0", 5005), SparkApiHandler).serve_forever()
 
 
 if __name__ == "__main__":

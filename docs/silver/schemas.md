@@ -1,8 +1,8 @@
 # Bronze / Silver schemas
 
-Generated from the executable YAML contracts; updated 2026-10-11.
+Generated from 9 executable YAML contracts; updated 2026-10-11.
 
-Bronze input columns use the ingestion sanitizer. All measurements remain nullable unless a contract says otherwise.
+Bronze columns use the ingestion sanitizer. Derived sources are produced by source preprocessing.
 
 ## faostat_monthly_price
 
@@ -116,9 +116,43 @@ Bronze: `iceberg.bronze.faostat_trade`; Silver: `iceberg.silver.faostat_trade`.
 
 ## nso_vietnam
 
-Status: **NEEDS_PROFILING**.
+Status: **READY**.
 
-No production output schema is published. The existing NSO transformer is a read-only proposal; see [README](README.md) and [cleaning rules](cleaning_rules.md).
+Bronze: `iceberg.bronze.nso_vietnam`; Silver: `iceberg.silver.nso_rice_statistics`.
+
+**Business key:** `source_table`, `geography_name_raw`, `year`, `season`, `measure`, `statistic_kind`.
+
+**Partition columns:** `year`.
+
+| Output column | Bronze / derived source | Spark type | Nullable | Meaning |
+|---|---|---|---|---|
+| `source_table` | `source_table` | `string` | false | Derived NSO source observation |
+| `source_column` | `source_column` | `string` | false | Derived NSO source observation |
+| `geography_name_raw` | `geography_name_raw` | `string` | false | Derived NSO source observation |
+| `geography_level` | `geography_level` | `string` | false | Derived NSO source observation |
+| `geography_name` | `geography_name` | `string` | true | Exact candidate name with restored accents; historical code mapping still needs review |
+| `geography_code` | `geography_code` | `string` | true | Derived NSO source observation |
+| `mapping_status` | `mapping_status` | `string` | false | Derived NSO source observation |
+| `country_code` | `country_code` | `string` | false | Derived NSO source observation |
+| `province_code` | `province_code` | `string` | true | Derived NSO source observation |
+| `commodity_name` | `commodity_name` | `string` | false | Derived NSO source observation |
+| `period_raw` | `period_raw` | `string` | false | Derived NSO source observation |
+| `year` | `year` | `integer` | false | Derived NSO source observation |
+| `period_valid` | `period_valid` | `boolean` | false | Derived NSO source observation |
+| `is_provisional` | `is_provisional` | `boolean` | false | Derived NSO source observation |
+| `season` | `season` | `string` | false | Derived NSO source observation |
+| `measure` | `measure` | `string` | false | Derived NSO source observation |
+| `statistic_raw` | `statistic_raw` | `string` | false | Derived NSO source observation |
+| `statistic_kind` | `statistic_kind` | `string` | false | Derived NSO source observation |
+| `source_unit` | `source_unit` | `string` | false | Derived NSO source observation |
+| `unit` | `unit` | `string` | false | Derived NSO source observation |
+| `conversion_factor` | `conversion_factor` | `decimal(18,6)` | false | Derived NSO source observation |
+| `unit_source_reference` | `unit_source_reference` | `string` | false | Derived NSO source observation |
+| `value_raw` | `value_raw` | `string` | true | Derived NSO source observation |
+| `value_source` | `value_source` | `decimal(28,8)` | true | Derived NSO source observation |
+| `value` | `value` | `decimal(28,8)` | true | Derived NSO source observation |
+| `is_missing` | `is_missing` | `boolean` | false | Derived NSO source observation |
+| `missing_kind` | `missing_kind` | `string` | false | Derived NSO source observation |
 
 ## thitruongnongsan
 
@@ -140,7 +174,7 @@ Bronze: `iceberg.bronze.thitruongnongsan`; Silver: `iceberg.silver.thitruongnong
 | `source` | `Nguồn` | `string` | true | Source of the price information |
 | `date` | `Ngày` | `date` | false | Date of the price observation |
 | `price_value` | `Giá` | `decimal(18,2)` | true | The actual price value |
-| `year` | `year` (derived from parsed date) | `integer` | false | Calendar year derived from parsed date; used for partition pruning |
+| `year` | `year` | `integer` | false | Calendar year derived from parsed date; used for partition pruning |
 
 ## usda_psd
 
@@ -160,7 +194,10 @@ Bronze: `iceberg.bronze.usda_psd`; Silver: `iceberg.silver.usda_rice_psd`.
 | `market_year` | `market_year` | `integer` | false | Market year beginning year (e.g., 1960 for 1960/1961) |
 | `crop_year` | `crop_year` | `string` | false | Crop year string (e.g., '1960/1961') strictly preserved from source definition |
 | `unit` | `unit_description` | `string` | true | Unit of measurement (e.g., 1000 MT, 1000 HA, MT/HA) |
-| `value` | `value` | `decimal(18,2)` | true | Numeric balance sheet value |
+| `value` | `value` | `decimal(18,4)` | true | Balance sheet quantity or dimensionless milling fraction; see unit |
+| `value_source` | `value_source` | `decimal(28,8)` | true | Numeric source value before conversion |
+| `source_unit` | `source_unit` | `string` | true | Original unit label, including known Milling Rate mislabel |
+| `conversion_factor` | `conversion_factor` | `decimal(18,6)` | false | 0.0001 for exact Milling Rate (.9999), otherwise 1 |
 
 ## usda_rice_yearbook
 
@@ -241,3 +278,5 @@ Table: `iceberg.silver.dead_letters`.
 | `payload` | string | JSON normalized record, source diagnostics, original `_source_payload` and lineage |
 
 Quarantine is idempotent for an identical dataset and payload. A re-ingested row with different Bronze audit metadata is a distinct payload and may create a distinct dead letter; replaying the same Bronze snapshot updates the existing record.
+
+Legacy precreated tables can retain additional nullable columns; the acceptance evidence includes their full physical schemas. NSO exclusions use the shared quarantine table with `source_dataset=nso_vietnam_exclusions`.

@@ -13,10 +13,14 @@ def check_bronze(spark, contracts):
         source_id = contract.source_id
         source = spark.table(contract.bronze_input)
         transformer = framework.transformer(source_id)
+        if transformer and hasattr(transformer, "validate_bronze_schema"):
+            transformer.validate_bronze_schema(source)
         prepared = transformer.preprocess(source.limit(0)) if transformer else source.limit(0)
         normalized = framework.normalize(prepared, contract)
         rules = contract.data_quality_rules + (transformer.quality_rules() if transformer and hasattr(transformer, "quality_rules") else [])
         SilverQualityEngine(rules).evaluate(normalized).schema
+        if source.isEmpty():
+            raise ValueError(f"Bronze readiness failed: {contract.bronze_input} has no rows; ingest source data before running the Silver DAG")
         results[source_id] = {"ready": True, "table": contract.bronze_input}
     return {"status": "PASSED", "tables": results}
 

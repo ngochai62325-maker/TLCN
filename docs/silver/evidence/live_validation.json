@@ -1,0 +1,1992 @@
+{
+  "started_at": "2026-10-11T14:24:01.085282+00:00",
+  "status": "PASSED",
+  "datasets": {
+    "faostat_monthly_price": {
+      "status": "PASSED",
+      "metrics": {
+        "status": "SUCCESS",
+        "dataset": "faostat_monthly_price",
+        "pipeline_run_id": "silver-e2e-first",
+        "target_table": "iceberg.silver.faostat_monthly_price",
+        "bronze_count": 15334,
+        "prepared_count": 15334,
+        "valid_count": 15334,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 15334,
+        "duplicate_count": 0
+      },
+      "silver": {
+        "rows": 15334,
+        "snapshot_id": 4999691943661283977,
+        "row_checksum": "-574373279088732722884",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "domain_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "domain",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "country_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "country_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "element_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "element",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "year",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "month_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "month_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value",
+              "type": "decimal(18,4)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "flag",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "flag_description",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "time_grain",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "month",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "currency",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "price_kind",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_file",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_checksum",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_silver_processed_at",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        }
+      },
+      "bronze_snapshot_id": 7180512843532517583,
+      "audit": {
+        "status": "PASSED",
+        "tables": {
+          "iceberg.silver.faostat_monthly_price": {
+            "rows": 15334,
+            "status": "PASSED"
+          }
+        }
+      },
+      "replay_verified": true
+    },
+    "faostat_production": {
+      "status": "PASSED",
+      "metrics": {
+        "status": "SUCCESS",
+        "dataset": "faostat_production",
+        "pipeline_run_id": "silver-e2e-first",
+        "target_table": "iceberg.silver.faostat_production",
+        "bronze_count": 22738,
+        "prepared_count": 22738,
+        "valid_count": 22738,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 22738,
+        "duplicate_count": 0
+      },
+      "silver": {
+        "rows": 22738,
+        "snapshot_id": 6714109548573181419,
+        "row_checksum": "-358570959820000131946",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "domain_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "domain",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "country_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "country_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "element_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "element",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "year",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value",
+              "type": "decimal(18,2)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "flag",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "flag_description",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp_legacy_ntz",
+              "type": "timestamp_ntz",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_file",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_checksum",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_bronze_iceberg_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_payload",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_raw_value",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_negative_value",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_country_mapping_status",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_value_parse_error",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_unit_mapping_valid",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_conversion_overflow",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_contract_cast_error",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": false,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": false,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": false,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_silver_processed_at",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        }
+      },
+      "bronze_snapshot_id": 3250087836768729857,
+      "audit": {
+        "status": "PASSED",
+        "tables": {
+          "iceberg.silver.faostat_production": {
+            "rows": 22738,
+            "status": "PASSED"
+          }
+        }
+      },
+      "replay_verified": true
+    },
+    "faostat_supply_utilization": {
+      "status": "PASSED",
+      "metrics": {
+        "status": "SUCCESS",
+        "dataset": "faostat_supply_utilization",
+        "pipeline_run_id": "silver-e2e-first",
+        "target_table": "iceberg.silver.faostat_supply_utilization",
+        "bronze_count": 36380,
+        "prepared_count": 36380,
+        "valid_count": 36144,
+        "quarantine_count": 236,
+        "warning_count": 0,
+        "dedup_count": 36144,
+        "duplicate_count": 0
+      },
+      "silver": {
+        "rows": 36144,
+        "snapshot_id": 6048389229622500636,
+        "row_checksum": "125106994999529761928",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "domain_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "domain",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "country_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "country_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "element_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "element",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "year",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value",
+              "type": "decimal(18,2)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "flag",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "flag_description",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "note",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_file",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_checksum",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_silver_processed_at",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        }
+      },
+      "bronze_snapshot_id": 5236669643868971539,
+      "audit": {
+        "status": "PASSED",
+        "tables": {
+          "iceberg.silver.faostat_supply_utilization": {
+            "rows": 36144,
+            "status": "PASSED"
+          }
+        }
+      },
+      "replay_verified": true
+    },
+    "faostat_trade": {
+      "status": "PASSED",
+      "metrics": {
+        "status": "SUCCESS",
+        "dataset": "faostat_trade",
+        "pipeline_run_id": "silver-e2e-first",
+        "target_table": "iceberg.silver.faostat_trade",
+        "bronze_count": 1226470,
+        "prepared_count": 1226470,
+        "valid_count": 1226470,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 1226470,
+        "duplicate_count": 0
+      },
+      "silver": {
+        "rows": 1226470,
+        "snapshot_id": 1718716620675555771,
+        "row_checksum": "767917532255473067464",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "reporter_country_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "reporter_country_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "partner_country_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "partner_country_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "element_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "element_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "year",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value",
+              "type": "decimal(18,2)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "flag",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_file",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_checksum",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_silver_processed_at",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        }
+      },
+      "bronze_snapshot_id": 5969648367205304379,
+      "audit": {
+        "status": "PASSED",
+        "tables": {
+          "iceberg.silver.faostat_trade": {
+            "rows": 1226470,
+            "status": "PASSED"
+          }
+        }
+      },
+      "replay_verified": true
+    },
+    "nso_vietnam": {
+      "status": "PASSED",
+      "metrics": {
+        "status": "SUCCESS",
+        "dataset": "nso_vietnam",
+        "pipeline_run_id": "silver-e2e-first",
+        "target_table": "iceberg.silver.nso_rice_statistics",
+        "bronze_count": 833,
+        "prepared_count": 23060,
+        "valid_count": 23060,
+        "quarantine_count": 0,
+        "warning_count": 22140,
+        "dedup_count": 23060,
+        "duplicate_count": 0,
+        "observation_count": 23428,
+        "excluded_count": 368,
+        "excluded_record_count": 13
+      },
+      "silver": {
+        "rows": 23060,
+        "snapshot_id": 4830094745795115840,
+        "row_checksum": "370224041165193668308",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "source_table",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "source_column",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "geography_name_raw",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "geography_level",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "geography_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "geography_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "mapping_status",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "country_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "province_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "period_raw",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "year",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "period_valid",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "is_provisional",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "season",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "measure",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "statistic_raw",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "statistic_kind",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "source_unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "conversion_factor",
+              "type": "decimal(18,6)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit_source_reference",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value_raw",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value_source",
+              "type": "decimal(28,8)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value",
+              "type": "decimal(28,8)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "is_missing",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "missing_kind",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_file",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_checksum",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_silver_processed_at",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        }
+      },
+      "bronze_snapshot_id": 3499764399995403202,
+      "audit": {
+        "status": "PASSED",
+        "tables": {
+          "iceberg.silver.nso_rice_statistics": {
+            "rows": 23060,
+            "status": "PASSED"
+          }
+        }
+      },
+      "replay_verified": true
+    },
+    "thitruongnongsan": {
+      "status": "PASSED",
+      "metrics": {
+        "status": "SUCCESS",
+        "dataset": "thitruongnongsan",
+        "pipeline_run_id": "silver-e2e-first",
+        "target_table": "iceberg.silver.thitruongnongsan",
+        "bronze_count": 20394,
+        "prepared_count": 20394,
+        "valid_count": 20394,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 20383,
+        "duplicate_count": 11
+      },
+      "silver": {
+        "rows": 20383,
+        "snapshot_id": 6292499233967822734,
+        "row_checksum": "540918859811768731153",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "commodity",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "market",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "price_type",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "currency",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "source",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "date",
+              "type": "date",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "price_value",
+              "type": "decimal(18,2)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "year",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_file",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_checksum",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_silver_processed_at",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        }
+      },
+      "bronze_snapshot_id": 8924386602570103506,
+      "audit": {
+        "status": "PASSED",
+        "tables": {
+          "iceberg.silver.thitruongnongsan": {
+            "rows": 20383,
+            "status": "PASSED"
+          }
+        }
+      },
+      "replay_verified": true
+    },
+    "usda_psd": {
+      "status": "PASSED",
+      "metrics": {
+        "status": "SUCCESS",
+        "dataset": "usda_psd",
+        "pipeline_run_id": "silver-e2e-first",
+        "target_table": "iceberg.silver.usda_rice_psd",
+        "bronze_count": 15,
+        "prepared_count": 990,
+        "valid_count": 990,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 990,
+        "duplicate_count": 0
+      },
+      "silver": {
+        "rows": 990,
+        "snapshot_id": 6951295109929564380,
+        "row_checksum": "-31860746222897694410",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "country",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "attribute",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "market_year",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "crop_year",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value",
+              "type": "decimal(18,4)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value_source",
+              "type": "decimal(28,8)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "source_unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "conversion_factor",
+              "type": "decimal(18,6)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_file",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_checksum",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_silver_processed_at",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        }
+      },
+      "bronze_snapshot_id": 794008497907757228,
+      "audit": {
+        "status": "PASSED",
+        "tables": {
+          "iceberg.silver.usda_rice_psd": {
+            "rows": 990,
+            "status": "PASSED"
+          }
+        }
+      },
+      "replay_verified": true
+    },
+    "usda_rice_yearbook": {
+      "status": "PASSED",
+      "metrics": {
+        "status": "SUCCESS",
+        "dataset": "usda_rice_yearbook",
+        "pipeline_run_id": "silver-e2e-first",
+        "target_table": "iceberg.silver.usda_rice_yearbook",
+        "bronze_count": 13131,
+        "prepared_count": 13131,
+        "valid_count": 13131,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 12936,
+        "duplicate_count": 195
+      },
+      "silver": {
+        "rows": 12936,
+        "snapshot_id": 8054636461860787762,
+        "row_checksum": "-806758382579659513486",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "table_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "table_number",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_class",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "year",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "reference_period",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "location",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "statistic_type",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value",
+              "type": "decimal(18,2)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_file",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_checksum",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_silver_processed_at",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        }
+      },
+      "bronze_snapshot_id": 5981613253177296156,
+      "audit": {
+        "status": "PASSED",
+        "tables": {
+          "iceberg.silver.usda_rice_yearbook": {
+            "rows": 12936,
+            "status": "PASSED"
+          }
+        }
+      },
+      "replay_verified": true
+    },
+    "worldbank_pinksheet": {
+      "status": "PASSED",
+      "metrics": {
+        "status": "SUCCESS",
+        "dataset": "worldbank_pinksheet",
+        "pipeline_run_id": "silver-e2e-first",
+        "target_table": "iceberg.silver.worldbank_commodity_monthly",
+        "bronze_count": 792,
+        "prepared_count": 56232,
+        "valid_count": 56232,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 56232,
+        "duplicate_count": 0
+      },
+      "silver": {
+        "rows": 56232,
+        "snapshot_id": 4075197122936900960,
+        "row_checksum": "1587523024144357903907",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "commodity_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "period_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "period_date",
+              "type": "date",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "year",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "month",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "price",
+              "type": "decimal(18,2)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "series_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_file",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_checksum",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_silver_processed_at",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        }
+      },
+      "bronze_snapshot_id": 1491155964568568519,
+      "audit": {
+        "status": "PASSED",
+        "tables": {
+          "iceberg.silver.worldbank_commodity_monthly": {
+            "rows": 56232,
+            "status": "PASSED"
+          }
+        }
+      },
+      "replay_verified": true
+    }
+  },
+  "bronze_readiness": {
+    "status": "PASSED",
+    "tables": {
+      "faostat_monthly_price": {
+        "ready": true,
+        "table": "iceberg.bronze.faostat_monthly_price"
+      },
+      "faostat_production": {
+        "ready": true,
+        "table": "iceberg.bronze.faostat_production"
+      },
+      "faostat_supply_utilization": {
+        "ready": true,
+        "table": "iceberg.bronze.faostat_supply_utilization"
+      },
+      "faostat_trade": {
+        "ready": true,
+        "table": "iceberg.bronze.faostat_trade"
+      },
+      "nso_vietnam": {
+        "ready": true,
+        "table": "iceberg.bronze.nso_vietnam"
+      },
+      "thitruongnongsan": {
+        "ready": true,
+        "table": "iceberg.bronze.thitruongnongsan"
+      },
+      "usda_psd": {
+        "ready": true,
+        "table": "iceberg.bronze.usda_psd"
+      },
+      "usda_rice_yearbook": {
+        "ready": true,
+        "table": "iceberg.bronze.usda_rice_yearbook"
+      },
+      "worldbank_pinksheet": {
+        "ready": true,
+        "table": "iceberg.bronze.worldbank_pinksheet"
+      }
+    }
+  },
+  "quarantine_counts": {
+    "nso_vietnam_exclusions": 13,
+    "faostat_supply_utilization": 236
+  },
+  "completed_at": "2026-10-11T14:28:37.587189+00:00"
+}

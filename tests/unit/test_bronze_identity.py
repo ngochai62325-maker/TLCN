@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 from unittest.mock import MagicMock
-from ingestion.storage.bronze_writer import BronzeIcebergWriter
+from ingestion.storage.bronze_writer import BronzeIcebergWriter, TECHNICAL_METADATA_COLUMNS
 
 @pytest.fixture
 def chunk_df():
@@ -14,7 +14,7 @@ def test_chunk_metadata_0(chunk_df):
     """Test 1: chunk_id = 0 -> _ingestion_chunk_id == 0"""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
-    writer.execute_query = MagicMock()
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
     
     catalog_mock = MagicMock()
     table_mock = MagicMock()
@@ -41,7 +41,7 @@ def test_chunk_metadata_5(chunk_df):
     """Test 2: chunk_id = 5 -> _ingestion_chunk_id == 5"""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
-    writer.execute_query = MagicMock(return_value=([], []))
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
     catalog_mock = MagicMock()
     catalog_mock.load_table.return_value = MagicMock()
     writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)
@@ -66,7 +66,7 @@ def test_different_chunks(chunk_df):
     """Test 3: Different chunks"""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
-    writer.execute_query = MagicMock(return_value=([], []))
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
     catalog_mock = MagicMock()
     catalog_mock.load_table.return_value = MagicMock()
     writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)
@@ -95,7 +95,7 @@ def test_same_retry(chunk_df):
     """Test 4: Same retry"""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
-    writer.execute_query = MagicMock(return_value=([], []))
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
     catalog_mock = MagicMock()
     catalog_mock.load_table.return_value = MagicMock()
     writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)
@@ -134,7 +134,7 @@ def test_data_contract_test(chunk_df):
     """Test 16: Ensure data contract test"""
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
-    writer.execute_query = MagicMock(return_value=([], []))
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
     catalog_mock = MagicMock()
     catalog_mock.load_table.return_value = MagicMock()
     writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)

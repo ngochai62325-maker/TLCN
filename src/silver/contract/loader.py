@@ -1,6 +1,7 @@
 import os
 import re
 import yaml
+from pathlib import Path
 from typing import Any, Dict, List
 
 class SilverContract:
@@ -135,8 +136,8 @@ class SilverContract:
 
 
 class SilverContractLoader:
-    def __init__(self, contract_dir: str = "contracts/silver"):
-        self.contract_dir = contract_dir
+    def __init__(self, contract_dir: str = None):
+        self.contract_dir = str(contract_dir or Path(__file__).resolve().parents[3] / "contracts/silver")
 
     def load_contract(self, dataset_id: str) -> SilverContract:
         if not re.fullmatch(r"[a-z][a-z0-9_]*", dataset_id):

@@ -1,4 +1,4 @@
-"""Validate the API boundary without starting jobs or network connections."""
+"""Validate API boundaries and local HTTP behavior without starting Spark jobs."""
 import io
 import json
 from unittest.mock import MagicMock, patch
@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from silver.orchestration import trigger_spark_job
-from jobs.silver.spark_api_server import SparkApiHandler
+from jobs.silver.spark_api_server import SparkApiHandler, ThreadingHTTPServer
 
 
 def test_remote_job_requires_successful_structured_result():
@@ -48,3 +48,59 @@ def test_api_passes_arguments_and_extracts_json():
     assert "--run-id" in command and "bronze-1" in command
     assert instance._send_json.call_args.args[0] == 200
     assert instance._send_json.call_args.args[1]["result"]["usda_psd"]["status"] == "SUCCESS"
+
+
+def test_api_forwards_incremental_watermark():
+    instance = handler({"dataset": "nso_vietnam", "mode": "incremental", "watermark": "2026-10-01T00:00:00+00:00"})
+    with patch("jobs.silver.spark_api_server.subprocess.run", return_value=MagicMock(returncode=0, stdout='SILVER_RESULT={}\n')) as run:
+        instance.do_POST()
+    assert "--watermark" in run.call_args.args[0]
+    assert "2026-10-01T00:00:00+00:00" in run.call_args.args[0]
+
+
+def test_health_responds_during_job_and_jobs_remain_serial():
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Event, Thread
+    from urllib.request import Request, urlopen
+
+    started, release = Event(), Event()
+    executions = []
+
+    def fake_job(*args, **kwargs):
+        executions.append(args[0])
+        if len(executions) == 1:
+            started.set()
+            assert release.wait(5), "Test did not release the first job"
+        return MagicMock(returncode=0, stdout='SILVER_RESULT={}\n')
+
+    server = ThreadingHTTPServer(('127.0.0.1', 0), SparkApiHandler)
+    server_thread = Thread(target=server.serve_forever, daemon=True)
+    server_thread.start()
+    url = f'http://127.0.0.1:{server.server_port}'
+
+    def post():
+        request = Request(url + '/run', data=b'{"dataset":"nso_vietnam"}',
+                          headers={'Content-Type': 'application/json'})
+        with urlopen(request, timeout=10) as response:
+            return json.loads(response.read())
+
+    try:
+        with patch('jobs.silver.spark_api_server.subprocess.run', side_effect=fake_job):
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                first = executor.submit(post)
+                assert started.wait(5)
+                second = executor.submit(post)
+                try:
+                    with urlopen(url + '/health', timeout=2) as response:
+                        assert json.loads(response.read()) == {'status': 'ok'}
+                    assert len(executions) == 1
+                finally:
+                    release.set()
+                assert first.result(timeout=10)['status'] == 'SUCCESS'
+                assert second.result(timeout=10)['status'] == 'SUCCESS'
+                assert len(executions) == 2
+    finally:
+        release.set()
+        server.shutdown()
+        server.server_close()
+        server_thread.join(timeout=5)

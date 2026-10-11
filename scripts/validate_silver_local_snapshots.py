@@ -111,7 +111,7 @@ def main():
             if not ready:
                 raise ValueError(f"No READY snapshots selected: {args.dataset}")
             assert audit_tables(spark, ready)["status"] == "PASSED"
-            print("SNAPSHOT_SUMMARY=" + json.dumps({"status": "PASSED", "datasets": reports, "pending": ["nso_vietnam"]}), flush=True)
+            print("SNAPSHOT_SUMMARY=" + json.dumps({"status": "PASSED", "datasets": reports, "pending": []}), flush=True)
         finally:
             spark.stop()
 

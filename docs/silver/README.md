@@ -10,25 +10,39 @@ contract YAML tại `contracts/silver/`. CLI, Spark API và hai Airflow DAG cùn
 - [Quy tắc làm sạch và chuẩn hóa](cleaning_rules.md).
 - [Schema đầu vào/đầu ra và business keys](schemas.md).
 - [Kiểm thử, kết quả và giới hạn môi trường](validation.md).
+- [NSO: schema, unit, địa lý và đối soát](nso.md).
+- [Chạy lại sau khi reset dữ liệu](rebuild.md).
 - [Audit FAOSTAT/NSO trước tích hợp](faostat_nso_repository_audit.md): tài liệu
   lịch sử, không đại diện trạng thái triển khai hiện tại.
 
 ## Phạm vi hiện tại
 
-**8 nguồn READY**: FAOSTAT Production, Monthly Price, Supply Utilization,
-Trade; USDA PSD, Rice Yearbook; World Bank Pink Sheet; IPSARD.
+**9 nguồn READY**: FAOSTAT Production, Monthly Price, Supply Utilization,
+Trade; NSO Vietnam; USDA PSD, Rice Yearbook; World Bank Pink Sheet; IPSARD.
 
-**NSO chưa được xuất bản**: contract còn `NEEDS_PROFILING`; Bronze đã mất các
-cột ma trận tỉnh/năm của V06.13–24 và chưa có mapping/unit được xác nhận.
-`--dataset all` chạy tám contract READY và log rõ nguồn pending.
-`--dataset nso_vietnam` báo lỗi trước khi đọc/ghi bảng. Transformer NSO hiện có
-vẫn dùng được để preview dữ liệu đầy đủ và kiểm tra thiếu schema.
+NSO xuất `iceberg.silver.nso_rice_statistics`; giữ tên địa lý nguồn, mã chưa
+xác minh là NULL và warning theo lựa chọn của người dùng. Tên có dấu riêng
+được phục hồi từ bảng candidates, chẳng hạn `Hà N?i` → `Hà Nội`. Milling Rate USDA
+được chuẩn hóa thành fraction, giữ giá trị/đơn vị nguồn. `--dataset all` chạy
+đủ chín contract. Xem [NSO](nso.md) và [cleaning rules](cleaning_rules.md).
+
+Nghiệm thu live: **1.414.287 dòng Silver**, full/audit/replay đạt cả chín nguồn;
+Trino đối chiếu counts thành công. Suite độc lập **103 passed**, DAG test
+**1 passed**. Xem [bằng chứng và lệnh tái hiện](validation.md).
 
 ## Chạy pipeline
 
-Thực hiện từ root repository. Kiểm tra Docker đang mount **đúng checkout**;
-container đang có sẵn trong môi trường nghiệm thu mount một checkout khác.
-Không dùng kết quả chạy từ checkout khác để nghiệm thu code này.
+Thực hiện từ root repository. Stack nghiệm thu hiện mount đúng checkout này.
+Spark service chạy API foreground; jobs dùng `local[2]` trong cấu hình dev.
+Entrypoint image mặc định chỉ thực thi argument đầu nên Compose phải override
+entrypoint. Các port notebook/master cũ không có daemon trong chế độ này.
+Contract tự tìm đường dẫn theo repository, không phụ thuộc working directory.
+API xử lý HTTP healthcheck độc lập trong khi job lock giữ Spark jobs tuần tự.
+
+```powershell
+docker compose up -d --no-deps spark-iceberg
+docker compose ps spark-iceberg
+```
 
 ```powershell
 python scripts/validate_silver_contracts.py
@@ -92,7 +106,8 @@ raw cần thêm `openpyxl` và `lxml` cho adapter USDA HTML.
 | `SPARK_API_URL` | Airflow → Spark API, mặc định `http://spark-iceberg:5005/run` |
 
 Spark session dùng UTC và bật Adaptive Query Execution. Compose mount thêm
-`contracts/` vào `/home/iceberg/contracts:ro` để job đọc specification.
+`contracts/` vào `/home/iceberg/contracts:ro` và `config/silver/` vào
+`/home/iceberg/config/silver:ro` để job đọc specification và inventory NSO.
 
 ## Vận hành và khôi phục
 
@@ -111,6 +126,38 @@ Full mode là **đọc toàn bộ Bronze rồi UPSERT**, không xóa business ke
 vắng mặt khỏi snapshot mới. Nếu cần semantics snapshot replacement/deletion,
 cần bổ sung contract và chiến lược riêng; không dùng full như một overwrite.
 
-NSO cần khôi phục schema Bronze từ toàn bộ 13 CSV, nạp lại các file bị mất cột,
-xác nhận đơn vị ma trận và mapping địa lý rồi cập nhật contract. Chỉ đổi status
-sang READY không thể khôi phục dữ liệu đã mất.
+NSO yêu cầu đủ ma trận Bronze. Adapter hiện kiểm kê union trước chunk đầu;
+writer từ chối mất cột/schema mismatch trước khi ghi. Cột period mới có dữ liệu
+nhưng chưa được kiểm kê gây fail để cập nhật inventory rõ ràng.
+
+## Nghiệm thu đầy đủ catalog đang chạy
+
+Lệnh dưới ghi các bảng Silver/quarantine theo contract, audit rồi replay từng
+nguồn. Chạy khi không có ingestion hoặc Silver job khác đang xử lý catalog.
+Không thay trạng thái run trong PostgreSQL hoặc tự trigger/unpause DAG.
+
+```powershell
+docker compose exec -T spark-iceberg /opt/spark/bin/spark-submit /home/iceberg/jobs/silver/validate_silver_e2e.py --output-json /home/iceberg/jobs/silver/validation_result.json
+
+# Đối chiếu chỉ đọc qua Trino:
+docker compose exec -T spark-iceberg python3 /home/iceberg/jobs/silver/verify_silver_trino.py --spark-report /home/iceberg/jobs/silver/validation_result.json --output-json /home/iceberg/jobs/silver/trino_result.json
+
+# Kiểm tra lại các bảng hiện có, không ghi Silver:
+docker compose exec -T spark-iceberg /opt/spark/bin/spark-submit /home/iceberg/jobs/silver/validate_silver_e2e.py --audit-only --output-json /home/iceberg/jobs/silver/audit_result.json
+```
+
+Evidence gồm counts, schema, Bronze/Silver snapshot IDs và checksum rows;
+replay phải giữ cả data, processing timestamp và Silver snapshot ID.
+Quarantine cập nhật detection/run khi replay nên snapshot quarantine có thể đổi.
+
+Bảng legacy **rỗng** có audit timestamp NTZ có thể dùng utility migration:
+
+```powershell
+# Dry run; kiểm tra SQL trước khi thực thi:
+docker compose exec -T spark-iceberg /opt/spark/bin/spark-submit /home/iceberg/jobs/silver/migrate_empty_silver_schema.py --dataset faostat_production
+# Sau review thêm --execute. Utility giữ cột cũ *_legacy_ntz, chuyển obsolete required diagnostics sang nullable; không drop bảng.
+```
+
+Utility từ chối bảng có dữ liệu; không dùng nó thay migration dữ liệu đã công bố.
+Nếu PSD cũ có `value DECIMAL(18,2)`, cần migration precision tới `(18,4)` trước
+khi chạy contract mới; writer sẽ chặn type mismatch thay vì cắt mất fraction.
