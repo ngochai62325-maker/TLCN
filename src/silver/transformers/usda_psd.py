@@ -1,34 +1,28 @@
-from pyspark.sql import DataFrame
-import pyspark.sql.functions as F
+"""Preserve market-year semantics and raw values during vectorized unpivot."""
+import re
+from pyspark.sql import functions as F
+
 
 class UsdaPsdTransformer:
-    def preprocess(self, df: DataFrame) -> DataFrame:
-        """
-        Unpivot wide column headers (col_YYYY_YYYY+1) into long format
-        so the Silver Framework can map 'market_year', 'crop_year', and 'value'.
-        """
-        value_cols = [c for c in df.columns if c.startswith("col_") and len(c) == 13]
-        if not value_cols:
+    def preprocess(self, df):
+        years = sorted(c for c in df.columns if re.fullmatch(r"col_[0-9]{4}_[0-9]{4}", c))
+        if not years:
+            required = {"market_year", "crop_year", "value"}
+            if not required.issubset(df.columns):
+                raise ValueError("USDA PSD requires wide crop-year columns or long market_year/crop_year/value")
             return df
-            
-        # Contract rule: forward fill or default to 'Rice, Milled'
+        for column in years:
+            start, end = map(int, column.split("_")[1:])
+            if end != start + 1:
+                raise ValueError(f"Invalid USDA crop-year header: {column}")
         if "commodity" in df.columns:
-            df = df.withColumn("commodity", F.coalesce(F.col("commodity"), F.lit("Rice, Milled")))
-            
-        # Build stack expression
-        stack_expr = f"stack({len(value_cols)}, " + ", ".join([f"'{c}', {c}" for c in value_cols]) + ") as (wide_col_name, value)"
-        
-        # Keep non-value columns
-        keep_cols = [c for c in df.columns if c not in value_cols]
-        
-        # Apply unpivot
-        df_long = df.select(*keep_cols, F.expr(stack_expr))
-        
-        # Extract market_year and crop_year from 'col_1960_1961'
-        df_long = df_long.withColumn("market_year", F.substring("wide_col_name", 5, 4).cast("integer"))
-        df_long = df_long.withColumn("crop_year", F.concat_ws("/", F.substring("wide_col_name", 5, 4), F.substring("wide_col_name", 10, 4)))
-        
-        # Drop the temporary wide_col_name
-        df_long = df_long.drop("wide_col_name")
-        
-        return df_long
+            value = F.trim(F.col("commodity"))
+            df = df.withColumn("commodity", F.when(value.isNull() | (value == ""), "Rice, Milled").otherwise(value))
+        if "unit_description" in df.columns:
+            df = df.withColumn("unit_description", F.regexp_replace(F.trim("unit_description"), "[()]", ""))
+        entries = [F.struct(F.lit(int(c[4:8])).alias("market_year"),
+                            F.lit(c[4:8] + "/" + c[9:13]).alias("crop_year"),
+                            F.col(c).cast("string").alias("value")) for c in years]
+        return (df.select(*[c for c in df.columns if c not in years],
+                          F.explode(F.array(*entries)).alias("observation"))
+                .select(*[c for c in df.columns if c not in years], "observation.*"))

@@ -26,7 +26,7 @@ def test_quarantine_idempotent_writes(spark):
     data = [
         ("A", 10, [{"rule_id": "R1", "error_message": "Err1", "failed_column": "value"}]),
     ]
-    df = spark.createDataFrame(data, schema=["business_key", "value", "dq_errors"])
+    df = spark.createDataFrame(data, schema="business_key string, value int, dq_errors array<struct<rule_id:string,error_message:string,failed_column:string>>")
     
     # Run once
     manager.route_quarantine(df, dataset="test_ds", run_id="run_1", business_keys=["business_key"])

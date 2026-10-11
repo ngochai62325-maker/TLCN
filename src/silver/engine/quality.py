@@ -1,69 +1,40 @@
-from typing import Tuple, List, Dict, Any
-from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, expr, array, when, struct, size, array_except, array_remove
-import pyspark.sql.functions as F
+"""Vectorized SQL quality checks with separate blocking errors and warnings."""
+from pyspark.sql import DataFrame, functions as F
+
+ERROR_TYPE = "array<struct<rule_id:string,error_message:string,failed_column:string>>"
+
+
+def empty_errors():
+    return F.array().cast(ERROR_TYPE)
+
 
 class SilverQualityEngine:
-    """Evaluates Data Quality rules on Spark DataFrames."""
-    
-    def __init__(self, dq_rules: List[Dict[str, Any]]):
+    def __init__(self, dq_rules):
         self.rules = dq_rules
 
-    def apply_rules(self, df: DataFrame) -> Tuple[DataFrame, DataFrame]:
-        """
-        Applies DQ rules and returns two DataFrames: (valid_df, quarantine_df).
-        """
-        if not self.rules:
-            # If no rules, return original df and empty quarantine df (with same schema plus dq_errors)
-            df_with_errors = df.withColumn("dq_errors", array())
-            return df_with_errors, df_with_errors.filter(F.lit(False))
+    def evaluate(self, df: DataFrame) -> DataFrame:
+        errors, warnings = [], []
+        for rule in self.rules:
+            if not rule.get("sql_expr"):
+                raise ValueError(f"Unsupported DQ rule: {rule.get('rule_id')}. Missing explicit sql_expr translation.")
+            action = rule.get("action", "QUARANTINE").upper()
+            if action not in {"QUARANTINE", "LOG", "KEEP"}:
+                raise ValueError(f"Unsupported DQ action: {action}")
+            passed = F.coalesce(F.expr(rule["sql_expr"]), F.lit(False))
+            error = F.when(~passed, F.struct(
+                F.lit(rule.get("rule_id", "UNKNOWN")).alias("rule_id"),
+                F.lit(rule.get("rule", "Rule failed")).alias("error_message"),
+                F.lit(rule.get("failed_column", "unknown")).alias("failed_column")))
+            (errors if action == "QUARANTINE" else warnings).append(error)
 
-        # We will build an array of error structs.
-        # Initialize an empty array of structs for dq_errors
-        # We can't easily initialize an empty array of a specific struct type if we don't have a prototype.
-        # Instead, we will construct the array by collecting the results of each rule.
-        
-        error_conditions = []
-        for r in self.rules:
-            rule_id = r.get("rule_id", "UNKNOWN")
-            sql_rule = r.get("rule", "1=1") # In a real implementation we'd compile the YAML natural language to SQL or assume YAML contains SQL.
-            
-            if "sql_expr" in r:
-                sql_expr = r["sql_expr"]
-                failed_column = r.get("failed_column", "unknown")
-            else:
-                raise ValueError(f"Unsupported DQ rule: {rule_id}. Missing explicit sql_expr translation.")
-                
-            error_message = r.get("rule", "Rule failed")
-            
-            # Check condition: if condition is FALSE or NULL, it's an error.
-            condition_expr = expr(sql_expr)
-            
-            error_struct = when(
-                ~condition_expr | condition_expr.isNull(),
-                struct(
-                    F.lit(rule_id).alias("rule_id"),
-                    F.lit(error_message).alias("error_message"),
-                    F.lit(failed_column).alias("failed_column")
-                )
-            ).otherwise(F.lit(None))
-            
-            error_conditions.append(error_struct)
-            
-        # Combine into an array and remove nulls
-        df_with_errors = df.withColumn("raw_dq_errors", array(*error_conditions))
-        
-        # Filter out nulls from the array
-        df_with_errors = df_with_errors.withColumn(
-            "dq_errors", 
-            F.expr("filter(raw_dq_errors, x -> x is not null)")
-        ).drop("raw_dq_errors")
-        
-        if "_sys_cast_errors" in df_with_errors.columns:
-            df_with_errors = df_with_errors.withColumn("dq_errors", F.concat(F.col("dq_errors"), F.col("_sys_cast_errors")))
-            df_with_errors = df_with_errors.drop("_sys_cast_errors")
+        def compact(items):
+            return F.filter(F.array(*items).cast(ERROR_TYPE), lambda x: x.isNotNull()) if items else empty_errors()
 
-        valid_df = df_with_errors.filter(size(col("dq_errors")) == 0).drop("dq_errors")
-        quarantine_df = df_with_errors.filter(size(col("dq_errors")) > 0)
+        system = F.coalesce(F.col("_sys_cast_errors"), empty_errors()) if "_sys_cast_errors" in df.columns else empty_errors()
+        return (df.withColumn("dq_errors", F.concat(compact(errors), system))
+                .withColumn("_dq_warnings", compact(warnings)).drop("_sys_cast_errors"))
 
-        return valid_df, quarantine_df
+    def apply_rules(self, df: DataFrame):
+        checked = self.evaluate(df)
+        return (checked.filter(F.size("dq_errors") == 0).drop("dq_errors"),
+                checked.filter(F.size("dq_errors") > 0))

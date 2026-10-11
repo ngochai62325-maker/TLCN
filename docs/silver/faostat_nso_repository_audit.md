@@ -1,5 +1,9 @@
 # Audit Silver FAOSTAT + NSO — 10/10/2026
 
+> Audit lịch sử trước tích hợp. Các khoảng trống framework/DQ/DAG được xử lý
+> trong đợt 11/10/2026; xem [runbook hiện tại](README.md) và
+> [kết quả kiểm thử](validation.md). NSO vẫn pending do thiếu input/schema.
+
 ## Repository và bằng chứng
 
 - Root: `TLCN`; branch `feat_silver_role2`; working tree sạch trước khi làm việc.

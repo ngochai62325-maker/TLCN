@@ -1,5 +1,10 @@
 # Silver FAOSTAT + NSO — triển khai phần Hoàng
 
+> Tài liệu bàn giao ngày 10/10, trước tích hợp shared pipeline. Từ 11/10,
+> framework đã áp dụng source DQ, lineage và schema Price mở rộng; các
+> giới hạn tích hợp mô tả bên dưới đã được thay thế bởi
+> [kiến trúc hiện tại](silver_layer_architecture.md). NSO vẫn pending.
+
 Ngày xác minh: 10/10/2026. Audit trước thay đổi và proposal tích hợp:
 [`faostat_nso_repository_audit.md`](faostat_nso_repository_audit.md).
 

@@ -138,8 +138,12 @@ class BaseSilverTransformer(ABC):
         run_id: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Run the complete Silver pipeline: Read -> Transform -> Deduplicate -> Write."""
-        logger.info(f"Starting {self.__class__.__name__} execution (mode: {mode})")
-        bronze_df = self.read_bronze(mode=mode, watermark=watermark, run_id=run_id)
-        transformed_df = self.transform(bronze_df)
-        deduped_df = self.deduplicate(transformed_df)
-        return self.write_silver(deduped_df, mode="merge")
+        # Legacy transform methods remain available for previews. All production
+        # execution now uses contracts, quarantine and the shared write engine.
+        from silver.framework import SilverTransformationFramework
+        from pathlib import Path
+        import uuid
+        contract_dir = Path(__file__).resolve().parents[3] / "contracts/silver"
+        dataset_id = self.source_table.rsplit(".", 1)[-1]
+        return SilverTransformationFramework(self.spark, str(contract_dir)).run(
+            dataset_id, str(uuid.uuid4()), mode=mode, run_id=run_id, watermark=watermark)

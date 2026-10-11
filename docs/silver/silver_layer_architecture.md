@@ -1,149 +1,162 @@
-# Tài liệu Thiết kế & Triển khai Tầng Silver (Silver Layer Architecture)
-**Dự án**: Vietnam Rice Market Data Lakehouse (`TLCN`)  
-**Giai đoạn**: Tuần 8 (05/10/2026 – 11/10/2026)  
-**Phụ trách**: Người 2 — Pipeline & Storage Engineer (Data Platform & Lakehouse)
+﻿# Silver Layer Architecture
 
----
+Cập nhật 11/10/2026. Xem [README](README.md) để chạy và
+[schemas](schemas.md) để tra contract. Tài liệu này thay thế mô tả cũ về hai
+luồng Silver độc lập và các kết quả nghiệm thu chưa được tái xác nhận.
 
-## 1. Tổng quan Kiến trúc Tầng Silver
+## Cấu trúc repository và trạng thái phát triển
 
-Tầng Silver đóng vai trò là tầng **dữ liệu đã được làm sạch, chuẩn hóa và tối ưu hóa truy vấn (Cleaned & Standardized Layer)** trong kiến trúc Medallion Lakehouse. Dữ liệu từ các bảng Bronze (thô) được chuyển đổi qua Apache Spark 3.5, áp dụng các quy tắc kiểm tra chất lượng dữ liệu (Data Quality - DQ), loại bỏ trùng lặp và ghi vào **Apache Iceberg Format v2** trên MinIO (`s3://warehouse/silver/`).
+| Thư mục | Trách nhiệm |
+|---|---|
+| `src/ingestion/` | Adapters Pandas, loaders full/incremental, checkpoint/retry, Bronze quality, storage và PostgreSQL metadata |
+| `src/common/` | Error classification, retry và hashing dùng chung |
+| `src/silver/contract/` | Load/validate YAML specification |
+| `src/silver/transformers/` | Preprocess theo nguồn; các transformer legacy giữ cho preview/tương thích |
+| `src/silver/engine/` | DQ, quarantine và deterministic dedup/MERGE |
+| `src/silver/framework.py` | Điều phối toàn bộ read → preprocess → normalize → DQ → quarantine → dedup → MERGE |
+| `src/silver/audit.py` | Read-only kiểm tra schema/key/DQ thực tế |
+| `src/silver/orchestration.py` | HTTP bridge standard library từ Airflow tới Spark container |
+| `contracts/silver/` | 8 contract READY và 1 NSO NEEDS_PROFILING |
+| `jobs/silver/` | Unified CLI, compatibility jobs và HTTP API |
+| `dags/` | Bronze ingestion DAG có Silver hooks và Silver DAG độc lập |
+| `config/` | Source registry, Spark và Trino configuration |
+| `data/raw/`, `data/fixtures/` | Local source snapshots và Trade validation ZIP |
+| `tests/` | Unit tests, Spark SQL fixtures và isolated Iceberg integration tests |
+| `docs/silver/` | Quy tắc, schema, runbook và bằng chứng kiểm thử |
 
-```text
-Bronze (Iceberg Tables / Raw Files)
-               │
-               ▼
-Apache Spark 3.5 (PySpark Transformation Engines)
-  ├── 1. Data Cleaning & Trim
-  ├── 2. M49/CPC & Unit Standardization
-  ├── 3. Unpivot Wide-to-Long (USDA PSD & World Bank Pink Sheet)
-  ├── 4. Aggregate Tagging (World/Regional aggregates)
-  └── 5. Deduplication (Window over Business Keys + Timestamp Survivorship)
-               │
-               ▼
-Iceberg Silver Tables (REST Catalog / MinIO)
-  ├── iceberg.silver.faostat_trade              (Partition: year)
-  ├── iceberg.silver.usda_rice_psd             (Partition: market_year)
-  ├── iceberg.silver.usda_export_price          (Partition: year)
-  └── iceberg.silver.worldbank_commodity_monthly (Partition: year)
-               │
-               ▼
-Trino Distributed Query Engine & Airflow Orchestrator
+Bronze hiện nhận CSV/Excel/HTML theo source adapters, lưu artifact/manifest trên
+MinIO và append bảng Iceberg với tám audit fields. PostgreSQL giữ run,
+checkpoint, snapshot và trạng thái Silver. Gold chưa được triển khai trong
+phạm vi công việc này.
+
+Trước tích hợp, CLI/DAG gọi bốn transformer legacy không dùng contract DQ;
+framework riêng có FAOSTAT adapters nhưng chưa nối quality hooks. Hiện tất cả
+production entry points cùng dùng contract framework. Không dùng kết quả
+`legacy_transformer.transform()` trực tiếp để nghiệm thu toàn pipeline;
+`.execute()` của legacy transformer cũng chuyển sang shared framework.
+
+## Luồng xử lý
+
+```mermaid
+flowchart TD
+    C[READY YAML contract] --> V[Validate identifiers, schema, keys and SQL rules]
+    V --> B[Read immutable Bronze snapshot]
+    B --> I[Optional ingestion run / UTC watermark filter]
+    I --> P[Source preprocess and vectorized unpivot]
+    P --> N[Normalize strings, missing markers and try_cast]
+    N --> Q[Evaluate contract plus source DQ]
+    Q --> E[Blocking errors]
+    Q --> W[Valid rows with optional warnings]
+    E --> DL[Idempotent dead_letters MERGE]
+    W --> D[Window dedup by business key]
+    D --> S[Freshness-aware Silver Iceberg MERGE]
+    S --> A[Real schema / required fields / duplicate keys / DQ audit]
+    DL --> M[Reconciliation metrics]
+    A --> R[Gold readiness for READY datasets]
 ```
 
----
+Framework từ chối contract non-READY trước khi truy cập catalog. Nó bắt lỗi
+missing dependency trong transformer thay vì bỏ qua ImportError rồi ghi data
+chưa preprocess. Transformer không tồn tại được bỏ qua chỉ cho nguồn không
+cần preprocess; executable contract vẫn được kiểm tra.
 
-## 2. Đặc tả Lưu trữ Iceberg Silver Storage
+Preprocessing giữ original source payload. Normalization dùng một projection
+để alias không vô tình ghi đè cột nguồn dùng bởi mapping khác. Required source
+column vắng là schema failure toàn job; required field NULL là row failure
+đưa vào quarantine. Source-specific diagnostic columns chỉ tồn tại tới DQ.
 
-Tất cả các bảng Silver được đăng ký trên **Iceberg REST Catalog** (`http://iceberg-rest:8181`) và lưu trữ tệp Parquet chuẩn nén ZSTD trên MinIO bucket `warehouse`.
+## Kiểm soát chất lượng và đối soát
 
-### 2.1. Danh mục các Bảng Silver
+Metrics cho một run:
 
-| Tên Bảng Iceberg | Nguồn Bronze Đầu Vào | Khóa Nghiệp Vụ (Business Grain) | Phân Vùng (Partition) | Định Dạng & Nén |
-| :--- | :--- | :--- | :--- | :--- |
-| **`iceberg.silver.faostat_trade`** | `iceberg.bronze.faostat_trade` | `reporter_country_code`, `partner_country_code`, `commodity_code`, `year`, `element_code` | `year` | Iceberg v2 / ZSTD |
-| **`iceberg.silver.usda_rice_psd`** | `iceberg.bronze.usda_psd` | `country`, `commodity`, `attribute`, `market_year` | `market_year` | Iceberg v2 / ZSTD |
-| **`iceberg.silver.usda_export_price`** | `iceberg.bronze.usda_rice_yearbook` | `exporter_country`, `rice_class`, `year`, `reference_period`, `statistic_description` | `year` | Iceberg v2 / ZSTD |
-| **`iceberg.silver.worldbank_commodity_monthly`** | `iceberg.bronze.worldbank_pinksheet` | `commodity_code`, `period_date` | `year` | Iceberg v2 / ZSTD |
+- `bronze_count`: số row input sau incremental filter, trước unpivot.
+- `prepared_count`: số observation sau preprocess/unpivot.
+- `valid_count`: số observation không có blocking error.
+- `quarantine_count`: số observation có ít nhất một blocking error.
+- `warning_count`: số observation có warning, có thể overlap quarantine.
+- `dedup_count`: số business keys hợp lệ sau dedup, được đưa tới MERGE.
+- `duplicate_count`: `valid_count - dedup_count`.
 
----
+Invariant: `prepared_count = valid_count + quarantine_count`,
+`valid_count = dedup_count + duplicate_count`.
+Không so trực tiếp Bronze count với Silver count sau unpivot. Không dùng
+`dedup_count` làm số row thực sự INSERT/UPDATE: MERGE có thể bỏ qua row
+không đổi hoặc timestamp cũ; bảng đích có thể chứa keys từ các batch trước.
 
-## 3. Quy tắc Chuẩn hóa theo Từng Dataset
+Silver audit thực sự đọc target để kiểm tra contract types, all required
+fields, unique keys và các blocking DQ SQL rule đã công bố. DQ đã dùng thêm
+source rules trong processing; các raw diagnostic flags không có trong target
+nên không được chạy lại sau write. Audit fail thì không publish Gold signal.
 
-### 3.1. FAOSTAT Detailed Trade Matrix (`iceberg.silver.faostat_trade`)
-* **Làm sạch mã M49 & CPC**: Loại bỏ các dấu nháy đơn (`'`) dư thừa trong mã nguồn (ví dụ: `'764` $\to$ `764`, `'23161.02` $\to$ `23161.02`).
-* **Phân biệt Quốc gia Đơn vị và Tổng hợp Khu vực (Aggregates)**:
-  * Thêm cờ `is_reporter_aggregate` và `is_partner_aggregate`.
-  * Đánh dấu `true` cho các mã tổng hợp (`1`, `001`, `5000`, ...) hoặc tên chứa *World*, *Total*, *All countries*, *Unspecified*.
-* **Xử lý Giá trị Không hợp lệ**: Các giá trị âm trong `value` bị chuyển thành `NULL`.
-* **Khử trùng lặp**: Giữ bản ghi mới nhất theo `_ingestion_timestamp`.
+## Storage và schema evolution
 
-### 3.2. USDA Rice PSD (`iceberg.silver.usda_rice_psd`)
-* **Chuyển đổi Cấu trúc (Unpivot Wide-to-Long)**: Các cột năm theo mùa vụ `col_1960_1961` $\dots$ `col_2025_2026` được unpivot thành các dòng chuẩn:
-  * `crop_year`: Giữ nguyên định danh chuỗi gốc `"YYYY/YYYY+1"` (ví dụ: `"2020/2021"`).
-  * `market_year`: Trích xuất năm đầu vụ dạng số nguyên `2020`.
-* **Bảo toàn Quy tắc Nghiệp vụ**: Không tự ý ép `crop_year` sang `calendar_year` để tránh sai lệch chu kỳ mùa vụ lúa gạo quốc tế.
-* **Điền khuyết Commodity**: Gán giá trị mặc định `"Rice, Milled"` cho các ô bị rỗng do merge cell từ nguồn thô.
+Bảng mới dùng Iceberg v2, Parquet ZSTD và partition columns theo contract:
+`year` cho đa số nguồn và IPSARD, `market_year` cho PSD.
+Quarantine partition theo `source_dataset` và `days(detected_at)`.
 
-### 3.3. USDA Rice Export Prices (`iceberg.silver.usda_export_price`)
-* **Bóc tách Bảng Chuyên biệt**: Lọc các bảng liên quan đến giá xuất khẩu FOB từ Niên giám lúa gạo (Table 25: Thái Lan, Table 26: Việt Nam, Table 27: Ấn Độ, Table 28: Pakistan).
-* **Chuẩn hóa Quốc gia Xuất khẩu**: Gán nhãn canonical `exporter_country` (`THAILAND`, `VIETNAM`, `INDIA`, `PAKISTAN`).
-* **Chuẩn hóa Giá & Đơn vị**: Làm sạch giá FOB (USD/MT), lọc bỏ các ký tự `'NA'` hoặc ô rỗng.
+Bảng mới khai báo `write.distribution-mode=hash`,
+`write.merge.distribution-mode=hash`, `write.spark.fanout.enabled=false`.
+IPSARD có `year` derived từ date thay vì partition theo ngày để giảm small
+files/open writers. Snapshot thực từng gây Java heap OOM ở cấu hình fanout;
+cấu hình mới đã xử lý được đầy đủ snapshot với heap 1 GB.
 
-### 3.4. World Bank Pink Sheet (`iceberg.silver.worldbank_commodity_monthly`)
-* **Chuyển đổi Cấu trúc**: Unpivot từ hơn 70 cột hàng hóa ngang thành định dạng dọc chuẩn: `(commodity_code, commodity_name, period_code, period_date, price, unit)`.
-* **Làm sạch Thời gian**: Chuyển đổi mã chu kỳ `YYYYMmm` (ví dụ `2024M08`) thành:
-  * `year`: `2024` (int)
-  * `month`: `8` (int)
-  * `period_date`: `2024-08-01` (date)
-* **Xử lý Ký tự Khuyết**: Chuyển đổi ký hiệu `…` và chuỗi rỗng thành `NULL`. Không can thiệp các feature ML (như rolling mean, lag, volatility) ở tầng này.
+Writer tạo namespace và bảng kể cả batch có zero valid rows. Không nuốt
+catalog/network failures thành “table missing”. Temp views có UUID riêng và
+được cleanup trong finally. Thêm cột là migration additive tự động; type
+mismatch yêu cầu migration rõ ràng, không overwrite table silently.
 
----
+Không tự cấu hình lại partition spec hoặc compression của bảng đã tồn tại.
+Không cam kết zero Iceberg snapshots cho rerun: row data và processing timestamp
+không đổi, nhưng engine/catalog vẫn có thể tạo commit metadata.
 
-## 4. Cơ chế Xử lý Full, Incremental & Đảm bảo Idempotency
+## Airflow và Spark API
 
-### 4.1. Cơ chế Idempotent MERGE INTO
-Mỗi transformer kế thừa từ `BaseSilverTransformer` sử dụng câu lệnh Iceberg SQL:
-```sql
-MERGE INTO {target_table} AS target
-USING {source_view} AS source
-ON target.{key1} = source.{key1} AND target.{key2} = source.{key2} ...
-WHEN MATCHED THEN
-    UPDATE SET *
-WHEN NOT MATCHED THEN
-    INSERT *
-```
-* **Bảo đảm**: Chạy lần 1, lần 2 hoặc retry/rerun nhiều lần trên cùng một batch dữ liệu thì kết quả luôn đồng nhất, **không bao giờ sinh bản ghi trùng lặp (Zero Duplicates)**.
+- Ingestion DAG: task Silver sau mỗi source READY; lock theo source, lấy
+  oldest pending successful Bronze run, submit incremental đúng run ID.
+  Không khởi tạo Spark driver hoặc download JARs bên trong Airflow.
+- Silver DAG: gate đọc/resolve Bronze schema thật, tám task transform,
+  reconciliation kết quả XCom, audit Spark đọc target thật, rồi publish signal.
+- Cả hai lịch dùng `Asia/Bangkok`: Bronze 06:00 và Silver 08:00 ngày 15 hàng
+  tháng. Silver gate vẫn độc lập với lịch vì Bronze có thể chạy lỗi/chậm.
+- `max_active_runs=1`; Silver DAG `max_active_tasks=1` và HTTPServer serial
+  phù hợp tài nguyên dev/catalog hiện tại. Không dùng task song song để đẩy
+  nhiều Spark drivers và dead-letter commits cạnh tranh trong môi trường 1 GB.
+- API whitelist job, validate action/mode, argv list không qua shell; chỉ trả
+  SUCCESS khi spark-submit exit 0 và có structured `SILVER_RESULT`.
+- Metadata chỉ ghi SUCCESS sau khi Spark job trả thành công và input run có
+  row queryable. Job fail propagates lên Airflow và có thể retry an toàn.
 
-### 4.2. Cơ chế Incremental Processing
-* Hỗ trợ cờ `--mode incremental` và `--watermark <timestamp>` hoặc `--run-id <id>`.
-* Khi chạy incremental, transformer chỉ quét các dòng mới trong Bronze thỏa mãn:
-  ```sql
-  _ingestion_timestamp > '{watermark}'
-  ```
-* Dữ liệu mới được merge trực tiếp vào partition tương ứng mà không cần quét lại toàn bộ lịch sử bảng.
+Một trigger Bronze hook xử lý một pending run. Nếu có backlog nhiều run,
+chạy lại hooks hoặc CLI theo từng run; Silver full scan vẫn reconcile toàn bộ
+Bronze nhưng không tự đổi trạng thái metadata cho từng ingestion run.
+Signal nêu rõ READY datasets và pending NSO, không xác nhận tất cả nguồn NSO.
 
----
+## Hiệu năng
 
-## 5. Điều phối Airflow Pipeline (`rice_lakehouse_silver_pipeline`)
+1. Dùng Spark built-ins: array/explode, SQL expressions, higher-order filter,
+   trim/regex, Window, JSON và hashing. Không Python UDF, không Pandas apply
+   trên Silver, không collect dataset về driver.
+2. Filter incremental ngay sau table read để Iceberg/Spark prune dữ liệu.
+3. Cache classified data và dedup result bằng MEMORY_AND_DISK để count/DQ/
+   quarantine/MERGE không chạy lại toàn bộ preprocessing mỗi lần. Unpersist
+   trong finally cả khi exception.
+4. Các metrics DQ được tính trong một aggregation; driver chỉ nhận một row
+   metrics. Bronze count vẫn cần scan riêng để phân biệt physical rows và
+   observations sau unpivot.
+5. Chuỗi raw payload lớn chỉ giữ trong cache/quarantine. Output valid không
+   có raw payload/diagnostic flags, giảm IO và sort payload.
+6. AQE bật; tune `SILVER_SHUFFLE_PARTITIONS` theo dữ liệu và số cores. Không
+   áp `coalesce(1)` để tạo bottleneck toàn job.
+7. Với Trade thực cỡ lớn, benchmark shuffle skew và memory từ Spark UI,
+   scale executor/partition trước chạy production. Fixture 2.000 rows không
+   chứng minh throughput dataset hàng chục triệu dòng.
+8. Theo dõi small files/snapshot growth; compaction và snapshot expiry cần
+   maintenance job và retention policy riêng, chưa tự chạy trong pipeline.
 
-DAG `dags/dag_silver_pipeline.py` được thiết kế theo mô hình điều phối tự động:
+## Giới hạn đã biết
 
-```text
-start
-  ↓
-gate_check_bronze (Kiểm tra snapshot Bronze & Spark API)
-  ├── transform_faostat_trade       (Chạy PySpark song song)
-  ├── transform_usda_psd            (Chạy PySpark song song)
-  ├── transform_usda_export_price   (Chạy PySpark song song)
-  └── transform_worldbank_commodity (Chạy PySpark song song)
-  ↓
-silver_data_quality_audit (Kiểm tra nullability & reconciliation)
-  ↓
-publish_silver_signal (Phát tín hiệu sẵn sàng cho Gold Layer)
-  ↓
-end
-```
-
-### Kiến trúc Spark API Micro-Runner
-* Service `spark_api_server.py` chạy thường trực trong container `spark-iceberg` (cổng 5005).
-* Airflow task gửi HTTP POST request điều phối job `/opt/spark/bin/spark-submit`, nhận log realtime và mã trạng thái trả về.
-
----
-
-## 6. Kết quả Kiểm thử & Đối soát Dữ liệu Thực tế
-
-Toàn bộ pipeline đã được kích hoạt chạy kiểm thử End-to-End thành công trên Airflow run `manual__2026-10-09T12:40:14`:
-
-| Tên Bảng Silver | Số Bản ghi Ghi nhận | Kết quả Kiểm tra Khóa & Nullability | Trạng thái Nghiệm thu |
-| :--- | :---: | :---: | :---: |
-| `iceberg.silver.faostat_trade` | **1,226,470** | 100% Khóa M49/CPC hợp lệ, 0 NULL trên Business Keys | **ĐẠT (PASS)** |
-| `iceberg.silver.worldbank_commodity_monthly` | **44,000** | 100% Ngày hợp lệ (`period_date`), 0 NULL trên Keys | **ĐẠT (PASS)** |
-| `iceberg.silver.usda_export_price` | **12,936** | Đầy đủ 4 nước XK (TH, VN, IN, PK), 0 NULL trên Keys | **ĐẠT (PASS)** |
-| `iceberg.silver.usda_rice_psd` | **990** | Đầy đủ 66 vụ mùa (1960-2025), 0 NULL trên Keys | **ĐẠT (PASS)** |
-| **Tổng cộng** | **1,284,396 dòng** | **Thời gian chạy toàn pipeline: 1 phút 14 giây** | **HOÀN THÀNH** |
-
-### Kiểm chứng Tính Bất Biến (Idempotency Test):
-* Đã thực hiện chạy lại (Re-run) job trên bảng `usda_rice_psd`.
-* Snapshot Iceberg commit: `operation=overwrite, addedRecords=990, removedRecords=990, totalRecords=990`.
-* Truy vấn lại trên Trino: số dòng vẫn giữ chính xác **990 dòng**, chứng minh tính Idempotency đạt 100%.
+NSO chưa đủ input/schema/mapping để publish. Trade full raw CSV không có trong
+checkout; kiểm thử Trade dùng validation ZIP. Container live đang mount
+checkout khác nên nghiệm thu lần này dùng catalog tạm, không ghi shared
+Silver/MinIO. Xem [validation.md](validation.md) cho bằng chứng và các test
+Bronze cũ không thuộc thay đổi Silver.

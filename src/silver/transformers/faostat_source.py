@@ -1,8 +1,4 @@
-"""Source-local FAOSTAT preparation; shared engines own DQ, dedup and writes.
-
-The current framework only calls preprocess. Additional source rules and audit
-columns require the integration changes described in faostat_nso_repository_audit.md.
-"""
+"""Source-local FAOSTAT preparation; shared engines own DQ, dedup and writes."""
 
 from __future__ import annotations
 
@@ -23,8 +19,7 @@ def identifier(name):
 
 
 def sql_rule(rule_id, sql, column, message):
-    # The shared DQ engine regards SQL UNKNOWN as passing. Close that gap for
-    # these sources explicitly without modifying shared behavior.
+    # Make the source rule's handling of SQL UNKNOWN explicit.
     return {"rule_id": rule_id, "sql_expr": f"coalesce(({sql}), false)",
             "failed_column": column, "rule": message, "action": "QUARANTINE"}
 
@@ -90,7 +85,8 @@ class FaostatSourceTransformer:
             else:
                 expression = F.lit(None).cast(definition["data_type"])
             columns.append(expression.alias(definition["name"]))
-        extras = [c for c in prepared.columns if c.startswith("_") or c in self.derived_columns]
+        targets = {c["name"] for c in self.contract.columns}
+        extras = [c for c in prepared.columns if (c.startswith("_") or c in self.derived_columns) and c not in targets]
         return prepared.select(*columns, *[F.col(c) for c in extras])
 
     def transform(self, df: DataFrame) -> DataFrame:

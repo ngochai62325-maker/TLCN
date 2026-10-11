@@ -121,3 +121,6 @@ incremental:
   late_arriving_data: UPSERT pattern using MERGE
 gold_dependency:
   target_domain: Supply-Demand Balance Sheet, Production and Stocks Analytics
+storage:
+  partition_columns:
+  - market_year

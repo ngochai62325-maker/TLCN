@@ -38,7 +38,7 @@ def test_quality_engine_basic(spark):
 
 def test_quality_engine_no_rules(spark):
     data = [("A", 10)]
-    df = spark.createDataFrame(data, schema=["col1", "col2"])
+    df = spark.createDataFrame(data, schema="col1 string, col2 int")
     
     engine = SilverQualityEngine([])
     valid_df, quarantine_df = engine.apply_rules(df)
@@ -52,7 +52,7 @@ def test_quality_engine_null_evaluation(spark):
     # Wait, missing column will throw AnalysisException.
     # Let's test a condition that returns NULL.
     data = [("A", None)]
-    df = spark.createDataFrame(data, schema=["col1", "col2"])
+    df = spark.createDataFrame(data, schema="col1 string, col2 int")
     
     rules = [{"rule_id": "NULL_EVAL", "rule": "test", "sql_expr": "col2 > 5", "failed_column": "col2"}]
     engine = SilverQualityEngine(rules)

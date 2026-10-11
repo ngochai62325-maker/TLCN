@@ -113,6 +113,7 @@ services:
       - ./notebooks:/home/iceberg/notebooks
       - ./src:/home/iceberg/src
       - ./tests:/home/iceberg/tests
+      - ./contracts:/home/iceberg/contracts:ro
     command: >
       bash -c "python3 /home/iceberg/jobs/silver/spark_api_server.py &
       exec notebook"

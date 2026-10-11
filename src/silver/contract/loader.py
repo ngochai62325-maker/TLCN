@@ -1,4 +1,5 @@
 import os
+import re
 import yaml
 from typing import Any, Dict, List
 
@@ -55,6 +56,10 @@ class SilverContract:
         return self._data.get("dataset", {}).get("source_system", "")
 
     @property
+    def source_id(self) -> str:
+        return self._data.get("dataset", {}).get("source_id", "")
+
+    @property
     def bronze_input(self) -> str:
         return self._data.get("dataset", {}).get("bronze_input", "")
 
@@ -90,12 +95,52 @@ class SilverContract:
     def quarantine_required_fields(self) -> List[str]:
         return self._data.get("quarantine", {}).get("required_fields", [])
 
+    @property
+    def status(self):
+        return self._data.get("contract_status", "DRAFT")
+
+    @property
+    def partition_columns(self):
+        return self._data.get("storage", {}).get("partition_columns", [])
+
+    def validate_executable(self):
+        """Reject unprofiled contracts and invalid SQL identifiers before reading."""
+        if self.status != "READY":
+            raise ValueError(f"{self.dataset_name}: contract is {self.status}; profiling/complete Bronze schema required")
+        identifier = re.compile(r"^[a-zA-Z_][a-zA-Z0-9_]*$")
+        for table in (self.bronze_input, self.silver_output):
+            if table == "UNKNOWN" or not all(identifier.fullmatch(p) for p in table.split(".")):
+                raise ValueError(f"Invalid table identifier: {table}")
+        names = [c["name"] for c in self.columns]
+        if len(names) != len(set(names)):
+            raise ValueError("Duplicate contract column names")
+        for column in self.columns:
+            if not identifier.fullmatch(column["name"]) or column["name"].startswith("_"):
+                raise ValueError(f"Invalid or reserved column name: {column['name']}")
+            data_type = column["data_type"].lower()
+            if data_type not in {"string", "integer", "int", "long", "bigint", "double", "float", "boolean", "date", "timestamp"}:
+                match = re.fullmatch(r"decimal\((\d+),(\d+)\)", data_type)
+                if not match or not (0 <= int(match[2]) <= int(match[1]) <= 38 and int(match[1]) > 0):
+                    raise ValueError(f"Invalid contract data_type: {data_type}")
+        for key in self.business_key + self.partition_columns:
+            if key not in names:
+                raise ValueError(f"Key/partition column absent from schema: {key}")
+        if self.deduplication_key and self.deduplication_key != self.business_key:
+            raise ValueError("Deduplication key must match the MERGE business key")
+        for rule in self.data_quality_rules:
+            if not rule.get("sql_expr"):
+                raise ValueError(f"Missing sql_expr: {rule.get('rule_id')}")
+            if rule.get("action", "QUARANTINE") not in {"QUARANTINE", "LOG", "KEEP"}:
+                raise ValueError(f"Unsupported DQ action: {rule.get('action')}")
+
 
 class SilverContractLoader:
     def __init__(self, contract_dir: str = "contracts/silver"):
         self.contract_dir = contract_dir
 
     def load_contract(self, dataset_id: str) -> SilverContract:
+        if not re.fullmatch(r"[a-z][a-z0-9_]*", dataset_id):
+            raise ValueError(f"Invalid dataset_id: {dataset_id}")
         file_path = os.path.join(self.contract_dir, f"{dataset_id}.yaml")
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"Silver contract not found: {file_path}")

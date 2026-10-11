@@ -1,5 +1,8 @@
 # Open-Source Data Lakehouse (Medallion Architecture)
 
+Hướng dẫn Silver Layer: [docs/silver/README.md](docs/silver/README.md) — cleaning rules,
+schema Bronze/Silver, CLI, Airflow, kiểm thử Iceberg độc lập và kết quả snapshot.
+
 Hệ sinh thái Data Lakehouse mã nguồn mở chạy hoàn chỉnh trên Docker Compose với kiến trúc Medallion (Bronze, Silver, Gold).
 
 ## 1. Tech Stack

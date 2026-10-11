@@ -19,7 +19,7 @@ class FaostatProductionTransformer(FaostatSourceTransformer):
                   .when((element == "5412") & (unit == "hg/ha"), F.lit("0.1"))
                   .when((element == "5412") & (unit == "t/ha"), F.lit("1000"))
                   .otherwise(F.lit("1")).cast("decimal(10,3)"))
-        converted = F.col("value") * factor
+        converted = F.try_multiply(F.col("value"), factor)
         return (df.withColumn("_unit_mapping_valid", area | production | yield_value)
                 .withColumn("_conversion_overflow", F.col("value").isNotNull() & converted.isNull())
                 .withColumn("value", converted)

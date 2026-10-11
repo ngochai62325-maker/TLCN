@@ -11,7 +11,7 @@ MONTH_NAMES = ("January", "February", "March", "April", "May", "June", "July",
 
 class FaostatMonthlyPriceTransformer(FaostatSourceTransformer):
     dataset_id = "faostat_monthly_price"
-    # These are diagnostic proposal fields until the shared contract is approved.
+    # Published in the shared contract to distinguish annual/index observations.
     derived_columns = ("time_grain", "month", "currency", "price_kind")
 
     def preprocess(self, df):

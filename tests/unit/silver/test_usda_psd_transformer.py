@@ -42,7 +42,7 @@ def test_usda_psd_unpivot(spark: SparkSession):
     
     # Check Thailand 1961 (negative value)
     th_1961 = [r for r in results if r.country == "Thailand" and r.market_year == 1961][0]
-    assert th_1961.value == -10.0
+    assert th_1961.value == "-10.0"  # Preserve raw values until contract casting.
     
     # Let's test DQ rules application on this
     dq_rules = [
@@ -52,7 +52,10 @@ def test_usda_psd_unpivot(spark: SparkSession):
     ]
     
     quality_engine = SilverQualityEngine(dq_rules)
-    valid_df, quarantine_df = quality_engine.apply_rules(df_long)
+    from silver.framework import SilverTransformationFramework
+    from silver.contract.loader import SilverContractLoader
+    normalized = SilverTransformationFramework(spark).normalize(df_long, SilverContractLoader().load_contract("usda_psd"))
+    valid_df, quarantine_df = quality_engine.apply_rules(normalized)
     
     quarantine_results = quarantine_df.collect()
     

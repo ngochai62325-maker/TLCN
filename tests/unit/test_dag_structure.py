@@ -7,7 +7,7 @@ def test_dag_loaded_and_dependencies():
     assert not dagbag.import_errors, f"DAG import errors: {dagbag.import_errors}"
     
     dag_id = "rice_lakehouse_ingestion"
-    dag = dagbag.get_dag(dag_id)
+    dag = dagbag.dags.get(dag_id)
     
     assert dag is not None, f"DAG {dag_id} not found"
     
@@ -29,9 +29,18 @@ def test_dag_loaded_and_dependencies():
     end_all = dag.get_task("end_lakehouse_ingestion")
     assert end_all.task_id in silver_faostat.downstream_task_ids
     
-    # Check another source (e.g., usda_psd) to ensure silver is NOT created for it
+    # All READY source contracts must be connected after Bronze.
     ingest_usda = dag.get_task("ingest_usda_psd")
     assert ingest_usda is not None
-    assert end_all.task_id in ingest_usda.downstream_task_ids
+    silver_usda = dag.get_task("silver_usda_psd")
+    assert silver_usda.task_id in ingest_usda.downstream_task_ids
+    assert end_all.task_id in silver_usda.downstream_task_ids
+
+    silver_dag = dagbag.dags.get("rice_lakehouse_silver_pipeline")
+    assert silver_dag is not None
+    assert len([t for t in silver_dag.tasks if t.task_id.startswith("transform_")]) == 8
+    audit = silver_dag.get_task("silver_data_quality_audit")
+    assert len(audit.upstream_task_ids) == 8
+    # Unprofiled NSO must never create a production Silver task.
     with pytest.raises(Exception):
-        dag.get_task("silver_usda_psd")
+        dag.get_task("silver_nso_vietnam")

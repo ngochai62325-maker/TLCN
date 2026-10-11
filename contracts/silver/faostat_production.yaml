@@ -169,3 +169,6 @@ incremental:
     years if newer data is available.
 gold_dependency:
   target_domain: Domestic and Global Rice Production Analytics, Yield Forecasting
+storage:
+  partition_columns:
+  - year
