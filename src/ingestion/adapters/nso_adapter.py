@@ -199,7 +199,10 @@ class NsoVietnamAdapter(BaseSourceAdapter):
             file_checksum = compute_file_checksum(file_path)
 
             # 6. Attach source traceability column without altering data semantics
-            df = df.reindex(columns=union_columns)
+            # reindex alone infers all-NULL union padding as float64. The
+            # first national file would then create DOUBLE province/year
+            # fields and reject strings from subsequent matrix files.
+            df = df.reindex(columns=union_columns).astype("string")
             df["_source_file"] = filename
 
             record_count = len(df)

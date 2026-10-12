@@ -1,0 +1,308 @@
+{
+  "started_at": "2026-10-11T16:02:12.357891+00:00",
+  "status": "PASSED",
+  "datasets": {
+    "nso_vietnam": {
+      "status": "PASSED",
+      "metrics": {
+        "status": "SUCCESS",
+        "dataset": "nso_vietnam",
+        "pipeline_run_id": "silver-e2e-first",
+        "target_table": "iceberg.silver.nso_rice_statistics",
+        "bronze_count": 904,
+        "prepared_count": 23620,
+        "valid_count": 23620,
+        "quarantine_count": 0,
+        "warning_count": 22140,
+        "dedup_count": 23060,
+        "duplicate_count": 560,
+        "observation_count": 23996,
+        "excluded_count": 376,
+        "excluded_record_count": 14
+      },
+      "silver": {
+        "rows": 23060,
+        "snapshot_id": 3726932899638218821,
+        "row_checksum": "553305527124595644832",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "source_table",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "source_column",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "geography_name_raw",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "geography_level",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "geography_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "geography_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "mapping_status",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "country_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "province_code",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "commodity_name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "period_raw",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "year",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "period_valid",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "is_provisional",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "season",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "measure",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "statistic_raw",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "statistic_kind",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "source_unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "conversion_factor",
+              "type": "decimal(18,6)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "unit_source_reference",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value_raw",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value_source",
+              "type": "decimal(28,8)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "value",
+              "type": "decimal(28,8)",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "is_missing",
+              "type": "boolean",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "missing_kind",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_ingestion_timestamp",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_file",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_checksum",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_dq_warnings",
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "name": "rule_id",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "error_message",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    },
+                    {
+                      "name": "failed_column",
+                      "type": "string",
+                      "nullable": true,
+                      "metadata": {}
+                    }
+                  ]
+                },
+                "containsNull": true
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "_silver_processed_at",
+              "type": "timestamp",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        }
+      },
+      "bronze_snapshot_id": 5022590202118908059,
+      "audit": {
+        "status": "PASSED",
+        "tables": {
+          "iceberg.silver.nso_rice_statistics": {
+            "rows": 23060,
+            "status": "PASSED"
+          }
+        }
+      },
+      "replay_verified": true
+    }
+  },
+  "bronze_readiness": {
+    "status": "PASSED",
+    "tables": {
+      "nso_vietnam": {
+        "ready": true,
+        "table": "iceberg.bronze.nso_vietnam"
+      }
+    }
+  },
+  "quarantine_counts": {
+    "faostat_supply_utilization": 236,
+    "nso_vietnam_exclusions": 14
+  },
+  "completed_at": "2026-10-11T16:03:19.013548+00:00"
+}

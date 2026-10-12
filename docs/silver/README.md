@@ -26,9 +26,12 @@ xác minh là NULL và warning theo lựa chọn của người dùng. Tên có 
 được chuẩn hóa thành fraction, giữ giá trị/đơn vị nguồn. `--dataset all` chạy
 đủ chín contract. Xem [NSO](nso.md) và [cleaning rules](cleaning_rules.md).
 
-Nghiệm thu live: **1.414.287 dòng Silver**, full/audit/replay đạt cả chín nguồn;
-Trino đối chiếu counts thành công. Suite độc lập **103 passed**, DAG test
-**1 passed**. Xem [bằng chứng và lệnh tái hiện](validation.md).
+Nghiệm thu trước reset: **1.414.287 dòng Silver**, full/audit/replay đạt cả chín
+nguồn; Trino đối chiếu counts thành công. Sau reset đã sửa lỗi NSO Bronze suy
+luận cột toàn NULL thành DOUBLE, kiểm chứng tạo bảng mới 13 CSV / 833 dòng và
+phục hồi Silver NSO **23.060 observations**. Suite độc lập **103 passed**;
+regression NSO/force/repair **34 passed**. Xem [bằng chứng](validation.md) và
+[cách phục hồi task NSO lỗi](rebuild.md).
 
 ## Chạy pipeline
 

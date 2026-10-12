@@ -2,8 +2,9 @@
 
 Cập nhật **11/10/2026**, timezone `Asia/Bangkok`. **9/9 nguồn READY** đã chạy
 full, audit và replay trên catalog REST/MinIO, với **1.414.287 dòng Silver**.
-Container hiện mount đúng checkout này. Trino đối chiếu số dòng thành công
-trên cả chín bảng.
+Nghiệm thu chín nguồn này diễn ra **trước khi reset stack**. Không dùng counts
+của snapshot cũ để kết luận DAG sau reset đã hoàn thành toàn bộ chín nguồn.
+Đợt phục hồi NSO sau reset được mô tả riêng dưới đây.
 
 ## Bằng chứng
 
@@ -22,6 +23,47 @@ trên cả chín bảng.
 Evidence mô tả snapshot được nghiệm thu. Chạy lại các lệnh dưới đây sau khi
 input thay đổi để lấy kết quả mới.
 
+## Phục hồi NSO Bronze sau reset, 11/10/2026
+
+Log task `ingest_nso_vietnam`, attempt 3, báo
+`t_nh_th_nh_ph_: raw values do not fit double`. Chunk quốc gia đầu tiên có
+các cột ma trận toàn NULL bị Pandas suy luận float64; Bronze tạo 31 fields
+DOUBLE. Adapter nay giữ nullable string cho toàn bộ union cột nguồn.
+
+Đã thực hiện trên runtime scheduler đang chạy, dùng cùng
+`run_ingestion_task` với Airflow, sau đó gọi Spark qua HTTP và cập nhật
+`source_metadata.silver_status`. Đây là nghiệm thu application/runtime, không
+tự đổi trạng thái task FAILED của DAG run cũ trên giao diện Airflow.
+
+- [Tạo Bronze mới](evidence/nso_bronze_cold_start.json): namespace riêng,
+  đủ 13 files / 833 rows, 41 source fields VARCHAR, 71 raw geography labels.
+- [Schema repair](evidence/nso_bronze_schema_repair.json): 31 DOUBLE toàn NULL
+  được đổi tên legacy, thêm STRING fields trong một transaction; giữ nguyên
+  71 rows và snapshot `4304966647243499185`.
+- [Bronze recovery](evidence/nso_bronze_recovery.json): run
+  `nso_vietnam_20261011155153_107a9a8f`, **SUCCESS**, đủ 13 chunks / 833 rows;
+  raw ZIP, manifest và batch audit đã được ghi.
+- [Silver incremental + HTTP audit](evidence/nso_silver_recovery.json): đọc
+  riêng 833 rows của run SUCCESS, **23.060 observations**, zero quarantine,
+  13 empty source records / 368 slots được loại có audit.
+- [Trino và PostgreSQL](evidence/nso_recovery_trino.json): Bronze giữ 71 rows
+  từ run FAILED và 833 rows mới, tổng 904; metadata Bronze/Silver đều SUCCESS.
+  Toàn bộ 23.060 tên chuẩn hóa không chứa `?`; 22.140 observations cần review
+  vẫn có geography code NULL.
+- [Full + audit + replay sau phục hồi](evidence/nso_recovery_e2e.json): đọc
+  tổng 904 rows lịch sử, 23.620 valid slots, dedup 560 duplicates về **23.060**
+  observations. Loại 14 empty records / 376 slots. Replay giữ nguyên schema,
+  checksum rows, Silver snapshot ID; Bronze snapshot không thay đổi.
+
+Utility repair chạy lại trả `already_valid`, không commit. **34 regression
+tests** NSO union/force/repair/writer/recovery đạt trong **2,10 giây** trên host;
+**103 tests độc lập** đạt trong **187,33 giây**, không skip. Lệnh tái hiện và
+cách Clear task lỗi cũ có trong [rebuild](rebuild.md).
+
+```powershell
+python -m pytest tests/unit/test_nso_schema_repair.py tests/unit/test_nso_union_schema.py tests/unit/test_full_loader.py tests/unit/test_bronze_schema_preservation.py tests/unit/test_phase6_failure_recovery.py -q
+```
+
 ## Môi trường và các kiểm tra
 
 | Thành phần | Runtime / kết quả |
@@ -31,7 +73,8 @@ input thay đổi để lấy kết quả mới.
 | Python Spark container / pytest | 3.10.16 / 8.4.2 |
 | Iceberg runtime | 1.8.1 cho Spark 3.5 |
 | Contract validator | 9 executable READY contracts đạt |
-| Suite độc lập | **103 passed**, không skip, **163,66 giây** |
+| Suite độc lập sau sửa NSO | **103 passed**, không skip, **187,33 giây** |
+| Regression NSO/force/repair/writer/recovery | **34 passed**, **2,10 giây** trên host |
 | Regression Bronze liên quan writer | **30 passed**, **14,53 giây** trên host |
 | Airflow DAG parse/dependencies | **1 passed**, **9,61 giây**, image `apache/airflow:2.10.4-python3.11` |
 | Live Spark | Full + replay + post-write audit 9 nguồn PASSED |
@@ -47,7 +90,7 @@ chunk idempotency, failure recovery và schema preservation; có tests trùng
 phạm vi suite độc lập nên không cộng các con số thành tổng test duy nhất.
 Nên pin digest image đã nghiệm thu khi triển khai môi trường khác.
 
-## Kết quả trên Bronze live
+## Kết quả trên Bronze live trước reset
 
 | Dataset | Bronze rows | Prepared | Valid | Quarantine | Silver / dedup | Duplicates |
 |---|---:|---:|---:|---:|---:|---:|

@@ -14,10 +14,14 @@ checksum snapshot và unit nằm trong `config/silver/nso_source_tables.json`.
 Bronze cần đủ 41 source fields và tám lineage fields (49 trường).
 
 Adapter kiểm kê union header trước chunk đầu, giữ NULL padding cho cột không
-thuộc file. Writer từ chối bỏ mất cột khi align Arrow; schema/type lỗi phải
-fail trước DELETE retry. Bronze cũ mất cột cần phục hồi raw và replay; chỉ
-thêm cột NULL không khôi phục dữ liệu. NSO trong catalog được nghiệm thu đã có
-đủ schema phục hồi, nên lần này không thay đổi Bronze hoặc metadata ingestion.
+thuộc file và cố định tất cả cột nguồn thành **nullable string**. Vì vậy file
+quốc gia đầu tiên không khiến padding ma trận tạo schema DOUBLE. Writer từ chối
+bỏ mất cột khi align Arrow; schema/type lỗi phải fail trước DELETE retry.
+Bronze cũ mất dữ liệu cần phục hồi raw và replay; chỉ thêm cột NULL không
+khôi phục dữ liệu. Bảng có 31 cột DOUBLE toàn NULL do lỗi suy luận ban đầu được
+sửa bằng utility giữ field IDs cũ dưới tên legacy và bổ sung fields STRING mới.
+Bảng mới có 49 trường; bảng đã repair có thêm các trường legacy toàn NULL.
+Xem [quy trình phục hồi NSO](rebuild.md).
 
 Business key: `source_table, geography_name_raw, year, season, measure,
 statistic_kind`. `geography_level` không nằm trong key: bổ sung mapping sau

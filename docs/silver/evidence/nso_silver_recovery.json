@@ -1,0 +1,30 @@
+{
+  "bronze_run_id": "nso_vietnam_20261011155153_107a9a8f",
+  "metrics": {
+    "nso_vietnam": {
+      "status": "SUCCESS",
+      "dataset": "nso_vietnam",
+      "pipeline_run_id": "bronze-hook-nso_vietnam_20261011155153_107a9a8f",
+      "target_table": "iceberg.silver.nso_rice_statistics",
+      "bronze_count": 833,
+      "prepared_count": 23060,
+      "valid_count": 23060,
+      "quarantine_count": 0,
+      "warning_count": 22140,
+      "dedup_count": 23060,
+      "duplicate_count": 0,
+      "observation_count": 23428,
+      "excluded_count": 368,
+      "excluded_record_count": 13
+    }
+  },
+  "audit": {
+    "status": "PASSED",
+    "tables": {
+      "iceberg.silver.nso_rice_statistics": {
+        "rows": 23060,
+        "status": "PASSED"
+      }
+    }
+  }
+}

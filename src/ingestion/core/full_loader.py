@@ -110,8 +110,10 @@ class FullLoader(BaseLoader):
 
         try:
             # ── 1. Check for resume checkpoints ───────────────────────
-            active_resume_run = resume_from_run_id
-            if not active_resume_run:
+            # An explicit reprocess must read every chunk, including files
+            # written by a failed run. Keep old rows as Bronze history.
+            active_resume_run = None if force_reprocess else resume_from_run_id
+            if not force_reprocess and not active_resume_run:
                 # Look up latest failed/incomplete run for this source
                 latest_run = self.metadata_repo.get_latest_run(config.source_id)
                 if latest_run and latest_run.get("status") in (
@@ -254,7 +256,7 @@ class FullLoader(BaseLoader):
                         total_records += prior_count
 
             existing_bronze_files: set = set()
-            if self.bronze_writer:
+            if self.bronze_writer and not force_reprocess:
                 try:
                     existing_bronze_files = set(self.bronze_writer.get_ingested_files(config.source_id))
                 except Exception:

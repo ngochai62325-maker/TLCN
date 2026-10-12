@@ -81,6 +81,31 @@ class TestFullLoaderSuccess:
 
 
 class TestFullLoaderIdempotency:
+    def test_force_reprocess_reads_all_files_without_failed_run_checkpoint(self):
+        chunks = _make_chunks(2)
+        for chunk in chunks:
+            chunk.data = chunk.data.assign(_source_file=f"file_{chunk.chunk_id}.csv")
+        adapter = _make_adapter(chunks)
+        loader = _make_loader(adapter)
+        loader.metadata_repo.get_latest_run.return_value = {"run_id": "failed", "status": "FAILED"}
+        loader.checkpoint_store.get_last_successful.return_value = MagicMock(chunk_id=0, row_end=1)
+        loader.bronze_writer = MagicMock()
+        loader.bronze_writer.get_ingested_files.return_value = ["file_0.csv", "file_1.csv"]
+        loader.metadata_repo.find_snapshot_by_checksum.return_value = {"run_id": "old", "status": "SUCCESS"}
+
+        result = loader.execute(
+            _make_config(), "reprocess", "batch", resume_from_run_id="failed", force_reprocess=True
+        )
+
+        assert result.status == IngestionStatus.SUCCESS
+        assert result.records_extracted == 4
+        assert result.chunks_processed == 2
+        assert loader.bronze_writer.write_chunk.call_count == 2
+        loader.bronze_writer.get_ingested_files.assert_not_called()
+        loader.checkpoint_store.get_last_successful.assert_not_called()
+        loader.metadata_repo.get_latest_run.assert_not_called()
+        assert "resume_chunk_id" not in adapter.extract_full.call_args.kwargs
+
     def test_skip_when_same_snapshot(self):
         chunks = _make_chunks(1)
         adapter = _make_adapter(chunks)
