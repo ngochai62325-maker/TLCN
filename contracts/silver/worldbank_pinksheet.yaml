@@ -68,6 +68,24 @@ schema:
     nullable: true
     description: World Bank series description
     transformation: mapped from Pink Sheet metadata
+  - name: value_raw
+    source_column: value_raw
+    data_type: string
+    nullable: true
+    preserve_whitespace: true
+    description: Bronze value representation before casting; original lexical Raw
+      is identified by file checksum.
+  - name: unit_raw
+    source_column: unit_raw
+    data_type: string
+    nullable: true
+    preserve_whitespace: true
+    description: Source unit before normalization; World Bank uses the verified Bronze
+      header token.
+  - name: missing_reason
+    source_column: missing_reason
+    data_type: string
+    nullable: true
 normalization:
   commodity: Standardize commodity codes and descriptions across all commodities (focus
     on rice varieties and grain substitutes).

@@ -24,6 +24,17 @@ def sql_rule(rule_id, sql, column, message):
             "failed_column": column, "rule": message, "action": "QUARANTINE"}
 
 
+def source_values(df, value_column, unit_column, missing_tokens=()):
+    """Retain the Bronze representation before casting or unit normalization."""
+    raw = F.col(value_column).cast("string")
+    text = F.trim(raw)
+    reason = F.when(raw.isNull(), "source_null").when(text == "", "source_blank")
+    if missing_tokens:
+        reason = reason.when(F.upper(text).isin(*[v.upper() for v in missing_tokens]), "source_marker")
+    return (df.withColumn("value_raw", raw).withColumn("unit_raw", F.col(unit_column).cast("string"))
+            .withColumn("missing_reason", reason))
+
+
 class FaostatSourceTransformer:
     """Helpers shared only by Hoang's three FAOSTAT source adapters."""
 
@@ -45,7 +56,7 @@ class FaostatSourceTransformer:
             df = df.withColumn("_source_payload", F.to_json(
                 F.struct(*[F.col(c) for c in sorted(df.columns)]),
                 options={"ignoreNullFields": "false"}))
-        df = df.withColumn("_raw_value", F.col("value").cast("string"))
+        df = source_values(df, "value", "unit").withColumn("_raw_value", F.col("value_raw"))
         for c in ("domain_code", "domain", "area", "item", "element", "unit",
                   "flag", "flag_description", "note"):
             if c in df.columns:

@@ -77,6 +77,17 @@ schema:
     data_type: decimal(18,6)
     nullable: false
     description: 0.0001 for exact Milling Rate (.9999), otherwise 1
+  - name: value_raw
+    source_column: value_raw
+    data_type: string
+    nullable: true
+    preserve_whitespace: true
+    description: Bronze value representation before casting; original lexical Raw
+      is identified by file checksum.
+  - name: missing_reason
+    source_column: missing_reason
+    data_type: string
+    nullable: true
 normalization:
   country: Standard country name matching ISO or FAOSTAT standard where applicable.
   commodity: Standardize Rice, Milled.

@@ -1,5 +1,6 @@
 """Deterministic deduplication and freshness-aware Iceberg upserts."""
 import uuid
+import logging
 from functools import reduce
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
@@ -41,7 +42,7 @@ class IcebergMergeEngine:
                 if name in stored and stored[name] != dtype:
                     raise ValueError(f"Silver schema mismatch {target_table}.{name}: {stored[name]} != {dtype}; explicit migration required")
                 if name not in stored:
-                    self.spark.sql(f"ALTER TABLE {table_identifier(target_table)} ADD COLUMN {quote(name)} {dtype.simpleString()}")
+                    raise ValueError(f"Silver schema mismatch {target_table}: missing column {name}; explicit migration required")
             return
         parts = target_table.split(".")
         if len(parts) > 2 or (len(parts) == 2 and not self.spark.conf.get(f"spark.sql.catalog.{parts[0]}", None)):
@@ -99,7 +100,10 @@ class IcebergMergeEngine:
                 WHEN NOT MATCHED THEN INSERT ({columns}) VALUES ({values})
             """)
         finally:
-            self.spark.catalog.dropTempView(view)
+            try:
+                self.spark.catalog.dropTempView(view)
+            except Exception:
+                logging.getLogger("silver.merge").warning("merge_view_cleanup_failed target=%s; preserve original outcome", target_table)
 
     def _table_exists(self, table_name):
         # Catalog/network failures must propagate, rather than masquerade as absence.

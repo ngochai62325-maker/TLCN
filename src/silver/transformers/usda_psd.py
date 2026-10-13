@@ -1,7 +1,7 @@
 """Preserve market-year semantics and raw values during vectorized unpivot."""
 import re
 from pyspark.sql import functions as F
-from silver.transformers.faostat_source import sql_rule
+from silver.transformers.faostat_source import sql_rule, source_values
 
 
 class UsdaPsdTransformer:
@@ -29,6 +29,7 @@ class UsdaPsdTransformer:
 
     @staticmethod
     def normalize_values(df):
+        df = source_values(df, "value", "unit_description", ("NA", "N/A", "NULL", "..", "..."))
         rate = F.trim(F.col("attribute")) == "Milling Rate (.9999)"
         raw_unit = F.col("unit_description").cast("string") if "unit_description" in df.columns else F.lit(None).cast("string")
         df = (df.withColumn("value_source", F.col("value").cast("string"))

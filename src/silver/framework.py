@@ -92,9 +92,16 @@ class SilverTransformationFramework:
         if mode == "incremental" and not (run_id or watermark):
             raise ValueError("Incremental mode requires run_id or watermark")
         cached = []
+        stage, quarantine_committed, exclusions_committed = "bronze_read", False, False
+        read_snapshot_id = None
         logger.info("silver_start dataset=%s pipeline_run_id=%s mode=%s", dataset_id, pipeline_run_id, mode)
         try:
-            bronze = self.spark.table(contract.bronze_input)
+            current = self.spark.sql(f"SELECT snapshot_id FROM {contract.bronze_input}.history ORDER BY made_current_at DESC LIMIT 1").first()
+            read_snapshot_id = current[0] if current else None
+            reader = self.spark.read.format("iceberg")
+            if read_snapshot_id is not None:
+                reader = reader.option("snapshot-id", str(read_snapshot_id))
+            bronze = reader.load(contract.bronze_input)
             if mode == "incremental":
                 if run_id:
                     bronze = bronze.filter(F.col("_ingestion_run_id") == F.lit(run_id))
@@ -104,6 +111,7 @@ class SilverTransformationFramework:
             bronze = bronze.withColumn("_source_payload", F.to_json(
                 F.struct(*[F.col(c) for c in sorted(bronze.columns)]),
                 options={"ignoreNullFields": "false"}))
+            stage = "transformation"
             transformer = self.transformer(dataset_id)
             observation_metrics = {}
             exclusions = None
@@ -119,7 +127,12 @@ class SilverTransformationFramework:
                               "failed_column": name, "rule": "Required field or business key is missing"})
             if transformer and hasattr(transformer, "quality_rules"):
                 rules.extend(transformer.quality_rules())
-            checked = SilverQualityEngine(rules).evaluate(normalized).persist(StorageLevel.MEMORY_AND_DISK)
+            stage = "quality"
+            checked = SilverQualityEngine(rules).evaluate(normalized)
+            # Full wide JSON is needed only by dead letters. Caching it for
+            # millions of valid observations wastes memory without adding lineage.
+            checked = checked.withColumn("_source_payload", F.when(F.size("dq_errors") > 0, F.col("_source_payload")))
+            checked = checked.persist(StorageLevel.MEMORY_AND_DISK)
             cached.append(checked)
             stats = checked.agg(
                 F.count("*").alias("prepared_count"),
@@ -132,22 +145,27 @@ class SilverTransformationFramework:
             quarantine_count = stats["quarantine_count"] or 0
             valid_count = prepared_count - quarantine_count
             quarantine = checked.filter(F.size("dq_errors") > 0)
+            stage = "quarantine"
             self.quarantine_manager.ensure_table()
             if exclusions is not None:
                 self.quarantine_manager.route_quarantine(
                     exclusions, dataset_id + "_exclusions", pipeline_run_id, ["source_table"])
+                exclusions_committed = bool(observation_metrics.get("excluded_record_count", 0))
             self.quarantine_manager.route_quarantine(quarantine, dataset_id, pipeline_run_id, contract.business_key)
+            quarantine_committed = quarantine_count > 0
             valid = checked.filter(F.size("dq_errors") == 0).select(
                 *[c["name"] for c in contract.columns],
                 *[c for c in AUDIT_COLUMNS if c in checked.columns], "_dq_warnings")
+            stage = "deduplication"
             dedup = self.merge_engine.deduplicate(valid, contract.business_key).persist(StorageLevel.MEMORY_AND_DISK)
             cached.append(dedup)
             dedup_count = dedup.count()
             output = dedup.withColumn("_silver_processed_at", F.lit(datetime.now(timezone.utc)))
+            stage = "silver_merge"
             self.merge_engine.merge(output, target_table=contract.silver_output, business_keys=contract.business_key,
                                     partition_columns=contract.partition_columns)
             result = {"status": "SUCCESS", "dataset": dataset_id, "pipeline_run_id": pipeline_run_id,
-                      "target_table": contract.silver_output, "bronze_count": bronze_count,
+                      "target_table": contract.silver_output, "bronze_read_snapshot_id": read_snapshot_id, "bronze_count": bronze_count,
                       "prepared_count": prepared_count, "valid_count": valid_count,
                       "quarantine_count": quarantine_count, "warning_count": stats["warning_count"] or 0,
                       "dedup_count": dedup_count, "duplicate_count": valid_count - dedup_count}
@@ -156,11 +174,18 @@ class SilverTransformationFramework:
             if result["warning_count"]:
                 logger.warning("silver_warnings dataset=%s rows=%s; see _dq_warnings", dataset_id, result["warning_count"])
             return result
-        except Exception:
-            logger.exception("silver_failed dataset=%s pipeline_run_id=%s", dataset_id, pipeline_run_id)
+        except Exception as exc:
+            # Quarantine and Silver commits are separate transactions. Preserve
+            # the original exception type and expose recovery evidence to callers.
+            exc.silver_failure = {"stage": stage, "quarantine_committed": quarantine_committed,
+                                  "exclusions_committed": exclusions_committed, "bronze_read_snapshot_id": read_snapshot_id}
+            logger.exception("silver_failed dataset=%s pipeline_run_id=%s recovery=%s", dataset_id, pipeline_run_id, exc.silver_failure)
             raise
         finally:
             for df in reversed(cached):
-                df.unpersist()
+                try:
+                    df.unpersist()
+                except Exception:
+                    logger.warning("silver_cache_cleanup_failed dataset=%s; preserve original pipeline outcome", dataset_id)
 
     _sanitize_column_name = staticmethod(sanitize_column_name)

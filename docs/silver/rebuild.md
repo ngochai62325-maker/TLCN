@@ -124,3 +124,76 @@ docker compose exec -T spark-iceberg /opt/spark/bin/spark-submit /home/iceberg/j
 
 Xem [nghiệm thu và lệnh audit](validation.md). Không có lệnh xóa dữ liệu trong
 runbook này; người vận hành cần chọn đúng phạm vi reset.
+
+## Rebuild tám nguồn Silver trong môi trường test độc lập
+
+Quy trình mới dùng `compose.silver-test.yml`, project riêng, network `internal`,
+không publish host ports, không mount storage shared và không có Airflow.
+MinIO/PostgreSQL dùng tmpfs mới; REST Catalog dùng SQLite riêng trong container.
+Raw và repository được mount chỉ đọc. Không có bước reset hoặc xóa dữ liệu.
+
+Trade đầy đủ hiện tìm được trong `data_main/raw`, ngoài checkout này. Đặt đường
+dẫn tới thư mục Raw đầy đủ; validator dừng trước ingestion nếu thiếu một artifact.
+Không thay file Trade bằng ZIP fixture để tuyên bố full coverage.
+
+```powershell
+$env:SILVER_TEST_RAW_ROOT = 'C:/Users/hoang/source/repos/final term/tieu luan chuyen nganh/data_main/raw'
+$testProject = 'tlcn-silver-rebuild-test-new-unique-id'
+docker compose -f compose.silver-test.yml -p $testProject up -d minio-test rest-test postgres-test trino-test
+docker compose -f compose.silver-test.yml -p $testProject run --rm runner
+```
+
+Dùng một project name chưa tồn tại, chỉ gồm chữ thường/số/dấu gạch nối; thay
+`new-unique-id` bằng ID mới. Cache `.pytest_cache/silver_wheels` cần có
+pytest 8.4.2, psycopg2-binary 2.9.10, boto3 1.35.99, openpyxl 3.1.5, lxml 5.3.0
+và dependencies cho Python 3.10/Linux x86_64. Runner cài offline từ cache.
+
+Validator chạy đúng tám source IDs, không dùng `--dataset all`. NSO V2 vẫn
+DRAFT và không nằm trong drill. World Bank theo scope registry `Monthly Prices`;
+`Monthly Indices`/Description/Index Weights không được giả thành price series.
+
+Drill kiểm tra checksum và số records độc lập từ Raw, gọi ingestion engine thật,
+đối soát Bronze và tám lineage fields, chạy common framework, query Silver,
+full/incremental rerun và so snapshot/schema/checksum gồm processing timestamp.
+Ingestion lại cùng checksum phải SKIPPED mà Bronze không đổi; Trino kiểm tra
+output. `SNAPSHOT_RESULT`/`SNAPSHOT_SUMMARY` là kết quả từ lần chạy thực tế.
+
+Nếu chỉ chạy mode Hadoop mặc định, `bronze_rebuild=NOT_RUN`; không coi đó là
+full rebuild. `--rebuild --resume` dành riêng cho tiếp tục cùng test environment
+sau lỗi, không reset: chỉ chấp nhận Bronze đầy đủ, checksum đúng và một run
+identity. Mode mặc định yêu cầu metadata test ban đầu rỗng. Không dùng `up`
+để recreate một test service đang chứa dữ liệu tmpfs cần giữ.
+
+Heap Spark được giới hạn 768 MB, runner 3 GB và MinIO test 1 GB. Full wide payload
+chỉ cache cho observation có lỗi DQ; không giữ JSON của hàng triệu valid rows.
+Quarantine và Silver là hai transaction riêng: lỗi framework cung cấp
+`silver_failure` với stage, commit flags và actual `bronze_read_snapshot_id`.
+Kiểm tra dữ liệu đã commit trước khi retry. `_source_snapshot_id` vẫn là lineage
+metadata từ Bronze (loader hiện có thể ghi 0), không thay bằng Iceberg snapshot ID.
+Audit của quarantine và PostgreSQL run logs có thể cập nhật khi replay, dù
+snapshot/dữ liệu Silver không đổi. Existing target sai/thiếu schema bị chặn;
+không tự ALTER hoặc overwrite, cần migration được phê duyệt.
+
+## Đề xuất reset an toàn — không thực thi
+
+Ưu tiên một project/catalog/warehouse/metadata database mới. Giữ môi trường cũ
+để đối soát; chỉ chuyển routing sau khi owner duyệt kết quả và migration.
+
+| Tài nguyên | Phương án mặc định | Backup/khôi phục và kiểm chứng |
+|---|---|---|
+| Raw local | Giữ nguyên, mount chỉ đọc | Backup artifacts + SHA-256; xác nhận đủ tám nguồn, đặc biệt Trade |
+| MinIO raw/warehouse | Instance/bucket/warehouse mới | Giữ objects cũ; backup cùng catalog, đối soát inventory/checksum |
+| Iceberg metadata | REST instance/catalog mới | Backup SQLite/catalog và manifest/data files cùng mốc; xác nhận namespace/table/snapshot IDs |
+| PostgreSQL ingestion metadata | Database/schema mới | Dump schema/data, snapshot/checkpoint/watermark/run logs; xác nhận DB name và ban đầu rỗng |
+| Airflow metadata/DAG state | Giữ nguyên; drill không sử dụng | Backup metadata DB và DAG conf; test orchestration cần instance/DB riêng |
+| Docker volumes | Giữ nguyên volumes hiện tại | Kiểm tra project labels và mount IDs; không xóa volume để dựng môi trường mới |
+| Trino catalog/config | Catalog riêng trỏ REST/MinIO test | Backup config; xác nhận endpoint/warehouse rồi DESCRIBE/count/query values |
+| Logs/lineage/snapshots lịch sử | Giữ lại | Lưu run IDs, hashes, metrics và snapshot IDs trước/sau; kiểm tra restore đọc được |
+
+Rebuild hoàn tất khi Raw→Bronze đối soát đầy đủ, cả tám Silver source PASS,
+khóa duy nhất, missing/quarantine đúng policy, Trino đọc đúng types/values và
+full/incremental Silver NOOP. Không dùng màu xanh DAG hoặc count từ fixture làm
+tiêu chí nghiệm thu. Shared acceptance, chuyển Airflow routing, migration target
+cũ và bất kỳ destructive reset nào đều cần owner approval riêng. Rollback chỉ
+có thể bảo đảm nếu catalog và data objects được backup nhất quán; không giả định
+khôi phục được lịch sử sau khi mất objects.

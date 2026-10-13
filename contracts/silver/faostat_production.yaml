@@ -97,6 +97,24 @@ schema:
     nullable: true
     description: Description of the observation status flag
     transformation: cast to string, trim
+  - name: value_raw
+    source_column: value_raw
+    data_type: string
+    nullable: true
+    preserve_whitespace: true
+    description: Bronze value representation before casting; original lexical Raw
+      is identified by file checksum.
+  - name: unit_raw
+    source_column: unit_raw
+    data_type: string
+    nullable: true
+    preserve_whitespace: true
+    description: Source unit before normalization; World Bank uses the verified Bronze
+      header token.
+  - name: missing_reason
+    source_column: missing_reason
+    data_type: string
+    nullable: true
 normalization:
   country: Use M49 code as standard identifier. Map to standard canonical country
     names if diverging from internal dim_country.

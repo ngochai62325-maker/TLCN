@@ -6,12 +6,15 @@ dataset:
   silver_output: iceberg.silver.thitruongnongsan
 contract_status: READY
 grain:
-  description: One record represents the daily price for a specific rice commodity/variety
-    in a specific local market/province for a specific price type.
-  business_key:
+  description: Owner-approved quote grain includes unit, currency and information
+    source; competing prices of the same key are quarantined.
+  business_key: &id001
   - market
   - commodity
   - price_type
+  - unit
+  - currency
+  - source
   - date
 schema:
   columns:
@@ -70,6 +73,24 @@ schema:
     data_type: integer
     nullable: false
     description: Calendar year derived from parsed date; used for partition pruning
+  - name: value_raw
+    source_column: value_raw
+    data_type: string
+    nullable: true
+    preserve_whitespace: true
+    description: Bronze value representation before casting; original lexical Raw
+      is identified by file checksum.
+  - name: unit_raw
+    source_column: unit_raw
+    data_type: string
+    nullable: true
+    preserve_whitespace: true
+    description: Source unit before normalization; World Bank uses the verified Bronze
+      header token.
+  - name: missing_reason
+    source_column: missing_reason
+    data_type: string
+    nullable: true
 normalization:
   province: Map 'Thị_trường' to standard Vietnam province/city names (dim_province).
   date: Standardize to ISO 8601 YYYY-MM-DD format.
@@ -98,11 +119,7 @@ data_quality:
   sql_expr: date <= current_date()
   failed_column: date
 deduplication:
-  key:
-  - market
-  - commodity
-  - price_type
-  - date
+  key: *id001
   strategy: Timestamp-based survivorship
   survivorship: Keep record with most recent _ingestion_timestamp
   duplicate_action: Overwrite in Silver

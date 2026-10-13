@@ -2,6 +2,7 @@
 import re
 import logging
 from pyspark.sql import functions as F
+from silver.transformers.faostat_source import source_values
 
 # Suffixes are produced by the Bronze adapter from the workbook unit row.
 UNITS = {"mt": "USD/tonne", "kg": "USD/kg", "bbl": "USD/barrel",
@@ -30,19 +31,22 @@ class WorldbankPinksheetTransformer:
         entries = []
         for column in columns:
             name = column.rstrip("_")
-            unit = None
+            unit, unit_token = None, None
             for suffix in sorted(UNITS, key=len, reverse=True):
                 match = re.search(r"_+" + suffix + r"$", name)
                 if match:
                     name = name[:match.start()].rstrip("_")
                     unit = UNITS[suffix]
+                    unit_token = suffix
                     break
             entries.append(F.struct(F.lit(name).alias("commodity_code"),
                                     F.lit(name.replace("_", " ").title()).alias("commodity_name"),
                                     F.lit(unit).cast("string").alias("unit"),
+                                    F.lit(unit_token).cast("string").alias("_source_unit_token"),
                                     F.col(column).cast("string").alias("price")))
         keep = [c for c in df.columns if c.startswith("_") or c == "period"]
         result = df.select(*keep, F.explode(F.array(*entries)).alias("observation")).select(*keep, "observation.*")
+        result = source_values(result, "price", "_source_unit_token", ("�", "…", "...", "..", "NA"))
         result = result.withColumn("period", F.upper(F.trim("period")))
         result = result.withColumn("year", F.expr("try_cast(substring(period, 1, 4) as int)"))
         result = result.withColumn("month", F.expr("try_cast(substring(period, 6, 2) as int)"))

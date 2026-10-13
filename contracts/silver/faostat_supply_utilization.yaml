@@ -100,6 +100,24 @@ schema:
     nullable: true
     description: Additional notes
     transformation: cast to string, trim
+  - name: value_raw
+    source_column: value_raw
+    data_type: string
+    nullable: true
+    preserve_whitespace: true
+    description: Bronze value representation before casting; original lexical Raw
+      is identified by file checksum.
+  - name: unit_raw
+    source_column: unit_raw
+    data_type: string
+    nullable: true
+    preserve_whitespace: true
+    description: Source unit before normalization; World Bank uses the verified Bronze
+      header token.
+  - name: missing_reason
+    source_column: missing_reason
+    data_type: string
+    nullable: true
 normalization:
   country: Use M49 code.
   commodity: Use CPC code.
@@ -107,11 +125,11 @@ normalization:
     elements should be non-negative.
 data_quality:
 - rule_id: SUA_DQ_001
-  rule: Value must be non-negative UNLESS element_code is '5071' (Stock Variation)
+  rule: Owner-approved signed Stock Variation and Residuals; other measures nonnegative
   dimension: Validity
   severity: ERROR
   action: QUARANTINE
-  sql_expr: value IS NULL OR value >= 0 OR element_code = '5071'
+  sql_expr: value IS NULL OR value >= 0 OR element_code IN ('5071','5166')
   failed_column: value
 - rule_id: SUA_DQ_002
   rule: country_code, commodity_code, year, element_code cannot be null

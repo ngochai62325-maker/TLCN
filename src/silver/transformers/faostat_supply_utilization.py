@@ -25,8 +25,12 @@ class FaostatSupplyUtilizationTransformer(FaostatSourceTransformer):
     def quality_rules(self):
         pairs = " OR ".join(f"(element_code = '{code}' AND element = '{name}')"
                             for code, name in SUA_ELEMENTS.items())
+        residual = sql_rule("SUA_NEGATIVE_RESIDUAL_REVIEW", "NOT _negative_value OR element_code <> '5166'",
+                            "value", "Approved signed Residuals retained; review balance interpretation")
+        residual["action"] = "LOG"
         return self.common_rules() + [
-            sql_rule("HOANG_SUA_VALUE", "NOT _negative_value OR element_code = '5071'", "value", "Published contract permits negative Stock Variation only; Residuals needs approval"),
+            sql_rule("HOANG_SUA_VALUE", "NOT _negative_value OR element_code IN ('5071','5166')", "value", "Approved signed Stock Variation and Residuals; other measures cannot be negative"),
+            residual,
             sql_rule("HOANG_SUA_UNIT", "_unit_mapping_valid", "unit", "Only observed tonne units are supported for SUA"),
             sql_rule("HOANG_SUA_ELEMENT", pairs, "element", "Unknown or conflicting SUA element definition"),
         ]

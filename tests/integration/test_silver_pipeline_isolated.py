@@ -243,3 +243,39 @@ def test_merge_preserves_extra_target_columns(spark):
     engine.merge(incoming, table, ["id"])
     rows = spark.table(table).orderBy("id").collect()
     assert [(r.id, r.value, r.legacy) for r in rows] == [("A", 2, "retained"), ("B", 3, None)]
+
+
+def test_existing_schema_guard_and_partial_failure_evidence(spark, tmp_path):
+    data = copy.deepcopy(SilverContractLoader().load_contract("usda_psd")._data)
+    data["dataset"]["bronze_input"] = "silver_test.bronze.partial_psd"
+    data["dataset"]["silver_output"] = "silver_test.silver.partial_psd"
+    (tmp_path / "usda_psd.yaml").write_text(yaml.safe_dump(data), encoding="utf-8")
+    source_fixture(spark, "usda_psd").writeTo(data["dataset"]["bronze_input"]).using("iceberg").create()
+    spark.createDataFrame([("legacy",)], "country string").writeTo(data["dataset"]["silver_output"]).using("iceberg").create()
+    before = spark.table(data["dataset"]["silver_output"]).collect()
+    schema_before = spark.table(data["dataset"]["silver_output"]).schema
+    framework = SilverTransformationFramework(spark, str(tmp_path))
+    framework.quarantine_manager.target_table = "silver_test.silver.partial_dead"
+    with pytest.raises(ValueError, match="explicit migration required") as error:
+        framework.run("usda_psd", "partial")
+    assert error.value.silver_failure["stage"] == "silver_merge"
+    assert error.value.silver_failure["quarantine_committed"] is True
+    assert error.value.silver_failure["bronze_read_snapshot_id"] is not None
+    assert spark.table(data["dataset"]["silver_output"]).schema == schema_before
+    assert spark.table(data["dataset"]["silver_output"]).collect() == before
+    assert spark.table(framework.quarantine_manager.target_table).count() > 0
+
+
+def test_timestamp_and_timestamp_ntz_native_iceberg_roundtrip(spark):
+    from urllib.parse import urlparse
+    df = spark.sql("SELECT current_timestamp() AS aware, CAST('2026-10-12 12:00:00' AS timestamp_ntz) AS naive").cache()
+    expected = df.collect()
+    table = "silver_test.silver.timestamp_types"
+    df.writeTo(table).using("iceberg").create()
+    restored = spark.table(table)
+    assert {f.name: f.dataType for f in restored.schema} == {f.name: f.dataType for f in df.schema}
+    assert restored.collect() == expected
+    df.unpersist()
+    metadata = spark.sql(f"SELECT file FROM {table}.metadata_log_entries ORDER BY timestamp DESC LIMIT 1").first().file
+    fields = json.loads(Path(urlparse(metadata).path).read_text())["schemas"][-1]["fields"]
+    assert {f["name"]: f["type"] for f in fields} == {"aware": "timestamptz", "naive": "timestamp"}

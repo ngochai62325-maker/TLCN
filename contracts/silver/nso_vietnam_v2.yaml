@@ -1,0 +1,87 @@
+# Independent NSO draft. Only isolated tests may overlay READY with temporary tables.
+contract_status: DRAFT
+dataset:
+  name: nso_vietnam_v2
+  source_system: NSO
+  source_id: nso_vietnam_v2
+  bronze_input: iceberg.bronze.nso_vietnam
+  silver_output: iceberg.silver.nso_rice_statistics_v2
+grain:
+  description: One source-table geography/year/measure/season/statistic observation.
+  business_key: [source_table, geography_key, year, measure, season, statistic_kind]
+schema:
+  columns:
+    - {name: source_table, data_type: string, nullable: false}
+    - {name: source_column, data_type: string, nullable: false}
+    - {name: geography_key, data_type: string, nullable: false, preserve_whitespace: true}
+    - {name: geography_raw, data_type: string, nullable: true, preserve_whitespace: true}
+    - {name: geography_level, data_type: string, nullable: false}
+    - {name: period_raw, data_type: string, nullable: false, preserve_whitespace: true}
+    - {name: year, data_type: integer, nullable: false}
+    - {name: measure, data_type: string, nullable: false}
+    - {name: season, data_type: string, nullable: false}
+    - {name: statistic_kind, data_type: string, nullable: false}
+    - {name: release_status, data_type: string, nullable: false}
+    - {name: value_raw, data_type: string, nullable: true, preserve_whitespace: true}
+    - {name: value_source, data_type: 'decimal(28,8)', nullable: true}
+    - {name: unit_raw, data_type: string, nullable: true, preserve_whitespace: true}
+    - {name: value, data_type: 'decimal(28,8)', nullable: true}
+    - {name: unit, data_type: string, nullable: true}
+    - {name: quality_status, data_type: string, nullable: false}
+    - {name: missing_reason, data_type: string, nullable: true}
+    - {name: review_reason, data_type: string, nullable: true}
+storage:
+  partition_columns: [year]
+deduplication:
+  key: [source_table, geography_key, year, measure, season, statistic_kind]
+  strategy: deterministic_latest
+data_quality:
+  - rule_id: NSO_V2_GRAIN
+    sql_expr: >-
+      length(trim(geography_key)) > 0 AND year BETWEEN 1000 AND 9999
+      AND measure IN ('area', 'yield', 'production')
+      AND season IN ('annual', 'winter_spring', 'summer_autumn', 'summer_autumn_autumn_winter', 'mua')
+      AND statistic_kind IN ('quantity', 'development_index')
+      AND geography_level IN ('national', 'unknown')
+      AND release_status IN ('provisional', 'unconfirmed')
+    failed_column: geography_key
+    rule: Valid source grain without invented geography or FINAL release status
+  - rule_id: NSO_V2_MISSING
+    sql_expr: >-
+      (quality_status = 'MISSING' AND value_source IS NULL AND value IS NULL
+       AND ((missing_reason = 'source_null' AND value_raw IS NULL)
+         OR (missing_reason = 'source_blank' AND trim(value_raw) = '')
+         OR (missing_reason = 'source_marker' AND trim(value_raw) = '..')))
+      OR (quality_status IN ('NORMALIZED', 'PENDING_REVIEW') AND missing_reason IS NULL
+          AND value_source IS NOT NULL AND value_source >= 0)
+    failed_column: value_raw
+    rule: Missing is retained explicitly; only the observed dot marker is recognized
+  - rule_id: NSO_V2_UNITS
+    sql_expr: >-
+      (source_table = 'V06.12.csv' AND geography_level = 'national'
+       AND geography_key = '__national_table_scope__' AND geography_raw IS NULL
+       AND quality_status IN ('NORMALIZED', 'MISSING') AND review_reason IS NULL
+       AND ((statistic_kind = 'development_index' AND unit = 'percent' AND unit_raw = '%'
+             AND (quality_status = 'MISSING' OR value = value_source))
+         OR (statistic_kind = 'quantity'
+             AND ((measure = 'area' AND unit = 'hectare' AND unit_raw = 'Nghìn ha')
+               OR (measure = 'production' AND unit = 'tonne' AND unit_raw = 'Nghìn t?n'))
+             AND (quality_status = 'MISSING' OR value = value_source * 1000))))
+      OR (source_table <> 'V06.12.csv' AND geography_raw = geography_key
+          AND statistic_kind = 'quantity' AND quality_status IN ('PENDING_REVIEW', 'MISSING')
+          AND unit_raw IS NULL AND unit IS NULL AND value IS NULL AND review_reason IS NOT NULL)
+    failed_column: unit
+    rule: Normalize only header-supported units; keep matrices in source scale
+  - rule_id: NSO_V2_PERIOD
+    sql_expr: >-
+      period_raw RLIKE '^(So b[?] )?[1-9][0-9]{3}$'
+      AND year = try_cast(right(period_raw, 4) AS INT)
+      AND ((period_raw LIKE 'So b? %' AND release_status = 'provisional')
+        OR (period_raw NOT LIKE 'So b? %' AND release_status = 'unconfirmed'))
+    failed_column: period_raw
+    rule: Keep reporting year separate from provisional evidence
+  - rule_id: NSO_V2_REVIEW
+    sql_expr: review_reason IS NULL
+    failed_column: review_reason
+    rule: Unit or historical geography needs review before canonical use
+    action: LOG

@@ -132,9 +132,10 @@ def test_sua_products_stock_variation_and_residual_contract(spark):
     valid, quarantine = transformer.validate(df)
     assert {r.commodity_code for r in valid.collect()} == {"0113", "23161.02"}
     assert valid.filter(F.col("element_code") == "5071").first().value == Decimal("-7")
-    assert quarantine.first().value == Decimal("-2")
-    assert quarantine.first().note == "source note"
-    assert "HOANG_SUA_VALUE" in {e.rule_id for e in quarantine.first().dq_errors}
+    assert quarantine.count() == 0
+    residual = valid.filter(F.col("element_code") == "5166").first()
+    assert residual.value == Decimal("-2") and residual.note == "source note"
+    assert "SUA_NEGATIVE_RESIDUAL_REVIEW" in {w.rule_id for w in residual._dq_warnings}
 
 
 def test_reconciliation_and_deterministic_reprocessing(spark):

@@ -1,0 +1,101 @@
+# Independent project: no host ports, shared storage, named data volumes or Airflow.
+name: tlcn-silver-rebuild-test
+services:
+  minio-test:
+    image: ghcr.io/coollabsio/minio:latest
+    environment:
+      MINIO_ROOT_USER: rebuild_test
+      MINIO_ROOT_PASSWORD: rebuild-test-only-password
+    command: server /data
+    tmpfs: [/data]
+    mem_limit: 1024m
+    healthcheck:
+      test: [CMD-SHELL, "bash -c 'echo > /dev/tcp/127.0.0.1/9000'"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  rest-test:
+    image: tabulario/iceberg-rest:0.8.0
+    environment:
+      JAVA_TOOL_OPTIONS: -Xmx256m
+      CATALOG_WAREHOUSE: s3://silver-rebuild-warehouse/
+      CATALOG_URI: jdbc:sqlite:/tmp/rebuild-catalog.db
+      CATALOG_IO__IMPL: org.apache.iceberg.aws.s3.S3FileIO
+      CATALOG_S3_ENDPOINT: http://minio-test:9000
+      CATALOG_S3_PATH__STYLE__ACCESS: "true"
+      CATALOG_S3_ACCESS__KEY__ID: rebuild_test
+      CATALOG_S3_SECRET__ACCESS__KEY: rebuild-test-only-password
+      AWS_ACCESS_KEY_ID: rebuild_test
+      AWS_SECRET_ACCESS_KEY: rebuild-test-only-password
+      AWS_REGION: us-east-1
+    mem_limit: 448m
+    depends_on:
+      minio-test: {condition: service_healthy}
+  postgres-test:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: rebuild_test
+      POSTGRES_PASSWORD: rebuild-test-only-password
+      POSTGRES_DB: silver_rebuild_test
+    tmpfs: [/var/lib/postgresql/data]
+    mem_limit: 256m
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U rebuild_test -d silver_rebuild_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  trino-test:
+    image: trinodb/trino:448
+    user: root
+    mem_limit: 1024m
+    entrypoint: [/bin/bash, -c]
+    command:
+      - |
+        printf '%s\n' 'connector.name=iceberg' 'iceberg.catalog.type=rest' 'iceberg.rest-catalog.uri=http://rest-test:8181' 'iceberg.rest-catalog.warehouse=s3://silver-rebuild-warehouse' 'fs.native-s3.enabled=true' 's3.endpoint=http://minio-test:9000' 's3.region=us-east-1' 's3.aws-access-key=rebuild_test' 's3.aws-secret-key=rebuild-test-only-password' 's3.path-style-access=true' > /etc/trino/catalog/rebuild_test.properties
+        printf '%s\n' 'coordinator=true' 'node-scheduler.include-coordinator=true' 'http-server.http.port=8080' 'query.max-memory=128MB' 'query.max-total-memory=256MB' 'memory.heap-headroom-per-node=256MB' 'discovery.uri=http://localhost:8080' > /etc/trino/config.properties
+        printf '%s\n' '-server' '-Xmx768M' '-XX:+UseG1GC' '-XX:+ExitOnOutOfMemoryError' '-Djdk.attach.allowAttachSelf=true' > /etc/trino/jvm.config
+        exec /usr/lib/trino/bin/run-trino
+    depends_on:
+      rest-test: {condition: service_started}
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8080/v1/info', timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  runner:
+    image: tabulario/spark-iceberg:latest
+    user: root
+    profiles: [validation]
+    working_dir: /workspace
+    mem_limit: 3072m
+    volumes:
+      - .:/workspace:ro
+      - ${SILVER_TEST_RAW_ROOT:?Set SILVER_TEST_RAW_ROOT to the complete Raw directory}:/raw-inputs:ro
+    environment:
+      TLCN_ISOLATED_REBUILD: "1"
+      MINIO_ENDPOINT: minio-test:9000
+      MINIO_ROOT_USER: rebuild_test
+      MINIO_ROOT_PASSWORD: rebuild-test-only-password
+      AWS_ACCESS_KEY_ID: rebuild_test
+      AWS_SECRET_ACCESS_KEY: rebuild-test-only-password
+      AWS_REGION: us-east-1
+      INGESTION_DB_URL: postgresql://rebuild_test:rebuild-test-only-password@postgres-test:5432/silver_rebuild_test
+      ICEBERG_REST_URI: http://rest-test:8181
+      TRINO_HOST: trino-test
+      TRINO_PORT: "8080"
+      PYSPARK_SUBMIT_ARGS: --driver-memory 768m --conf spark.sql.defaultCatalog=spark_catalog --conf spark.sql.catalog.iceberg.type=hadoop --conf spark.sql.catalog.iceberg.warehouse=/tmp/unused-warehouse pyspark-shell
+      SPARK_LOCAL_IP: 127.0.0.1
+      SPARK_LOCAL_HOSTNAME: localhost
+    entrypoint: [/bin/bash, -c]
+    command:
+      - |
+        set -e
+        python3 -m pip install --quiet --no-index --find-links /workspace/.pytest_cache/silver_wheels --target /tmp/rebuild-deps pytest==8.4.2 psycopg2-binary==2.9.10 boto3==1.35.99 openpyxl==3.1.5 lxml==5.3.0
+        export PYTHONPATH=/tmp/rebuild-deps:/workspace/src:/workspace/jobs/silver:/opt/spark/python:/opt/spark/python/lib/py4j-0.10.9.7-src.zip
+        exec python3 scripts/validate_silver_local_snapshots.py --rebuild --raw-root /raw-inputs
+    depends_on:
+      postgres-test: {condition: service_healthy}
+      trino-test: {condition: service_healthy}
+networks:
+  default:
+    internal: true

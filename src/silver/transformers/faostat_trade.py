@@ -1,10 +1,11 @@
 """Trade preprocessing keeps invalid observations for shared quarantine."""
 from pyspark.sql import functions as F
-from silver.transformers.faostat_source import identifier, sql_rule
+from silver.transformers.faostat_source import identifier, sql_rule, source_values
 
 
 class FaostatTradeTransformer:
     def preprocess(self, df):
+        df = source_values(df, "value", "unit", ("NA", "N/A", "NULL", "..", "..."))
         for column in ("reporter_country_code_m49_", "partner_country_code_m49_", "item_code_cpc_", "element_code"):
             if column not in df.columns:
                 raise ValueError(f"FAOSTAT Trade missing source identifier {column}; legacy FAO codes cannot substitute for M49/CPC")
@@ -24,4 +25,5 @@ class FaostatTradeTransformer:
         return [sql_rule("TRADE_SIGN", "NOT _negative_value", "value", "Negative trade observations require review"),
                 sql_rule("TRADE_CODES", "reporter_country_code RLIKE '^[0-9]{3}$' AND partner_country_code RLIKE '^[0-9]{3}$'", "country_code", "M49 must retain three digits"),
                 sql_rule("TRADE_YEAR", "year BETWEEN 1960 AND year(current_date()) + 1", "year", "Invalid trade calendar year"),
-                sql_rule("TRADE_UNIT", "(element_code IN ('5610','5910') AND unit = 'tonne') OR (element_code IN ('5622','5922') AND unit = '1000 USD')", "unit", "Trade quantities and monetary values must use distinct units")]
+                sql_rule("TRADE_UNIT", "(element_code IN ('5610','5910') AND unit = 'tonne') OR (element_code IN ('5622','5922') AND unit = '1000 USD')", "unit", "Trade quantities and monetary values must use distinct units"),
+                sql_rule("TRADE_ELEMENT", "(element_code = '5610' AND element_name = 'Import quantity') OR (element_code = '5622' AND element_name = 'Import value') OR (element_code = '5910' AND element_name = 'Export quantity') OR (element_code = '5922' AND element_name = 'Export value')", "element_name", "Trade code and statistic definition must agree")]
