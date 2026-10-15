@@ -48,12 +48,13 @@ services:
     image: trinodb/trino:448
     user: root
     mem_limit: 1024m
+    cpus: 2
     entrypoint: [/bin/bash, -c]
     command:
       - |
         printf '%s\n' 'connector.name=iceberg' 'iceberg.catalog.type=rest' 'iceberg.rest-catalog.uri=http://rest-test:8181' 'iceberg.rest-catalog.warehouse=s3://silver-rebuild-warehouse' 'fs.native-s3.enabled=true' 's3.endpoint=http://minio-test:9000' 's3.region=us-east-1' 's3.aws-access-key=rebuild_test' 's3.aws-secret-key=rebuild-test-only-password' 's3.path-style-access=true' > /etc/trino/catalog/rebuild_test.properties
-        printf '%s\n' 'coordinator=true' 'node-scheduler.include-coordinator=true' 'http-server.http.port=8080' 'query.max-memory=128MB' 'query.max-total-memory=256MB' 'memory.heap-headroom-per-node=256MB' 'discovery.uri=http://localhost:8080' > /etc/trino/config.properties
-        printf '%s\n' '-server' '-Xmx768M' '-XX:+UseG1GC' '-XX:+ExitOnOutOfMemoryError' '-Djdk.attach.allowAttachSelf=true' > /etc/trino/jvm.config
+        printf '%s\n' 'coordinator=true' 'node-scheduler.include-coordinator=true' 'http-server.http.port=8080' 'query.max-memory=128MB' 'query.max-total-memory=256MB' 'memory.heap-headroom-per-node=256MB' 'task.concurrency=2' 'task.max-worker-threads=4' 'task.min-drivers=4' 'discovery.uri=http://localhost:8080' > /etc/trino/config.properties
+        printf '%s\n' '-server' '-Xmx512M' '-XX:ActiveProcessorCount=2' '-XX:+UseG1GC' '-XX:+ExitOnOutOfMemoryError' '-Djdk.attach.allowAttachSelf=true' > /etc/trino/jvm.config
         exec /usr/lib/trino/bin/run-trino
     depends_on:
       rest-test: {condition: service_started}
@@ -92,7 +93,7 @@ services:
         set -e
         python3 -m pip install --quiet --no-index --find-links /workspace/.pytest_cache/silver_wheels --target /tmp/rebuild-deps pytest==8.4.2 psycopg2-binary==2.9.10 boto3==1.35.99 openpyxl==3.1.5 lxml==5.3.0
         export PYTHONPATH=/tmp/rebuild-deps:/workspace/src:/workspace/jobs/silver:/opt/spark/python:/opt/spark/python/lib/py4j-0.10.9.7-src.zip
-        exec python3 scripts/validate_silver_local_snapshots.py --rebuild --raw-root /raw-inputs
+        exec python3 scripts/validate_silver_local_snapshots.py --rebuild --release silver_v2_release_20261013 --raw-root /raw-inputs
     depends_on:
       postgres-test: {condition: service_healthy}
       trino-test: {condition: service_healthy}

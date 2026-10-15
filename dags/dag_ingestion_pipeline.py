@@ -16,6 +16,7 @@ import pendulum
 from airflow import DAG
 from airflow.decorators import task
 from airflow.operators.empty import EmptyOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 
 # Ensure src/ is on sys.path for container execution
 for p in ["/opt/airflow/src", os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))]:
@@ -23,16 +24,36 @@ for p in ["/opt/airflow/src", os.path.abspath(os.path.join(os.path.dirname(__fil
         sys.path.insert(0, p)
 
 from ingestion.config.registry import SourceRegistry
-from ingestion.orchestration.pipeline_tasks import run_ingestion_task
+from ingestion.orchestration.pipeline_tasks import (
+    run_ingestion_task, validate_release_registry, verify_bronze_batch,
+    verify_silver_trigger_ready, silver_trigger_run_id, SILVER_RELEASE, RELEASE_SOURCES,
+)
 from ingestion.storage.metadata_repository import MetadataRepository
-from silver.contract.loader import SilverContractLoader
+
+RELEASE = os.environ.get("SILVER_ACCEPTED_RELEASE")
+CANARY_ONLY = os.environ.get("SILVER_CANARY_ONLY", "0")
+PRODUCTION_ENABLED = os.environ.get("SILVER_PRODUCTION_ENABLED", "0")
+if RELEASE not in (None, SILVER_RELEASE):
+    raise ValueError("Unapproved ingestion release scope")
+if CANARY_ONLY not in ("0", "1") or (CANARY_ONLY == "1" and RELEASE != SILVER_RELEASE):
+    raise ValueError("Manual canary requires the approved V2 release and SILVER_CANARY_ONLY=1")
+if PRODUCTION_ENABLED not in ("0", "1") or (PRODUCTION_ENABLED == "1" and (not RELEASE or CANARY_ONLY != "0")):
+    raise ValueError("Production orchestration requires approved release and canary disabled")
+production = PRODUCTION_ENABLED == "1"
+schedule = (os.environ.get("SILVER_BRONZE_SCHEDULE") or None) if production else None
+
+
+def check_silver_before_trigger(context):
+    # Recheck at execution, since the target can pause/change after the batch gate.
+    verify_silver_trigger_ready(context["run_id"])
+
 
 default_args = {
     "owner": "data_engineering",
     "depends_on_past": False,
     "email_on_failure": False,
     "email_on_retry": False,
-    "retries": 1,
+    "retries": 0 if RELEASE else 1,
     "retry_delay": timedelta(minutes=2),
 }
 
@@ -40,7 +61,7 @@ with DAG(
     dag_id="rice_lakehouse_ingestion",
     default_args=default_args,
     description="Orchestrates the Rice Lakehouse Bronze Ingestion using IngestionEngine",
-    schedule="0 6 15 * *",  # 15th of each month at 6 AM
+    schedule=schedule,  # No release schedule until the owner supplies one and enables production.
     start_date=pendulum.datetime(2026, 9, 26, tz="Asia/Bangkok"),
     catchup=False,
     max_active_runs=1,
@@ -76,49 +97,56 @@ with DAG(
     registry = SourceRegistry()
     registry.load()
     all_sources = list(registry.get_all_sources().values())
+    # Apply only at owner-approved V2 cutover; default Bronze routing stays intact.
+    if RELEASE:
+        all_sources = validate_release_registry(registry)
 
-    @task(task_id="run_ingestion", retries=2, retry_delay=timedelta(seconds=30), multiple_outputs=True)
+    @task(task_id="run_ingestion", retries=0 if RELEASE else 2, retry_delay=timedelta(seconds=30), multiple_outputs=True)
     def build_run_ingestion_task(source_id: str, **context) -> Dict[str, Any]:
         """Airflow thin wrapper executing the IngestionEngine."""
         conf = context.get("dag_run").conf if context.get("dag_run") else {}
+        conf = conf or {}
+        if RELEASE:
+            validate_release_registry()
+            if conf.get("release", RELEASE) != RELEASE:
+                raise ValueError("Unapproved ingestion release conf")
+        if production:
+            silver_trigger_run_id(context["run_id"])  # Reject historical canaries before any ingestion.
         force = conf.get("force_reprocess", False)
         forced_sources = conf.get("force_reprocess_sources", [])
+        if RELEASE and (not isinstance(forced_sources, list) or set(forced_sources) - set(RELEASE_SOURCES)):
+            raise ValueError("Unexpected source IDs in release ingestion conf")
         if source_id in forced_sources:
             force = True
-        return run_ingestion_task(source_id, force_reprocess=force)
-
-    @task(task_id="run_silver", retries=2, retry_delay=timedelta(minutes=1), trigger_rule="none_failed")
-    def build_run_silver_task(dataset_id: str):
-        """Process the oldest pending successful Bronze run in Spark's container."""
-        from silver.orchestration import trigger_spark_job
-        from airflow.exceptions import AirflowSkipException
-
-        repo = MetadataRepository()
-        with repo.source_lock(dataset_id):
-            pending_run = repo.get_pending_silver_run(dataset_id)
-            if not pending_run:
-                raise AirflowSkipException(f"No pending Silver runs for {dataset_id}")
-            run_id = pending_run["run_id"]
-            result = trigger_spark_job(dataset=dataset_id, mode="incremental", run_id=run_id,
-                                       pipeline_run_id=f"bronze-hook-{run_id}")
-            if result[dataset_id]["bronze_count"] == 0:
-                raise ValueError(f"Successful Bronze run {run_id} has no queryable rows")
-            repo.mark_silver_status(run_id, "SUCCESS")
-            return result
+        return run_ingestion_task(source_id, force_reprocess=force,
+                                  **({"approved_release": RELEASE} if production else {}))
 
     # Connect all source tasks between start_all and end_all markers
+    ingestions = []
     for src in all_sources:
         if src.enabled:
             ingest_task = build_run_ingestion_task.override(task_id=f"ingest_{src.source_id}")(src.source_id)
             
-            contract_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "contracts", "silver"))
-            contract_path = os.path.join(contract_dir, f"{src.source_id}.yaml")
-            if os.path.exists(contract_path) and SilverContractLoader(contract_dir).load_contract(src.source_id).status == "READY":
-                # Silver runs after Bronze. trigger_rule="none_failed" ensures it can run if Bronze skipped
-                silver_task = build_run_silver_task.override(task_id=f"silver_{src.source_id}")(
-                    dataset_id=src.source_id
-                )
-                start_all >> ingest_task >> silver_task >> end_all
-            else:
-                start_all >> ingest_task >> end_all
+            start_all >> ingest_task
+            ingestions.append(ingest_task)
+            if not production:
+                ingest_task >> end_all
+
+    if production:
+        @task(task_id="verify_bronze_batch")
+        def batch_gate(results, **context):
+            verified = verify_bronze_batch(results)
+            verified["silver_run_id"] = verify_silver_trigger_ready(context["run_id"])
+            return verified
+
+        verified = batch_gate(ingestions)
+        trigger = TriggerDagRunOperator(
+            task_id="trigger_silver_release", trigger_dag_id="rice_lakehouse_silver_pipeline",
+            trigger_run_id="{{ ti.xcom_pull(task_ids='verify_bronze_batch')['silver_run_id'] }}",
+            conf={"mode": "full", "release": RELEASE}, reset_dag_run=False,
+            wait_for_completion=True, deferrable=False, retries=0,
+            pre_execute=check_silver_before_trigger,
+            execution_timeout=timedelta(hours=2), poke_interval=30,
+        )
+        verified >> trigger >> end_all
 

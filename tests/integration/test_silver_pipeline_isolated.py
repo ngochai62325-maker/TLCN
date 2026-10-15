@@ -1,4 +1,4 @@
-"""Real Iceberg writes in a fresh local catalog; never touch REST/MinIO."""
+"""Local Iceberg tests; opt-in new-Raw E2E uses guarded isolated REST/MinIO only."""
 import copy
 import json
 from datetime import datetime
@@ -13,7 +13,7 @@ from silver.audit import audit_tables, check_bronze
 from silver.contract.loader import SilverContract, SilverContractLoader
 from silver.engine.merge import IcebergMergeEngine
 from silver.engine.quality import SilverQualityEngine
-from silver.framework import SilverTransformationFramework
+from silver.framework import SilverTransformationFramework, RELEASE_NAMESPACE, RELEASE_SOURCES
 from ingestion.storage.bronze_writer import sanitize_column_name
 from tests.unit.silver.faostat_nso_fixtures import observations, sql_rows
 
@@ -100,6 +100,43 @@ def test_complete_pipeline_real_iceberg(spark, tmp_path, dataset):
     assert "_source_payload" in json.loads(dead.payload)
     assert dead.pipeline_run_id == "second"
     assert not any(c.startswith("_raw") for c in spark.table(table).columns)
+    # Exercise the same eight sources through opt-in routing without touching legacy.
+    released = SilverTransformationFramework(spark, str(tmp_path), release=RELEASE_NAMESPACE)
+    contract = released.contract(dataset)
+    assert contract.business_key == SilverContract(data).business_key
+    assert contract.columns == SilverContract(data).columns
+    assert contract.data_quality_rules == SilverContract(data).data_quality_rules
+    pinned = spark.sql(f"SELECT snapshot_id FROM {data['dataset']['bronze_input']}.refs WHERE name='main'").first()[0]
+    v2 = released.run(dataset, "v2", bronze_snapshot_id=pinned)
+    assert v2["dedup_count"] == first["dedup_count"]
+    columns = [c for c in original[0].asDict() if c != "_silver_processed_at"]
+    assert spark.table(table).select(*columns).exceptAll(spark.table(contract.silver_output).select(*columns)).isEmpty()
+    assert spark.table(contract.silver_output).select(*columns).exceptAll(spark.table(table).select(*columns)).isEmpty()
+    assert original == spark.table(table).collect()
+    assert snapshot_before == spark.table(table + ".snapshots").count()
+    assert released.quarantine_manager.target_table == f"silver_test.{RELEASE_NAMESPACE}.dead_letters"
+    assert spark.table(released.quarantine_manager.target_table).filter(F.col("source_dataset") == dataset).count() == 2
+    from jobs.silver.validate_silver_e2e import table_state, verify_iceberg_schema
+    before = table_state(spark, contract)
+    assert verify_iceberg_schema(spark, contract, before)
+    for mode in ("full", "incremental"):
+        released.run(dataset, "v2-replay", mode=mode, run_id="bronze-run" if mode == "incremental" else None, bronze_snapshot_id=pinned)
+        assert before == table_state(spark, contract)
+    with pytest.raises(ValueError, match="snapshot drift"):
+        released.run(dataset, "wrong-snapshot", bronze_snapshot_id=pinned + 1)
+    assert before == table_state(spark, contract)
+    if dataset == "faostat_production":
+        from unittest.mock import patch
+        from jobs.silver.validate_silver_e2e import accept_source
+        with patch.object(released.merge_engine, "merge", side_effect=RuntimeError("ambiguous commit")):
+            with pytest.raises(RuntimeError) as failure:
+                accept_source(spark, released, dataset, {"snapshot_id": str(pinned), "run_id": "bronze-run", "rows": 3})
+        recovery = failure.value.silver_failure
+        assert recovery["stage"] == "silver_merge" and recovery["quarantine_committed"]
+        assert recovery["catalog_readback"] == "SUCCEEDED"
+        assert recovery["target_before"]["uuid"] == recovery["target_after"]["uuid"]
+        assert recovery["retry_requires_catalog_readback"]
+        assert before == table_state(spark, contract)
 
 
 def test_merge_rejects_stale_updates_and_keeps_new_keys(spark):
@@ -113,6 +150,161 @@ def test_merge_rejects_stale_updates_and_keeps_new_keys(spark):
     assert [(r.id, r.value) for r in spark.table(table).orderBy("id").collect()] == [("A", 20), ("B", 10)]
     with pytest.raises(ValueError, match="schema mismatch"):
         engine.merge(newer.withColumn("value", F.col("value").cast("string")), table, ["id"])
+
+
+def test_new_raw_incremental_revisions_e2e(spark, tmp_path, monkeypatch):
+    """Real adapter/PG/MinIO/Iceberg/Trino; new objects on the isolated network only."""
+    import csv
+    import hashlib
+    import os
+    import uuid
+    from urllib.parse import urlsplit, urlunsplit
+
+    import psycopg2
+    from psycopg2 import sql
+    from ingestion.config.registry import SourceRegistry
+    from ingestion.core.ingestion_engine import IngestionEngine
+    from ingestion.storage.metadata_repository import MetadataRepository
+    from ingestion.storage.minio_storage import MinioStorage
+    from ingestion.storage.bronze_writer import BronzeIcebergWriter
+    from jobs.silver.validate_silver_e2e import table_identity, table_state, trino_distributions, verify_values
+    from jobs.silver.verify_silver_trino import verify_record, query
+    from silver.framework import AUDIT_COLUMNS
+
+    if os.getenv("TLCN_ISOLATED_REBUILD") != "1":
+        pytest.skip("Requires the existing independent compose.silver-test.yml services")
+    expected = {"MINIO_ENDPOINT": "minio-test:9000", "ICEBERG_REST_URI": "http://rest-test:8181",
+                "TRINO_HOST": "trino-test"}
+    assert all(os.environ.get(k) == v for k, v in expected.items())
+    dsn = urlsplit(os.environ["INGESTION_DB_URL"])
+    assert dsn.hostname == "postgres-test" and dsn.path == "/silver_rebuild_test"
+    # A separate database and namespace preserve the original isolated rebuild evidence.
+    suffix = uuid.uuid4().hex[:12]
+    database, namespace = f"silver_incremental_{suffix}", f"incremental_{suffix}"
+    connection = psycopg2.connect(os.environ["INGESTION_DB_URL"])
+    try:
+        connection.autocommit = True
+        with connection.cursor() as cursor:
+            cursor.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(database)))
+    finally:
+        connection.close()
+    monkeypatch.setenv("INGESTION_DB_URL", urlunsplit(dsn._replace(path="/" + database)))
+    metadata = MetadataRepository()
+    metadata.initialize()
+    storage = MinioStorage()
+    writer = BronzeIcebergWriter(catalog="rebuild_test", schema=namespace)
+    for key, value in {
+        "": "org.apache.iceberg.spark.SparkCatalog", ".type": "rest",
+        ".uri": expected["ICEBERG_REST_URI"], ".warehouse": "s3://silver-rebuild-warehouse/",
+        ".io-impl": "org.apache.iceberg.aws.s3.S3FileIO", ".s3.endpoint": "http://minio-test:9000",
+        ".s3.path-style-access": "true", ".s3.access-key-id": os.environ["MINIO_ROOT_USER"],
+        ".s3.secret-access-key": os.environ["MINIO_ROOT_PASSWORD"],
+    }.items():
+        spark.conf.set("spark.sql.catalog.rebuild_test" + key, value)
+
+    source = "faostat_production"
+    registry_data = yaml.safe_load(Path("config/ingestion/source_registry.yaml").read_text(encoding="utf-8"))
+    config = registry_data["sources"][source]
+    raw_path = tmp_path / "production_revision.csv"
+    config.update(local_path=str(raw_path), local_fallback=str(raw_path))
+    registry_path = tmp_path / "registry.yaml"
+    registry_path.write_text(yaml.safe_dump({"sources": {source: config}}), encoding="utf-8")
+    registry = SourceRegistry(str(registry_path))
+    engine = IngestionEngine(registry=registry, metadata_repo=metadata, minio_storage=storage, bronze_writer=writer)
+    data = copy.deepcopy(SilverContractLoader().load_contract(source)._data)
+    bronze, target, dead = (f"rebuild_test.{namespace}.{name}" for name in
+                            (source, "silver_faostat_production", "dead_letters"))
+    data["dataset"].update(bronze_input=bronze, silver_output=target)
+    contracts = tmp_path / "contracts"
+    contracts.mkdir()
+    (contracts / f"{source}.yaml").write_text(yaml.safe_dump(data), encoding="utf-8")
+    framework = SilverTransformationFramework(spark, str(contracts))
+    framework.quarantine_manager.target_table = dead
+    contract = framework.contract(source)
+    # Derive the Raw fixture from the existing, verified FAOSTAT source fixture.
+    fixture = observations(spark).first().asDict()
+    base = {c: fixture[sanitize_column_name(c)] for c in config["expected_columns"] if c != "Year Code"}
+    base["Year Code"] = fixture["year"]
+
+    def write_raw(rows):
+        with raw_path.open("w", encoding="utf-8", newline="") as stream:
+            csv_writer = csv.DictWriter(stream, fieldnames=config["expected_columns"])
+            csv_writer.writeheader()
+            csv_writer.writerows(dict(base, Year=str(year), **{"Year Code": str(year), "Value": value})
+                                 for year, value in rows)
+        return hashlib.sha256(raw_path.read_bytes()).hexdigest()
+
+    sha_before = write_raw([(2019, "9"), (2020, "12.5")])
+    first = engine.run_with_readiness_check(source)
+    assert first.status.value == "SUCCESS" and first.records_extracted == 2
+    bronze_before = table_identity(spark, bronze)
+    with metadata.source_lock(source):
+        initial = framework.run(source, "revision-baseline", bronze_snapshot_id=bronze_before["snapshot_id"])
+        silver_before = table_state(spark, contract)
+    assert initial["dedup_count"] == silver_before["rows"] == 2
+
+    sha_after = write_raw([(2019, "9"), (2020, "15.5"), (2021, "20"), (2021, "20"), (2022, "-1")])
+    assert sha_before != sha_after
+    second = engine.run_with_readiness_check(source)
+    assert second.status.value == "SUCCESS" and second.records_extracted == 5
+    assert second.checksum == sha_after and second.run_id != first.run_id
+    # The same test session has cached the table; production launches a fresh Spark job.
+    spark.catalog.refreshTable(bronze)
+    bronze_after = table_identity(spark, bronze)
+    assert bronze_after["uuid"] == bronze_before["uuid"]
+    assert bronze_after["snapshot_id"] != bronze_before["snapshot_id"]
+    assert spark.table(bronze).count() == 7
+    assert spark.read.format("iceberg").option("snapshot-id", bronze_before["snapshot_id"]).load(bronze).count() == 2
+
+    with metadata.source_lock(source):
+        metrics = framework.run(source, "revision-incremental", mode="incremental", run_id=second.run_id,
+                                bronze_snapshot_id=bronze_after["snapshot_id"])
+        silver_after = table_state(spark, contract)
+    assert {k: metrics[k] for k in ("bronze_count", "prepared_count", "valid_count", "quarantine_count",
+                                  "dedup_count", "duplicate_count")} == {
+        "bronze_count": 5, "prepared_count": 5, "valid_count": 4, "quarantine_count": 1,
+        "dedup_count": 3, "duplicate_count": 1}
+    assert metrics["bronze_read_snapshot_id"] == int(bronze_after["snapshot_id"])
+    assert silver_after["uuid"] == silver_before["uuid"]
+    assert silver_after["snapshot_id"] != silver_before["snapshot_id"]
+    published = spark.table(target)
+    assert {r.year: r.value for r in published.select("year", "value").collect()} == {
+        2019: Decimal("9.00"), 2020: Decimal("15.50"), 2021: Decimal("20.00")}
+    assert published.select(*contract.business_key).distinct().count() == silver_after["rows"] == 3
+    assert published.filter(F.col("_ingestion_run_id") != second.run_id).isEmpty()
+    assert published.filter(F.col("_source_checksum") != sha_after).isEmpty()
+    assert published.select(*AUDIT_COLUMNS).exceptAll(spark.table(bronze).select(*AUDIT_COLUMNS)).isEmpty()
+    assert spark.table(dead).count() == 1
+    invalid = spark.table(dead).first()
+    assert "-1" in invalid.payload and any(e.failed_column == "value" for e in invalid.errors)
+    assert audit_tables(spark, [contract])["status"] == "PASSED"
+    verify_values(spark, source, contract, metrics)
+
+    for mode in ("incremental", "full"):
+        with metadata.source_lock(source):
+            framework.run(source, "revision-replay-" + mode, mode=mode,
+                          run_id=second.run_id if mode == "incremental" else None,
+                          bronze_snapshot_id=bronze_after["snapshot_id"])
+            assert table_state(spark, contract) == silver_after
+        assert spark.table(dead).count() == 1
+    assert engine.run_with_readiness_check(source).status.value == "SKIPPED"
+    assert table_identity(spark, bronze) == bronze_after
+    record = {"metrics": metrics, "silver": silver_after, "business_keys": contract.business_key,
+              "bronze_table": bronze, "bronze_snapshot_id": bronze_after["snapshot_id"],
+              "replay_verified": True, "incremental_replay_verified": True,
+              **trino_distributions(spark, source, contract)}
+    trino = verify_record("http://trino-test:8080", source, record)
+    assert trino["status"] == "PASSED"
+    assert query("http://trino-test:8080", f"SELECT count(*) AS rows FROM {dead}")[0]["rows"] == 1
+    print("INCREMENTAL_E2E_RESULT=" + json.dumps({
+        "status": "PASSED", "source": source, "database": database, "bronze_table": bronze,
+        "target": target, "raw_sha256_before": sha_before, "raw_sha256_after": sha_after,
+        "bronze_run_before": first.run_id, "bronze_run_after": second.run_id,
+        "bronze_snapshot_before": bronze_before["snapshot_id"], "bronze_snapshot_after": bronze_after["snapshot_id"],
+        "silver_snapshot_before": silver_before["snapshot_id"], "silver_snapshot_after": silver_after["snapshot_id"],
+        "metrics": metrics, "silver_rows": silver_after["rows"], "trino": trino["status"],
+        "full_rerun_noop": True, "incremental_rerun_noop": True, "bronze_replay": "SKIPPED",
+    }, default=str), flush=True)
 
 
 def test_bronze_readiness_rejects_empty_tables_after_reset(spark):

@@ -2,6 +2,8 @@
 from datetime import timedelta
 from pathlib import Path
 import sys
+import os
+from contextlib import nullcontext
 import pendulum
 from airflow import DAG
 from airflow.decorators import task
@@ -11,18 +13,30 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from silver.contract.loader import SilverContractLoader
 from silver.orchestration import trigger_spark_job
+from ingestion.orchestration.pipeline_tasks import REGISTRY_SHA256
 
 CONTRACT_DIR = ROOT / "contracts/silver"
 loader = SilverContractLoader(str(CONTRACT_DIR))
-DATASETS = [p.stem for p in sorted(CONTRACT_DIR.glob("*.yaml")) if loader.load_contract(p.stem).status == "READY"]
+DATASETS = ["faostat_production", "faostat_monthly_price", "faostat_supply_utilization", "faostat_trade",
+            "usda_psd", "usda_rice_yearbook", "worldbank_pinksheet", "thitruongnongsan"]
+for dataset in DATASETS:
+    loader.load_contract(dataset).validate_executable()
+# Set only at owner-approved cutover, after CLI acceptance. No default V2 routing.
+RELEASE = os.environ.get("SILVER_ACCEPTED_RELEASE")
+if RELEASE not in (None, "silver_v2_release_20261013"):
+    raise ValueError("Unapproved Silver release routing")
+CANARY_ONLY = os.environ.get("SILVER_CANARY_ONLY", "0")
+if CANARY_ONLY not in ("0", "1") or (CANARY_ONLY == "1" and RELEASE != "silver_v2_release_20261013"):
+    raise ValueError("Manual canary requires the approved V2 release and SILVER_CANARY_ONLY=1")
 PENDING_DATASETS = [p.stem for p in sorted(CONTRACT_DIR.glob("*.yaml")) if loader.load_contract(p.stem).status != "READY"]
 
 with DAG(
     dag_id="rice_lakehouse_silver_pipeline",
-    default_args={"owner": "data_engineering", "retries": 1, "retry_delay": timedelta(seconds=30)},
+    default_args={"owner": "data_engineering", "retries": 0 if RELEASE else 1, "retry_delay": timedelta(seconds=30)},
     description="Contract cleaning, quarantine, MERGE and real quality audit",
-    schedule="0 8 15 * *",
+    schedule=None,  # Bronze is the only production schedule owner.
     start_date=pendulum.datetime(2026, 10, 1, tz="Asia/Bangkok"),
+    params={"silver_release": RELEASE, "registry_sha256": REGISTRY_SHA256 if RELEASE else None},
     catchup=False, max_active_runs=1, max_active_tasks=1,
     tags=["silver", "spark", "iceberg"],
 ) as dag:
@@ -31,15 +45,20 @@ with DAG(
 
     @task(task_id="gate_check_bronze")
     def check_bronze_readiness():
-        return trigger_spark_job(action="check-bronze")
+        return [trigger_spark_job(dataset=d, action="check-bronze", release=RELEASE) for d in DATASETS]
 
-    @task
+    @task(retries=0)
     def transform_dataset(dataset_id, **context):
         dag_run = context.get("dag_run")
         conf = dag_run.conf or {} if dag_run else {}
-        return trigger_spark_job(dataset=dataset_id, mode=conf.get("mode", "full"),
-                                 run_id=conf.get("bronze_run_id"), pipeline_run_id=context.get("run_id"),
-                                 watermark=conf.get("watermark"))
+        if conf.get("release") and conf["release"] != RELEASE:
+            raise ValueError("Release routing requires owner-approved cutover; use CLI acceptance first")
+        from ingestion.storage.metadata_repository import MetadataRepository
+        # V2 runner owns its lock; legacy execution gets the same source lock here.
+        with nullcontext() if RELEASE else MetadataRepository().source_lock(dataset_id):
+            return trigger_spark_job(dataset=dataset_id, mode=conf.get("mode", "full"),
+                                     run_id=conf.get("bronze_run_id"), pipeline_run_id=context.get("run_id"),
+                                     watermark=conf.get("watermark"), release=RELEASE)
 
     @task(task_id="silver_data_quality_audit")
     def silver_dq_audit(results):
@@ -51,14 +70,14 @@ with DAG(
                     raise ValueError("Silver dedup reconciliation failed")
                 if "observation_count" in metrics and metrics["observation_count"] != metrics["prepared_count"] + metrics["excluded_count"]:
                     raise ValueError("Silver observation reconciliation failed")
-        return trigger_spark_job(action="audit")
+        return [trigger_spark_job(dataset=d, action="audit", release=RELEASE) for d in DATASETS]
 
     @task(task_id="publish_silver_signal")
     def publish_signal(audit):
-        if audit["status"] != "PASSED":
+        if any(a["status"] != "PASSED" for a in audit):
             raise ValueError("Silver audit did not pass")
-        return {"silver_status": "READY_FOR_GOLD", "datasets": DATASETS,
-                "pending_datasets": PENDING_DATASETS}
+        return {"silver_status": "DQ_PASSED", "acceptance": "CLI_AND_OWNER_REQUIRED",
+                "release": RELEASE, "datasets": DATASETS, "pending_datasets": PENDING_DATASETS}
 
     gate = check_bronze_readiness()
     transformations = [transform_dataset.override(task_id=f"transform_{dataset}")(dataset) for dataset in DATASETS]

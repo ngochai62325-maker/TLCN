@@ -5,6 +5,7 @@ import time
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
+from decimal import Decimal
 
 
 def query(url, sql, timeout=600):
@@ -32,6 +33,62 @@ def identifier(name):
     return ".".join('"' + part.replace('"', '""') + '"' for part in name.split("."))
 
 
+def verify_record(url, source, record):
+    """Reconcile persisted release data; expectations come from this Spark run."""
+    if not record.get("replay_verified") or not record.get("incremental_replay_verified"):
+        raise ValueError("Full AND incremental replay evidence required")
+    table = identifier(record["metrics"]["target_table"])
+    types = {r["Column"]: r["Type"] for r in query(url, f"DESCRIBE {table}")}
+    expected = {}
+    for field in record["silver"]["schema"]["fields"]:
+        dtype = field["type"]
+        if isinstance(dtype, str):
+            expected[field["name"]] = {"string": "varchar", "long": "bigint", "timestamp": "timestamp(6) with time zone", "timestamp_ntz": "timestamp(6)"}.get(dtype, dtype)
+        elif field["name"] == "_dq_warnings":
+            expected[field["name"]] = "array(row(rule_id varchar, error_message varchar, failed_column varchar))"
+    if types != expected:
+        raise ValueError(f"Trino/Spark schema mismatch: {source}")
+    keys = ",".join(identifier(k) for k in record["business_keys"])
+    value = "price" if source == "worldbank_pinksheet" else "price_value" if source == "thitruongnongsan" else "value"
+    partitions = record.get("key_partitions", [])
+    distinct = "" if partitions else f"count(DISTINCT ROW({keys})) AS unique_keys,"
+    counts = query(url, f"SELECT count(*) AS rows, {distinct} count_if(cardinality(_dq_warnings)>0) AS warnings, count_if(missing_reason IS NOT NULL AND {value} IS NOT NULL) AS invalid_missing FROM {table}")[0]
+    if partitions:
+        if "year" not in record["business_keys"] or len({p["year"] for p in partitions}) != len(partitions):
+            raise ValueError("Invalid key partitions")
+        rows, unique = 0, 0
+        for partition in partitions:
+            checked = query(url, f"SELECT count(*) AS rows,count(DISTINCT ROW({keys})) AS unique_keys FROM {table} WHERE year={int(partition['year'])}")[0]
+            if checked["rows"] != partition["rows"]:
+                raise ValueError(f"Trino partition count mismatch: {source}")
+            rows += checked["rows"]
+            unique += checked["unique_keys"]
+        if rows != counts["rows"]:
+            raise ValueError(f"Trino key partition coverage mismatch: {source}")
+        counts["unique_keys"] = unique
+    if counts["rows"] != record["silver"]["rows"] or counts["unique_keys"] != counts["rows"] or counts["warnings"] != record["metrics"]["warning_count"] or counts["invalid_missing"]:
+        raise ValueError(f"Trino count/key/missing/warnings mismatch: {source}")
+    from silver.framework import AUDIT_COLUMNS
+    bronze_name = record["bronze_table"]
+    snapshot = int(record["bronze_snapshot_id"])
+    # Compare identity sets, not every row with every other row sharing batch lineage.
+    # EXCEPT also preserves NULL-safe tuple semantics without a correlated join.
+    audit = ",".join(identifier(c) for c in AUDIT_COLUMNS)
+    invalid = query(url, f"SELECT count(*) AS invalid FROM (SELECT {audit} FROM {table} EXCEPT SELECT {audit} FROM {identifier(bronze_name)} FOR VERSION AS OF {snapshot})")[0]["invalid"]
+    if invalid:
+        raise ValueError(f"Trino Bronze lineage mismatch: {source}")
+    distribution = query(url, f"SELECT unit,count(*) AS rows,count({value}) AS present,cast(sum({value}) AS varchar) AS sum_value FROM {table} GROUP BY unit ORDER BY unit")
+    normalize = lambda rows: sorted([(r["unit"], int(r["rows"]), int(r["present"]), Decimal(r["sum_value"]) if r["sum_value"] is not None else None) for r in rows], key=lambda r: str(r[0]))
+    if normalize(distribution) != normalize(record["unit_distribution"]):
+        raise ValueError(f"Trino values/units distribution mismatch: {source}")
+    for column in record["flag_distributions"]:
+        actual = query(url, f"SELECT {identifier(column)} AS flag,count(*) AS rows FROM {table} GROUP BY {identifier(column)}")
+        normalized = lambda rows: sorted([(r["flag"], r["rows"]) for r in rows], key=lambda r: str(r[0]))
+        if normalized(actual) != normalized(record["flag_distributions"][column]):
+            raise ValueError(f"Trino flag distribution mismatch: {source}.{column}")
+    return {"status": "PASSED", "counts": counts, "unit_distribution": distribution, "lineage": "PASSED", "schema": types}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--spark-report", type=Path, required=True)
@@ -39,10 +96,14 @@ def main():
     parser.add_argument("--url", default="http://trino:8080")
     args = parser.parse_args()
     evidence = json.loads(args.spark_report.read_text(encoding="utf-8"))
-    if evidence["status"] != "PASSED":
+    if evidence["status"] not in {"PASSED", "VALIDATED_PENDING_OWNER"}:
         raise ValueError("A PASSED Spark report is required")
     report = {"status": "RUNNING", "started_at": datetime.now(timezone.utc).isoformat()}
     try:
+        if evidence.get("release"):
+            report["datasets"] = {s: verify_record(args.url, s, r) for s, r in evidence["datasets"].items()}
+            report["status"] = "VALIDATED_PENDING_OWNER"
+            return
         statements = []
         for source, record in evidence["datasets"].items():
             if not record.get("metrics") or not record.get("replay_verified"):

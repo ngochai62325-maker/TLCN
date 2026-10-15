@@ -1,0 +1,561 @@
+{
+  "status": "PREPARED_RUNTIME_DRIFT_BLOCKED",
+  "code_build_tests": "PASSED",
+  "agent_shared_runtime_actions": "NONE",
+  "created_at": "2026-10-15T12:29:19.152428+00:00",
+  "release": "silver_v2_release_20261013",
+  "head": "b2bb3091aaaa42f3caeb1e112653f96464e6beb0",
+  "historical_evidence_sha256": {
+    "acceptance.json": "7bebe47c87f3943b3b59fa292d7686cd0de72caa6dc85c6f00ce2bf6b1cac2ee",
+    "preflight.json": "76cbbc7cf6884ced13dc74be1e85fb04aa85ec780ea4ec47d829433c5f9a4718",
+    "canary.json": "2535f2a7383993494f50957c15f53e35a94dc3e7daa9c6f9a6a7f49347a08401",
+    "canary_logs.zip": "bc5dedce8eee66742c92b27d233dd84b86f9a014a13f1c8294a6757c1c0913fc",
+    "incremental_new_raw.log": "d8cbdb50cb72864ff51be501f3f58f568e65da3fdc4fd3fc9f0f64a0410c82be"
+  },
+  "execution_artifacts_sha256": {
+    "dags/dag_ingestion_pipeline.py": "ebb33edcab4da17b29c74aa133e0c3a8b1cf001aced9558b43531a6e3450550a",
+    "dags/dag_silver_pipeline.py": "37d964b3563678ed61778728574cd749cd69ad9d627c87718d8ad5a620ed0760",
+    "src/ingestion/orchestration/pipeline_tasks.py": "8628a0c4fded02d7fa260f021b127a15232bee6080526381032f3777bc72c8db",
+    "compose.silver-production.yml": "301beb59215a12f9176cad1ed87fcb99d1ce756c0e3129d92b4b0ebfe55c7cf5",
+    "docker/silver-spark.Dockerfile": "8e55165a5211826e2036258e3f22a3dcccecde54040f06f554137457c43d5d40",
+    "docker/silver-airflow.Dockerfile": "c843fedca47f6ec6e0f6a13bbf5fbb96007f10495493f1a0d1de4608504ff800",
+    "requirements/silver-spark.lock": "f775aa369de4d8d53dc4b779ba3d7faf7fa7984b44e768244b19fd75150129ef",
+    "requirements/silver-airflow.lock": "26a6eb32e32a6dab2a1edeed63a661c4109e93120b1948c9f6f6640e1d49be2d",
+    ".dockerignore": "4d954c3f1b34b1157704b3a874425f12813092ea2beda292d7ed3504c334a5f5",
+    ".gitattributes": "249bcdbdd42b7f84d0169bfca74480120fb3adf8fbaf24cc6b2e94b245cfbc7f",
+    "config/trino/etc/config.properties": "685d39b29366c1cc43b1142160837d907db57ac5e779c46e6b771e3906e9866e",
+    "config/ingestion/source_registry.yaml": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+    "tests/unit/test_dag_structure.py": "593018a1c6a2372e26012cef0d61bc1da895fa3090212f5e8b6c3be35b43ae17",
+    "tests/unit/test_pipeline_tasks.py": "3e6f6683e1cb8bca381304502f480312f17943cb54e35a1ccbd76dd11f520793",
+    "tests/unit/test_silver_orchestration.py": "edd8b0278a4d223d83792b7f4bcbe1840cc5aac7c95d108c6fa7696e5f2cadd0",
+    "tests/integration/test_release_orchestration.py": "7962ff5bd9e438599719e427cd0f75a5ff76313beddbdd19fc61e661e982c8c3"
+  },
+  "images": {
+    "spark": {
+      "image_id": "sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843",
+      "repo_digests": [
+        "tlcn/silver-spark@sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843"
+      ],
+      "package_count": 146,
+      "accepted_inventory_match": true,
+      "pip_check_exit": 0,
+      "pip_check": "No broken requirements found."
+    },
+    "airflow": {
+      "image_id": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "repo_digests": [
+        "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96"
+      ],
+      "package_count": 377,
+      "accepted_inventory_match": true,
+      "pip_check_exit": 0,
+      "pip_check": "No broken requirements found."
+    },
+    "compose": {
+      "status": "PASSED",
+      "inactive": true,
+      "scope": "three_execution_services_only",
+      "cache_mounts": false,
+      "startup_pip": false
+    }
+  },
+  "api_image_smoke": {
+    "api_health": "PASSED",
+    "actual_default_child_import": "PASSED",
+    "registry_readonly_checksum": "PASSED",
+    "cache_mounts": false,
+    "shared_network": false
+  },
+  "real_checksum_skip_admission": {
+    "readonly_real_checksum_skip_gate": "PASSED",
+    "sources": [
+      "faostat_monthly_price",
+      "faostat_production",
+      "faostat_supply_utilization",
+      "faostat_trade",
+      "thitruongnongsan",
+      "usda_psd",
+      "usda_rice_yearbook",
+      "worldbank_pinksheet"
+    ],
+    "writes": 0
+  },
+  "shared_final": {
+    "status": "PASSED",
+    "table_identities": {
+      "bronze.faostat_monthly_price": {
+        "uuid": "b1e0ce92-d051-4dc2-9a51-c6b23d5d1fc4",
+        "snapshot_id": "6157409281295192226",
+        "metadata_location": "s3://warehouse/bronze/faostat_monthly_price-55f381253156443cbf75a547cc641ca5/metadata/00001-a20e0fac-b9a8-4409-9ed2-ea386f7dc8ae.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/bronze/faostat_monthly_price-55f381253156443cbf75a547cc641ca5"
+      },
+      "bronze.faostat_production": {
+        "uuid": "1d69250d-41d0-4dd5-9302-0646d8d05e9c",
+        "snapshot_id": "2102081992938536361",
+        "metadata_location": "s3://warehouse/bronze/faostat_production-2d1bbfd0aff64473aaa992aa3cf80653/metadata/00001-07e3b66e-6fb1-46ab-b03d-49366d26ffe1.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/bronze/faostat_production-2d1bbfd0aff64473aaa992aa3cf80653"
+      },
+      "bronze.faostat_supply_utilization": {
+        "uuid": "de0ed46e-bd3d-43d3-98f1-2df6d5bb50f9",
+        "snapshot_id": "2304096287387620151",
+        "metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-c7c08cb0ec894928aa400c84a87faaed/metadata/00001-37591139-3893-48e2-8b9b-766c78a845a4.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/bronze/faostat_supply_utilization-c7c08cb0ec894928aa400c84a87faaed"
+      },
+      "bronze.faostat_trade": {
+        "uuid": "943d69c1-1d8d-4be0-bfec-d3cae26f24f1",
+        "snapshot_id": "642330937032309860",
+        "metadata_location": "s3://warehouse/bronze/faostat_trade-64a40a18114a4f1686ca5d6808dd24e4/metadata/00025-529483fd-c53b-4a55-ae57-d5450a428973.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/bronze/faostat_trade-64a40a18114a4f1686ca5d6808dd24e4"
+      },
+      "bronze.faostat_trade_validation": {
+        "uuid": "b25e77ec-5466-4140-9624-eeefd8bfefdd",
+        "snapshot_id": "7904028951724863511",
+        "metadata_location": "s3://warehouse/bronze/faostat_trade_validation-05332bea18384fa18b6014d3ca403ae9/metadata/00002-85ee3ae0-111c-4947-9582-d3a2ccc68b82.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/bronze/faostat_trade_validation-05332bea18384fa18b6014d3ca403ae9"
+      },
+      "bronze.nso_vietnam": {
+        "uuid": "fc98bbb3-a552-4d90-9267-35f761d8b740",
+        "snapshot_id": "5022590202118908059",
+        "metadata_location": "s3://warehouse/bronze/nso_vietnam-9b9aa17ebe71465182fbc6c89012960b/metadata/00015-b4d74d08-13e7-4b4b-8f09-5a32a4c5c6cd.metadata.json",
+        "schema_id": 2,
+        "location": "s3://warehouse/bronze/nso_vietnam-9b9aa17ebe71465182fbc6c89012960b"
+      },
+      "bronze.thitruongnongsan": {
+        "uuid": "11bffdc2-1c58-476f-a515-594829135a5f",
+        "snapshot_id": "7501198324700066346",
+        "metadata_location": "s3://warehouse/bronze/thitruongnongsan-8db6faef6e0e404bbb03f328ac717eec/metadata/00001-390a1293-c46e-4766-a2cb-eae88990f13f.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/bronze/thitruongnongsan-8db6faef6e0e404bbb03f328ac717eec"
+      },
+      "bronze.usda_psd": {
+        "uuid": "afadf906-5dd8-4b15-8bd4-ed3426eb853c",
+        "snapshot_id": "8466254684668503650",
+        "metadata_location": "s3://warehouse/bronze/usda_psd-2a76a5bd25c249c5a7f8797133eea654/metadata/00001-4e7345ad-d00a-4c69-9de2-81c2f56fa82e.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/bronze/usda_psd-2a76a5bd25c249c5a7f8797133eea654"
+      },
+      "bronze.usda_rice_yearbook": {
+        "uuid": "f4d924c2-5bfb-46a3-80e8-819cd6b1f0d0",
+        "snapshot_id": "1548408886735471323",
+        "metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-c3628226538b4145b9c483e61fab67ee/metadata/00001-7adef126-a2d1-4059-b332-a5d49541a324.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/bronze/usda_rice_yearbook-c3628226538b4145b9c483e61fab67ee"
+      },
+      "bronze.worldbank_pinksheet": {
+        "uuid": "ce5505f7-845e-4dfd-ad21-416d858155ca",
+        "snapshot_id": "2882972560001480195",
+        "metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-9424ab811c364d98b35e50a5963a2a61/metadata/00001-96c50ca4-550b-4937-96a5-3b08accd0368.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/bronze/worldbank_pinksheet-9424ab811c364d98b35e50a5963a2a61"
+      },
+      "bronze_nso_validation_57480ca6119f.nso_vietnam": {
+        "uuid": "bf03f096-61b1-498d-a97b-cd66233e27cd",
+        "snapshot_id": "3539176882066695752",
+        "metadata_location": "s3://warehouse/bronze_nso_validation_57480ca6119f/nso_vietnam-7e8baeace3674ed686560554b4640079/metadata/00013-4aa22c2d-dd6a-4af7-b81e-6ea5691fb10e.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/bronze_nso_validation_57480ca6119f/nso_vietnam-7e8baeace3674ed686560554b4640079"
+      },
+      "silver.dead_letters": {
+        "uuid": "861eab9d-776f-4b6d-9cd0-18d5cded8367",
+        "snapshot_id": "4391329369889682407",
+        "metadata_location": "s3://warehouse/silver/dead_letters/metadata/00004-8a5baa92-1132-42c9-8c6c-81d6a3a2967f.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver/dead_letters"
+      },
+      "silver.faostat_monthly_price": {
+        "uuid": "9bc5e429-2923-432d-ab0b-7bb0f09c5fb3",
+        "snapshot_id": "2075583285248269032",
+        "metadata_location": "s3://warehouse/silver/faostat_monthly_price/metadata/00001-1f099ee7-eacf-4e13-8886-27760fbaa563.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver/faostat_monthly_price"
+      },
+      "silver.faostat_production": {
+        "uuid": "35e4e7c7-b884-475b-9211-ca00ea8865c2",
+        "snapshot_id": "7227024684691913203",
+        "metadata_location": "s3://warehouse/silver/faostat_production/metadata/00001-54e4309c-47a1-4a53-8b16-b2d830cf3c3a.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver/faostat_production"
+      },
+      "silver.faostat_supply_utilization": {
+        "uuid": "f03c99f2-c378-4c13-ac32-a1ca848407c9",
+        "snapshot_id": "7439932791361130001",
+        "metadata_location": "s3://warehouse/silver/faostat_supply_utilization/metadata/00001-249d0b98-2a04-497a-aa81-12f1583510bb.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver/faostat_supply_utilization"
+      },
+      "silver.nso_rice_statistics": {
+        "uuid": "7be5e00a-6ee8-411d-aec3-712a99a2c528",
+        "snapshot_id": "3726932899638218821",
+        "metadata_location": "s3://warehouse/silver/nso_rice_statistics/metadata/00001-fe35de40-cd76-4adf-bdbb-52aafab6eb7f.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver/nso_rice_statistics"
+      },
+      "silver.thitruongnongsan": {
+        "uuid": "5c742809-0cb8-46c3-8159-928b3a256404",
+        "snapshot_id": "5930674096009641878",
+        "metadata_location": "s3://warehouse/silver/thitruongnongsan/metadata/00001-04e5857b-ddab-4658-aacd-79fff6451727.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver/thitruongnongsan"
+      },
+      "silver.usda_rice_psd": {
+        "uuid": "596e6236-fc40-4a95-9d60-e62058e3d1fc",
+        "snapshot_id": "5389899573651062951",
+        "metadata_location": "s3://warehouse/silver/usda_rice_psd/metadata/00001-796c4208-82d8-4fb6-a224-945d689aa16b.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver/usda_rice_psd"
+      },
+      "silver.usda_rice_yearbook": {
+        "uuid": "f414fec2-1045-4d74-8f7a-109c7ae44320",
+        "snapshot_id": "1929858703617072610",
+        "metadata_location": "s3://warehouse/silver/usda_rice_yearbook/metadata/00001-074aa995-ecfa-4f2c-8fe8-30e324edff27.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver/usda_rice_yearbook"
+      },
+      "silver.worldbank_commodity_monthly": {
+        "uuid": "52c29a93-f8c5-458a-a76c-7d4813e6d308",
+        "snapshot_id": "1348144200730115257",
+        "metadata_location": "s3://warehouse/silver/worldbank_commodity_monthly/metadata/00001-40fca192-094c-475d-9ff1-c83fb7f43c4c.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver/worldbank_commodity_monthly"
+      },
+      "silver_v2_release_20261013.dead_letters": {
+        "uuid": "5adc1ff5-c9a9-4aa3-b649-5c6d358111d6",
+        "snapshot_id": "5285064570972783895",
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/dead_letters/metadata/00004-da010f9d-e1f5-4a0f-b782-e92dcc55ea26.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver_v2_release_20261013/dead_letters"
+      },
+      "silver_v2_release_20261013.faostat_monthly_price": {
+        "uuid": "99f6b25e-14e2-4cea-a181-0bbea2357526",
+        "snapshot_id": "8339508013034672563",
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/faostat_monthly_price/metadata/00001-5722a6e0-9058-45a9-ae89-e586ceb64e97.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver_v2_release_20261013/faostat_monthly_price"
+      },
+      "silver_v2_release_20261013.faostat_production": {
+        "uuid": "10c64549-dcee-47c2-919e-a58cff5f091e",
+        "snapshot_id": "7833012846717654768",
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/faostat_production/metadata/00001-f4da9fd8-e005-4c97-9929-636d42bb4bd5.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver_v2_release_20261013/faostat_production"
+      },
+      "silver_v2_release_20261013.faostat_supply_utilization": {
+        "uuid": "5990fc5f-ef32-4dc8-a232-565387336bfd",
+        "snapshot_id": "6996323947372016333",
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/faostat_supply_utilization/metadata/00001-a177bf96-8d81-4d34-a6be-405f474d99c5.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver_v2_release_20261013/faostat_supply_utilization"
+      },
+      "silver_v2_release_20261013.faostat_trade": {
+        "uuid": "61823cf7-5c7f-4c85-9028-32157be45573",
+        "snapshot_id": "1757023266116193085",
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/faostat_trade/metadata/00001-e0463e10-f962-4f5a-88a3-50ee47fb1910.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver_v2_release_20261013/faostat_trade"
+      },
+      "silver_v2_release_20261013.thitruongnongsan": {
+        "uuid": "53c2d07b-34ee-4f83-aa91-f76c5fcfa10b",
+        "snapshot_id": "2921921961555442382",
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/thitruongnongsan/metadata/00001-93d3262b-0365-4856-acaf-fbe0d2bcf1e1.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver_v2_release_20261013/thitruongnongsan"
+      },
+      "silver_v2_release_20261013.usda_rice_psd": {
+        "uuid": "f2417e03-5f86-43c6-b6b1-063cf0b4604f",
+        "snapshot_id": "2364532576229946037",
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/usda_rice_psd/metadata/00001-fe493fc7-7ba9-4fb2-9dd0-e3f1af96b15b.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver_v2_release_20261013/usda_rice_psd"
+      },
+      "silver_v2_release_20261013.usda_rice_yearbook": {
+        "uuid": "cb41cc38-d110-4f53-8fd7-dc837472ca13",
+        "snapshot_id": "2178026287867944899",
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/usda_rice_yearbook/metadata/00001-94c3181b-32e0-46c2-a07b-0e0803481400.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver_v2_release_20261013/usda_rice_yearbook"
+      },
+      "silver_v2_release_20261013.worldbank_commodity_monthly": {
+        "uuid": "32b55281-d428-4298-82af-84f38f17f55c",
+        "snapshot_id": "6867808954567920629",
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/worldbank_commodity_monthly/metadata/00001-6c4f893a-ec46-4eca-bdcf-a9afffd4d037.metadata.json",
+        "schema_id": 0,
+        "location": "s3://warehouse/silver_v2_release_20261013/worldbank_commodity_monthly"
+      }
+    },
+    "trino_rows": {
+      "silver_v2_release_20261013.faostat_monthly_price": 15334,
+      "silver_v2_release_20261013.faostat_production": 22738,
+      "silver_v2_release_20261013.usda_rice_yearbook": 12936,
+      "silver_v2_release_20261013.faostat_supply_utilization": 36380,
+      "silver_v2_release_20261013.usda_rice_psd": 990,
+      "silver_v2_release_20261013.thitruongnongsan": 20387,
+      "silver_v2_release_20261013.faostat_trade": 1226470,
+      "silver_v2_release_20261013.worldbank_commodity_monthly": 56232
+    },
+    "total_silver_rows": 1391467,
+    "quarantine_rows": 4,
+    "ingestion_metadata": {
+      "dead_letter_records": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ingestion_checkpoints": {
+        "count": 4,
+        "sha256": "fdcd8d2950a73bba7d4711f5adc3e57a29ce11b0c1b552c66d129cce9ac072e8"
+      },
+      "ingestion_runs": {
+        "count": 21,
+        "sha256": "0e01c2c5e0047fe8be10945eae12f765a6fd98564ed7d2f8421e129f6f4e08e1"
+      },
+      "source_snapshots": {
+        "count": 10,
+        "sha256": "383a74fb457a6e8270610b107b1fb1c343523187149044725542b10cbcab8622"
+      },
+      "source_watermarks": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "active_runs": 0,
+    "advisory_locks": 0,
+    "dags": {
+      "rice_lakehouse_ingestion": {
+        "paused": true,
+        "schedule": null,
+        "writer_sources": [
+          "faostat_monthly_price",
+          "faostat_production",
+          "faostat_supply_utilization",
+          "faostat_trade",
+          "faostat_trade_validation",
+          "nso_vietnam",
+          "thitruongnongsan",
+          "usda_psd",
+          "usda_rice_yearbook",
+          "worldbank_pinksheet"
+        ],
+        "scope_matches_v2": false,
+        "task_retries": {
+          "initialize_metadata": 1,
+          "start_lakehouse_ingestion": 1,
+          "end_lakehouse_ingestion": 1,
+          "ingest_faostat_production": 2,
+          "ingest_faostat_monthly_price": 2,
+          "ingest_faostat_trade": 2,
+          "ingest_faostat_trade_validation": 2,
+          "ingest_faostat_supply_utilization": 2,
+          "ingest_nso_vietnam": 2,
+          "ingest_usda_rice_yearbook": 2,
+          "ingest_usda_psd": 2,
+          "ingest_worldbank_pinksheet": 2,
+          "ingest_thitruongnongsan": 2
+        },
+        "production_trigger_present": false
+      },
+      "rice_lakehouse_silver_pipeline": {
+        "paused": true,
+        "schedule": null,
+        "writer_sources": [
+          "faostat_monthly_price",
+          "faostat_production",
+          "faostat_supply_utilization",
+          "faostat_trade",
+          "thitruongnongsan",
+          "usda_psd",
+          "usda_rice_yearbook",
+          "worldbank_pinksheet"
+        ],
+        "scope_matches_v2": true,
+        "task_retries": {
+          "start": 1,
+          "end": 1,
+          "gate_check_bronze": 1,
+          "transform_faostat_production": 0,
+          "transform_faostat_monthly_price": 0,
+          "transform_faostat_supply_utilization": 0,
+          "transform_faostat_trade": 0,
+          "transform_usda_psd": 0,
+          "transform_usda_rice_yearbook": 0,
+          "transform_worldbank_pinksheet": 0,
+          "transform_thitruongnongsan": 0,
+          "silver_data_quality_audit": 1,
+          "publish_silver_signal": 1
+        },
+        "production_trigger_present": false
+      }
+    },
+    "runtime_flags": {
+      "SILVER_ACCEPTED_RELEASE": null,
+      "SILVER_CANARY_ONLY": null,
+      "SILVER_PRODUCTION_ENABLED": null
+    },
+    "production_enabled": false
+  },
+  "services_final": {
+    "spark-iceberg": {
+      "id": "947a847fa290bc8348bb9b2e602f1fbca835de24166b6f946f893106af691dc4",
+      "started_at": "2026-10-15T12:22:10.323033523Z",
+      "unchanged": false,
+      "health": "healthy"
+    },
+    "airflow-scheduler": {
+      "id": "795dd43b97f9db8caf5cfd13a172893d0d911043b660b5604e25f3da4176d044",
+      "started_at": "2026-10-15T12:22:30.270585154Z",
+      "unchanged": false,
+      "health": null
+    },
+    "airflow-webserver": {
+      "id": "0939e4b01eaf35dcdbe9e3846e3cc6731be3036e8811574ae03eb02c58249baf",
+      "started_at": "2026-10-15T12:22:30.287428409Z",
+      "unchanged": false,
+      "health": null
+    },
+    "postgres": {
+      "id": "087553c721aa2ae868685aae76751311cc0e4e88ce00ff7e0a91a18cfeadec56",
+      "started_at": "2026-10-15T12:22:02.661229204Z",
+      "unchanged": false,
+      "health": "healthy"
+    },
+    "minio": {
+      "id": "083ba6a0a02f3e46bef02ba3892c061b3b7df5b2fd8aa19e6655d8d56643ba9d",
+      "started_at": "2026-10-15T12:22:02.709495305Z",
+      "unchanged": false,
+      "health": "healthy"
+    },
+    "iceberg-rest": {
+      "id": "e074a325fde5838d3f1c5bf75f028710704fda5de2152ef3e3600907dffe6e4c",
+      "started_at": "2026-10-15T12:22:09.8033695Z",
+      "unchanged": false,
+      "health": null
+    },
+    "trino": {
+      "id": "86c53ec37810b54f6b2761bdb60998b13f4dc419baa4a781df77d0ebaf41386d",
+      "started_at": "2026-10-15T12:22:10.228692508Z",
+      "unchanged": false,
+      "health": "healthy"
+    }
+  },
+  "tests": {
+    "status": "PASSED",
+    "dag_parse_unit": 10,
+    "ingestion_orchestration_unit": 27,
+    "airflow_sqlite_metadata_integration": 11,
+    "silver_compatibility_unit": 31,
+    "native_iceberg_fixture_integration": 10,
+    "unique_cases_passed": 89,
+    "external_production_orchestration_e2e": "NOT_RUN",
+    "full_raw_rebuild": "NOT_RERUN",
+    "representative_incremental_evidence": "PRESERVED_NOT_RERUN",
+    "default_manual_guard": {
+      "status": "PASSED",
+      "cases": 1,
+      "included_in_dag_parse_unit": true
+    }
+  },
+  "production_schedule": null,
+  "runtime_drift": {
+    "spark-iceberg": {
+      "id": "947a847fa290bc8348bb9b2e602f1fbca835de24166b6f946f893106af691dc4",
+      "image_id": "sha256:790a72e744e0d09f161e1b4c7c2f79625cc598cf0476da4703e62f1f4e023460",
+      "started_at": "2026-10-15T12:22:10.323033523Z",
+      "same_container_as_canary": false,
+      "same_start_as_canary": false,
+      "health": "healthy"
+    },
+    "airflow-scheduler": {
+      "id": "795dd43b97f9db8caf5cfd13a172893d0d911043b660b5604e25f3da4176d044",
+      "image_id": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "started_at": "2026-10-15T12:22:30.270585154Z",
+      "same_container_as_canary": false,
+      "same_start_as_canary": false,
+      "health": null,
+      "release_flags": {
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_PRODUCTION_ENABLED": null
+      }
+    },
+    "airflow-webserver": {
+      "id": "0939e4b01eaf35dcdbe9e3846e3cc6731be3036e8811574ae03eb02c58249baf",
+      "image_id": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "started_at": "2026-10-15T12:22:30.287428409Z",
+      "same_container_as_canary": false,
+      "same_start_as_canary": false,
+      "health": null,
+      "release_flags": {
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_PRODUCTION_ENABLED": null
+      }
+    },
+    "postgres": {
+      "id": "087553c721aa2ae868685aae76751311cc0e4e88ce00ff7e0a91a18cfeadec56",
+      "image_id": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "started_at": "2026-10-15T12:22:02.661229204Z",
+      "same_container_as_canary": false,
+      "same_start_as_canary": false,
+      "health": "healthy"
+    },
+    "minio": {
+      "id": "083ba6a0a02f3e46bef02ba3892c061b3b7df5b2fd8aa19e6655d8d56643ba9d",
+      "image_id": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "started_at": "2026-10-15T12:22:02.709495305Z",
+      "same_container_as_canary": false,
+      "same_start_as_canary": false,
+      "health": "healthy"
+    },
+    "iceberg-rest": {
+      "id": "e074a325fde5838d3f1c5bf75f028710704fda5de2152ef3e3600907dffe6e4c",
+      "image_id": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "started_at": "2026-10-15T12:22:09.8033695Z",
+      "same_container_as_canary": false,
+      "same_start_as_canary": false,
+      "health": null
+    },
+    "trino": {
+      "id": "86c53ec37810b54f6b2761bdb60998b13f4dc419baa4a781df77d0ebaf41386d",
+      "image_id": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "started_at": "2026-10-15T12:22:10.228692508Z",
+      "same_container_as_canary": false,
+      "same_start_as_canary": false,
+      "health": "healthy"
+    }
+  },
+  "production_deployed": false,
+  "consumer_routing": "UNCHANGED",
+  "git_mutations": "NONE",
+  "validation_output": {
+    "airflow_initial_final": {
+      "sha256": "b3b8d7e91b1f431e00852b356618bec88f3ab775371e6267d4df7cb117c11374",
+      "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.11.11, pytest-8.4.2, pluggy-1.5.0\nrootdir: /workspace\nconfigfile: pyproject.toml\nplugins: time-machine-2.16.0, anyio-4.7.0\ncollected 47 items\n\ntests/unit/test_dag_structure.py ..........                              [ 21%]\ntests/unit/test_pipeline_tasks.py ...........................            [ 78%]\ntests/integration/test_release_orchestration.py ..........               [100%]\n\n=============================== warnings summary ===============================\ntests/integration/test_release_orchestration.py::test_real_operator_duplicate_trigger_without_external_execution\n  /home/airflow/.local/lib/python3.11/site-packages/openlineage/client/run.py:10: DeprecationWarning: This module is deprecated. Please use `openlineage.client.facet_v2`.\n    from openlineage.client.facet import NominalTimeRunFacet, ParentRunFacet\n\ntests/integration/test_release_orchestration.py::test_real_operator_duplicate_trigger_without_external_execution\n  /home/airflow/.local/lib/python3.11/site-packages/openlineage/client/filter.py:10: DeprecationWarning: This module is deprecated. Please use `openlineage.client.event_v2`.\n    from openlineage.client.run import RunEvent\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n----------- generated xml file: /tmp/release-orchestration-tests.xml -----------\n======================= 47 passed, 2 warnings in 29.72s ========================\n"
+    },
+    "airflow_trigger_guard_final": {
+      "sha256": "1772576599c3bc0fc4088166042943ec6a96a6944a91cd9bf96a9ad3323c21ae",
+      "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.11.11, pytest-8.4.2, pluggy-1.5.0\nrootdir: /workspace\nconfigfile: pyproject.toml\nplugins: time-machine-2.16.0, anyio-4.7.0\ncollected 21 items\n\ntests/unit/test_dag_structure.py ..........                              [ 47%]\ntests/integration/test_release_orchestration.py ...........              [100%]\n\n=============================== warnings summary ===============================\ntests/integration/test_release_orchestration.py::test_pause_between_gate_and_operator_is_rechecked\n  /home/airflow/.local/lib/python3.11/site-packages/openlineage/client/run.py:10: DeprecationWarning: This module is deprecated. Please use `openlineage.client.facet_v2`.\n    from openlineage.client.facet import NominalTimeRunFacet, ParentRunFacet\n\ntests/integration/test_release_orchestration.py::test_pause_between_gate_and_operator_is_rechecked\n  /home/airflow/.local/lib/python3.11/site-packages/openlineage/client/filter.py:10: DeprecationWarning: This module is deprecated. Please use `openlineage.client.event_v2`.\n    from openlineage.client.run import RunEvent\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n----------- generated xml file: /tmp/release-orchestration-tests.xml -----------\n======================== 21 passed, 2 warnings in 9.61s ========================\n"
+    },
+    "default_manual_guard_final": {
+      "sha256": "b925b71fb6ad3378e3f93d75ba87efb53d2fae519154e23fe8aa1f19cc5e2b8a",
+      "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.11.11, pytest-8.4.2, pluggy-1.5.0\nrootdir: /workspace\nconfigfile: pyproject.toml\nplugins: time-machine-2.16.0, anyio-4.7.0\ncollected 1 item\n\ntests/unit/test_dag_structure.py .                                       [100%]\n\n============================== 1 passed in 6.39s ===============================\n\n"
+    },
+    "silver_unit": {
+      "sha256": "15e820012e407d3acb26820e2af51c452e3c02fdd3265bcddf62d962f33ae2fb",
+      "stdout": "WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv\n============================= test session starts ==============================\nplatform linux -- Python 3.10.16, pytest-8.4.2, pluggy-1.6.0\nrootdir: /workspace\nconfigfile: pyproject.toml\nplugins: anyio-4.8.0\ncollected 31 items\n\ntests/unit/test_silver_orchestration.py ................                 [ 51%]\ntests/unit/test_silver_contract_loader.py ..                             [ 58%]\ntests/unit/test_silver_contract_paths.py .                               [ 61%]\ntests/unit/test_silver_quality_engine.py ......                          [ 80%]\ntests/unit/test_silver_merge_engine.py ....                              [ 93%]\ntests/unit/test_silver_quarantine.py ..                                  [100%]\n\n============================= 31 passed in 27.45s ==============================\n"
+    },
+    "iceberg_fixture_integration": {
+      "sha256": "3cddcf1126f9fd967fce70b1e8727f4f72c945cb007398dcbf28b1485ab25fd8",
+      "stdout": "WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv\n============================= test session starts ==============================\nplatform linux -- Python 3.10.16, pytest-8.4.2, pluggy-1.6.0\nrootdir: /workspace\nconfigfile: pyproject.toml\nplugins: anyio-4.8.0\ncollected 10 items\n\ntests/integration/test_silver_pipeline_isolated.py ..........            [100%]\n\n======================== 10 passed in 214.87s (0:03:34) ========================\n"
+    }
+  },
+  "remaining_deployment_blockers": [
+    "Shared runtime lost approved release/canary flags; actual Bronze default scope is 10 sources, not V2 scope",
+    "Seven shared container identities differ from canary; must approve correct execution deployment and fresh runtime preflight",
+    "Business cron and deployment/activation approval are pending",
+    "Release code remains uncommitted; immutable images are local, not published"
+  ],
+  "test_evidence_note": "89 distinct cases; metadata integration executes no external Silver tasks. Targeted reruns are not double-counted."
+}

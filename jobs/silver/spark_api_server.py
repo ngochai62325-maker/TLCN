@@ -26,7 +26,7 @@ class SparkApiHandler(BaseHTTPRequestHandler):
         self.wfile.write(encoded)
 
     def do_GET(self):
-        self._send_json(200, {"status": "ok"}) if self.path == "/health" else self._send_json(404, {"error": "Not found"})
+        self._send_json(200, {"status": "ok", "silver_release": "silver_v2_release_20261013"}) if self.path == "/health" else self._send_json(404, {"error": "Not found"})
 
     def do_POST(self):
         if self.path != "/run":
@@ -44,7 +44,7 @@ class SparkApiHandler(BaseHTTPRequestHandler):
                 raise ValueError("Unknown job, mode or action")
             command = ["/opt/spark/bin/spark-submit", str(JOBS_DIR / job), "--mode", mode]
             for key, flag in [("run_id", "--run-id"), ("pipeline_run_id", "--pipeline-run-id"),
-                              ("dataset", "--dataset"), ("watermark", "--watermark")]:
+                              ("dataset", "--dataset"), ("watermark", "--watermark"), ("release", "--release")]:
                 if request.get(key):
                     command += [flag, str(request[key])]
             if action != "run":

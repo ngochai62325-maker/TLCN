@@ -1,5 +1,6 @@
 """Single contract-driven Bronze to Silver pipeline shared by CLI and Airflow."""
 import importlib
+import copy
 import logging
 from datetime import datetime, timezone
 
@@ -7,12 +8,15 @@ from pyspark import StorageLevel
 from pyspark.sql import SparkSession, functions as F, types as T
 
 from ingestion.storage.bronze_writer import sanitize_column_name
-from silver.contract.loader import SilverContractLoader
+from silver.contract.loader import SilverContract, SilverContractLoader
 from silver.engine.quality import SilverQualityEngine, ERROR_TYPE
 from silver.engine.quarantine import SilverQuarantineManager
 from silver.engine.merge import IcebergMergeEngine
 
 logger = logging.getLogger("silver.framework")
+RELEASE_NAMESPACE = "silver_v2_release_20261013"
+RELEASE_SOURCES = ("faostat_production", "faostat_monthly_price", "faostat_supply_utilization",
+                   "faostat_trade", "usda_psd", "usda_rice_yearbook", "worldbank_pinksheet", "thitruongnongsan")
 AUDIT_COLUMNS = (
     "_ingestion_run_id", "_ingestion_batch_id", "_ingestion_chunk_id",
     "_ingestion_timestamp", "_source_id", "_source_file",
@@ -21,11 +25,27 @@ AUDIT_COLUMNS = (
 
 
 class SilverTransformationFramework:
-    def __init__(self, spark: SparkSession, contract_dir: str = None):
+    def __init__(self, spark: SparkSession, contract_dir: str = None, release=None):
+        if release is not None and release != RELEASE_NAMESPACE:
+            raise ValueError(f"Unapproved Silver release: {release}")
+        self.release = release
         self.spark = spark
         self.contract_loader = SilverContractLoader(contract_dir)
         self.quarantine_manager = SilverQuarantineManager(spark)
         self.merge_engine = IcebergMergeEngine(spark)
+
+    def contract(self, dataset_id):
+        """Opt-in routing; the checked-in contracts and default routing stay intact."""
+        if self.release and dataset_id not in RELEASE_SOURCES:
+            raise ValueError(f"Source outside Silver V2 release: {dataset_id}")
+        contract = self.contract_loader.load_contract(dataset_id)
+        if self.release:
+            data = copy.deepcopy(contract._data)
+            catalog, _, table = contract.silver_output.rsplit(".", 2)
+            data["dataset"]["silver_output"] = f"{catalog}.{self.release}.{table}"
+            contract = SilverContract(data)
+        contract.validate_executable()
+        return contract
 
     def transformer(self, dataset_id):
         module_name = f"silver.transformers.{dataset_id}"
@@ -84,9 +104,11 @@ class SilverTransformationFramework:
         return df.select(*output, *[F.col(c) for c in extras],
                          F.filter(F.array(*errors).cast(ERROR_TYPE), lambda x: x.isNotNull()).alias("_sys_cast_errors"))
 
-    def run(self, dataset_id: str, pipeline_run_id: str, mode="full", run_id=None, watermark=None):
-        contract = self.contract_loader.load_contract(dataset_id)
-        contract.validate_executable()
+    def run(self, dataset_id: str, pipeline_run_id: str, mode="full", run_id=None, watermark=None,
+            bronze_snapshot_id=None):
+        contract = self.contract(dataset_id)
+        if self.release:
+            self.quarantine_manager.target_table = contract.silver_output.rsplit(".", 1)[0] + ".dead_letters"
         if mode not in {"full", "incremental"}:
             raise ValueError(f"Unsupported read mode: {mode}")
         if mode == "incremental" and not (run_id or watermark):
@@ -96,8 +118,10 @@ class SilverTransformationFramework:
         read_snapshot_id = None
         logger.info("silver_start dataset=%s pipeline_run_id=%s mode=%s", dataset_id, pipeline_run_id, mode)
         try:
-            current = self.spark.sql(f"SELECT snapshot_id FROM {contract.bronze_input}.history ORDER BY made_current_at DESC LIMIT 1").first()
+            current = self.spark.sql(f"SELECT snapshot_id FROM {contract.bronze_input}.refs WHERE name = 'main'").first()
             read_snapshot_id = current[0] if current else None
+            if bronze_snapshot_id is not None and read_snapshot_id != int(bronze_snapshot_id):
+                raise ValueError(f"Bronze snapshot drift: {contract.bronze_input}")
             reader = self.spark.read.format("iceberg")
             if read_snapshot_id is not None:
                 reader = reader.option("snapshot-id", str(read_snapshot_id))

@@ -23,11 +23,13 @@ from pyspark.sql import SparkSession, functions as F, types as T
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "jobs/silver"))
 from ingestion.config.registry import SourceRegistry
 from ingestion.storage.bronze_writer import sanitize_column_name
+from jobs.silver.validate_silver_e2e import verify_values, accept_source, input_state
 from silver.audit import audit_tables
 from silver.contract.loader import SilverContractLoader
-from silver.framework import SilverTransformationFramework
+from silver.framework import SilverTransformationFramework, RELEASE_NAMESPACE
 from ingestion.utils.hashing import compute_file_checksum
 
 SOURCES = ("faostat_production", "faostat_monthly_price", "faostat_supply_utilization", "faostat_trade",
@@ -107,61 +109,6 @@ def configure_rebuild(spark_builder, temporary, configs, resume=False):
     return builder, engine, query
 
 
-def verify_values(spark, source, contract, metrics):
-    """Check source facts on persisted outputs, independently of DQ metrics."""
-    output, bronze = spark.table(contract.silver_output), spark.table(contract.bronze_input)
-    audit = ["_ingestion_run_id", "_ingestion_batch_id", "_ingestion_chunk_id", "_ingestion_timestamp",
-             "_source_id", "_source_file", "_source_checksum", "_source_snapshot_id"]
-    assert all(output.schema[c].dataType == bronze.schema[c].dataType for c in audit)
-    assert output.select(*audit).distinct().join(bronze.select(*audit).distinct(), audit, "left_anti").isEmpty()
-    if source.startswith("faostat_"):
-        # Use source text dimensions and original audit identity to verify that
-        # flags/descriptions/notes stayed attached to their source observations.
-        mapping = ([("reporter_country_name", "reporter_countries"), ("partner_country_name", "partner_countries"),
-                    ("commodity_name", "item"), ("element_name", "element")] if source == "faostat_trade" else
-                   [("country_name", "area"), ("commodity_name", "item"), ("element", "element")])
-        if source == "faostat_monthly_price":
-            mapping.append(("month_name", "months"))
-        keys = [*audit, "year", *[name for name, _ in mapping]]
-        provenance = [c for c in ("flag", "flag_description", "note") if c in output.columns and c in bronze.columns]
-        expected = bronze.select(*audit, F.col("year").cast("int").alias("year"),
-                                 *[F.trim(F.col(raw).cast("string")).alias(name) for name, raw in mapping],
-                                 *[F.when(F.trim(F.col(c).cast("string")) != "", F.trim(F.col(c).cast("string"))).alias("expected_" + c) for c in provenance])
-        compared = output.join(expected, keys, "left")
-        assert all(compared.filter(~F.col(c).eqNullSafe(F.col("expected_" + c))).isEmpty() for c in provenance)
-    assert output.filter("missing_reason IS NOT NULL").filter((F.col("price") if source == "worldbank_pinksheet" else F.col("price_value") if source == "thitruongnongsan" else F.col("value")).isNotNull()).isEmpty()
-    value_column = "price" if source == "worldbank_pinksheet" else "price_value" if source == "thitruongnongsan" else "value"
-    dtype = next(c["data_type"] for c in contract.columns if c["name"] == value_column)
-    if source != "usda_psd":
-        raw = "regexp_replace(value_raw, ',', '')" if source == "thitruongnongsan" else "value_raw"
-        if source == "faostat_production":
-            raw = f"try_cast({raw} as decimal(38,12)) * CASE WHEN element_code = '5510' AND lower(unit_raw) = 'kg' THEN 0.001 WHEN element_code = '5412' AND lower(unit_raw) = 'hg/ha' THEN 0.1 WHEN element_code = '5412' AND lower(unit_raw) = 't/ha' THEN 1000 ELSE 1 END"
-        assert output.filter(~F.col(value_column).eqNullSafe(F.expr(f"try_cast({raw} AS {dtype})"))).isEmpty()
-    if source == "faostat_production":
-        assert output.filter("(element_code = '5312' AND unit <> 'hectare') OR (element_code = '5510' AND unit <> 'tonne') OR (element_code = '5412' AND unit <> 'kg/hectare')").isEmpty()
-    elif source == "faostat_monthly_price":
-        assert output.filter("(time_grain = 'annual' AND month IS NOT NULL) OR (price_kind = 'producer_price_index' AND currency IS NOT NULL)").isEmpty()
-    elif source == "faostat_supply_utilization":
-        expected = bronze.filter("element_code = 5166 AND try_cast(value AS decimal(28,8)) < 0").count()
-        residuals = output.filter("element_code = '5166' AND value < 0")
-        assert residuals.count() == expected
-        assert residuals.filter(F.size("_dq_warnings") == 0).isEmpty()
-    elif source == "faostat_trade":
-        assert output.filter("(element_code IN ('5610','5910') AND unit <> 'tonne') OR (element_code IN ('5622','5922') AND unit <> '1000 USD')").isEmpty()
-    elif source == "usda_psd":
-        assert output.filter("attribute = 'Milling Rate (.9999)' AND value IS NOT NULL AND (unit <> 'fraction' OR value <> value_source / 10000)").isEmpty()
-        assert output.filter("attribute <> 'Milling Rate (.9999)' AND value <> try_cast(value_source AS decimal(18,4))").isEmpty()
-    elif source == "usda_rice_yearbook":
-        assert output.filter("unit <> 'USD/tonne'").isEmpty()
-    elif source == "worldbank_pinksheet":
-        assert output.filter("unit IS NULL OR month NOT BETWEEN 1 AND 12").isEmpty()
-        # Source coverage includes every named series in the configured Monthly Prices sheet.
-        series = [c for c in bronze.columns if not c.startswith("_") and c != "period" and not c.startswith("commodity_")]
-        assert metrics["prepared_count"] == bronze.count() * len(series)
-    elif source == "thitruongnongsan":
-        assert output.filter("unit <> 'VND/kg' OR currency <> 'VND'").isEmpty()
-        assert output.filter("price_value = 0").count() == bronze.filter(F.expr(f"try_cast(`{sanitize_column_name('Giá')}` AS decimal(18,2)) = 0")).count()
-    return {"lineage_roundtrip": True, "source_values_units_flags": "PASSED"}
 
 
 def main():
@@ -170,7 +117,10 @@ def main():
     parser.add_argument("--raw-root", type=Path, default=ROOT / "data/raw")
     parser.add_argument("--rebuild", action="store_true", help="Actual ingestion; independent test services only")
     parser.add_argument("--resume", action="store_true", help="Continue the SAME isolated drill; never reset existing test data")
+    parser.add_argument("--release", choices=[RELEASE_NAMESPACE], help="Exercise opt-in release routing on isolated services")
     args = parser.parse_args()
+    if args.release and not args.rebuild:
+        parser.error("Release acceptance drill requires isolated --rebuild services")
     logging.basicConfig(level=logging.INFO)
     with tempfile.TemporaryDirectory(prefix="silver-snapshots-") as temporary:
         temporary = Path(temporary)
@@ -212,7 +162,8 @@ def main():
                 adapter = getattr(importlib.import_module(module), cls)()
                 data = copy.deepcopy(contract._data)
                 data["dataset"]["bronze_input"] = f"{catalog}.bronze.{path.stem}"
-                data["dataset"]["silver_output"] = f"{catalog}.silver.{path.stem}"
+                target_name = contract.silver_output.rsplit(".", 1)[-1] if args.release else path.stem
+                data["dataset"]["silver_output"] = f"{catalog}.silver.{target_name}"
                 (contracts / path.name).write_text(yaml.safe_dump(data, allow_unicode=True), encoding="utf-8")
                 bronze_table = data["dataset"]["bronze_input"]
                 run_identity = "snapshot-run"
@@ -252,11 +203,26 @@ def main():
                         df.writeTo(bronze_table).append()
                     else:
                         df.writeTo(bronze_table).using("iceberg").create()
-                framework = SilverTransformationFramework(spark, str(contracts))
+                framework = SilverTransformationFramework(spark, str(contracts), release=args.release)
                 framework.quarantine_manager.target_table = f"{catalog}.silver.dead_letters"
                 before_bronze = table_state(spark, bronze_table)
                 assert before_bronze["rows"] == counts[key]
                 assert spark.table(bronze_table).filter(F.col("_source_checksum") != hashes[key]).isEmpty()
+                if args.release:
+                    with engine.metadata_repo.source_lock(key):
+                        identity = input_state(spark, framework.contract(key), release=args.release,
+                                               registry_path=engine.registry.registry_path)
+                        accepted = accept_source(spark, framework, key, identity, "http://trino-test:8080")
+                    assert not spark.catalog.tableExists(data["dataset"]["silver_output"])
+                    assert before_bronze == table_state(spark, bronze_table)
+                    assert engine.run_with_readiness_check(key).status.value == "SKIPPED"
+                    assert before_bronze == table_state(spark, bronze_table)
+                    reports[key] = {**accepted["actual_counts"], "status": "PASSED", "trino": accepted["trino"]["status"],
+                                    "target": framework.contract(key).silver_output, "full_noop": True, "incremental_noop": True,
+                                    "input_sha256": hashes[key], "target_uuid": accepted["silver"]["uuid"],
+                                    "bronze_replay": "SKIPPED"}
+                    print("SNAPSHOT_RESULT=" + json.dumps(reports[key]), flush=True)
+                    continue
                 result = framework.run(path.stem, "snapshot-validation")
                 assert result["prepared_count"] == result["valid_count"] + result["quarantine_count"]
                 target = data["dataset"]["silver_output"]
@@ -293,7 +259,7 @@ def main():
                               bronze_rebuild="PASSED" if engine else "NOT_RUN", input_sha256=hashes[key])
                 reports[path.stem] = result
                 print("SNAPSHOT_RESULT=" + json.dumps(result), flush=True)
-            ready = [SilverContractLoader(str(contracts)).load_contract(p.stem) for p in sorted(contracts.glob("*.yaml"))]
+            ready = [SilverTransformationFramework(spark, str(contracts), release=args.release).contract(p.stem) for p in sorted(contracts.glob("*.yaml"))]
             if not ready:
                 raise ValueError(f"No READY snapshots selected: {args.dataset}")
             assert audit_tables(spark, ready)["status"] == "PASSED"
