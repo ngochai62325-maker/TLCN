@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-16T09:28:21.591239+00:00",
+  "persisted_catalog_entries": [
+    {
+      "table": "bronze.nso_vietnam",
+      "metadata_location": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/00013-a9ae0a4f-3079-4bcc-9344-c12e7dcb2d38.metadata.json"
+    },
+    {
+      "table": "nso_revision_staging.nso_vietnam",
+      "metadata_location": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/00013-c3731fd7-c511-466e-9516-543b0ddb08ab.metadata.json"
+    },
+    {
+      "table": "nso_revision_unapproved.nso_vietnam",
+      "metadata_location": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/00013-4cbb7523-abc0-4877-8a33-237f6014b5e6.metadata.json"
+    },
+    {
+      "table": "nso_staging_accepted.nso_vietnam",
+      "metadata_location": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/00013-c48d031e-7278-4646-924f-e10c05b48784.metadata.json"
+    },
+    {
+      "table": "silver.dead_letters",
+      "metadata_location": "s3://silver-rebuild-warehouse/silver/dead_letters/metadata/00003-55025e32-1707-4f24-8109-d30c8f95ff27.metadata.json"
+    },
+    {
+      "table": "silver.nso_rice_statistics_v2",
+      "metadata_location": "s3://silver-rebuild-warehouse/silver/nso_rice_statistics_v2/metadata/00001-3c3b4aab-b2b4-47bf-8c9f-c7d75eaac48d.metadata.json"
+    }
+  ],
+  "persistent_catalog_matches_final_live_readback": true,
+  "raw_and_artifact_hashes_match": true,
+  "historical_evidence_unchanged": true,
+  "production_contract": "DRAFT",
+  "windows_available_bytes": 4142501888,
+  "windows_load_percent": 74,
+  "wsl_meminfo": "MemTotal:        8131792 kB\nMemFree:         4487732 kB\nMemAvailable:    7322540 kB\nBuffers:          328024 kB\nCached:          2534584 kB\nSwapCached:            0 kB\nActive:          1289044 kB\nInactive:        1868240 kB\nActive(anon):       2896 kB\nInactive(anon):   295536 kB\nActive(file):    1286148 kB\nInactive(file):  1572704 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:                 0 kB\nWriteback:             0 kB\nAnonPages:        294804 kB\nMapped:           277380 kB\nShmem:              3748 kB\nKReclaimable:     172536 kB\nSlab:             253348 kB\nSReclaimable:     172536 kB\nSUnreclaim:        80812 kB\nKernelStack:        5744 kB\nPageTables:         4176 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:    1572488 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       30756 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       72704 kB\nDirectMap2M:     6217728 kB\nDirectMap1G:    11534336 kB\n",
+  "running_containers": []
+}

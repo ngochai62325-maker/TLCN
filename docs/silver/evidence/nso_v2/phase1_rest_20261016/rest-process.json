@@ -1,0 +1,37 @@
+{
+  "id": "f35127033c1ca669861e14d7829c20528640ed3ecb1e164954d8b7600daa39a1",
+  "state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-16T09:08:53.623334166Z",
+    "FinishedAt": "2026-10-16T09:24:18.185981774Z"
+  },
+  "image": "sha256:790a72e744e0d09f161e1b4c7c2f79625cc598cf0476da4703e62f1f4e023460",
+  "memory_limit": 3221225472,
+  "cpu_limit": 2000000000,
+  "mounts": [
+    {
+      "Type": "bind",
+      "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+      "Destination": "/raw-inputs",
+      "Mode": "ro",
+      "RW": false,
+      "Propagation": "rprivate"
+    },
+    {
+      "Type": "bind",
+      "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+      "Destination": "/workspace",
+      "Mode": "ro",
+      "RW": false,
+      "Propagation": "rprivate"
+    }
+  ]
+}

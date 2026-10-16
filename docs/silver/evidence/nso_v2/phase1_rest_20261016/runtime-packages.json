@@ -1,0 +1,15 @@
+{
+  "packages": {
+    "pytest": "8.4.2",
+    "psycopg2-binary": "2.9.10",
+    "boto3": "1.35.99",
+    "pyspark": "3.5.5",
+    "pyiceberg": "0.7.1",
+    "pyarrow": "17.0.0",
+    "pandas": "2.2.3"
+  },
+  "spark_submit": "--driver-memory 768m --conf spark.sql.defaultCatalog=spark_catalog pyspark-shell",
+  "jvm_heaps": [
+    "-Xmx768m"
+  ]
+}

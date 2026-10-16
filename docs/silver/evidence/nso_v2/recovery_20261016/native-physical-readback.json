@@ -1,0 +1,101 @@
+{
+  "files_read": 35,
+  "rows": 23060,
+  "numeric": 22114,
+  "missing": 946,
+  "zeros": 5,
+  "provisional": 766,
+  "canonical_mismatch": 0,
+  "geography_code_nonnull": 0,
+  "boundary_version_nonnull": 0,
+  "diagnostic_observations": 344,
+  "dq_warning_observations": 22534,
+  "units": {
+    "percent": 280,
+    "hectare": 7640,
+    "tonne": 7640,
+    "kg/hectare": 7500
+  },
+  "source_counts": {
+    "V06.12.csv": 560,
+    "V06.13.csv": 2130,
+    "V06.14.csv": 2130,
+    "V06.15.csv": 2130,
+    "V06.16.csv": 2130,
+    "V06.17.csv": 2130,
+    "V06.18.csv": 2130,
+    "V06.19.csv": 1110,
+    "V06.20.csv": 1110,
+    "V06.21.csv": 1110,
+    "V06.22.csv": 2130,
+    "V06.23.csv": 2130,
+    "V06.24.csv": 2130
+  },
+  "bronze_read_snapshots": [
+    "2863067317283698443"
+  ],
+  "source_snapshot_ids": [
+    "0"
+  ],
+  "diagnostic_rule_observation_counts": {
+    "NSO_CROSS_TABLE": 12,
+    "NSO_AREA_YIELD_PRODUCTION": 309,
+    "NSO_SEASON_TOTAL": 28
+  },
+  "national_2024_production_events": [
+    {
+      "detail": {
+        "difference_source_scale": "5.50000000",
+        "envelope": "0.20"
+      },
+      "members": [
+        {
+          "key": [
+            "V06.12.csv",
+            "__national_table_scope__",
+            2024,
+            "production",
+            "annual",
+            "quantity"
+          ],
+          "value_source": "43451.60000000"
+        },
+        {
+          "key": [
+            "V06.12.csv",
+            "__national_table_scope__",
+            2024,
+            "production",
+            "winter_spring",
+            "quantity"
+          ],
+          "value_source": "20333.90000000"
+        },
+        {
+          "key": [
+            "V06.12.csv",
+            "__national_table_scope__",
+            2024,
+            "production",
+            "summer_autumn",
+            "quantity"
+          ],
+          "value_source": "15353.00000000"
+        },
+        {
+          "key": [
+            "V06.12.csv",
+            "__national_table_scope__",
+            2024,
+            "production",
+            "main_season",
+            "quantity"
+          ],
+          "value_source": "7759.20000000"
+        }
+      ],
+      "policy_version": "nso-diagnostics-20261015.1",
+      "rule_id": "NSO_SEASON_TOTAL"
+    }
+  ]
+}

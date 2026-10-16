@@ -1,0 +1,15 @@
+{
+  "only_changed_service": [
+    "airflow-webserver"
+  ],
+  "only_changed_field": "mem_limit",
+  "before": 536870912,
+  "after": 1073741824,
+  "runner_unchanged": 3221225472,
+  "apply_options": [
+    "--no-deps",
+    "--pull",
+    "never"
+  ],
+  "no_initializer": true
+}

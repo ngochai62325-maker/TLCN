@@ -1,0 +1,69 @@
+{
+  "project": "tlcn-local-nine-airflow-20261016",
+  "images": {
+    "airflow-init": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+    "airflow-scheduler": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+    "airflow-webserver": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+    "minio-test": "ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+    "postgres-test": "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+    "rest-test": "tabulario/iceberg-rest@sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+    "runner": "tlcn/silver-spark@sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843",
+    "trino-test": "trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3"
+  },
+  "limits": {
+    "airflow-init": {
+      "mem_limit": "805306368",
+      "cpus": 1
+    },
+    "airflow-scheduler": {
+      "mem_limit": "1879048192",
+      "cpus": 2
+    },
+    "airflow-webserver": {
+      "mem_limit": "536870912",
+      "cpus": 1
+    },
+    "minio-test": {
+      "mem_limit": "1073741824",
+      "cpus": null
+    },
+    "postgres-test": {
+      "mem_limit": "268435456",
+      "cpus": null
+    },
+    "rest-test": {
+      "mem_limit": "469762048",
+      "cpus": null
+    },
+    "runner": {
+      "mem_limit": "3221225472",
+      "cpus": 2
+    },
+    "trino-test": {
+      "mem_limit": "1073741824",
+      "cpus": 2
+    }
+  },
+  "volumes": {
+    "local_airflow_logs": {
+      "name": "tlcn-local-nine-airflow-20261016_local_airflow_logs"
+    },
+    "local_catalog_data": {
+      "name": "tlcn-local-nine-airflow-20261016_local_catalog_data"
+    },
+    "local_minio_data": {
+      "name": "tlcn-local-nine-airflow-20261016_local_minio_data"
+    },
+    "local_postgres_data": {
+      "name": "tlcn-local-nine-airflow-20261016_local_postgres_data"
+    }
+  },
+  "network": {
+    "default": {
+      "name": "tlcn-local-nine-airflow-20261016_default",
+      "ipam": {},
+      "internal": true
+    }
+  },
+  "guards": "local profile1, production0, release empty; bindings readonly; no tmpfs; no shared container names"
+}

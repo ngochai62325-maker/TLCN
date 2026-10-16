@@ -6,6 +6,7 @@ The repository contract stays DRAFT; the execution copy is temporary and local.
 import copy
 import csv
 import hashlib
+import uuid
 import json
 import re
 from collections import Counter
@@ -73,7 +74,7 @@ def raw_input():
         title = titles[number].lower()
         matrix_measure = "area" if "diện tích" in title else "yield" if "năng suất" in title else "production"
         matrix_season = ("summer_autumn_autumn_winter" if "hè thu và thu đông" in title else
-                         "winter_spring" if "đông xuân" in title else "mua" if "lúa mùa" in title else "annual")
+                         "winter_spring" if "đông xuân" in title else "main_season" if "lúa mùa" in title else "annual")
         for row_index, row in enumerate(rows[1:], 1):
             footer = row == ["\x00"] and row_index == len(rows) - 1
             empty = all(not c.strip() for c in row)
@@ -91,12 +92,12 @@ def raw_input():
                 label = header[index].lower()
                 measure = ("area" if "di?n tích" in label else "production") if national else matrix_measure
                 season = (("winter_spring" if "ông xuân" in label else "summer_autumn" if "hè thu" in label
-                           else "mua" if "mùa" in label else "annual") if national else matrix_season)
+                           else "main_season" if "mùa" in label else "annual") if national else matrix_season)
                 kind = "development_index" if national and "=100" in row[0] else "quantity"
                 period = row[1] if national else header[index]
                 assert re.fullmatch(r"(?:So b\? )?\d{4}", period)
                 geography = None if national else row[0]
-                geo_key = "__national_table_scope__" if national else geography
+                geo_key = "__national_table_scope__" if national else "raw:" + hashlib.sha256(geography.encode("utf-8")).hexdigest()
                 key = (path.name, geo_key, int(period[-4:]), measure, season, kind)
                 value_raw = row[index]
                 missing = value_raw.strip() == ".." or not value_raw.strip()
@@ -104,9 +105,9 @@ def raw_input():
                 unit_raw = ("%" if kind == "development_index" else re.search(r"\(([^)]+)\)", header[index])[1]) if national else None
                 expected[key] = dict(source_column=columns[index], geography_raw=geography, period_raw=period,
                                      value_raw=value_raw, value_source=source_value, unit_raw=unit_raw,
-                                     value=source_value * (1 if kind == "development_index" else 1000) if national and not missing else None,
-                                     unit=("percent" if kind == "development_index" else "hectare" if measure == "area" else "tonne") if national else None,
-                                     quality_status="MISSING" if missing else "NORMALIZED" if national else "PENDING_REVIEW",
+                                     value=source_value * (1 if kind == "development_index" else 100 if measure == "yield" else 1000) if not missing else None,
+                                     unit=("percent" if kind == "development_index" else "hectare" if measure == "area" else "kg/hectare" if measure == "yield" else "tonne"),
+                                     quality_status="MISSING" if missing else "NORMALIZED",
                                      release_status="provisional" if period.startswith("So b? ") else "unconfirmed",
                                      **{c: values[c] for c in AUDIT_COLUMNS})
         assert len(rows[1:]) * widths[path.name] >= sum(1 for k in expected if k[0] == path.name)
@@ -131,6 +132,17 @@ def isolated_framework(spark, tmp_path, suffix):
     framework = SilverTransformationFramework(spark, str(tmp_path))
     framework.quarantine_manager.target_table = f"nso_v2_test.silver.{suffix}_dead"
     return framework, SilverContract(data)
+
+
+def native_prepare(spark, transformer, df):
+    """Even guard tests bind an actual native Iceberg snapshot."""
+    from silver.framework import BronzeReadContext
+    table = "nso_v2_test.bronze.direct_" + uuid.uuid4().hex
+    df.writeTo(table).using("iceberg").create()
+    snapshot = spark.sql(f"SELECT snapshot_id FROM {table}.refs WHERE name = 'main'").first()[0]
+    read = spark.read.format("iceberg").option("snapshot-id", str(snapshot)).load(table)
+    return transformer.preprocess_with_read_context(
+        read.withColumn("_bronze_read_snapshot_id", F.lit(snapshot).cast("long")), BronzeReadContext(table, snapshot))
 
 
 def table_identity(spark, table):
@@ -170,12 +182,22 @@ def test_all_raw_full_incremental_replays_and_native_noop(spark, tmp_path, raw_i
             assert d[c] == value, (key, c, d[c], value)
         pending = d["source_table"] != "V06.12.csv"
         assert bool(d["review_reason"]) == pending
-        assert bool(d["_dq_warnings"]) == pending
-        assert d["geography_level"] == ("national" if not pending or d["geography_raw"] == "C? NU?C" else "unknown")
-        assert d["missing_reason"] == ("source_marker" if d["quality_status"] == "MISSING" else None)
+        assert bool(d["_dq_warnings"]) == (pending or d["diagnostic_evidence"] != "[]")
+        assert d["bronze_read_snapshot_id"] == bronze_before[0]
+        assert d["geography_code"] is None and d["boundary_version"] is None
+        assert d["unit_mapping_version"] == "nso-units-20261015.1"
+        assert d["geography_level"] in {"national", "region", "province"}
+        assert d["missing_reason"] == ("source_marker_unspecified" if d["quality_status"] == "MISSING" else None)
+    assert len(records) == 833 and len(structural) == 13
+    assert len(observed) == 23060
+    assert sum(d["value_source"] is not None for d in observed.values()) == 22114
+    assert sum(d["missing_reason"] == "source_marker_unspecified" for d in observed.values()) == 946
+    assert sum(d["value_source"] == 0 for d in observed.values()) == 5
+    assert sum(d["source_table"] == "V06.12.csv" for d in observed.values()) == 560
+    assert sum(d["release_status"] == "provisional" for d in observed.values()) == 766
     assert observed.keys() == expected.keys()
     assert Counter(d["quality_status"] for d in observed.values()) == counts
-    assert any(d["geography_raw"] == "Hà Tây" and d["geography_level"] == "unknown" for d in observed.values())
+    assert any(d["geography_raw"] == "Hà Tây" and d["geography_status"] == "candidate_review" for d in observed.values())
     assert sum(d["value_source"] == 0 for d in observed.values()) == sum(e["value_source"] == 0 for e in expected.values())
     dead = spark.table(framework.quarantine_manager.target_table).collect()
     assert len(dead) == len(structural)
@@ -249,7 +271,7 @@ def test_duplicate_conflict_drift_and_lineage_guards(spark, raw_input):
     transformer = NsoVietnamV2Transformer()
     row = national_row(raw_input)
     duplicate = dict(row, _ingestion_batch_id="retry", _ingestion_timestamp=datetime(2026, 10, 12))
-    prepared = transformer.preprocess(dataframe(spark, [row, duplicate]))
+    prepared = native_prepare(spark, transformer, dataframe(spark, [row, duplicate]))
     assert prepared.count() == 16
     engine = SilverTransformationFramework(spark).merge_engine
     winners = engine.deduplicate(prepared, transformer.business_keys).collect()
@@ -260,15 +282,15 @@ def test_duplicate_conflict_drift_and_lineage_guards(spark, raw_input):
                              (dict(row, extra_measure="1"), "source checksum/schema changed"),
                              (dict(row, _source_file="V06.25.csv"), "unprofiled NSO files")]:
         with pytest.raises(ValueError, match=message):
-            transformer.preprocess(dataframe(spark, [row, changed]))
+            native_prepare(spark, transformer, dataframe(spark, [row, changed]))
     incomplete = dataframe(spark, [row]).drop("nam")
     with pytest.raises(ValueError, match="missing source columns"):
-        transformer.preprocess(incomplete)
+        native_prepare(spark, transformer, incomplete)
     with pytest.raises(ValueError, match="missing lineage columns"):
-        transformer.preprocess(dataframe(spark, [row]).drop("_source_snapshot_id"))
+        native_prepare(spark, transformer, dataframe(spark, [row]).drop("_source_snapshot_id"))
     matrix = copy.deepcopy(next(r for r in raw_input[0] if r["_source_file"].endswith("V06.13.csv") and r["t_nh_th_nh_ph_"] == "C? NU?C"))
     matrix["t_nh_th_nh_ph_"] = " "
-    out = transformer.preprocess(dataframe(spark, [matrix]))
+    out = native_prepare(spark, transformer, dataframe(spark, [matrix]))
     contract = SilverContractLoader().load_contract(DATASET)
     normalized = SilverTransformationFramework(spark).normalize(out, contract)
     _, invalid = SilverQualityEngine(contract.data_quality_rules + transformer.quality_rules()).apply_rules(normalized)

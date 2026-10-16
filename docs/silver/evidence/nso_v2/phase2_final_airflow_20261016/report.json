@@ -1,0 +1,530 @@
+{
+  "status": "BLOCKED_RESOURCE_HEADROOM",
+  "recorded_at": "2026-10-16T10:55:43.209316+00:00",
+  "git_head": "5c571693f90101c55d00ff84ceb5138092a1263c",
+  "scope": "Phase 2 resource recovery and Airflow E2E; stopped before writer per actual Windows admission failure",
+  "files_changed_this_turn": [
+    "compose.local-nine-test.yml",
+    "docs/silver/local_nine.md",
+    "docs\\silver\\evidence\\nso_v2\\phase2_final_airflow_20261016/"
+  ],
+  "production_logic_changes": false,
+  "webserver_recovery": {
+    "status": "PASS",
+    "old_id": "d2b68f6bcdd28d1fd1e3d82b507cacf251a42b376d5ce1740073a1c9aedc69c6",
+    "new_id": "95736198e85ed0e490aaf6eac0d094f0e405e634313e7d072e73dfe43d152381",
+    "old_limit_bytes": 536870912,
+    "new_limit_bytes": 1073741824,
+    "gunicorn_workers": 1,
+    "image_reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+    "image_id": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+    "health_samples": 3,
+    "oom_killed": false,
+    "restart_count": 0
+  },
+  "recreated_services": [
+    "airflow-webserver"
+  ],
+  "other_container_ids_start_times_unchanged": true,
+  "resources_admission": {
+    "decision": "STOP_BEFORE_WRITER",
+    "reason": "Windows available RAM below owner screening threshold of approximately 2 GiB in all three post-startup samples",
+    "samples": [
+      {
+        "at": "2026-10-16T10:50:12.164476+00:00",
+        "windows_available_bytes": 617193472,
+        "windows_minimum_bytes": 2147483648,
+        "windows_screen": "FAIL",
+        "wsl": {
+          "MemTotal": 8326955008,
+          "MemAvailable": 5449940992,
+          "SwapTotal": 0,
+          "SwapFree": 0
+        },
+        "runner_cap_bytes": 3221225472,
+        "minimum_reserve_bytes": 1073741824,
+        "wsl_remaining_after_runner_and_minimum_reserve_bytes": 1154973696,
+        "wsl_screen": "PASS_MINIMUM_ONLY",
+        "other_service_growth_not_fully_proven": true
+      },
+      {
+        "at": "2026-10-16T10:51:15.593676+00:00",
+        "windows_available_bytes": 652120064,
+        "windows_minimum_bytes": 2147483648,
+        "windows_screen": "FAIL",
+        "wsl": {
+          "MemTotal": 8326955008,
+          "MemAvailable": 5321289728,
+          "SwapTotal": 0,
+          "SwapFree": 0
+        },
+        "runner_cap_bytes": 3221225472,
+        "minimum_reserve_bytes": 1073741824,
+        "wsl_remaining_after_runner_and_minimum_reserve_bytes": 1026322432,
+        "wsl_screen": "PASS_MINIMUM_ONLY",
+        "other_service_growth_not_fully_proven": true
+      },
+      {
+        "at": "2026-10-16T10:52:37.909319+00:00",
+        "windows_available_bytes": 766836736,
+        "windows_minimum_bytes": 2147483648,
+        "windows_screen": "FAIL",
+        "wsl": {
+          "MemTotal": 8326955008,
+          "MemAvailable": 5455224832,
+          "SwapTotal": 0,
+          "SwapFree": 0
+        },
+        "runner_cap_bytes": 3221225472,
+        "minimum_reserve_bytes": 1073741824,
+        "wsl_remaining_after_runner_and_minimum_reserve_bytes": 1160257536,
+        "wsl_screen": "PASS_MINIMUM_ONLY",
+        "other_service_growth_not_fully_proven": true
+      }
+    ],
+    "actual_vs_limit_vs_peak": [
+      {
+        "service": "airflow-webserver",
+        "limit_bytes": 1073741824,
+        "current_bytes": 952221696,
+        "peak_bytes": 954818560,
+        "oom_kill": 0
+      },
+      {
+        "service": "airflow-scheduler",
+        "limit_bytes": 1610612736,
+        "current_bytes": 532803584,
+        "peak_bytes": 769847296,
+        "oom_kill": 0
+      },
+      {
+        "service": "runner",
+        "limit_bytes": 3221225472,
+        "current_bytes": 15556608,
+        "peak_bytes": 217120768,
+        "oom_kill": 0
+      },
+      {
+        "service": "trino-test",
+        "limit_bytes": 1073741824,
+        "current_bytes": 816033792,
+        "peak_bytes": 824578048,
+        "oom_kill": 0
+      },
+      {
+        "service": "rest-test",
+        "limit_bytes": 469762048,
+        "current_bytes": 125190144,
+        "peak_bytes": 127471616,
+        "oom_kill": 0
+      },
+      {
+        "service": "minio-test",
+        "limit_bytes": 536870912,
+        "current_bytes": 203153408,
+        "peak_bytes": 205856768,
+        "oom_kill": 0
+      },
+      {
+        "service": "postgres-test",
+        "limit_bytes": 268435456,
+        "current_bytes": 155115520,
+        "peak_bytes": 159268864,
+        "oom_kill": 0
+      }
+    ],
+    "estimated_runner_demand": "Keep existing cap 3 GiB, driver 768 MiB and local[2]. Cap minus observed idle current is a conservative incremental budget, not a measured Spark peak. No evidence for reducing to 2.5 GiB. Phase1 NSO-only samples do not prove Trade peak.",
+    "simultaneous_peaks": "Sequential writers and one Spark API workload remain enforced. WSL minimum screen alone leaves about 0.96–1.08 GiB for infrastructure growth beyond the 1 GiB reserve; this is not a whole-workload guarantee. Windows screen fails independently of Docker cap totals.",
+    "narrowest_next_change": "Owner frees Windows memory until sustained available >=2 GiB, preferably additional margin, then re-run fresh admission; no runner reduction, WSL change or additional service recreation proposed now."
+  },
+  "health": {
+    "scheduler": [
+      {
+        "id": 1,
+        "alive": true,
+        "heartbeat": "2026-10-16 10:52:21.401804+00:00"
+      }
+    ],
+    "health": {
+      "status": 200,
+      "body": {
+        "dag_processor": {
+          "latest_dag_processor_heartbeat": null,
+          "status": null
+        },
+        "metadatabase": {
+          "status": "healthy"
+        },
+        "scheduler": {
+          "latest_scheduler_heartbeat": "2026-10-16T10:52:21.401804+00:00",
+          "status": "healthy"
+        },
+        "triggerer": {
+          "latest_triggerer_heartbeat": null,
+          "status": null
+        }
+      }
+    },
+    "login/": {
+      "status": 200,
+      "body": "HTML reachable"
+    },
+    "authenticated_api": {
+      "status": 200,
+      "authentication": "existing session backend",
+      "dag_ids": [
+        "rice_lakehouse_ingestion",
+        "rice_lakehouse_silver_pipeline"
+      ]
+    },
+    "spark_api": {
+      "status": "ok",
+      "silver_release": "silver_v2_release_20261013",
+      "local_profile": "local_nine"
+    },
+    "sources": [
+      "faostat_production",
+      "faostat_monthly_price",
+      "faostat_supply_utilization",
+      "faostat_trade",
+      "usda_psd",
+      "usda_rice_yearbook",
+      "worldbank_pinksheet",
+      "thitruongnongsan",
+      "nso_vietnam"
+    ],
+    "contracts": {
+      "faostat_production": {
+        "target": "iceberg.silver_local.faostat_production",
+        "status": "READY"
+      },
+      "faostat_monthly_price": {
+        "target": "iceberg.silver_local.faostat_monthly_price",
+        "status": "READY"
+      },
+      "faostat_supply_utilization": {
+        "target": "iceberg.silver_local.faostat_supply_utilization",
+        "status": "READY"
+      },
+      "faostat_trade": {
+        "target": "iceberg.silver_local.faostat_trade",
+        "status": "READY"
+      },
+      "usda_psd": {
+        "target": "iceberg.silver_local.usda_rice_psd",
+        "status": "READY"
+      },
+      "usda_rice_yearbook": {
+        "target": "iceberg.silver_local.usda_rice_yearbook",
+        "status": "READY"
+      },
+      "worldbank_pinksheet": {
+        "target": "iceberg.silver_local.worldbank_commodity_monthly",
+        "status": "READY"
+      },
+      "thitruongnongsan": {
+        "target": "iceberg.silver_local.thitruongnongsan",
+        "status": "READY"
+      },
+      "nso_vietnam_v2": {
+        "target": "iceberg.silver_local.nso_rice_statistics_v2",
+        "status": "READY"
+      }
+    },
+    "flags": {
+      "SILVER_LOCAL_PROFILE": "local_nine",
+      "SILVER_LOCAL_ENABLED": "1",
+      "SILVER_ACCEPTED_RELEASE": "",
+      "SILVER_PRODUCTION_ENABLED": "0",
+      "SILVER_CANARY_ONLY": "0",
+      "SILVER_BRONZE_SCHEDULE": ""
+    }
+  },
+  "actual_dag_state": {
+    "rice_lakehouse_ingestion": {
+      "paused": true,
+      "schedule": null,
+      "import_errors": false,
+      "task_ids": [
+        "initialize_metadata",
+        "start_lakehouse_ingestion",
+        "end_lakehouse_ingestion",
+        "ingest_faostat_production",
+        "ingest_faostat_monthly_price",
+        "ingest_faostat_supply_utilization",
+        "ingest_faostat_trade",
+        "ingest_usda_psd",
+        "ingest_usda_rice_yearbook",
+        "ingest_worldbank_pinksheet",
+        "ingest_thitruongnongsan",
+        "ingest_nso_vietnam",
+        "verify_bronze_batch",
+        "trigger_silver_release"
+      ],
+      "retries": {
+        "initialize_metadata": 0,
+        "start_lakehouse_ingestion": 0,
+        "end_lakehouse_ingestion": 0,
+        "ingest_faostat_production": 0,
+        "ingest_faostat_monthly_price": 0,
+        "ingest_faostat_supply_utilization": 0,
+        "ingest_faostat_trade": 0,
+        "ingest_usda_psd": 0,
+        "ingest_usda_rice_yearbook": 0,
+        "ingest_worldbank_pinksheet": 0,
+        "ingest_thitruongnongsan": 0,
+        "ingest_nso_vietnam": 0,
+        "verify_bronze_batch": 0,
+        "trigger_silver_release": 0
+      },
+      "max_active_runs": 1,
+      "max_active_tasks": 1
+    },
+    "rice_lakehouse_silver_pipeline": {
+      "paused": true,
+      "schedule": null,
+      "import_errors": false,
+      "task_ids": [
+        "start",
+        "end",
+        "gate_check_bronze",
+        "transform_faostat_production",
+        "transform_faostat_monthly_price",
+        "transform_faostat_supply_utilization",
+        "transform_faostat_trade",
+        "transform_usda_psd",
+        "transform_usda_rice_yearbook",
+        "transform_worldbank_pinksheet",
+        "transform_thitruongnongsan",
+        "transform_nso_vietnam_v2",
+        "silver_data_quality_audit",
+        "publish_silver_signal"
+      ],
+      "retries": {
+        "start": 0,
+        "end": 0,
+        "gate_check_bronze": 0,
+        "transform_faostat_production": 0,
+        "transform_faostat_monthly_price": 0,
+        "transform_faostat_supply_utilization": 0,
+        "transform_faostat_trade": 0,
+        "transform_usda_psd": 0,
+        "transform_usda_rice_yearbook": 0,
+        "transform_worldbank_pinksheet": 0,
+        "transform_thitruongnongsan": 0,
+        "transform_nso_vietnam_v2": 0,
+        "silver_data_quality_audit": 0,
+        "publish_silver_signal": 0
+      },
+      "max_active_runs": 1,
+      "max_active_tasks": 1
+    }
+  },
+  "manual_bronze_run_id": null,
+  "automatic_silver_run_id": null,
+  "source_outcomes": [
+    {
+      "bronze": "faostat_production",
+      "dataset": "faostat_production",
+      "silver": "iceberg.silver_local.faostat_production",
+      "bronze_task_state": "NOT_RUN",
+      "silver_task_state": "NOT_RUN",
+      "bronze_rows": null,
+      "silver_rows": null,
+      "target_uuid": null,
+      "snapshot": null,
+      "checksum": null,
+      "trino": "NOT_RUN"
+    },
+    {
+      "bronze": "faostat_monthly_price",
+      "dataset": "faostat_monthly_price",
+      "silver": "iceberg.silver_local.faostat_monthly_price",
+      "bronze_task_state": "NOT_RUN",
+      "silver_task_state": "NOT_RUN",
+      "bronze_rows": null,
+      "silver_rows": null,
+      "target_uuid": null,
+      "snapshot": null,
+      "checksum": null,
+      "trino": "NOT_RUN"
+    },
+    {
+      "bronze": "faostat_supply_utilization",
+      "dataset": "faostat_supply_utilization",
+      "silver": "iceberg.silver_local.faostat_supply_utilization",
+      "bronze_task_state": "NOT_RUN",
+      "silver_task_state": "NOT_RUN",
+      "bronze_rows": null,
+      "silver_rows": null,
+      "target_uuid": null,
+      "snapshot": null,
+      "checksum": null,
+      "trino": "NOT_RUN"
+    },
+    {
+      "bronze": "faostat_trade",
+      "dataset": "faostat_trade",
+      "silver": "iceberg.silver_local.faostat_trade",
+      "bronze_task_state": "NOT_RUN",
+      "silver_task_state": "NOT_RUN",
+      "bronze_rows": null,
+      "silver_rows": null,
+      "target_uuid": null,
+      "snapshot": null,
+      "checksum": null,
+      "trino": "NOT_RUN"
+    },
+    {
+      "bronze": "usda_psd",
+      "dataset": "usda_psd",
+      "silver": "iceberg.silver_local.usda_rice_psd",
+      "bronze_task_state": "NOT_RUN",
+      "silver_task_state": "NOT_RUN",
+      "bronze_rows": null,
+      "silver_rows": null,
+      "target_uuid": null,
+      "snapshot": null,
+      "checksum": null,
+      "trino": "NOT_RUN"
+    },
+    {
+      "bronze": "usda_rice_yearbook",
+      "dataset": "usda_rice_yearbook",
+      "silver": "iceberg.silver_local.usda_rice_yearbook",
+      "bronze_task_state": "NOT_RUN",
+      "silver_task_state": "NOT_RUN",
+      "bronze_rows": null,
+      "silver_rows": null,
+      "target_uuid": null,
+      "snapshot": null,
+      "checksum": null,
+      "trino": "NOT_RUN"
+    },
+    {
+      "bronze": "worldbank_pinksheet",
+      "dataset": "worldbank_pinksheet",
+      "silver": "iceberg.silver_local.worldbank_commodity_monthly",
+      "bronze_task_state": "NOT_RUN",
+      "silver_task_state": "NOT_RUN",
+      "bronze_rows": null,
+      "silver_rows": null,
+      "target_uuid": null,
+      "snapshot": null,
+      "checksum": null,
+      "trino": "NOT_RUN"
+    },
+    {
+      "bronze": "thitruongnongsan",
+      "dataset": "thitruongnongsan",
+      "silver": "iceberg.silver_local.thitruongnongsan",
+      "bronze_task_state": "NOT_RUN",
+      "silver_task_state": "NOT_RUN",
+      "bronze_rows": null,
+      "silver_rows": null,
+      "target_uuid": null,
+      "snapshot": null,
+      "checksum": null,
+      "trino": "NOT_RUN"
+    },
+    {
+      "bronze": "nso_vietnam",
+      "dataset": "nso_vietnam_v2",
+      "silver": "iceberg.silver_local.nso_rice_statistics_v2",
+      "bronze_task_state": "NOT_RUN",
+      "silver_task_state": "NOT_RUN",
+      "bronze_rows": null,
+      "silver_rows": null,
+      "target_uuid": null,
+      "snapshot": null,
+      "checksum": null,
+      "trino": "NOT_RUN"
+    }
+  ],
+  "dag_runs": 0,
+  "task_instances": 0,
+  "advisory_locks": 0,
+  "actual_catalog_tables": [],
+  "unknown_commits": false,
+  "pyiceberg_spark_trino_nine_source_validation": "NOT_RUN",
+  "logical_quarantine": "NOT_RUN",
+  "nso_structural_exclusions": "NOT_RUN",
+  "replays_full_incremental": "NOT_RUN",
+  "trino_health": "PASS; starting=false; read-only JVM heap metrics in trino-heap.json",
+  "nso_production_contract": "DRAFT",
+  "raw_registry_pins": "PASS; 21 files 183728724 bytes, full Trade, exact registry and NSO metadata/contract/transformer hashes",
+  "historical_files_unchanged": 57,
+  "regression_results_preserved_not_rerun": [
+    {
+      "log": "tlcn-local-nine-airflow-regression-20261016.log.gz",
+      "passed": 67,
+      "summary": "67",
+      "exit": 0
+    },
+    {
+      "log": "tlcn-local-nine-final-dag-regression-20261016.log.gz",
+      "passed": 18,
+      "summary": "18",
+      "exit": 0
+    },
+    {
+      "log": "tlcn-local-nine-metadata-regression-20261016.log.gz",
+      "passed": 6,
+      "summary": "6",
+      "exit": 0
+    },
+    {
+      "log": "tlcn-local-nine-native-verified-20261016.log.gz",
+      "passed": 6,
+      "summary": "6",
+      "exit": 0
+    },
+    {
+      "log": "tlcn-local-nine-runner-regression-20261016.log.gz",
+      "passed": 24,
+      "summary": "24",
+      "exit": 0
+    }
+  ],
+  "new_checks": {
+    "resolved_compose_only_web_memory_change": "PASS",
+    "three_actual_health_ui_authenticated_api_checks": "PASS",
+    "serialized_nine_source_manual_only_retries0": "PASS",
+    "git_diff_check_exit": 0,
+    "evidence_secret_scan": []
+  },
+  "shared": {
+    "unchanged_stopped": 7
+  },
+  "runtime_changes_not_performed": [
+    "no shared start/recreate",
+    "no storage/catalog/database/Trino/scheduler/runner recreation",
+    "no DAG unpause/trigger",
+    "no writer",
+    "no initializer",
+    "no volume reset",
+    "no WSL/swap change",
+    "no Windows app termination",
+    "no Gold",
+    "no commit/push"
+  ],
+  "phase3_blockers": [
+    "Actual single Bronze -> automatic Silver nine-source Airflow E2E remains NOT_RUN due host RAM",
+    "Physical nine-target keys/lineage/units/DQ and Trino reconciliation still required after resource gate PASS"
+  ],
+  "evidence_sha256": {
+    "airflow-scheduler-post.log.gz": "28d2203a409953a391380d1af22c28505fe04e3a5ca6709eebb0aa726f2e4764",
+    "airflow-webserver-post.log.gz": "0b1cca34d942d9738a457992e6dac29bef906c41eb80886287f3359dfa9b4e00",
+    "apply.json": "89aabb0e3645c41a841c1491c340a16d5799c8dcda7612238adf6f8a4a3406b5",
+    "before.json": "5e8b55b53ca1a783ea3574df879736e9662dd2cd4e99ff97bd98c7549554b2cc",
+    "compose-plan.json": "2e2f2a14b3c9904ffc83cd4736fa3c8e1190c31216a9e5081b4d0d69ee576b9a",
+    "failed-webserver.log.gz": "3fca14ef43c6183510eafda1e8868a3edb4f87d50ac99d092f87f5f95d90fdeb",
+    "health-105029.json": "68d75b843e8099bade3709d13768ec8fe82e8ed05d61a5e87f7811b2bf165559",
+    "health-105132.json": "0982cbb1982c3bc5ce6503fda5b39a7dcbba5cd5b7799db8e92858c8ecc00c4d",
+    "health-105254.json": "2ea3f76174b5af93cc774490ec74ca699ddb81d0ca036e57422ea4c9261f5e2e",
+    "input-integrity.json": "d3a21ea6992a464b3e4b02d9e098031ff339c6459848c7b7c7e4c1eeadba6244",
+    "processes-and-trino.json": "3ad75c996843bb87da56b5fbc8410729d541246d219eaf7fd1f839719a4f02d5",
+    "README.md": "3ef1db36c0955736ac4dcc9e5c66dd83feca5d9e9891418b5947aa56e7022bc2",
+    "trino-heap.json": "c0ea2448cbfdcc549267bdf8eef1bcc8b54a4358b8c6ca4e81225c4dffefb076"
+  }
+}

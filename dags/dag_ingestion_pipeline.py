@@ -29,8 +29,11 @@ from ingestion.orchestration.pipeline_tasks import (
     verify_silver_trigger_ready, silver_trigger_run_id, SILVER_RELEASE, RELEASE_SOURCES,
 )
 from ingestion.storage.metadata_repository import MetadataRepository
+from silver.local_profile import active_profile, validate_registry as validate_local_registry, BRONZE_SOURCES
+from ingestion.orchestration.pipeline_tasks import verify_local_bronze_batch
 
-RELEASE = os.environ.get("SILVER_ACCEPTED_RELEASE")
+LOCAL_PROFILE = active_profile()
+RELEASE = None if LOCAL_PROFILE else os.environ.get("SILVER_ACCEPTED_RELEASE")
 CANARY_ONLY = os.environ.get("SILVER_CANARY_ONLY", "0")
 PRODUCTION_ENABLED = os.environ.get("SILVER_PRODUCTION_ENABLED", "0")
 if RELEASE not in (None, SILVER_RELEASE):
@@ -45,7 +48,7 @@ schedule = (os.environ.get("SILVER_BRONZE_SCHEDULE") or None) if production else
 
 def check_silver_before_trigger(context):
     # Recheck at execution, since the target can pause/change after the batch gate.
-    verify_silver_trigger_ready(context["run_id"])
+    verify_silver_trigger_ready(context["run_id"], **({"profile": LOCAL_PROFILE} if LOCAL_PROFILE else {}))
 
 
 default_args = {
@@ -53,7 +56,7 @@ default_args = {
     "depends_on_past": False,
     "email_on_failure": False,
     "email_on_retry": False,
-    "retries": 0 if RELEASE else 1,
+    "retries": 0 if RELEASE or LOCAL_PROFILE else 1,
     "retry_delay": timedelta(minutes=2),
 }
 
@@ -65,7 +68,7 @@ with DAG(
     start_date=pendulum.datetime(2026, 9, 26, tz="Asia/Bangkok"),
     catchup=False,
     max_active_runs=1,
-    max_active_tasks=4,
+    max_active_tasks=1 if LOCAL_PROFILE else 4,
     tags=["ingestion", "bronze", "lakehouse"],
 ) as dag:
 
@@ -100,12 +103,20 @@ with DAG(
     # Apply only at owner-approved V2 cutover; default Bronze routing stays intact.
     if RELEASE:
         all_sources = validate_release_registry(registry)
+    elif LOCAL_PROFILE:
+        all_sources = validate_local_registry(registry)
 
-    @task(task_id="run_ingestion", retries=0 if RELEASE else 2, retry_delay=timedelta(seconds=30), multiple_outputs=True)
+    @task(task_id="run_ingestion", retries=0 if RELEASE or LOCAL_PROFILE else 2, retry_delay=timedelta(seconds=30), multiple_outputs=True)
     def build_run_ingestion_task(source_id: str, **context) -> Dict[str, Any]:
         """Airflow thin wrapper executing the IngestionEngine."""
         conf = context.get("dag_run").conf if context.get("dag_run") else {}
         conf = conf or {}
+        if LOCAL_PROFILE:
+            if conf.get("profile", LOCAL_PROFILE) != LOCAL_PROFILE or conf.get("release"):
+                raise ValueError("Local Bronze profile/release conf mismatch")
+            if conf.get("force_reprocess", False) is not False or conf.get("force_reprocess_sources"):
+                raise ValueError("local_nine does not force reprocess existing publications")
+            return run_ingestion_task(source_id, force_reprocess=False, profile=LOCAL_PROFILE)
         if RELEASE:
             validate_release_registry()
             if conf.get("release", RELEASE) != RELEASE:
@@ -129,21 +140,27 @@ with DAG(
             
             start_all >> ingest_task
             ingestions.append(ingest_task)
-            if not production:
+            if not production and not LOCAL_PROFILE:
                 ingest_task >> end_all
 
-    if production:
+    if production or LOCAL_PROFILE:
+        if LOCAL_PROFILE:
+            for previous, following in zip(ingestions, ingestions[1:]):
+                previous >> following  # Stop the local batch on a failed/unknown writer.
         @task(task_id="verify_bronze_batch")
         def batch_gate(results, **context):
-            verified = verify_bronze_batch(results)
-            verified["silver_run_id"] = verify_silver_trigger_ready(context["run_id"])
+            verified = verify_local_bronze_batch(results) if LOCAL_PROFILE else verify_bronze_batch(results)
+            if LOCAL_PROFILE:
+                verified["bronze_dag_run_id"] = context["run_id"]
+            verified["silver_run_id"] = verify_silver_trigger_ready(context["run_id"], **({"profile": LOCAL_PROFILE} if LOCAL_PROFILE else {}))
             return verified
 
         verified = batch_gate(ingestions)
         trigger = TriggerDagRunOperator(
             task_id="trigger_silver_release", trigger_dag_id="rice_lakehouse_silver_pipeline",
             trigger_run_id="{{ ti.xcom_pull(task_ids='verify_bronze_batch')['silver_run_id'] }}",
-            conf={"mode": "full", "release": RELEASE}, reset_dag_run=False,
+            conf=({"mode": "full", "profile": LOCAL_PROFILE, "bronze_batch": verified} if LOCAL_PROFILE
+                  else {"mode": "full", "release": RELEASE}), reset_dag_run=False,
             wait_for_completion=True, deferrable=False, retries=0,
             pre_execute=check_silver_before_trigger,
             execution_timeout=timedelta(hours=2), poke_interval=30,

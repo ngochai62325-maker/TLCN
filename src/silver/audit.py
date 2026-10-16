@@ -4,18 +4,28 @@ from silver.framework import SilverTransformationFramework
 from silver.engine.quality import SilverQualityEngine
 
 
-def check_bronze(spark, contracts):
+def check_bronze(spark, contracts, profile=None):
     results = {}
     for contract in contracts:
         contract.validate_executable()
         # Resolve source preprocessing and projected SQL schema, not only API health.
-        framework = SilverTransformationFramework(spark)
+        framework = SilverTransformationFramework(spark, **({"profile": profile} if profile else {}))
         source_id = contract.source_id
         source = spark.table(contract.bronze_input)
         transformer = framework.transformer(source_id)
         if transformer and hasattr(transformer, "validate_bronze_schema"):
             transformer.validate_bronze_schema(source)
-        prepared = transformer.preprocess(source.limit(0)) if transformer else source.limit(0)
+        if profile:
+            from silver.framework import ReadContextTransformer, BronzeReadContext
+        if profile and isinstance(transformer, ReadContextTransformer):
+            # A readiness read has its own real pin; never fabricate NSO context
+            # from source lineage or bypass its approved revision/schema guard.
+            snapshot = spark.sql(f"SELECT snapshot_id FROM {contract.bronze_input}.refs WHERE name = 'main'").first()[0]
+            source = spark.read.format("iceberg").option("snapshot-id", str(snapshot)).load(contract.bronze_input)
+            bound = source.withColumn("_bronze_read_snapshot_id", F.lit(snapshot).cast("long"))
+            prepared = transformer.preprocess_with_read_context(bound, BronzeReadContext(contract.bronze_input, snapshot))
+        else:
+            prepared = transformer.preprocess(source.limit(0)) if transformer else source.limit(0)
         normalized = framework.normalize(prepared, contract)
         rules = contract.data_quality_rules + (transformer.quality_rules() if transformer and hasattr(transformer, "quality_rules") else [])
         SilverQualityEngine(rules).evaluate(normalized).schema

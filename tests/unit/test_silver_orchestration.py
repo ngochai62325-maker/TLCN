@@ -278,3 +278,77 @@ def test_health_responds_during_job_and_jobs_remain_serial():
         server.shutdown()
         server.server_close()
         server_thread.join(timeout=5)
+
+
+@pytest.fixture
+def local_profile_env(monkeypatch):
+    for name in ("SILVER_ACCEPTED_RELEASE", "SILVER_BRONZE_SCHEDULE"):
+        monkeypatch.delenv(name, raising=False)
+    monkeypatch.setenv("SILVER_PRODUCTION_ENABLED", "0")
+    monkeypatch.setenv("SILVER_CANARY_ONLY", "0")
+    monkeypatch.setenv("SILVER_LOCAL_PROFILE", "local_nine")
+    monkeypatch.setenv("SILVER_LOCAL_ENABLED", "1")
+    monkeypatch.setenv("INGESTION_DB_URL", "postgresql://test/isolated")
+
+
+@pytest.mark.parametrize("payload", [{"dataset":"nso_vietnam_v2"},
+    {"profile":"local_nine", "dataset":"nso_vietnam"},
+    {"profile":"local_nine", "dataset":"nso_vietnam_v2"},
+    {"profile":"local_nine", "dataset":"nso_vietnam_v2", "bronze_snapshot_id":True},
+    {"profile":"local_nine", "dataset":"nso_vietnam_v2", "bronze_snapshot_id":2**63}])
+def test_local_api_refuses_fallback_unknown_dataset_and_unpinned_write(local_profile_env, payload):
+    instance = handler(payload)
+    with patch("jobs.silver.spark_api_server.subprocess.run") as run:
+        instance.do_POST()
+    run.assert_not_called()
+    assert instance._send_json.call_args.args[0] == 400
+
+
+def test_local_api_preserves_integer_snapshot_and_profile(local_profile_env):
+    snapshot = 8786414080148355674
+    instance = handler({"dataset":"nso_vietnam_v2", "profile":"local_nine", "bronze_snapshot_id":str(snapshot)})
+    with patch("jobs.silver.spark_api_server.subprocess.run", return_value=MagicMock(returncode=0, stdout='SILVER_RESULT={}\n')) as run:
+        instance.do_POST()
+    command = run.call_args.args[0]
+    assert command[command.index("--bronze-snapshot-id")+1] == str(snapshot)
+    assert command[command.index("--profile")+1] == "local_nine"
+
+
+def test_local_runner_overlay_and_no_implicit_selection(local_profile_env):
+    from silver.local_profile import DATASETS
+    contracts = datasets(ROOT / "contracts/silver")
+    assert selected_sources(",".join(DATASETS), contracts, profile="local_nine") == list(DATASETS)
+    with pytest.raises(ValueError, match="explicit approved"):
+        selected_sources("all", contracts, profile="local_nine")
+    with pytest.raises(ValueError, match="no default fallback"):
+        selected_sources("usda_psd", contracts)
+    local = SilverTransformationFramework(MagicMock(), profile="local_nine")
+    assert local.contract("nso_vietnam_v2").silver_output == "iceberg.silver_local.nso_rice_statistics_v2"
+    assert contracts["nso_vietnam_v2"].status == "DRAFT"
+
+
+def test_local_runner_holds_bronze_source_lock_through_commit_readback(local_profile_env):
+    from contextlib import contextmanager
+    from jobs.silver.run_all_silver import run_pipeline
+    snapshot = 8786414080148355674
+    events = []
+    @contextmanager
+    def lock(source):
+        assert source == "nso_vietnam"  # Not the Silver dataset ID.
+        events.append("lock")
+        try:
+            yield
+        finally:
+            events.append("unlock")
+    def identity(*args):
+        assert events[-1] != "unlock"
+        events.append("catalog")
+        return {"snapshot_id":str(snapshot), "uuid":"test"}
+    with patch("ingestion.storage.metadata_repository.MetadataRepository") as repo, \
+         patch("jobs.silver.run_all_silver.SilverTransformationFramework") as factory, \
+         patch("validate_silver_e2e.table_identity", side_effect=identity):
+        repo.return_value.source_lock.side_effect = lock
+        factory.return_value.run.return_value = {"status":"SUCCESS"}
+        run_pipeline("nso_vietnam_v2", spark=MagicMock(), profile="local_nine", bronze_snapshot_id=snapshot)
+        assert factory.return_value.run.call_args.kwargs["bronze_snapshot_id"] == snapshot
+    assert events == ["lock", "catalog", "catalog", "catalog", "unlock"]

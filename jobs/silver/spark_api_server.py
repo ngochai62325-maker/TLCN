@@ -6,6 +6,10 @@ import subprocess
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from threading import Lock
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from silver.local_profile import active_profile, require_profile, DATASETS
 
 JOBS_DIR = Path(__file__).resolve().parent
 ALLOWED_JOBS = {"run_all_silver.py", "job_faostat_trade.py", "job_usda_psd.py",
@@ -26,7 +30,10 @@ class SparkApiHandler(BaseHTTPRequestHandler):
         self.wfile.write(encoded)
 
     def do_GET(self):
-        self._send_json(200, {"status": "ok", "silver_release": "silver_v2_release_20261013"}) if self.path == "/health" else self._send_json(404, {"error": "Not found"})
+        health = {"status": "ok", "silver_release": "silver_v2_release_20261013"}
+        if active_profile():
+            health.update(local_profile=active_profile())
+        self._send_json(200, health) if self.path == "/health" else self._send_json(404, {"error": "Not found"})
 
     def do_POST(self):
         if self.path != "/run":
@@ -40,11 +47,24 @@ class SparkApiHandler(BaseHTTPRequestHandler):
             job = request.get("job", "run_all_silver.py")
             mode = request.get("mode", "full")
             action = request.get("action", "run")
+            profile = request.get("profile")
+            if profile or active_profile():
+                require_profile(profile, request.get("release"))
+                if job != "run_all_silver.py" or request.get("dataset") not in DATASETS:
+                    raise ValueError("local_nine API requires one explicit approved dataset")
+                snapshot = request.get("bronze_snapshot_id")
+                if action == "run" and (type(snapshot) not in (int, str) or not str(snapshot).isdigit()
+                                        or not 0 < int(snapshot) <= 2**63-1):
+                    raise ValueError("Missing/invalid local Bronze snapshot identity")
             if job not in ALLOWED_JOBS or mode not in {"full", "incremental"} or action not in {"run", "check-bronze", "audit"}:
                 raise ValueError("Unknown job, mode or action")
-            command = ["/opt/spark/bin/spark-submit", str(JOBS_DIR / job), "--mode", mode]
+            command = ["/opt/spark/bin/spark-submit"]
+            if profile:
+                command += ["--master", "local[2]", "--driver-memory", "768m", "--conf", "spark.ui.enabled=false"]
+            command += [str(JOBS_DIR / job), "--mode", mode]
             for key, flag in [("run_id", "--run-id"), ("pipeline_run_id", "--pipeline-run-id"),
-                              ("dataset", "--dataset"), ("watermark", "--watermark"), ("release", "--release")]:
+                              ("dataset", "--dataset"), ("watermark", "--watermark"), ("release", "--release"),
+                              ("profile", "--profile"), ("bronze_snapshot_id", "--bronze-snapshot-id")]:
                 if request.get(key):
                     command += [flag, str(request[key])]
             if action != "run":
@@ -71,6 +91,7 @@ class SparkApiHandler(BaseHTTPRequestHandler):
 
 
 def main():
+    active_profile()  # Reject conflicting runtime flags before opening the API socket.
     logging.basicConfig(level=logging.INFO)
     ThreadingHTTPServer(("0.0.0.0", 5005), SparkApiHandler).serve_forever()
 

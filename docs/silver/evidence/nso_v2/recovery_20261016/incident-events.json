@@ -1,0 +1,44 @@
+[
+  {
+    "source": "vm/init.log",
+    "time_utc": "2026-10-15T15:27:18.856368229Z",
+    "component": "kmsg",
+    "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=/,mems_allowed=0,global_oom,task_memcg=/docker/86c53ec37810b54f6b2761bdb60998b13f4dc419baa4a781df77d0ebaf41386d,task=trino-server,pid=1394,uid=1000"
+  },
+  {
+    "source": "vm/init.log",
+    "time_utc": "2026-10-15T15:27:18.856415129Z",
+    "component": "kmsg",
+    "message": "Out of memory: Killed process 1394 (trino-server) total-vm:10620012kB, anon-rss:1907876kB, file-rss:400kB, shmem-rss:0kB, UID:1000 pgtables:5652kB oom_score_adj:0"
+  },
+  {
+    "source": "vm/init.log",
+    "time_utc": "2026-10-15T15:33:28.116603443Z",
+    "component": "control",
+    "message": "gracefully shutting down"
+  },
+  {
+    "source": "vm/init.log",
+    "time_utc": "2026-10-15T15:33:28.119422337Z",
+    "component": "dockerd",
+    "message": "gracefully shutting down PID 123"
+  },
+  {
+    "source": "vm/init.log",
+    "time_utc": "2026-10-15T15:33:29.684076140Z",
+    "component": "dockerd",
+    "message": "Daemon shutdown complete"
+  },
+  {
+    "source": "vm/init.log",
+    "time_utc": "2026-10-15T15:33:29.944673638Z",
+    "component": "control",
+    "message": "graceful shutdown complete"
+  },
+  {
+    "source": "vm/init.log.0",
+    "time_utc": "2026-10-15T15:27:18.738241572Z",
+    "component": "oom-tracer",
+    "message": "OOM Killer: 1394 (trino-server) total-vm:10620012kB\n"
+  }
+]

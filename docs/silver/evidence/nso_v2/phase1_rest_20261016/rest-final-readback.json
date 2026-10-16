@@ -1,0 +1,3230 @@
+{
+  "catalog": {
+    "bronze.nso_vietnam": {
+      "uuid": "3e00b19f-0c38-4f6d-9eac-90c4ca51dd08",
+      "snapshot": 8786414080148355674,
+      "schema_id": 0,
+      "metadata_location": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/00013-a9ae0a4f-3079-4bcc-9344-c12e7dcb2d38.metadata.json",
+      "location": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77",
+      "schemas": [
+        {
+          "type": "struct",
+          "schema-id": 0,
+          "fields": [
+            {
+              "id": 1,
+              "name": "gi_tr_v_ch_s_ph_t_tri_n",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 2,
+              "name": "nam",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 3,
+              "name": "t_ng_di_n_t_ch_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 4,
+              "name": "di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 5,
+              "name": "di_n_t_ch_l_a_h_thu_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 6,
+              "name": "di_n_t_ch_l_a_m_a_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 7,
+              "name": "t_ng_s_n_lu_ng_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 8,
+              "name": "s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 9,
+              "name": "s_n_lu_ng_l_a_h_thu_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 10,
+              "name": "s_n_lu_ng_l_a_m_a_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 11,
+              "name": "t_nh_th_nh_ph_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 12,
+              "name": "col_1995",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 13,
+              "name": "col_1996",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 14,
+              "name": "col_1997",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 15,
+              "name": "col_1998",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 16,
+              "name": "col_1999",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 17,
+              "name": "col_2000",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 18,
+              "name": "col_2001",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 19,
+              "name": "col_2002",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 20,
+              "name": "col_2003",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 21,
+              "name": "col_2004",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 22,
+              "name": "col_2005",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 23,
+              "name": "col_2006",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 24,
+              "name": "col_2007",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 25,
+              "name": "col_2008",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 26,
+              "name": "col_2009",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 27,
+              "name": "col_2010",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 28,
+              "name": "col_2011",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 29,
+              "name": "col_2012",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 30,
+              "name": "col_2013",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 31,
+              "name": "col_2014",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 32,
+              "name": "col_2015",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 33,
+              "name": "col_2016",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 34,
+              "name": "col_2017",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 35,
+              "name": "col_2018",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 36,
+              "name": "col_2019",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 37,
+              "name": "col_2020",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 38,
+              "name": "col_2021",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 39,
+              "name": "col_2022",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 40,
+              "name": "col_2023",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 41,
+              "name": "so_b_2024",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 42,
+              "name": "_ingestion_run_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 43,
+              "name": "_ingestion_batch_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 44,
+              "name": "_ingestion_chunk_id",
+              "required": false,
+              "type": "long"
+            },
+            {
+              "id": 45,
+              "name": "_ingestion_timestamp",
+              "required": false,
+              "type": "timestamptz"
+            },
+            {
+              "id": 46,
+              "name": "_source_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 47,
+              "name": "_source_file",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 48,
+              "name": "_source_checksum",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 49,
+              "name": "_source_snapshot_id",
+              "required": false,
+              "type": "long"
+            }
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "sequence-number": 1,
+          "snapshot-id": 3543265936381046219,
+          "timestamp-ms": 1792141748589,
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261016_090908_00113_vxd5d",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-3543265936381046219-1-fd2e9b38-e608-4430-a3d2-6b6b083f863a.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 2,
+          "snapshot-id": 4293867237874423065,
+          "parent-snapshot-id": 3543265936381046219,
+          "timestamp-ms": 1792141749417,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "23225",
+            "added-data-files": "1",
+            "added-records": "71",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "71",
+            "total-files-size": "23225",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-4293867237874423065-0-a36b7e6a-127c-42a4-87ac-e5cb4e8018af.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 3,
+          "snapshot-id": 3654794283024918859,
+          "parent-snapshot-id": 4293867237874423065,
+          "timestamp-ms": 1792141750633,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31911",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "2",
+            "total-delete-files": "0",
+            "total-records": "143",
+            "total-files-size": "55136",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-3654794283024918859-0-4c9a432b-882c-4536-837f-a47052a9e6fa.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 4,
+          "snapshot-id": 3270311279724614256,
+          "parent-snapshot-id": 3654794283024918859,
+          "timestamp-ms": 1792141751410,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29591",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "3",
+            "total-delete-files": "0",
+            "total-records": "215",
+            "total-files-size": "84727",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-3270311279724614256-0-2126ab82-1b1f-4032-876f-e16bdba677d5.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 5,
+          "snapshot-id": 2484499640549821731,
+          "parent-snapshot-id": 3270311279724614256,
+          "timestamp-ms": 1792141752092,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "32961",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "4",
+            "total-delete-files": "0",
+            "total-records": "287",
+            "total-files-size": "117688",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-2484499640549821731-0-b8f383cd-82a9-4b31-aa62-53960b399beb.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 6,
+          "snapshot-id": 5212510931469515686,
+          "parent-snapshot-id": 2484499640549821731,
+          "timestamp-ms": 1792141753219,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31173",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "5",
+            "total-delete-files": "0",
+            "total-records": "359",
+            "total-files-size": "148861",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-5212510931469515686-0-ae8e8876-3162-4c0f-9c24-b763e8d81e08.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 7,
+          "snapshot-id": 7855999162162151376,
+          "parent-snapshot-id": 5212510931469515686,
+          "timestamp-ms": 1792141753996,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29619",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "6",
+            "total-delete-files": "0",
+            "total-records": "431",
+            "total-files-size": "178480",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-7855999162162151376-0-6b64b440-4ee0-49c5-8d12-aa6fd0f7b059.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 8,
+          "snapshot-id": 1098719593515687635,
+          "parent-snapshot-id": 7855999162162151376,
+          "timestamp-ms": 1792141754690,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "32504",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "7",
+            "total-delete-files": "0",
+            "total-records": "503",
+            "total-files-size": "210984",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-1098719593515687635-0-6fce913e-a02b-44e7-a4d1-c47cbe7af227.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 9,
+          "snapshot-id": 7695243302173123788,
+          "parent-snapshot-id": 1098719593515687635,
+          "timestamp-ms": 1792141755629,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "26580",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "8",
+            "total-delete-files": "0",
+            "total-records": "541",
+            "total-files-size": "237564",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-7695243302173123788-0-c26ea951-72ab-4ef9-9d24-da192017ee76.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 10,
+          "snapshot-id": 7614190781117315764,
+          "parent-snapshot-id": 7695243302173123788,
+          "timestamp-ms": 1792141756384,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "25914",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "9",
+            "total-delete-files": "0",
+            "total-records": "579",
+            "total-files-size": "263478",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-7614190781117315764-0-0f2c05f8-9e33-41db-b68d-8caee6f773b7.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 11,
+          "snapshot-id": 3877859759547719346,
+          "parent-snapshot-id": 7614190781117315764,
+          "timestamp-ms": 1792141757088,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "27041",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "10",
+            "total-delete-files": "0",
+            "total-records": "617",
+            "total-files-size": "290519",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-3877859759547719346-0-df351aff-084f-4e78-b0a7-36ebe564c97a.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 12,
+          "snapshot-id": 2675892344881606173,
+          "parent-snapshot-id": 3877859759547719346,
+          "timestamp-ms": 1792141757969,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "30453",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "11",
+            "total-delete-files": "0",
+            "total-records": "689",
+            "total-files-size": "320972",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-2675892344881606173-0-d63e0b34-af19-493d-bf50-d3908e7b457d.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 13,
+          "snapshot-id": 3874123233875333137,
+          "parent-snapshot-id": 2675892344881606173,
+          "timestamp-ms": 1792141758716,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29554",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "12",
+            "total-delete-files": "0",
+            "total-records": "761",
+            "total-files-size": "350526",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-3874123233875333137-0-ac1c347a-8d44-4e31-bf3c-98b2c4e1078a.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 14,
+          "snapshot-id": 8786414080148355674,
+          "parent-snapshot-id": 3874123233875333137,
+          "timestamp-ms": 1792141759611,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31743",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "13",
+            "total-delete-files": "0",
+            "total-records": "833",
+            "total-files-size": "382269",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/snap-8786414080148355674-0-151830d1-8cdd-4c79-8306-89b63d95fd00.avro",
+          "schema-id": 0
+        }
+      ]
+    },
+    "nso_revision_staging.nso_vietnam": {
+      "uuid": "ab335678-7770-4bd5-9ec9-e42f7ba7c64c",
+      "snapshot": 4813693464499514932,
+      "schema_id": 0,
+      "metadata_location": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/00013-c3731fd7-c511-466e-9516-543b0ddb08ab.metadata.json",
+      "location": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c",
+      "schemas": [
+        {
+          "type": "struct",
+          "schema-id": 0,
+          "fields": [
+            {
+              "id": 1,
+              "name": "gi_tr_v_ch_s_ph_t_tri_n",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 2,
+              "name": "nam",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 3,
+              "name": "t_ng_di_n_t_ch_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 4,
+              "name": "di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 5,
+              "name": "di_n_t_ch_l_a_h_thu_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 6,
+              "name": "di_n_t_ch_l_a_m_a_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 7,
+              "name": "t_ng_s_n_lu_ng_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 8,
+              "name": "s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 9,
+              "name": "s_n_lu_ng_l_a_h_thu_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 10,
+              "name": "s_n_lu_ng_l_a_m_a_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 11,
+              "name": "t_nh_th_nh_ph_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 12,
+              "name": "col_1995",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 13,
+              "name": "col_1996",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 14,
+              "name": "col_1997",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 15,
+              "name": "col_1998",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 16,
+              "name": "col_1999",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 17,
+              "name": "col_2000",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 18,
+              "name": "col_2001",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 19,
+              "name": "col_2002",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 20,
+              "name": "col_2003",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 21,
+              "name": "col_2004",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 22,
+              "name": "col_2005",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 23,
+              "name": "col_2006",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 24,
+              "name": "col_2007",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 25,
+              "name": "col_2008",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 26,
+              "name": "col_2009",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 27,
+              "name": "col_2010",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 28,
+              "name": "col_2011",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 29,
+              "name": "col_2012",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 30,
+              "name": "col_2013",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 31,
+              "name": "col_2014",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 32,
+              "name": "col_2015",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 33,
+              "name": "col_2016",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 34,
+              "name": "col_2017",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 35,
+              "name": "col_2018",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 36,
+              "name": "col_2019",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 37,
+              "name": "col_2020",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 38,
+              "name": "col_2021",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 39,
+              "name": "col_2022",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 40,
+              "name": "col_2023",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 41,
+              "name": "so_b_2024",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 42,
+              "name": "_ingestion_run_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 43,
+              "name": "_ingestion_batch_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 44,
+              "name": "_ingestion_chunk_id",
+              "required": false,
+              "type": "long"
+            },
+            {
+              "id": 45,
+              "name": "_ingestion_timestamp",
+              "required": false,
+              "type": "timestamptz"
+            },
+            {
+              "id": 46,
+              "name": "_source_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 47,
+              "name": "_source_file",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 48,
+              "name": "_source_checksum",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 49,
+              "name": "_source_snapshot_id",
+              "required": false,
+              "type": "long"
+            }
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "sequence-number": 1,
+          "snapshot-id": 2066196923865015725,
+          "timestamp-ms": 1792141657502,
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261016_090737_00058_vxd5d",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-2066196923865015725-1-9c9b0e57-a8ef-46b3-8a6e-ce2fc369b52b.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 2,
+          "snapshot-id": 8773030629438972825,
+          "parent-snapshot-id": 2066196923865015725,
+          "timestamp-ms": 1792141658293,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "23225",
+            "added-data-files": "1",
+            "added-records": "71",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "71",
+            "total-files-size": "23225",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-8773030629438972825-0-67af6656-79b8-4f32-8d6f-20653b385f41.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 3,
+          "snapshot-id": 5272440173558717112,
+          "parent-snapshot-id": 8773030629438972825,
+          "timestamp-ms": 1792141659201,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31910",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "2",
+            "total-delete-files": "0",
+            "total-records": "143",
+            "total-files-size": "55135",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-5272440173558717112-0-06080788-425a-42ba-9f27-b480605eec49.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 4,
+          "snapshot-id": 6872910320106704574,
+          "parent-snapshot-id": 5272440173558717112,
+          "timestamp-ms": 1792141660096,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29591",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "3",
+            "total-delete-files": "0",
+            "total-records": "215",
+            "total-files-size": "84726",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-6872910320106704574-0-c089d321-a83d-44ee-be72-97eb3c742dc9.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 5,
+          "snapshot-id": 4051257313521441760,
+          "parent-snapshot-id": 6872910320106704574,
+          "timestamp-ms": 1792141661182,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "32961",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "4",
+            "total-delete-files": "0",
+            "total-records": "287",
+            "total-files-size": "117687",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-4051257313521441760-0-66a3e293-b411-4ed9-a8ab-811b7890524b.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 6,
+          "snapshot-id": 8963372780183570555,
+          "parent-snapshot-id": 4051257313521441760,
+          "timestamp-ms": 1792141662009,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31173",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "5",
+            "total-delete-files": "0",
+            "total-records": "359",
+            "total-files-size": "148860",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-8963372780183570555-0-3cc9b111-4133-497d-ad8b-9f2a2e5c32c0.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 7,
+          "snapshot-id": 2570665679662150027,
+          "parent-snapshot-id": 8963372780183570555,
+          "timestamp-ms": 1792141662792,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29619",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "6",
+            "total-delete-files": "0",
+            "total-records": "431",
+            "total-files-size": "178479",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-2570665679662150027-0-5cafdedb-1626-4e4a-9ffd-6388c73f52c5.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 8,
+          "snapshot-id": 4410778621516793151,
+          "parent-snapshot-id": 2570665679662150027,
+          "timestamp-ms": 1792141663613,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "32504",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "7",
+            "total-delete-files": "0",
+            "total-records": "503",
+            "total-files-size": "210983",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-4410778621516793151-0-fa25255f-65db-4c72-9659-f95fbb3497c2.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 9,
+          "snapshot-id": 6399830121569202780,
+          "parent-snapshot-id": 4410778621516793151,
+          "timestamp-ms": 1792141664617,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "26580",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "8",
+            "total-delete-files": "0",
+            "total-records": "541",
+            "total-files-size": "237563",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-6399830121569202780-0-ab86ca18-50d1-4a46-90ca-25bca2089cc0.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 10,
+          "snapshot-id": 5822929994318191036,
+          "parent-snapshot-id": 6399830121569202780,
+          "timestamp-ms": 1792141665515,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "25914",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "9",
+            "total-delete-files": "0",
+            "total-records": "579",
+            "total-files-size": "263477",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-5822929994318191036-0-16ad10e1-591e-438c-921d-601f7bd3ea9d.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 11,
+          "snapshot-id": 1630756684840299442,
+          "parent-snapshot-id": 5822929994318191036,
+          "timestamp-ms": 1792141666280,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "27041",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "10",
+            "total-delete-files": "0",
+            "total-records": "617",
+            "total-files-size": "290518",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-1630756684840299442-0-34870f24-21f0-462d-9278-926a623cfaca.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 12,
+          "snapshot-id": 7132161165722301105,
+          "parent-snapshot-id": 1630756684840299442,
+          "timestamp-ms": 1792141667208,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "30453",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "11",
+            "total-delete-files": "0",
+            "total-records": "689",
+            "total-files-size": "320971",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-7132161165722301105-0-750b1e66-af6b-4bcb-9597-0429adafe28e.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 13,
+          "snapshot-id": 4733132887643243906,
+          "parent-snapshot-id": 7132161165722301105,
+          "timestamp-ms": 1792141667996,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29554",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "12",
+            "total-delete-files": "0",
+            "total-records": "761",
+            "total-files-size": "350525",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-4733132887643243906-0-d73cc812-668d-453f-b885-466a0867d8bf.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 14,
+          "snapshot-id": 4813693464499514932,
+          "parent-snapshot-id": 4733132887643243906,
+          "timestamp-ms": 1792141668801,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31743",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "13",
+            "total-delete-files": "0",
+            "total-records": "833",
+            "total-files-size": "382268",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/snap-4813693464499514932-0-442a149d-36ca-4888-80fa-bea4b9e54489.avro",
+          "schema-id": 0
+        }
+      ]
+    },
+    "nso_revision_unapproved.nso_vietnam": {
+      "uuid": "2c49a46e-2227-4a9c-a1ed-96c4c007b821",
+      "snapshot": 7395219837396472514,
+      "schema_id": 0,
+      "metadata_location": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/00013-4cbb7523-abc0-4877-8a33-237f6014b5e6.metadata.json",
+      "location": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1",
+      "schemas": [
+        {
+          "type": "struct",
+          "schema-id": 0,
+          "fields": [
+            {
+              "id": 1,
+              "name": "gi_tr_v_ch_s_ph_t_tri_n",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 2,
+              "name": "nam",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 3,
+              "name": "t_ng_di_n_t_ch_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 4,
+              "name": "di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 5,
+              "name": "di_n_t_ch_l_a_h_thu_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 6,
+              "name": "di_n_t_ch_l_a_m_a_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 7,
+              "name": "t_ng_s_n_lu_ng_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 8,
+              "name": "s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 9,
+              "name": "s_n_lu_ng_l_a_h_thu_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 10,
+              "name": "s_n_lu_ng_l_a_m_a_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 11,
+              "name": "t_nh_th_nh_ph_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 12,
+              "name": "col_1995",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 13,
+              "name": "col_1996",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 14,
+              "name": "col_1997",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 15,
+              "name": "col_1998",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 16,
+              "name": "col_1999",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 17,
+              "name": "col_2000",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 18,
+              "name": "col_2001",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 19,
+              "name": "col_2002",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 20,
+              "name": "col_2003",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 21,
+              "name": "col_2004",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 22,
+              "name": "col_2005",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 23,
+              "name": "col_2006",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 24,
+              "name": "col_2007",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 25,
+              "name": "col_2008",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 26,
+              "name": "col_2009",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 27,
+              "name": "col_2010",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 28,
+              "name": "col_2011",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 29,
+              "name": "col_2012",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 30,
+              "name": "col_2013",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 31,
+              "name": "col_2014",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 32,
+              "name": "col_2015",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 33,
+              "name": "col_2016",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 34,
+              "name": "col_2017",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 35,
+              "name": "col_2018",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 36,
+              "name": "col_2019",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 37,
+              "name": "col_2020",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 38,
+              "name": "col_2021",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 39,
+              "name": "col_2022",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 40,
+              "name": "col_2023",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 41,
+              "name": "so_b_2024",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 42,
+              "name": "_ingestion_run_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 43,
+              "name": "_ingestion_batch_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 44,
+              "name": "_ingestion_chunk_id",
+              "required": false,
+              "type": "long"
+            },
+            {
+              "id": 45,
+              "name": "_ingestion_timestamp",
+              "required": false,
+              "type": "timestamptz"
+            },
+            {
+              "id": 46,
+              "name": "_source_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 47,
+              "name": "_source_file",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 48,
+              "name": "_source_checksum",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 49,
+              "name": "_source_snapshot_id",
+              "required": false,
+              "type": "long"
+            }
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "sequence-number": 1,
+          "snapshot-id": 1210502021919290100,
+          "timestamp-ms": 1792142636407,
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261016_092356_00171_vxd5d",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-1210502021919290100-1-1f387188-935b-4cc8-97b9-c075cf03f042.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 2,
+          "snapshot-id": 757738049246887361,
+          "parent-snapshot-id": 1210502021919290100,
+          "timestamp-ms": 1792142637120,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "23225",
+            "added-data-files": "1",
+            "added-records": "71",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "71",
+            "total-files-size": "23225",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-757738049246887361-0-e175df6a-f79a-44ce-97af-c04ec96aa7e8.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 3,
+          "snapshot-id": 5175689614227223151,
+          "parent-snapshot-id": 757738049246887361,
+          "timestamp-ms": 1792142638005,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31910",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "2",
+            "total-delete-files": "0",
+            "total-records": "143",
+            "total-files-size": "55135",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-5175689614227223151-0-13ba302e-dafb-4b39-bc1c-38d2d068db11.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 4,
+          "snapshot-id": 7519477735967379746,
+          "parent-snapshot-id": 5175689614227223151,
+          "timestamp-ms": 1792142638866,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29591",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "3",
+            "total-delete-files": "0",
+            "total-records": "215",
+            "total-files-size": "84726",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-7519477735967379746-0-8ff992de-9cbd-45a5-8bd6-53a06e9c275a.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 5,
+          "snapshot-id": 338540947508256934,
+          "parent-snapshot-id": 7519477735967379746,
+          "timestamp-ms": 1792142639625,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "32961",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "4",
+            "total-delete-files": "0",
+            "total-records": "287",
+            "total-files-size": "117687",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-338540947508256934-0-a504f2a2-e732-436d-b76e-fade17448b4b.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 6,
+          "snapshot-id": 3645430982486619877,
+          "parent-snapshot-id": 338540947508256934,
+          "timestamp-ms": 1792142640351,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31173",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "5",
+            "total-delete-files": "0",
+            "total-records": "359",
+            "total-files-size": "148860",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-3645430982486619877-0-2513ac9d-5dd1-413d-8e20-81ecbd2302e1.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 7,
+          "snapshot-id": 5556251740054673854,
+          "parent-snapshot-id": 3645430982486619877,
+          "timestamp-ms": 1792142641264,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29619",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "6",
+            "total-delete-files": "0",
+            "total-records": "431",
+            "total-files-size": "178479",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-5556251740054673854-0-af7983d1-93fc-4ed2-96a0-d03b9118daf5.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 8,
+          "snapshot-id": 7873939917257586862,
+          "parent-snapshot-id": 5556251740054673854,
+          "timestamp-ms": 1792142641873,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "32504",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "7",
+            "total-delete-files": "0",
+            "total-records": "503",
+            "total-files-size": "210983",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-7873939917257586862-0-400cd30a-cfbf-4de6-ab4a-aa762f32557a.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 9,
+          "snapshot-id": 6280008396627461441,
+          "parent-snapshot-id": 7873939917257586862,
+          "timestamp-ms": 1792142642535,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "26580",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "8",
+            "total-delete-files": "0",
+            "total-records": "541",
+            "total-files-size": "237563",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-6280008396627461441-0-c1f80aed-f145-4bde-9a0c-d13d23df2d58.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 10,
+          "snapshot-id": 3852208900392412007,
+          "parent-snapshot-id": 6280008396627461441,
+          "timestamp-ms": 1792142643185,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "25914",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "9",
+            "total-delete-files": "0",
+            "total-records": "579",
+            "total-files-size": "263477",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-3852208900392412007-0-4d4721ed-afe1-4cb2-b128-2bfc3efe094a.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 11,
+          "snapshot-id": 4588073868264112548,
+          "parent-snapshot-id": 3852208900392412007,
+          "timestamp-ms": 1792142643856,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "27041",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "10",
+            "total-delete-files": "0",
+            "total-records": "617",
+            "total-files-size": "290518",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-4588073868264112548-0-ea68e11e-6c67-44de-adad-c5b24feb4fa4.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 12,
+          "snapshot-id": 6965575537796052567,
+          "parent-snapshot-id": 4588073868264112548,
+          "timestamp-ms": 1792142644765,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "30453",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "11",
+            "total-delete-files": "0",
+            "total-records": "689",
+            "total-files-size": "320971",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-6965575537796052567-0-abff6247-7e57-418e-995d-69554cdc7b66.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 13,
+          "snapshot-id": 7706847986010969056,
+          "parent-snapshot-id": 6965575537796052567,
+          "timestamp-ms": 1792142645632,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29554",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "12",
+            "total-delete-files": "0",
+            "total-records": "761",
+            "total-files-size": "350525",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-7706847986010969056-0-3292245a-0617-4179-823a-73ca1d2b5ff3.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 14,
+          "snapshot-id": 7395219837396472514,
+          "parent-snapshot-id": 7706847986010969056,
+          "timestamp-ms": 1792142646477,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31743",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "13",
+            "total-delete-files": "0",
+            "total-records": "833",
+            "total-files-size": "382268",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/snap-7395219837396472514-0-66e2862c-c6d1-41b7-b8bf-e54a42beac57.avro",
+          "schema-id": 0
+        }
+      ]
+    },
+    "nso_staging_accepted.nso_vietnam": {
+      "uuid": "8812d82f-2641-4a37-9334-916d415653a5",
+      "snapshot": 5039973428073415228,
+      "schema_id": 0,
+      "metadata_location": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/00013-c48d031e-7278-4646-924f-e10c05b48784.metadata.json",
+      "location": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49",
+      "schemas": [
+        {
+          "type": "struct",
+          "schema-id": 0,
+          "fields": [
+            {
+              "id": 1,
+              "name": "gi_tr_v_ch_s_ph_t_tri_n",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 2,
+              "name": "nam",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 3,
+              "name": "t_ng_di_n_t_ch_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 4,
+              "name": "di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 5,
+              "name": "di_n_t_ch_l_a_h_thu_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 6,
+              "name": "di_n_t_ch_l_a_m_a_ngh_n_ha_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 7,
+              "name": "t_ng_s_n_lu_ng_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 8,
+              "name": "s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 9,
+              "name": "s_n_lu_ng_l_a_h_thu_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 10,
+              "name": "s_n_lu_ng_l_a_m_a_ngh_n_t_n_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 11,
+              "name": "t_nh_th_nh_ph_",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 12,
+              "name": "col_1995",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 13,
+              "name": "col_1996",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 14,
+              "name": "col_1997",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 15,
+              "name": "col_1998",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 16,
+              "name": "col_1999",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 17,
+              "name": "col_2000",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 18,
+              "name": "col_2001",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 19,
+              "name": "col_2002",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 20,
+              "name": "col_2003",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 21,
+              "name": "col_2004",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 22,
+              "name": "col_2005",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 23,
+              "name": "col_2006",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 24,
+              "name": "col_2007",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 25,
+              "name": "col_2008",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 26,
+              "name": "col_2009",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 27,
+              "name": "col_2010",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 28,
+              "name": "col_2011",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 29,
+              "name": "col_2012",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 30,
+              "name": "col_2013",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 31,
+              "name": "col_2014",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 32,
+              "name": "col_2015",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 33,
+              "name": "col_2016",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 34,
+              "name": "col_2017",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 35,
+              "name": "col_2018",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 36,
+              "name": "col_2019",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 37,
+              "name": "col_2020",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 38,
+              "name": "col_2021",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 39,
+              "name": "col_2022",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 40,
+              "name": "col_2023",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 41,
+              "name": "so_b_2024",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 42,
+              "name": "_ingestion_run_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 43,
+              "name": "_ingestion_batch_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 44,
+              "name": "_ingestion_chunk_id",
+              "required": false,
+              "type": "long"
+            },
+            {
+              "id": 45,
+              "name": "_ingestion_timestamp",
+              "required": false,
+              "type": "timestamptz"
+            },
+            {
+              "id": 46,
+              "name": "_source_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 47,
+              "name": "_source_file",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 48,
+              "name": "_source_checksum",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 49,
+              "name": "_source_snapshot_id",
+              "required": false,
+              "type": "long"
+            }
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "sequence-number": 1,
+          "snapshot-id": 8017933106056038571,
+          "timestamp-ms": 1792141633466,
+          "summary": {
+            "operation": "append",
+            "trino_query_id": "20261016_090712_00003_vxd5d",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-8017933106056038571-1-f4d2969d-8303-4c46-a895-829f2eface20.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 2,
+          "snapshot-id": 2678800198516945498,
+          "parent-snapshot-id": 8017933106056038571,
+          "timestamp-ms": 1792141639327,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "23225",
+            "added-data-files": "1",
+            "added-records": "71",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-records": "71",
+            "total-files-size": "23225",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-2678800198516945498-0-e37a8113-ccf2-4b60-8821-31d164090678.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 3,
+          "snapshot-id": 2069352994472625258,
+          "parent-snapshot-id": 2678800198516945498,
+          "timestamp-ms": 1792141640806,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31911",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "2",
+            "total-delete-files": "0",
+            "total-records": "143",
+            "total-files-size": "55136",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-2069352994472625258-0-ff8b90e6-82e9-4fb7-baf0-5c43876616ac.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 4,
+          "snapshot-id": 9221045929337503947,
+          "parent-snapshot-id": 2069352994472625258,
+          "timestamp-ms": 1792141642304,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29591",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "3",
+            "total-delete-files": "0",
+            "total-records": "215",
+            "total-files-size": "84727",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-9221045929337503947-0-6468198b-b335-4448-8353-13bcb00f64b2.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 5,
+          "snapshot-id": 7839399804044053309,
+          "parent-snapshot-id": 9221045929337503947,
+          "timestamp-ms": 1792141644071,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "32961",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "4",
+            "total-delete-files": "0",
+            "total-records": "287",
+            "total-files-size": "117688",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-7839399804044053309-0-08b969a5-ac2c-42d7-8d9c-5bac761de468.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 6,
+          "snapshot-id": 3471335523178304346,
+          "parent-snapshot-id": 7839399804044053309,
+          "timestamp-ms": 1792141646239,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31173",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "5",
+            "total-delete-files": "0",
+            "total-records": "359",
+            "total-files-size": "148861",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-3471335523178304346-0-07719284-1d84-4517-84f8-ea85f1708a95.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 7,
+          "snapshot-id": 8236059496383042168,
+          "parent-snapshot-id": 3471335523178304346,
+          "timestamp-ms": 1792141647754,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29619",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "6",
+            "total-delete-files": "0",
+            "total-records": "431",
+            "total-files-size": "178480",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-8236059496383042168-0-0be41092-16ba-45e7-b457-c71ae1a21952.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 8,
+          "snapshot-id": 3483059413269371908,
+          "parent-snapshot-id": 8236059496383042168,
+          "timestamp-ms": 1792141649368,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "32504",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "7",
+            "total-delete-files": "0",
+            "total-records": "503",
+            "total-files-size": "210984",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-3483059413269371908-0-1179c9f5-13cc-44ab-a1d1-2bac346fc162.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 9,
+          "snapshot-id": 7502607241890378339,
+          "parent-snapshot-id": 3483059413269371908,
+          "timestamp-ms": 1792141650790,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "26580",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "8",
+            "total-delete-files": "0",
+            "total-records": "541",
+            "total-files-size": "237564",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-7502607241890378339-0-2a70db16-5ee7-4a6c-af84-c2271f339071.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 10,
+          "snapshot-id": 5290823345175734195,
+          "parent-snapshot-id": 7502607241890378339,
+          "timestamp-ms": 1792141651712,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "25914",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "9",
+            "total-delete-files": "0",
+            "total-records": "579",
+            "total-files-size": "263478",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-5290823345175734195-0-a751ee5b-06d1-43c8-90ad-6b21b1840433.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 11,
+          "snapshot-id": 1073579097748075275,
+          "parent-snapshot-id": 5290823345175734195,
+          "timestamp-ms": 1792141653163,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "27041",
+            "added-data-files": "1",
+            "added-records": "38",
+            "total-data-files": "10",
+            "total-delete-files": "0",
+            "total-records": "617",
+            "total-files-size": "290519",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-1073579097748075275-0-56cff62d-c574-4e74-a1f5-8d3210abaf42.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 12,
+          "snapshot-id": 3135366739875986293,
+          "parent-snapshot-id": 1073579097748075275,
+          "timestamp-ms": 1792141654109,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "30453",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "11",
+            "total-delete-files": "0",
+            "total-records": "689",
+            "total-files-size": "320972",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-3135366739875986293-0-352a9a26-cc47-49e0-b0c5-0ba2e78a6d13.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 13,
+          "snapshot-id": 4329018250918496705,
+          "parent-snapshot-id": 3135366739875986293,
+          "timestamp-ms": 1792141655331,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "29554",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "12",
+            "total-delete-files": "0",
+            "total-records": "761",
+            "total-files-size": "350526",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-4329018250918496705-0-3c1c7c04-6d73-4ec7-9b03-b0c2e568bd81.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 14,
+          "snapshot-id": 5039973428073415228,
+          "parent-snapshot-id": 4329018250918496705,
+          "timestamp-ms": 1792141656596,
+          "summary": {
+            "operation": "append",
+            "added-files-size": "31743",
+            "added-data-files": "1",
+            "added-records": "72",
+            "total-data-files": "13",
+            "total-delete-files": "0",
+            "total-records": "833",
+            "total-files-size": "382269",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/snap-5039973428073415228-0-4a8fb4b1-21f1-494f-b9b2-049857127727.avro",
+          "schema-id": 0
+        }
+      ]
+    },
+    "silver.dead_letters": {
+      "uuid": "5ef06f78-8ec1-4228-8e38-2842699bc6cf",
+      "snapshot": 7208616430311507188,
+      "schema_id": 0,
+      "metadata_location": "s3://silver-rebuild-warehouse/silver/dead_letters/metadata/00003-55025e32-1707-4f24-8109-d30c8f95ff27.metadata.json",
+      "location": "s3://silver-rebuild-warehouse/silver/dead_letters",
+      "schemas": [
+        {
+          "type": "struct",
+          "schema-id": 0,
+          "fields": [
+            {
+              "id": 1,
+              "name": "quarantine_record_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 2,
+              "name": "source_dataset",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 3,
+              "name": "pipeline_run_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 4,
+              "name": "detected_at",
+              "required": false,
+              "type": "timestamptz"
+            },
+            {
+              "id": 5,
+              "name": "business_key_hash",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 6,
+              "name": "errors",
+              "required": false,
+              "type": {
+                "type": "list",
+                "element-id": 8,
+                "element": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "id": 9,
+                      "name": "rule_id",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "id": 10,
+                      "name": "error_message",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "id": 11,
+                      "name": "failed_column",
+                      "required": false,
+                      "type": "string"
+                    }
+                  ]
+                },
+                "element-required": false
+              }
+            },
+            {
+              "id": 7,
+              "name": "payload",
+              "required": false,
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "sequence-number": 1,
+          "snapshot-id": 367422318531285418,
+          "timestamp-ms": 1792141814958,
+          "summary": {
+            "operation": "append",
+            "spark.app.id": "local-1792141746856",
+            "added-data-files": "1",
+            "added-records": "13",
+            "added-files-size": "7145",
+            "changed-partition-count": "1",
+            "total-records": "13",
+            "total-files-size": "7145",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "engine-version": "3.5.5",
+            "app-id": "local-1792141746856",
+            "engine-name": "spark",
+            "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/silver/dead_letters/metadata/snap-367422318531285418-1-4eb6ed95-8db6-497c-8e2a-031b0c5ba04b.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 2,
+          "snapshot-id": 8861592196778080790,
+          "parent-snapshot-id": 367422318531285418,
+          "timestamp-ms": 1792142590081,
+          "summary": {
+            "operation": "overwrite",
+            "spark.app.id": "local-1792141746856",
+            "added-data-files": "1",
+            "deleted-data-files": "1",
+            "added-records": "13",
+            "deleted-records": "13",
+            "added-files-size": "7125",
+            "removed-files-size": "7145",
+            "changed-partition-count": "1",
+            "total-records": "13",
+            "total-files-size": "7125",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "engine-version": "3.5.5",
+            "app-id": "local-1792141746856",
+            "engine-name": "spark",
+            "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/silver/dead_letters/metadata/snap-8861592196778080790-1-3f4f482c-4ecd-4c03-8b2b-770e4213125d.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 3,
+          "snapshot-id": 7208616430311507188,
+          "parent-snapshot-id": 8861592196778080790,
+          "timestamp-ms": 1792142627125,
+          "summary": {
+            "operation": "overwrite",
+            "spark.app.id": "local-1792141746856",
+            "added-data-files": "1",
+            "deleted-data-files": "1",
+            "added-records": "13",
+            "deleted-records": "13",
+            "added-files-size": "7175",
+            "removed-files-size": "7125",
+            "changed-partition-count": "1",
+            "total-records": "13",
+            "total-files-size": "7175",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "engine-version": "3.5.5",
+            "app-id": "local-1792141746856",
+            "engine-name": "spark",
+            "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/silver/dead_letters/metadata/snap-7208616430311507188-1-e9133aa1-796f-4faf-869f-7ca442d7c0b7.avro",
+          "schema-id": 0
+        }
+      ]
+    },
+    "silver.nso_rice_statistics_v2": {
+      "uuid": "4ddaaa80-c114-4024-bfa1-27a5be3129d1",
+      "snapshot": 8595382440216504953,
+      "schema_id": 0,
+      "metadata_location": "s3://silver-rebuild-warehouse/silver/nso_rice_statistics_v2/metadata/00001-3c3b4aab-b2b4-47bf-8c9f-c7d75eaac48d.metadata.json",
+      "location": "s3://silver-rebuild-warehouse/silver/nso_rice_statistics_v2",
+      "schemas": [
+        {
+          "type": "struct",
+          "schema-id": 0,
+          "fields": [
+            {
+              "id": 1,
+              "name": "bronze_read_snapshot_id",
+              "required": false,
+              "type": "long"
+            },
+            {
+              "id": 2,
+              "name": "source_table",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 3,
+              "name": "source_column",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 4,
+              "name": "source_geography_key",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 5,
+              "name": "geography_raw",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 6,
+              "name": "geography_name_candidate",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 7,
+              "name": "geography_level",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 8,
+              "name": "geography_status",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 9,
+              "name": "geography_code",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 10,
+              "name": "boundary_version",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 11,
+              "name": "geography_mapping_version",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 12,
+              "name": "geography_evidence",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 13,
+              "name": "period_raw",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 14,
+              "name": "year",
+              "required": false,
+              "type": "int"
+            },
+            {
+              "id": 15,
+              "name": "measure",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 16,
+              "name": "season",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 17,
+              "name": "statistic_kind",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 18,
+              "name": "release_status",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 19,
+              "name": "value_raw",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 20,
+              "name": "value_source",
+              "required": false,
+              "type": "decimal(28, 8)"
+            },
+            {
+              "id": 21,
+              "name": "unit_raw",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 22,
+              "name": "unit_source_reference",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 23,
+              "name": "conversion_factor",
+              "required": false,
+              "type": "decimal(8, 0)"
+            },
+            {
+              "id": 24,
+              "name": "value",
+              "required": false,
+              "type": "decimal(28, 8)"
+            },
+            {
+              "id": 25,
+              "name": "unit",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 26,
+              "name": "unit_status",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 27,
+              "name": "unit_reference",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 28,
+              "name": "unit_evidence",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 29,
+              "name": "unit_mapping_version",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 30,
+              "name": "metadata_version",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 31,
+              "name": "quality_status",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 32,
+              "name": "missing_reason",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 33,
+              "name": "review_reason",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 34,
+              "name": "diagnostic_evidence",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 35,
+              "name": "_ingestion_run_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 36,
+              "name": "_ingestion_batch_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 37,
+              "name": "_ingestion_chunk_id",
+              "required": false,
+              "type": "long"
+            },
+            {
+              "id": 38,
+              "name": "_ingestion_timestamp",
+              "required": false,
+              "type": "timestamptz"
+            },
+            {
+              "id": 39,
+              "name": "_source_id",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 40,
+              "name": "_source_file",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 41,
+              "name": "_source_checksum",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "id": 42,
+              "name": "_source_snapshot_id",
+              "required": false,
+              "type": "long"
+            },
+            {
+              "id": 43,
+              "name": "_dq_warnings",
+              "required": false,
+              "type": {
+                "type": "list",
+                "element-id": 45,
+                "element": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "id": 46,
+                      "name": "rule_id",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "id": 47,
+                      "name": "error_message",
+                      "required": false,
+                      "type": "string"
+                    },
+                    {
+                      "id": 48,
+                      "name": "failed_column",
+                      "required": false,
+                      "type": "string"
+                    }
+                  ]
+                },
+                "element-required": false
+              }
+            },
+            {
+              "id": 44,
+              "name": "_silver_processed_at",
+              "required": false,
+              "type": "timestamptz"
+            }
+          ]
+        }
+      ],
+      "snapshots": [
+        {
+          "sequence-number": 1,
+          "snapshot-id": 794104942128796638,
+          "timestamp-ms": 1792141818346,
+          "summary": {
+            "operation": "append",
+            "spark.app.id": "local-1792141746856",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "engine-version": "3.5.5",
+            "app-id": "local-1792141746856",
+            "engine-name": "spark",
+            "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/silver/nso_rice_statistics_v2/metadata/snap-794104942128796638-1-c6884c2e-0d6d-49c2-9395-5632328e86e7.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 2,
+          "snapshot-id": 8595382440216504953,
+          "parent-snapshot-id": 794104942128796638,
+          "timestamp-ms": 1792141823606,
+          "summary": {
+            "operation": "append",
+            "spark.app.id": "local-1792141746856",
+            "added-data-files": "35",
+            "added-records": "23060",
+            "added-files-size": "1272629",
+            "changed-partition-count": "35",
+            "total-records": "23060",
+            "total-files-size": "1272629",
+            "total-data-files": "35",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "engine-version": "3.5.5",
+            "app-id": "local-1792141746856",
+            "engine-name": "spark",
+            "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+          },
+          "manifest-list": "s3://silver-rebuild-warehouse/silver/nso_rice_statistics_v2/metadata/snap-8595382440216504953-1-52907d2e-2421-4ac7-9ece-386633055478.avro",
+          "schema-id": 0
+        }
+      ]
+    }
+  },
+  "counts": {
+    "bronze.nso_vietnam": 833,
+    "nso_revision_staging.nso_vietnam": 833,
+    "nso_revision_unapproved.nso_vietnam": 833,
+    "nso_staging_accepted.nso_vietnam": 833,
+    "silver.dead_letters": 13,
+    "silver.nso_rice_statistics_v2": 23060
+  },
+  "silver": {
+    "rows": 23060,
+    "unique_keys": 23060,
+    "numeric": 22114,
+    "missing": 946,
+    "zeros": 5,
+    "national": 560,
+    "invalid_geography": 0,
+    "warning_observations": 22534,
+    "diagnostic_observations": 344,
+    "min_read_snapshot": 8786414080148355674,
+    "max_read_snapshot": 8786414080148355674
+  },
+  "units": [
+    {
+      "unit": "hectare",
+      "rows": 7640
+    },
+    {
+      "unit": "kg/hectare",
+      "rows": 7500
+    },
+    {
+      "unit": "percent",
+      "rows": 280
+    },
+    {
+      "unit": "tonne",
+      "rows": 7640
+    }
+  ],
+  "seasons": [
+    {
+      "season": "annual",
+      "rows": 6530
+    },
+    {
+      "season": "main_season",
+      "rows": 6530
+    },
+    {
+      "season": "summer_autumn",
+      "rows": 140
+    },
+    {
+      "season": "summer_autumn_autumn_winter",
+      "rows": 3330
+    },
+    {
+      "season": "winter_spring",
+      "rows": 6530
+    }
+  ],
+  "schema": [
+    {
+      "Column": "bronze_read_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "source_table",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "source_column",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "source_geography_key",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_name_candidate",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_level",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_status",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "boundary_version",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_mapping_version",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_evidence",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "period_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "year",
+      "Type": "integer",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "measure",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "season",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "statistic_kind",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "release_status",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value_source",
+      "Type": "decimal(28,8)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_source_reference",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "conversion_factor",
+      "Type": "decimal(8,0)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value",
+      "Type": "decimal(28,8)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_status",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_reference",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_evidence",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_mapping_version",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "metadata_version",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "quality_status",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "missing_reason",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "review_reason",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "diagnostic_evidence",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_run_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_batch_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_chunk_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_timestamp",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_file",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_checksum",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_dq_warnings",
+      "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_silver_processed_at",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    }
+  ],
+  "source_identity": [
+    {
+      "_source_id": "nso_vietnam",
+      "_ingestion_run_id": "nso_vietnam_20261016090907_24ab5e6d",
+      "_source_snapshot_id": 0,
+      "bronze_read_snapshot_id": 8786414080148355674,
+      "rows": 23060
+    }
+  ],
+  "lineage_mismatch": {
+    "invalid": 0
+  },
+  "exclusions": [
+    {
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "rows": 13
+    }
+  ]
+}

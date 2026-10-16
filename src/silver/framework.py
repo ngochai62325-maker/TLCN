@@ -3,6 +3,8 @@ import importlib
 import copy
 import logging
 from datetime import datetime, timezone
+from dataclasses import dataclass
+from typing import Optional, Protocol, runtime_checkable
 
 from pyspark import StorageLevel
 from pyspark.sql import SparkSession, functions as F, types as T
@@ -24,11 +26,31 @@ AUDIT_COLUMNS = (
 )
 
 
+@dataclass(frozen=True)
+class BronzeReadContext:
+    """Metadata of this runner's pinned read, never a catalog lookup request."""
+    bronze_input: str
+    bronze_read_snapshot_id: Optional[int]
+
+
+@runtime_checkable
+class ReadContextTransformer(Protocol):
+    def preprocess_with_read_context(self, df, context: BronzeReadContext):
+        ...
+
+
 class SilverTransformationFramework:
-    def __init__(self, spark: SparkSession, contract_dir: str = None, release=None):
+    def __init__(self, spark: SparkSession, contract_dir: str = None, release=None, profile=None):
+        from silver.local_profile import active_profile
+        if active_profile() and not profile:
+            raise ValueError("Activated local_nine requires explicit profile; no default fallback")
+        if profile:
+            from silver.local_profile import require_profile
+            require_profile(profile, release)
         if release is not None and release != RELEASE_NAMESPACE:
             raise ValueError(f"Unapproved Silver release: {release}")
         self.release = release
+        self.profile = profile
         self.spark = spark
         self.contract_loader = SilverContractLoader(contract_dir)
         self.quarantine_manager = SilverQuarantineManager(spark)
@@ -36,6 +58,9 @@ class SilverTransformationFramework:
 
     def contract(self, dataset_id):
         """Opt-in routing; the checked-in contracts and default routing stay intact."""
+        if self.profile:
+            from silver.local_profile import local_contract
+            return local_contract(self.contract_loader, dataset_id)
         if self.release and dataset_id not in RELEASE_SOURCES:
             raise ValueError(f"Source outside Silver V2 release: {dataset_id}")
         contract = self.contract_loader.load_contract(dataset_id)
@@ -107,7 +132,7 @@ class SilverTransformationFramework:
     def run(self, dataset_id: str, pipeline_run_id: str, mode="full", run_id=None, watermark=None,
             bronze_snapshot_id=None):
         contract = self.contract(dataset_id)
-        if self.release:
+        if self.release or self.profile:
             self.quarantine_manager.target_table = contract.silver_output.rsplit(".", 1)[0] + ".dead_letters"
         if mode not in {"full", "incremental"}:
             raise ValueError(f"Unsupported read mode: {mode}")
@@ -142,7 +167,14 @@ class SilverTransformationFramework:
             if transformer and hasattr(transformer, "observation_audit"):
                 observation_metrics = transformer.observation_audit(bronze)
                 exclusions = transformer.excluded_records(bronze)
-            prepared = transformer.preprocess(bronze) if transformer else bronze
+            if isinstance(transformer, ReadContextTransformer):
+                # Only opt-in transformers receive this binding. Both values come
+                # from the exact snapshot-id used by the reader above, not latest.
+                context = BronzeReadContext(contract.bronze_input, read_snapshot_id)
+                bound = bronze.withColumn("_bronze_read_snapshot_id", F.lit(read_snapshot_id).cast("long"))
+                prepared = transformer.preprocess_with_read_context(bound, context)
+            else:
+                prepared = transformer.preprocess(bronze) if transformer else bronze
             normalized = self.normalize(prepared, contract)
             rules = list(contract.data_quality_rules)
             required = set(contract.business_key) | {c["name"] for c in contract.columns if not c.get("nullable", True)}

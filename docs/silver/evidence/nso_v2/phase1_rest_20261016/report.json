@@ -1,0 +1,233 @@
+{
+  "status": "NSO_V2_ISOLATED_VALIDATED_PENDING_OWNER",
+  "recorded_at": "2026-10-16T09:29:40.894007+00:00",
+  "scope": "Phase 1 local isolated REST E2E only",
+  "git_head": "5c571693f90101c55d00ff84ceb5138092a1263c",
+  "production_contract": "DRAFT",
+  "shared_acceptance": false,
+  "airflow_integration": "NOT_PERFORMED",
+  "files_changed_this_phase": [
+    "tests/integration/test_nso_v2_rest_e2e.py",
+    "compose.nso-rest-test.yml",
+    "docs/silver/nso_v2.md",
+    "docs/silver/evidence/nso_v2/phase1_rest_20261016/"
+  ],
+  "tests": {
+    "focused_staging": {
+      "passed": 1,
+      "seconds": 42.76,
+      "exit": 0
+    },
+    "rest_full": {
+      "passed": 1,
+      "seconds": 916.39,
+      "exit": 0
+    },
+    "previous_native_read_context": {
+      "passed": 8,
+      "rerun_this_phase": false
+    },
+    "previous_pure_semantics": {
+      "passed": 6,
+      "rerun_this_phase": false
+    }
+  },
+  "actual_counts": {
+    "raw_csvs": 13,
+    "bronze": 833,
+    "source_records": 820,
+    "excluded_records": 13,
+    "excluded_slots": 368,
+    "silver": 23060,
+    "unique_business_keys": 23060,
+    "numeric": 22114,
+    "missing": 946,
+    "zeros": 5,
+    "national": 560,
+    "provisional": 766,
+    "quarantine": 0,
+    "duplicates": 0
+  },
+  "data_quality": {
+    "warning_observations": 22534,
+    "diagnostic_observations": 344,
+    "diagnostic_rules": {
+      "NSO_CROSS_TABLE": 12,
+      "NSO_AREA_YIELD_PRODUCTION": 309,
+      "NSO_SEASON_TOTAL": 28
+    },
+    "invalid_geography": 0
+  },
+  "lineage": {
+    "preserved_bronze_fields": 8,
+    "trino_except_mismatches": 0,
+    "bronze_read_snapshot_id": 8786414080148355674,
+    "source_snapshot_id": 0,
+    "source_id": "nso_vietnam",
+    "dataset_id": "nso_vietnam_v2",
+    "ingestion_run_id": "nso_vietnam_20261016090907_24ab5e6d"
+  },
+  "bronze": {
+    "uuid": "3e00b19f-0c38-4f6d-9eac-90c4ca51dd08",
+    "snapshot": 8786414080148355674,
+    "metadata_location": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-0a187fbbb85942108faa11fa444f6d77/metadata/00013-a9ae0a4f-3079-4bcc-9344-c12e7dcb2d38.metadata.json",
+    "rows": 833,
+    "checksum": "a0abf5e9516b08014c73d6ec411bfd2af6e8499fe8cc9bd01586d248315d32f7"
+  },
+  "silver": {
+    "uuid": "4ddaaa80-c114-4024-bfa1-27a5be3129d1",
+    "snapshot_id": 8595382440216504953,
+    "schema_id": 0,
+    "checksum": "a4b5b8742cfc65c70ceba1b285b55f53758eebd1564776b2607bc4b941641664"
+  },
+  "readbacks": {
+    "spark": "PASS",
+    "pyiceberg": "PASS",
+    "trino": "PASS",
+    "post_exit_trino": "PASS",
+    "persisted_sqlite_after_stop": "PASS"
+  },
+  "replays": [
+    {
+      "mode": "full",
+      "status": "NOOP",
+      "real_run_id": "nso_vietnam_20261016090907_24ab5e6d"
+    },
+    {
+      "mode": "incremental",
+      "status": "NOOP",
+      "real_run_id": "nso_vietnam_20261016090907_24ab5e6d"
+    }
+  ],
+  "revision": {
+    "status": "BLOCKED_ACCEPTED_STATE_PRESERVED",
+    "run_id": "nso_vietnam_20261016092355_2f314ca9",
+    "identity": {
+      "uuid": "2c49a46e-2227-4a9c-a1ed-96c4c007b821",
+      "snapshot": 7395219837396472514,
+      "metadata_location": "s3://silver-rebuild-warehouse/nso_revision_unapproved/nso_vietnam-655cba54c55f40969587200ab4c76bf1/metadata/00013-4cbb7523-abc0-4877-8a33-237f6014b5e6.metadata.json",
+      "rows": 833,
+      "checksum": "1c8a45bc3f0c13361c044b269250a6f3565932832d2e5ffe5416d3edd7a2a206"
+    },
+    "proof": {
+      "original_sha256": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110",
+      "revised_sha256": "78889c8f792f772474d2485320bc76055a5b9424f4cd458802c449e511d648cb",
+      "preserved_original": true,
+      "revised_rows": 72,
+      "table": "rebuild_test.nso_revision_unapproved.nso_vietnam"
+    },
+    "failure": {
+      "stage": "transformation",
+      "quarantine_committed": false,
+      "exclusions_committed": false,
+      "bronze_read_snapshot_id": 7395219837396472514
+    }
+  },
+  "isolated_project": "tlcn-nso-v2-rest-recovery-20261016",
+  "storage": "3 project-scoped persistent volumes; no tmpfs; internal network; readonly Raw/workspace",
+  "runtime_packages": {
+    "packages": {
+      "pytest": "8.4.2",
+      "psycopg2-binary": "2.9.10",
+      "boto3": "1.35.99",
+      "pyspark": "3.5.5",
+      "pyiceberg": "0.7.1",
+      "pyarrow": "17.0.0",
+      "pandas": "2.2.3"
+    },
+    "spark_submit": "--driver-memory 768m --conf spark.sql.defaultCatalog=spark_catalog pyspark-shell",
+    "jvm_heaps": [
+      "-Xmx768m"
+    ]
+  },
+  "shared_before_stop": {
+    "catalog_identities": 29,
+    "silver_rows": 1391467,
+    "quarantine_logical_rows": 4,
+    "ingestion_runs": 29,
+    "advisory_locks": 0,
+    "airflow": {
+      "active_runs": [],
+      "active_tasks": [],
+      "dags": {
+        "rice_lakehouse_ingestion": {
+          "paused": true,
+          "schedule": null
+        },
+        "rice_lakehouse_silver_pipeline": {
+          "paused": true,
+          "schedule": null
+        }
+      }
+    }
+  },
+  "final_runtime": {
+    "shared": "7 containers STOPPED, same IDs/images/mounts/stop timestamps",
+    "isolated": "4 infrastructure containers STOPPED; two runners exited0; all storage retained",
+    "running_containers": [],
+    "shared_post_stop_verification": "Frozen identities; no SQL rerun/restart after stop",
+    "windows_available_bytes": 4142501888,
+    "windows_load_percent": 74
+  },
+  "initial_rest_startup_failure": "Empty SQLite volume permission denied; reconciled no writers/commits; isolated REST user=root correction only",
+  "source_artifact_hashes_unchanged": {
+    "src/silver/framework.py": "6adff1b42e0a8cfec53cbf930e8317053275a504feb2868372605a889d244414",
+    "src/silver/transformers/nso_vietnam_v2.py": "9007e3d65ac340a6bb837b9cb20dbb1a7a3b23fc23fdf27d19a46a3463118d19",
+    "contracts/silver/nso_vietnam_v2.yaml": "4a11b6f31183ee2828d0fef2f9ad94475628982fe7c701eab77b0c7b57dc8b05",
+    "config/silver/nso_v2_metadata.json": "a076880448eaf84593e75a20d0fc6156302d26c053b07e260c3b3916d4da335d"
+  },
+  "business_rules_framework_eight_sources_modified_this_phase": false,
+  "integrity": {
+    "raw_artifacts_unchanged": true,
+    "historical_recovery_hashes_unchanged": true,
+    "closed_release_evidence_git_diff": false,
+    "diff_check_exit": 0,
+    "ast_parse": "PASS",
+    "secret_scan_findings": [],
+    "secret_scan_scope": "new Phase 1 evidence; private keys, credential URLs, AWS key patterns; synthetic startup secrets redacted"
+  },
+  "remaining_blockers": [],
+  "pending_owner": "Review Phase 1 result; DRAFT promotion and nine-source integration require later approval",
+  "local_test_limitations": [
+    "Existing ignored offline wheel cache and Raw bundle required; portability not implemented in Phase 1",
+    "Read-only test comparisons repeatedly load YAML; suite took 15 minutes; no framework refactor",
+    "Windows RAM was tight during run; all suites exited0 without OOM"
+  ],
+  "forbidden_actions_performed": {
+    "shared_writer": false,
+    "airflow_trigger_unpause": false,
+    "gold": false,
+    "reset_delete": false,
+    "shared_recreate_restart": false,
+    "git_commit_push": false
+  },
+  "evidence_sha256": {
+    "catalog-during-full.json": "337710c870b78868243c0e73719ccf9f2953ff11a94b1aba4fd1db1226b45b71",
+    "final-integrity.json": "f2167d9845f3d0e7b099aab4eb20854e119c2af9abdcfabc632653a98ffdbef3",
+    "input-integrity.json": "e929a4bda7d791b3cd5a4b803ea2c2909b7cf7ac7acdbc9aa825e817dbf5888d",
+    "isolated-compose-preflight.json": "1a6d780f7e8185c7bbaff92813fb616a9ef70d00cb4a2cad1ea81f6e3900f4a5",
+    "isolated-final-pre-stop.json": "9ef749efa11b9483fbcc199c9c7cad8cd7efd8167e6cb715cf3bcf4dd201d80b",
+    "isolated-infrastructure.json": "280b6c120be2654f77bb86ffe36c90be165ffebaaa87d910a71d5ca0faa0bf52",
+    "isolated-postgresql.json": "0e92f1576507c841a2499781efe71ddb7b44dbf84aab7c8c16e79f920a066148",
+    "isolated-stop.json": "616b536505d303fc99c9f2bc58fe730202a4d05d29f4412f0ab8c3349744c27f",
+    "isolated-storage-network.json": "7e6b37c3342a231141347b9c7916bba784c058ebeaf17b7228cc38ae25db1271",
+    "pre-full-resources.json": "b3dd6502fe8c68e6ea89a256c8810a944f4701e61829a9f22aa106453ba13986",
+    "README.md": "d5e08f12d480926d0e56e526a15dc34c4da6c9aac9657d2b3b3efbaed6ad6baf",
+    "resource-samples.jsonl": "aab99a7f67f4100a6a710cfbecd499ac03dfec7d1eec21d362ed64ea51584062",
+    "rest-acceptance.json": "455a4ab5dbfd1c81b50c32c39558eb5a1ad49072a5f68eae2201d0dea640d56f",
+    "rest-final-readback.json": "b87e45c2fd54b0364d2468d44cbbea68aa042721ccb34bacbee6ce53a73dc2cb",
+    "rest-initial-counts.json": "cbfd19b0777149496b0ce5e16156d89c709d6d9dc475a8d1d0aa39ac229881f5",
+    "rest-process.json": "2d5ff1d848c1df38899860b4e54e43700b6346782c366c3d5844f7bab6e8afae",
+    "rest-startup-failure.log": "099ebbe0c5871fc00cf6575883f904bc2208ec499e1cff115abb6c6b0a3e5798",
+    "rest-tests.log.gz": "8ba64c51f78e11208d644e9488060c3c61c9b23497aefe8ef41c587b3d22992e",
+    "runtime-packages.json": "e7ff535dcbbbb8f4f31ae708f1bafce4ea998ccf3c5acbfa223ac245b6ce1872",
+    "shared-final-frozen.json": "62e46936f3999bfb9f40298bc321d5f42165fc738f8e02d93af387c637ef81de",
+    "shared-pre-stop.json": "496b1803961bdd2041a518ba3c3ca49cb0663f3d223faf1b28a1b3f8dd5d3390",
+    "shared-stop.json": "ee81d69bd9b7ade9b1caf37258b09b6b3bfc7c43755e7ec80b6cb08f4579e489",
+    "staging-process.json": "6de0a5b657884e38256018baf2a47d04b777cc7bc179c789094de84358c1b95a",
+    "staging-regression.json": "22ebfb2637b6a34aabea74e427468f5d2cd01c391b1f89f9a879eb54e0236ef1",
+    "staging-tests.log.gz": "b02e0896b5b86f2c22b2b0f1b2322a523c79bc3ea0c8f7c7f6b025136bc4adb1",
+    "startup-reconciliation.json": "b9175d79d1086db3e261f32fb0c47172467e6e2846adca5e637cd1c9f4214726",
+    "test-contract-read-cost.json": "b7609d258e376ae931d1ebec9e031cfdd4cd91cbff8a74134538ff8443dc56d1"
+  }
+}

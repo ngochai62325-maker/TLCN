@@ -1,0 +1,15 @@
+{
+  "trino": {
+    "nodeVersion": {
+      "version": "448"
+    },
+    "environment": "docker",
+    "coordinator": true,
+    "starting": false,
+    "uptime": "1.13h"
+  },
+  "runner_processes": "PID                 PPID                COMMAND\n66991               66968               python3\n",
+  "shared": {
+    "unchanged_stopped": 7
+  }
+}

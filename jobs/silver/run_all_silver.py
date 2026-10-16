@@ -24,7 +24,20 @@ def datasets(contract_dir):
     return {p.stem: loader.load_contract(p.stem) for p in sorted(Path(contract_dir).glob("*.yaml"))}
 
 
-def selected_sources(dataset, contracts, release=None):
+def selected_sources(dataset, contracts, release=None, profile=None, contract_dir=None):
+    from silver.local_profile import active_profile
+    if active_profile() and not profile:
+        raise ValueError("Activated local_nine requires explicit profile; no default fallback")
+    if profile:
+        from silver.local_profile import require_profile, DATASETS, local_contract
+        require_profile(profile, release)
+        targets = dataset.split(",")
+        if len(targets) != len(set(targets)) or any(k not in DATASETS for k in targets):
+            raise ValueError("local_nine requires explicit approved dataset IDs")
+        loader = SilverContractLoader(str(contract_dir or ROOT / "contracts/silver"))
+        for target in targets:
+            local_contract(loader, target)
+        return targets
     if release and release != RELEASE_NAMESPACE:
         raise ValueError(f"Unapproved Silver release: {release}")
     if release and dataset == "all":
@@ -40,8 +53,12 @@ def selected_sources(dataset, contracts, release=None):
     return targets
 
 
-def source_lock(source, release):
-    if not release:
+def source_lock(source, release, profile=None):
+    if profile:
+        from silver.local_profile import mapping, require_profile
+        require_profile(profile, release)
+        source = mapping(source)[0]
+    if not release and not profile:
         return nullcontext()
     if not os.environ.get("INGESTION_DB_URL"):
         raise ValueError("Release requires explicit INGESTION_DB_URL; no unlocked fallback")
@@ -50,10 +67,11 @@ def source_lock(source, release):
 
 
 def run_pipeline(dataset="all", mode="full", run_id=None, watermark=None,
-                 pipeline_run_id=None, contract_dir=None, spark=None, release=None):
+                 pipeline_run_id=None, contract_dir=None, spark=None, release=None, profile=None,
+                 bronze_snapshot_id=None):
     contract_dir = Path(contract_dir or ROOT / "contracts/silver")
     contracts = datasets(contract_dir)
-    targets = selected_sources(dataset, contracts, release)
+    targets = selected_sources(dataset, contracts, release, profile, contract_dir)
     if dataset == "all":
         for key, contract in contracts.items():
             if contract.status != "READY":
@@ -62,27 +80,32 @@ def run_pipeline(dataset="all", mode="full", run_id=None, watermark=None,
         raise ValueError(f"Unknown dataset {dataset}; available: {list(contracts)}")
     if mode == "incremental" and not (run_id or watermark):
         raise ValueError("Incremental mode requires --run-id or --watermark")
-    for target in targets:
-        contracts[target].validate_executable()
+    if not profile:
+        for target in targets:
+            contracts[target].validate_executable()
     session = spark or get_spark_session("RiceLakehouseSilver")
-    framework = SilverTransformationFramework(session, str(contract_dir), release=release)
+    framework = SilverTransformationFramework(session, str(contract_dir), release=release, **({"profile": profile} if profile else {}))
     pipeline_run_id = pipeline_run_id or str(uuid.uuid4())
     results = {}
     try:
         for target in targets:
-            with source_lock(target, release):
-                if release:
+            with source_lock(target, release, **({"profile": profile} if profile else {})):
+                if release or profile:
                     from validate_silver_e2e import table_identity
                     table = framework.contract(target).silver_output
                     before = table_identity(session, table)
                     pinned = table_identity(session, framework.contract(target).bronze_input)["snapshot_id"]
+                    if profile:
+                        if bronze_snapshot_id is None or int(pinned) != int(bronze_snapshot_id):
+                            raise ValueError("local_nine requires the verified batch Bronze snapshot; input drift")
+                        pinned = int(bronze_snapshot_id)
                 try:
                     results[target] = framework.run(target, pipeline_run_id, mode=mode, run_id=run_id, watermark=watermark,
-                                                    **({"bronze_snapshot_id": pinned} if release else {}))
-                    if release:
+                                                    **({"bronze_snapshot_id": pinned} if release or profile else {}))
+                    if release or profile:
                         results[target]["commit_verified"] = {**table_identity(session, table), "rows": session.table(table).count()}
                 except Exception as exc:
-                    if release:
+                    if release or profile:
                         recovery = {**getattr(exc, "silver_failure", {}), "target_before": before,
                                     "commit_outcome": "UNKNOWN", "retry_requires_catalog_readback": True}
                         try:
@@ -109,6 +132,8 @@ def main(default_dataset="all"):
     parser.add_argument("--check-bronze", action="store_true", help="Read-only readiness/schema check")
     parser.add_argument("--audit", action="store_true", help="Read-only Silver key/type audit")
     parser.add_argument("--release", choices=[RELEASE_NAMESPACE], help="Opt-in V2 routing; requires explicit source IDs")
+    parser.add_argument("--profile", choices=["local_nine"], help="Explicit activated local-only routing")
+    parser.add_argument("--bronze-snapshot-id", type=int, help="Verified local batch pinned Bronze snapshot")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
     if args.audit or args.check_bronze:
@@ -116,16 +141,18 @@ def main(default_dataset="all"):
         session = get_spark_session("SilverAudit")
         try:
             contracts = datasets(args.contract_dir)
-            framework = SilverTransformationFramework(session, args.contract_dir, release=args.release)
-            selected = [framework.contract(k) for k in selected_sources(args.dataset, contracts, args.release)]
+            framework = SilverTransformationFramework(session, args.contract_dir, release=args.release, profile=args.profile)
+            selected = [framework.contract(k) for k in selected_sources(args.dataset, contracts, args.release, args.profile, args.contract_dir)]
             if not selected:
                 raise ValueError("No READY datasets selected")
-            result = check_bronze(session, selected) if args.check_bronze else audit_tables(session, selected)
+            result = (check_bronze(session, selected, **({"profile": args.profile} if args.profile else {}))
+                      if args.check_bronze else audit_tables(session, selected))
         finally:
             session.stop()
     else:
         result = run_pipeline(args.dataset, args.mode, args.run_id, args.watermark,
-                              args.pipeline_run_id, args.contract_dir, release=args.release)
+                              args.pipeline_run_id, args.contract_dir, release=args.release, profile=args.profile,
+                              bronze_snapshot_id=args.bronze_snapshot_id)
     encoded = json.dumps(result, ensure_ascii=False, default=str, indent=2)
     print("SILVER_RESULT=" + json.dumps(result, default=str))
     if args.output_json:

@@ -1,0 +1,5 @@
+{
+  "exit": 0,
+  "stdout": "",
+  "stderr": " Container tlcn-local-nine-airflow-20261016-airflow-webserver-1  Recreate\n Container tlcn-local-nine-airflow-20261016-airflow-webserver-1  Recreated\n Container tlcn-local-nine-airflow-20261016-airflow-webserver-1  Starting\n Container tlcn-local-nine-airflow-20261016-airflow-webserver-1  Started\n"
+}

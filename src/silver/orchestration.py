@@ -6,18 +6,26 @@ import urllib.error
 
 
 def trigger_spark_job(job_file="run_all_silver.py", mode="full", run_id=None,
-                      dataset="all", pipeline_run_id=None, action="run", watermark=None, release=None):
+                      dataset="all", pipeline_run_id=None, action="run", watermark=None, release=None,
+                      profile=None, bronze_snapshot_id=None):
     url = os.environ.get("SPARK_API_URL", "http://spark-iceberg:5005/run")
-    if release:
+    if release or profile:
         # An already-running old API would silently ignore the new request field.
         # Capability check must happen BEFORE POST, including before legacy quarantine.
         with urllib.request.urlopen(url.rsplit("/", 1)[0] + "/health", timeout=10) as response:
             health = json.loads(response.read().decode("utf-8"))
-        if health.get("silver_release") != release:
+        if profile:
+            from silver.local_profile import require_profile
+            require_profile(profile, release)
+            if health.get("local_profile") != profile:
+                raise RuntimeError("Spark API lacks activated local_nine routing")
+        elif health.get("silver_release") != release:
             raise RuntimeError("Spark API lacks approved release routing; reload it at owner-approved cutover")
     payload = {"job": job_file, "mode": mode, "run_id": run_id,
                "dataset": dataset, "pipeline_run_id": pipeline_run_id, "action": action, "watermark": watermark,
                "release": release}
+    if profile:
+        payload.update(profile=profile, bronze_snapshot_id=bronze_snapshot_id)
     req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"),
                                  headers={"Content-Type": "application/json"}, method="POST")
     try:

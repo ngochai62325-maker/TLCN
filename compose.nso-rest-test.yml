@@ -1,0 +1,40 @@
+# Phase 1 only. Always combine with compose.silver-test.yml and an unused -p.
+# No shared endpoints, host ports, Airflow or historical test volumes.
+services:
+  minio-test:
+    image: ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9
+    tmpfs: !reset []
+    volumes:
+      - nso_minio_data:/data
+  postgres-test:
+    image: postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81
+    tmpfs: !reset []
+    volumes:
+      - nso_postgres_data:/var/lib/postgresql/data
+  rest-test:
+    image: tabulario/iceberg-rest@sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51
+    user: root
+    environment:
+      CATALOG_URI: jdbc:sqlite:/data/catalog/nso-recovery.db
+      JAVA_TOOL_OPTIONS: -Xmx256m -XX:ActiveProcessorCount=2
+    volumes:
+      - nso_catalog_data:/data/catalog
+  runner:
+    image: tabulario/spark-iceberg@sha256:790a72e744e0d09f161e1b4c7c2f79625cc598cf0476da4703e62f1f4e023460
+    cpus: 2
+    environment:
+      PYSPARK_SUBMIT_ARGS: --driver-memory 768m --conf spark.sql.defaultCatalog=spark_catalog pyspark-shell
+      JAVA_TOOL_OPTIONS: -XX:ActiveProcessorCount=2
+    # Safe default: explicitly select a focused test, never the eight-source writer.
+    command:
+      - |
+        set -e
+        python3 -m pip install --quiet --no-index --find-links /workspace/.pytest_cache/silver_wheels --target /tmp/nso-deps pytest==8.4.2 psycopg2-binary==2.9.10 boto3==1.35.99
+        export PYTHONPATH=/tmp/nso-deps:/workspace/src:/workspace:/workspace/jobs/silver:/opt/spark/python:/opt/spark/python/lib/py4j-0.10.9.7-src.zip
+        exec python3 -m pytest -q -s -p no:cacheprovider tests/integration/test_nso_v2_rest_e2e.py::test_revision_staging_same_filename_separate_bronze --tb=short
+  trino-test:
+    image: trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3
+volumes:
+  nso_minio_data:
+  nso_postgres_data:
+  nso_catalog_data:

@@ -1,0 +1,219 @@
+[
+  {
+    "name": "/tlcn-nso-v2-rest-recovery-20261016-trino-test-1",
+    "id": "3bc86ca436e95194d15f668ef8d04c9efebef0a3e3e9db90a1d68284dabf0c5f",
+    "state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 143,
+      "Error": "",
+      "StartedAt": "2026-10-16T09:05:28.842930153Z",
+      "FinishedAt": "2026-10-16T09:26:07.84753639Z",
+      "Health": {
+        "Status": "unhealthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-16T09:25:43.182008579Z",
+            "End": "2026-10-16T09:25:43.295962906Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-16T09:25:48.296937023Z",
+            "End": "2026-10-16T09:25:48.420683278Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-16T09:25:53.420412805Z",
+            "End": "2026-10-16T09:25:53.558266306Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-16T09:25:58.559450137Z",
+            "End": "2026-10-16T09:25:58.685116967Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-16T09:26:03.685925153Z",
+            "End": "2026-10-16T09:26:03.810192804Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ]
+      }
+    },
+    "mounts": [],
+    "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3"
+  },
+  {
+    "name": "/tlcn-nso-v2-rest-recovery-20261016-rest-test-1",
+    "id": "72b8945566b0adde5aefabaaf475fcfda738269f2cc7cdc0ccb4b18ab7785bdd",
+    "state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 143,
+      "Error": "",
+      "StartedAt": "2026-10-16T09:06:40.875958468Z",
+      "FinishedAt": "2026-10-16T09:26:07.951949607Z"
+    },
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "tlcn-nso-v2-rest-recovery-20261016_nso_catalog_data",
+        "Source": "/var/lib/docker/volumes/tlcn-nso-v2-rest-recovery-20261016_nso_catalog_data/_data",
+        "Destination": "/data/catalog",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "image": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51"
+  },
+  {
+    "name": "/tlcn-nso-v2-rest-recovery-20261016-minio-test-1",
+    "id": "7829c5f4431397ab5eaeea51689294599c99134889a9cb5b69e049b6ab80e96e",
+    "state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-16T09:05:22.745105288Z",
+      "FinishedAt": "2026-10-16T09:26:08.415088381Z",
+      "Health": {
+        "Status": "unhealthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-16T09:25:45.231991834Z",
+            "End": "2026-10-16T09:25:45.308639241Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-16T09:25:50.307610401Z",
+            "End": "2026-10-16T09:25:50.396366667Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-16T09:25:55.397418855Z",
+            "End": "2026-10-16T09:25:55.483674995Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-16T09:26:00.48513424Z",
+            "End": "2026-10-16T09:26:00.58793775Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-16T09:26:05.588954339Z",
+            "End": "2026-10-16T09:26:05.672293019Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ]
+      }
+    },
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "tlcn-nso-v2-rest-recovery-20261016_nso_minio_data",
+        "Source": "/var/lib/docker/volumes/tlcn-nso-v2-rest-recovery-20261016_nso_minio_data/_data",
+        "Destination": "/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9"
+  },
+  {
+    "name": "/tlcn-nso-v2-rest-recovery-20261016-postgres-test-1",
+    "id": "f0d5a63969f9fa6d1e83b898004620eb032a72f4131e217f3af3cd895e755712",
+    "state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-16T09:05:22.750596224Z",
+      "FinishedAt": "2026-10-16T09:26:08.43285241Z",
+      "Health": {
+        "Status": "unhealthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-16T09:25:45.237307191Z",
+            "End": "2026-10-16T09:25:45.312555621Z",
+            "ExitCode": 0,
+            "Output": "/var/run/postgresql:5432 - accepting connections\n"
+          },
+          {
+            "Start": "2026-10-16T09:25:50.312144027Z",
+            "End": "2026-10-16T09:25:50.399906612Z",
+            "ExitCode": 0,
+            "Output": "/var/run/postgresql:5432 - accepting connections\n"
+          },
+          {
+            "Start": "2026-10-16T09:25:55.400522737Z",
+            "End": "2026-10-16T09:25:55.487963249Z",
+            "ExitCode": 0,
+            "Output": "/var/run/postgresql:5432 - accepting connections\n"
+          },
+          {
+            "Start": "2026-10-16T09:26:00.489010708Z",
+            "End": "2026-10-16T09:26:00.592448595Z",
+            "ExitCode": 0,
+            "Output": "/var/run/postgresql:5432 - accepting connections\n"
+          },
+          {
+            "Start": "2026-10-16T09:26:05.593182347Z",
+            "End": "2026-10-16T09:26:05.676867917Z",
+            "ExitCode": 0,
+            "Output": "/var/run/postgresql:5432 - accepting connections\n"
+          }
+        ]
+      }
+    },
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "tlcn-nso-v2-rest-recovery-20261016_nso_postgres_data",
+        "Source": "/var/lib/docker/volumes/tlcn-nso-v2-rest-recovery-20261016_nso_postgres_data/_data",
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81"
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "catalog_name": "rest_backend",
+    "table_namespace": "bronze",
+    "table_name": "nso_vietnam",
+    "metadata_location": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-a6bce21e7373482d9b138ffccad3924e/metadata/00013-e075fd9f-60d7-4e74-8aa3-82f09712adac.metadata.json",
+    "previous_metadata_location": "s3://silver-rebuild-warehouse/bronze/nso_vietnam-a6bce21e7373482d9b138ffccad3924e/metadata/00012-899efaa2-070b-428e-aa88-de0335fa3a8c.metadata.json"
+  },
+  {
+    "catalog_name": "rest_backend",
+    "table_namespace": "silver",
+    "table_name": "dead_letters",
+    "metadata_location": "s3://silver-rebuild-warehouse/silver/dead_letters/metadata/00001-c72e53b8-13ff-4934-96f3-6cae5b36c968.metadata.json",
+    "previous_metadata_location": "s3://silver-rebuild-warehouse/silver/dead_letters/metadata/00000-66c0d9c8-ec1c-47e2-9cbc-60bb135cf8e9.metadata.json"
+  },
+  {
+    "catalog_name": "rest_backend",
+    "table_namespace": "silver",
+    "table_name": "nso_rice_statistics_v2",
+    "metadata_location": "s3://silver-rebuild-warehouse/silver/nso_rice_statistics_v2/metadata/00001-656da886-89e1-4477-b52d-fccc3c3d5d8d.metadata.json",
+    "previous_metadata_location": "s3://silver-rebuild-warehouse/silver/nso_rice_statistics_v2/metadata/00000-2edca5ec-e153-4609-a1d0-bb9942f44199.metadata.json"
+  }
+]

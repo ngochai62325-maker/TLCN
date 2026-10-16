@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "original": {
+    "uuid": "8812d82f-2641-4a37-9334-916d415653a5",
+    "snapshot": 5039973428073415228,
+    "metadata_location": "s3://silver-rebuild-warehouse/nso_staging_accepted/nso_vietnam-4bae521e9fb245239d10394d9ba60d49/metadata/00013-c48d031e-7278-4646-924f-e10c05b48784.metadata.json",
+    "rows": 833,
+    "checksum": "32a0044232c7f83493e3082393eccb61aa8172d84c2bd6f87570c0c631aee668"
+  },
+  "revision": {
+    "uuid": "ab335678-7770-4bd5-9ec9-e42f7ba7c64c",
+    "snapshot": 4813693464499514932,
+    "metadata_location": "s3://silver-rebuild-warehouse/nso_revision_staging/nso_vietnam-c17ec56cec8b4117b964d1e4ac5b363c/metadata/00013-c3731fd7-c511-466e-9516-543b0ddb08ab.metadata.json",
+    "rows": 833,
+    "checksum": "e4a529b6b258d579bdaa278e64683434f468a57f83574e1becf3ee5586ef1a55"
+  },
+  "proof": {
+    "original_sha256": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110",
+    "revised_sha256": "78889c8f792f772474d2485320bc76055a5b9424f4cd458802c449e511d648cb",
+    "preserved_original": true,
+    "revised_rows": 72,
+    "table": "rebuild_test.nso_revision_staging.nso_vietnam"
+  },
+  "original_run_id": "nso_vietnam_20261016090711_41fca71e",
+  "revised_run_id": "nso_vietnam_20261016090737_fe4ad97c",
+  "metadata_database": "nso_staging_630d90ffd5c1"
+}
