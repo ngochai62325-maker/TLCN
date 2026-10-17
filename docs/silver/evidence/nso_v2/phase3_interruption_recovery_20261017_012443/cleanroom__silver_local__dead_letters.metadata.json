@@ -1,0 +1,202 @@
+{
+  "format-version": 2,
+  "table-uuid": "7711cdc0-135f-491c-a153-09c5ff6c1689",
+  "location": "s3://warehouse/silver_local/dead_letters",
+  "last-sequence-number": 2,
+  "last-updated-ms": 1792167022021,
+  "last-column-id": 11,
+  "current-schema-id": 0,
+  "schemas": [
+    {
+      "type": "struct",
+      "schema-id": 0,
+      "fields": [
+        {
+          "id": 1,
+          "name": "quarantine_record_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 2,
+          "name": "source_dataset",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 3,
+          "name": "pipeline_run_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 4,
+          "name": "detected_at",
+          "required": false,
+          "type": "timestamptz"
+        },
+        {
+          "id": 5,
+          "name": "business_key_hash",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 6,
+          "name": "errors",
+          "required": false,
+          "type": {
+            "type": "list",
+            "element-id": 8,
+            "element": {
+              "type": "struct",
+              "fields": [
+                {
+                  "id": 9,
+                  "name": "rule_id",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "id": 10,
+                  "name": "error_message",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "id": 11,
+                  "name": "failed_column",
+                  "required": false,
+                  "type": "string"
+                }
+              ]
+            },
+            "element-required": false
+          }
+        },
+        {
+          "id": 7,
+          "name": "payload",
+          "required": false,
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "default-spec-id": 0,
+  "partition-specs": [
+    {
+      "spec-id": 0,
+      "fields": [
+        {
+          "name": "source_dataset",
+          "transform": "identity",
+          "source-id": 2,
+          "field-id": 1000
+        },
+        {
+          "name": "detected_at_day",
+          "transform": "day",
+          "source-id": 4,
+          "field-id": 1001
+        }
+      ]
+    }
+  ],
+  "last-partition-id": 1001,
+  "default-sort-order-id": 0,
+  "sort-orders": [
+    {
+      "order-id": 0,
+      "fields": []
+    }
+  ],
+  "properties": {
+    "owner": "root",
+    "write.spark.fanout.enabled": "false",
+    "write.distribution-mode": "hash",
+    "write.parquet.compression-codec": "zstd",
+    "write.merge.distribution-mode": "hash"
+  },
+  "current-snapshot-id": 3806092623472970273,
+  "refs": {
+    "main": {
+      "snapshot-id": 3806092623472970273,
+      "type": "branch"
+    }
+  },
+  "snapshots": [
+    {
+      "sequence-number": 1,
+      "snapshot-id": 7512195715552547853,
+      "timestamp-ms": 1792166940981,
+      "summary": {
+        "operation": "append",
+        "spark.app.id": "local-1792166920802",
+        "added-data-files": "1",
+        "added-records": "4",
+        "added-files-size": "9197",
+        "changed-partition-count": "1",
+        "total-records": "4",
+        "total-files-size": "9197",
+        "total-data-files": "1",
+        "total-delete-files": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0",
+        "engine-version": "3.5.5",
+        "app-id": "local-1792166920802",
+        "engine-name": "spark",
+        "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+      },
+      "manifest-list": "s3://warehouse/silver_local/dead_letters/metadata/snap-7512195715552547853-1-2319258c-2256-4714-84eb-1d0001ba0835.avro",
+      "schema-id": 0
+    },
+    {
+      "sequence-number": 2,
+      "snapshot-id": 3806092623472970273,
+      "parent-snapshot-id": 7512195715552547853,
+      "timestamp-ms": 1792167022021,
+      "summary": {
+        "operation": "append",
+        "spark.app.id": "local-1792166958709",
+        "added-data-files": "1",
+        "added-records": "13",
+        "added-files-size": "7530",
+        "changed-partition-count": "1",
+        "total-records": "17",
+        "total-files-size": "16727",
+        "total-data-files": "2",
+        "total-delete-files": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0",
+        "engine-version": "3.5.5",
+        "app-id": "local-1792166958709",
+        "engine-name": "spark",
+        "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+      },
+      "manifest-list": "s3://warehouse/silver_local/dead_letters/metadata/snap-3806092623472970273-1-01f22fd1-0382-4a53-bd47-7be49c3c9300.avro",
+      "schema-id": 0
+    }
+  ],
+  "statistics": [],
+  "snapshot-log": [
+    {
+      "timestamp-ms": 1792166940981,
+      "snapshot-id": 7512195715552547853
+    },
+    {
+      "timestamp-ms": 1792167022021,
+      "snapshot-id": 3806092623472970273
+    }
+  ],
+  "metadata-log": [
+    {
+      "timestamp-ms": 1792166625253,
+      "metadata-file": "s3://warehouse/silver_local/dead_letters/metadata/00000-799b4220-1745-42f9-879c-73dfbe087c15.metadata.json"
+    },
+    {
+      "timestamp-ms": 1792166940981,
+      "metadata-file": "s3://warehouse/silver_local/dead_letters/metadata/00001-cd31d09e-e796-4f72-8667-d81e10594f9f.metadata.json"
+    }
+  ]
+}

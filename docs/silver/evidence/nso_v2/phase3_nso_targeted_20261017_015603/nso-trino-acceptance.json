@@ -1,0 +1,798 @@
+{
+  "status": "PASS",
+  "tables": {
+    "nso_vietnam_v2": {
+      "status": "PASS",
+      "rows": 23060,
+      "unique_keys": 23060,
+      "full_content": "ALL_ROWS_ALL_COLUMNS_NATIVE_TRINO_MATCH",
+      "canonical_sha256": "7e70b364b5c08af0a3eb31929cb18171f5e1609d428e8d7d7853cb1752057dcf",
+      "identity": {
+        "uuid": "585ec4d4-d44b-45ad-b6ff-dc55548ebdaf",
+        "snapshot_id": "833301860238618812",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00001-d570a8a9-4b88-4d18-8ca4-7f84de7b5b9e.metadata.json",
+        "location": "s3://warehouse/silver_local/nso_rice_statistics_v2",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "id": 1,
+              "name": "bronze_read_snapshot_id",
+              "type": "long",
+              "required": false
+            },
+            {
+              "id": 2,
+              "name": "source_table",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 3,
+              "name": "source_column",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 4,
+              "name": "source_geography_key",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 5,
+              "name": "geography_raw",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 6,
+              "name": "geography_name_candidate",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 7,
+              "name": "geography_level",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 8,
+              "name": "geography_status",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 9,
+              "name": "geography_code",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 10,
+              "name": "boundary_version",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 11,
+              "name": "geography_mapping_version",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 12,
+              "name": "geography_evidence",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 13,
+              "name": "period_raw",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 14,
+              "name": "year",
+              "type": "int",
+              "required": false
+            },
+            {
+              "id": 15,
+              "name": "measure",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 16,
+              "name": "season",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 17,
+              "name": "statistic_kind",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 18,
+              "name": "release_status",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 19,
+              "name": "value_raw",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 20,
+              "name": "value_source",
+              "type": "decimal(28, 8)",
+              "required": false
+            },
+            {
+              "id": 21,
+              "name": "unit_raw",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 22,
+              "name": "unit_source_reference",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 23,
+              "name": "conversion_factor",
+              "type": "decimal(8, 0)",
+              "required": false
+            },
+            {
+              "id": 24,
+              "name": "value",
+              "type": "decimal(28, 8)",
+              "required": false
+            },
+            {
+              "id": 25,
+              "name": "unit",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 26,
+              "name": "unit_status",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 27,
+              "name": "unit_reference",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 28,
+              "name": "unit_evidence",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 29,
+              "name": "unit_mapping_version",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 30,
+              "name": "metadata_version",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 31,
+              "name": "quality_status",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 32,
+              "name": "missing_reason",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 33,
+              "name": "review_reason",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 34,
+              "name": "diagnostic_evidence",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 35,
+              "name": "_ingestion_run_id",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 36,
+              "name": "_ingestion_batch_id",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 37,
+              "name": "_ingestion_chunk_id",
+              "type": "long",
+              "required": false
+            },
+            {
+              "id": 38,
+              "name": "_ingestion_timestamp",
+              "type": "timestamptz",
+              "required": false
+            },
+            {
+              "id": 39,
+              "name": "_source_id",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 40,
+              "name": "_source_file",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 41,
+              "name": "_source_checksum",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 42,
+              "name": "_source_snapshot_id",
+              "type": "long",
+              "required": false
+            },
+            {
+              "id": 43,
+              "name": "_dq_warnings",
+              "type": {
+                "type": "list",
+                "element-id": 45,
+                "element": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "id": 46,
+                      "name": "rule_id",
+                      "type": "string",
+                      "required": false
+                    },
+                    {
+                      "id": 47,
+                      "name": "error_message",
+                      "type": "string",
+                      "required": false
+                    },
+                    {
+                      "id": 48,
+                      "name": "failed_column",
+                      "type": "string",
+                      "required": false
+                    }
+                  ]
+                },
+                "element-required": false
+              },
+              "required": false
+            },
+            {
+              "id": 44,
+              "name": "_silver_processed_at",
+              "type": "timestamptz",
+              "required": false
+            }
+          ],
+          "schema-id": 0,
+          "identifier-field-ids": []
+        },
+        "snapshots": [
+          {
+            "snapshot_id": "6224708582587211745",
+            "summary": {
+              "spark.app.id": "local-1792166958709",
+              "changed-partition-count": "0",
+              "total-records": "0",
+              "total-files-size": "0",
+              "total-data-files": "0",
+              "total-delete-files": "0",
+              "total-position-deletes": "0",
+              "total-equality-deletes": "0",
+              "engine-version": "3.5.5",
+              "app-id": "local-1792166958709",
+              "engine-name": "spark",
+              "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+            }
+          },
+          {
+            "snapshot_id": "833301860238618812",
+            "summary": {
+              "spark.app.id": "local-1792203238096",
+              "added-data-files": "35",
+              "added-records": "23060",
+              "added-files-size": "1272629",
+              "changed-partition-count": "35",
+              "total-records": "23060",
+              "total-files-size": "1272629",
+              "total-data-files": "35",
+              "total-delete-files": "0",
+              "total-position-deletes": "0",
+              "total-equality-deletes": "0",
+              "engine-version": "3.5.5",
+              "app-id": "local-1792203238096",
+              "engine-name": "spark",
+              "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+            }
+          }
+        ]
+      },
+      "schema": [
+        {
+          "Column": "bronze_read_snapshot_id",
+          "Type": "bigint",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "source_table",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "source_column",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "source_geography_key",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "geography_raw",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "geography_name_candidate",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "geography_level",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "geography_status",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "geography_code",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "boundary_version",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "geography_mapping_version",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "geography_evidence",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "period_raw",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "year",
+          "Type": "integer",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "measure",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "season",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "statistic_kind",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "release_status",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "value_raw",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "value_source",
+          "Type": "decimal(28,8)",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "unit_raw",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "unit_source_reference",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "conversion_factor",
+          "Type": "decimal(8,0)",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "value",
+          "Type": "decimal(28,8)",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "unit",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "unit_status",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "unit_reference",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "unit_evidence",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "unit_mapping_version",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "metadata_version",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "quality_status",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "missing_reason",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "review_reason",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "diagnostic_evidence",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "_ingestion_run_id",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "_ingestion_batch_id",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "_ingestion_chunk_id",
+          "Type": "bigint",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "_ingestion_timestamp",
+          "Type": "timestamp(6) with time zone",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "_source_id",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "_source_file",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "_source_checksum",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "_source_snapshot_id",
+          "Type": "bigint",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "_dq_warnings",
+          "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "_silver_processed_at",
+          "Type": "timestamp(6) with time zone",
+          "Extra": "",
+          "Comment": ""
+        }
+      ]
+    },
+    "dead_letters": {
+      "status": "PASS",
+      "rows": 17,
+      "unique_keys": 17,
+      "full_content": "ALL_ROWS_ALL_COLUMNS_NATIVE_TRINO_MATCH",
+      "canonical_sha256": "f94e78125b2499c1af1a18b21815a34552c1569abb6cff10c49b2652d5360471",
+      "identity": {
+        "uuid": "7711cdc0-135f-491c-a153-09c5ff6c1689",
+        "snapshot_id": "3806092623472970273",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00002-febb5d42-a466-43ba-9c82-acbe9f7dc02a.metadata.json",
+        "location": "s3://warehouse/silver_local/dead_letters",
+        "schema": {
+          "type": "struct",
+          "fields": [
+            {
+              "id": 1,
+              "name": "quarantine_record_id",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 2,
+              "name": "source_dataset",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 3,
+              "name": "pipeline_run_id",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 4,
+              "name": "detected_at",
+              "type": "timestamptz",
+              "required": false
+            },
+            {
+              "id": 5,
+              "name": "business_key_hash",
+              "type": "string",
+              "required": false
+            },
+            {
+              "id": 6,
+              "name": "errors",
+              "type": {
+                "type": "list",
+                "element-id": 8,
+                "element": {
+                  "type": "struct",
+                  "fields": [
+                    {
+                      "id": 9,
+                      "name": "rule_id",
+                      "type": "string",
+                      "required": false
+                    },
+                    {
+                      "id": 10,
+                      "name": "error_message",
+                      "type": "string",
+                      "required": false
+                    },
+                    {
+                      "id": 11,
+                      "name": "failed_column",
+                      "type": "string",
+                      "required": false
+                    }
+                  ]
+                },
+                "element-required": false
+              },
+              "required": false
+            },
+            {
+              "id": 7,
+              "name": "payload",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "schema-id": 0,
+          "identifier-field-ids": []
+        },
+        "snapshots": [
+          {
+            "snapshot_id": "7512195715552547853",
+            "summary": {
+              "spark.app.id": "local-1792166920802",
+              "added-data-files": "1",
+              "added-records": "4",
+              "added-files-size": "9197",
+              "changed-partition-count": "1",
+              "total-records": "4",
+              "total-files-size": "9197",
+              "total-data-files": "1",
+              "total-delete-files": "0",
+              "total-position-deletes": "0",
+              "total-equality-deletes": "0",
+              "engine-version": "3.5.5",
+              "app-id": "local-1792166920802",
+              "engine-name": "spark",
+              "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+            }
+          },
+          {
+            "snapshot_id": "3806092623472970273",
+            "summary": {
+              "spark.app.id": "local-1792166958709",
+              "added-data-files": "1",
+              "added-records": "13",
+              "added-files-size": "7530",
+              "changed-partition-count": "1",
+              "total-records": "17",
+              "total-files-size": "16727",
+              "total-data-files": "2",
+              "total-delete-files": "0",
+              "total-position-deletes": "0",
+              "total-equality-deletes": "0",
+              "engine-version": "3.5.5",
+              "app-id": "local-1792166958709",
+              "engine-name": "spark",
+              "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+            }
+          }
+        ]
+      },
+      "schema": [
+        {
+          "Column": "quarantine_record_id",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "source_dataset",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "pipeline_run_id",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "detected_at",
+          "Type": "timestamp(6) with time zone",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "business_key_hash",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "errors",
+          "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+          "Extra": "",
+          "Comment": ""
+        },
+        {
+          "Column": "payload",
+          "Type": "varchar",
+          "Extra": "",
+          "Comment": ""
+        }
+      ]
+    }
+  }
+}

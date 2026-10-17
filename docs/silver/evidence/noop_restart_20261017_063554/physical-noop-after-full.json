@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-17T06:58:40.043123+00:00",
+  "status": "PASS",
+  "baseline": "docs\\silver\\evidence\\nso_v2\\phase3_final_20261017_024536\\physical-before-replay.json",
+  "actual": "physical-after-full.json",
+  "table_count": 19,
+  "differences": {},
+  "checks": [
+    "UUID",
+    "snapshot",
+    "schema",
+    "metadata location",
+    "schema definition",
+    "snapshot history",
+    "active data/delete files",
+    "all active file SHA256",
+    "dead_letters full content and pipeline_run_id/detected_at audit"
+  ]
+}

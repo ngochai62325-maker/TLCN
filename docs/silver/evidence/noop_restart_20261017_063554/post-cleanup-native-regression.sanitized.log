@@ -1,0 +1,163 @@
+Looking in links: /workspace/.pytest_cache/silver_wheels
+Processing ./.pytest_cache/silver_wheels/pytest-8.4.2-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/boto3-1.35.99-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/exceptiongroup-1.3.1-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/tomli-2.5.0-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/pygments-2.21.0-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/packaging-26.3-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/pluggy-1.6.0-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/iniconfig-2.3.1-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/s3transfer-0.10.4-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/jmespath-1.1.0-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/botocore-1.35.99-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/python_dateutil-2.9.0.post0-py2.py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/urllib3-2.8.0-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/typing_extensions-4.16.0-py3-none-any.whl
+Processing ./.pytest_cache/silver_wheels/six-1.17.0-py2.py3-none-any.whl
+Installing collected packages: urllib3, typing-extensions, tomli, six, pygments, pluggy, packaging, jmespath, iniconfig, python-dateutil, exceptiongroup, pytest, botocore, s3transfer, boto3
+Successfully installed boto3-1.35.99 botocore-1.35.99 exceptiongroup-1.3.1 iniconfig-2.3.1 jmespath-1.1.0 packaging-26.3 pluggy-1.6.0 pygments-2.21.0 pytest-8.4.2 python-dateutil-2.9.0.post0 s3transfer-0.10.4 six-1.17.0 tomli-2.5.0 typing-extensions-4.16.0 urllib3-2.8.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+============================= test session starts ==============================
+platform linux -- Python 3.10.16, pytest-8.4.2, pluggy-1.6.0
+rootdir: /workspace
+configfile: pyproject.toml
+plugins: anyio-4.8.0
+collected 140 items
+
+tests/unit/test_silver_contract_loader.py ..                             [  1%]
+tests/unit/test_silver_contract_paths.py .                               [  2%]
+tests/unit/test_silver_quality_engine.py ......                          [  6%]
+tests/unit/test_silver_merge_engine.py ....                              [  9%]
+tests/unit/test_silver_quarantine.py .......                             [ 14%]
+tests/unit/test_silver_orchestration.py ........................         [ 31%]
+tests/unit/test_nso_union_schema.py .                                    [ 32%]
+tests/unit/test_bronze_schema_preservation.py .............              [ 41%]
+tests/unit/silver/test_faostat_nso_transformers.py ..................... [ 56%]
+........                                                                 [ 62%]
+tests/unit/silver/test_nso_contract.py ............                      [ 70%]
+tests/unit/silver/test_nso_v2_semantics.py ......                        [ 75%]
+tests/unit/silver/test_silver_transformers.py ...                        [ 77%]
+tests/unit/silver/test_usda_milling_rate.py ..                           [ 78%]
+tests/unit/silver/test_usda_psd_transformer.py .                         [ 79%]
+tests/integration/test_faostat_nso_silver.py FFFF                        [ 82%]
+tests/integration/test_silver_pipeline_isolated.py FFFFFFFF.s........... [ 97%]
+                                                                         [ 97%]
+tests/integration/test_local_nine_native.py .                            [ 97%]
+tests/integration/test_nso_v2_read_context.py ...                        [100%]
+
+=================================== FAILURES ===================================
+_____________ test_existing_framework_discovers_production_adapter _____________
+tests/integration/test_faostat_nso_silver.py:40: in test_existing_framework_discovers_production_adapter
+    result = framework.run("faostat_production", "read-only-fixture-run")
+src/silver/framework.py:146: in run
+    current = self.spark.sql(f"SELECT snapshot_id FROM {contract.bronze_input}.refs WHERE name = 'main'").first()
+/opt/spark/python/pyspark/sql/session.py:1631: in sql
+    return DataFrame(self._jsparkSession.sql(sqlQuery, litArgs), self)
+/opt/spark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py:1322: in __call__
+    return_value = get_return_value(
+/opt/spark/python/pyspark/errors/exceptions/captured.py:185: in deco
+    raise converted from None
+E   pyspark.errors.exceptions.captured.AnalysisException: [REQUIRES_SINGLE_PART_NAMESPACE] spark_catalog requires a single-part namespace, but got `iceberg`.`bronze`.`faostat_production`.
+------------------------------ Captured log call -------------------------------
+ERROR    silver.framework:framework.py:238 silver_failed dataset=faostat_production pipeline_run_id=read-only-fixture-run recovery={'stage': 'bronze_read', 'quarantine_committed': False, 'exclusions_committed': False, 'bronze_read_snapshot_id': None}
+Traceback (most recent call last):
+  File "/workspace/src/silver/framework.py", line 146, in run
+    current = self.spark.sql(f"SELECT snapshot_id FROM {contract.bronze_input}.refs WHERE name = 'main'").first()
+  File "/opt/spark/python/pyspark/sql/session.py", line 1631, in sql
+    return DataFrame(self._jsparkSession.sql(sqlQuery, litArgs), self)
+  File "/opt/spark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py", line 1322, in __call__
+    return_value = get_return_value(
+  File "/opt/spark/python/pyspark/errors/exceptions/captured.py", line 185, in deco
+    raise converted from None
+pyspark.errors.exceptions.captured.AnalysisException: [REQUIRES_SINGLE_PART_NAMESPACE] spark_catalog requires a single-part namespace, but got `iceberg`.`bronze`.`faostat_production`.
+_ test_isolated_actual_iceberg_rerun_and_quarantine[FaostatProductionTransformer-source0] _
+tests/integration/test_faostat_nso_silver.py:90: in test_isolated_actual_iceberg_rerun_and_quarantine
+    assert spark.table(dead_letters.target_table).first().pipeline_run_id == "rerun"
+E   AssertionError: assert 'first' == 'rerun'
+E     
+E     - rerun
+E     + first
+_ test_isolated_actual_iceberg_rerun_and_quarantine[FaostatMonthlyPriceTransformer-source1] _
+tests/integration/test_faostat_nso_silver.py:90: in test_isolated_actual_iceberg_rerun_and_quarantine
+    assert spark.table(dead_letters.target_table).first().pipeline_run_id == "rerun"
+E   AssertionError: assert 'first' == 'rerun'
+E     
+E     - rerun
+E     + first
+_ test_isolated_actual_iceberg_rerun_and_quarantine[FaostatSupplyUtilizationTransformer-source2] _
+tests/integration/test_faostat_nso_silver.py:90: in test_isolated_actual_iceberg_rerun_and_quarantine
+    assert spark.table(dead_letters.target_table).first().pipeline_run_id == "rerun"
+E   AssertionError: assert 'first' == 'rerun'
+E     
+E     - rerun
+E     + first
+___________ test_complete_pipeline_real_iceberg[faostat_production] ____________
+tests/integration/test_silver_pipeline_isolated.py:101: in test_complete_pipeline_real_iceberg
+    assert dead.pipeline_run_id == "second"
+E   AssertionError: assert 'first' == 'second'
+E     
+E     - second
+E     + first
+__________ test_complete_pipeline_real_iceberg[faostat_monthly_price] __________
+tests/integration/test_silver_pipeline_isolated.py:101: in test_complete_pipeline_real_iceberg
+    assert dead.pipeline_run_id == "second"
+E   AssertionError: assert 'first' == 'second'
+E     
+E     - second
+E     + first
+_______ test_complete_pipeline_real_iceberg[faostat_supply_utilization] ________
+tests/integration/test_silver_pipeline_isolated.py:101: in test_complete_pipeline_real_iceberg
+    assert dead.pipeline_run_id == "second"
+E   AssertionError: assert 'first' == 'second'
+E     
+E     - second
+E     + first
+______________ test_complete_pipeline_real_iceberg[faostat_trade] ______________
+tests/integration/test_silver_pipeline_isolated.py:101: in test_complete_pipeline_real_iceberg
+    assert dead.pipeline_run_id == "second"
+E   AssertionError: assert 'first' == 'second'
+E     
+E     - second
+E     + first
+________________ test_complete_pipeline_real_iceberg[usda_psd] _________________
+tests/integration/test_silver_pipeline_isolated.py:101: in test_complete_pipeline_real_iceberg
+    assert dead.pipeline_run_id == "second"
+E   AssertionError: assert 'first' == 'second'
+E     
+E     - second
+E     + first
+___________ test_complete_pipeline_real_iceberg[usda_rice_yearbook] ____________
+tests/integration/test_silver_pipeline_isolated.py:101: in test_complete_pipeline_real_iceberg
+    assert dead.pipeline_run_id == "second"
+E   AssertionError: assert 'first' == 'second'
+E     
+E     - second
+E     + first
+___________ test_complete_pipeline_real_iceberg[worldbank_pinksheet] ___________
+tests/integration/test_silver_pipeline_isolated.py:101: in test_complete_pipeline_real_iceberg
+    assert dead.pipeline_run_id == "second"
+E   AssertionError: assert 'first' == 'second'
+E     
+E     - second
+E     + first
+____________ test_complete_pipeline_real_iceberg[thitruongnongsan] _____________
+tests/integration/test_silver_pipeline_isolated.py:101: in test_complete_pipeline_real_iceberg
+    assert dead.pipeline_run_id == "second"
+E   AssertionError: assert 'first' == 'second'
+E     
+E     - second
+E     + first
+=========================== short test summary info ============================
+FAILED tests/integration/test_faostat_nso_silver.py::test_existing_framework_discovers_production_adapter
+FAILED tests/integration/test_faostat_nso_silver.py::test_isolated_actual_iceberg_rerun_and_quarantine[FaostatProductionTransformer-source0]
+FAILED tests/integration/test_faostat_nso_silver.py::test_isolated_actual_iceberg_rerun_and_quarantine[FaostatMonthlyPriceTransformer-source1]
+FAILED tests/integration/test_faostat_nso_silver.py::test_isolated_actual_iceberg_rerun_and_quarantine[FaostatSupplyUtilizationTransformer-source2]
+FAILED tests/integration/test_silver_pipeline_isolated.py::test_complete_pipeline_real_iceberg[faostat_production]
+FAILED tests/integration/test_silver_pipeline_isolated.py::test_complete_pipeline_real_iceberg[faostat_monthly_price]
+FAILED tests/integration/test_silver_pipeline_isolated.py::test_complete_pipeline_real_iceberg[faostat_supply_utilization]
+FAILED tests/integration/test_silver_pipeline_isolated.py::test_complete_pipeline_real_iceberg[faostat_trade]
+FAILED tests/integration/test_silver_pipeline_isolated.py::test_complete_pipeline_real_iceberg[usda_psd]
+FAILED tests/integration/test_silver_pipeline_isolated.py::test_complete_pipeline_real_iceberg[usda_rice_yearbook]
+FAILED tests/integration/test_silver_pipeline_isolated.py::test_complete_pipeline_real_iceberg[worldbank_pinksheet]
+FAILED tests/integration/test_silver_pipeline_isolated.py::test_complete_pipeline_real_iceberg[thitruongnongsan]
+============ 12 failed, 127 passed, 1 skipped in 225.28s (0:03:45) =============

@@ -1,0 +1,93 @@
+{
+  "runs": 0,
+  "tasks": 0,
+  "locks": 0,
+  "ingestion_tables": 0,
+  "dags": [
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "paused": true,
+      "import_errors": false
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "paused": true,
+      "import_errors": false
+    }
+  ],
+  "serialized": {
+    "rice_lakehouse_silver_pipeline": {
+      "schedule": null,
+      "task_ids": [
+        "start",
+        "end",
+        "gate_check_bronze",
+        "transform_faostat_production",
+        "transform_faostat_monthly_price",
+        "transform_faostat_supply_utilization",
+        "transform_faostat_trade",
+        "transform_usda_psd",
+        "transform_usda_rice_yearbook",
+        "transform_worldbank_pinksheet",
+        "transform_thitruongnongsan",
+        "transform_nso_vietnam_v2",
+        "silver_data_quality_audit",
+        "publish_silver_signal"
+      ],
+      "retries": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "rice_lakehouse_ingestion": {
+      "schedule": null,
+      "task_ids": [
+        "initialize_metadata",
+        "start_lakehouse_ingestion",
+        "end_lakehouse_ingestion",
+        "ingest_faostat_production",
+        "ingest_faostat_monthly_price",
+        "ingest_faostat_supply_utilization",
+        "ingest_faostat_trade",
+        "ingest_usda_psd",
+        "ingest_usda_rice_yearbook",
+        "ingest_worldbank_pinksheet",
+        "ingest_thitruongnongsan",
+        "ingest_nso_vietnam",
+        "verify_bronze_batch",
+        "trigger_silver_release"
+      ],
+      "retries": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "status": "PASS",
+  "catalog": [],
+  "at": "2026-10-16T14:17:04.099874+00:00"
+}

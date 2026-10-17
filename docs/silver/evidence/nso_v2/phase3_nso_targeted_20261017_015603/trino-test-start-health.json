@@ -1,0 +1,56 @@
+{
+  "at": "2026-10-17T01:59:30.458482+00:00",
+  "container": {
+    "id": "577262f9fc99d8c494814b4467cf991827ddf9653254f7c4803f72ca5c6bc3a4",
+    "name": "/tlcn-local-nine-cleanroom-20261016-trino-test-1",
+    "created": "2026-10-16T15:55:24.39087425Z",
+    "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+    "reference": "trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+    "project": "tlcn-local-nine-cleanroom-20261016",
+    "service": "trino-test",
+    "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+    "compose_config_hash": "e24b5bdfa3b70a0d628ff2f629cdb0c1eb39627965b9fea7a98febd7e3983fba",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 28639,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-17T01:59:14.672789565Z",
+      "FinishedAt": "2026-10-16T16:10:31.44944942Z"
+    },
+    "health": "healthy",
+    "restart_count": 0,
+    "restart_policy": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    },
+    "memory_limit": 1610612736,
+    "memory_swap": 3221225472,
+    "mounts": [],
+    "networks": [
+      "tlcn-local-nine-cleanroom-20261016_default"
+    ],
+    "flags": {
+      "SILVER_LOCAL_PROFILE": null,
+      "SILVER_LOCAL_ENABLED": null,
+      "SILVER_ACCEPTED_RELEASE": null,
+      "SILVER_PRODUCTION_ENABLED": null,
+      "SILVER_CANARY_ONLY": null,
+      "SILVER_BRONZE_SCHEDULE": null
+    }
+  },
+  "health": {
+    "nodeVersion": {
+      "version": "448"
+    },
+    "environment": "docker",
+    "coordinator": true,
+    "starting": false,
+    "uptime": "9.33s"
+  }
+}

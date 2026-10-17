@@ -1,0 +1,3531 @@
+{
+  "mappings": [
+    [
+      "faostat_production",
+      "faostat_production",
+      "faostat_production"
+    ],
+    [
+      "faostat_monthly_price",
+      "faostat_monthly_price",
+      "faostat_monthly_price"
+    ],
+    [
+      "faostat_supply_utilization",
+      "faostat_supply_utilization",
+      "faostat_supply_utilization"
+    ],
+    [
+      "faostat_trade",
+      "faostat_trade",
+      "faostat_trade"
+    ],
+    [
+      "usda_psd",
+      "usda_psd",
+      "usda_rice_psd"
+    ],
+    [
+      "usda_rice_yearbook",
+      "usda_rice_yearbook",
+      "usda_rice_yearbook"
+    ],
+    [
+      "worldbank_pinksheet",
+      "worldbank_pinksheet",
+      "worldbank_commodity_monthly"
+    ],
+    [
+      "thitruongnongsan",
+      "thitruongnongsan",
+      "thitruongnongsan"
+    ],
+    [
+      "nso_vietnam",
+      "nso_vietnam_v2",
+      "nso_rice_statistics_v2"
+    ]
+  ],
+  "contracts": {
+    "faostat_production": {
+      "source": "faostat_production",
+      "target": "iceberg.silver_local.faostat_production",
+      "bronze": "iceberg.bronze.faostat_production",
+      "keys": [
+        "country_code",
+        "commodity_code",
+        "year",
+        "element_code"
+      ],
+      "columns": [
+        {
+          "name": "domain_code",
+          "source_column": "Domain Code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "FAOSTAT domain code",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "domain",
+          "source_column": "Domain",
+          "data_type": "string",
+          "nullable": false,
+          "description": "FAOSTAT domain description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "country_code",
+          "source_column": "Area Code (M49)",
+          "data_type": "string",
+          "nullable": false,
+          "description": "M49 Area Code",
+          "transformation": "cast to string, trim, pad with leading zeros if needed to ensure standard 3-digit length (e.g., '004' instead of '4')",
+          "standardization_rule": "reference to canonical dim_country if available"
+        },
+        {
+          "name": "country_name",
+          "source_column": "Area",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Country or Area name",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "element_code",
+          "source_column": "Element Code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Indicator element code (e.g., 5312 for Area harvested, 5510 for Production)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "element",
+          "source_column": "Element",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Indicator description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "commodity_code",
+          "source_column": "Item Code (CPC)",
+          "data_type": "string",
+          "nullable": false,
+          "description": "CPC Item Code",
+          "transformation": "cast to string, trim",
+          "standardization_rule": "reference to canonical dim_commodity if available"
+        },
+        {
+          "name": "commodity_name",
+          "source_column": "Item",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Commodity description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "year",
+          "source_column": "Year",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Reference year",
+          "transformation": "cast to integer"
+        },
+        {
+          "name": "unit",
+          "source_column": "Unit",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unit of measurement (ha, kg/ha, t, etc.)",
+          "transformation": "cast to string, trim, convert to lower case standard"
+        },
+        {
+          "name": "value",
+          "source_column": "Value",
+          "data_type": "decimal(18,2)",
+          "nullable": true,
+          "description": "The actual production or area value",
+          "transformation": "cast to decimal, invalid values treated as NULL (or quarantined based on strictness)"
+        },
+        {
+          "name": "flag",
+          "source_column": "Flag",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Observation status flag",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "flag_description",
+          "source_column": "Flag Description",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Description of the observation status flag",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "value_raw",
+          "source_column": "value_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Bronze value representation before casting; original lexical Raw is identified by file checksum."
+        },
+        {
+          "name": "unit_raw",
+          "source_column": "unit_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Source unit before normalization; World Bank uses the verified Bronze header token."
+        },
+        {
+          "name": "missing_reason",
+          "source_column": "missing_reason",
+          "data_type": "string",
+          "nullable": true
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "PROD_DQ_001",
+          "rule": "Value must be non-negative",
+          "dimension": "Validity",
+          "severity": "ERROR",
+          "threshold": "100%",
+          "action": "QUARANTINE",
+          "sql_expr": "value >= 0 OR value IS NULL",
+          "failed_column": "value"
+        },
+        {
+          "rule_id": "PROD_DQ_002",
+          "rule": "Year must be <= current_year + 1 and >= 1960",
+          "dimension": "Temporal Validity",
+          "severity": "ERROR",
+          "threshold": "100%",
+          "action": "QUARANTINE",
+          "sql_expr": "year <= year(current_date()) + 1 AND year >= 1960",
+          "failed_column": "year"
+        },
+        {
+          "rule_id": "PROD_DQ_003",
+          "rule": "country_code, commodity_code, year, element_code cannot be null",
+          "dimension": "Completeness",
+          "severity": "ERROR",
+          "threshold": "100%",
+          "action": "QUARANTINE",
+          "sql_expr": "country_code IS NOT NULL AND commodity_code IS NOT NULL AND year IS NOT NULL AND element_code IS NOT NULL",
+          "failed_column": "business_key"
+        }
+      ]
+    },
+    "faostat_monthly_price": {
+      "source": "faostat_monthly_price",
+      "target": "iceberg.silver_local.faostat_monthly_price",
+      "bronze": "iceberg.bronze.faostat_monthly_price",
+      "keys": [
+        "country_code",
+        "commodity_code",
+        "year",
+        "month_code",
+        "element_code"
+      ],
+      "columns": [
+        {
+          "name": "domain_code",
+          "source_column": "Domain Code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "FAOSTAT domain code",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "domain",
+          "source_column": "Domain",
+          "data_type": "string",
+          "nullable": false,
+          "description": "FAOSTAT domain description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "country_code",
+          "source_column": "Area Code (M49)",
+          "data_type": "string",
+          "nullable": false,
+          "description": "M49 Area Code",
+          "transformation": "cast to string, trim, pad left with zero if necessary"
+        },
+        {
+          "name": "country_name",
+          "source_column": "Area",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Country or Area name",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "element_code",
+          "source_column": "Element Code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Indicator element code (e.g., 5530 for Producer Price (LCU/tonne))",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "element",
+          "source_column": "Element",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Indicator description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "commodity_code",
+          "source_column": "Item Code (CPC)",
+          "data_type": "string",
+          "nullable": false,
+          "description": "CPC Item Code",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "commodity_name",
+          "source_column": "Item",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Commodity description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "year",
+          "source_column": "Year",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Reference year",
+          "transformation": "cast to integer"
+        },
+        {
+          "name": "month_code",
+          "source_column": "Months Code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Month code (e.g., 7021 for Annual value, 7001 for Jan)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "month_name",
+          "source_column": "Months",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Month description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "unit",
+          "source_column": "Unit",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unit of measurement (e.g., LCU, USD, SLC)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "value",
+          "source_column": "Value",
+          "data_type": "decimal(18,4)",
+          "nullable": true,
+          "description": "The actual price value",
+          "transformation": "cast to decimal"
+        },
+        {
+          "name": "flag",
+          "source_column": "Flag",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Observation status flag",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "flag_description",
+          "source_column": "Flag Description",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Description of the observation status flag",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "time_grain",
+          "source_column": "time_grain",
+          "data_type": "string",
+          "nullable": false,
+          "description": "annual or monthly"
+        },
+        {
+          "name": "month",
+          "source_column": "month",
+          "data_type": "integer",
+          "nullable": true,
+          "description": "1..12 for monthly; NULL for annual"
+        },
+        {
+          "name": "currency",
+          "source_column": "currency",
+          "data_type": "string",
+          "nullable": true,
+          "description": "LCU/SLC/USD; NULL for price index"
+        },
+        {
+          "name": "price_kind",
+          "source_column": "price_kind",
+          "data_type": "string",
+          "nullable": false,
+          "description": "producer_price or producer_price_index"
+        },
+        {
+          "name": "value_raw",
+          "source_column": "value_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Bronze value representation before casting; original lexical Raw is identified by file checksum."
+        },
+        {
+          "name": "unit_raw",
+          "source_column": "unit_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Source unit before normalization; World Bank uses the verified Bronze header token."
+        },
+        {
+          "name": "missing_reason",
+          "source_column": "missing_reason",
+          "data_type": "string",
+          "nullable": true
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "PRICE_DQ_001",
+          "rule": "Value must be non-negative",
+          "dimension": "Validity",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "value IS NULL OR value >= 0",
+          "failed_column": "value"
+        },
+        {
+          "rule_id": "PRICE_DQ_002",
+          "rule": "country_code, commodity_code, year, month_code, element_code cannot be null",
+          "dimension": "Completeness",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "country_code IS NOT NULL AND commodity_code IS NOT NULL AND year IS NOT NULL AND month_code IS NOT NULL AND element_code IS NOT NULL",
+          "failed_column": "business_key"
+        }
+      ]
+    },
+    "faostat_supply_utilization": {
+      "source": "faostat_supply_utilization",
+      "target": "iceberg.silver_local.faostat_supply_utilization",
+      "bronze": "iceberg.bronze.faostat_supply_utilization",
+      "keys": [
+        "country_code",
+        "commodity_code",
+        "year",
+        "element_code"
+      ],
+      "columns": [
+        {
+          "name": "domain_code",
+          "source_column": "Domain Code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "FAOSTAT domain code",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "domain",
+          "source_column": "Domain",
+          "data_type": "string",
+          "nullable": false,
+          "description": "FAOSTAT domain description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "country_code",
+          "source_column": "Area Code (M49)",
+          "data_type": "string",
+          "nullable": false,
+          "description": "M49 Area Code",
+          "transformation": "cast to string, trim, format to 3 digits"
+        },
+        {
+          "name": "country_name",
+          "source_column": "Area",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Country or Area name",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "element_code",
+          "source_column": "Element Code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Indicator element code",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "element",
+          "source_column": "Element",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Indicator description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "commodity_code",
+          "source_column": "Item Code (CPC)",
+          "data_type": "string",
+          "nullable": false,
+          "description": "CPC Item Code",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "commodity_name",
+          "source_column": "Item",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Commodity description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "year",
+          "source_column": "Year",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Reference year",
+          "transformation": "cast to integer"
+        },
+        {
+          "name": "unit",
+          "source_column": "Unit",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unit of measurement (mostly tonnes)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "value",
+          "source_column": "Value",
+          "data_type": "decimal(18,2)",
+          "nullable": true,
+          "description": "Quantity value",
+          "transformation": "cast to decimal. Note: Stock Variation can legitimately be negative."
+        },
+        {
+          "name": "flag",
+          "source_column": "Flag",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Observation status flag",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "flag_description",
+          "source_column": "Flag Description",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Description of the observation status flag",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "note",
+          "source_column": "Note",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Additional notes",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "value_raw",
+          "source_column": "value_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Bronze value representation before casting; original lexical Raw is identified by file checksum."
+        },
+        {
+          "name": "unit_raw",
+          "source_column": "unit_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Source unit before normalization; World Bank uses the verified Bronze header token."
+        },
+        {
+          "name": "missing_reason",
+          "source_column": "missing_reason",
+          "data_type": "string",
+          "nullable": true
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "SUA_DQ_001",
+          "rule": "Owner-approved signed Stock Variation and Residuals; other measures nonnegative",
+          "dimension": "Validity",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "value IS NULL OR value >= 0 OR element_code IN ('5071','5166')",
+          "failed_column": "value"
+        },
+        {
+          "rule_id": "SUA_DQ_002",
+          "rule": "country_code, commodity_code, year, element_code cannot be null",
+          "dimension": "Completeness",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "country_code IS NOT NULL AND commodity_code IS NOT NULL AND year IS NOT NULL AND element_code IS NOT NULL",
+          "failed_column": "business_key"
+        }
+      ]
+    },
+    "faostat_trade": {
+      "source": "faostat_trade",
+      "target": "iceberg.silver_local.faostat_trade",
+      "bronze": "iceberg.bronze.faostat_trade",
+      "keys": [
+        "reporter_country_code",
+        "partner_country_code",
+        "commodity_code",
+        "year",
+        "element_code"
+      ],
+      "columns": [
+        {
+          "name": "reporter_country_name",
+          "source_column": "Reporter Countries",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Reporting country name",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "reporter_country_code",
+          "source_column": "Reporter Country Code (M49)",
+          "data_type": "string",
+          "nullable": false,
+          "description": "M49 code for reporter country",
+          "transformation": "cast to string, trim, format to 3 digits"
+        },
+        {
+          "name": "partner_country_name",
+          "source_column": "Partner Countries",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Partner country name",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "partner_country_code",
+          "source_column": "Partner Country Code (M49)",
+          "data_type": "string",
+          "nullable": false,
+          "description": "M49 code for partner country",
+          "transformation": "cast to string, trim, format to 3 digits"
+        },
+        {
+          "name": "commodity_name",
+          "source_column": "Item",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Commodity description",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "commodity_code",
+          "source_column": "Item Code (CPC)",
+          "data_type": "string",
+          "nullable": false,
+          "description": "CPC item code",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "element_name",
+          "source_column": "Element",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Element description (e.g., Import quantity, Export value)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "element_code",
+          "source_column": "Element Code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Element code",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "year",
+          "source_column": "Year",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Reference year",
+          "transformation": "cast to integer"
+        },
+        {
+          "name": "unit",
+          "source_column": "Unit",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unit of measurement (e.g., t, 1000 USD)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "value",
+          "source_column": "Value",
+          "data_type": "decimal(18,2)",
+          "nullable": true,
+          "description": "Trade quantity or value",
+          "transformation": "cast to decimal"
+        },
+        {
+          "name": "flag",
+          "source_column": "Flag",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Observation status flag",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "value_raw",
+          "source_column": "value_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Bronze value representation before casting; original lexical Raw is identified by file checksum."
+        },
+        {
+          "name": "unit_raw",
+          "source_column": "unit_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Source unit before normalization; World Bank uses the verified Bronze header token."
+        },
+        {
+          "name": "missing_reason",
+          "source_column": "missing_reason",
+          "data_type": "string",
+          "nullable": true
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "TRADE_DQ_001",
+          "rule": "Value must be non-negative",
+          "dimension": "Validity",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "value IS NULL OR value >= 0",
+          "failed_column": "value"
+        },
+        {
+          "rule_id": "TRADE_DQ_002",
+          "rule": "reporter_country_code, partner_country_code, commodity_code, year, element_code cannot be null",
+          "dimension": "Completeness",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "reporter_country_code IS NOT NULL AND partner_country_code IS NOT NULL AND commodity_code IS NOT NULL AND year IS NOT NULL AND element_code IS NOT NULL",
+          "failed_column": "business_key"
+        }
+      ]
+    },
+    "usda_psd": {
+      "source": "usda_psd",
+      "target": "iceberg.silver_local.usda_rice_psd",
+      "bronze": "iceberg.bronze.usda_psd",
+      "keys": [
+        "country",
+        "commodity",
+        "attribute",
+        "market_year"
+      ],
+      "columns": [
+        {
+          "name": "country",
+          "source_column": "country",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Reporting country name (e.g., Vietnam)",
+          "transformation": "cast to string, trim, standard country case"
+        },
+        {
+          "name": "commodity",
+          "source_column": "commodity",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Agricultural commodity (e.g., Rice, Milled)",
+          "transformation": "cast to string, trim, forward fill or default to 'Rice, Milled'"
+        },
+        {
+          "name": "attribute",
+          "source_column": "attribute",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Balance sheet attribute (e.g., Area Harvested, Production, Ending Stocks)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "market_year",
+          "source_column": "market_year",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Market year beginning year (e.g., 1960 for 1960/1961)",
+          "transformation": "extracted from wide column header (col_YYYY_YYYY+1 -> YYYY as int)"
+        },
+        {
+          "name": "crop_year",
+          "source_column": "crop_year",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Crop year string (e.g., '1960/1961') strictly preserved from source definition",
+          "transformation": "extracted from wide column header (col_YYYY_YYYY+1 -> 'YYYY/YYYY+1')"
+        },
+        {
+          "name": "unit",
+          "source_column": "unit_description",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unit of measurement (e.g., 1000 MT, 1000 HA, MT/HA)",
+          "transformation": "cast to string, trim, strip parentheses"
+        },
+        {
+          "name": "value",
+          "source_column": "value",
+          "data_type": "decimal(18,4)",
+          "nullable": true,
+          "description": "Balance sheet quantity or dimensionless milling fraction; see unit",
+          "transformation": "cast to decimal, null for missing"
+        },
+        {
+          "name": "value_source",
+          "source_column": "value_source",
+          "data_type": "decimal(28,8)",
+          "nullable": true,
+          "description": "Numeric source value before conversion"
+        },
+        {
+          "name": "source_unit",
+          "source_column": "source_unit",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Original unit label, including known Milling Rate mislabel"
+        },
+        {
+          "name": "conversion_factor",
+          "source_column": "conversion_factor",
+          "data_type": "decimal(18,6)",
+          "nullable": false,
+          "description": "0.0001 for exact Milling Rate (.9999), otherwise 1"
+        },
+        {
+          "name": "value_raw",
+          "source_column": "value_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Bronze value representation before casting; original lexical Raw is identified by file checksum."
+        },
+        {
+          "name": "missing_reason",
+          "source_column": "missing_reason",
+          "data_type": "string",
+          "nullable": true
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "PSD_DQ_001",
+          "rule": "country, commodity, attribute, market_year cannot be null",
+          "dimension": "Completeness",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "country IS NOT NULL AND commodity IS NOT NULL AND attribute IS NOT NULL AND market_year IS NOT NULL",
+          "failed_column": "business_key"
+        },
+        {
+          "rule_id": "PSD_DQ_002",
+          "rule": "market_year must be between 1950 and 2050",
+          "dimension": "Validity",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "market_year >= 1950 AND market_year <= 2050",
+          "failed_column": "market_year"
+        },
+        {
+          "rule_id": "PSD_DQ_003",
+          "rule": "value must be non-negative if not null",
+          "dimension": "Validity",
+          "severity": "WARNING",
+          "action": "LOG",
+          "sql_expr": "value IS NULL OR value >= 0",
+          "failed_column": "value"
+        },
+        {
+          "rule_id": "PSD_MILLING_RATE",
+          "rule": "Milling Rate is a fraction in [0,1]",
+          "action": "QUARANTINE",
+          "severity": "ERROR",
+          "failed_column": "value",
+          "sql_expr": "attribute <> 'Milling Rate (.9999)' OR (unit = 'fraction' AND conversion_factor = 0.0001 AND (value IS NULL OR value BETWEEN 0 AND 1))"
+        },
+        {
+          "rule_id": "PSD_CONVERSION",
+          "rule": "Normalized value reconciles to original numeric value",
+          "action": "QUARANTINE",
+          "severity": "ERROR",
+          "failed_column": "value",
+          "sql_expr": "(value_source IS NULL AND value IS NULL) OR value = try_cast(try_multiply(value_source, conversion_factor) AS decimal(18,4))"
+        }
+      ]
+    },
+    "usda_rice_yearbook": {
+      "source": "usda_rice_yearbook",
+      "target": "iceberg.silver_local.usda_rice_yearbook",
+      "bronze": "iceberg.bronze.usda_rice_yearbook",
+      "keys": [
+        "location",
+        "commodity_class",
+        "year",
+        "reference_period",
+        "statistic_type"
+      ],
+      "columns": [
+        {
+          "name": "table_name",
+          "source_column": "TABLE_NAME",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Source table name",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "table_number",
+          "source_column": "TABLE_NUMBER",
+          "data_type": "integer",
+          "nullable": true,
+          "description": "Source table number",
+          "transformation": "cast to integer"
+        },
+        {
+          "name": "commodity",
+          "source_column": "COMMODITY_DESCRIPTION",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Commodity description (usually RICE)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "commodity_class",
+          "source_column": "CLASS_DESCRIPTION",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Class or variety of rice (e.g., 5-PERCENT BROKEN, FRAGRANT WHITE RICE)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "year",
+          "source_column": "YEAR",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Reference year",
+          "transformation": "cast to integer"
+        },
+        {
+          "name": "reference_period",
+          "source_column": "REFERENCE_PERIOD_DESCRIPTION",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Reference period, usually a Month (e.g., August)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "location",
+          "source_column": "LOCATION_DESCRIPTION",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Location/Country of the export price (e.g., THAILAND, VIETNAM)",
+          "transformation": "cast to string, trim, map to canonical country name if required"
+        },
+        {
+          "name": "statistic_type",
+          "source_column": "STATISTIC_DESCRIPTION",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of statistic (e.g., FREIGHT ON BOARD PRICE)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "value",
+          "source_column": "VALUE",
+          "data_type": "decimal(18,2)",
+          "nullable": true,
+          "description": "Price value",
+          "transformation": "cast to decimal, invalid values ('NA') treated as NULL"
+        },
+        {
+          "name": "unit",
+          "source_column": "UNIT_DESCRIPTION",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unit of measurement (e.g., DOLLARS PER METRIC TON)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "value_raw",
+          "source_column": "value_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Bronze value representation before casting; original lexical Raw is identified by file checksum."
+        },
+        {
+          "name": "unit_raw",
+          "source_column": "unit_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Source unit before normalization; World Bank uses the verified Bronze header token."
+        },
+        {
+          "name": "missing_reason",
+          "source_column": "missing_reason",
+          "data_type": "string",
+          "nullable": true
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "USDA_PRICE_DQ_001",
+          "rule": "Value must be non-negative if not null",
+          "dimension": "Validity",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "value IS NULL OR value >= 0",
+          "failed_column": "value"
+        },
+        {
+          "rule_id": "USDA_PRICE_DQ_002",
+          "rule": "location, commodity_class, year, reference_period cannot be null",
+          "dimension": "Completeness",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "location IS NOT NULL AND commodity_class IS NOT NULL AND year IS NOT NULL AND reference_period IS NOT NULL AND statistic_type IS NOT NULL",
+          "failed_column": "business_key"
+        }
+      ]
+    },
+    "worldbank_pinksheet": {
+      "source": "worldbank_pinksheet",
+      "target": "iceberg.silver_local.worldbank_commodity_monthly",
+      "bronze": "iceberg.bronze.worldbank_pinksheet",
+      "keys": [
+        "commodity_code",
+        "period_date"
+      ],
+      "columns": [
+        {
+          "name": "commodity_code",
+          "source_column": "commodity_code",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Standardized commodity identifier (e.g., rice_thai_5, rice_viet_namese_5, maize, wheat)",
+          "transformation": "derived from wide column names, trimmed and lowercased"
+        },
+        {
+          "name": "commodity_name",
+          "source_column": "commodity_name",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Human-readable commodity description",
+          "transformation": "mapped from commodity code dictionary"
+        },
+        {
+          "name": "period_code",
+          "source_column": "period",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Source period string (e.g., 2024M08)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "period_date",
+          "source_column": "period_date",
+          "data_type": "date",
+          "nullable": false,
+          "description": "First day of the reference month (e.g., 2024-08-01)",
+          "transformation": "parsed from period (YYYYMmm -> YYYY-MM-01)"
+        },
+        {
+          "name": "year",
+          "source_column": "year",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Calendar year",
+          "transformation": "extracted from period (YYYY as int)"
+        },
+        {
+          "name": "month",
+          "source_column": "month",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Calendar month (1-12)",
+          "transformation": "extracted from period (mm as int)"
+        },
+        {
+          "name": "price",
+          "source_column": "price",
+          "data_type": "decimal(18,2)",
+          "nullable": true,
+          "description": "Monthly commodity benchmark price",
+          "transformation": "cast to decimal, strip non-numeric indicators ('…') to null"
+        },
+        {
+          "name": "unit",
+          "source_column": "unit",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unit of price measurement (e.g., $/mt, $/kg, $/bbl)",
+          "transformation": "parsed from column suffix or dictionary"
+        },
+        {
+          "name": "series_name",
+          "source_column": "series_name",
+          "data_type": "string",
+          "nullable": true,
+          "description": "World Bank series description",
+          "transformation": "mapped from Pink Sheet metadata"
+        },
+        {
+          "name": "value_raw",
+          "source_column": "value_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Bronze value representation before casting; original lexical Raw is identified by file checksum."
+        },
+        {
+          "name": "unit_raw",
+          "source_column": "unit_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Source unit before normalization; World Bank uses the verified Bronze header token."
+        },
+        {
+          "name": "missing_reason",
+          "source_column": "missing_reason",
+          "data_type": "string",
+          "nullable": true
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "WB_DQ_001",
+          "rule": "commodity_code and period_date cannot be null",
+          "dimension": "Completeness",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "commodity_code IS NOT NULL AND period_date IS NOT NULL",
+          "failed_column": "business_key"
+        },
+        {
+          "rule_id": "WB_DQ_002",
+          "rule": "month must be between 1 and 12, year between 1960 and 2050",
+          "dimension": "Validity",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "month BETWEEN 1 AND 12 AND year BETWEEN 1960 AND 2050",
+          "failed_column": "period_date"
+        },
+        {
+          "rule_id": "WB_DQ_003",
+          "rule": "price must be positive (> 0) if not null",
+          "dimension": "Validity",
+          "severity": "WARNING",
+          "action": "LOG",
+          "sql_expr": "price IS NULL OR price > 0",
+          "failed_column": "price"
+        }
+      ]
+    },
+    "thitruongnongsan": {
+      "source": "thitruongnongsan",
+      "target": "iceberg.silver_local.thitruongnongsan",
+      "bronze": "iceberg.bronze.thitruongnongsan",
+      "keys": [
+        "market",
+        "commodity",
+        "price_type",
+        "unit",
+        "currency",
+        "source",
+        "date"
+      ],
+      "columns": [
+        {
+          "name": "commodity",
+          "source_column": "Tên_mặt_hàng",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Name of the rice variety or commodity",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "market",
+          "source_column": "Thị_trường",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Market location (usually a province or specific market in Vietnam)",
+          "transformation": "cast to string, trim, map to canonical province if applicable"
+        },
+        {
+          "name": "price_type",
+          "source_column": "Loại_giá",
+          "data_type": "string",
+          "nullable": false,
+          "description": "Type of price (e.g., Wholesale, Retail)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "unit",
+          "source_column": "Đơn_vị_tính",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Unit of measurement (e.g., VNĐ/kg)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "currency",
+          "source_column": "Loại_tiền",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Currency type (e.g., VND)",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "source",
+          "source_column": "Nguồn",
+          "data_type": "string",
+          "nullable": true,
+          "description": "Source of the price information",
+          "transformation": "cast to string, trim"
+        },
+        {
+          "name": "date",
+          "source_column": "Ngày",
+          "data_type": "date",
+          "nullable": false,
+          "description": "Date of the price observation",
+          "transformation": "parse as date (format needs validation against Bronze data, e.g., dd/MM/yyyy or yyyy-MM-dd)"
+        },
+        {
+          "name": "price_value",
+          "source_column": "Giá",
+          "data_type": "decimal(18,2)",
+          "nullable": true,
+          "description": "The actual price value",
+          "transformation": "cast to decimal. Handle any string formatting (like commas for thousands) before casting."
+        },
+        {
+          "name": "year",
+          "source_column": "year",
+          "data_type": "integer",
+          "nullable": false,
+          "description": "Calendar year derived from parsed date; used for partition pruning"
+        },
+        {
+          "name": "value_raw",
+          "source_column": "value_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Bronze value representation before casting; original lexical Raw is identified by file checksum."
+        },
+        {
+          "name": "unit_raw",
+          "source_column": "unit_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true,
+          "description": "Source unit before normalization; World Bank uses the verified Bronze header token."
+        },
+        {
+          "name": "missing_reason",
+          "source_column": "missing_reason",
+          "data_type": "string",
+          "nullable": true
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "VN_PRICE_DQ_001",
+          "rule": "price_value must be non-negative",
+          "dimension": "Validity",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "price_value IS NULL OR price_value >= 0",
+          "failed_column": "price_value"
+        },
+        {
+          "rule_id": "VN_PRICE_DQ_002",
+          "rule": "market, commodity, price_type, date cannot be null",
+          "dimension": "Completeness",
+          "severity": "ERROR",
+          "action": "QUARANTINE",
+          "sql_expr": "market IS NOT NULL AND commodity IS NOT NULL AND price_type IS NOT NULL AND date IS NOT NULL",
+          "failed_column": "business_key"
+        },
+        {
+          "rule_id": "VN_PRICE_DQ_003",
+          "rule": "date must not be in the future",
+          "dimension": "Temporal Validity",
+          "severity": "WARNING",
+          "action": "KEEP",
+          "sql_expr": "date <= current_date()",
+          "failed_column": "date"
+        }
+      ]
+    },
+    "nso_vietnam_v2": {
+      "source": "nso_vietnam",
+      "target": "iceberg.silver_local.nso_rice_statistics_v2",
+      "bronze": "iceberg.bronze.nso_vietnam",
+      "keys": [
+        "source_table",
+        "source_geography_key",
+        "year",
+        "measure",
+        "season",
+        "statistic_kind"
+      ],
+      "columns": [
+        {
+          "name": "bronze_read_snapshot_id",
+          "data_type": "long",
+          "nullable": false
+        },
+        {
+          "name": "source_table",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "source_column",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "source_geography_key",
+          "data_type": "string",
+          "nullable": false,
+          "preserve_whitespace": true
+        },
+        {
+          "name": "geography_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true
+        },
+        {
+          "name": "geography_name_candidate",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "name": "geography_level",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "geography_status",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "geography_code",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "name": "boundary_version",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "name": "geography_mapping_version",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "geography_evidence",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "period_raw",
+          "data_type": "string",
+          "nullable": false,
+          "preserve_whitespace": true
+        },
+        {
+          "name": "year",
+          "data_type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "measure",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "season",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "statistic_kind",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "release_status",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "value_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true
+        },
+        {
+          "name": "value_source",
+          "data_type": "decimal(28,8)",
+          "nullable": true
+        },
+        {
+          "name": "unit_raw",
+          "data_type": "string",
+          "nullable": true,
+          "preserve_whitespace": true
+        },
+        {
+          "name": "unit_source_reference",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "conversion_factor",
+          "data_type": "decimal(8,0)",
+          "nullable": false
+        },
+        {
+          "name": "value",
+          "data_type": "decimal(28,8)",
+          "nullable": true
+        },
+        {
+          "name": "unit",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit_status",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit_reference",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit_evidence",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit_mapping_version",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "metadata_version",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "quality_status",
+          "data_type": "string",
+          "nullable": false
+        },
+        {
+          "name": "missing_reason",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "name": "review_reason",
+          "data_type": "string",
+          "nullable": true
+        },
+        {
+          "name": "diagnostic_evidence",
+          "data_type": "string",
+          "nullable": false
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "NSO_V2_GRAIN",
+          "sql_expr": "length(trim(source_geography_key)) > 0 AND year BETWEEN 1000 AND 9999 AND measure IN ('area','yield','production') AND season IN ('annual','winter_spring','summer_autumn','summer_autumn_autumn_winter','main_season') AND statistic_kind IN ('quantity','development_index') AND release_status IN ('provisional','unconfirmed') AND bronze_read_snapshot_id > 0",
+          "failed_column": "source_geography_key",
+          "rule": "Approved source-table grain; reporting year, no invented FINAL"
+        },
+        {
+          "rule_id": "NSO_V2_MISSING",
+          "sql_expr": "(quality_status = 'MISSING' AND value_source IS NULL AND value IS NULL AND ((missing_reason = 'source_null' AND value_raw IS NULL) OR (missing_reason = 'source_blank' AND trim(value_raw) = '') OR (missing_reason = 'source_marker_unspecified' AND trim(value_raw) = '..'))) OR (quality_status = 'NORMALIZED' AND missing_reason IS NULL AND value_source IS NOT NULL AND value_source >= 0 AND value IS NOT NULL)",
+          "failed_column": "value_raw",
+          "rule": "Retain source missing/zero; no interpolation"
+        },
+        {
+          "rule_id": "NSO_V2_UNITS",
+          "sql_expr": "((statistic_kind = 'development_index' AND unit = 'percent' AND conversion_factor = 1) OR (statistic_kind = 'quantity' AND ((measure = 'area' AND unit = 'hectare' AND conversion_factor = 1000) OR (measure = 'production' AND unit = 'tonne' AND conversion_factor = 1000) OR (measure = 'yield' AND unit = 'kg/hectare' AND conversion_factor = 100)))) AND ((missing_reason IS NOT NULL AND value IS NULL) OR value = value_source * conversion_factor) AND ((source_table = 'V06.12.csv' AND unit_raw IS NOT NULL AND unit_status = 'source_header') OR (source_table <> 'V06.12.csv' AND unit_raw IS NULL AND unit_status = 'owner_approved_reference')) AND length(unit_reference)>0 AND length(unit_evidence)>0 AND unit_mapping_version = 'nso-units-20261015.1' AND metadata_version = 'nso-v2-20261015.1'",
+          "failed_column": "unit",
+          "rule": "Owner approved reference conversion; reference is not CSV publication identity"
+        },
+        {
+          "rule_id": "NSO_V2_GEOGRAPHY",
+          "sql_expr": "geography_code IS NULL AND boundary_version IS NULL AND geography_level IN ('national','region','province','unknown') AND ((source_table = 'V06.12.csv' AND source_geography_key = '__national_table_scope__' AND geography_raw IS NULL AND geography_status = 'national_scope_metadata') OR (source_table <> 'V06.12.csv' AND geography_raw IS NOT NULL AND source_geography_key = concat('raw:',sha2(encode(geography_raw,'UTF-8'),256)) AND geography_status IN ('candidate_review','unmapped_review')))",
+          "failed_column": "geography_raw",
+          "rule": "Source identity independent of candidates; no historical boundary/codes invented"
+        },
+        {
+          "rule_id": "NSO_V2_PERIOD",
+          "sql_expr": "period_raw RLIKE '^(So b[?] )?[1-9][0-9]{3}$' AND year = try_cast(right(period_raw,4) AS INT) AND ((period_raw LIKE 'So b? %' AND release_status = 'provisional') OR (period_raw NOT LIKE 'So b? %' AND release_status = 'unconfirmed'))",
+          "failed_column": "period_raw",
+          "rule": "Provisional only with source evidence"
+        },
+        {
+          "rule_id": "NSO_V2_GEOGRAPHY_REVIEW",
+          "sql_expr": "review_reason IS NULL",
+          "failed_column": "review_reason",
+          "rule": "Historical geography candidate requires review",
+          "action": "LOG"
+        },
+        {
+          "rule_id": "NSO_V2_DISCREPANCY",
+          "sql_expr": "diagnostic_evidence = '[]'",
+          "failed_column": "diagnostic_evidence",
+          "rule": "Cross-table/arithmetic discrepancy; keep every measurement unchanged",
+          "action": "LOG"
+        }
+      ]
+    }
+  },
+  "bronze": {
+    "faostat_production": {
+      "source_id": "faostat_production",
+      "run_id": "faostat_production_20261016155856_6ba3a6e8",
+      "batch_id": "faostat_production_20261016_48b8",
+      "load_type": "FULL",
+      "status": "SUCCESS",
+      "artifact_uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/production_world.csv",
+      "manifest_uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/manifest.json",
+      "data_format": "CSV",
+      "records_extracted": 22738,
+      "records_quarantined": 0,
+      "chunks_processed": 1,
+      "chunks_total": 1,
+      "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+      "started_at": "2026-10-16T15:58:56.825578+00:00",
+      "completed_at": "2026-10-16T15:59:04.606043+00:00",
+      "watermark_before": null,
+      "watermark_after": null,
+      "source_metadata": {},
+      "error_message": null,
+      "error_type": null,
+      "manifest": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-16T15:58:56.825609+00:00",
+        "source_id": "faostat_production",
+        "run_id": "faostat_production_20261016155856_6ba3a6e8",
+        "batch_id": "faostat_production_20261016_48b8",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/production_world.csv",
+          "format": "CSV",
+          "size_bytes": 3292244,
+          "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+        },
+        "source_metadata": {
+          "provider": "FAOSTAT",
+          "dataset": "Production_Crops_Livestock_E_All_Data_(Normalized)",
+          "uri": "https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip",
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 22738,
+          "chunks_processed": 1,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-16T15:58:56.825578+00:00",
+          "completed_at": "2026-10-16T15:59:04.606043+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      },
+      "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "bronze_identity": {
+        "table": "iceberg.bronze.faostat_production",
+        "uuid": "d1d1158c-2a38-44a2-8131-1e6ee2530ccd",
+        "snapshot_id": "4843563875751184854",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e/metadata/00001-76469731-7647-43c7-8ec4-41a20401eaad.metadata.json",
+        "rows": 22738,
+        "proved_run_id": "faostat_production_20261016155856_6ba3a6e8",
+        "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+      }
+    },
+    "faostat_monthly_price": {
+      "source_id": "faostat_monthly_price",
+      "run_id": "faostat_monthly_price_20261016155906_428dc755",
+      "batch_id": "faostat_monthly_price_20261016_abc3",
+      "load_type": "FULL",
+      "status": "SUCCESS",
+      "artifact_uri": "s3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/price.csv",
+      "manifest_uri": "s3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/manifest.json",
+      "data_format": "CSV",
+      "records_extracted": 15334,
+      "records_quarantined": 0,
+      "chunks_processed": 1,
+      "chunks_total": 1,
+      "checksum": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af",
+      "started_at": "2026-10-16T15:59:06.749011+00:00",
+      "completed_at": "2026-10-16T15:59:09.535955+00:00",
+      "watermark_before": null,
+      "watermark_after": null,
+      "source_metadata": {},
+      "error_message": null,
+      "error_type": null,
+      "manifest": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-16T15:59:06.749038+00:00",
+        "source_id": "faostat_monthly_price",
+        "run_id": "faostat_monthly_price_20261016155906_428dc755",
+        "batch_id": "faostat_monthly_price_20261016_abc3",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/price.csv",
+          "format": "CSV",
+          "size_bytes": 2509272,
+          "checksum": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af"
+        },
+        "source_metadata": {
+          "provider": "FAOSTAT",
+          "dataset": "Prices_Monthly_E_All_Data_(Normalized)",
+          "uri": "https://fenixservices.fao.org/faostat/static/bulkdownloads/Prices_Monthly_E_All_Data_(Normalized).zip",
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 15334,
+          "chunks_processed": 1,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-16T15:59:06.749011+00:00",
+          "completed_at": "2026-10-16T15:59:09.535955+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      },
+      "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "bronze_identity": {
+        "table": "iceberg.bronze.faostat_monthly_price",
+        "uuid": "fa3e9fd5-e1f1-45f9-8bcb-44fcad7400b8",
+        "snapshot_id": "3069013476710882292",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b/metadata/00001-34d97089-b982-4d03-a2b6-f4b725a11ce3.metadata.json",
+        "rows": 15334,
+        "proved_run_id": "faostat_monthly_price_20261016155906_428dc755",
+        "checksum": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af"
+      }
+    },
+    "faostat_supply_utilization": {
+      "source_id": "faostat_supply_utilization",
+      "run_id": "faostat_supply_utilization_20261016155912_7f1d590f",
+      "batch_id": "faostat_supply_utilization_20261016_a0e9",
+      "load_type": "FULL",
+      "status": "SUCCESS",
+      "artifact_uri": "s3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/supply_utilization.csv",
+      "manifest_uri": "s3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/manifest.json",
+      "data_format": "CSV",
+      "records_extracted": 36380,
+      "records_quarantined": 0,
+      "chunks_processed": 1,
+      "chunks_total": 1,
+      "checksum": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c",
+      "started_at": "2026-10-16T15:59:12.935181+00:00",
+      "completed_at": "2026-10-16T15:59:16.988701+00:00",
+      "watermark_before": null,
+      "watermark_after": null,
+      "source_metadata": {},
+      "error_message": null,
+      "error_type": null,
+      "manifest": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-16T15:59:12.935222+00:00",
+        "source_id": "faostat_supply_utilization",
+        "run_id": "faostat_supply_utilization_20261016155912_7f1d590f",
+        "batch_id": "faostat_supply_utilization_20261016_a0e9",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/supply_utilization.csv",
+          "format": "CSV",
+          "size_bytes": 6096569,
+          "checksum": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c"
+        },
+        "source_metadata": {
+          "provider": "FAOSTAT",
+          "dataset": "SUA_Crops_Livestock_E_All_Data_(Normalized)",
+          "uri": "https://fenixservices.fao.org/faostat/static/bulkdownloads/SUA_Crops_Livestock_E_All_Data_(Normalized).zip",
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 36380,
+          "chunks_processed": 1,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-16T15:59:12.935181+00:00",
+          "completed_at": "2026-10-16T15:59:16.988701+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      },
+      "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "bronze_identity": {
+        "table": "iceberg.bronze.faostat_supply_utilization",
+        "uuid": "20a87b98-5ce9-4230-9d13-42c9e13218f8",
+        "snapshot_id": "1149052647847510586",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908/metadata/00001-2be57582-59f4-47b2-bf61-3e1369cbcc17.metadata.json",
+        "rows": 36380,
+        "proved_run_id": "faostat_supply_utilization_20261016155912_7f1d590f",
+        "checksum": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c"
+      }
+    },
+    "faostat_trade": {
+      "source_id": "faostat_trade",
+      "run_id": "faostat_trade_20261016155919_cc04dc8d",
+      "batch_id": "faostat_trade_20261016_a5f6",
+      "load_type": "FULL",
+      "status": "SUCCESS",
+      "artifact_uri": "s3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/rice_trade_data.csv",
+      "manifest_uri": "s3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/manifest.json",
+      "data_format": "CSV",
+      "records_extracted": 1226470,
+      "records_quarantined": 0,
+      "chunks_processed": 25,
+      "chunks_total": 25,
+      "checksum": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168",
+      "started_at": "2026-10-16T15:59:19.657564+00:00",
+      "completed_at": "2026-10-16T16:00:08.199648+00:00",
+      "watermark_before": null,
+      "watermark_after": null,
+      "source_metadata": {},
+      "error_message": null,
+      "error_type": null,
+      "manifest": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-16T15:59:19.657584+00:00",
+        "source_id": "faostat_trade",
+        "run_id": "faostat_trade_20261016155919_cc04dc8d",
+        "batch_id": "faostat_trade_20261016_a5f6",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/rice_trade_data.csv",
+          "format": "CSV",
+          "size_bytes": 167990400,
+          "checksum": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168"
+        },
+        "source_metadata": {
+          "provider": "FAOSTAT",
+          "dataset": "Trade_DetailedTradeMatrix_E_All_Data_(Normalized)",
+          "uri": "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip",
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 1226470,
+          "chunks_processed": 25,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-16T15:59:19.657564+00:00",
+          "completed_at": "2026-10-16T16:00:08.199648+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      },
+      "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "bronze_identity": {
+        "table": "iceberg.bronze.faostat_trade",
+        "uuid": "f8f3cec9-23ce-4bfc-8cfc-0625658201df",
+        "snapshot_id": "2171934088797835179",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/metadata/00025-36aa5ba3-208f-4b55-9ed5-4d7d93310303.metadata.json",
+        "rows": 1226470,
+        "proved_run_id": "faostat_trade_20261016155919_cc04dc8d",
+        "checksum": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168"
+      }
+    },
+    "usda_psd": {
+      "source_id": "usda_psd",
+      "run_id": "usda_psd_20261016160010_51f6293c",
+      "batch_id": "usda_psd_20261016_23fa",
+      "load_type": "FULL",
+      "status": "SUCCESS",
+      "artifact_uri": "s3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/usda.xls",
+      "manifest_uri": "s3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/manifest.json",
+      "data_format": "CSV",
+      "records_extracted": 15,
+      "records_quarantined": 0,
+      "chunks_processed": 1,
+      "chunks_total": 1,
+      "checksum": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf",
+      "started_at": "2026-10-16T16:00:10.979367+00:00",
+      "completed_at": "2026-10-16T16:00:12.904478+00:00",
+      "watermark_before": null,
+      "watermark_after": null,
+      "source_metadata": {},
+      "error_message": null,
+      "error_type": null,
+      "manifest": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-16T16:00:10.979389+00:00",
+        "source_id": "usda_psd",
+        "run_id": "usda_psd_20261016160010_51f6293c",
+        "batch_id": "usda_psd_20261016_23fa",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/usda.xls",
+          "format": "CSV",
+          "size_bytes": 45549,
+          "checksum": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf"
+        },
+        "source_metadata": {
+          "provider": "USDA",
+          "dataset": "PSD_Grains_Pulses",
+          "uri": "https://apps.fas.usda.gov/psdonline/download/psd_grains_pulses_csv.zip",
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 15,
+          "chunks_processed": 1,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-16T16:00:10.979367+00:00",
+          "completed_at": "2026-10-16T16:00:12.904478+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      },
+      "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "bronze_identity": {
+        "table": "iceberg.bronze.usda_psd",
+        "uuid": "f3504ceb-5188-44a2-aae8-cf5f92dbfec4",
+        "snapshot_id": "6725163293089992461",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/00001-301c4642-5c3b-47bd-9de7-36836dadd68a.metadata.json",
+        "rows": 15,
+        "proved_run_id": "usda_psd_20261016160010_51f6293c",
+        "checksum": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf"
+      }
+    },
+    "usda_rice_yearbook": {
+      "source_id": "usda_rice_yearbook",
+      "run_id": "usda_rice_yearbook_20261016160015_07a33116",
+      "batch_id": "usda_rice_yearbook_20261016_2194",
+      "load_type": "FULL",
+      "status": "SUCCESS",
+      "artifact_uri": "s3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+      "manifest_uri": "s3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/manifest.json",
+      "data_format": "CSV",
+      "records_extracted": 13131,
+      "records_quarantined": 0,
+      "chunks_processed": 1,
+      "chunks_total": 1,
+      "checksum": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba",
+      "started_at": "2026-10-16T16:00:15.167981+00:00",
+      "completed_at": "2026-10-16T16:00:17.066050+00:00",
+      "watermark_before": null,
+      "watermark_after": null,
+      "source_metadata": {},
+      "error_message": null,
+      "error_type": null,
+      "manifest": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-16T16:00:15.168002+00:00",
+        "source_id": "usda_rice_yearbook",
+        "run_id": "usda_rice_yearbook_20261016160015_07a33116",
+        "batch_id": "usda_rice_yearbook_20261016_2194",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+          "format": "CSV",
+          "size_bytes": 2122534,
+          "checksum": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba"
+        },
+        "source_metadata": {
+          "provider": null,
+          "dataset": null,
+          "uri": null,
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 13131,
+          "chunks_processed": 1,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-16T16:00:15.167981+00:00",
+          "completed_at": "2026-10-16T16:00:17.066050+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      },
+      "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "bronze_identity": {
+        "table": "iceberg.bronze.usda_rice_yearbook",
+        "uuid": "26f68bd7-d87a-4d31-a153-b46403622233",
+        "snapshot_id": "4564470349869842851",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/00001-a30b4462-a338-4165-9ae0-3690cfcfb47c.metadata.json",
+        "rows": 13131,
+        "proved_run_id": "usda_rice_yearbook_20261016160015_07a33116",
+        "checksum": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba"
+      }
+    },
+    "worldbank_pinksheet": {
+      "source_id": "worldbank_pinksheet",
+      "run_id": "worldbank_pinksheet_20261016160019_068e77d4",
+      "batch_id": "worldbank_pinksheet_20261016_9239",
+      "load_type": "FULL",
+      "status": "SUCCESS",
+      "artifact_uri": "s3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/CMO-Historical-Data-Monthly.xlsx",
+      "manifest_uri": "s3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/manifest.json",
+      "data_format": "EXCEL",
+      "records_extracted": 792,
+      "records_quarantined": 0,
+      "chunks_processed": 1,
+      "chunks_total": 1,
+      "checksum": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290",
+      "started_at": "2026-10-16T16:00:19.239386+00:00",
+      "completed_at": "2026-10-16T16:00:21.652306+00:00",
+      "watermark_before": null,
+      "watermark_after": null,
+      "source_metadata": {},
+      "error_message": null,
+      "error_type": null,
+      "manifest": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-16T16:00:19.239422+00:00",
+        "source_id": "worldbank_pinksheet",
+        "run_id": "worldbank_pinksheet_20261016160019_068e77d4",
+        "batch_id": "worldbank_pinksheet_20261016_9239",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/CMO-Historical-Data-Monthly.xlsx",
+          "format": "EXCEL",
+          "size_bytes": 778415,
+          "checksum": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290"
+        },
+        "source_metadata": {
+          "provider": "WorldBank",
+          "dataset": "CMO_Historical_Monthly",
+          "uri": "https://thedocs.worldbank.org/en/doc/5d903e848db1d1b83e0ec8f744e55570-0350012021/related/CMO-Historical-Data-Monthly.xlsx",
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 792,
+          "chunks_processed": 1,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-16T16:00:19.239386+00:00",
+          "completed_at": "2026-10-16T16:00:21.652306+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      },
+      "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "bronze_identity": {
+        "table": "iceberg.bronze.worldbank_pinksheet",
+        "uuid": "21b3353e-cda4-4c55-8523-ef355d215b65",
+        "snapshot_id": "2608578091811865170",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/00001-bdb46047-949d-4cff-9094-429b044e7c3b.metadata.json",
+        "rows": 792,
+        "proved_run_id": "worldbank_pinksheet_20261016160019_068e77d4",
+        "checksum": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290"
+      }
+    },
+    "thitruongnongsan": {
+      "source_id": "thitruongnongsan",
+      "run_id": "thitruongnongsan_20261016160024_6847418e",
+      "batch_id": "thitruongnongsan_20261016_8b86",
+      "load_type": "FULL",
+      "status": "SUCCESS",
+      "artifact_uri": "s3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/price_luagao.xlsx",
+      "manifest_uri": "s3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/manifest.json",
+      "data_format": "EXCEL",
+      "records_extracted": 20394,
+      "records_quarantined": 0,
+      "chunks_processed": 1,
+      "chunks_total": 1,
+      "checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+      "started_at": "2026-10-16T16:00:24.556342+00:00",
+      "completed_at": "2026-10-16T16:00:27.699224+00:00",
+      "watermark_before": null,
+      "watermark_after": null,
+      "source_metadata": {},
+      "error_message": null,
+      "error_type": null,
+      "manifest": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-16T16:00:24.556389+00:00",
+        "source_id": "thitruongnongsan",
+        "run_id": "thitruongnongsan_20261016160024_6847418e",
+        "batch_id": "thitruongnongsan_20261016_8b86",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/price_luagao.xlsx",
+          "format": "EXCEL",
+          "size_bytes": 756440,
+          "checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063"
+        },
+        "source_metadata": {
+          "provider": null,
+          "dataset": null,
+          "uri": null,
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 20394,
+          "chunks_processed": 1,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-16T16:00:24.556342+00:00",
+          "completed_at": "2026-10-16T16:00:27.699224+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      },
+      "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "bronze_identity": {
+        "table": "iceberg.bronze.thitruongnongsan",
+        "uuid": "bda1e592-2601-4b61-b16a-b31a63bced74",
+        "snapshot_id": "6284553868447052727",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763/metadata/00001-af20e5d6-67bf-4166-8972-fd0d5f9fd9a9.metadata.json",
+        "rows": 20394,
+        "proved_run_id": "thitruongnongsan_20261016160024_6847418e",
+        "checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063"
+      }
+    },
+    "nso_vietnam": {
+      "source_id": "nso_vietnam",
+      "run_id": "nso_vietnam_20261016160030_2c409d8a",
+      "batch_id": "nso_vietnam_20261016_2a8e",
+      "load_type": "FULL",
+      "status": "SUCCESS",
+      "artifact_uri": "s3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/nso_vietnam_raw.zip",
+      "manifest_uri": "s3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/manifest.json",
+      "data_format": "CSV",
+      "records_extracted": 833,
+      "records_quarantined": 0,
+      "chunks_processed": 13,
+      "chunks_total": 13,
+      "checksum": "b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a",
+      "started_at": "2026-10-16T16:00:30.266464+00:00",
+      "completed_at": "2026-10-16T16:00:40.574444+00:00",
+      "watermark_before": null,
+      "watermark_after": null,
+      "source_metadata": {},
+      "error_message": null,
+      "error_type": null,
+      "manifest": {
+        "pipeline_version": "1.0.0",
+        "created_at": "2026-10-16T16:00:30.266489+00:00",
+        "source_id": "nso_vietnam",
+        "run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "batch_id": "nso_vietnam_20261016_2a8e",
+        "load_type": "FULL",
+        "artifact_info": {
+          "uri": "s3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/nso_vietnam_raw.zip",
+          "format": "CSV",
+          "size_bytes": 54901,
+          "checksum": "b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a"
+        },
+        "source_metadata": {
+          "provider": null,
+          "dataset": null,
+          "uri": null,
+          "last_modified": null,
+          "etag": null,
+          "content_length": null
+        },
+        "metrics": {
+          "records_extracted": 833,
+          "chunks_processed": 13,
+          "records_quarantined": 0
+        },
+        "timing": {
+          "started_at": "2026-10-16T16:00:30.266464+00:00",
+          "completed_at": "2026-10-16T16:00:40.574444+00:00"
+        },
+        "watermark": {
+          "before": null,
+          "after": null
+        },
+        "status": "SUCCESS",
+        "error": {
+          "message": null,
+          "type": null
+        }
+      },
+      "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "bronze_identity": {
+        "table": "iceberg.bronze.nso_vietnam",
+        "uuid": "9df24331-6337-4567-8a6e-2515b752478d",
+        "snapshot_id": "6239067651375331267",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/metadata/00013-dd5a23f4-fe5a-4518-8933-569fcecae43e.metadata.json",
+        "rows": 833,
+        "proved_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "checksum": "b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a"
+      }
+    }
+  },
+  "silver": {
+    "faostat_production": {
+      "faostat_production": {
+        "status": "SUCCESS",
+        "dataset": "faostat_production",
+        "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "target_table": "iceberg.silver_local.faostat_production",
+        "bronze_read_snapshot_id": 4843563875751184854,
+        "bronze_count": 22738,
+        "prepared_count": 22738,
+        "valid_count": 22738,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 22738,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "7fc0d9b6-9b00-40f8-8207-64e5f7678d93",
+          "location": "s3://warehouse/silver_local/faostat_production",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/faostat_production/metadata/00001-eba80a7d-cf27-4ece-8e05-d5a154021d47.metadata.json",
+          "snapshot_id": "3025742236916912946",
+          "rows": 22738
+        }
+      }
+    },
+    "faostat_monthly_price": {
+      "faostat_monthly_price": {
+        "status": "SUCCESS",
+        "dataset": "faostat_monthly_price",
+        "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "target_table": "iceberg.silver_local.faostat_monthly_price",
+        "bronze_read_snapshot_id": 3069013476710882292,
+        "bronze_count": 15334,
+        "prepared_count": 15334,
+        "valid_count": 15334,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 15334,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "63a487b2-703d-49df-8a6d-baf903509145",
+          "location": "s3://warehouse/silver_local/faostat_monthly_price",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/faostat_monthly_price/metadata/00001-06dac4f2-c909-4f3d-865c-55b056a11593.metadata.json",
+          "snapshot_id": "1591520480261276952",
+          "rows": 15334
+        }
+      }
+    },
+    "faostat_supply_utilization": {
+      "faostat_supply_utilization": {
+        "status": "SUCCESS",
+        "dataset": "faostat_supply_utilization",
+        "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "target_table": "iceberg.silver_local.faostat_supply_utilization",
+        "bronze_read_snapshot_id": 1149052647847510586,
+        "bronze_count": 36380,
+        "prepared_count": 36380,
+        "valid_count": 36380,
+        "quarantine_count": 0,
+        "warning_count": 236,
+        "dedup_count": 36380,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "952160ba-11d3-4c53-b60a-929dcca3b0e1",
+          "location": "s3://warehouse/silver_local/faostat_supply_utilization",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/faostat_supply_utilization/metadata/00001-37b2d861-8b26-42fb-b171-208aa0279882.metadata.json",
+          "snapshot_id": "4289048808299983571",
+          "rows": 36380
+        }
+      }
+    },
+    "faostat_trade": {
+      "faostat_trade": {
+        "status": "SUCCESS",
+        "dataset": "faostat_trade",
+        "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "target_table": "iceberg.silver_local.faostat_trade",
+        "bronze_read_snapshot_id": 2171934088797835179,
+        "bronze_count": 1226470,
+        "prepared_count": 1226470,
+        "valid_count": 1226470,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 1226470,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "c1800fdd-6d37-4b05-a913-bc61fa922b00",
+          "location": "s3://warehouse/silver_local/faostat_trade",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/faostat_trade/metadata/00001-2de6cd57-8635-43a2-bdd3-5bdc12915958.metadata.json",
+          "snapshot_id": "4017675517054557099",
+          "rows": 1226470
+        }
+      }
+    },
+    "usda_psd": {
+      "usda_psd": {
+        "status": "SUCCESS",
+        "dataset": "usda_psd",
+        "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "target_table": "iceberg.silver_local.usda_rice_psd",
+        "bronze_read_snapshot_id": 6725163293089992461,
+        "bronze_count": 15,
+        "prepared_count": 990,
+        "valid_count": 990,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 990,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "82e6f676-0e8b-4066-a6ef-eeb6284f54fe",
+          "location": "s3://warehouse/silver_local/usda_rice_psd",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00001-321556fe-ffcf-4d78-9a77-97a1136c8dc5.metadata.json",
+          "snapshot_id": "4876825965550487606",
+          "rows": 990
+        }
+      }
+    },
+    "usda_rice_yearbook": {
+      "usda_rice_yearbook": {
+        "status": "SUCCESS",
+        "dataset": "usda_rice_yearbook",
+        "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "target_table": "iceberg.silver_local.usda_rice_yearbook",
+        "bronze_read_snapshot_id": 4564470349869842851,
+        "bronze_count": 13131,
+        "prepared_count": 13131,
+        "valid_count": 13131,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 12936,
+        "duplicate_count": 195,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "a92b8fdf-dbf5-4f0c-a5c5-3c66857ee93d",
+          "location": "s3://warehouse/silver_local/usda_rice_yearbook",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/00001-26791b3d-bf2c-4208-889e-2736e92790e9.metadata.json",
+          "snapshot_id": "4249957608382647425",
+          "rows": 12936
+        }
+      }
+    },
+    "worldbank_pinksheet": {
+      "worldbank_pinksheet": {
+        "status": "SUCCESS",
+        "dataset": "worldbank_pinksheet",
+        "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "target_table": "iceberg.silver_local.worldbank_commodity_monthly",
+        "bronze_read_snapshot_id": 2608578091811865170,
+        "bronze_count": 792,
+        "prepared_count": 56232,
+        "valid_count": 56232,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 56232,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "be48b680-f86b-4a4d-b552-705cac58103b",
+          "location": "s3://warehouse/silver_local/worldbank_commodity_monthly",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00001-2be316fd-844b-4cb9-94fa-1ebba6f789b3.metadata.json",
+          "snapshot_id": "6762326735303774082",
+          "rows": 56232
+        }
+      }
+    },
+    "thitruongnongsan": {
+      "thitruongnongsan": {
+        "status": "SUCCESS",
+        "dataset": "thitruongnongsan",
+        "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "target_table": "iceberg.silver_local.thitruongnongsan",
+        "bronze_read_snapshot_id": 6284553868447052727,
+        "bronze_count": 20394,
+        "prepared_count": 20394,
+        "valid_count": 20390,
+        "quarantine_count": 4,
+        "warning_count": 29,
+        "dedup_count": 20387,
+        "duplicate_count": 3,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "6950791c-cfd2-45b7-910d-ad88803b8904",
+          "location": "s3://warehouse/silver_local/thitruongnongsan",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/thitruongnongsan/metadata/00001-75752312-421c-4d2a-b86f-1698d664fe7a.metadata.json",
+          "snapshot_id": "4817852030779680459",
+          "rows": 20387
+        }
+      }
+    },
+    "nso_vietnam_v2": {
+      "nso_vietnam_v2": {
+        "status": "SUCCESS",
+        "dataset": "nso_vietnam_v2",
+        "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "target_table": "iceberg.silver_local.nso_rice_statistics_v2",
+        "bronze_read_snapshot_id": 6239067651375331267,
+        "bronze_count": 833,
+        "prepared_count": 23060,
+        "valid_count": 23060,
+        "quarantine_count": 0,
+        "warning_count": 22534,
+        "dedup_count": 23060,
+        "duplicate_count": 0,
+        "observation_count": 23428,
+        "excluded_count": 368,
+        "excluded_record_count": 13,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "585ec4d4-d44b-45ad-b6ff-dc55548ebdaf",
+          "location": "s3://warehouse/silver_local/nso_rice_statistics_v2",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00001-d570a8a9-4b88-4d18-8ca4-7f84de7b5b9e.metadata.json",
+          "snapshot_id": "833301860238618812",
+          "rows": 23060
+        }
+      }
+    }
+  },
+  "batch_gate": {
+    "status": "PASSED",
+    "profile": "local_nine",
+    "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+    "results": [
+      {
+        "source_id": "faostat_production",
+        "run_id": "faostat_production_20261016155856_6ba3a6e8",
+        "batch_id": "faostat_production_20261016_48b8",
+        "load_type": "FULL",
+        "status": "SUCCESS",
+        "artifact_uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/production_world.csv",
+        "manifest_uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/manifest.json",
+        "data_format": "CSV",
+        "records_extracted": 22738,
+        "records_quarantined": 0,
+        "chunks_processed": 1,
+        "chunks_total": 1,
+        "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+        "started_at": "2026-10-16T15:58:56.825578+00:00",
+        "completed_at": "2026-10-16T15:59:04.606043+00:00",
+        "watermark_before": null,
+        "watermark_after": null,
+        "source_metadata": {},
+        "error_message": null,
+        "error_type": null,
+        "manifest": {
+          "pipeline_version": "1.0.0",
+          "created_at": "2026-10-16T15:58:56.825609+00:00",
+          "source_id": "faostat_production",
+          "run_id": "faostat_production_20261016155856_6ba3a6e8",
+          "batch_id": "faostat_production_20261016_48b8",
+          "load_type": "FULL",
+          "artifact_info": {
+            "uri": "s3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/production_world.csv",
+            "format": "CSV",
+            "size_bytes": 3292244,
+            "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+          },
+          "source_metadata": {
+            "provider": "FAOSTAT",
+            "dataset": "Production_Crops_Livestock_E_All_Data_(Normalized)",
+            "uri": "https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip",
+            "last_modified": null,
+            "etag": null,
+            "content_length": null
+          },
+          "metrics": {
+            "records_extracted": 22738,
+            "chunks_processed": 1,
+            "records_quarantined": 0
+          },
+          "timing": {
+            "started_at": "2026-10-16T15:58:56.825578+00:00",
+            "completed_at": "2026-10-16T15:59:04.606043+00:00"
+          },
+          "watermark": {
+            "before": null,
+            "after": null
+          },
+          "status": "SUCCESS",
+          "error": {
+            "message": null,
+            "type": null
+          }
+        },
+        "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+        "bronze_identity": {
+          "table": "iceberg.bronze.faostat_production",
+          "uuid": "d1d1158c-2a38-44a2-8131-1e6ee2530ccd",
+          "snapshot_id": "4843563875751184854",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e/metadata/00001-76469731-7647-43c7-8ec4-41a20401eaad.metadata.json",
+          "rows": 22738,
+          "proved_run_id": "faostat_production_20261016155856_6ba3a6e8",
+          "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+        }
+      },
+      {
+        "source_id": "faostat_monthly_price",
+        "run_id": "faostat_monthly_price_20261016155906_428dc755",
+        "batch_id": "faostat_monthly_price_20261016_abc3",
+        "load_type": "FULL",
+        "status": "SUCCESS",
+        "artifact_uri": "s3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/price.csv",
+        "manifest_uri": "s3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/manifest.json",
+        "data_format": "CSV",
+        "records_extracted": 15334,
+        "records_quarantined": 0,
+        "chunks_processed": 1,
+        "chunks_total": 1,
+        "checksum": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af",
+        "started_at": "2026-10-16T15:59:06.749011+00:00",
+        "completed_at": "2026-10-16T15:59:09.535955+00:00",
+        "watermark_before": null,
+        "watermark_after": null,
+        "source_metadata": {},
+        "error_message": null,
+        "error_type": null,
+        "manifest": {
+          "pipeline_version": "1.0.0",
+          "created_at": "2026-10-16T15:59:06.749038+00:00",
+          "source_id": "faostat_monthly_price",
+          "run_id": "faostat_monthly_price_20261016155906_428dc755",
+          "batch_id": "faostat_monthly_price_20261016_abc3",
+          "load_type": "FULL",
+          "artifact_info": {
+            "uri": "s3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/price.csv",
+            "format": "CSV",
+            "size_bytes": 2509272,
+            "checksum": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af"
+          },
+          "source_metadata": {
+            "provider": "FAOSTAT",
+            "dataset": "Prices_Monthly_E_All_Data_(Normalized)",
+            "uri": "https://fenixservices.fao.org/faostat/static/bulkdownloads/Prices_Monthly_E_All_Data_(Normalized).zip",
+            "last_modified": null,
+            "etag": null,
+            "content_length": null
+          },
+          "metrics": {
+            "records_extracted": 15334,
+            "chunks_processed": 1,
+            "records_quarantined": 0
+          },
+          "timing": {
+            "started_at": "2026-10-16T15:59:06.749011+00:00",
+            "completed_at": "2026-10-16T15:59:09.535955+00:00"
+          },
+          "watermark": {
+            "before": null,
+            "after": null
+          },
+          "status": "SUCCESS",
+          "error": {
+            "message": null,
+            "type": null
+          }
+        },
+        "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+        "bronze_identity": {
+          "table": "iceberg.bronze.faostat_monthly_price",
+          "uuid": "fa3e9fd5-e1f1-45f9-8bcb-44fcad7400b8",
+          "snapshot_id": "3069013476710882292",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b/metadata/00001-34d97089-b982-4d03-a2b6-f4b725a11ce3.metadata.json",
+          "rows": 15334,
+          "proved_run_id": "faostat_monthly_price_20261016155906_428dc755",
+          "checksum": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af"
+        }
+      },
+      {
+        "source_id": "faostat_supply_utilization",
+        "run_id": "faostat_supply_utilization_20261016155912_7f1d590f",
+        "batch_id": "faostat_supply_utilization_20261016_a0e9",
+        "load_type": "FULL",
+        "status": "SUCCESS",
+        "artifact_uri": "s3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/supply_utilization.csv",
+        "manifest_uri": "s3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/manifest.json",
+        "data_format": "CSV",
+        "records_extracted": 36380,
+        "records_quarantined": 0,
+        "chunks_processed": 1,
+        "chunks_total": 1,
+        "checksum": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c",
+        "started_at": "2026-10-16T15:59:12.935181+00:00",
+        "completed_at": "2026-10-16T15:59:16.988701+00:00",
+        "watermark_before": null,
+        "watermark_after": null,
+        "source_metadata": {},
+        "error_message": null,
+        "error_type": null,
+        "manifest": {
+          "pipeline_version": "1.0.0",
+          "created_at": "2026-10-16T15:59:12.935222+00:00",
+          "source_id": "faostat_supply_utilization",
+          "run_id": "faostat_supply_utilization_20261016155912_7f1d590f",
+          "batch_id": "faostat_supply_utilization_20261016_a0e9",
+          "load_type": "FULL",
+          "artifact_info": {
+            "uri": "s3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/supply_utilization.csv",
+            "format": "CSV",
+            "size_bytes": 6096569,
+            "checksum": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c"
+          },
+          "source_metadata": {
+            "provider": "FAOSTAT",
+            "dataset": "SUA_Crops_Livestock_E_All_Data_(Normalized)",
+            "uri": "https://fenixservices.fao.org/faostat/static/bulkdownloads/SUA_Crops_Livestock_E_All_Data_(Normalized).zip",
+            "last_modified": null,
+            "etag": null,
+            "content_length": null
+          },
+          "metrics": {
+            "records_extracted": 36380,
+            "chunks_processed": 1,
+            "records_quarantined": 0
+          },
+          "timing": {
+            "started_at": "2026-10-16T15:59:12.935181+00:00",
+            "completed_at": "2026-10-16T15:59:16.988701+00:00"
+          },
+          "watermark": {
+            "before": null,
+            "after": null
+          },
+          "status": "SUCCESS",
+          "error": {
+            "message": null,
+            "type": null
+          }
+        },
+        "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+        "bronze_identity": {
+          "table": "iceberg.bronze.faostat_supply_utilization",
+          "uuid": "20a87b98-5ce9-4230-9d13-42c9e13218f8",
+          "snapshot_id": "1149052647847510586",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908/metadata/00001-2be57582-59f4-47b2-bf61-3e1369cbcc17.metadata.json",
+          "rows": 36380,
+          "proved_run_id": "faostat_supply_utilization_20261016155912_7f1d590f",
+          "checksum": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c"
+        }
+      },
+      {
+        "source_id": "faostat_trade",
+        "run_id": "faostat_trade_20261016155919_cc04dc8d",
+        "batch_id": "faostat_trade_20261016_a5f6",
+        "load_type": "FULL",
+        "status": "SUCCESS",
+        "artifact_uri": "s3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/rice_trade_data.csv",
+        "manifest_uri": "s3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/manifest.json",
+        "data_format": "CSV",
+        "records_extracted": 1226470,
+        "records_quarantined": 0,
+        "chunks_processed": 25,
+        "chunks_total": 25,
+        "checksum": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168",
+        "started_at": "2026-10-16T15:59:19.657564+00:00",
+        "completed_at": "2026-10-16T16:00:08.199648+00:00",
+        "watermark_before": null,
+        "watermark_after": null,
+        "source_metadata": {},
+        "error_message": null,
+        "error_type": null,
+        "manifest": {
+          "pipeline_version": "1.0.0",
+          "created_at": "2026-10-16T15:59:19.657584+00:00",
+          "source_id": "faostat_trade",
+          "run_id": "faostat_trade_20261016155919_cc04dc8d",
+          "batch_id": "faostat_trade_20261016_a5f6",
+          "load_type": "FULL",
+          "artifact_info": {
+            "uri": "s3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/rice_trade_data.csv",
+            "format": "CSV",
+            "size_bytes": 167990400,
+            "checksum": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168"
+          },
+          "source_metadata": {
+            "provider": "FAOSTAT",
+            "dataset": "Trade_DetailedTradeMatrix_E_All_Data_(Normalized)",
+            "uri": "https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip",
+            "last_modified": null,
+            "etag": null,
+            "content_length": null
+          },
+          "metrics": {
+            "records_extracted": 1226470,
+            "chunks_processed": 25,
+            "records_quarantined": 0
+          },
+          "timing": {
+            "started_at": "2026-10-16T15:59:19.657564+00:00",
+            "completed_at": "2026-10-16T16:00:08.199648+00:00"
+          },
+          "watermark": {
+            "before": null,
+            "after": null
+          },
+          "status": "SUCCESS",
+          "error": {
+            "message": null,
+            "type": null
+          }
+        },
+        "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+        "bronze_identity": {
+          "table": "iceberg.bronze.faostat_trade",
+          "uuid": "f8f3cec9-23ce-4bfc-8cfc-0625658201df",
+          "snapshot_id": "2171934088797835179",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/metadata/00025-36aa5ba3-208f-4b55-9ed5-4d7d93310303.metadata.json",
+          "rows": 1226470,
+          "proved_run_id": "faostat_trade_20261016155919_cc04dc8d",
+          "checksum": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168"
+        }
+      },
+      {
+        "source_id": "usda_psd",
+        "run_id": "usda_psd_20261016160010_51f6293c",
+        "batch_id": "usda_psd_20261016_23fa",
+        "load_type": "FULL",
+        "status": "SUCCESS",
+        "artifact_uri": "s3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/usda.xls",
+        "manifest_uri": "s3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/manifest.json",
+        "data_format": "CSV",
+        "records_extracted": 15,
+        "records_quarantined": 0,
+        "chunks_processed": 1,
+        "chunks_total": 1,
+        "checksum": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf",
+        "started_at": "2026-10-16T16:00:10.979367+00:00",
+        "completed_at": "2026-10-16T16:00:12.904478+00:00",
+        "watermark_before": null,
+        "watermark_after": null,
+        "source_metadata": {},
+        "error_message": null,
+        "error_type": null,
+        "manifest": {
+          "pipeline_version": "1.0.0",
+          "created_at": "2026-10-16T16:00:10.979389+00:00",
+          "source_id": "usda_psd",
+          "run_id": "usda_psd_20261016160010_51f6293c",
+          "batch_id": "usda_psd_20261016_23fa",
+          "load_type": "FULL",
+          "artifact_info": {
+            "uri": "s3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/usda.xls",
+            "format": "CSV",
+            "size_bytes": 45549,
+            "checksum": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf"
+          },
+          "source_metadata": {
+            "provider": "USDA",
+            "dataset": "PSD_Grains_Pulses",
+            "uri": "https://apps.fas.usda.gov/psdonline/download/psd_grains_pulses_csv.zip",
+            "last_modified": null,
+            "etag": null,
+            "content_length": null
+          },
+          "metrics": {
+            "records_extracted": 15,
+            "chunks_processed": 1,
+            "records_quarantined": 0
+          },
+          "timing": {
+            "started_at": "2026-10-16T16:00:10.979367+00:00",
+            "completed_at": "2026-10-16T16:00:12.904478+00:00"
+          },
+          "watermark": {
+            "before": null,
+            "after": null
+          },
+          "status": "SUCCESS",
+          "error": {
+            "message": null,
+            "type": null
+          }
+        },
+        "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+        "bronze_identity": {
+          "table": "iceberg.bronze.usda_psd",
+          "uuid": "f3504ceb-5188-44a2-aae8-cf5f92dbfec4",
+          "snapshot_id": "6725163293089992461",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/00001-301c4642-5c3b-47bd-9de7-36836dadd68a.metadata.json",
+          "rows": 15,
+          "proved_run_id": "usda_psd_20261016160010_51f6293c",
+          "checksum": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf"
+        }
+      },
+      {
+        "source_id": "usda_rice_yearbook",
+        "run_id": "usda_rice_yearbook_20261016160015_07a33116",
+        "batch_id": "usda_rice_yearbook_20261016_2194",
+        "load_type": "FULL",
+        "status": "SUCCESS",
+        "artifact_uri": "s3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+        "manifest_uri": "s3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/manifest.json",
+        "data_format": "CSV",
+        "records_extracted": 13131,
+        "records_quarantined": 0,
+        "chunks_processed": 1,
+        "chunks_total": 1,
+        "checksum": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba",
+        "started_at": "2026-10-16T16:00:15.167981+00:00",
+        "completed_at": "2026-10-16T16:00:17.066050+00:00",
+        "watermark_before": null,
+        "watermark_after": null,
+        "source_metadata": {},
+        "error_message": null,
+        "error_type": null,
+        "manifest": {
+          "pipeline_version": "1.0.0",
+          "created_at": "2026-10-16T16:00:15.168002+00:00",
+          "source_id": "usda_rice_yearbook",
+          "run_id": "usda_rice_yearbook_20261016160015_07a33116",
+          "batch_id": "usda_rice_yearbook_20261016_2194",
+          "load_type": "FULL",
+          "artifact_info": {
+            "uri": "s3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+            "format": "CSV",
+            "size_bytes": 2122534,
+            "checksum": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba"
+          },
+          "source_metadata": {
+            "provider": null,
+            "dataset": null,
+            "uri": null,
+            "last_modified": null,
+            "etag": null,
+            "content_length": null
+          },
+          "metrics": {
+            "records_extracted": 13131,
+            "chunks_processed": 1,
+            "records_quarantined": 0
+          },
+          "timing": {
+            "started_at": "2026-10-16T16:00:15.167981+00:00",
+            "completed_at": "2026-10-16T16:00:17.066050+00:00"
+          },
+          "watermark": {
+            "before": null,
+            "after": null
+          },
+          "status": "SUCCESS",
+          "error": {
+            "message": null,
+            "type": null
+          }
+        },
+        "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+        "bronze_identity": {
+          "table": "iceberg.bronze.usda_rice_yearbook",
+          "uuid": "26f68bd7-d87a-4d31-a153-b46403622233",
+          "snapshot_id": "4564470349869842851",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/00001-a30b4462-a338-4165-9ae0-3690cfcfb47c.metadata.json",
+          "rows": 13131,
+          "proved_run_id": "usda_rice_yearbook_20261016160015_07a33116",
+          "checksum": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba"
+        }
+      },
+      {
+        "source_id": "worldbank_pinksheet",
+        "run_id": "worldbank_pinksheet_20261016160019_068e77d4",
+        "batch_id": "worldbank_pinksheet_20261016_9239",
+        "load_type": "FULL",
+        "status": "SUCCESS",
+        "artifact_uri": "s3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/CMO-Historical-Data-Monthly.xlsx",
+        "manifest_uri": "s3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/manifest.json",
+        "data_format": "EXCEL",
+        "records_extracted": 792,
+        "records_quarantined": 0,
+        "chunks_processed": 1,
+        "chunks_total": 1,
+        "checksum": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290",
+        "started_at": "2026-10-16T16:00:19.239386+00:00",
+        "completed_at": "2026-10-16T16:00:21.652306+00:00",
+        "watermark_before": null,
+        "watermark_after": null,
+        "source_metadata": {},
+        "error_message": null,
+        "error_type": null,
+        "manifest": {
+          "pipeline_version": "1.0.0",
+          "created_at": "2026-10-16T16:00:19.239422+00:00",
+          "source_id": "worldbank_pinksheet",
+          "run_id": "worldbank_pinksheet_20261016160019_068e77d4",
+          "batch_id": "worldbank_pinksheet_20261016_9239",
+          "load_type": "FULL",
+          "artifact_info": {
+            "uri": "s3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/CMO-Historical-Data-Monthly.xlsx",
+            "format": "EXCEL",
+            "size_bytes": 778415,
+            "checksum": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290"
+          },
+          "source_metadata": {
+            "provider": "WorldBank",
+            "dataset": "CMO_Historical_Monthly",
+            "uri": "https://thedocs.worldbank.org/en/doc/5d903e848db1d1b83e0ec8f744e55570-0350012021/related/CMO-Historical-Data-Monthly.xlsx",
+            "last_modified": null,
+            "etag": null,
+            "content_length": null
+          },
+          "metrics": {
+            "records_extracted": 792,
+            "chunks_processed": 1,
+            "records_quarantined": 0
+          },
+          "timing": {
+            "started_at": "2026-10-16T16:00:19.239386+00:00",
+            "completed_at": "2026-10-16T16:00:21.652306+00:00"
+          },
+          "watermark": {
+            "before": null,
+            "after": null
+          },
+          "status": "SUCCESS",
+          "error": {
+            "message": null,
+            "type": null
+          }
+        },
+        "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+        "bronze_identity": {
+          "table": "iceberg.bronze.worldbank_pinksheet",
+          "uuid": "21b3353e-cda4-4c55-8523-ef355d215b65",
+          "snapshot_id": "2608578091811865170",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/00001-bdb46047-949d-4cff-9094-429b044e7c3b.metadata.json",
+          "rows": 792,
+          "proved_run_id": "worldbank_pinksheet_20261016160019_068e77d4",
+          "checksum": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290"
+        }
+      },
+      {
+        "source_id": "thitruongnongsan",
+        "run_id": "thitruongnongsan_20261016160024_6847418e",
+        "batch_id": "thitruongnongsan_20261016_8b86",
+        "load_type": "FULL",
+        "status": "SUCCESS",
+        "artifact_uri": "s3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/price_luagao.xlsx",
+        "manifest_uri": "s3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/manifest.json",
+        "data_format": "EXCEL",
+        "records_extracted": 20394,
+        "records_quarantined": 0,
+        "chunks_processed": 1,
+        "chunks_total": 1,
+        "checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+        "started_at": "2026-10-16T16:00:24.556342+00:00",
+        "completed_at": "2026-10-16T16:00:27.699224+00:00",
+        "watermark_before": null,
+        "watermark_after": null,
+        "source_metadata": {},
+        "error_message": null,
+        "error_type": null,
+        "manifest": {
+          "pipeline_version": "1.0.0",
+          "created_at": "2026-10-16T16:00:24.556389+00:00",
+          "source_id": "thitruongnongsan",
+          "run_id": "thitruongnongsan_20261016160024_6847418e",
+          "batch_id": "thitruongnongsan_20261016_8b86",
+          "load_type": "FULL",
+          "artifact_info": {
+            "uri": "s3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/price_luagao.xlsx",
+            "format": "EXCEL",
+            "size_bytes": 756440,
+            "checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063"
+          },
+          "source_metadata": {
+            "provider": null,
+            "dataset": null,
+            "uri": null,
+            "last_modified": null,
+            "etag": null,
+            "content_length": null
+          },
+          "metrics": {
+            "records_extracted": 20394,
+            "chunks_processed": 1,
+            "records_quarantined": 0
+          },
+          "timing": {
+            "started_at": "2026-10-16T16:00:24.556342+00:00",
+            "completed_at": "2026-10-16T16:00:27.699224+00:00"
+          },
+          "watermark": {
+            "before": null,
+            "after": null
+          },
+          "status": "SUCCESS",
+          "error": {
+            "message": null,
+            "type": null
+          }
+        },
+        "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+        "bronze_identity": {
+          "table": "iceberg.bronze.thitruongnongsan",
+          "uuid": "bda1e592-2601-4b61-b16a-b31a63bced74",
+          "snapshot_id": "6284553868447052727",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763/metadata/00001-af20e5d6-67bf-4166-8972-fd0d5f9fd9a9.metadata.json",
+          "rows": 20394,
+          "proved_run_id": "thitruongnongsan_20261016160024_6847418e",
+          "checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063"
+        }
+      },
+      {
+        "source_id": "nso_vietnam",
+        "run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "batch_id": "nso_vietnam_20261016_2a8e",
+        "load_type": "FULL",
+        "status": "SUCCESS",
+        "artifact_uri": "s3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/nso_vietnam_raw.zip",
+        "manifest_uri": "s3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/manifest.json",
+        "data_format": "CSV",
+        "records_extracted": 833,
+        "records_quarantined": 0,
+        "chunks_processed": 13,
+        "chunks_total": 13,
+        "checksum": "b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a",
+        "started_at": "2026-10-16T16:00:30.266464+00:00",
+        "completed_at": "2026-10-16T16:00:40.574444+00:00",
+        "watermark_before": null,
+        "watermark_after": null,
+        "source_metadata": {},
+        "error_message": null,
+        "error_type": null,
+        "manifest": {
+          "pipeline_version": "1.0.0",
+          "created_at": "2026-10-16T16:00:30.266489+00:00",
+          "source_id": "nso_vietnam",
+          "run_id": "nso_vietnam_20261016160030_2c409d8a",
+          "batch_id": "nso_vietnam_20261016_2a8e",
+          "load_type": "FULL",
+          "artifact_info": {
+            "uri": "s3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/nso_vietnam_raw.zip",
+            "format": "CSV",
+            "size_bytes": 54901,
+            "checksum": "b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a"
+          },
+          "source_metadata": {
+            "provider": null,
+            "dataset": null,
+            "uri": null,
+            "last_modified": null,
+            "etag": null,
+            "content_length": null
+          },
+          "metrics": {
+            "records_extracted": 833,
+            "chunks_processed": 13,
+            "records_quarantined": 0
+          },
+          "timing": {
+            "started_at": "2026-10-16T16:00:30.266464+00:00",
+            "completed_at": "2026-10-16T16:00:40.574444+00:00"
+          },
+          "watermark": {
+            "before": null,
+            "after": null
+          },
+          "status": "SUCCESS",
+          "error": {
+            "message": null,
+            "type": null
+          }
+        },
+        "registry_sha256": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+        "bronze_identity": {
+          "table": "iceberg.bronze.nso_vietnam",
+          "uuid": "9df24331-6337-4567-8a6e-2515b752478d",
+          "snapshot_id": "6239067651375331267",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/metadata/00013-dd5a23f4-fe5a-4518-8933-569fcecae43e.metadata.json",
+          "rows": 833,
+          "proved_run_id": "nso_vietnam_20261016160030_2c409d8a",
+          "checksum": "b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a"
+        }
+      }
+    ],
+    "bronze_inputs": {
+      "faostat_production": {
+        "table": "iceberg.bronze.faostat_production",
+        "uuid": "d1d1158c-2a38-44a2-8131-1e6ee2530ccd",
+        "snapshot_id": "4843563875751184854",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e/metadata/00001-76469731-7647-43c7-8ec4-41a20401eaad.metadata.json",
+        "rows": 22738,
+        "proved_run_id": "faostat_production_20261016155856_6ba3a6e8",
+        "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+      },
+      "faostat_monthly_price": {
+        "table": "iceberg.bronze.faostat_monthly_price",
+        "uuid": "fa3e9fd5-e1f1-45f9-8bcb-44fcad7400b8",
+        "snapshot_id": "3069013476710882292",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b/metadata/00001-34d97089-b982-4d03-a2b6-f4b725a11ce3.metadata.json",
+        "rows": 15334,
+        "proved_run_id": "faostat_monthly_price_20261016155906_428dc755",
+        "checksum": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af"
+      },
+      "faostat_supply_utilization": {
+        "table": "iceberg.bronze.faostat_supply_utilization",
+        "uuid": "20a87b98-5ce9-4230-9d13-42c9e13218f8",
+        "snapshot_id": "1149052647847510586",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908/metadata/00001-2be57582-59f4-47b2-bf61-3e1369cbcc17.metadata.json",
+        "rows": 36380,
+        "proved_run_id": "faostat_supply_utilization_20261016155912_7f1d590f",
+        "checksum": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c"
+      },
+      "faostat_trade": {
+        "table": "iceberg.bronze.faostat_trade",
+        "uuid": "f8f3cec9-23ce-4bfc-8cfc-0625658201df",
+        "snapshot_id": "2171934088797835179",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/metadata/00025-36aa5ba3-208f-4b55-9ed5-4d7d93310303.metadata.json",
+        "rows": 1226470,
+        "proved_run_id": "faostat_trade_20261016155919_cc04dc8d",
+        "checksum": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168"
+      },
+      "usda_psd": {
+        "table": "iceberg.bronze.usda_psd",
+        "uuid": "f3504ceb-5188-44a2-aae8-cf5f92dbfec4",
+        "snapshot_id": "6725163293089992461",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/00001-301c4642-5c3b-47bd-9de7-36836dadd68a.metadata.json",
+        "rows": 15,
+        "proved_run_id": "usda_psd_20261016160010_51f6293c",
+        "checksum": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf"
+      },
+      "usda_rice_yearbook": {
+        "table": "iceberg.bronze.usda_rice_yearbook",
+        "uuid": "26f68bd7-d87a-4d31-a153-b46403622233",
+        "snapshot_id": "4564470349869842851",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/00001-a30b4462-a338-4165-9ae0-3690cfcfb47c.metadata.json",
+        "rows": 13131,
+        "proved_run_id": "usda_rice_yearbook_20261016160015_07a33116",
+        "checksum": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba"
+      },
+      "worldbank_pinksheet": {
+        "table": "iceberg.bronze.worldbank_pinksheet",
+        "uuid": "21b3353e-cda4-4c55-8523-ef355d215b65",
+        "snapshot_id": "2608578091811865170",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/00001-bdb46047-949d-4cff-9094-429b044e7c3b.metadata.json",
+        "rows": 792,
+        "proved_run_id": "worldbank_pinksheet_20261016160019_068e77d4",
+        "checksum": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290"
+      },
+      "thitruongnongsan": {
+        "table": "iceberg.bronze.thitruongnongsan",
+        "uuid": "bda1e592-2601-4b61-b16a-b31a63bced74",
+        "snapshot_id": "6284553868447052727",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763/metadata/00001-af20e5d6-67bf-4166-8972-fd0d5f9fd9a9.metadata.json",
+        "rows": 20394,
+        "proved_run_id": "thitruongnongsan_20261016160024_6847418e",
+        "checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063"
+      },
+      "nso_vietnam": {
+        "table": "iceberg.bronze.nso_vietnam",
+        "uuid": "9df24331-6337-4567-8a6e-2515b752478d",
+        "snapshot_id": "6239067651375331267",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/metadata/00013-dd5a23f4-fe5a-4518-8933-569fcecae43e.metadata.json",
+        "rows": 833,
+        "proved_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "checksum": "b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a"
+      }
+    },
+    "bronze_dag_run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+    "silver_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1"
+  },
+  "audit": [
+    {
+      "status": "PASSED",
+      "tables": {
+        "iceberg.silver_local.faostat_production": {
+          "rows": 22738,
+          "status": "PASSED"
+        }
+      }
+    },
+    {
+      "status": "PASSED",
+      "tables": {
+        "iceberg.silver_local.faostat_monthly_price": {
+          "rows": 15334,
+          "status": "PASSED"
+        }
+      }
+    },
+    {
+      "status": "PASSED",
+      "tables": {
+        "iceberg.silver_local.faostat_supply_utilization": {
+          "rows": 36380,
+          "status": "PASSED"
+        }
+      }
+    },
+    {
+      "status": "PASSED",
+      "tables": {
+        "iceberg.silver_local.faostat_trade": {
+          "rows": 1226470,
+          "status": "PASSED"
+        }
+      }
+    },
+    {
+      "status": "PASSED",
+      "tables": {
+        "iceberg.silver_local.usda_rice_psd": {
+          "rows": 990,
+          "status": "PASSED"
+        }
+      }
+    },
+    {
+      "status": "PASSED",
+      "tables": {
+        "iceberg.silver_local.usda_rice_yearbook": {
+          "rows": 12936,
+          "status": "PASSED"
+        }
+      }
+    },
+    {
+      "status": "PASSED",
+      "tables": {
+        "iceberg.silver_local.worldbank_commodity_monthly": {
+          "rows": 56232,
+          "status": "PASSED"
+        }
+      }
+    },
+    {
+      "status": "PASSED",
+      "tables": {
+        "iceberg.silver_local.thitruongnongsan": {
+          "rows": 20387,
+          "status": "PASSED"
+        }
+      }
+    },
+    {
+      "status": "PASSED",
+      "tables": {
+        "iceberg.silver_local.nso_rice_statistics_v2": {
+          "rows": 23060,
+          "status": "PASSED"
+        }
+      }
+    }
+  ],
+  "signal": {
+    "silver_status": "DQ_PASSED",
+    "acceptance": "CLI_AND_OWNER_REQUIRED",
+    "release": null,
+    "datasets": [
+      "faostat_production",
+      "faostat_monthly_price",
+      "faostat_supply_utilization",
+      "faostat_trade",
+      "usda_psd",
+      "usda_rice_yearbook",
+      "worldbank_pinksheet",
+      "thitruongnongsan",
+      "nso_vietnam_v2"
+    ],
+    "pending_datasets": [
+      "nso_vietnam_v2"
+    ],
+    "profile": "local_nine",
+    "production_nso_contract": "DRAFT"
+  },
+  "runs": [
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "state": "success"
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "state": "success"
+    }
+  ],
+  "task_results": [
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "gate_check_bronze",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_production",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_monthly_price",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "end",
+      "state": "success",
+      "try_number": 0,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "trigger_silver_release",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "end_lakehouse_ingestion",
+      "state": "success",
+      "try_number": 0,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "initialize_metadata",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "start_lakehouse_ingestion",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_production",
+      "state": "success",
+      "try_number": 2,
+      "max_tries": 1
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_monthly_price",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_supply_utilization",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_trade",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_usda_psd",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_usda_rice_yearbook",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_thitruongnongsan",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_worldbank_pinksheet",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "start",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "verify_bronze_batch",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_nso_vietnam",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_supply_utilization",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_usda_psd",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_trade",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_worldbank_pinksheet",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_usda_rice_yearbook",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_thitruongnongsan",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_nso_vietnam_v2",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "publish_silver_signal",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "silver_data_quality_audit",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0
+    }
+  ],
+  "manual_resume_note": "One known-no-commit source startup failure, preserved and manually resumed in same initial DagRun; configured retries=0, no automatic retry."
+}

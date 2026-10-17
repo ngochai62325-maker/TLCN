@@ -1,0 +1,2510 @@
+{
+  "memory.current": "952827904\n",
+  "memory.peak": "977657856\n",
+  "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "memory.stat": "anon 784121856\nfile 152682496\nkernel 15577088\nkernel_stack 3571712\npagetables 2936832\nsec_pagetables 0\npercpu 5712\nsock 4096\nvmalloc 24576\nshmem 0\nfile_mapped 1245184\nfile_dirty 24576\nfile_writeback 0\nswapcached 0\nanon_thp 0\nfile_thp 0\nshmem_thp 0\ninactive_anon 784089088\nactive_anon 8192\ninactive_file 111710208\nactive_file 40972288\nunevictable 0\nslab_reclaimable 5926912\nslab_unreclaimable 3048472\nslab 8975384\nworkingset_refault_anon 0\nworkingset_refault_file 36723\nworkingset_activate_anon 0\nworkingset_activate_file 0\nworkingset_restore_anon 0\nworkingset_restore_file 0\nworkingset_nodereclaim 0\npgscan 0\npgsteal 0\npgscan_kswapd 0\npgscan_direct 0\npgscan_khugepaged 0\npgsteal_kswapd 0\npgsteal_direct 0\npgsteal_khugepaged 0\npgfault 683458\npgmajfault 63\npgrefill 0\npgactivate 9370\npgdeactivate 0\npglazyfree 0\npglazyfreed 0\nthp_fault_alloc 0\nthp_collapse_alloc 0\n",
+  "cpu.pressure": "some avg10=0.00 avg60=0.11 avg300=0.49 total=4969154\nfull avg10=0.00 avg60=0.11 avg300=0.49 total=4926960\n",
+  "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+  "process_status": "Name:\ttrino-server\nUmask:\t0022\nState:\tS (sleeping)\nTgid:\t1\nNgid:\t0\nPid:\t1\nPPid:\t0\nTracerPid:\t0\nUid:\t0\t0\t0\t0\nGid:\t0\t0\t0\t0\nFDSize:\t1024\nGroups:\t0 \nNStgid:\t1\nNSpid:\t1\nNSpgid:\t1\nNSsid:\t1\nKthread:\t0\nVmPeak:\t 8951144 kB\nVmSize:\t 8941792 kB\nVmLck:\t       0 kB\nVmPin:\t       0 kB\nVmHWM:\t  791020 kB\nVmRSS:\t  782752 kB\nRssAnon:\t  758144 kB\nRssFile:\t   24608 kB\nRssShmem:\t       0 kB\nVmData:\t 1179212 kB\nVmStk:\t     132 kB\nVmExe:\t       4 kB\nVmLib:\t   25040 kB\nVmPTE:\t    2816 kB\nVmSwap:\t       0 kB\nHugetlbPages:\t       0 kB\nCoreDumping:\t0\nTHP_enabled:\t1\nuntag_mask:\t0xffffffffffffffff\nThreads:\t218\nSigQ:\t0/31725\nSigPnd:\t0000000000000000\nShdPnd:\t0000000000000000\nSigBlk:\t0000000000000000\nSigIgn:\t0000000000000000\nSigCgt:\t2000000101005ccf\nCapInh:\t0000000000000000\nCapPrm:\t00000000a80425fb\nCapEff:\t00000000a80425fb\nCapBnd:\t00000000a80425fb\nCapAmb:\t0000000000000000\nNoNewPrivs:\t0\nSeccomp:\t2\nSeccomp_filters:\t2\nSpeculation_Store_Bypass:\tthread vulnerable\nSpeculationIndirectBranch:\tconditional enabled\nCpus_allowed:\tfff\nCpus_allowed_list:\t0-11\nMems_allowed:\t00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001\nMems_allowed_list:\t0\nvoluntary_ctxt_switches:\t62\nnonvoluntary_ctxt_switches:\t1\n",
+  "heap": "1:\n garbage-first heap   total reserved 524288K, committed 295936K, used 251265K [0x00000000e0000000, 0x0000000100000000)\n  region size 1024K, 86 young (88064K), 4 survivors (4096K)\n Metaspace       used 180856K, committed 183808K, reserved 1245184K\n  class space    used 23711K, committed 25024K, reserved 1048576K\n",
+  "info": {
+    "nodeVersion": {
+      "version": "448"
+    },
+    "environment": "docker",
+    "coordinator": true,
+    "starting": false,
+    "uptime": "11.80m"
+  },
+  "queries": [
+    {
+      "queryId": "20261016_150500_00016_5z565",
+      "session": {
+        "queryId": "20261016_150500_00016_5z565",
+        "querySpan": {},
+        "transactionId": "ce850141-345c-4fd4-9fb9-a226bb07e594",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:00.644377365Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150500_00016_5z565",
+      "query": "SELECT year,count(*) AS rows FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 GROUP BY year",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:00.678Z",
+        "endTime": "2026-10-16T15:05:01.435Z",
+        "queuedTime": "938.90us",
+        "elapsedTime": "758.00ms",
+        "executionTime": "725.68ms",
+        "failedTasks": 0,
+        "totalDrivers": 41,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 41,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "195B",
+        "rawInputPositions": 1226470,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "195B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 13164048.069352,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "724B",
+        "peakTotalMemoryReservation": "724B",
+        "totalCpuTime": "425.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "1.07s",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150443_00007_5z565",
+      "session": {
+        "queryId": "20261016_150443_00007_5z565",
+        "querySpan": {},
+        "transactionId": "f61d81fd-17d6-4ef4-a8f9-fb68d1273e34",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:43.765082251Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150443_00007_5z565",
+      "query": "EXPLAIN (TYPE DISTRIBUTED) SELECT \"domain_code\",\"domain\",\"country_code\",\"country_name\",\"element_code\",\"element\",\"commodity_code\",\"commodity_name\",\"year\",\"unit\",\"value\",\"flag\",\"flag_description\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_production\" FOR VERSION AS OF 8931802191858281040",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:43.766Z",
+        "endTime": "2026-10-16T15:04:43.862Z",
+        "queuedTime": "330.59us",
+        "elapsedTime": "96.83ms",
+        "executionTime": "24.64ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "0B",
+        "rawInputPositions": 0,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "0B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 0.0,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "5338B",
+        "peakTotalMemoryReservation": "5338B",
+        "totalCpuTime": "0.00ns",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "0.00ns",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "EXPLAIN",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150453_00012_5z565",
+      "session": {
+        "queryId": "20261016_150453_00012_5z565",
+        "querySpan": {},
+        "transactionId": "0e1a4d28-dbe8-40d7-bbd0-986766ff90e3",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:53.283178336Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150453_00012_5z565",
+      "query": "DESCRIBE \"iceberg\".\"silver_local\".\"faostat_supply_utilization\"",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:53.284Z",
+        "endTime": "2026-10-16T15:04:53.451Z",
+        "queuedTime": "359.26us",
+        "elapsedTime": "167.96ms",
+        "executionTime": "150.64ms",
+        "failedTasks": 0,
+        "totalDrivers": 4,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 4,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "2438B",
+        "rawInputPositions": 27,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "2438B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 177162.08897799999,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "1871B",
+        "peakTotalMemoryReservation": "1871B",
+        "totalCpuTime": "7.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "7.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "DESCRIBE",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150504_00019_5z565",
+      "session": {
+        "queryId": "20261016_150504_00019_5z565",
+        "querySpan": {},
+        "transactionId": "f5c915e7-9490-4ddb-a807-f051df89995b",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:04.013266574Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150504_00019_5z565",
+      "query": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1986",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:04.015Z",
+        "endTime": "2026-10-16T15:05:04.676Z",
+        "queuedTime": "328.61us",
+        "elapsedTime": "661.79ms",
+        "executionTime": "647.70ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "127730B",
+        "rawInputPositions": 8304,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "127730B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 18087465.841863997,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "1390729B",
+        "peakTotalMemoryReservation": "1390729B",
+        "totalCpuTime": "22.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "57.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150508_00022_5z565",
+      "session": {
+        "queryId": "20261016_150508_00022_5z565",
+        "querySpan": {},
+        "transactionId": "d0d14b5b-74f7-4957-bf39-6cd8cc7e00ba",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:08.677719613Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150508_00022_5z565",
+      "query": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1990",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:08.678Z",
+        "endTime": "2026-10-16T15:05:09.456Z",
+        "queuedTime": "267.58us",
+        "elapsedTime": "778.41ms",
+        "executionTime": "767.81ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "137533B",
+        "rawInputPositions": 9512,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "137533B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 11356867.304393997,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "1590392B",
+        "peakTotalMemoryReservation": "1590392B",
+        "totalCpuTime": "18.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "29.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150449_00010_5z565",
+      "session": {
+        "queryId": "20261016_150449_00010_5z565",
+        "querySpan": {},
+        "transactionId": "c5861d8c-a60a-4c2d-9053-e7a154f5f2c1",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:49.781487039Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150449_00010_5z565",
+      "query": "EXPLAIN (TYPE DISTRIBUTED) SELECT \"domain_code\",\"domain\",\"country_code\",\"country_name\",\"element_code\",\"element\",\"commodity_code\",\"commodity_name\",\"year\",\"month_code\",\"month_name\",\"unit\",\"value\",\"flag\",\"flag_description\",\"time_grain\",\"month\",\"currency\",\"price_kind\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_monthly_price\" FOR VERSION AS OF 674571528901073625",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:49.782Z",
+        "endTime": "2026-10-16T15:04:49.860Z",
+        "queuedTime": "262.00us",
+        "elapsedTime": "78.60ms",
+        "executionTime": "23.96ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "0B",
+        "rawInputPositions": 0,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "0B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 0.0,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "6089B",
+        "peakTotalMemoryReservation": "6089B",
+        "totalCpuTime": "0.00ns",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "1.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "EXPLAIN",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150510_00023_5z565",
+      "session": {
+        "queryId": "20261016_150510_00023_5z565",
+        "querySpan": {},
+        "transactionId": "1d2f7ab9-ef00-40bb-8157-bb8f8f110c3a",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:10.540659796Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150510_00023_5z565",
+      "query": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1991",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:10.542Z",
+        "endTime": "2026-10-16T15:05:11.216Z",
+        "queuedTime": "296.15us",
+        "elapsedTime": "674.09ms",
+        "executionTime": "662.42ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "153996B",
+        "rawInputPositions": 11522,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "153996B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 1744.426368,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "1922351B",
+        "peakTotalMemoryReservation": "1922351B",
+        "totalCpuTime": "18.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "45.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150507_00021_5z565",
+      "session": {
+        "queryId": "20261016_150507_00021_5z565",
+        "querySpan": {},
+        "transactionId": "362b494e-39e8-4b09-b989-65f2b895f268",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:07.143665162Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150507_00021_5z565",
+      "query": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1989",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:07.144Z",
+        "endTime": "2026-10-16T15:05:07.818Z",
+        "queuedTime": "256.83us",
+        "elapsedTime": "674.08ms",
+        "executionTime": "663.43ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "137231B",
+        "rawInputPositions": 9454,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "137231B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 1925.015104,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "1058029B",
+        "peakTotalMemoryReservation": "1058029B",
+        "totalCpuTime": "20.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "51.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_145806_00000_5z565",
+      "session": {
+        "queryId": "20261016_145806_00000_5z565",
+        "querySpan": {},
+        "transactionId": "2cf45a24-b2a2-4b0e-914c-6364329d6b38",
+        "clientTransactionSupport": false,
+        "user": "silver-validation",
+        "originalUser": "silver-validation",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "silver-validation",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [],
+        "resourceEstimates": {},
+        "start": "2026-10-16T14:58:06.291465877Z",
+        "systemProperties": {},
+        "catalogProperties": {},
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_145806_00000_5z565",
+      "query": "SHOW SESSION",
+      "queryStats": {
+        "createTime": "2026-10-16T14:58:06.312Z",
+        "endTime": "2026-10-16T14:58:08.067Z",
+        "queuedTime": "12.89ms",
+        "elapsedTime": "1.76s",
+        "executionTime": "1.66s",
+        "failedTasks": 0,
+        "totalDrivers": 3,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 3,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "0B",
+        "rawInputPositions": 0,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "0B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 4730.008256,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "23167B",
+        "peakTotalMemoryReservation": "23167B",
+        "totalCpuTime": "27.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "56.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "DESCRIBE",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150517_00026_5z565",
+      "session": {
+        "queryId": "20261016_150517_00026_5z565",
+        "querySpan": {},
+        "transactionId": "94d24e0e-132a-4fa7-8d78-94ef6a475469",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:17.262599836Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FAILED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150517_00026_5z565",
+      "query": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1994",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:17.264Z",
+        "endTime": "2026-10-16T15:05:18.185Z",
+        "queuedTime": "333.33us",
+        "elapsedTime": "921.57ms",
+        "executionTime": "902.11ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "180979B",
+        "rawInputPositions": 15066,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "180979B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 929.6742399999999,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "2501731B",
+        "peakTotalMemoryReservation": "2501731B",
+        "totalCpuTime": "18.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "21.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "errorType": "USER_ERROR",
+      "errorCode": {
+        "code": 3,
+        "name": "USER_CANCELED",
+        "type": "USER_ERROR"
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150301_00003_5z565",
+      "session": {
+        "queryId": "20261016_150301_00003_5z565",
+        "querySpan": {},
+        "transactionId": "5f52f2a0-84a7-4855-b757-a33d98438abc",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:03:01.656224633Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FAILED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150301_00003_5z565",
+      "query": "SELECT \"domain_code\",\"domain\",\"country_code\",\"country_name\",\"element_code\",\"element\",\"commodity_code\",\"commodity_name\",\"year\",\"unit\",\"value\",\"flag\",\"flag_description\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_production\" FOR VERSION AS OF 8931802191858281040",
+      "queryStats": {
+        "createTime": "2026-10-16T15:03:01.657Z",
+        "endTime": "2026-10-16T15:08:02.730Z",
+        "queuedTime": "332.97us",
+        "elapsedTime": "5.02m",
+        "executionTime": "5.02m",
+        "failedTasks": 0,
+        "totalDrivers": 64,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 64,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "1550713B",
+        "rawInputPositions": 22738,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "1550713B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 216426608.73249695,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "160681B",
+        "peakTotalMemoryReservation": "160681B",
+        "totalCpuTime": "2.06s",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "9.62s",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "errorType": "USER_ERROR",
+      "errorCode": {
+        "code": 2,
+        "name": "ABANDONED_QUERY",
+        "type": "USER_ERROR"
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150459_00015_5z565",
+      "session": {
+        "queryId": "20261016_150459_00015_5z565",
+        "querySpan": {},
+        "transactionId": "4dcb3ea8-825a-47a5-bd3b-bc5f92504636",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:59.864913044Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150459_00015_5z565",
+      "query": "DESCRIBE \"iceberg\".\"silver_local\".\"faostat_trade\"",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:59.865Z",
+        "endTime": "2026-10-16T15:04:59.964Z",
+        "queuedTime": "257.94us",
+        "elapsedTime": "99.60ms",
+        "executionTime": "84.20ms",
+        "failedTasks": 0,
+        "totalDrivers": 4,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 4,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "1991B",
+        "rawInputPositions": 25,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "1991B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 9998.832439999998,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "1816B",
+        "peakTotalMemoryReservation": "1816B",
+        "totalCpuTime": "6.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "6.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "DESCRIBE",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150410_00004_5z565",
+      "session": {
+        "queryId": "20261016_150410_00004_5z565",
+        "querySpan": {},
+        "transactionId": "ea3be535-039e-4e11-8217-5e7da06173b1",
+        "clientTransactionSupport": false,
+        "user": "phase2-diagnostic",
+        "originalUser": "phase2-diagnostic",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-diagnostic",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:10.515551165Z",
+        "systemProperties": {},
+        "catalogProperties": {},
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150410_00004_5z565",
+      "query": "SELECT _ingestion_timestamp,cast(_ingestion_timestamp AS varchar) AS exact_text FROM iceberg.silver_local.faostat_production LIMIT 1",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:10.517Z",
+        "endTime": "2026-10-16T15:04:10.744Z",
+        "queuedTime": "1.20ms",
+        "elapsedTime": "227.58ms",
+        "executionTime": "205.94ms",
+        "failedTasks": 0,
+        "totalDrivers": 6,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 6,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "15905B",
+        "rawInputPositions": 1,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "15905B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 12188.718047999999,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "354B",
+        "peakTotalMemoryReservation": "354B",
+        "totalCpuTime": "19.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "21.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150451_00011_5z565",
+      "session": {
+        "queryId": "20261016_150451_00011_5z565",
+        "querySpan": {},
+        "transactionId": "210c6d07-db18-450a-8cd0-e0a7a3b20410",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:51.523874302Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150451_00011_5z565",
+      "query": "SELECT \"domain_code\",\"domain\",\"country_code\",\"country_name\",\"element_code\",\"element\",\"commodity_code\",\"commodity_name\",\"year\",\"month_code\",\"month_name\",\"unit\",\"value\",\"flag\",\"flag_description\",\"time_grain\",\"month\",\"currency\",\"price_kind\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_monthly_price\" FOR VERSION AS OF 674571528901073625",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:51.525Z",
+        "endTime": "2026-10-16T15:04:53.194Z",
+        "queuedTime": "281.79us",
+        "elapsedTime": "1.67s",
+        "executionTime": "1.66s",
+        "failedTasks": 0,
+        "totalDrivers": 35,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 35,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "1032779B",
+        "rawInputPositions": 15334,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "1032779B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 201772996.34741804,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "381850B",
+        "peakTotalMemoryReservation": "381850B",
+        "totalCpuTime": "712.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "3.46s",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150502_00018_5z565",
+      "session": {
+        "queryId": "20261016_150502_00018_5z565",
+        "querySpan": {},
+        "transactionId": "8e2ee762-0f92-43b3-8927-5c8fa4e0e8d8",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:02.407009659Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150502_00018_5z565",
+      "query": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1987",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:02.408Z",
+        "endTime": "2026-10-16T15:05:02.943Z",
+        "queuedTime": "284.15us",
+        "elapsedTime": "535.28ms",
+        "executionTime": "523.05ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "127203B",
+        "rawInputPositions": 8156,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "127203B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 31700399.772037998,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "1364745B",
+        "peakTotalMemoryReservation": "1364745B",
+        "totalCpuTime": "20.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "23.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150258_00002_5z565",
+      "session": {
+        "queryId": "20261016_150258_00002_5z565",
+        "querySpan": {},
+        "transactionId": "2e6b4fc1-50f6-44bc-9e05-34d738fa420b",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:02:58.582166079Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150258_00002_5z565",
+      "query": "EXPLAIN (TYPE DISTRIBUTED) SELECT \"domain_code\",\"domain\",\"country_code\",\"country_name\",\"element_code\",\"element\",\"commodity_code\",\"commodity_name\",\"year\",\"unit\",\"value\",\"flag\",\"flag_description\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_production\" FOR VERSION AS OF 8931802191858281040",
+      "queryStats": {
+        "createTime": "2026-10-16T15:02:58.598Z",
+        "endTime": "2026-10-16T15:02:59.277Z",
+        "queuedTime": "518.79us",
+        "elapsedTime": "679.10ms",
+        "executionTime": "87.94ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "0B",
+        "rawInputPositions": 0,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "0B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 68727.209068,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "5338B",
+        "peakTotalMemoryReservation": "5338B",
+        "totalCpuTime": "0.00ns",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "0.00ns",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "EXPLAIN",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150443_00006_5z565",
+      "session": {
+        "queryId": "20261016_150443_00006_5z565",
+        "querySpan": {},
+        "transactionId": "1e801247-8bc9-4cf8-92a3-f7504897cbee",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:43.499648662Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150443_00006_5z565",
+      "query": "DESCRIBE \"iceberg\".\"silver_local\".\"faostat_production\"",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:43.500Z",
+        "endTime": "2026-10-16T15:04:43.658Z",
+        "queuedTime": "272.69us",
+        "elapsedTime": "159.00ms",
+        "executionTime": "144.49ms",
+        "failedTasks": 0,
+        "totalDrivers": 4,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 4,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "2152B",
+        "rawInputPositions": 26,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "2152B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 76173.06826700001,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "1943B",
+        "peakTotalMemoryReservation": "1943B",
+        "totalCpuTime": "9.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "10.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "DESCRIBE",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150449_00009_5z565",
+      "session": {
+        "queryId": "20261016_150449_00009_5z565",
+        "querySpan": {},
+        "transactionId": "1f0ae414-3930-44bb-919d-3773fc1402b5",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:49.515645652Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150449_00009_5z565",
+      "query": "DESCRIBE \"iceberg\".\"silver_local\".\"faostat_monthly_price\"",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:49.516Z",
+        "endTime": "2026-10-16T15:04:49.670Z",
+        "queuedTime": "337.09us",
+        "elapsedTime": "154.07ms",
+        "executionTime": "137.51ms",
+        "failedTasks": 0,
+        "totalDrivers": 4,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 4,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "2697B",
+        "rawInputPositions": 32,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "2697B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 73826.754449,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "2266B",
+        "peakTotalMemoryReservation": "2266B",
+        "totalCpuTime": "9.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "61.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "DESCRIBE",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150501_00017_5z565",
+      "session": {
+        "queryId": "20261016_150501_00017_5z565",
+        "querySpan": {},
+        "transactionId": "d80ffc79-de98-4954-9316-f49c9b651854",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:01.449221149Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150501_00017_5z565",
+      "query": "EXPLAIN (TYPE DISTRIBUTED) SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1987",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:01.451Z",
+        "endTime": "2026-10-16T15:05:01.641Z",
+        "queuedTime": "256.31us",
+        "elapsedTime": "190.74ms",
+        "executionTime": "45.75ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "0B",
+        "rawInputPositions": 0,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "0B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 911.71152,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "5542B",
+        "peakTotalMemoryReservation": "5542B",
+        "totalCpuTime": "0.00ns",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "0.00ns",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "EXPLAIN",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150515_00025_5z565",
+      "session": {
+        "queryId": "20261016_150515_00025_5z565",
+        "querySpan": {},
+        "transactionId": "dee98f43-c994-4f14-b333-3b0b3fb3bd74",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:14.999904976Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150515_00025_5z565",
+      "query": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1993",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:15.001Z",
+        "endTime": "2026-10-16T15:05:15.955Z",
+        "queuedTime": "331.98us",
+        "elapsedTime": "954.53ms",
+        "executionTime": "940.65ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "167729B",
+        "rawInputPositions": 13298,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "167729B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 2610.121088,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "2212846B",
+        "peakTotalMemoryReservation": "2212846B",
+        "totalCpuTime": "19.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "29.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150456_00014_5z565",
+      "session": {
+        "queryId": "20261016_150456_00014_5z565",
+        "querySpan": {},
+        "transactionId": "36630275-4f1d-40d4-a291-5f7c0b326b51",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:56.710961748Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150456_00014_5z565",
+      "query": "SELECT \"domain_code\",\"domain\",\"country_code\",\"country_name\",\"element_code\",\"element\",\"commodity_code\",\"commodity_name\",\"year\",\"unit\",\"value\",\"flag\",\"flag_description\",\"note\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_supply_utilization\" FOR VERSION AS OF 1814979402872267535",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:56.712Z",
+        "endTime": "2026-10-16T15:04:59.710Z",
+        "queuedTime": "240.78us",
+        "elapsedTime": "3.00s",
+        "executionTime": "2.99s",
+        "failedTasks": 0,
+        "totalDrivers": 14,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 14,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "1092166B",
+        "rawInputPositions": 36380,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "1092166B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 327510298.281035,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "990818B",
+        "peakTotalMemoryReservation": "990818B",
+        "totalCpuTime": "298.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "1.23s",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150505_00020_5z565",
+      "session": {
+        "queryId": "20261016_150505_00020_5z565",
+        "querySpan": {},
+        "transactionId": "96d951ba-60bf-4eeb-8b7e-ab71550ca959",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:05.464113344Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150505_00020_5z565",
+      "query": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1988",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:05.465Z",
+        "endTime": "2026-10-16T15:05:06.100Z",
+        "queuedTime": "350.08us",
+        "elapsedTime": "635.44ms",
+        "executionTime": "624.31ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "130259B",
+        "rawInputPositions": 8728,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "130259B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 832.456,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "1464906B",
+        "peakTotalMemoryReservation": "1464906B",
+        "totalCpuTime": "15.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "18.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150453_00013_5z565",
+      "session": {
+        "queryId": "20261016_150453_00013_5z565",
+        "querySpan": {},
+        "transactionId": "0c245ed4-d54e-4e71-a86f-c4455700e19d",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:53.519514179Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150453_00013_5z565",
+      "query": "EXPLAIN (TYPE DISTRIBUTED) SELECT \"domain_code\",\"domain\",\"country_code\",\"country_name\",\"element_code\",\"element\",\"commodity_code\",\"commodity_name\",\"year\",\"unit\",\"value\",\"flag\",\"flag_description\",\"note\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_supply_utilization\" FOR VERSION AS OF 1814979402872267535",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:53.520Z",
+        "endTime": "2026-10-16T15:04:53.594Z",
+        "queuedTime": "283.64us",
+        "elapsedTime": "74.71ms",
+        "executionTime": "21.19ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "0B",
+        "rawInputPositions": 0,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "0B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 0.0,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "5438B",
+        "peakTotalMemoryReservation": "5438B",
+        "totalCpuTime": "0.00ns",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "0.00ns",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "EXPLAIN",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150446_00008_5z565",
+      "session": {
+        "queryId": "20261016_150446_00008_5z565",
+        "querySpan": {},
+        "transactionId": "ba5317fa-817c-46b4-b6ef-4fd2962edb83",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:46.237121841Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150446_00008_5z565",
+      "query": "SELECT \"domain_code\",\"domain\",\"country_code\",\"country_name\",\"element_code\",\"element\",\"commodity_code\",\"commodity_name\",\"year\",\"unit\",\"value\",\"flag\",\"flag_description\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_production\" FOR VERSION AS OF 8931802191858281040",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:46.238Z",
+        "endTime": "2026-10-16T15:04:49.351Z",
+        "queuedTime": "327.29us",
+        "elapsedTime": "3.11s",
+        "executionTime": "3.10s",
+        "failedTasks": 0,
+        "totalDrivers": 64,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 64,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "1550713B",
+        "rawInputPositions": 22738,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "1550713B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 209781961.875702,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "247796B",
+        "peakTotalMemoryReservation": "247796B",
+        "totalCpuTime": "1.28s",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "6.82s",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150257_00001_5z565",
+      "session": {
+        "queryId": "20261016_150257_00001_5z565",
+        "querySpan": {},
+        "transactionId": "93770eff-c24f-4c2d-b53f-457583ece4ff",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:02:57.654464597Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150257_00001_5z565",
+      "query": "DESCRIBE \"iceberg\".\"silver_local\".\"faostat_production\"",
+      "queryStats": {
+        "createTime": "2026-10-16T15:02:57.662Z",
+        "endTime": "2026-10-16T15:02:58.467Z",
+        "queuedTime": "1.13ms",
+        "elapsedTime": "805.22ms",
+        "executionTime": "461.70ms",
+        "failedTasks": 0,
+        "totalDrivers": 4,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 4,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "2152B",
+        "rawInputPositions": 26,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "2152B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 30518.052232,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "1759B",
+        "peakTotalMemoryReservation": "1759B",
+        "totalCpuTime": "29.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "31.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "DESCRIBE",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150512_00024_5z565",
+      "session": {
+        "queryId": "20261016_150512_00024_5z565",
+        "querySpan": {},
+        "transactionId": "2070136f-4035-4d71-a5b9-38ef6d3b7ea2",
+        "clientTransactionSupport": false,
+        "user": "phase2-readonly",
+        "originalUser": "phase2-readonly",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-readonly",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:05:12.836552629Z",
+        "systemProperties": {
+          "task_concurrency": "1"
+        },
+        "catalogProperties": {
+          "iceberg": {
+            "parquet_max_read_block_row_count": "512",
+            "parquet_max_read_block_size": "1MB",
+            "parquet_small_file_threshold": "0B"
+          }
+        },
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150512_00024_5z565",
+      "query": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1992",
+      "queryStats": {
+        "createTime": "2026-10-16T15:05:12.837Z",
+        "endTime": "2026-10-16T15:05:13.741Z",
+        "queuedTime": "246.24us",
+        "elapsedTime": "904.17ms",
+        "executionTime": "891.19ms",
+        "failedTasks": 0,
+        "totalDrivers": 1,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 1,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "164598B",
+        "rawInputPositions": 12850,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "164598B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 1628.481472,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "2137173B",
+        "peakTotalMemoryReservation": "2137173B",
+        "totalCpuTime": "15.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "19.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    },
+    {
+      "queryId": "20261016_150410_00005_5z565",
+      "session": {
+        "queryId": "20261016_150410_00005_5z565",
+        "querySpan": {},
+        "transactionId": "b6a6a397-cb58-45b2-9bd5-cf248b8d04e5",
+        "clientTransactionSupport": false,
+        "user": "phase2-diagnostic",
+        "originalUser": "phase2-diagnostic",
+        "groups": [],
+        "originalUserGroups": [],
+        "principal": "phase2-diagnostic",
+        "enabledRoles": [],
+        "path": {
+          "path": [
+            {
+              "catalogName": "system",
+              "schemaName": "$query"
+            },
+            {
+              "catalogName": "system",
+              "schemaName": "builtin"
+            }
+          ],
+          "rawPath": ""
+        },
+        "timeZoneKey": 0,
+        "locale": "en_US",
+        "remoteUserAddress": "172.24.0.6",
+        "userAgent": "Python-urllib/3.10",
+        "clientTags": [],
+        "clientCapabilities": [
+          "PARAMETRIC_DATETIME"
+        ],
+        "resourceEstimates": {},
+        "start": "2026-10-16T15:04:10.764496834Z",
+        "systemProperties": {},
+        "catalogProperties": {},
+        "catalogRoles": {},
+        "preparedStatements": {},
+        "protocolName": "Trino",
+        "timeZone": "UTC"
+      },
+      "resourceGroupId": [
+        "global"
+      ],
+      "state": "FINISHED",
+      "scheduled": true,
+      "self": "http://172.24.0.5:8080/v1/query/20261016_150410_00005_5z565",
+      "query": "SELECT _ingestion_timestamp,cast(_ingestion_timestamp AS varchar) AS exact_text FROM iceberg.silver_local.faostat_production LIMIT 1",
+      "queryStats": {
+        "createTime": "2026-10-16T15:04:10.765Z",
+        "endTime": "2026-10-16T15:04:10.947Z",
+        "queuedTime": "444.33us",
+        "elapsedTime": "182.10ms",
+        "executionTime": "171.16ms",
+        "failedTasks": 0,
+        "totalDrivers": 6,
+        "queuedDrivers": 0,
+        "runningDrivers": 0,
+        "completedDrivers": 6,
+        "blockedDrivers": 0,
+        "rawInputDataSize": "15905B",
+        "rawInputPositions": 1,
+        "spilledDataSize": "0B",
+        "physicalInputDataSize": "15905B",
+        "physicalWrittenDataSize": "0B",
+        "cumulativeUserMemory": 11462.876988,
+        "failedCumulativeUserMemory": 0.0,
+        "userMemoryReservation": "0B",
+        "totalMemoryReservation": "0B",
+        "peakUserMemoryReservation": "354B",
+        "peakTotalMemoryReservation": "354B",
+        "totalCpuTime": "12.00ms",
+        "failedCpuTime": "0.00ns",
+        "totalScheduledTime": "72.00ms",
+        "failedScheduledTime": "0.00ns",
+        "fullyBlocked": true,
+        "blockedReasons": [],
+        "progressPercentage": 100.0,
+        "runningPercentage": 0.0
+      },
+      "queryType": "SELECT",
+      "retryPolicy": "NONE"
+    }
+  ]
+}

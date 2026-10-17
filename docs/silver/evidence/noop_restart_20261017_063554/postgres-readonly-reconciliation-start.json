@@ -1,0 +1,67 @@
+{
+  "at": "2026-10-17T06:37:57.769442+00:00",
+  "container": {
+    "id": "58722513ce15fde1f4cc22ba556ae021d547892d2c5ee912d2308930abdb10da",
+    "name": "/tlcn-local-nine-cleanroom-20261016-postgres-test-1",
+    "created": "2026-10-16T15:47:20.015342319Z",
+    "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+    "reference": "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+    "project": "tlcn-local-nine-cleanroom-20261016",
+    "service": "postgres-test",
+    "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+    "compose_config_hash": "26563e4cd87099d01a28359a347f01d3a8a6312771558960810ab3282ab40d30",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 6975,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-17T06:37:54.674122988Z",
+      "FinishedAt": "2026-10-17T03:23:47.481677825Z"
+    },
+    "health": "starting",
+    "restart_count": 0,
+    "restart_policy": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    },
+    "memory_limit": 268435456,
+    "memory_swap": 536870912,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "tlcn-local-nine-cleanroom-20261016_local_postgres_data",
+        "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_postgres_data/_data",
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "networks": [
+      "tlcn-local-nine-cleanroom-20261016_default"
+    ],
+    "flags": {
+      "SILVER_LOCAL_PROFILE": null,
+      "SILVER_LOCAL_ENABLED": null,
+      "SILVER_ACCEPTED_RELEASE": null,
+      "SILVER_PRODUCTION_ENABLED": null,
+      "SILVER_CANARY_ONLY": null,
+      "SILVER_BRONZE_SCHEDULE": null
+    }
+  },
+  "no_scheduler_start": true,
+  "pre_start_resources": {
+    "at": "2026-10-17T06:37:51.618462+00:00",
+    "windows_available_bytes": 2813747200,
+    "windows_memory_load": 82,
+    "wsl_meminfo": "MemTotal:        8131796 kB\nMemFree:         2882800 kB\nMemAvailable:    5012808 kB\nBuffers:          194164 kB\nCached:          1997720 kB\nSwapCached:            0 kB\nActive:           660800 kB\nInactive:        4044488 kB\nActive(anon):      11688 kB\nInactive(anon):  2523684 kB\nActive(file):     649112 kB\nInactive(file):  1520804 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:               304 kB\nWriteback:           140 kB\nAnonPages:       2513140 kB\nMapped:           515292 kB\nShmem:             21716 kB\nKReclaimable:     156672 kB\nSlab:             251268 kB\nSReclaimable:     156672 kB\nSUnreclaim:        94596 kB\nKernelStack:       12144 kB\nPageTables:        37116 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:   29974176 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       37060 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       64512 kB\nDirectMap2M:     6225920 kB\nDirectMap1G:    11534336 kB\n",
+    "wsl_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.00 avg300=0.04 total=2057515\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.13 avg60=0.08 avg300=0.27 total=4483056\nfull avg10=0.13 avg60=0.08 avg300=0.26 total=4286974\n",
+    "docker_stats": "{\"BlockIO\":\"19.6MB / 36.9kB\",\"CPUPerc\":\"0.01%\",\"Container\":\"c29f0a929a4243f9e4404ed953551e6639793434587a04447f31f76020989cff\",\"ID\":\"c29f0a929a42\",\"MemPerc\":\"0.31%\",\"MemUsage\":\"24.68MiB / 7.755GiB\",\"Name\":\"spark-iceberg\",\"NetIO\":\"1.63kB / 126B\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"191MB / 2.26MB\",\"CPUPerc\":\"1.74%\",\"Container\":\"4583d720af51252cd21eedb19c6900e0f494b2d6f47e315d03e93c51f73a9509\",\"ID\":\"4583d720af51\",\"MemPerc\":\"11.30%\",\"MemUsage\":\"897.2MiB / 7.755GiB\",\"Name\":\"trino\",\"NetIO\":\"218kB / 18kB\",\"PIDs\":\"160\"}\n{\"BlockIO\":\"116MB / 223MB\",\"CPUPerc\":\"0.13%\",\"Container\":\"089fe84c85cfcf6b1ef890423e67b2b63aaadf2e5d8097bf03e3c6d2598fa8a5\",\"ID\":\"089fe84c85cf\",\"MemPerc\":\"9.87%\",\"MemUsage\":\"784MiB / 7.755GiB\",\"Name\":\"airflow-webserver\",\"NetIO\":\"12.4MB / 548kB\",\"PIDs\":\"8\"}\n{\"BlockIO\":\"62.2MB / 133MB\",\"CPUPerc\":\"1.34%\",\"Container\":\"e2ba7f3b354a90922b234adaef8743f4c279bafcccfe41420cd32c40216c2662\",\"ID\":\"e2ba7f3b354a\",\"MemPerc\":\"7.01%\",\"MemUsage\":\"556.6MiB / 7.755GiB\",\"Name\":\"airflow-scheduler\",\"NetIO\":\"16MB / 4.91MB\",\"PIDs\":\"73\"}\n{\"BlockIO\":\"72.4MB / 1.35MB\",\"CPUPerc\":\"0.10%\",\"Container\":\"786f477b8e01132643521a6ed7c4880f754acdab31a37a6e5849717727984632\",\"ID\":\"786f477b8e01\",\"MemPerc\":\"2.14%\",\"MemUsage\":\"170.1MiB / 7.755GiB\",\"Name\":\"iceberg-rest\",\"NetIO\":\"308kB / 247kB\",\"PIDs\":\"43\"}\n{\"BlockIO\":\"37.3MB / 6.03MB\",\"CPUPerc\":\"1.56%\",\"Container\":\"c5b4b341669e821a42e74bb615451587b6039ca2a22e282f0e445d6f55b65bd9\",\"ID\":\"c5b4b341669e\",\"MemPerc\":\"0.62%\",\"MemUsage\":\"48.95MiB / 7.755GiB\",\"Name\":\"postgres\",\"NetIO\":\"5.01MB / 5.4MB\",\"PIDs\":\"10\"}\n{\"BlockIO\":\"128MB / 807kB\",\"CPUPerc\":\"0.00%\",\"Container\":\"35c6358ad3f2c63c3b4deec8bb089d13bcfd40ebf084f140be1f0d467d811b09\",\"ID\":\"35c6358ad3f2\",\"MemPerc\":\"1.16%\",\"MemUsage\":\"92.12MiB / 7.755GiB\",\"Name\":\"minio\",\"NetIO\":\"38kB / 295kB\",\"PIDs\":\"18\"}\n"
+  }
+}

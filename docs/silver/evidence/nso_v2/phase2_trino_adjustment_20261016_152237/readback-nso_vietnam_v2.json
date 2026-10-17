@@ -1,0 +1,465 @@
+{
+  "status": "PASS",
+  "table": "iceberg.silver_local.nso_rice_statistics_v2",
+  "uuid": "63efb530-3e0c-4d96-aa94-7ed2c24ba9ca",
+  "snapshot_id": "5811414319209912997",
+  "rows": 23060,
+  "unique_keys": 23060,
+  "partitions": [
+    {
+      "year": null,
+      "rows": 23060,
+      "unique_keys": 23060,
+      "native_sha256": "e1ff426e23b602d7f390956847ab9e144feb34a19a8f541ef3fa91e407c39f19",
+      "trino_sha256": "e1ff426e23b602d7f390956847ab9e144feb34a19a8f541ef3fa91e407c39f19",
+      "status": "PASS",
+      "sql": "SELECT \"bronze_read_snapshot_id\",\"source_table\",\"source_column\",\"source_geography_key\",\"geography_raw\",\"geography_name_candidate\",\"geography_level\",\"geography_status\",\"geography_code\",\"boundary_version\",\"geography_mapping_version\",\"geography_evidence\",\"period_raw\",\"year\",\"measure\",\"season\",\"statistic_kind\",\"release_status\",\"value_raw\",\"value_source\",\"unit_raw\",\"unit_source_reference\",\"conversion_factor\",\"value\",\"unit\",\"unit_status\",\"unit_reference\",\"unit_evidence\",\"unit_mapping_version\",\"metadata_version\",\"quality_status\",\"missing_reason\",\"review_reason\",\"diagnostic_evidence\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"nso_rice_statistics_v2\" FOR VERSION AS OF 5811414319209912997"
+    }
+  ],
+  "schema": [
+    {
+      "Column": "bronze_read_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "source_table",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "source_column",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "source_geography_key",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_name_candidate",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_level",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_status",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "boundary_version",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_mapping_version",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "geography_evidence",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "period_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "year",
+      "Type": "integer",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "measure",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "season",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "statistic_kind",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "release_status",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value_source",
+      "Type": "decimal(28,8)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_source_reference",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "conversion_factor",
+      "Type": "decimal(8,0)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value",
+      "Type": "decimal(28,8)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_status",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_reference",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_evidence",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_mapping_version",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "metadata_version",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "quality_status",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "missing_reason",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "review_reason",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "diagnostic_evidence",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_run_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_batch_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_chunk_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_timestamp",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_file",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_checksum",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_dq_warnings",
+      "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_silver_processed_at",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    }
+  ],
+  "aggregate": {
+    "warnings": 22534,
+    "missing": 946,
+    "nso": {
+      "numeric": 22114,
+      "missing": 946,
+      "zeros": 5,
+      "provisional": 766,
+      "diagnostic_observations": 344,
+      "national": 560
+    },
+    "representative": [
+      {
+        "bronze_read_snapshot_id": 8008744977791679084,
+        "source_table": "V06.12.csv",
+        "geography_raw": null,
+        "year": 1991,
+        "season": "annual",
+        "statistic_kind": "development_index",
+        "value_raw": "104.3",
+        "value_source": "104.30000000",
+        "unit_raw": "%",
+        "value": "104.30000000",
+        "unit": "percent",
+        "missing_reason": null
+      },
+      {
+        "bronze_read_snapshot_id": 8008744977791679084,
+        "source_table": "V06.12.csv",
+        "geography_raw": null,
+        "year": 2011,
+        "season": "annual",
+        "statistic_kind": "development_index",
+        "value_raw": "102.2",
+        "value_source": "102.20000000",
+        "unit_raw": "%",
+        "value": "102.20000000",
+        "unit": "percent",
+        "missing_reason": null
+      },
+      {
+        "bronze_read_snapshot_id": 8008744977791679084,
+        "source_table": "V06.12.csv",
+        "geography_raw": null,
+        "year": 2024,
+        "season": "annual",
+        "statistic_kind": "development_index",
+        "value_raw": "100.1",
+        "value_source": "100.10000000",
+        "unit_raw": "%",
+        "value": "100.10000000",
+        "unit": "percent",
+        "missing_reason": null
+      },
+      {
+        "bronze_read_snapshot_id": 8008744977791679084,
+        "source_table": "V06.13.csv",
+        "geography_raw": "Hà Tây",
+        "year": 2024,
+        "season": "annual",
+        "statistic_kind": "quantity",
+        "value_raw": "..",
+        "value_source": null,
+        "unit_raw": null,
+        "value": null,
+        "unit": "hectare",
+        "missing_reason": "source_marker_unspecified"
+      }
+    ],
+    "units": [
+      {
+        "unit": "percent",
+        "rows": 280,
+        "present": 280,
+        "sum_value": "28439.10000000"
+      },
+      {
+        "unit": "hectare",
+        "rows": 7640,
+        "present": 7326,
+        "sum_value": "1847611800.00000000"
+      },
+      {
+        "unit": "tonne",
+        "rows": 7640,
+        "present": 7325,
+        "sum_value": "9367999700.00000000"
+      },
+      {
+        "unit": "kg/hectare",
+        "rows": 7500,
+        "present": 7183,
+        "sum_value": "34107610.00000000"
+      }
+    ],
+    "flags": {
+      "geography_status": [
+        {
+          "flag": "national_scope_metadata",
+          "rows": 560
+        },
+        {
+          "flag": "candidate_review",
+          "rows": 22500
+        }
+      ],
+      "season": [
+        {
+          "flag": "annual",
+          "rows": 6530
+        },
+        {
+          "flag": "main_season",
+          "rows": 6530
+        },
+        {
+          "flag": "summer_autumn",
+          "rows": 140
+        },
+        {
+          "flag": "winter_spring",
+          "rows": 6530
+        },
+        {
+          "flag": "summer_autumn_autumn_winter",
+          "rows": 3330
+        }
+      ],
+      "statistic_kind": [
+        {
+          "flag": "development_index",
+          "rows": 280
+        },
+        {
+          "flag": "quantity",
+          "rows": 22780
+        }
+      ],
+      "release_status": [
+        {
+          "flag": "unconfirmed",
+          "rows": 22294
+        },
+        {
+          "flag": "provisional",
+          "rows": 766
+        }
+      ],
+      "unit_status": [
+        {
+          "flag": "source_header",
+          "rows": 560
+        },
+        {
+          "flag": "owner_approved_reference",
+          "rows": 22500
+        }
+      ],
+      "quality_status": [
+        {
+          "flag": "NORMALIZED",
+          "rows": 22114
+        },
+        {
+          "flag": "MISSING",
+          "rows": 946
+        }
+      ]
+    },
+    "dead_letter_categories": {},
+    "scope": "all_rows",
+    "executed_rows": 23060,
+    "reused_rows": 0
+  },
+  "lineage_unique_tuples": 13,
+  "full_content": "PASS_ALL_ROWS_ALL_COLUMNS",
+  "required_fields": "PASS",
+  "business_keys": "PASS",
+  "schema_compatibility": "PASS",
+  "units_flags_values": "PASS"
+}

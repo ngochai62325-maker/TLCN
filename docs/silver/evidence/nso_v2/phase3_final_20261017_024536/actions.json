@@ -1,0 +1,85 @@
+{
+  "folder": "docs\\silver\\evidence\\nso_v2\\phase3_final_20261017_024536",
+  "actions": [
+    {
+      "at": "2026-10-17T02:46:06.592435+00:00",
+      "action": "fresh_readonly_gate_pass"
+    },
+    {
+      "at": "2026-10-17T02:46:21.835614+00:00",
+      "action": "child_update_state_intent",
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "scope": "Supported computation only; callbacks disabled; commit only SUCCESS and zero runnable tasks"
+    },
+    {
+      "at": "2026-10-17T02:46:28.109653+00:00",
+      "action": "child_persisted_success",
+      "result": [
+        {
+          "dag_id": "rice_lakehouse_silver_pipeline",
+          "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+          "state": "success",
+          "end_date": "2026-10-17T02:46:27.548314+00:00"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-17T02:48:03.834005+00:00",
+      "action": "parent_preview_safe",
+      "response": {
+        "dag_id": "rice_lakehouse_ingestion",
+        "dag_run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+        "execution_date": "2026-10-16T15:52:27+00:00",
+        "task_id": "trigger_silver_release"
+      }
+    },
+    {
+      "at": "2026-10-17T02:48:22.283064+00:00",
+      "action": "parent_state_only_patch_intent",
+      "task": "trigger_silver_release",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "no_operator_execution": true
+    },
+    {
+      "at": "2026-10-17T02:48:26.101828+00:00",
+      "action": "parent_trigger_persisted_success"
+    },
+    {
+      "at": "2026-10-17T02:48:41.365131+00:00",
+      "action": "parent_terminal_execution_intent",
+      "task_id": "end_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z"
+    },
+    {
+      "at": "2026-10-17T02:48:49.733642+00:00",
+      "action": "parent_terminal_executed_success"
+    },
+    {
+      "at": "2026-10-17T02:48:49.734614+00:00",
+      "action": "parent_update_state_intent"
+    },
+    {
+      "at": "2026-10-17T02:48:57.820072+00:00",
+      "action": "both_original_dagruns_persisted_success"
+    },
+    {
+      "at": "2026-10-17T02:50:59.036469+00:00",
+      "action": "initial_nine_native_trino_acceptance_pass"
+    },
+    {
+      "at": "2026-10-17T02:51:25.892453+00:00",
+      "action": "existing_scheduler_start_intent",
+      "container_id": "311dd8666baed0be050cbc8d4620d8d43ba064113bf79546b7868f48525ec2e1"
+    },
+    {
+      "at": "2026-10-17T02:51:26.225230+00:00",
+      "action": "existing_scheduler_started",
+      "container_id": "311dd8666baed0be050cbc8d4620d8d43ba064113bf79546b7868f48525ec2e1"
+    },
+    {
+      "at": "2026-10-17T02:53:53.209086+00:00",
+      "action": "resource_gate_failed_safe_stop_no_replay_cleanup_or_commit"
+    }
+  ]
+}

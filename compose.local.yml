@@ -1,0 +1,26 @@
+# Portable local entrypoint. Combine in this order:
+# compose.silver-test.yml, compose.local-nine-test.yml, compose.local.yml
+# This file is NOT applied to existing accepted projects automatically.
+x-local-airflow-image: &local-airflow-image
+  image: ${TLCN_AIRFLOW_IMAGE:-tlcn/silver-airflow:local}
+  build:
+    context: .
+    dockerfile: docker/silver-airflow.Dockerfile
+
+services:
+  runner:
+    image: ${TLCN_SPARK_IMAGE:-tlcn/silver-spark:local}
+    build:
+      context: .
+      dockerfile: docker/silver-spark.Dockerfile
+  airflow-init:
+    <<: *local-airflow-image
+  airflow-scheduler:
+    <<: *local-airflow-image
+  airflow-webserver:
+    <<: *local-airflow-image
+    ports: !override
+      - 127.0.0.1:${TLCN_AIRFLOW_PORT:-18085}:8080
+  trino-test:
+    ports: !override
+      - 127.0.0.1:${TLCN_TRINO_PORT:-18080}:8080

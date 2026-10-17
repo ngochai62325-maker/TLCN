@@ -1,0 +1,13 @@
+[
+  "                                TR.map_index == map_index,\n                                or_(\n                                    and_(TR.try_number == try_number, TR.task_id.in_(task_ids))\n                                    for try_number, task_ids in task_tries.items()\n                                ),",
+  "    target.duration = source.duration\n    target.state = source.state\n    target.try_number = source.try_number\n    target.max_tries = source.max_tries\n    target.hostname = source.hostname",
+  "    duration = Column(Float)\n    state = Column(String(20))\n    try_number = Column(Integer, default=0)\n    max_tries = Column(Integer, server_default=text(\"-1\"))\n    hostname = Column(String(1000))",
+  "        self.run_id = run_id\n\n        self.try_number = 0\n        self.max_tries = self.task.retries\n        self.unixname = getuser()",
+  "    @property\n    @deprecated(reason=\"Use try_number instead.\", version=\"2.10.0\", category=RemovedInAirflow3Warning)\n    def _try_number(self):\n        \"\"\"\n        Do not use. For semblance of backcompat.",
+  "        return self.try_number\n\n    @_try_number.setter\n    @deprecated(reason=\"Use try_number instead.\", version=\"2.10.0\", category=RemovedInAirflow3Warning)\n    def _try_number(self, val):",
+  "    @_try_number.setter\n    @deprecated(reason=\"Use try_number instead.\", version=\"2.10.0\", category=RemovedInAirflow3Warning)\n    def _try_number(self, val):\n        \"\"\"\n        Do not use. For semblance of backcompat.",
+  "        :meta private:\n        \"\"\"\n        self.try_number = val\n\n    @property",
+  "\n    @property\n    def next_try_number(self) -> int:\n        # todo (dstandish): deprecate this property; we don't need a property that is just + 1\n        return self.try_number + 1",
+  "            cls.logger().info(\"Resuming after deferral\")\n        else:\n            cls.logger().info(\"Starting attempt %s of %s\", ti.try_number, ti.max_tries + 1)\n\n        if not test_mode:",
+  "        self.start_date = start_date\n        self.end_date = end_date\n        self.try_number = try_number\n        self.state = state\n        self.executor = executor"
+]

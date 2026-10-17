@@ -1,0 +1,48 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.16, pytest-8.4.2, pluggy-1.6.0
+rootdir: /workspace
+configfile: pyproject.toml
+plugins: anyio-4.8.0
+collected 52 items
+
+tests/unit/test_silver_merge_engine.py ...F                              [  7%]
+tests/unit/test_silver_quality_engine.py ......                          [ 19%]
+tests/unit/silver/test_silver_transformers.py ...                        [ 25%]
+tests/unit/silver/test_faostat_nso_transformers.py ..................... [ 65%]
+........                                                                 [ 80%]
+tests/unit/silver/test_nso_v2_semantics.py ......                        [ 92%]
+tests/unit/silver/test_usda_psd_transformer.py .                         [ 94%]
+tests/unit/silver/test_usda_milling_rate.py ..                           [ 98%]
+tests/integration/test_local_nine_native.py F                            [100%]
+
+=================================== FAILURES ===================================
+______________________ test_merge_idempotency_and_updates ______________________
+tests/unit/test_silver_merge_engine.py:81: in test_merge_idempotency_and_updates
+    engine.merge(df1, target_table=target_table, business_keys=["business_key"])
+src/silver/engine/merge.py:63: in merge
+    self.ensure_table(df, target_table, partition_columns)
+src/silver/engine/merge.py:37: in ensure_table
+    if self._table_exists(target_table):
+src/silver/engine/merge.py:110: in _table_exists
+    return self.spark.catalog.tableExists(table_name)
+/opt/spark/python/pyspark/sql/catalog.py:746: in tableExists
+    return self._jcatalog.tableExists(tableName)
+/opt/spark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py:1322: in __call__
+    return_value = get_return_value(
+/opt/spark/python/pyspark/errors/exceptions/captured.py:185: in deco
+    raise converted from None
+E   pyspark.errors.exceptions.captured.IllegalArgumentException: Cannot create catalog iceberg, both type and catalog-impl are set: type=hadoop, catalog-impl=org.apache.iceberg.hadoop.HadoopCatalog
+_________ test_local_nso_readiness_and_noop_use_actual_pinned_context __________
+tests/integration/test_local_nine_native.py:14: in test_local_nso_readiness_and_noop_use_actual_pinned_context
+    spark.sql("CREATE NAMESPACE iceberg.bronze")
+/opt/spark/python/pyspark/sql/session.py:1631: in sql
+    return DataFrame(self._jsparkSession.sql(sqlQuery, litArgs), self)
+/opt/spark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py:1322: in __call__
+    return_value = get_return_value(
+/opt/spark/python/pyspark/errors/exceptions/captured.py:185: in deco
+    raise converted from None
+E   pyspark.errors.exceptions.captured.IllegalArgumentException: Cannot create catalog iceberg, both type and catalog-impl are set: type=hadoop, catalog-impl=org.apache.iceberg.hadoop.HadoopCatalog
+=========================== short test summary info ============================
+FAILED tests/unit/test_silver_merge_engine.py::test_merge_idempotency_and_updates
+FAILED tests/integration/test_local_nine_native.py::test_local_nso_readiness_and_noop_use_actual_pinned_context
+======================== 2 failed, 50 passed in 46.16s =========================

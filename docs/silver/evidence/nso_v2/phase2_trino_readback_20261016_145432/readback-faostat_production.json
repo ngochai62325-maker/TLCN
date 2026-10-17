@@ -1,0 +1,222 @@
+{
+  "status": "PASS",
+  "table": "iceberg.silver_local.faostat_production",
+  "uuid": "3103676e-f1b8-4395-b255-0223fccb8def",
+  "snapshot_id": "8931802191858281040",
+  "rows": 22738,
+  "unique_keys": 22738,
+  "partitions": [
+    {
+      "year": null,
+      "rows": 22738,
+      "unique_keys": 22738,
+      "native_sha256": "07f6eab4e5f86b154be46989a1ee4b0273d66afbe37b163fdc442ddc544f4013",
+      "trino_sha256": "07f6eab4e5f86b154be46989a1ee4b0273d66afbe37b163fdc442ddc544f4013",
+      "status": "PASS",
+      "sql": "SELECT \"domain_code\",\"domain\",\"country_code\",\"country_name\",\"element_code\",\"element\",\"commodity_code\",\"commodity_name\",\"year\",\"unit\",\"value\",\"flag\",\"flag_description\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_production\" FOR VERSION AS OF 8931802191858281040"
+    }
+  ],
+  "schema": [
+    {
+      "Column": "domain_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "domain",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "country_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "country_name",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "element_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "element",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "commodity_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "commodity_name",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "year",
+      "Type": "integer",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value",
+      "Type": "decimal(18,2)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "flag",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "flag_description",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "missing_reason",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_run_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_batch_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_chunk_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_timestamp",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_file",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_checksum",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_dq_warnings",
+      "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_silver_processed_at",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    }
+  ],
+  "aggregate": {
+    "warnings": 0,
+    "missing": 229,
+    "nso": {},
+    "representative": [
+      {
+        "year": 1983,
+        "unit": "kg/hectare",
+        "value": "2258.10",
+        "value_raw": "2258.1",
+        "unit_raw": "kg/ha",
+        "missing_reason": null
+      },
+      {
+        "year": 2007,
+        "unit": "hectare",
+        "value": "170000.00",
+        "value_raw": "170000.0",
+        "unit_raw": "ha",
+        "missing_reason": null
+      },
+      {
+        "year": 1968,
+        "unit": "hectare",
+        "value": "206000.00",
+        "value_raw": "206000.0",
+        "unit_raw": "ha",
+        "missing_reason": null
+      },
+      {
+        "year": 2007,
+        "unit": "hectare",
+        "value": null,
+        "value_raw": null,
+        "unit_raw": "ha",
+        "missing_reason": "source_null"
+      }
+    ]
+  },
+  "lineage_unique_tuples": 1,
+  "full_content": "PASS_ALL_ROWS_ALL_COLUMNS",
+  "required_fields": "PASS",
+  "business_keys": "PASS",
+  "schema_compatibility": "PASS",
+  "units_flags_values": "PASS"
+}

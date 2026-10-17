@@ -1,0 +1,126 @@
+{
+  "child": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+  "tasks": [
+    {
+      "task_id": "end",
+      "state": null,
+      "try_number": 0,
+      "job_id": null,
+      "classification": "CONFIRMED_NO_NEW_COMMIT_NOT_EXECUTED",
+      "note": "No task SUCCESS fabricated; all published pointers and413 active-file hashes verified unchanged."
+    },
+    {
+      "task_id": "gate_check_bronze",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 44,
+      "classification": "CONFIRMED_COMPLETED_AND_COMMITTED",
+      "note": "No task SUCCESS fabricated; all published pointers and413 active-file hashes verified unchanged."
+    },
+    {
+      "task_id": "publish_silver_signal",
+      "state": null,
+      "try_number": 0,
+      "job_id": null,
+      "classification": "CONFIRMED_NO_NEW_COMMIT_NOT_EXECUTED",
+      "note": "No task SUCCESS fabricated; all published pointers and413 active-file hashes verified unchanged."
+    },
+    {
+      "task_id": "silver_data_quality_audit",
+      "state": null,
+      "try_number": 0,
+      "job_id": null,
+      "classification": "CONFIRMED_NO_NEW_COMMIT_NOT_EXECUTED",
+      "note": "No task SUCCESS fabricated; all published pointers and413 active-file hashes verified unchanged."
+    },
+    {
+      "task_id": "start",
+      "state": "success",
+      "try_number": 1,
+      "job_id": null,
+      "classification": "CONFIRMED_COMPLETED_AND_COMMITTED",
+      "note": "No task SUCCESS fabricated; all published pointers and413 active-file hashes verified unchanged."
+    },
+    {
+      "task_id": "transform_faostat_monthly_price",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 46,
+      "classification": "CONFIRMED_COMPLETED_AND_COMMITTED",
+      "note": "Completed source result includes commit_verified; physical baseline unchanged, so no new commit was required."
+    },
+    {
+      "task_id": "transform_faostat_production",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 45,
+      "classification": "CONFIRMED_COMPLETED_AND_COMMITTED",
+      "note": "Completed source result includes commit_verified; physical baseline unchanged, so no new commit was required."
+    },
+    {
+      "task_id": "transform_faostat_supply_utilization",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 47,
+      "classification": "CONFIRMED_COMPLETED_AND_COMMITTED",
+      "note": "Completed source result includes commit_verified; physical baseline unchanged, so no new commit was required."
+    },
+    {
+      "task_id": "transform_faostat_trade",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 48,
+      "classification": "CONFIRMED_COMPLETED_AND_COMMITTED",
+      "note": "Completed source result includes commit_verified; physical baseline unchanged, so no new commit was required."
+    },
+    {
+      "task_id": "transform_nso_vietnam_v2",
+      "state": null,
+      "try_number": 0,
+      "job_id": null,
+      "classification": "CONFIRMED_NO_NEW_COMMIT_NOT_EXECUTED",
+      "note": "No task SUCCESS fabricated; all published pointers and413 active-file hashes verified unchanged."
+    },
+    {
+      "task_id": "transform_thitruongnongsan",
+      "state": "running",
+      "try_number": 1,
+      "job_id": 52,
+      "classification": "CONFIRMED_NO_NEW_COMMIT",
+      "note": "No task SUCCESS fabricated; all published pointers and413 active-file hashes verified unchanged."
+    },
+    {
+      "task_id": "transform_usda_psd",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 49,
+      "classification": "CONFIRMED_COMPLETED_AND_COMMITTED",
+      "note": "Completed source result includes commit_verified; physical baseline unchanged, so no new commit was required."
+    },
+    {
+      "task_id": "transform_usda_rice_yearbook",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 50,
+      "classification": "CONFIRMED_COMPLETED_AND_COMMITTED",
+      "note": "Completed source result includes commit_verified; physical baseline unchanged, so no new commit was required."
+    },
+    {
+      "task_id": "transform_worldbank_pinksheet",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 51,
+      "classification": "CONFIRMED_COMPLETED_AND_COMMITTED",
+      "note": "Completed source result includes commit_verified; physical baseline unchanged, so no new commit was required."
+    }
+  ],
+  "unknown_commit_outcome": false,
+  "evidence": [
+    "offline-catalog-reconciliation.json",
+    "offline-active-file-readback.json",
+    "offline-deadletters-readback.json",
+    "offline-staged-object-inventory.json",
+    "postgres-persisted-state.json",
+    "replay-task-logs.sanitized.zip"
+  ]
+}

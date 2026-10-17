@@ -1,0 +1,220 @@
+2026-10-16T16:07:51.750979925Z [2026-10-16T16:07:51.750+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:07:52.821224938Z [2026-10-16T16:07:52.820+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:07:53.876029478Z [2026-10-16T16:07:53.875+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:07:54.942666251Z [2026-10-16T16:07:54.941+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:07:55.997071249Z [2026-10-16T16:07:55.996+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:07:56.825470334Z [2026-10-16T16:07:56.824+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:07:57.903723327Z [2026-10-16T16:07:57.903+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:07:58.814931510Z [2026-10-16T16:07:58.814+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:07:58.815823459Z [2026-10-16T16:07:58.815+0000] {scheduler_job_runner.py:776} INFO - Received executor event with state success for task instance TaskInstanceKey(dag_id='rice_lakehouse_silver_pipeline', task_id='transform_usda_rice_yearbook', run_id='local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', try_number=1, map_index=-1)
+2026-10-16T16:07:58.819952579Z [2026-10-16T16:07:58.819+0000] {scheduler_job_runner.py:813} INFO - TaskInstance Finished: dag_id=rice_lakehouse_silver_pipeline, task_id=transform_usda_rice_yearbook, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, map_index=-1, run_start_date=2026-10-16 16:07:33.300435+00:00, run_end_date=2026-10-16 16:07:58.084570+00:00, run_duration=24.784135, state=success, executor=LocalExecutor(parallelism=2), executor_state=success, try_number=1, max_tries=0, job_id=21, pool=default_pool, queue=default, priority_weight=7, operator=_PythonDecoratedOperator, queued_dttm=2026-10-16 16:07:31.404321+00:00, queued_by_job_id=1, pid=2266
+2026-10-16T16:07:59.941105719Z [2026-10-16T16:07:59.940+0000] {scheduler_job_runner.py:435} INFO - 1 tasks up for execution:
+2026-10-16T16:07:59.941202339Z 	<TaskInstance: rice_lakehouse_silver_pipeline.transform_worldbank_pinksheet local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [scheduled]>
+2026-10-16T16:07:59.941412345Z [2026-10-16T16:07:59.940+0000] {scheduler_job_runner.py:507} INFO - DAG rice_lakehouse_silver_pipeline has 0/1 running and queued tasks
+2026-10-16T16:07:59.941846181Z [2026-10-16T16:07:59.941+0000] {scheduler_job_runner.py:646} INFO - Setting the following tasks to queued state:
+2026-10-16T16:07:59.941857133Z 	<TaskInstance: rice_lakehouse_silver_pipeline.transform_worldbank_pinksheet local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [scheduled]>
+2026-10-16T16:07:59.945811093Z [2026-10-16T16:07:59.945+0000] {scheduler_job_runner.py:748} INFO - Trying to enqueue tasks: [<TaskInstance: rice_lakehouse_silver_pipeline.transform_worldbank_pinksheet local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [scheduled]>] for executor: LocalExecutor(parallelism=2)
+2026-10-16T16:07:59.946509271Z [2026-10-16T16:07:59.945+0000] {scheduler_job_runner.py:692} INFO - Sending TaskInstanceKey(dag_id='rice_lakehouse_silver_pipeline', task_id='transform_worldbank_pinksheet', run_id='local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', try_number=1, map_index=-1) to LocalExecutor with priority 6 and queue default
+2026-10-16T16:07:59.946928894Z [2026-10-16T16:07:59.946+0000] {base_executor.py:169} INFO - Adding to queue: ['airflow', 'tasks', 'run', 'rice_lakehouse_silver_pipeline', 'transform_worldbank_pinksheet', 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', '--local', '--subdir', 'DAGS_FOLDER/dag_silver_pipeline.py']
+2026-10-16T16:07:59.954229606Z [2026-10-16T16:07:59.952+0000] {local_executor.py:93} INFO - QueuedLocalWorker running ['airflow', 'tasks', 'run', 'rice_lakehouse_silver_pipeline', 'transform_worldbank_pinksheet', 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', '--local', '--subdir', 'DAGS_FOLDER/dag_silver_pipeline.py']
+2026-10-16T16:08:00.015397979Z [2026-10-16T16:08:00.009+0000] {dagbag.py:588} INFO - Filling up the DagBag from /workspace/dags/dag_silver_pipeline.py
+2026-10-16T16:08:00.048739194Z [2026-10-16T16:08:00.048+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:01.137467422Z [2026-10-16T16:08:01.136+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:01.439460260Z [2026-10-16T16:08:01.438+0000] {task_command.py:467} INFO - Running <TaskInstance: rice_lakehouse_silver_pipeline.transform_worldbank_pinksheet local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [queued]> on host airflow-scheduler
+2026-10-16T16:08:01.910192949Z [2026-10-16T16:08:01.909+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:02.992779185Z [2026-10-16T16:08:02.992+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:03.902274990Z [2026-10-16T16:08:03.901+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:04.964233438Z [2026-10-16T16:08:04.963+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:06.022771593Z [2026-10-16T16:08:06.022+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:06.720650848Z [2026-10-16T16:08:06.719+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:06.992044455Z [2026-10-16T16:08:06.991+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:08.085702960Z [2026-10-16T16:08:08.085+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:08.884950787Z [2026-10-16T16:08:08.884+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:09.951463867Z [2026-10-16T16:08:09.950+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:11.009172841Z [2026-10-16T16:08:11.008+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:12.081028777Z [2026-10-16T16:08:12.080+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:13.151935685Z [2026-10-16T16:08:13.151+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:14.231682312Z [2026-10-16T16:08:14.231+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:15.287531280Z [2026-10-16T16:08:15.287+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:16.343053018Z [2026-10-16T16:08:16.342+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:17.147508857Z [2026-10-16T16:08:17.146+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:18.215706944Z [2026-10-16T16:08:18.215+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:18.937579383Z [2026-10-16T16:08:18.937+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:20.007970360Z [2026-10-16T16:08:20.007+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:21.066903718Z [2026-10-16T16:08:21.066+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:21.780409101Z [2026-10-16T16:08:21.779+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:22.213130827Z [2026-10-16T16:08:22.212+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:23.283514594Z [2026-10-16T16:08:23.282+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:24.341072687Z [2026-10-16T16:08:24.340+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:25.407344573Z [2026-10-16T16:08:25.406+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:26.464218585Z [2026-10-16T16:08:26.463+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:27.300307067Z [2026-10-16T16:08:27.299+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:28.394875430Z [2026-10-16T16:08:28.393+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:28.999247392Z [2026-10-16T16:08:28.998+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:30.065266297Z [2026-10-16T16:08:30.064+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:31.124497954Z [2026-10-16T16:08:31.123+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:32.189595255Z [2026-10-16T16:08:32.189+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:32.357366662Z [2026-10-16T16:08:32.356+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:32.358064805Z [2026-10-16T16:08:32.357+0000] {scheduler_job_runner.py:776} INFO - Received executor event with state success for task instance TaskInstanceKey(dag_id='rice_lakehouse_silver_pipeline', task_id='transform_worldbank_pinksheet', run_id='local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', try_number=1, map_index=-1)
+2026-10-16T16:08:32.361113702Z [2026-10-16T16:08:32.360+0000] {scheduler_job_runner.py:813} INFO - TaskInstance Finished: dag_id=rice_lakehouse_silver_pipeline, task_id=transform_worldbank_pinksheet, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, map_index=-1, run_start_date=2026-10-16 16:08:01.748312+00:00, run_end_date=2026-10-16 16:08:32.188648+00:00, run_duration=30.440336, state=success, executor=LocalExecutor(parallelism=2), executor_state=success, try_number=1, max_tries=0, job_id=22, pool=default_pool, queue=default, priority_weight=6, operator=_PythonDecoratedOperator, queued_dttm=2026-10-16 16:07:59.942189+00:00, queued_by_job_id=1, pid=2313
+2026-10-16T16:08:33.571455221Z [2026-10-16T16:08:33.570+0000] {scheduler_job_runner.py:435} INFO - 1 tasks up for execution:
+2026-10-16T16:08:33.571486993Z 	<TaskInstance: rice_lakehouse_silver_pipeline.transform_thitruongnongsan local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [scheduled]>
+2026-10-16T16:08:33.571585241Z [2026-10-16T16:08:33.571+0000] {scheduler_job_runner.py:507} INFO - DAG rice_lakehouse_silver_pipeline has 0/1 running and queued tasks
+2026-10-16T16:08:33.571837890Z [2026-10-16T16:08:33.571+0000] {scheduler_job_runner.py:646} INFO - Setting the following tasks to queued state:
+2026-10-16T16:08:33.571844824Z 	<TaskInstance: rice_lakehouse_silver_pipeline.transform_thitruongnongsan local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [scheduled]>
+2026-10-16T16:08:33.573286246Z [2026-10-16T16:08:33.572+0000] {scheduler_job_runner.py:748} INFO - Trying to enqueue tasks: [<TaskInstance: rice_lakehouse_silver_pipeline.transform_thitruongnongsan local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [scheduled]>] for executor: LocalExecutor(parallelism=2)
+2026-10-16T16:08:33.573529541Z [2026-10-16T16:08:33.573+0000] {scheduler_job_runner.py:692} INFO - Sending TaskInstanceKey(dag_id='rice_lakehouse_silver_pipeline', task_id='transform_thitruongnongsan', run_id='local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', try_number=1, map_index=-1) to LocalExecutor with priority 5 and queue default
+2026-10-16T16:08:33.573711226Z [2026-10-16T16:08:33.573+0000] {base_executor.py:169} INFO - Adding to queue: ['airflow', 'tasks', 'run', 'rice_lakehouse_silver_pipeline', 'transform_thitruongnongsan', 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', '--local', '--subdir', 'DAGS_FOLDER/dag_silver_pipeline.py']
+2026-10-16T16:08:33.578133751Z [2026-10-16T16:08:33.577+0000] {local_executor.py:93} INFO - QueuedLocalWorker running ['airflow', 'tasks', 'run', 'rice_lakehouse_silver_pipeline', 'transform_thitruongnongsan', 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', '--local', '--subdir', 'DAGS_FOLDER/dag_silver_pipeline.py']
+2026-10-16T16:08:33.613328320Z [2026-10-16T16:08:33.610+0000] {dagbag.py:588} INFO - Filling up the DagBag from /workspace/dags/dag_silver_pipeline.py
+2026-10-16T16:08:33.626462486Z [2026-10-16T16:08:33.625+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:34.677210331Z [2026-10-16T16:08:34.676+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:34.956462574Z [2026-10-16T16:08:34.955+0000] {task_command.py:467} INFO - Running <TaskInstance: rice_lakehouse_silver_pipeline.transform_thitruongnongsan local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [queued]> on host airflow-scheduler
+2026-10-16T16:08:35.740256911Z [2026-10-16T16:08:35.739+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:36.825686176Z [2026-10-16T16:08:36.825+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:37.430858826Z [2026-10-16T16:08:37.430+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:38.516463870Z [2026-10-16T16:08:38.515+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:39.071302320Z [2026-10-16T16:08:39.070+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:40.136497432Z [2026-10-16T16:08:40.135+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:41.200398960Z [2026-10-16T16:08:41.199+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:42.250017426Z [2026-10-16T16:08:42.249+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:42.494131164Z [2026-10-16T16:08:42.493+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:43.562452301Z [2026-10-16T16:08:43.561+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:44.629491812Z [2026-10-16T16:08:44.628+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:45.699169448Z [2026-10-16T16:08:45.698+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:46.751824310Z [2026-10-16T16:08:46.751+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:47.584979824Z [2026-10-16T16:08:47.584+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:48.696176892Z [2026-10-16T16:08:48.695+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:49.153150856Z [2026-10-16T16:08:49.152+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:50.223681920Z [2026-10-16T16:08:50.223+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:51.278348806Z [2026-10-16T16:08:51.277+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:51.909527666Z [2026-10-16T16:08:51.908+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:52.655033107Z [2026-10-16T16:08:52.654+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:53.722821368Z [2026-10-16T16:08:53.722+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:54.789110353Z [2026-10-16T16:08:54.788+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:55.835626944Z [2026-10-16T16:08:55.835+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:56.896873514Z [2026-10-16T16:08:56.896+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:57.722767012Z [2026-10-16T16:08:57.722+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:58.794400550Z [2026-10-16T16:08:58.793+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:08:59.219021508Z [2026-10-16T16:08:59.218+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:00.291532902Z [2026-10-16T16:09:00.290+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:01.355073394Z [2026-10-16T16:09:01.354+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:02.424082786Z [2026-10-16T16:09:02.423+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:02.792420320Z [2026-10-16T16:09:02.791+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:03.036096067Z [2026-10-16T16:09:03.035+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:03.047866316Z [2026-10-16T16:09:03.047+0000] {scheduler_job_runner.py:1949} INFO - Adopting or resetting orphaned tasks for active dag runs
+2026-10-16T16:09:03.573602264Z [2026-10-16T16:09:03.572+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:03.953912258Z [2026-10-16T16:09:03.953+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:05.023513346Z [2026-10-16T16:09:05.022+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:06.086268382Z [2026-10-16T16:09:06.085+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:07.054395127Z [2026-10-16T16:09:07.053+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:07.847043082Z [2026-10-16T16:09:07.846+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:07.847850563Z [2026-10-16T16:09:07.847+0000] {scheduler_job_runner.py:776} INFO - Received executor event with state success for task instance TaskInstanceKey(dag_id='rice_lakehouse_silver_pipeline', task_id='transform_thitruongnongsan', run_id='local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', try_number=1, map_index=-1)
+2026-10-16T16:09:07.851132323Z [2026-10-16T16:09:07.850+0000] {scheduler_job_runner.py:813} INFO - TaskInstance Finished: dag_id=rice_lakehouse_silver_pipeline, task_id=transform_thitruongnongsan, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, map_index=-1, run_start_date=2026-10-16 16:08:35.229846+00:00, run_end_date=2026-10-16 16:09:07.637187+00:00, run_duration=32.407341, state=success, executor=LocalExecutor(parallelism=2), executor_state=success, try_number=1, max_tries=0, job_id=23, pool=default_pool, queue=default, priority_weight=5, operator=_PythonDecoratedOperator, queued_dttm=2026-10-16 16:08:33.571947+00:00, queued_by_job_id=1, pid=2355
+2026-10-16T16:09:08.926023942Z [2026-10-16T16:09:08.925+0000] {scheduler_job_runner.py:435} INFO - 1 tasks up for execution:
+2026-10-16T16:09:08.926100191Z 	<TaskInstance: rice_lakehouse_silver_pipeline.transform_nso_vietnam_v2 local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [scheduled]>
+2026-10-16T16:09:08.926166155Z [2026-10-16T16:09:08.925+0000] {scheduler_job_runner.py:507} INFO - DAG rice_lakehouse_silver_pipeline has 0/1 running and queued tasks
+2026-10-16T16:09:08.926483196Z [2026-10-16T16:09:08.926+0000] {scheduler_job_runner.py:646} INFO - Setting the following tasks to queued state:
+2026-10-16T16:09:08.926492374Z 	<TaskInstance: rice_lakehouse_silver_pipeline.transform_nso_vietnam_v2 local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [scheduled]>
+2026-10-16T16:09:08.928711234Z [2026-10-16T16:09:08.928+0000] {scheduler_job_runner.py:748} INFO - Trying to enqueue tasks: [<TaskInstance: rice_lakehouse_silver_pipeline.transform_nso_vietnam_v2 local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [scheduled]>] for executor: LocalExecutor(parallelism=2)
+2026-10-16T16:09:08.928946451Z [2026-10-16T16:09:08.928+0000] {scheduler_job_runner.py:692} INFO - Sending TaskInstanceKey(dag_id='rice_lakehouse_silver_pipeline', task_id='transform_nso_vietnam_v2', run_id='local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', try_number=1, map_index=-1) to LocalExecutor with priority 4 and queue default
+2026-10-16T16:09:08.929306316Z [2026-10-16T16:09:08.928+0000] {base_executor.py:169} INFO - Adding to queue: ['airflow', 'tasks', 'run', 'rice_lakehouse_silver_pipeline', 'transform_nso_vietnam_v2', 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', '--local', '--subdir', 'DAGS_FOLDER/dag_silver_pipeline.py']
+2026-10-16T16:09:08.935341892Z [2026-10-16T16:09:08.934+0000] {local_executor.py:93} INFO - QueuedLocalWorker running ['airflow', 'tasks', 'run', 'rice_lakehouse_silver_pipeline', 'transform_nso_vietnam_v2', 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', '--local', '--subdir', 'DAGS_FOLDER/dag_silver_pipeline.py']
+2026-10-16T16:09:08.980835478Z [2026-10-16T16:09:08.977+0000] {dagbag.py:588} INFO - Filling up the DagBag from /workspace/dags/dag_silver_pipeline.py
+2026-10-16T16:09:08.997804044Z [2026-10-16T16:09:08.997+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:09.317989148Z [2026-10-16T16:09:09.317+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:10.409347955Z [2026-10-16T16:09:10.408+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:10.821811758Z [2026-10-16T16:09:10.821+0000] {task_command.py:467} INFO - Running <TaskInstance: rice_lakehouse_silver_pipeline.transform_nso_vietnam_v2 local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [queued]> on host airflow-scheduler
+2026-10-16T16:09:11.477694508Z [2026-10-16T16:09:11.477+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:12.575502775Z [2026-10-16T16:09:12.574+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:12.957480056Z [2026-10-16T16:09:12.956+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:14.100141987Z [2026-10-16T16:09:14.099+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:15.200271490Z [2026-10-16T16:09:15.199+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:16.259170241Z [2026-10-16T16:09:16.258+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:17.313826832Z [2026-10-16T16:09:17.313+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:18.037779178Z [2026-10-16T16:09:18.037+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:19.114738541Z [2026-10-16T16:09:19.114+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:19.393008431Z [2026-10-16T16:09:19.392+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:20.461546795Z [2026-10-16T16:09:20.460+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:21.542976142Z [2026-10-16T16:09:21.542+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:22.135773580Z [2026-10-16T16:09:22.135+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:23.125251345Z [2026-10-16T16:09:23.124+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:24.220916357Z [2026-10-16T16:09:24.220+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:25.338952224Z [2026-10-16T16:09:25.338+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:26.458137114Z [2026-10-16T16:09:26.455+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:27.560813705Z [2026-10-16T16:09:27.560+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:28.231983308Z [2026-10-16T16:09:28.231+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:29.338278112Z [2026-10-16T16:09:29.337+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:29.490052316Z [2026-10-16T16:09:29.489+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:30.564862815Z [2026-10-16T16:09:30.564+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:31.636200879Z [2026-10-16T16:09:31.635+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:32.701101338Z [2026-10-16T16:09:32.700+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:33.343528104Z [2026-10-16T16:09:33.342+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:34.423934639Z [2026-10-16T16:09:34.423+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:35.502300448Z [2026-10-16T16:09:35.501+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:36.573704803Z [2026-10-16T16:09:36.573+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:37.229343988Z [2026-10-16T16:09:37.228+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:38.301260235Z [2026-10-16T16:09:38.300+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:38.455773262Z [2026-10-16T16:09:38.455+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:39.574652579Z [2026-10-16T16:09:39.573+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:40.637815116Z [2026-10-16T16:09:40.637+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:41.759179272Z [2026-10-16T16:09:41.758+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:42.832216327Z [2026-10-16T16:09:42.831+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:43.529646470Z [2026-10-16T16:09:43.529+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:44.612970388Z [2026-10-16T16:09:44.612+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:45.704897997Z [2026-10-16T16:09:45.704+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:46.781485934Z [2026-10-16T16:09:46.780+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:47.869063275Z [2026-10-16T16:09:47.868+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:48.595434462Z [2026-10-16T16:09:48.594+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:49.648815010Z [2026-10-16T16:09:49.647+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:50.710244788Z [2026-10-16T16:09:50.709+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:51.766050215Z [2026-10-16T16:09:51.765+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:52.289719032Z [2026-10-16T16:09:52.289+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:53.350195391Z [2026-10-16T16:09:53.349+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:53.671697364Z [2026-10-16T16:09:53.671+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:54.783390023Z [2026-10-16T16:09:54.782+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:55.866951428Z [2026-10-16T16:09:55.866+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:56.934581229Z [2026-10-16T16:09:56.933+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:57.999152666Z [2026-10-16T16:09:57.998+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:58.744284446Z [2026-10-16T16:09:58.743+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:09:59.733868498Z [2026-10-16T16:09:59.733+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:00.812032009Z [2026-10-16T16:10:00.811+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:01.869950578Z [2026-10-16T16:10:01.869+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:02.936683359Z [2026-10-16T16:10:02.936+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:03.814626789Z [2026-10-16T16:10:03.813+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:04.011175441Z [2026-10-16T16:10:04.010+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:05.068145526Z [2026-10-16T16:10:05.067+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:06.128364963Z [2026-10-16T16:10:06.127+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:07.209202725Z [2026-10-16T16:10:07.208+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:07.361646117Z [2026-10-16T16:10:07.360+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:08.461395877Z [2026-10-16T16:10:08.457+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:08.878975766Z [2026-10-16T16:10:08.878+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:09.800002511Z [2026-10-16T16:10:09.799+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:10.869800293Z [2026-10-16T16:10:10.869+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:11.931786947Z [2026-10-16T16:10:11.931+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:13.002521255Z [2026-10-16T16:10:13.001+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:13.954113891Z [2026-10-16T16:10:13.953+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:15.029806382Z [2026-10-16T16:10:15.029+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:16.085477697Z [2026-10-16T16:10:16.084+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:17.153083904Z [2026-10-16T16:10:17.152+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:18.219760420Z [2026-10-16T16:10:18.219+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:19.029194992Z [2026-10-16T16:10:19.028+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:19.888703778Z [2026-10-16T16:10:19.887+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:21.016630216Z [2026-10-16T16:10:21.015+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:22.098743730Z [2026-10-16T16:10:22.098+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:22.431846729Z [2026-10-16T16:10:22.431+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:23.500884816Z [2026-10-16T16:10:23.500+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:24.102270801Z [2026-10-16T16:10:24.101+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:25.163213722Z [2026-10-16T16:10:25.162+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:26.227140393Z [2026-10-16T16:10:26.226+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:27.292950728Z [2026-10-16T16:10:27.292+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:28.357643845Z [2026-10-16T16:10:28.356+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:29.189538879Z [2026-10-16T16:10:29.188+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:30.006819694Z [2026-10-16T16:10:30.005+0000] {base_executor.py:293} INFO - Executor parallelism limit reached. 0 open slots.
+2026-10-16T16:10:31.097744064Z [2026-10-16T16:10:31.095+0000] {scheduler_job_runner.py:272} INFO - Exiting gracefully upon receiving signal 15
+2026-10-16T16:10:32.099303421Z [2026-10-16T16:10:32.098+0000] {process_utils.py:132} INFO - Sending 15 to group 46. PIDs of all processes in the group: [2493, 46]
+2026-10-16T16:10:32.099363418Z [2026-10-16T16:10:32.099+0000] {process_utils.py:87} INFO - Sending the signal 15 to group 46
+2026-10-16T16:10:31.103207650Z [2026-10-16 16:10:31 +0000] [39] [INFO] Worker exiting (pid: 39)
+2026-10-16T16:10:31.104101570Z [2026-10-16 16:10:31 +0000] [28] [INFO] Handling signal: term
+2026-10-16T16:10:31.108772104Z [2026-10-16 16:10:31 +0000] [29] [INFO] Worker exiting (pid: 29)
+2026-10-16T16:10:31.207163265Z [2026-10-16 16:10:31 +0000] [28] [INFO] Shutting down: Master

@@ -1,0 +1,1202 @@
+{
+  "at": "2026-10-16T14:20:12.919962+00:00",
+  "status": "PASS",
+  "health": {
+    "scheduler": [
+      {
+        "id": 2,
+        "alive": true,
+        "heartbeat": "2026-10-16 14:19:56.306114+00:00"
+      }
+    ],
+    "health": {
+      "status": 200,
+      "body": {
+        "dag_processor": {
+          "latest_dag_processor_heartbeat": null,
+          "status": null
+        },
+        "metadatabase": {
+          "status": "healthy"
+        },
+        "scheduler": {
+          "latest_scheduler_heartbeat": "2026-10-16T14:19:56.306114+00:00",
+          "status": "healthy"
+        },
+        "triggerer": {
+          "latest_triggerer_heartbeat": null,
+          "status": null
+        }
+      }
+    },
+    "login/": {
+      "status": 200,
+      "body": "HTML reachable"
+    },
+    "authenticated_api": {
+      "status": 200,
+      "authentication": "existing session backend",
+      "dag_ids": [
+        "rice_lakehouse_ingestion",
+        "rice_lakehouse_silver_pipeline"
+      ]
+    },
+    "spark_api": {
+      "status": "ok",
+      "silver_release": "silver_v2_release_20261013",
+      "local_profile": "local_nine"
+    },
+    "sources": [
+      "faostat_production",
+      "faostat_monthly_price",
+      "faostat_supply_utilization",
+      "faostat_trade",
+      "usda_psd",
+      "usda_rice_yearbook",
+      "worldbank_pinksheet",
+      "thitruongnongsan",
+      "nso_vietnam"
+    ],
+    "contracts": {
+      "faostat_production": {
+        "target": "iceberg.silver_local.faostat_production",
+        "status": "READY"
+      },
+      "faostat_monthly_price": {
+        "target": "iceberg.silver_local.faostat_monthly_price",
+        "status": "READY"
+      },
+      "faostat_supply_utilization": {
+        "target": "iceberg.silver_local.faostat_supply_utilization",
+        "status": "READY"
+      },
+      "faostat_trade": {
+        "target": "iceberg.silver_local.faostat_trade",
+        "status": "READY"
+      },
+      "usda_psd": {
+        "target": "iceberg.silver_local.usda_rice_psd",
+        "status": "READY"
+      },
+      "usda_rice_yearbook": {
+        "target": "iceberg.silver_local.usda_rice_yearbook",
+        "status": "READY"
+      },
+      "worldbank_pinksheet": {
+        "target": "iceberg.silver_local.worldbank_commodity_monthly",
+        "status": "READY"
+      },
+      "thitruongnongsan": {
+        "target": "iceberg.silver_local.thitruongnongsan",
+        "status": "READY"
+      },
+      "nso_vietnam_v2": {
+        "target": "iceberg.silver_local.nso_rice_statistics_v2",
+        "status": "READY"
+      }
+    },
+    "flags": {
+      "SILVER_LOCAL_PROFILE": "local_nine",
+      "SILVER_LOCAL_ENABLED": "1",
+      "SILVER_ACCEPTED_RELEASE": "",
+      "SILVER_PRODUCTION_ENABLED": "0",
+      "SILVER_CANARY_ONLY": "0",
+      "SILVER_BRONZE_SCHEDULE": ""
+    }
+  },
+  "containers": [
+    {
+      "id": "95736198e85ed0e490aaf6eac0d094f0e405e634313e7d072e73dfe43d152381",
+      "name": "/tlcn-local-nine-airflow-20261016-airflow-webserver-1",
+      "service": "airflow-webserver",
+      "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "image_reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 36395,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:17:30.741885836Z",
+        "FinishedAt": "2026-10-16T11:31:13.572442406Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "memory_limit": 1073741824,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_airflow_logs",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_airflow_logs/_data",
+          "Destination": "/opt/airflow/logs",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "9909770f97b03edb19bc1b8dc08d23fbac5add21206509adeb6e95454eb7dc04",
+      "name": "/tlcn-local-nine-airflow-20261016-airflow-scheduler-1",
+      "service": "airflow-scheduler",
+      "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "image_reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 36564,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:17:34.577922265Z",
+        "FinishedAt": "2026-10-16T11:31:13.425235585Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "memory_limit": 1610612736,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_airflow_logs",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_airflow_logs/_data",
+          "Destination": "/opt/airflow/logs",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "f42feb8efea58e67ce4cf3b22906a903c083f13b0a75439d86fe11f2d7d750cc",
+      "name": "/tlcn-local-nine-airflow-20261016-runner-1",
+      "service": "runner",
+      "image": "sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843",
+      "image_reference": "tlcn/silver-spark@sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 36266,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:17:24.17206051Z",
+        "FinishedAt": "2026-10-16T11:31:13.36679618Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "memory_limit": 3221225472,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/raw-inputs",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "5fe24960fb14d5c4c11481998d8795fff9415aa3dac7459f0e772accce7622a8",
+      "name": "/tlcn-local-nine-airflow-20261016-trino-test-1",
+      "service": "trino-test",
+      "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "image_reference": "trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 35128,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:16:14.712119119Z",
+        "FinishedAt": "2026-10-16T11:31:13.230360666Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "memory_limit": 1073741824,
+      "mounts": [],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "d63ce6d0625c6d718a020a0a621665e57c41a9199dfc8ab617004a5fa298ccb7",
+      "name": "/tlcn-local-nine-airflow-20261016-airflow-init-1",
+      "service": "airflow-init",
+      "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "image_reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T10:02:45.602413134Z",
+        "FinishedAt": "2026-10-16T10:03:04.728912179Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "memory_limit": 805306368,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_airflow_logs",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_airflow_logs/_data",
+          "Destination": "/opt/airflow/logs",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/c/Users/hoang/source/repos/final term/tieu luan chuyen nganh/source/nhanh2/TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/c/Users/hoang/source/repos/final term/tieu luan chuyen nganh/source/nhanh2/TLCN/data/raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "4ca90539494482112a1869096bf9d78d7cdeb64be460b95faf48ae88b563d4cf",
+      "name": "/tlcn-local-nine-airflow-20261016-rest-test-1",
+      "service": "rest-test",
+      "image": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "image_reference": "tabulario/iceberg-rest@sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 35061,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:16:14.437036737Z",
+        "FinishedAt": "2026-10-16T11:31:12.880670705Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "memory_limit": 469762048,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_catalog_data",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_catalog_data/_data",
+          "Destination": "/data/catalog",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "2154802e0c7f48c4afc28101a4053e56b068b7696f31abfb6689157a589b7c94",
+      "name": "/tlcn-local-nine-airflow-20261016-minio-test-1",
+      "service": "minio-test",
+      "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "image_reference": "ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 34951,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:16:07.779738479Z",
+        "FinishedAt": "2026-10-16T11:31:12.485777477Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "memory_limit": 536870912,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_minio_data",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_minio_data/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "ab125221fab9edef399a617968cd03ddf450b022adade2084ed11bfcafc610b8",
+      "name": "/tlcn-local-nine-airflow-20261016-postgres-test-1",
+      "service": "postgres-test",
+      "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "image_reference": "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 34873,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:16:07.489584293Z",
+        "FinishedAt": "2026-10-16T11:31:12.523351043Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "memory_limit": 268435456,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_postgres_data",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_postgres_data/_data",
+          "Destination": "/var/lib/postgresql/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    }
+  ],
+  "airflow": {
+    "runs": [],
+    "tasks": [],
+    "dags": {
+      "rice_lakehouse_ingestion": {
+        "paused": true,
+        "schedule": null,
+        "import_errors": false,
+        "task_ids": [
+          "initialize_metadata",
+          "start_lakehouse_ingestion",
+          "end_lakehouse_ingestion",
+          "ingest_faostat_production",
+          "ingest_faostat_monthly_price",
+          "ingest_faostat_supply_utilization",
+          "ingest_faostat_trade",
+          "ingest_usda_psd",
+          "ingest_usda_rice_yearbook",
+          "ingest_worldbank_pinksheet",
+          "ingest_thitruongnongsan",
+          "ingest_nso_vietnam",
+          "verify_bronze_batch",
+          "trigger_silver_release"
+        ],
+        "retries": {
+          "initialize_metadata": 0,
+          "start_lakehouse_ingestion": 0,
+          "end_lakehouse_ingestion": 0,
+          "ingest_faostat_production": 0,
+          "ingest_faostat_monthly_price": 0,
+          "ingest_faostat_supply_utilization": 0,
+          "ingest_faostat_trade": 0,
+          "ingest_usda_psd": 0,
+          "ingest_usda_rice_yearbook": 0,
+          "ingest_worldbank_pinksheet": 0,
+          "ingest_thitruongnongsan": 0,
+          "ingest_nso_vietnam": 0,
+          "verify_bronze_batch": 0,
+          "trigger_silver_release": 0
+        },
+        "max_active_runs": 1,
+        "max_active_tasks": 1
+      },
+      "rice_lakehouse_silver_pipeline": {
+        "paused": true,
+        "schedule": null,
+        "import_errors": false,
+        "task_ids": [
+          "start",
+          "end",
+          "gate_check_bronze",
+          "transform_faostat_production",
+          "transform_faostat_monthly_price",
+          "transform_faostat_supply_utilization",
+          "transform_faostat_trade",
+          "transform_usda_psd",
+          "transform_usda_rice_yearbook",
+          "transform_worldbank_pinksheet",
+          "transform_thitruongnongsan",
+          "transform_nso_vietnam_v2",
+          "silver_data_quality_audit",
+          "publish_silver_signal"
+        ],
+        "retries": {
+          "start": 0,
+          "end": 0,
+          "gate_check_bronze": 0,
+          "transform_faostat_production": 0,
+          "transform_faostat_monthly_price": 0,
+          "transform_faostat_supply_utilization": 0,
+          "transform_faostat_trade": 0,
+          "transform_usda_psd": 0,
+          "transform_usda_rice_yearbook": 0,
+          "transform_worldbank_pinksheet": 0,
+          "transform_thitruongnongsan": 0,
+          "transform_nso_vietnam_v2": 0,
+          "silver_data_quality_audit": 0,
+          "publish_silver_signal": 0
+        },
+        "max_active_runs": 1,
+        "max_active_tasks": 1
+      }
+    },
+    "ingestion_table_count": 0,
+    "advisory_locks": 0
+  },
+  "catalog": [],
+  "raw": [
+    {
+      "source": "faostat_production",
+      "path": "data\\raw\\faostat\\production_world.csv",
+      "bytes": 3292244,
+      "sha256": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+    },
+    {
+      "source": "faostat_monthly_price",
+      "path": "data\\raw\\faostat\\price.csv",
+      "bytes": 2509272,
+      "sha256": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af"
+    },
+    {
+      "source": "faostat_supply_utilization",
+      "path": "data\\raw\\faostat\\supply_utilization.csv",
+      "bytes": 6096569,
+      "sha256": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c"
+    },
+    {
+      "source": "faostat_trade",
+      "path": "data\\raw\\faostat\\Trade_DetailedTradeMatrix_E_All_Data_(Normalized)\\rice_trade_data.csv",
+      "bytes": 167990400,
+      "sha256": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168"
+    },
+    {
+      "source": "usda_psd",
+      "path": "data\\raw\\usda\\usda.xls",
+      "bytes": 45549,
+      "sha256": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf"
+    },
+    {
+      "source": "usda_rice_yearbook",
+      "path": "data\\raw\\usda\\Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+      "bytes": 2122534,
+      "sha256": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba"
+    },
+    {
+      "source": "worldbank_pinksheet",
+      "path": "data\\raw\\world_bank\\CMO-Historical-Data-Monthly.xlsx",
+      "bytes": 778415,
+      "sha256": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290"
+    },
+    {
+      "source": "thitruongnongsan",
+      "path": "data\\raw\\thitruongnongsan\\price_luagao.xlsx",
+      "bytes": 756440,
+      "sha256": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.12.csv",
+      "bytes": 6281,
+      "sha256": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.13.csv",
+      "bytes": 12726,
+      "sha256": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.14.csv",
+      "bytes": 11766,
+      "sha256": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.15.csv",
+      "bytes": 14205,
+      "sha256": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.16.csv",
+      "bytes": 11726,
+      "sha256": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.17.csv",
+      "bytes": 11738,
+      "sha256": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.18.csv",
+      "bytes": 13393,
+      "sha256": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.19.csv",
+      "bytes": 6462,
+      "sha256": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.20.csv",
+      "bytes": 6203,
+      "sha256": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.21.csv",
+      "bytes": 7127,
+      "sha256": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.22.csv",
+      "bytes": 11467,
+      "sha256": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.23.csv",
+      "bytes": 11505,
+      "sha256": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76"
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.24.csv",
+      "bytes": 12702,
+      "sha256": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b"
+    }
+  ],
+  "pins": {
+    "config/ingestion/source_registry.yaml": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+    "data/raw/nso/metadata.txt": "f17faf04e163da55e949593797bc60a8240d2137fea55a43342225d50d810555",
+    "src/silver/transformers/nso_vietnam_v2.py": "9007e3d65ac340a6bb837b9cb20dbb1a7a3b23fc23fdf27d19a46a3463118d19",
+    "contracts/silver/nso_vietnam_v2.yaml": "4a11b6f31183ee2828d0fef2f9ad94475628982fe7c701eab77b0c7b57dc8b05",
+    "config/silver/nso_v2_metadata.json": "a076880448eaf84593e75a20d0fc6156302d26c053b07e260c3b3916d4da335d"
+  },
+  "runner_idle": "PID                 PPID                COMMAND\n36266               36227               python3\n",
+  "shared_stopped": [
+    {
+      "id": "e97397848ca4d2845efe41df6b0d439568a7995b24a09bcac20064ebcd0038b6",
+      "name": "/airflow-scheduler",
+      "created": "2026-10-16T13:29:05.639773356Z",
+      "image": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "image_reference": "apache/airflow:2.10.4-python3.11",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:31.732607227Z",
+        "FinishedAt": "2026-10-16T14:01:31.924756729Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/opt/airflow/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\dags",
+          "Destination": "/opt/airflow/dags",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\logs",
+          "Destination": "/opt/airflow/logs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\plugins",
+          "Destination": "/opt/airflow/plugins",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/opt/airflow/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/opt/airflow/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config",
+          "Destination": "/opt/airflow/config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/opt/airflow/contracts",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ]
+    },
+    {
+      "id": "085ad49facb00ec17ddf269545182f83c5bfd9bd98f28cdc399f55549e2ab665",
+      "name": "/airflow-webserver",
+      "created": "2026-10-16T13:29:05.639846531Z",
+      "image": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "image_reference": "apache/airflow:2.10.4-python3.11",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:31.766371565Z",
+        "FinishedAt": "2026-10-16T14:01:37.564908811Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/opt/airflow/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/opt/airflow/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config",
+          "Destination": "/opt/airflow/config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/opt/airflow/contracts",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/opt/airflow/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\dags",
+          "Destination": "/opt/airflow/dags",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\logs",
+          "Destination": "/opt/airflow/logs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\plugins",
+          "Destination": "/opt/airflow/plugins",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ]
+    },
+    {
+      "id": "b5774d0f5aed5869cf1d1dcea8b3d63d2628890abca5c8459dd7ec7bb1d2dcbd",
+      "name": "/spark-iceberg",
+      "created": "2026-10-16T13:29:05.723080791Z",
+      "image": "sha256:790a72e744e0d09f161e1b4c7c2f79625cc598cf0476da4703e62f1f4e023460",
+      "image_reference": "tabulario/spark-iceberg:latest",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 130,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:13.174474673Z",
+        "FinishedAt": "2026-10-16T14:15:48.536800817Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/home/iceberg/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\notebooks",
+          "Destination": "/home/iceberg/notebooks",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/home/iceberg/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\tests",
+          "Destination": "/home/iceberg/tests",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/home/iceberg/contracts",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\silver",
+          "Destination": "/home/iceberg/config/silver",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\spark\\spark-defaults.conf",
+          "Destination": "/opt/spark/conf/spark-defaults.conf",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/home/iceberg/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ]
+    },
+    {
+      "id": "dde50d530f2a98d060ab7545048fd95eb05c94a5875d939a690f720be2331b0c",
+      "name": "/trino",
+      "created": "2026-10-16T13:29:05.672994537Z",
+      "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "image_reference": "trinodb/trino:448",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:13.058727272Z",
+        "FinishedAt": "2026-10-16T14:15:50.675357065Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\config.properties",
+          "Destination": "/etc/trino/config.properties",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\jvm.config",
+          "Destination": "/etc/trino/jvm.config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\catalog\\iceberg.properties",
+          "Destination": "/etc/trino/catalog/iceberg.properties",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ]
+    },
+    {
+      "id": "9de335c9cfda42a3c1709df0761ab810f9956d50a1192085a1829ad23d57ef7a",
+      "name": "/iceberg-rest",
+      "created": "2026-10-16T13:29:05.47243845Z",
+      "image": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "image_reference": "tabulario/iceberg-rest:0.8.0",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:12.691002517Z",
+        "FinishedAt": "2026-10-16T14:15:52.050554388Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_catalog_data",
+          "Source": "/var/lib/docker/volumes/tlcn_catalog_data/_data",
+          "Destination": "/data/catalog",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    },
+    {
+      "id": "ed96e8d61e8fad38f9615d2dbe91b89e4d9cb409a2817bb321a4179db217ddd2",
+      "name": "/minio",
+      "created": "2026-10-16T13:29:05.151429663Z",
+      "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "image_reference": "ghcr.io/coollabsio/minio:latest",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:06.466864341Z",
+        "FinishedAt": "2026-10-16T14:15:53.067548167Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_minio_data",
+          "Source": "/var/lib/docker/volumes/tlcn_minio_data/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    },
+    {
+      "id": "aca5ddca120c3ca24c8d45202fbec043c3661a03ee67958220ea4535023ba4e7",
+      "name": "/postgres",
+      "created": "2026-10-16T13:29:05.171917542Z",
+      "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "image_reference": "postgres:15-alpine",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:06.436662374Z",
+        "FinishedAt": "2026-10-16T14:15:53.819615281Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_postgres_data",
+          "Source": "/var/lib/docker/volumes/tlcn_postgres_data/_data",
+          "Destination": "/var/lib/postgresql/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    }
+  ]
+}

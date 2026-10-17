@@ -1,0 +1,8 @@
+[
+  {
+    "dag_id": "rice_lakehouse_silver_pipeline",
+    "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+    "state": "success",
+    "end_date": "2026-10-17T02:46:27.548314+00:00"
+  }
+]

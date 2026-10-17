@@ -1,0 +1,25 @@
+{
+  "usda_psd": {
+    "status": "SUCCESS",
+    "dataset": "usda_psd",
+    "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+    "target_table": "iceberg.silver_local.usda_rice_psd",
+    "bronze_read_snapshot_id": 6725163293089992461,
+    "bronze_count": 15,
+    "prepared_count": 990,
+    "valid_count": 990,
+    "quarantine_count": 0,
+    "warning_count": 0,
+    "dedup_count": 990,
+    "duplicate_count": 0,
+    "commit_verified": {
+      "exists": true,
+      "uuid": "82e6f676-0e8b-4066-a6ef-eeb6284f54fe",
+      "location": "s3://warehouse/silver_local/usda_rice_psd",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00001-321556fe-ffcf-4d78-9a77-97a1136c8dc5.metadata.json",
+      "snapshot_id": "4876825965550487606",
+      "rows": 990
+    }
+  }
+}

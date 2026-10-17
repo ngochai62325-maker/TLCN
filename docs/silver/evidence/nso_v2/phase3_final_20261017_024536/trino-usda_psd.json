@@ -1,0 +1,392 @@
+{
+  "status": "PASS",
+  "rows": 990,
+  "counts": {
+    "rows": 990,
+    "unique_keys": 990,
+    "required_nulls": 0,
+    "warnings": 0,
+    "invalid_missing": 0,
+    "processed_at_min": "2026-10-16 16:07:21.116690 UTC",
+    "processed_at_max": "2026-10-16 16:07:21.116690 UTC"
+  },
+  "schema": [
+    {
+      "Column": "country",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "commodity",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "attribute",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "market_year",
+      "Type": "integer",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "crop_year",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value",
+      "Type": "decimal(18,4)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value_source",
+      "Type": "decimal(28,8)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "source_unit",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "conversion_factor",
+      "Type": "decimal(18,6)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "missing_reason",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_run_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_batch_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_chunk_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_timestamp",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_file",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_checksum",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_dq_warnings",
+      "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_silver_processed_at",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    }
+  ],
+  "lineage_mismatch": 0,
+  "bronze_read_snapshot_id": "6725163293089992461",
+  "units": [
+    {
+      "unit": "1000 MT",
+      "rows": 792,
+      "present": 792,
+      "sum_value": "6490897.0000"
+    },
+    {
+      "unit": "MT/HA",
+      "rows": 66,
+      "present": 66,
+      "sum_value": "245.3000"
+    },
+    {
+      "unit": "1000 HA",
+      "rows": 66,
+      "present": 66,
+      "sum_value": "418767.0000"
+    },
+    {
+      "unit": "fraction",
+      "rows": 66,
+      "present": 66,
+      "sum_value": "42.6620"
+    }
+  ],
+  "flags": {},
+  "core_metrics": {},
+  "business_key_partitions": [],
+  "table_identity": {
+    "uuid": "82e6f676-0e8b-4066-a6ef-eeb6284f54fe",
+    "snapshot_id": "4876825965550487606",
+    "schema_id": 0,
+    "metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00001-321556fe-ffcf-4d78-9a77-97a1136c8dc5.metadata.json",
+    "location": "s3://warehouse/silver_local/usda_rice_psd",
+    "schema": {
+      "type": "struct",
+      "fields": [
+        {
+          "id": 1,
+          "name": "country",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 2,
+          "name": "commodity",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 3,
+          "name": "attribute",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 4,
+          "name": "market_year",
+          "type": "int",
+          "required": false
+        },
+        {
+          "id": 5,
+          "name": "crop_year",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 6,
+          "name": "unit",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 7,
+          "name": "value",
+          "type": "decimal(18, 4)",
+          "required": false
+        },
+        {
+          "id": 8,
+          "name": "value_source",
+          "type": "decimal(28, 8)",
+          "required": false
+        },
+        {
+          "id": 9,
+          "name": "source_unit",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 10,
+          "name": "conversion_factor",
+          "type": "decimal(18, 6)",
+          "required": false
+        },
+        {
+          "id": 11,
+          "name": "value_raw",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 12,
+          "name": "missing_reason",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 13,
+          "name": "_ingestion_run_id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 14,
+          "name": "_ingestion_batch_id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 15,
+          "name": "_ingestion_chunk_id",
+          "type": "long",
+          "required": false
+        },
+        {
+          "id": 16,
+          "name": "_ingestion_timestamp",
+          "type": "timestamptz",
+          "required": false
+        },
+        {
+          "id": 17,
+          "name": "_source_id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 18,
+          "name": "_source_file",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 19,
+          "name": "_source_checksum",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 20,
+          "name": "_source_snapshot_id",
+          "type": "long",
+          "required": false
+        },
+        {
+          "id": 21,
+          "name": "_dq_warnings",
+          "type": {
+            "type": "list",
+            "element-id": 23,
+            "element": {
+              "type": "struct",
+              "fields": [
+                {
+                  "id": 24,
+                  "name": "rule_id",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 25,
+                  "name": "error_message",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 26,
+                  "name": "failed_column",
+                  "type": "string",
+                  "required": false
+                }
+              ]
+            },
+            "element-required": false
+          },
+          "required": false
+        },
+        {
+          "id": 22,
+          "name": "_silver_processed_at",
+          "type": "timestamptz",
+          "required": false
+        }
+      ],
+      "schema-id": 0,
+      "identifier-field-ids": []
+    },
+    "snapshots": [
+      {
+        "snapshot_id": "7088491271547094050",
+        "parent_snapshot_id": null,
+        "summary": {
+          "spark.app.id": "local-1792166818772",
+          "changed-partition-count": "0",
+          "total-records": "0",
+          "total-files-size": "0",
+          "total-data-files": "0",
+          "total-delete-files": "0",
+          "total-position-deletes": "0",
+          "total-equality-deletes": "0",
+          "engine-version": "3.5.5",
+          "app-id": "local-1792166818772",
+          "engine-name": "spark",
+          "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+        }
+      },
+      {
+        "snapshot_id": "4876825965550487606",
+        "parent_snapshot_id": "7088491271547094050",
+        "summary": {
+          "spark.app.id": "local-1792166818772",
+          "added-data-files": "66",
+          "added-records": "990",
+          "added-files-size": "629215",
+          "changed-partition-count": "66",
+          "total-records": "990",
+          "total-files-size": "629215",
+          "total-data-files": "66",
+          "total-delete-files": "0",
+          "total-position-deletes": "0",
+          "total-equality-deletes": "0",
+          "engine-version": "3.5.5",
+          "app-id": "local-1792166818772",
+          "engine-name": "spark",
+          "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+        }
+      }
+    ]
+  }
+}

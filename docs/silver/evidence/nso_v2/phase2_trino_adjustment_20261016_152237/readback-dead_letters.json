@@ -1,0 +1,84 @@
+{
+  "status": "PASS",
+  "table": "iceberg.silver_local.dead_letters",
+  "uuid": "1cfbc3d4-d2b8-4429-8d90-ab22215d8aa8",
+  "snapshot_id": "3373534404015432057",
+  "rows": 17,
+  "unique_keys": 17,
+  "partitions": [
+    {
+      "year": null,
+      "rows": 17,
+      "unique_keys": 17,
+      "native_sha256": "ba71db4872315942f637cff3b9a3f644841fc7c053ee2fdfb69c5958ae1680c3",
+      "trino_sha256": "ba71db4872315942f637cff3b9a3f644841fc7c053ee2fdfb69c5958ae1680c3",
+      "status": "PASS",
+      "sql": "SELECT \"quarantine_record_id\",\"source_dataset\",\"pipeline_run_id\",\"detected_at\",\"business_key_hash\",\"errors\",\"payload\" FROM \"iceberg\".\"silver_local\".\"dead_letters\" FOR VERSION AS OF 3373534404015432057"
+    }
+  ],
+  "schema": [
+    {
+      "Column": "quarantine_record_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "source_dataset",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "pipeline_run_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "detected_at",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "business_key_hash",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "errors",
+      "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "payload",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    }
+  ],
+  "aggregate": {
+    "warnings": 0,
+    "missing": 0,
+    "nso": {},
+    "representative": [],
+    "units": [],
+    "flags": {},
+    "dead_letter_categories": {
+      "nso_vietnam_v2_exclusions": 13,
+      "thitruongnongsan": 4
+    },
+    "scope": "all_rows",
+    "executed_rows": 17,
+    "reused_rows": 0
+  },
+  "lineage_unique_tuples": 0,
+  "full_content": "PASS_ALL_ROWS_ALL_COLUMNS",
+  "required_fields": "PASS",
+  "business_keys": "PASS",
+  "schema_compatibility": "PASS",
+  "units_flags_values": "PASS"
+}

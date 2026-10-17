@@ -1,0 +1,630 @@
+{
+  "at": "2026-10-17T01:25:37.023191+00:00",
+  "intent": {
+    "created_at": "2026-10-16T15:52:10.181244+00:00",
+    "bronze_run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+    "expected_silver_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+    "conf": {
+      "force_reprocess": false
+    },
+    "trigger_count_limit": 1,
+    "status": "TRIGGER_RETURNED"
+  },
+  "task_logs": {
+    "silver__gate_check_bronze__attempt=1.log": {
+      "bytes": 4055,
+      "sha256_sanitized": "84f010403dd4b41519bb61d194d9e46b09ec3b9a0b933b500740b9c693b085f8",
+      "tail": [
+        "[2026-10-16T16:00:50.567+0000] {taskinstance.py:731} INFO - ::endgroup::",
+        "[2026-10-16T16:03:21.381+0000] {python.py:240} INFO - Done. Returned value was: [{'status': 'PASSED', 'tables': {'faostat_production': {'ready': True, 'table': 'iceberg.bronze.faostat_production'}}}, {'status': 'PASSED', 'tables': {'faostat_monthly_price': {'ready': True, 'table': 'iceberg.bronze.faostat_monthly_price'}}}, {'status': 'PASSED', 'tables': {'faostat_supply_utilization': {'ready': True, 'table': 'iceberg.bronze.faostat_supply_utilization'}}}, {'status': 'PASSED', 'tables': {'faostat_trade': {'ready': True, 'table': 'iceberg.bronze.faostat_trade'}}}, {'status': 'PASSED', 'tables': {'usda_psd': {'ready': True, 'table': 'iceberg.bronze.usda_psd'}}}, {'status': 'PASSED', 'tables': {'usda_rice_yearbook': {'ready': True, 'table': 'iceberg.bronze.usda_rice_yearbook'}}}, {'status': 'PASSED', 'tables': {'worldbank_pinksheet': {'ready': True, 'table': 'iceberg.bronze.worldbank_pinksheet'}}}, {'status': 'PASSED', 'tables': {'thitruongnongsan': {'ready': True, 'table': 'iceberg.bronze.thitruongnongsan'}}}, {'status': 'PASSED', 'tables': {'nso_vietnam_v2': {'ready': True, 'table': 'iceberg.bronze.nso_vietnam'}}}]",
+        "[2026-10-16T16:03:21.442+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:03:21.442+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_silver_pipeline, task_id=gate_check_bronze, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, execution_date=20261016T160047, start_date=20261016T160050, end_date=20261016T160321",
+        "[2026-10-16T16:03:21.527+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:03:21.593+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:03:21.598+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "silver__transform_faostat_monthly_price__attempt=1.log": {
+      "bytes": 3933,
+      "sha256_sanitized": "a7c1dcbbb250c657d3b03d40ba908a7899c4ad041c1b0119b53ec8a5f390176e",
+      "tail": [
+        "[2026-10-16T16:03:58.855+0000] {taskinstance.py:731} INFO - ::endgroup::",
+        "[2026-10-16T16:04:31.149+0000] {python.py:240} INFO - Done. Returned value was: {'faostat_monthly_price': {'status': 'SUCCESS', 'dataset': 'faostat_monthly_price', 'pipeline_run_id': 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', 'target_table': 'iceberg.silver_local.faostat_monthly_price', 'bronze_read_snapshot_id': 3069013476710882292, 'bronze_count': 15334, 'prepared_count': 15334, 'valid_count': 15334, 'quarantine_count': 0, 'warning_count': 0, 'dedup_count': 15334, 'duplicate_count': 0, 'commit_verified': {'exists': True, 'uuid': '63a487b2-703d-49df-8a6d-baf903509145', 'location': 's3://warehouse/silver_local/faostat_monthly_price', 'schema_id': 0, 'metadata_location': 's3://warehouse/silver_local/faostat_monthly_price/metadata/00001-06dac4f2-c909-4f3d-865c-55b056a11593.metadata.json', 'snapshot_id': '1591520480261276952', 'rows': 15334}}}",
+        "[2026-10-16T16:04:31.193+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:04:31.193+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_silver_pipeline, task_id=transform_faostat_monthly_price, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, execution_date=20261016T160047, start_date=20261016T160358, end_date=20261016T160431",
+        "[2026-10-16T16:04:31.242+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:04:31.286+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:04:31.294+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "silver__transform_faostat_production__attempt=1.log": {
+      "bytes": 3894,
+      "sha256_sanitized": "5631e72d787852ebf7e9150a7f783c8ea5373b01f30739bd98e4a7aef7c65d68",
+      "tail": [
+        "[2026-10-16T16:03:25.759+0000] {taskinstance.py:731} INFO - ::endgroup::",
+        "[2026-10-16T16:03:55.610+0000] {python.py:240} INFO - Done. Returned value was: {'faostat_production': {'status': 'SUCCESS', 'dataset': 'faostat_production', 'pipeline_run_id': 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', 'target_table': 'iceberg.silver_local.faostat_production', 'bronze_read_snapshot_id': 4843563875751184854, 'bronze_count': 22738, 'prepared_count': 22738, 'valid_count': 22738, 'quarantine_count': 0, 'warning_count': 0, 'dedup_count': 22738, 'duplicate_count': 0, 'commit_verified': {'exists': True, 'uuid': '7fc0d9b6-9b00-40f8-8207-64e5f7678d93', 'location': 's3://warehouse/silver_local/faostat_production', 'schema_id': 0, 'metadata_location': 's3://warehouse/silver_local/faostat_production/metadata/00001-eba80a7d-cf27-4ece-8e05-d5a154021d47.metadata.json', 'snapshot_id': '3025742236916912946', 'rows': 22738}}}",
+        "[2026-10-16T16:03:55.654+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:03:55.655+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_silver_pipeline, task_id=transform_faostat_production, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, execution_date=20261016T160047, start_date=20261016T160325, end_date=20261016T160355",
+        "[2026-10-16T16:03:55.689+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:03:55.734+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:03:55.737+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "silver__transform_faostat_supply_utilization__attempt=1.log": {
+      "bytes": 4000,
+      "sha256_sanitized": "c890e97fccfd614d7a144af0a799f17592beecce88b94ac1950d88b8469a05a5",
+      "tail": [
+        "[2026-10-16T16:04:34.845+0000] {taskinstance.py:731} INFO - ::endgroup::",
+        "[2026-10-16T16:05:10.252+0000] {python.py:240} INFO - Done. Returned value was: {'faostat_supply_utilization': {'status': 'SUCCESS', 'dataset': 'faostat_supply_utilization', 'pipeline_run_id': 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', 'target_table': 'iceberg.silver_local.faostat_supply_utilization', 'bronze_read_snapshot_id': 1149052647847510586, 'bronze_count': 36380, 'prepared_count': 36380, 'valid_count': 36380, 'quarantine_count': 0, 'warning_count': 236, 'dedup_count': 36380, 'duplicate_count': 0, 'commit_verified': {'exists': True, 'uuid': '952160ba-11d3-4c53-b60a-929dcca3b0e1', 'location': 's3://warehouse/silver_local/faostat_supply_utilization', 'schema_id': 0, 'metadata_location': 's3://warehouse/silver_local/faostat_supply_utilization/metadata/00001-37b2d861-8b26-42fb-b171-208aa0279882.metadata.json', 'snapshot_id': '4289048808299983571', 'rows': 36380}}}",
+        "[2026-10-16T16:05:10.289+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:05:10.290+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_silver_pipeline, task_id=transform_faostat_supply_utilization, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, execution_date=20261016T160047, start_date=20261016T160434, end_date=20261016T160510",
+        "[2026-10-16T16:05:10.334+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:05:10.398+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:05:10.403+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "silver__transform_faostat_trade__attempt=1.log": {
+      "bytes": 3839,
+      "sha256_sanitized": "fbd46e2a11494acdb63b785a990e17e4217286fc6eb92a9d26863ae4d93b2fba",
+      "tail": [
+        "[2026-10-16T16:05:14.805+0000] {taskinstance.py:731} INFO - ::endgroup::",
+        "[2026-10-16T16:06:48.454+0000] {python.py:240} INFO - Done. Returned value was: {'faostat_trade': {'status': 'SUCCESS', 'dataset': 'faostat_trade', 'pipeline_run_id': 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', 'target_table': 'iceberg.silver_local.faostat_trade', 'bronze_read_snapshot_id': 2171934088797835179, 'bronze_count': 1226470, 'prepared_count': 1226470, 'valid_count': 1226470, 'quarantine_count': 0, 'warning_count': 0, 'dedup_count': 1226470, 'duplicate_count': 0, 'commit_verified': {'exists': True, 'uuid': 'c1800fdd-6d37-4b05-a913-bc61fa922b00', 'location': 's3://warehouse/silver_local/faostat_trade', 'schema_id': 0, 'metadata_location': 's3://warehouse/silver_local/faostat_trade/metadata/00001-2de6cd57-8635-43a2-bdd3-5bdc12915958.metadata.json', 'snapshot_id': '4017675517054557099', 'rows': 1226470}}}",
+        "[2026-10-16T16:06:48.551+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:06:48.552+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_silver_pipeline, task_id=transform_faostat_trade, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, execution_date=20261016T160047, start_date=20261016T160514, end_date=20261016T160648",
+        "[2026-10-16T16:06:48.624+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:06:48.678+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:06:48.683+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "silver__transform_nso_vietnam_v2__attempt=1.log": {
+      "bytes": 27975,
+      "sha256_sanitized": "1ebf13188ccb843b696c18c15436909b438b03fbf952f6dfc0b36c8a6ccacd93",
+      "tail": [
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "  File \"/home/airflow/.local/lib/python3.11/site-packages/psycopg2/__init__.py\", line 122, in connect",
+        "    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name \"postgres-test\" to address: Temporary failure in name resolution",
+        "",
+        "(Background on this error at: https://sqlalche.me/e/14/e3q8)"
+      ]
+    },
+    "silver__transform_thitruongnongsan__attempt=1.log": {
+      "bytes": 3869,
+      "sha256_sanitized": "28c311fd896700353b3ba5540c951d29d85cacd7d264aea538e3690f65c7224e",
+      "tail": [
+        "[2026-10-16T16:08:35.493+0000] {taskinstance.py:731} INFO - ::endgroup::",
+        "[2026-10-16T16:09:07.596+0000] {python.py:240} INFO - Done. Returned value was: {'thitruongnongsan': {'status': 'SUCCESS', 'dataset': 'thitruongnongsan', 'pipeline_run_id': 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', 'target_table': 'iceberg.silver_local.thitruongnongsan', 'bronze_read_snapshot_id': 6284553868447052727, 'bronze_count': 20394, 'prepared_count': 20394, 'valid_count': 20390, 'quarantine_count': 4, 'warning_count': 29, 'dedup_count': 20387, 'duplicate_count': 3, 'commit_verified': {'exists': True, 'uuid': '6950791c-cfd2-45b7-910d-ad88803b8904', 'location': 's3://warehouse/silver_local/thitruongnongsan', 'schema_id': 0, 'metadata_location': 's3://warehouse/silver_local/thitruongnongsan/metadata/00001-75752312-421c-4d2a-b86f-1698d664fe7a.metadata.json', 'snapshot_id': '4817852030779680459', 'rows': 20387}}}",
+        "[2026-10-16T16:09:07.636+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:09:07.637+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_silver_pipeline, task_id=transform_thitruongnongsan, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, execution_date=20261016T160047, start_date=20261016T160835, end_date=20261016T160907",
+        "[2026-10-16T16:09:07.696+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:09:07.734+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:09:07.739+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "silver__transform_usda_psd__attempt=1.log": {
+      "bytes": 3768,
+      "sha256_sanitized": "7307c7143d114718195c5d4b17869704b8fc0cf70a3e4fee9a06dd2dabcbc41f",
+      "tail": [
+        "[2026-10-16T16:06:52.888+0000] {taskinstance.py:731} INFO - ::endgroup::",
+        "[2026-10-16T16:07:29.609+0000] {python.py:240} INFO - Done. Returned value was: {'usda_psd': {'status': 'SUCCESS', 'dataset': 'usda_psd', 'pipeline_run_id': 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', 'target_table': 'iceberg.silver_local.usda_rice_psd', 'bronze_read_snapshot_id': 6725163293089992461, 'bronze_count': 15, 'prepared_count': 990, 'valid_count': 990, 'quarantine_count': 0, 'warning_count': 0, 'dedup_count': 990, 'duplicate_count': 0, 'commit_verified': {'exists': True, 'uuid': '82e6f676-0e8b-4066-a6ef-eeb6284f54fe', 'location': 's3://warehouse/silver_local/usda_rice_psd', 'schema_id': 0, 'metadata_location': 's3://warehouse/silver_local/usda_rice_psd/metadata/00001-321556fe-ffcf-4d78-9a77-97a1136c8dc5.metadata.json', 'snapshot_id': '4876825965550487606', 'rows': 990}}}",
+        "[2026-10-16T16:07:29.655+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:07:29.655+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_silver_pipeline, task_id=transform_usda_psd, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, execution_date=20261016T160047, start_date=20261016T160652, end_date=20261016T160729",
+        "[2026-10-16T16:07:29.719+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:07:29.763+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:07:29.769+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "silver__transform_usda_rice_yearbook__attempt=1.log": {
+      "bytes": 3896,
+      "sha256_sanitized": "436da3d80318288abcee5ce2c243c5ce2e693e49ed4884c8b390ebacea8727b1",
+      "tail": [
+        "[2026-10-16T16:07:33.545+0000] {taskinstance.py:731} INFO - ::endgroup::",
+        "[2026-10-16T16:07:58.046+0000] {python.py:240} INFO - Done. Returned value was: {'usda_rice_yearbook': {'status': 'SUCCESS', 'dataset': 'usda_rice_yearbook', 'pipeline_run_id': 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', 'target_table': 'iceberg.silver_local.usda_rice_yearbook', 'bronze_read_snapshot_id': 4564470349869842851, 'bronze_count': 13131, 'prepared_count': 13131, 'valid_count': 13131, 'quarantine_count': 0, 'warning_count': 0, 'dedup_count': 12936, 'duplicate_count': 195, 'commit_verified': {'exists': True, 'uuid': 'a92b8fdf-dbf5-4f0c-a5c5-3c66857ee93d', 'location': 's3://warehouse/silver_local/usda_rice_yearbook', 'schema_id': 0, 'metadata_location': 's3://warehouse/silver_local/usda_rice_yearbook/metadata/00001-26791b3d-bf2c-4208-889e-2736e92790e9.metadata.json', 'snapshot_id': '4249957608382647425', 'rows': 12936}}}",
+        "[2026-10-16T16:07:58.084+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:07:58.084+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_silver_pipeline, task_id=transform_usda_rice_yearbook, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, execution_date=20261016T160047, start_date=20261016T160733, end_date=20261016T160758",
+        "[2026-10-16T16:07:58.126+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:07:58.178+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:07:58.183+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "silver__transform_worldbank_pinksheet__attempt=1.log": {
+      "bytes": 3929,
+      "sha256_sanitized": "22e5f30e83f9faa1ffce224162ebe6a3103c9cc8c4d2dc356a28688e9032577f",
+      "tail": [
+        "[2026-10-16T16:08:02.071+0000] {taskinstance.py:731} INFO - ::endgroup::",
+        "[2026-10-16T16:08:32.141+0000] {python.py:240} INFO - Done. Returned value was: {'worldbank_pinksheet': {'status': 'SUCCESS', 'dataset': 'worldbank_pinksheet', 'pipeline_run_id': 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1', 'target_table': 'iceberg.silver_local.worldbank_commodity_monthly', 'bronze_read_snapshot_id': 2608578091811865170, 'bronze_count': 792, 'prepared_count': 56232, 'valid_count': 56232, 'quarantine_count': 0, 'warning_count': 0, 'dedup_count': 56232, 'duplicate_count': 0, 'commit_verified': {'exists': True, 'uuid': 'be48b680-f86b-4a4d-b552-705cac58103b', 'location': 's3://warehouse/silver_local/worldbank_commodity_monthly', 'schema_id': 0, 'metadata_location': 's3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00001-2be316fd-844b-4cb9-94fa-1ebba6f789b3.metadata.json', 'snapshot_id': '6762326735303774082', 'rows': 56232}}}",
+        "[2026-10-16T16:08:32.188+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:08:32.188+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_silver_pipeline, task_id=transform_worldbank_pinksheet, run_id=local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1, execution_date=20261016T160047, start_date=20261016T160801, end_date=20261016T160832",
+        "[2026-10-16T16:08:32.219+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:08:32.258+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:08:32.261+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__ingest_faostat_monthly_price__attempt=1.log": {
+      "bytes": 15170,
+      "sha256_sanitized": "1d300ed880a41b43f89f2c0800f6ff28e6557c08295ae3995ef62263ef699b90",
+      "tail": [
+        "[2026-10-16T15:59:09.647+0000] {ingestion_engine.py:128} INFO - [source_id=faostat_monthly_price] [run_id=faostat_monthly_price_20261016155906_428dc755] [batch_id=faostat_monthly_price_20261016_abc3] Ingestion engine run completed | status=SUCCESS",
+        "[2026-10-16T15:59:09.727+0000] {python.py:240} INFO - Done. Returned value was: {'source_id': 'faostat_monthly_price', 'run_id': 'faostat_monthly_price_20261016155906_428dc755', 'batch_id': 'faostat_monthly_price_20261016_abc3', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/price.csv', 'manifest_uri': 's3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/manifest.json', 'data_format': 'CSV', 'records_extracted': 15334, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': 'c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af', 'started_at': '2026-10-16T15:59:06.749011+00:00', 'completed_at': '2026-10-16T15:59:09.535955+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T15:59:06.749038+00:00', 'source_id': 'faostat_monthly_price', 'run_id': 'faostat_monthly_price_20261016155906_428dc755', 'batch_id': 'faostat_monthly_price_20261016_abc3', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/price.csv', 'format': 'CSV', 'size_bytes': 2509272, 'checksum': 'c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af'}, 'source_metadata': {'provider': 'FAOSTAT', 'dataset': 'Prices_Monthly_E_All_Data_(Normalized)', 'uri': 'https://fenixservices.fao.org/faostat/static/bulkdownloads/Prices_Monthly_E_All_Data_(Normalized).zip', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 15334, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T15:59:06.749011+00:00', 'completed_at': '2026-10-16T15:59:09.535955+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.faostat_monthly_price', 'uuid': 'fa3e9fd5-e1f1-45f9-8bcb-44fcad7400b8', 'snapshot_id': '3069013476710882292', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b/metadata/00001-34d97089-b982-4d03-a2b6-f4b725a11ce3.metadata.json', 'rows': 15334, 'proved_run_id': 'faostat_monthly_price_20261016155906_428dc755', 'checksum': 'c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af'}}",
+        "[2026-10-16T15:59:09.811+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T15:59:09.812+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=ingest_faostat_monthly_price, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T155906, end_date=20261016T155909",
+        "[2026-10-16T15:59:09.865+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T15:59:09.897+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T15:59:09.901+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__ingest_faostat_production__attempt=1.log": {
+      "bytes": 25427,
+      "sha256_sanitized": "c7b4ca135c712d9679f39c20e12c1728a51171c1aed52281633e1fa190b89f95",
+      "tail": [
+        "    verify_release_result(record, engine.metadata_repo, profile=profile)",
+        "  File \"/workspace/src/ingestion/orchestration/pipeline_tasks.py\", line 57, in verify_release_result",
+        "    raise AirflowException(\"Invalid release ingestion identity/checksum\")",
+        "airflow.exceptions.AirflowException: Invalid release ingestion identity/checksum",
+        "[2026-10-16T15:52:34.563+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1",
+        "[2026-10-16T15:52:34.591+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T15:52:34.597+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__ingest_faostat_production__attempt=2.log": {
+      "bytes": 14803,
+      "sha256_sanitized": "90ab06b729e874d9c9013298fba7b667c5c127718bd4360bdac5782729b04d89",
+      "tail": [
+        "[2026-10-16T15:59:04.740+0000] {logging_mixin.py:190} INFO - 2026-10-16 15:59:04,740 - ingestion.faostat_production - INFO - [source_id=faostat_production] [run_id=faostat_production_20261016155856_6ba3a6e8] [batch_id=faostat_production_20261016_48b8] Ingestion engine run completed | status=SUCCESS",
+        "[2026-10-16T15:59:04.740+0000] {ingestion_engine.py:128} INFO - [source_id=faostat_production] [run_id=faostat_production_20261016155856_6ba3a6e8] [batch_id=faostat_production_20261016_48b8] Ingestion engine run completed | status=SUCCESS",
+        "[2026-10-16T15:59:04.833+0000] {python.py:240} INFO - Done. Returned value was: {'source_id': 'faostat_production', 'run_id': 'faostat_production_20261016155856_6ba3a6e8', 'batch_id': 'faostat_production_20261016_48b8', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/production_world.csv', 'manifest_uri': 's3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/manifest.json', 'data_format': 'CSV', 'records_extracted': 22738, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc', 'started_at': '2026-10-16T15:58:56.825578+00:00', 'completed_at': '2026-10-16T15:59:04.606043+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T15:58:56.825609+00:00', 'source_id': 'faostat_production', 'run_id': 'faostat_production_20261016155856_6ba3a6e8', 'batch_id': 'faostat_production_20261016_48b8', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/production_world.csv', 'format': 'CSV', 'size_bytes': 3292244, 'checksum': '6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc'}, 'source_metadata': {'provider': 'FAOSTAT', 'dataset': 'Production_Crops_Livestock_E_All_Data_(Normalized)', 'uri': 'https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 22738, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T15:58:56.825578+00:00', 'completed_at': '2026-10-16T15:59:04.606043+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.faostat_production', 'uuid': 'd1d1158c-2a38-44a2-8131-1e6ee2530ccd', 'snapshot_id': '4843563875751184854', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e/metadata/00001-76469731-7647-43c7-8ec4-41a20401eaad.metadata.json', 'rows': 22738, 'proved_run_id': 'faostat_production_20261016155856_6ba3a6e8', 'checksum': '6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc'}}",
+        "[2026-10-16T15:59:04.916+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T15:59:04.916+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=ingest_faostat_production, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T155856, end_date=20261016T155904",
+        "[2026-10-16T15:59:04.994+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T15:59:05.010+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__ingest_faostat_supply_utilization__attempt=1.log": {
+      "bytes": 16077,
+      "sha256_sanitized": "77ca4c103c82fbfe8d88ee05660f90f159f5e532cce824c61d1221e5685abdd4",
+      "tail": [
+        "[2026-10-16T15:59:17.237+0000] {python.py:240} INFO - Done. Returned value was: {'source_id': 'faostat_supply_utilization', 'run_id': 'faostat_supply_utilization_20261016155912_7f1d590f', 'batch_id': 'faostat_supply_utilization_20261016_a0e9', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/supply_utilization.csv', 'manifest_uri': 's3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/manifest.json', 'data_format': 'CSV', 'records_extracted': 36380, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c', 'started_at': '2026-10-16T15:59:12.935181+00:00', 'completed_at': '2026-10-16T15:59:16.988701+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T15:59:12.935222+00:00', 'source_id': 'faostat_supply_utilization', 'run_id': 'faostat_supply_utilization_20261016155912_7f1d590f', 'batch_id': 'faostat_supply_utilization_20261016_a0e9', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/supply_utilization.csv', 'format': 'CSV', 'size_bytes': 6096569, 'checksum': '3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c'}, 'source_metadata': {'provider': 'FAOSTAT', 'dataset': 'SUA_Crops_Livestock_E_All_Data_(Normalized)', 'uri': 'https://fenixservices.fao.org/faostat/static/bulkdownloads/SUA_Crops_Livestock_E_All_Data_(Normalized).zip', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 36380, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T15:59:12.935181+00:00', 'completed_at': '2026-10-16T15:59:16.988701+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.faostat_supply_utilization', 'uuid': '20a87b98-5ce9-4230-9d13-42c9e13218f8', 'snapshot_id': '1149052647847510586', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908/metadata/00001-2be57582-59f4-47b2-bf61-3e1369cbcc17.metadata.json', 'rows': 36380, 'proved_run_id': 'faostat_supply_utilization_20261016155912_7f1d590f', 'checksum': '3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c'}}",
+        "[2026-10-16T15:59:17.324+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T15:59:17.324+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=ingest_faostat_supply_utilization, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T155912, end_date=20261016T155917",
+        "[2026-10-16T15:59:17.386+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T15:59:17.422+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T15:59:17.427+0000] {local_task_job_runner.py:245} INFO - ::endgroup::",
+        "[2026-10-16T15:59:17.436+0000] {standard_task_runner.py:217} INFO - Process not found (most likely exited), stop collecting metrics"
+      ]
+    },
+    "bronze__ingest_faostat_trade__attempt=1.log": {
+      "bytes": 53676,
+      "sha256_sanitized": "a432a102b062b5c19cee25567ae8afe8da6c68e3a3981ef6cb598a64eee031b4",
+      "tail": [
+        "[2026-10-16T16:00:08.319+0000] {ingestion_engine.py:128} INFO - [source_id=faostat_trade] [run_id=faostat_trade_20261016155919_cc04dc8d] [batch_id=faostat_trade_20261016_a5f6] Ingestion engine run completed | status=SUCCESS",
+        "[2026-10-16T16:00:08.612+0000] {python.py:240} INFO - Done. Returned value was: {'source_id': 'faostat_trade', 'run_id': 'faostat_trade_20261016155919_cc04dc8d', 'batch_id': 'faostat_trade_20261016_a5f6', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/rice_trade_data.csv', 'manifest_uri': 's3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/manifest.json', 'data_format': 'CSV', 'records_extracted': 1226470, 'records_quarantined': 0, 'chunks_processed': 25, 'chunks_total': 25, 'checksum': '697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168', 'started_at': '2026-10-16T15:59:19.657564+00:00', 'completed_at': '2026-10-16T16:00:08.199648+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T15:59:19.657584+00:00', 'source_id': 'faostat_trade', 'run_id': 'faostat_trade_20261016155919_cc04dc8d', 'batch_id': 'faostat_trade_20261016_a5f6', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/rice_trade_data.csv', 'format': 'CSV', 'size_bytes': 167990400, 'checksum': '697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168'}, 'source_metadata': {'provider': 'FAOSTAT', 'dataset': 'Trade_DetailedTradeMatrix_E_All_Data_(Normalized)', 'uri': 'https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 1226470, 'chunks_processed': 25, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T15:59:19.657564+00:00', 'completed_at': '2026-10-16T16:00:08.199648+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.faostat_trade', 'uuid': 'f8f3cec9-23ce-4bfc-8cfc-0625658201df', 'snapshot_id': '2171934088797835179', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/metadata/00025-36aa5ba3-208f-4b55-9ed5-4d7d93310303.metadata.json', 'rows': 1226470, 'proved_run_id': 'faostat_trade_20261016155919_cc04dc8d', 'checksum': '697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168'}}",
+        "[2026-10-16T16:00:08.691+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:00:08.691+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=ingest_faostat_trade, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T155919, end_date=20261016T160008",
+        "[2026-10-16T16:00:08.802+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:00:08.833+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:00:08.837+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__ingest_nso_vietnam__attempt=1.log": {
+      "bytes": 32631,
+      "sha256_sanitized": "fdb495ac5dca2a3beb92d714ddee2ee781253c921f8af635155227cb1cdf3aec",
+      "tail": [
+        "[2026-10-16T16:00:40.691+0000] {ingestion_engine.py:128} INFO - [source_id=nso_vietnam] [run_id=nso_vietnam_20261016160030_2c409d8a] [batch_id=nso_vietnam_20261016_2a8e] Ingestion engine run completed | status=SUCCESS",
+        "[2026-10-16T16:00:40.832+0000] {python.py:240} INFO - Done. Returned value was: {'source_id': 'nso_vietnam', 'run_id': 'nso_vietnam_20261016160030_2c409d8a', 'batch_id': 'nso_vietnam_20261016_2a8e', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/nso_vietnam_raw.zip', 'manifest_uri': 's3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/manifest.json', 'data_format': 'CSV', 'records_extracted': 833, 'records_quarantined': 0, 'chunks_processed': 13, 'chunks_total': 13, 'checksum': 'b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a', 'started_at': '2026-10-16T16:00:30.266464+00:00', 'completed_at': '2026-10-16T16:00:40.574444+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T16:00:30.266489+00:00', 'source_id': 'nso_vietnam', 'run_id': 'nso_vietnam_20261016160030_2c409d8a', 'batch_id': 'nso_vietnam_20261016_2a8e', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/nso_vietnam_raw.zip', 'format': 'CSV', 'size_bytes': 54901, 'checksum': 'b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a'}, 'source_metadata': {'provider': None, 'dataset': None, 'uri': None, 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 833, 'chunks_processed': 13, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T16:00:30.266464+00:00', 'completed_at': '2026-10-16T16:00:40.574444+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.nso_vietnam', 'uuid': '9df24331-6337-4567-8a6e-2515b752478d', 'snapshot_id': '6239067651375331267', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/metadata/00013-dd5a23f4-fe5a-4518-8933-569fcecae43e.metadata.json', 'rows': 833, 'proved_run_id': 'nso_vietnam_20261016160030_2c409d8a', 'checksum': 'b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a'}}",
+        "[2026-10-16T16:00:40.908+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:00:40.909+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=ingest_nso_vietnam, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T160029, end_date=20261016T160040",
+        "[2026-10-16T16:00:40.965+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:00:40.993+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:00:40.997+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__ingest_thitruongnongsan__attempt=1.log": {
+      "bytes": 14266,
+      "sha256_sanitized": "d473d064e877eb1469ccc6725afad5b85316dd01f28dac013621c3840d82b47e",
+      "tail": [
+        "[2026-10-16T16:00:27.816+0000] {ingestion_engine.py:128} INFO - [source_id=thitruongnongsan] [run_id=thitruongnongsan_20261016160024_6847418e] [batch_id=thitruongnongsan_20261016_8b86] Ingestion engine run completed | status=SUCCESS",
+        "[2026-10-16T16:00:27.882+0000] {python.py:240} INFO - Done. Returned value was: {'source_id': 'thitruongnongsan', 'run_id': 'thitruongnongsan_20261016160024_6847418e', 'batch_id': 'thitruongnongsan_20261016_8b86', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/price_luagao.xlsx', 'manifest_uri': 's3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/manifest.json', 'data_format': 'EXCEL', 'records_extracted': 20394, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063', 'started_at': '2026-10-16T16:00:24.556342+00:00', 'completed_at': '2026-10-16T16:00:27.699224+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T16:00:24.556389+00:00', 'source_id': 'thitruongnongsan', 'run_id': 'thitruongnongsan_20261016160024_6847418e', 'batch_id': 'thitruongnongsan_20261016_8b86', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/price_luagao.xlsx', 'format': 'EXCEL', 'size_bytes': 756440, 'checksum': '8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063'}, 'source_metadata': {'provider': None, 'dataset': None, 'uri': None, 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 20394, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T16:00:24.556342+00:00', 'completed_at': '2026-10-16T16:00:27.699224+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.thitruongnongsan', 'uuid': 'bda1e592-2601-4b61-b16a-b31a63bced74', 'snapshot_id': '6284553868447052727', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763/metadata/00001-af20e5d6-67bf-4166-8972-fd0d5f9fd9a9.metadata.json', 'rows': 20394, 'proved_run_id': 'thitruongnongsan_20261016160024_6847418e', 'checksum': '8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063'}}",
+        "[2026-10-16T16:00:27.954+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:00:27.954+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=ingest_thitruongnongsan, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T160023, end_date=20261016T160027",
+        "[2026-10-16T16:00:28.033+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:00:28.063+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:00:28.067+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__ingest_usda_psd__attempt=1.log": {
+      "bytes": 13095,
+      "sha256_sanitized": "13feb27c821e70bc155cec907d646f56c491cc7bc6b934d3c7b05783c4c66cf6",
+      "tail": [
+        "[2026-10-16T16:00:13.025+0000] {ingestion_engine.py:128} INFO - [source_id=usda_psd] [run_id=usda_psd_20261016160010_51f6293c] [batch_id=usda_psd_20261016_23fa] Ingestion engine run completed | status=SUCCESS",
+        "[2026-10-16T16:00:13.113+0000] {python.py:240} INFO - Done. Returned value was: {'source_id': 'usda_psd', 'run_id': 'usda_psd_20261016160010_51f6293c', 'batch_id': 'usda_psd_20261016_23fa', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/usda.xls', 'manifest_uri': 's3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/manifest.json', 'data_format': 'CSV', 'records_extracted': 15, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf', 'started_at': '2026-10-16T16:00:10.979367+00:00', 'completed_at': '2026-10-16T16:00:12.904478+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T16:00:10.979389+00:00', 'source_id': 'usda_psd', 'run_id': 'usda_psd_20261016160010_51f6293c', 'batch_id': 'usda_psd_20261016_23fa', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/usda.xls', 'format': 'CSV', 'size_bytes': 45549, 'checksum': '64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf'}, 'source_metadata': {'provider': 'USDA', 'dataset': 'PSD_Grains_Pulses', 'uri': 'https://apps.fas.usda.gov/psdonline/download/psd_grains_pulses_csv.zip', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 15, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T16:00:10.979367+00:00', 'completed_at': '2026-10-16T16:00:12.904478+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.usda_psd', 'uuid': 'f3504ceb-5188-44a2-aae8-cf5f92dbfec4', 'snapshot_id': '6725163293089992461', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/00001-301c4642-5c3b-47bd-9de7-36836dadd68a.metadata.json', 'rows': 15, 'proved_run_id': 'usda_psd_20261016160010_51f6293c', 'checksum': '64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf'}}",
+        "[2026-10-16T16:00:13.212+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:00:13.213+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=ingest_usda_psd, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T160010, end_date=20261016T160013",
+        "[2026-10-16T16:00:13.293+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:00:13.325+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:00:13.336+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__ingest_usda_rice_yearbook__attempt=1.log": {
+      "bytes": 14713,
+      "sha256_sanitized": "9f61e194f663020ce72bd6224983a0ee61203e98eb93d39d4baea55690d20359",
+      "tail": [
+        "[2026-10-16T16:00:17.180+0000] {ingestion_engine.py:128} INFO - [source_id=usda_rice_yearbook] [run_id=usda_rice_yearbook_20261016160015_07a33116] [batch_id=usda_rice_yearbook_20261016_2194] Ingestion engine run completed | status=SUCCESS",
+        "[2026-10-16T16:00:17.248+0000] {python.py:240} INFO - Done. Returned value was: {'source_id': 'usda_rice_yearbook', 'run_id': 'usda_rice_yearbook_20261016160015_07a33116', 'batch_id': 'usda_rice_yearbook_20261016_2194', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv', 'manifest_uri': 's3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/manifest.json', 'data_format': 'CSV', 'records_extracted': 13131, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba', 'started_at': '2026-10-16T16:00:15.167981+00:00', 'completed_at': '2026-10-16T16:00:17.066050+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T16:00:15.168002+00:00', 'source_id': 'usda_rice_yearbook', 'run_id': 'usda_rice_yearbook_20261016160015_07a33116', 'batch_id': 'usda_rice_yearbook_20261016_2194', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv', 'format': 'CSV', 'size_bytes': 2122534, 'checksum': '7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba'}, 'source_metadata': {'provider': None, 'dataset': None, 'uri': None, 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 13131, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T16:00:15.167981+00:00', 'completed_at': '2026-10-16T16:00:17.066050+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.usda_rice_yearbook', 'uuid': '26f68bd7-d87a-4d31-a153-b46403622233', 'snapshot_id': '4564470349869842851', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/00001-a30b4462-a338-4165-9ae0-3690cfcfb47c.metadata.json', 'rows': 13131, 'proved_run_id': 'usda_rice_yearbook_20261016160015_07a33116', 'checksum': '7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba'}}",
+        "[2026-10-16T16:00:17.323+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:00:17.324+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=ingest_usda_rice_yearbook, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T160014, end_date=20261016T160017",
+        "[2026-10-16T16:00:17.384+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:00:17.417+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:00:17.424+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__ingest_worldbank_pinksheet__attempt=1.log": {
+      "bytes": 14837,
+      "sha256_sanitized": "d59a137be358ecf4cfbda4330dec009d4bbad098c79a5a66421840dd534d2bd7",
+      "tail": [
+        "[2026-10-16T16:00:21.763+0000] {ingestion_engine.py:128} INFO - [source_id=worldbank_pinksheet] [run_id=worldbank_pinksheet_20261016160019_068e77d4] [batch_id=worldbank_pinksheet_20261016_9239] Ingestion engine run completed | status=SUCCESS",
+        "[2026-10-16T16:00:21.842+0000] {python.py:240} INFO - Done. Returned value was: {'source_id': 'worldbank_pinksheet', 'run_id': 'worldbank_pinksheet_20261016160019_068e77d4', 'batch_id': 'worldbank_pinksheet_20261016_9239', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/CMO-Historical-Data-Monthly.xlsx', 'manifest_uri': 's3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/manifest.json', 'data_format': 'EXCEL', 'records_extracted': 792, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290', 'started_at': '2026-10-16T16:00:19.239386+00:00', 'completed_at': '2026-10-16T16:00:21.652306+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T16:00:19.239422+00:00', 'source_id': 'worldbank_pinksheet', 'run_id': 'worldbank_pinksheet_20261016160019_068e77d4', 'batch_id': 'worldbank_pinksheet_20261016_9239', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/CMO-Historical-Data-Monthly.xlsx', 'format': 'EXCEL', 'size_bytes': 778415, 'checksum': '83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290'}, 'source_metadata': {'provider': 'WorldBank', 'dataset': 'CMO_Historical_Monthly', 'uri': 'https://thedocs.worldbank.org/en/doc/5d903e848db1d1b83e0ec8f744e55570-0350012021/related/CMO-Historical-Data-Monthly.xlsx', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 792, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T16:00:19.239386+00:00', 'completed_at': '2026-10-16T16:00:21.652306+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.worldbank_pinksheet', 'uuid': '21b3353e-cda4-4c55-8523-ef355d215b65', 'snapshot_id': '2608578091811865170', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/00001-bdb46047-949d-4cff-9094-429b044e7c3b.metadata.json', 'rows': 792, 'proved_run_id': 'worldbank_pinksheet_20261016160019_068e77d4', 'checksum': '83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290'}}",
+        "[2026-10-16T16:00:21.924+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:00:21.924+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=ingest_worldbank_pinksheet, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T160018, end_date=20261016T160021",
+        "[2026-10-16T16:00:21.996+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:00:22.030+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:00:22.035+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__initialize_metadata__attempt=1.log": {
+      "bytes": 2894,
+      "sha256_sanitized": "be6d278cb4bb53e6460d28b7c686e01e8012635cbbc58b3ef7bc6cf56d39c132",
+      "tail": [
+        "[2026-10-16T15:52:30.033+0000] {dag_ingestion_pipeline.py:89} INFO - PostgreSQL metadata repository and Iceberg schema verified/initialized.",
+        "[2026-10-16T15:52:30.033+0000] {python.py:240} INFO - Done. Returned value was: True",
+        "[2026-10-16T15:52:30.070+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T15:52:30.071+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=initialize_metadata, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T155228, end_date=20261016T155230",
+        "[2026-10-16T15:52:30.116+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T15:52:30.145+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T15:52:30.148+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    },
+    "bronze__trigger_silver_release__attempt=1.log": {
+      "bytes": 6071,
+      "sha256_sanitized": "bb50f164a5c57a2cabb27991bfbc86e72b10fdffd0480aa9b7a8d32cae349617",
+      "tail": [
+        "[2026-10-16T16:09:17.534+0000] {trigger_dagrun.py:257} INFO - Waiting for rice_lakehouse_silver_pipeline on 2026-10-16 16:00:47.062878+00:00 to become allowed state ['success'] ...",
+        "[2026-10-16T16:09:47.549+0000] {trigger_dagrun.py:257} INFO - Waiting for rice_lakehouse_silver_pipeline on 2026-10-16 16:00:47.062878+00:00 to become allowed state ['success'] ...",
+        "[2026-10-16T16:10:17.565+0000] {trigger_dagrun.py:257} INFO - Waiting for rice_lakehouse_silver_pipeline on 2026-10-16 16:00:47.062878+00:00 to become allowed state ['success'] ...",
+        "[2026-10-16T16:10:31.098+0000] {local_task_job_runner.py:127} ERROR - Received SIGTERM. Terminating subprocesses",
+        "[2026-10-16T16:10:31.105+0000] {process_utils.py:132} INFO - Sending 15 to group 1675. PIDs of all processes in the group: [1675]",
+        "[2026-10-16T16:10:31.119+0000] {process_utils.py:87} INFO - Sending the signal 15 to group 1675",
+        "[2026-10-16T16:10:31.119+0000] {taskinstance.py:3093} ERROR - Received SIGTERM. Terminating subprocesses."
+      ]
+    },
+    "bronze__verify_bronze_batch__attempt=1.log": {
+      "bytes": 30216,
+      "sha256_sanitized": "c4d887885b5a6448be4115faba89828aedbb887bc3652fa02ce4c7edd192d668",
+      "tail": [
+        "[2026-10-16T16:00:43.417+0000] {taskinstance.py:731} INFO - ::endgroup::",
+        "[2026-10-16T16:00:44.807+0000] {python.py:240} INFO - Done. Returned value was: {'status': 'PASSED', 'profile': 'local_nine', 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'results': [{'source_id': 'faostat_production', 'run_id': 'faostat_production_20261016155856_6ba3a6e8', 'batch_id': 'faostat_production_20261016_48b8', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/production_world.csv', 'manifest_uri': 's3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/manifest.json', 'data_format': 'CSV', 'records_extracted': 22738, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc', 'started_at': '2026-10-16T15:58:56.825578+00:00', 'completed_at': '2026-10-16T15:59:04.606043+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T15:58:56.825609+00:00', 'source_id': 'faostat_production', 'run_id': 'faostat_production_20261016155856_6ba3a6e8', 'batch_id': 'faostat_production_20261016_48b8', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/faostat_production/ingestion_date=2026-10-16/run_id=faostat_production_20261016155856_6ba3a6e8/production_world.csv', 'format': 'CSV', 'size_bytes': 3292244, 'checksum': '6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc'}, 'source_metadata': {'provider': 'FAOSTAT', 'dataset': 'Production_Crops_Livestock_E_All_Data_(Normalized)', 'uri': 'https://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_Livestock_E_All_Data_(Normalized).zip', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 22738, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T15:58:56.825578+00:00', 'completed_at': '2026-10-16T15:59:04.606043+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.faostat_production', 'uuid': 'd1d1158c-2a38-44a2-8131-1e6ee2530ccd', 'snapshot_id': '4843563875751184854', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e/metadata/00001-76469731-7647-43c7-8ec4-41a20401eaad.metadata.json', 'rows': 22738, 'proved_run_id': 'faostat_production_20261016155856_6ba3a6e8', 'checksum': '6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc'}}, {'source_id': 'faostat_monthly_price', 'run_id': 'faostat_monthly_price_20261016155906_428dc755', 'batch_id': 'faostat_monthly_price_20261016_abc3', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/price.csv', 'manifest_uri': 's3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/manifest.json', 'data_format': 'CSV', 'records_extracted': 15334, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': 'c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af', 'started_at': '2026-10-16T15:59:06.749011+00:00', 'completed_at': '2026-10-16T15:59:09.535955+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T15:59:06.749038+00:00', 'source_id': 'faostat_monthly_price', 'run_id': 'faostat_monthly_price_20261016155906_428dc755', 'batch_id': 'faostat_monthly_price_20261016_abc3', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/faostat_monthly_price/ingestion_date=2026-10-16/run_id=faostat_monthly_price_20261016155906_428dc755/price.csv', 'format': 'CSV', 'size_bytes': 2509272, 'checksum': 'c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af'}, 'source_metadata': {'provider': 'FAOSTAT', 'dataset': 'Prices_Monthly_E_All_Data_(Normalized)', 'uri': 'https://fenixservices.fao.org/faostat/static/bulkdownloads/Prices_Monthly_E_All_Data_(Normalized).zip', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 15334, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T15:59:06.749011+00:00', 'completed_at': '2026-10-16T15:59:09.535955+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.faostat_monthly_price', 'uuid': 'fa3e9fd5-e1f1-45f9-8bcb-44fcad7400b8', 'snapshot_id': '3069013476710882292', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b/metadata/00001-34d97089-b982-4d03-a2b6-f4b725a11ce3.metadata.json', 'rows': 15334, 'proved_run_id': 'faostat_monthly_price_20261016155906_428dc755', 'checksum': 'c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af'}}, {'source_id': 'faostat_supply_utilization', 'run_id': 'faostat_supply_utilization_20261016155912_7f1d590f', 'batch_id': 'faostat_supply_utilization_20261016_a0e9', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/supply_utilization.csv', 'manifest_uri': 's3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/manifest.json', 'data_format': 'CSV', 'records_extracted': 36380, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c', 'started_at': '2026-10-16T15:59:12.935181+00:00', 'completed_at': '2026-10-16T15:59:16.988701+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T15:59:12.935222+00:00', 'source_id': 'faostat_supply_utilization', 'run_id': 'faostat_supply_utilization_20261016155912_7f1d590f', 'batch_id': 'faostat_supply_utilization_20261016_a0e9', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/faostat_supply_utilization/ingestion_date=2026-10-16/run_id=faostat_supply_utilization_20261016155912_7f1d590f/supply_utilization.csv', 'format': 'CSV', 'size_bytes': 6096569, 'checksum': '3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c'}, 'source_metadata': {'provider': 'FAOSTAT', 'dataset': 'SUA_Crops_Livestock_E_All_Data_(Normalized)', 'uri': 'https://fenixservices.fao.org/faostat/static/bulkdownloads/SUA_Crops_Livestock_E_All_Data_(Normalized).zip', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 36380, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T15:59:12.935181+00:00', 'completed_at': '2026-10-16T15:59:16.988701+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.faostat_supply_utilization', 'uuid': '20a87b98-5ce9-4230-9d13-42c9e13218f8', 'snapshot_id': '1149052647847510586', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908/metadata/00001-2be57582-59f4-47b2-bf61-3e1369cbcc17.metadata.json', 'rows': 36380, 'proved_run_id': 'faostat_supply_utilization_20261016155912_7f1d590f', 'checksum': '3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c'}}, {'source_id': 'faostat_trade', 'run_id': 'faostat_trade_20261016155919_cc04dc8d', 'batch_id': 'faostat_trade_20261016_a5f6', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/rice_trade_data.csv', 'manifest_uri': 's3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/manifest.json', 'data_format': 'CSV', 'records_extracted': 1226470, 'records_quarantined': 0, 'chunks_processed': 25, 'chunks_total': 25, 'checksum': '697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168', 'started_at': '2026-10-16T15:59:19.657564+00:00', 'completed_at': '2026-10-16T16:00:08.199648+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T15:59:19.657584+00:00', 'source_id': 'faostat_trade', 'run_id': 'faostat_trade_20261016155919_cc04dc8d', 'batch_id': 'faostat_trade_20261016_a5f6', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/faostat_trade/ingestion_date=2026-10-16/run_id=faostat_trade_20261016155919_cc04dc8d/rice_trade_data.csv', 'format': 'CSV', 'size_bytes': 167990400, 'checksum': '697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168'}, 'source_metadata': {'provider': 'FAOSTAT', 'dataset': 'Trade_DetailedTradeMatrix_E_All_Data_(Normalized)', 'uri': 'https://bulks-faostat.fao.org/production/Trade_DetailedTradeMatrix_E_All_Data_(Normalized).zip', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 1226470, 'chunks_processed': 25, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T15:59:19.657564+00:00', 'completed_at': '2026-10-16T16:00:08.199648+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.faostat_trade', 'uuid': 'f8f3cec9-23ce-4bfc-8cfc-0625658201df', 'snapshot_id': '2171934088797835179', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/metadata/00025-36aa5ba3-208f-4b55-9ed5-4d7d93310303.metadata.json', 'rows': 1226470, 'proved_run_id': 'faostat_trade_20261016155919_cc04dc8d', 'checksum': '697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168'}}, {'source_id': 'usda_psd', 'run_id': 'usda_psd_20261016160010_51f6293c', 'batch_id': 'usda_psd_20261016_23fa', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/usda.xls', 'manifest_uri': 's3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/manifest.json', 'data_format': 'CSV', 'records_extracted': 15, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf', 'started_at': '2026-10-16T16:00:10.979367+00:00', 'completed_at': '2026-10-16T16:00:12.904478+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T16:00:10.979389+00:00', 'source_id': 'usda_psd', 'run_id': 'usda_psd_20261016160010_51f6293c', 'batch_id': 'usda_psd_20261016_23fa', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/usda_psd/ingestion_date=2026-10-16/run_id=usda_psd_20261016160010_51f6293c/usda.xls', 'format': 'CSV', 'size_bytes': 45549, 'checksum': '64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf'}, 'source_metadata': {'provider': 'USDA', 'dataset': 'PSD_Grains_Pulses', 'uri': 'https://apps.fas.usda.gov/psdonline/download/psd_grains_pulses_csv.zip', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 15, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T16:00:10.979367+00:00', 'completed_at': '2026-10-16T16:00:12.904478+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.usda_psd', 'uuid': 'f3504ceb-5188-44a2-aae8-cf5f92dbfec4', 'snapshot_id': '6725163293089992461', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/00001-301c4642-5c3b-47bd-9de7-36836dadd68a.metadata.json', 'rows': 15, 'proved_run_id': 'usda_psd_20261016160010_51f6293c', 'checksum': '64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf'}}, {'source_id': 'usda_rice_yearbook', 'run_id': 'usda_rice_yearbook_20261016160015_07a33116', 'batch_id': 'usda_rice_yearbook_20261016_2194', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv', 'manifest_uri': 's3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/manifest.json', 'data_format': 'CSV', 'records_extracted': 13131, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba', 'started_at': '2026-10-16T16:00:15.167981+00:00', 'completed_at': '2026-10-16T16:00:17.066050+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T16:00:15.168002+00:00', 'source_id': 'usda_rice_yearbook', 'run_id': 'usda_rice_yearbook_20261016160015_07a33116', 'batch_id': 'usda_rice_yearbook_20261016_2194', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/usda_rice_yearbook/ingestion_date=2026-10-16/run_id=usda_rice_yearbook_20261016160015_07a33116/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv', 'format': 'CSV', 'size_bytes': 2122534, 'checksum': '7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba'}, 'source_metadata': {'provider': None, 'dataset': None, 'uri': None, 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 13131, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T16:00:15.167981+00:00', 'completed_at': '2026-10-16T16:00:17.066050+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.usda_rice_yearbook', 'uuid': '26f68bd7-d87a-4d31-a153-b46403622233', 'snapshot_id': '4564470349869842851', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/00001-a30b4462-a338-4165-9ae0-3690cfcfb47c.metadata.json', 'rows': 13131, 'proved_run_id': 'usda_rice_yearbook_20261016160015_07a33116', 'checksum': '7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba'}}, {'source_id': 'worldbank_pinksheet', 'run_id': 'worldbank_pinksheet_20261016160019_068e77d4', 'batch_id': 'worldbank_pinksheet_20261016_9239', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/CMO-Historical-Data-Monthly.xlsx', 'manifest_uri': 's3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/manifest.json', 'data_format': 'EXCEL', 'records_extracted': 792, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290', 'started_at': '2026-10-16T16:00:19.239386+00:00', 'completed_at': '2026-10-16T16:00:21.652306+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T16:00:19.239422+00:00', 'source_id': 'worldbank_pinksheet', 'run_id': 'worldbank_pinksheet_20261016160019_068e77d4', 'batch_id': 'worldbank_pinksheet_20261016_9239', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/worldbank_pinksheet/ingestion_date=2026-10-16/run_id=worldbank_pinksheet_20261016160019_068e77d4/CMO-Historical-Data-Monthly.xlsx', 'format': 'EXCEL', 'size_bytes': 778415, 'checksum': '83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290'}, 'source_metadata': {'provider': 'WorldBank', 'dataset': 'CMO_Historical_Monthly', 'uri': 'https://thedocs.worldbank.org/en/doc/5d903e848db1d1b83e0ec8f744e55570-0350012021/related/CMO-Historical-Data-Monthly.xlsx', 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 792, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T16:00:19.239386+00:00', 'completed_at': '2026-10-16T16:00:21.652306+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.worldbank_pinksheet', 'uuid': '21b3353e-cda4-4c55-8523-ef355d215b65', 'snapshot_id': '2608578091811865170', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/00001-bdb46047-949d-4cff-9094-429b044e7c3b.metadata.json', 'rows': 792, 'proved_run_id': 'worldbank_pinksheet_20261016160019_068e77d4', 'checksum': '83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290'}}, {'source_id': 'thitruongnongsan', 'run_id': 'thitruongnongsan_20261016160024_6847418e', 'batch_id': 'thitruongnongsan_20261016_8b86', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/price_luagao.xlsx', 'manifest_uri': 's3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/manifest.json', 'data_format': 'EXCEL', 'records_extracted': 20394, 'records_quarantined': 0, 'chunks_processed': 1, 'chunks_total': 1, 'checksum': '8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063', 'started_at': '2026-10-16T16:00:24.556342+00:00', 'completed_at': '2026-10-16T16:00:27.699224+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T16:00:24.556389+00:00', 'source_id': 'thitruongnongsan', 'run_id': 'thitruongnongsan_20261016160024_6847418e', 'batch_id': 'thitruongnongsan_20261016_8b86', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/thitruongnongsan/ingestion_date=2026-10-16/run_id=thitruongnongsan_20261016160024_6847418e/price_luagao.xlsx', 'format': 'EXCEL', 'size_bytes': 756440, 'checksum': '8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063'}, 'source_metadata': {'provider': None, 'dataset': None, 'uri': None, 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 20394, 'chunks_processed': 1, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T16:00:24.556342+00:00', 'completed_at': '2026-10-16T16:00:27.699224+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.thitruongnongsan', 'uuid': 'bda1e592-2601-4b61-b16a-b31a63bced74', 'snapshot_id': '6284553868447052727', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763/metadata/00001-af20e5d6-67bf-4166-8972-fd0d5f9fd9a9.metadata.json', 'rows': 20394, 'proved_run_id': 'thitruongnongsan_20261016160024_6847418e', 'checksum': '8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063'}}, {'source_id': 'nso_vietnam', 'run_id': 'nso_vietnam_20261016160030_2c409d8a', 'batch_id': 'nso_vietnam_20261016_2a8e', 'load_type': 'FULL', 'status': 'SUCCESS', 'artifact_uri': 's3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/nso_vietnam_raw.zip', 'manifest_uri': 's3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/manifest.json', 'data_format': 'CSV', 'records_extracted': 833, 'records_quarantined': 0, 'chunks_processed': 13, 'chunks_total': 13, 'checksum': 'b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a', 'started_at': '2026-10-16T16:00:30.266464+00:00', 'completed_at': '2026-10-16T16:00:40.574444+00:00', 'watermark_before': None, 'watermark_after': None, 'source_metadata': {}, 'error_message': None, 'error_type': None, 'manifest': {'pipeline_version': '1.0.0', 'created_at': '2026-10-16T16:00:30.266489+00:00', 'source_id': 'nso_vietnam', 'run_id': 'nso_vietnam_20261016160030_2c409d8a', 'batch_id': 'nso_vietnam_20261016_2a8e', 'load_type': 'FULL', 'artifact_info': {'uri': 's3://bronze/raw/nso_vietnam/ingestion_date=2026-10-16/run_id=nso_vietnam_20261016160030_2c409d8a/nso_vietnam_raw.zip', 'format': 'CSV', 'size_bytes': 54901, 'checksum': 'b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a'}, 'source_metadata': {'provider': None, 'dataset': None, 'uri': None, 'last_modified': None, 'etag': None, 'content_length': None}, 'metrics': {'records_extracted': 833, 'chunks_processed': 13, 'records_quarantined': 0}, 'timing': {'started_at': '2026-10-16T16:00:30.266464+00:00', 'completed_at': '2026-10-16T16:00:40.574444+00:00'}, 'watermark': {'before': None, 'after': None}, 'status': 'SUCCESS', 'error': {'message': None, 'type': None}}, 'registry_sha256': '9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6', 'bronze_identity': {'table': 'iceberg.bronze.nso_vietnam', 'uuid': '9df24331-6337-4567-8a6e-2515b752478d', 'snapshot_id': '6239067651375331267', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/metadata/00013-dd5a23f4-fe5a-4518-8933-569fcecae43e.metadata.json', 'rows': 833, 'proved_run_id': 'nso_vietnam_20261016160030_2c409d8a', 'checksum': 'b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a'}}], 'bronze_inputs': {'faostat_production': {'table': 'iceberg.bronze.faostat_production', 'uuid': 'd1d1158c-2a38-44a2-8131-1e6ee2530ccd', 'snapshot_id': '4843563875751184854', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e/metadata/00001-76469731-7647-43c7-8ec4-41a20401eaad.metadata.json', 'rows': 22738, 'proved_run_id': 'faostat_production_20261016155856_6ba3a6e8', 'checksum': '6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc'}, 'faostat_monthly_price': {'table': 'iceberg.bronze.faostat_monthly_price', 'uuid': 'fa3e9fd5-e1f1-45f9-8bcb-44fcad7400b8', 'snapshot_id': '3069013476710882292', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b/metadata/00001-34d97089-b982-4d03-a2b6-f4b725a11ce3.metadata.json', 'rows': 15334, 'proved_run_id': 'faostat_monthly_price_20261016155906_428dc755', 'checksum': 'c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af'}, 'faostat_supply_utilization': {'table': 'iceberg.bronze.faostat_supply_utilization', 'uuid': '20a87b98-5ce9-4230-9d13-42c9e13218f8', 'snapshot_id': '1149052647847510586', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908/metadata/00001-2be57582-59f4-47b2-bf61-3e1369cbcc17.metadata.json', 'rows': 36380, 'proved_run_id': 'faostat_supply_utilization_20261016155912_7f1d590f', 'checksum': '3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c'}, 'faostat_trade': {'table': 'iceberg.bronze.faostat_trade', 'uuid': 'f8f3cec9-23ce-4bfc-8cfc-0625658201df', 'snapshot_id': '2171934088797835179', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/metadata/00025-36aa5ba3-208f-4b55-9ed5-4d7d93310303.metadata.json', 'rows': 1226470, 'proved_run_id': 'faostat_trade_20261016155919_cc04dc8d', 'checksum': '697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168'}, 'usda_psd': {'table': 'iceberg.bronze.usda_psd', 'uuid': 'f3504ceb-5188-44a2-aae8-cf5f92dbfec4', 'snapshot_id': '6725163293089992461', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/00001-301c4642-5c3b-47bd-9de7-36836dadd68a.metadata.json', 'rows': 15, 'proved_run_id': 'usda_psd_20261016160010_51f6293c', 'checksum': '64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf'}, 'usda_rice_yearbook': {'table': 'iceberg.bronze.usda_rice_yearbook', 'uuid': '26f68bd7-d87a-4d31-a153-b46403622233', 'snapshot_id': '4564470349869842851', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/00001-a30b4462-a338-4165-9ae0-3690cfcfb47c.metadata.json', 'rows': 13131, 'proved_run_id': 'usda_rice_yearbook_20261016160015_07a33116', 'checksum': '7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba'}, 'worldbank_pinksheet': {'table': 'iceberg.bronze.worldbank_pinksheet', 'uuid': '21b3353e-cda4-4c55-8523-ef355d215b65', 'snapshot_id': '2608578091811865170', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/00001-bdb46047-949d-4cff-9094-429b044e7c3b.metadata.json', 'rows': 792, 'proved_run_id': 'worldbank_pinksheet_20261016160019_068e77d4', 'checksum': '83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290'}, 'thitruongnongsan': {'table': 'iceberg.bronze.thitruongnongsan', 'uuid': 'bda1e592-2601-4b61-b16a-b31a63bced74', 'snapshot_id': '6284553868447052727', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763/metadata/00001-af20e5d6-67bf-4166-8972-fd0d5f9fd9a9.metadata.json', 'rows': 20394, 'proved_run_id': 'thitruongnongsan_20261016160024_6847418e', 'checksum': '8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063'}, 'nso_vietnam': {'table': 'iceberg.bronze.nso_vietnam', 'uuid': '9df24331-6337-4567-8a6e-2515b752478d', 'snapshot_id': '6239067651375331267', 'schema_id': 0, 'metadata_location': 's3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/metadata/00013-dd5a23f4-fe5a-4518-8933-569fcecae43e.metadata.json', 'rows': 833, 'proved_run_id': 'nso_vietnam_20261016160030_2c409d8a', 'checksum': 'b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a'}}, 'bronze_dag_run_id': 'local_nine_cleanroom_initial__20261016T155210Z', 'silver_run_id': 'local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1'}",
+        "[2026-10-16T16:00:44.846+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs",
+        "[2026-10-16T16:00:44.847+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=rice_lakehouse_ingestion, task_id=verify_bronze_batch, run_id=local_nine_cleanroom_initial__20261016T155210Z, execution_date=20261016T155227, start_date=20261016T160043, end_date=20261016T160044",
+        "[2026-10-16T16:00:44.918+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0",
+        "[2026-10-16T16:00:44.949+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check",
+        "[2026-10-16T16:00:44.953+0000] {local_task_job_runner.py:245} INFO - ::endgroup::"
+      ]
+    }
+  },
+  "catalogs": {
+    "cleanroom": {
+      "copy_source": "stopped existing REST container, docker cp read-only",
+      "files": {
+        "local-nine.db": {
+          "bytes": 28672,
+          "sha256": "5d6fbcfee0ec08e5bada9c92673c96b0efe30e441c92d89f65d48550819b06b4"
+        }
+      },
+      "integrity_check": [
+        "ok"
+      ],
+      "schemas": [
+        {
+          "name": "iceberg_tables",
+          "sql": "CREATE TABLE iceberg_tables(catalog_name VARCHAR(255) NOT NULL,table_namespace VARCHAR(255) NOT NULL,table_name VARCHAR(255) NOT NULL,metadata_location VARCHAR(1000),previous_metadata_location VARCHAR(1000),PRIMARY KEY (catalog_name, table_namespace, table_name))"
+        },
+        {
+          "name": "iceberg_namespace_properties",
+          "sql": "CREATE TABLE iceberg_namespace_properties(catalog_name VARCHAR(255) NOT NULL,namespace VARCHAR(255) NOT NULL,property_key VARCHAR(255),property_value VARCHAR(1000),PRIMARY KEY (catalog_name, namespace, property_key))"
+        }
+      ],
+      "tables": [
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "faostat_production",
+          "metadata_location": "s3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e/metadata/00001-76469731-7647-43c7-8ec4-41a20401eaad.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e/metadata/00000-a025da4b-9772-43bc-8021-c34ecdc79817.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "faostat_monthly_price",
+          "metadata_location": "s3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b/metadata/00001-34d97089-b982-4d03-a2b6-f4b725a11ce3.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b/metadata/00000-b5649fb6-94d8-4dc4-90d8-411d5ecbe514.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "faostat_supply_utilization",
+          "metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908/metadata/00001-2be57582-59f4-47b2-bf61-3e1369cbcc17.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908/metadata/00000-fc67699c-6dfd-4cc1-9631-7e21d66b7b7b.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "faostat_trade",
+          "metadata_location": "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/metadata/00025-36aa5ba3-208f-4b55-9ed5-4d7d93310303.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/metadata/00024-18042d51-c535-4f0b-bf88-0a2a7817cb83.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "usda_psd",
+          "metadata_location": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/00001-301c4642-5c3b-47bd-9de7-36836dadd68a.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/00000-2dad95a9-bd90-458a-86f6-477f5fb2a821.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "usda_rice_yearbook",
+          "metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/00001-a30b4462-a338-4165-9ae0-3690cfcfb47c.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/00000-495e98ec-0201-4ef1-a615-b68168ff24ad.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "worldbank_pinksheet",
+          "metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/00001-bdb46047-949d-4cff-9094-429b044e7c3b.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/00000-3e714d1e-fea8-4d8a-a3fa-550f4850beea.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "thitruongnongsan",
+          "metadata_location": "s3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763/metadata/00001-af20e5d6-67bf-4166-8972-fd0d5f9fd9a9.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763/metadata/00000-d21e2a3b-d5cb-48a4-ae89-f5016f988fd2.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "nso_vietnam",
+          "metadata_location": "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/metadata/00013-dd5a23f4-fe5a-4518-8933-569fcecae43e.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/metadata/00012-5b55051b-5f69-4930-bc5c-e1eb9004a20e.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "dead_letters",
+          "metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00002-febb5d42-a466-43ba-9c82-acbe9f7dc02a.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00001-cd31d09e-e796-4f72-8667-d81e10594f9f.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "faostat_production",
+          "metadata_location": "s3://warehouse/silver_local/faostat_production/metadata/00001-eba80a7d-cf27-4ece-8e05-d5a154021d47.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/faostat_production/metadata/00000-fbfa4025-6338-415d-abdb-3e734616bd16.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "faostat_monthly_price",
+          "metadata_location": "s3://warehouse/silver_local/faostat_monthly_price/metadata/00001-06dac4f2-c909-4f3d-865c-55b056a11593.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/faostat_monthly_price/metadata/00000-dffb45aa-b87c-48f3-9fcd-cd0ea4a468c0.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "faostat_supply_utilization",
+          "metadata_location": "s3://warehouse/silver_local/faostat_supply_utilization/metadata/00001-37b2d861-8b26-42fb-b171-208aa0279882.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/faostat_supply_utilization/metadata/00000-ca493da2-0be2-4352-8c21-9da399f1754d.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "faostat_trade",
+          "metadata_location": "s3://warehouse/silver_local/faostat_trade/metadata/00001-2de6cd57-8635-43a2-bdd3-5bdc12915958.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/faostat_trade/metadata/00000-d305182c-d34c-460b-aba0-d69c61b2d9d7.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "usda_rice_psd",
+          "metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00001-321556fe-ffcf-4d78-9a77-97a1136c8dc5.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00000-1d20fb71-a4e1-45d9-b3c2-077ac1e1f309.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "usda_rice_yearbook",
+          "metadata_location": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/00001-26791b3d-bf2c-4208-889e-2736e92790e9.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/00000-4c6db542-107b-4517-b31e-a644f76a4b30.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "worldbank_commodity_monthly",
+          "metadata_location": "s3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00001-2be316fd-844b-4cb9-94fa-1ebba6f789b3.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00000-2ea167d7-60be-45d4-82f5-b207bae08bab.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "thitruongnongsan",
+          "metadata_location": "s3://warehouse/silver_local/thitruongnongsan/metadata/00001-75752312-421c-4d2a-b86f-1698d664fe7a.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/thitruongnongsan/metadata/00000-984abdcf-9d49-430f-a3c4-e8bcaf0df9b7.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "nso_rice_statistics_v2",
+          "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00000-f2bc1279-dc46-44f9-b5cb-c97ee208c04e.metadata.json",
+          "previous_metadata_location": null
+        }
+      ]
+    },
+    "phase2": {
+      "copy_source": "stopped existing REST container, docker cp read-only",
+      "files": {
+        "local-nine.db": {
+          "bytes": 28672,
+          "sha256": "13140223640feef0c4e7c0089fa386cbb56a1bc7414018edb9e8b79b2b3851cf"
+        }
+      },
+      "integrity_check": [
+        "ok"
+      ],
+      "schemas": [
+        {
+          "name": "iceberg_tables",
+          "sql": "CREATE TABLE iceberg_tables(catalog_name VARCHAR(255) NOT NULL,table_namespace VARCHAR(255) NOT NULL,table_name VARCHAR(255) NOT NULL,metadata_location VARCHAR(1000),previous_metadata_location VARCHAR(1000),PRIMARY KEY (catalog_name, table_namespace, table_name))"
+        },
+        {
+          "name": "iceberg_namespace_properties",
+          "sql": "CREATE TABLE iceberg_namespace_properties(catalog_name VARCHAR(255) NOT NULL,namespace VARCHAR(255) NOT NULL,property_key VARCHAR(255),property_value VARCHAR(1000),PRIMARY KEY (catalog_name, namespace, property_key))"
+        }
+      ],
+      "tables": [
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "faostat_production",
+          "metadata_location": "s3://warehouse/bronze/faostat_production-15e05906fe5540cba6295fea11267a0d/metadata/00001-10749c90-81a4-4a28-b9d7-9f4ae66d772d.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/faostat_production-15e05906fe5540cba6295fea11267a0d/metadata/00000-cc3e8929-5e98-4b3d-8f2a-2ce4e0df1f18.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "faostat_monthly_price",
+          "metadata_location": "s3://warehouse/bronze/faostat_monthly_price-4f6b58dd06134b268e35628139447fd1/metadata/00001-2719980e-3563-4ed7-9341-775f76394f66.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/faostat_monthly_price-4f6b58dd06134b268e35628139447fd1/metadata/00000-45509810-5e7a-4146-8a45-e6f478ae6c34.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "faostat_supply_utilization",
+          "metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-cfa9cb07000c49abb2cc271df62f7da2/metadata/00001-8153d04f-dfb0-4972-b0f7-a7b349da8eba.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-cfa9cb07000c49abb2cc271df62f7da2/metadata/00000-fd994228-6c14-4501-8d3a-332ebcc1d49f.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "faostat_trade",
+          "metadata_location": "s3://warehouse/bronze/faostat_trade-49cb86f8067f48cea82c6bfd32217760/metadata/00025-9488f9a7-a04b-419c-80ee-3f9d7ccccc5d.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/faostat_trade-49cb86f8067f48cea82c6bfd32217760/metadata/00024-a6f8618a-d173-482c-ac88-ae6d82887294.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "usda_psd",
+          "metadata_location": "s3://warehouse/bronze/usda_psd-e1d47ed8795f430c9dc71c92a2c36f94/metadata/00001-ec10bfce-495e-4280-9f7d-853ed689d1d5.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/usda_psd-e1d47ed8795f430c9dc71c92a2c36f94/metadata/00000-1f0ac288-51c4-4cfb-bca6-a47b5b433668.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "usda_rice_yearbook",
+          "metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-2cfe8fd7bc804658b80c8da2c163eafa/metadata/00001-b402586b-0e3d-410a-8d5f-bae96e10eaa6.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-2cfe8fd7bc804658b80c8da2c163eafa/metadata/00000-2710ca55-f79e-4b05-9fa4-a0d56f83db3e.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "worldbank_pinksheet",
+          "metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-6c889576b7e9499e9df0d1097cbcded4/metadata/00001-ab21da86-1934-49b2-98ae-0f7d2cc84289.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-6c889576b7e9499e9df0d1097cbcded4/metadata/00000-a8a76363-c7f5-4f9f-bf13-de9721a8c519.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "thitruongnongsan",
+          "metadata_location": "s3://warehouse/bronze/thitruongnongsan-703068dc4b7a4dbd9ff034755f07b98c/metadata/00001-fa7179de-d42f-4ac7-ba37-42ff494fed33.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/thitruongnongsan-703068dc4b7a4dbd9ff034755f07b98c/metadata/00000-966d7eaf-0bd6-4e37-84b5-b92fdec03664.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "bronze",
+          "table_name": "nso_vietnam",
+          "metadata_location": "s3://warehouse/bronze/nso_vietnam-40feaa29be4a4853855475985e282e42/metadata/00013-5825e0be-b9c0-4d9e-9a01-73e69b1ebc5a.metadata.json",
+          "previous_metadata_location": "s3://warehouse/bronze/nso_vietnam-40feaa29be4a4853855475985e282e42/metadata/00012-9f45584d-52a3-4046-80a7-a3964de89ca9.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "dead_letters",
+          "metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00002-3be9ef12-5d51-40b9-982f-8b2901c97fb2.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00001-d038118b-86ad-4d45-8b7f-a68d3bd247c5.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "faostat_production",
+          "metadata_location": "s3://warehouse/silver_local/faostat_production/metadata/00001-98ea69ab-2bd4-4e24-ad99-7727c44fd36e.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/faostat_production/metadata/00000-6e513d9d-38cb-41fd-8ddb-c4bcbfc0fa09.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "faostat_monthly_price",
+          "metadata_location": "s3://warehouse/silver_local/faostat_monthly_price/metadata/00001-e484fd89-3570-48c4-897b-80231fabe884.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/faostat_monthly_price/metadata/00000-4e6c2c16-ebb9-4fa5-9fda-2f7cedb0b988.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "faostat_supply_utilization",
+          "metadata_location": "s3://warehouse/silver_local/faostat_supply_utilization/metadata/00001-839304bd-328c-46f3-a829-ee8de102fc17.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/faostat_supply_utilization/metadata/00000-f713f425-3e77-4016-990b-3208ac33e0d7.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "faostat_trade",
+          "metadata_location": "s3://warehouse/silver_local/faostat_trade/metadata/00001-7a174971-abe6-47f5-8964-2baf77c54277.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/faostat_trade/metadata/00000-cbb46183-dc9f-46be-adfd-f264995fef92.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "usda_rice_psd",
+          "metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00001-05e1c859-5b84-4563-b59d-908342f78220.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00000-08b5ea7a-893a-4ce8-b7e1-59597c588425.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "usda_rice_yearbook",
+          "metadata_location": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/00001-391a2d12-c57e-4e71-87cf-1c7f56361c04.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/00000-ff000131-2cd9-4479-81e0-4b922280319e.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "worldbank_commodity_monthly",
+          "metadata_location": "s3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00001-94339031-3b91-4618-9545-70e42fe032c7.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00000-84b995d3-a1b3-4f59-ac5a-7f2814d24b09.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "thitruongnongsan",
+          "metadata_location": "s3://warehouse/silver_local/thitruongnongsan/metadata/00001-d2699221-005e-44db-98fe-fe16421f2938.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/thitruongnongsan/metadata/00000-2eed3f04-319d-4d0f-b504-138da622f86a.metadata.json"
+        },
+        {
+          "catalog_name": "rest_backend",
+          "table_namespace": "silver_local",
+          "table_name": "nso_rice_statistics_v2",
+          "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00001-c3cf129f-2ee9-4724-b0aa-d58df84b33e0.metadata.json",
+          "previous_metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00000-f7c053d5-dbd5-4dea-ad20-29f1d5b4cedc.metadata.json"
+        }
+      ]
+    }
+  }
+}

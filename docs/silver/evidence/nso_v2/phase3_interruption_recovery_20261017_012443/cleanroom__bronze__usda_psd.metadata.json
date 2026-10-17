@@ -1,0 +1,569 @@
+{
+  "format-version": 2,
+  "table-uuid": "f3504ceb-5188-44a2-aae8-cf5f92dbfec4",
+  "location": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561",
+  "last-sequence-number": 2,
+  "last-updated-ms": 1792166412737,
+  "last-column-id": 78,
+  "current-schema-id": 0,
+  "schemas": [
+    {
+      "type": "struct",
+      "schema-id": 0,
+      "fields": [
+        {
+          "id": 1,
+          "name": "commodity",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 2,
+          "name": "attribute",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 3,
+          "name": "country",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 4,
+          "name": "col_1960_1961",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 5,
+          "name": "col_1961_1962",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 6,
+          "name": "col_1962_1963",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 7,
+          "name": "col_1963_1964",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 8,
+          "name": "col_1964_1965",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 9,
+          "name": "col_1965_1966",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 10,
+          "name": "col_1966_1967",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 11,
+          "name": "col_1967_1968",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 12,
+          "name": "col_1968_1969",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 13,
+          "name": "col_1969_1970",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 14,
+          "name": "col_1970_1971",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 15,
+          "name": "col_1971_1972",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 16,
+          "name": "col_1972_1973",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 17,
+          "name": "col_1973_1974",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 18,
+          "name": "col_1974_1975",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 19,
+          "name": "col_1975_1976",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 20,
+          "name": "col_1976_1977",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 21,
+          "name": "col_1977_1978",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 22,
+          "name": "col_1978_1979",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 23,
+          "name": "col_1979_1980",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 24,
+          "name": "col_1980_1981",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 25,
+          "name": "col_1981_1982",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 26,
+          "name": "col_1982_1983",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 27,
+          "name": "col_1983_1984",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 28,
+          "name": "col_1984_1985",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 29,
+          "name": "col_1985_1986",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 30,
+          "name": "col_1986_1987",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 31,
+          "name": "col_1987_1988",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 32,
+          "name": "col_1988_1989",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 33,
+          "name": "col_1989_1990",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 34,
+          "name": "col_1990_1991",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 35,
+          "name": "col_1991_1992",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 36,
+          "name": "col_1992_1993",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 37,
+          "name": "col_1993_1994",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 38,
+          "name": "col_1994_1995",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 39,
+          "name": "col_1995_1996",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 40,
+          "name": "col_1996_1997",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 41,
+          "name": "col_1997_1998",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 42,
+          "name": "col_1998_1999",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 43,
+          "name": "col_1999_2000",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 44,
+          "name": "col_2000_2001",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 45,
+          "name": "col_2001_2002",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 46,
+          "name": "col_2002_2003",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 47,
+          "name": "col_2003_2004",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 48,
+          "name": "col_2004_2005",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 49,
+          "name": "col_2005_2006",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 50,
+          "name": "col_2006_2007",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 51,
+          "name": "col_2007_2008",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 52,
+          "name": "col_2008_2009",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 53,
+          "name": "col_2009_2010",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 54,
+          "name": "col_2010_2011",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 55,
+          "name": "col_2011_2012",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 56,
+          "name": "col_2012_2013",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 57,
+          "name": "col_2013_2014",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 58,
+          "name": "col_2014_2015",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 59,
+          "name": "col_2015_2016",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 60,
+          "name": "col_2016_2017",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 61,
+          "name": "col_2017_2018",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 62,
+          "name": "col_2018_2019",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 63,
+          "name": "col_2019_2020",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 64,
+          "name": "col_2020_2021",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 65,
+          "name": "col_2021_2022",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 66,
+          "name": "col_2022_2023",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 67,
+          "name": "col_2023_2024",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 68,
+          "name": "col_2024_2025",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 69,
+          "name": "col_2025_2026",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 70,
+          "name": "unit_description",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 71,
+          "name": "_ingestion_run_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 72,
+          "name": "_ingestion_batch_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 73,
+          "name": "_ingestion_chunk_id",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 74,
+          "name": "_ingestion_timestamp",
+          "required": false,
+          "type": "timestamptz"
+        },
+        {
+          "id": 75,
+          "name": "_source_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 76,
+          "name": "_source_file",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 77,
+          "name": "_source_checksum",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 78,
+          "name": "_source_snapshot_id",
+          "required": false,
+          "type": "long"
+        }
+      ]
+    }
+  ],
+  "default-spec-id": 0,
+  "partition-specs": [
+    {
+      "spec-id": 0,
+      "fields": []
+    }
+  ],
+  "last-partition-id": 999,
+  "default-sort-order-id": 0,
+  "sort-orders": [
+    {
+      "order-id": 0,
+      "fields": []
+    }
+  ],
+  "properties": {
+    "created-at": "2026-10-16T16:00:11.797523139Z",
+    "write.format.default": "PARQUET",
+    "write.parquet.compression-codec": "zstd"
+  },
+  "current-snapshot-id": 6725163293089992461,
+  "refs": {
+    "main": {
+      "snapshot-id": 6725163293089992461,
+      "type": "branch"
+    }
+  },
+  "snapshots": [
+    {
+      "sequence-number": 1,
+      "snapshot-id": 3404593563128937352,
+      "timestamp-ms": 1792166411822,
+      "summary": {
+        "operation": "append",
+        "trino_query_id": "20261016_160011_00103_2enta",
+        "changed-partition-count": "0",
+        "total-records": "0",
+        "total-files-size": "0",
+        "total-data-files": "0",
+        "total-delete-files": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0"
+      },
+      "manifest-list": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/snap-3404593563128937352-1-140169f9-497c-4228-a229-72e5f9df2887.avro",
+      "schema-id": 0
+    },
+    {
+      "sequence-number": 2,
+      "snapshot-id": 6725163293089992461,
+      "parent-snapshot-id": 3404593563128937352,
+      "timestamp-ms": 1792166412737,
+      "summary": {
+        "operation": "append",
+        "added-files-size": "43581",
+        "added-data-files": "1",
+        "added-records": "15",
+        "total-data-files": "1",
+        "total-delete-files": "0",
+        "total-records": "15",
+        "total-files-size": "43581",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0"
+      },
+      "manifest-list": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/snap-6725163293089992461-0-2b89fb2d-f12e-4a66-8280-02416ccd9707.avro",
+      "schema-id": 0
+    }
+  ],
+  "statistics": [],
+  "snapshot-log": [
+    {
+      "timestamp-ms": 1792166411822,
+      "snapshot-id": 3404593563128937352
+    },
+    {
+      "timestamp-ms": 1792166412737,
+      "snapshot-id": 6725163293089992461
+    }
+  ],
+  "metadata-log": [
+    {
+      "timestamp-ms": 1792166411822,
+      "metadata-file": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/00000-2dad95a9-bd90-458a-86f6-477f5fb2a821.metadata.json"
+    }
+  ]
+}

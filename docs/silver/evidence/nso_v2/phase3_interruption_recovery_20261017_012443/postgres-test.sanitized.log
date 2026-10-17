@@ -1,0 +1,101 @@
+2026-10-16T15:47:20.682467285Z The files belonging to this database system will be owned by user "postgres".
+2026-10-16T15:47:20.682531342Z This user must also own the server process.
+2026-10-16T15:47:20.682538787Z 
+2026-10-16T15:47:20.684367563Z The database cluster will be initialized with locale "en_US.utf8".
+2026-10-16T15:47:20.684397282Z The default database encoding has accordingly been set to "UTF8".
+2026-10-16T15:47:20.684402032Z The default text search configuration will be set to "english".
+2026-10-16T15:47:20.684406120Z 
+2026-10-16T15:47:20.684409627Z Data page checksums are disabled.
+2026-10-16T15:47:20.684413314Z 
+2026-10-16T15:47:20.684550465Z fixing permissions on existing directory /var/lib/postgresql/data ... ok
+2026-10-16T15:47:20.697201193Z creating subdirectories ... ok
+2026-10-16T15:47:20.697338714Z selecting dynamic shared memory implementation ... posix
+2026-10-16T15:47:20.728682117Z selecting default max_connections ... 100
+2026-10-16T15:47:20.770929682Z selecting default shared_buffers ... 128MB
+2026-10-16T15:47:20.945125633Z selecting default time zone ... UTC
+2026-10-16T15:47:20.947970859Z creating configuration files ... ok
+2026-10-16T15:47:21.139373530Z running bootstrap script ... ok
+2026-10-16T15:47:22.085458119Z performing post-bootstrap initialization ... ok
+2026-10-16T15:47:22.279436164Z syncing data to disk ... ok
+2026-10-16T15:47:22.279466684Z 
+2026-10-16T15:47:22.279469550Z 
+2026-10-16T15:47:22.279477856Z Success. You can now start the database server using:
+2026-10-16T15:47:22.279480922Z 
+2026-10-16T15:47:22.279482946Z     pg_ctl -D /var/lib/postgresql/data -l logfile start
+2026-10-16T15:47:22.279485271Z 
+2026-10-16T15:47:22.338175073Z waiting for server to start....2026-10-16 15:47:22.337 UTC [42] LOG:  starting PostgreSQL 15.19 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-10-16T15:47:22.343720346Z 2026-10-16 15:47:22.343 UTC [42] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-10-16T15:47:22.363973862Z 2026-10-16 15:47:22.363 UTC [45] LOG:  database system was shut down at 2026-10-16 15:47:22 UTC
+2026-10-16T15:47:22.373858540Z 2026-10-16 15:47:22.373 UTC [42] LOG:  database system is ready to accept connections
+2026-10-16T15:47:22.404671941Z  done
+2026-10-16T15:47:22.404702281Z server started
+2026-10-16T15:47:22.512777360Z CREATE DATABASE
+2026-10-16T15:47:22.513808399Z 
+2026-10-16T15:47:22.513915781Z 
+2026-10-16T15:47:22.513922094Z /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+2026-10-16T15:47:22.513925460Z 
+2026-10-16T15:47:22.515018062Z waiting for server to shut down...2026-10-16 15:47:22.514 UTC [42] LOG:  received fast shutdown request
+2026-10-16T15:47:22.520494613Z .2026-10-16 15:47:22.520 UTC [42] LOG:  aborting any active transactions
+2026-10-16T15:47:22.522852485Z 2026-10-16 15:47:22.522 UTC [42] LOG:  background worker "logical replication launcher" (PID 48) exited with exit code 1
+2026-10-16T15:47:22.522946202Z 2026-10-16 15:47:22.522 UTC [43] LOG:  shutting down
+2026-10-16T15:47:22.528479993Z 2026-10-16 15:47:22.528 UTC [43] LOG:  checkpoint starting: shutdown immediate
+2026-10-16T15:47:22.643087830Z 2026-10-16 15:47:22.642 UTC [43] LOG:  checkpoint complete: wrote 922 buffers (5.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.038 s, sync=0.053 s, total=0.120 s; sync files=301, longest=0.007 s, average=0.001 s; distance=4249 kB, estimate=4249 kB
+2026-10-16T15:47:22.656147326Z 2026-10-16 15:47:22.655 UTC [42] LOG:  database system is shut down
+2026-10-16T15:47:22.715880586Z  done
+2026-10-16T15:47:22.715932188Z server stopped
+2026-10-16T15:47:22.717825754Z 
+2026-10-16T15:47:22.717845142Z PostgreSQL init process complete; ready for start up.
+2026-10-16T15:47:22.717849561Z 
+2026-10-16T15:47:21.471646965Z sh: locale: not found
+2026-10-16T15:47:21.471832000Z 2026-10-16 15:47:21.471 UTC [36] WARNING:  no usable system locales were found
+2026-10-16T15:47:22.279436187Z initdb: warning: enabling "trust" authentication for local connections
+2026-10-16T15:47:22.279500792Z initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+2026-10-16T15:47:22.755169152Z 2026-10-16 15:47:22.754 UTC [1] LOG:  starting PostgreSQL 15.19 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-10-16T15:47:22.755193390Z 2026-10-16 15:47:22.755 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-10-16T15:47:22.755197208Z 2026-10-16 15:47:22.755 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-10-16T15:47:22.766185965Z 2026-10-16 15:47:22.766 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-10-16T15:47:22.779755572Z 2026-10-16 15:47:22.779 UTC [58] LOG:  database system was shut down at 2026-10-16 15:47:22 UTC
+2026-10-16T15:47:22.791631407Z 2026-10-16 15:47:22.791 UTC [1] LOG:  database system is ready to accept connections
+2026-10-16T15:47:39.407374647Z 2026-10-16 15:47:39.407 UTC [83] ERROR:  relation "log" does not exist at character 13
+2026-10-16T15:47:39.407410608Z 2026-10-16 15:47:39.407 UTC [83] STATEMENT:  INSERT INTO log (dttm, event, owner, extra) VALUES ('2026-10-16T15:47:39.389193+00:00'::timestamptz, 'cli_check', 'airflow', '{"host_name": "0b64dad27bc8", "full_command": "[''/home/airflow/.local/bin/airflow'', ''db'', ''check'']"}') RETURNING log.id
+2026-10-16T15:47:42.488838329Z 2026-10-16 15:47:42.488 UTC [91] ERROR:  relation "log" does not exist at character 13
+2026-10-16T15:47:42.488878899Z 2026-10-16 15:47:42.488 UTC [91] STATEMENT:  INSERT INTO log (dttm, event, owner, extra) VALUES ('2026-10-16T15:47:42.474851+00:00'::timestamptz, 'cli_migratedb', 'airflow', '{"host_name": "0b64dad27bc8", "full_command": "[''/home/airflow/.local/bin/airflow'', ''db'', ''migrate'']"}') RETURNING log.id
+2026-10-16T15:47:43.065626170Z 2026-10-16 15:47:43.065 UTC [91] ERROR:  relation "connection" does not exist at character 33
+2026-10-16T15:47:43.065674265Z 2026-10-16 15:47:43.065 UTC [91] STATEMENT:  SELECT connection.conn_id 
+2026-10-16T15:47:43.065678895Z 	FROM connection GROUP BY connection.conn_id 
+2026-10-16T15:47:43.065682532Z 	HAVING count(*) > 1
+2026-10-16T15:47:43.067188542Z 2026-10-16 15:47:43.067 UTC [91] ERROR:  relation "connection" does not exist at character 33
+2026-10-16T15:47:43.067198833Z 2026-10-16 15:47:43.067 UTC [91] STATEMENT:  SELECT connection.conn_id 
+2026-10-16T15:47:43.067202670Z 	FROM connection 
+2026-10-16T15:47:43.067205967Z 	WHERE connection.conn_type IS NULL
+2026-10-16T15:47:43.087339363Z 2026-10-16 15:47:43.087 UTC [91] ERROR:  relation "ab_user" does not exist at character 31
+2026-10-16T15:47:43.087378250Z 2026-10-16 15:47:43.087 UTC [91] STATEMENT:  SELECT ab_user.username 
+2026-10-16T15:47:43.087382028Z 	FROM ab_user GROUP BY ab_user.username 
+2026-10-16T15:47:43.087385074Z 	HAVING count(*) > 1
+2026-10-16T15:47:43.088950937Z 2026-10-16 15:47:43.088 UTC [91] ERROR:  relation "ab_register_user" does not exist at character 40
+2026-10-16T15:47:43.088959033Z 2026-10-16 15:47:43.088 UTC [91] STATEMENT:  SELECT ab_register_user.username 
+2026-10-16T15:47:43.088961979Z 	FROM ab_register_user GROUP BY ab_register_user.username 
+2026-10-16T15:47:43.088964544Z 	HAVING count(*) > 1
+2026-10-16T15:52:22.859626018Z 2026-10-16 15:52:22.859 UTC [56] LOG:  checkpoint starting: time
+2026-10-16T15:53:01.021759590Z 2026-10-16 15:53:01.021 UTC [56] LOG:  checkpoint complete: wrote 381 buffers (2.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=37.812 s, sync=0.319 s, total=38.163 s; sync files=344, longest=0.007 s, average=0.001 s; distance=2103 kB, estimate=2103 kB
+2026-10-16T15:57:22.012993784Z 2026-10-16 15:57:22.012 UTC [56] LOG:  checkpoint starting: time
+2026-10-16T15:57:35.506617004Z 2026-10-16 15:57:35.506 UTC [56] LOG:  checkpoint complete: wrote 135 buffers (0.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=13.440 s, sync=0.024 s, total=13.494 s; sync files=77, longest=0.008 s, average=0.001 s; distance=653 kB, estimate=1958 kB
+2026-10-16T16:02:22.575331184Z 2026-10-16 16:02:22.575 UTC [56] LOG:  checkpoint starting: time
+2026-10-16T16:02:37.164999109Z 2026-10-16 16:02:37.164 UTC [56] LOG:  checkpoint complete: wrote 146 buffers (0.9%); 1 WAL file(s) added, 0 removed, 0 recycled; write=14.456 s, sync=0.036 s, total=14.590 s; sync files=79, longest=0.008 s, average=0.001 s; distance=887 kB, estimate=1851 kB
+2026-10-16T16:07:22.224845088Z 2026-10-16 16:07:22.224 UTC [56] LOG:  checkpoint starting: time
+2026-10-16T16:07:27.801896276Z 2026-10-16 16:07:27.801 UTC [56] LOG:  checkpoint complete: wrote 56 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=5.529 s, sync=0.017 s, total=5.578 s; sync files=41, longest=0.003 s, average=0.001 s; distance=497 kB, estimate=1715 kB
+2026-10-16T16:10:31.110377027Z 2026-10-16 16:10:31.108 UTC [1] LOG:  received fast shutdown request
+2026-10-16T16:10:31.139438888Z 2026-10-16 16:10:31.139 UTC [1] LOG:  aborting any active transactions
+2026-10-16T16:10:31.145941780Z 2026-10-16 16:10:31.141 UTC [3916] FATAL:  the database system is shutting down
+2026-10-16T16:10:31.145997960Z 2026-10-16 16:10:31.142 UTC [227] FATAL:  terminating connection due to administrator command
+2026-10-16T16:10:31.146008461Z 2026-10-16 16:10:31.145 UTC [149] FATAL:  terminating connection due to administrator command
+2026-10-16T16:10:31.146015535Z 2026-10-16 16:10:31.145 UTC [3715] FATAL:  terminating connection due to administrator command
+2026-10-16T16:10:31.146022037Z 2026-10-16 16:10:31.145 UTC [226] FATAL:  terminating connection due to administrator command
+2026-10-16T16:10:31.146201042Z 2026-10-16 16:10:31.146 UTC [289] FATAL:  terminating connection due to administrator command
+2026-10-16T16:10:31.147049638Z 2026-10-16 16:10:31.146 UTC [147] FATAL:  terminating connection due to administrator command
+2026-10-16T16:10:31.152299453Z 2026-10-16 16:10:31.152 UTC [3917] FATAL:  the database system is shutting down
+2026-10-16T16:10:31.156144527Z 2026-10-16 16:10:31.155 UTC [1] LOG:  background worker "logical replication launcher" (PID 61) exited with exit code 1
+2026-10-16T16:10:31.162187718Z 2026-10-16 16:10:31.161 UTC [56] LOG:  shutting down
+2026-10-16T16:10:31.168861509Z 2026-10-16 16:10:31.168 UTC [56] LOG:  checkpoint starting: shutdown immediate
+2026-10-16T16:10:31.224912226Z 2026-10-16 16:10:31.224 UTC [56] LOG:  checkpoint complete: wrote 57 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.009 s, sync=0.021 s, total=0.063 s; sync files=42, longest=0.008 s, average=0.001 s; distance=413 kB, estimate=1585 kB
+2026-10-16T16:10:31.242478437Z 2026-10-16 16:10:31.242 UTC [1] LOG:  database system is shut down

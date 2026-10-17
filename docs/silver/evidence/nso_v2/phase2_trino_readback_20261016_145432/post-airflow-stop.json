@@ -1,0 +1,602 @@
+{
+  "metadata": {
+    "runs": [
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "state": "success",
+        "start_date": "2026-10-16T14:25:49.34448+00:00",
+        "end_date": "2026-10-16T14:37:57.46524+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "state": "success",
+        "start_date": "2026-10-16T14:24:08.233607+00:00",
+        "end_date": "2026-10-16T14:38:21.774075+00:00"
+      }
+    ],
+    "tasks": [
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "gate_check_bronze",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:25:52.075099+00:00",
+        "end_date": "2026-10-16T14:28:09.0324+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1373
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "transform_faostat_monthly_price",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:28:41.939142+00:00",
+        "end_date": "2026-10-16T14:29:07.821192+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1675
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "transform_faostat_production",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:28:11.907126+00:00",
+        "end_date": "2026-10-16T14:28:39.144556+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1626
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "end",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:37:56.389145+00:00",
+        "end_date": "2026-10-16T14:37:56.389152+00:00",
+        "hostname": "",
+        "pid": null
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "trigger_silver_release",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:25:48.538995+00:00",
+        "end_date": "2026-10-16T14:38:19.742212+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1365
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "end_lakehouse_ingestion",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:38:20.680095+00:00",
+        "end_date": "2026-10-16T14:38:20.680106+00:00",
+        "hostname": "",
+        "pid": null
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "initialize_metadata",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:24:09.323275+00:00",
+        "end_date": "2026-10-16T14:24:11.000088+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 617
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "start_lakehouse_ingestion",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:24:11.428884+00:00",
+        "end_date": "2026-10-16T14:24:11.428886+00:00",
+        "hostname": "",
+        "pid": null
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "ingest_faostat_production",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:24:13.438197+00:00",
+        "end_date": "2026-10-16T14:24:20.394809+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 621
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "ingest_faostat_monthly_price",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:24:21.455101+00:00",
+        "end_date": "2026-10-16T14:24:24.391643+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 660
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "ingest_faostat_trade",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:24:30.687321+00:00",
+        "end_date": "2026-10-16T14:25:13.782949+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 724
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "ingest_faostat_supply_utilization",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:24:25.478883+00:00",
+        "end_date": "2026-10-16T14:24:29.145471+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 687
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "ingest_usda_rice_yearbook",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:25:20.046351+00:00",
+        "end_date": "2026-10-16T14:25:22.434301+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1137
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "ingest_usda_psd",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:25:16.061902+00:00",
+        "end_date": "2026-10-16T14:25:18.606071+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1110
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "start",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:25:49.367203+00:00",
+        "end_date": "2026-10-16T14:25:49.367205+00:00",
+        "hostname": "",
+        "pid": null
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "ingest_thitruongnongsan",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:25:28.17059+00:00",
+        "end_date": "2026-10-16T14:25:31.678757+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1184
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "ingest_worldbank_pinksheet",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:25:24.255558+00:00",
+        "end_date": "2026-10-16T14:25:26.97756+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1162
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "verify_bronze_batch",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:25:44.386115+00:00",
+        "end_date": "2026-10-16T14:25:46.346738+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1294
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "run_id": "local_nine_phase2__20261016T142353Z",
+        "task_id": "ingest_nso_vietnam",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:25:33.37185+00:00",
+        "end_date": "2026-10-16T14:25:42.751457+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1217
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "transform_faostat_supply_utilization",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:29:10.354388+00:00",
+        "end_date": "2026-10-16T14:29:38.41364+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1712
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "transform_usda_psd",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:31:00.644743+00:00",
+        "end_date": "2026-10-16T14:31:51.208949+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1855
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "transform_faostat_trade",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:29:40.289545+00:00",
+        "end_date": "2026-10-16T14:30:57.643334+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1761
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "transform_worldbank_pinksheet",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:32:27.536718+00:00",
+        "end_date": "2026-10-16T14:33:02.553073+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1974
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "transform_usda_rice_yearbook",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:31:54.762535+00:00",
+        "end_date": "2026-10-16T14:32:24.079298+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 1925
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "transform_nso_vietnam_v2",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:33:42.552722+00:00",
+        "end_date": "2026-10-16T14:34:52.318918+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 2072
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "transform_thitruongnongsan",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:33:05.204273+00:00",
+        "end_date": "2026-10-16T14:33:38.608762+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 2023
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "publish_silver_signal",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:37:55.872843+00:00",
+        "end_date": "2026-10-16T14:37:56.32738+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 2400
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__8492937f141452e5604f5ba187ed56281d817c58d2230bc3a1a967c1731e22cb",
+        "task_id": "silver_data_quality_audit",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T14:34:55.400381+00:00",
+        "end_date": "2026-10-16T14:37:51.837799+00:00",
+        "hostname": "airflow-scheduler",
+        "pid": 2166
+      }
+    ],
+    "locks": 0,
+    "dags": [
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "paused": true
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "paused": true
+      }
+    ],
+    "has_ingestion": true,
+    "ingestion": [
+      {
+        "source_id": "faostat_production",
+        "run_id": "faostat_production_20261016142414_5fea32bc",
+        "status": "SUCCESS",
+        "records_extracted": 22738,
+        "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+        "error_message": null
+      },
+      {
+        "source_id": "faostat_monthly_price",
+        "run_id": "faostat_monthly_price_20261016142421_9dbf489b",
+        "status": "SUCCESS",
+        "records_extracted": 15334,
+        "checksum": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af",
+        "error_message": null
+      },
+      {
+        "source_id": "faostat_supply_utilization",
+        "run_id": "faostat_supply_utilization_20261016142425_335491a6",
+        "status": "SUCCESS",
+        "records_extracted": 36380,
+        "checksum": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c",
+        "error_message": null
+      },
+      {
+        "source_id": "faostat_trade",
+        "run_id": "faostat_trade_20261016142431_aeb31d1a",
+        "status": "SUCCESS",
+        "records_extracted": 1226470,
+        "checksum": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168",
+        "error_message": null
+      },
+      {
+        "source_id": "usda_psd",
+        "run_id": "usda_psd_20261016142516_b87d6689",
+        "status": "SUCCESS",
+        "records_extracted": 15,
+        "checksum": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf",
+        "error_message": null
+      },
+      {
+        "source_id": "usda_rice_yearbook",
+        "run_id": "usda_rice_yearbook_20261016142520_24ff4709",
+        "status": "SUCCESS",
+        "records_extracted": 13131,
+        "checksum": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba",
+        "error_message": null
+      },
+      {
+        "source_id": "worldbank_pinksheet",
+        "run_id": "worldbank_pinksheet_20261016142524_6394ccdf",
+        "status": "SUCCESS",
+        "records_extracted": 792,
+        "checksum": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290",
+        "error_message": null
+      },
+      {
+        "source_id": "thitruongnongsan",
+        "run_id": "thitruongnongsan_20261016142528_f1ef92eb",
+        "status": "SUCCESS",
+        "records_extracted": 20394,
+        "checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+        "error_message": null
+      },
+      {
+        "source_id": "nso_vietnam",
+        "run_id": "nso_vietnam_20261016142533_0b7f9a8b",
+        "status": "SUCCESS",
+        "records_extracted": 833,
+        "checksum": "b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a",
+        "error_message": null
+      }
+    ],
+    "at": "2026-10-16T14:56:16.123519+00:00"
+  },
+  "catalog": [
+    {
+      "table": "bronze.faostat_monthly_price",
+      "uuid": "e0fe5b1a-863c-444b-bf30-e81f9ede828b",
+      "snapshot_id": "625769178512801893",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/bronze/faostat_monthly_price-4f6b58dd06134b268e35628139447fd1/metadata/00001-2719980e-3563-4ed7-9341-775f76394f66.metadata.json"
+    },
+    {
+      "table": "bronze.faostat_production",
+      "uuid": "8f12937d-0930-40cc-9d4e-1cb287515f8c",
+      "snapshot_id": "7950425895897888927",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/bronze/faostat_production-15e05906fe5540cba6295fea11267a0d/metadata/00001-10749c90-81a4-4a28-b9d7-9f4ae66d772d.metadata.json"
+    },
+    {
+      "table": "bronze.faostat_supply_utilization",
+      "uuid": "0c513d3c-587b-4059-b0e4-f2e42cf01cfd",
+      "snapshot_id": "968749492273455025",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-cfa9cb07000c49abb2cc271df62f7da2/metadata/00001-8153d04f-dfb0-4972-b0f7-a7b349da8eba.metadata.json"
+    },
+    {
+      "table": "bronze.faostat_trade",
+      "uuid": "4a3dbf0e-07d0-4b9b-8e62-ac0dbb09fd2a",
+      "snapshot_id": "1340155588230749129",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/bronze/faostat_trade-49cb86f8067f48cea82c6bfd32217760/metadata/00025-9488f9a7-a04b-419c-80ee-3f9d7ccccc5d.metadata.json"
+    },
+    {
+      "table": "bronze.nso_vietnam",
+      "uuid": "5a61508e-4e33-45ad-9f35-9f86736c7303",
+      "snapshot_id": "8008744977791679084",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/bronze/nso_vietnam-40feaa29be4a4853855475985e282e42/metadata/00013-5825e0be-b9c0-4d9e-9a01-73e69b1ebc5a.metadata.json"
+    },
+    {
+      "table": "bronze.thitruongnongsan",
+      "uuid": "c18a2427-0387-4e98-92cd-58070ab29ae6",
+      "snapshot_id": "3120090924237537222",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/bronze/thitruongnongsan-703068dc4b7a4dbd9ff034755f07b98c/metadata/00001-fa7179de-d42f-4ac7-ba37-42ff494fed33.metadata.json"
+    },
+    {
+      "table": "bronze.usda_psd",
+      "uuid": "21ab2f23-fb13-4ce9-aa27-ee4e59df3a13",
+      "snapshot_id": "3492168001407189116",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/bronze/usda_psd-e1d47ed8795f430c9dc71c92a2c36f94/metadata/00001-ec10bfce-495e-4280-9f7d-853ed689d1d5.metadata.json"
+    },
+    {
+      "table": "bronze.usda_rice_yearbook",
+      "uuid": "fbde3b71-a581-46e0-bab4-212f7260e063",
+      "snapshot_id": "8372967083071427565",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-2cfe8fd7bc804658b80c8da2c163eafa/metadata/00001-b402586b-0e3d-410a-8d5f-bae96e10eaa6.metadata.json"
+    },
+    {
+      "table": "bronze.worldbank_pinksheet",
+      "uuid": "a77ed56d-6ef6-4489-83d4-78e59325aae5",
+      "snapshot_id": "3622524320169566769",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-6c889576b7e9499e9df0d1097cbcded4/metadata/00001-ab21da86-1934-49b2-98ae-0f7d2cc84289.metadata.json"
+    },
+    {
+      "table": "silver_local.dead_letters",
+      "uuid": "1cfbc3d4-d2b8-4429-8d90-ab22215d8aa8",
+      "snapshot_id": "3373534404015432057",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00002-3be9ef12-5d51-40b9-982f-8b2901c97fb2.metadata.json"
+    },
+    {
+      "table": "silver_local.faostat_monthly_price",
+      "uuid": "7ea79c59-5d3b-4a10-853e-ea4981af17d9",
+      "snapshot_id": "674571528901073625",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/faostat_monthly_price/metadata/00001-e484fd89-3570-48c4-897b-80231fabe884.metadata.json"
+    },
+    {
+      "table": "silver_local.faostat_production",
+      "uuid": "3103676e-f1b8-4395-b255-0223fccb8def",
+      "snapshot_id": "8931802191858281040",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/faostat_production/metadata/00001-98ea69ab-2bd4-4e24-ad99-7727c44fd36e.metadata.json"
+    },
+    {
+      "table": "silver_local.faostat_supply_utilization",
+      "uuid": "9743209b-06b0-488c-94aa-afd92edef78f",
+      "snapshot_id": "1814979402872267535",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/faostat_supply_utilization/metadata/00001-839304bd-328c-46f3-a829-ee8de102fc17.metadata.json"
+    },
+    {
+      "table": "silver_local.faostat_trade",
+      "uuid": "7c441846-2950-4f28-9b2d-0c7dfec87f50",
+      "snapshot_id": "9100227375555158764",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/faostat_trade/metadata/00001-7a174971-abe6-47f5-8964-2baf77c54277.metadata.json"
+    },
+    {
+      "table": "silver_local.nso_rice_statistics_v2",
+      "uuid": "63efb530-3e0c-4d96-aa94-7ed2c24ba9ca",
+      "snapshot_id": "5811414319209912997",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00001-c3cf129f-2ee9-4724-b0aa-d58df84b33e0.metadata.json"
+    },
+    {
+      "table": "silver_local.thitruongnongsan",
+      "uuid": "0d18a8e2-2670-499e-84fb-6bf64437c2b7",
+      "snapshot_id": "5808898081118807581",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/thitruongnongsan/metadata/00001-d2699221-005e-44db-98fe-fe16421f2938.metadata.json"
+    },
+    {
+      "table": "silver_local.usda_rice_psd",
+      "uuid": "ea52de14-4fba-4ca5-8339-e43cdaf41c00",
+      "snapshot_id": "2377166929586296572",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00001-05e1c859-5b84-4563-b59d-908342f78220.metadata.json"
+    },
+    {
+      "table": "silver_local.usda_rice_yearbook",
+      "uuid": "9425fa9b-89d8-4c4f-9408-8be9540494ad",
+      "snapshot_id": "1608990784470048556",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/00001-391a2d12-c57e-4e71-87cf-1c7f56361c04.metadata.json"
+    },
+    {
+      "table": "silver_local.worldbank_commodity_monthly",
+      "uuid": "60bc8cbd-1af1-4e37-bda5-900754db30d3",
+      "snapshot_id": "4658508361764596994",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00001-94339031-3b91-4618-9545-70e42fe032c7.metadata.json"
+    }
+  ],
+  "ingestion_table_hashes": {
+    "dead_letter_records": {
+      "hash": "d41d8cd98f00b204e9800998ecf8427e",
+      "rows": 0
+    },
+    "ingestion_checkpoints": {
+      "hash": "d41d8cd98f00b204e9800998ecf8427e",
+      "rows": 0
+    },
+    "ingestion_runs": {
+      "hash": "008500ccb48d8386be7f5b91966ae997",
+      "rows": 9
+    },
+    "source_snapshots": {
+      "hash": "ebdbe9972e3cfc11a62d476fc4f85d42",
+      "rows": 9
+    },
+    "source_watermarks": {
+      "hash": "d41d8cd98f00b204e9800998ecf8427e",
+      "rows": 0
+    }
+  }
+}

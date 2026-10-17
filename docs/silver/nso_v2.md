@@ -1,45 +1,14 @@
-# NSO V2 — isolated implementation, production DRAFT
+# NSO V2 — business semantics và local acceptance
 
-Status: **NSO_V2_ISOLATED_VALIDATED_PENDING_OWNER**. Production remains DRAFT.
+Production contract vẫn **DRAFT**. Profile `local_nine` dùng đúng approved READY
+overlay trong bộ nhớ; không đổi YAML, keys hay business policies.
 
-Phase 1 local REST E2E passed on 16 October: focused staging regression 1 PASS,
-full Raw/PG/MinIO/REST/Spark/PyIceberg/Trino acceptance 1 PASS, including full and
-incremental NOOP and unapproved revision rejection. Latest results and final
-stopped runtime state: [Phase 1 evidence](evidence/nso_v2/phase1_rest_20261016/README.md).
-Earlier interruption/recovery reports are preserved as historical records.
-
-Owner approved Phase 1 for local integration. Phase 2 `local_nine` routing and
-focused/native regressions are prepared, but its Airflow E2E stopped before any
-trigger because the isolated webserver hit its 512 MiB memory limit. Production
-stays DRAFT. [Phase 2 local profile and blocker](local_nine.md).
-
-The eight-source release remains CLOSED_MANUAL_ONLY. No NSO shared writer,
-Airflow trigger/unpause, Git commit or push was performed. The new isolated test
-project was created under Phase 1 approval; shared containers were only gracefully
-stopped under its conditional resource approval and remain stopped.
-
-## Reconciliation before implementation
-
-Owner-approved manual run `rice_lakehouse_silver_pipeline` /
-`manual__2026-10-15T14:02:14+00:00` was marked FAILED with
-`DagRun.set_state(DagRunState.FAILED)` after all eight writer tasks were SUCCESS,
-Spark API had no child writer/queued request, and active tasks/source locks were
-zero. Task states and all other DagRun states were preserved. No history deleted.
-
-Evidence: [manual_run_reconciliation.json](evidence/nso_v2/manual_run_reconciliation.json).
-The new record preserves the pre-change state, task timestamps, catalog
-identities, PostgreSQL hashes and post-resolution verification. Historical
-acceptance/closure reports were not changed.
-
-Quarantine snapshots `5171447547413260487` and `7788475764751255879` have the
-same four logical records, including IDs, payloads, errors and embedded lineage.
-Only `pipeline_run_id` and `detected_at` changed, identifying this manual run.
-The latter snapshot is the latest verified operational baseline. Logical hash:
-`4e3f8cafcc1a2262c0abc5981e0fbaca620c3283497e85c8806b1976b7a1865a`.
-
-The post-resolution safety gate PASS verified 28 other catalog identities,
-1,391,467 Silver rows, 29 ingestion runs and unchanged ingestion metadata.
-Both DAGs remained paused, schedule=None, production=0, canary=1, cron empty.
+Initial local acceptance và full/incremental NOOP đã được kiểm chứng với23.060
+observations,946 missing,5 số0 thật, pinned Bronze snapshot và13 structural
+exclusions. Xem [catalog](data_catalog.md), [validation](validation.md) và
+[evidence index](evidence/index.md) cho UUID/snapshot/run IDs và recovery history.
+Native/REST interruption cũ được giữ nguyên trong evidence; không phải trạng thái
+hiện tại và không được dùng để suy đoán một commit chưa được đối soát.
 
 ## Read context API
 
@@ -161,20 +130,5 @@ records, 23,060 observations, 22,114 numeric, 946 missing and five zeros;
 V06.12 has 560 observations. These are test expectations, not transformation
 counts hardcoded to manufacture PASS.
 
-The test infrastructure is Compose project `tlcn-nso-v2-20261015`, based on
-`compose.silver-test.yml`: internal network, no host ports, no shared data volumes,
-readonly workspace/Raw mounts. Native tests use separate network=none containers.
-Production has not been recreated or activated.
 
-During native/REST testing Docker stopped responding: both container inspection
-and server `/version` returned HTTP 500. Cause is unconfirmed; OOM is not proven.
-The final native suite and REST E2E outcomes are **UNKNOWN / NOT ACCEPTED**.
-Their writers must not be rerun blindly. After Docker is available, inspect
-container exits/OOM flags, `/tmp/nso-tests.log`, `/tmp/nso-rest-tests.log`, the
-isolated catalog and PostgreSQL before deciding whether to resume or use a new
-isolated project. Reverify shared identities against the new operational baseline.
-Do not restart shared services, reset test/shared data, or automatically retry.
-
-No claim of full NSO E2E PASS, NOOP PASS or Trino PASS is made. Remaining work:
-complete native and REST acceptance, review actual counts/warnings/lineage and
-revision behavior, save sanitized evidence, then ask owner before READY/shared use.
+Current local counts and replay proof are indexed in [evidence/index.md](evidence/index.md).

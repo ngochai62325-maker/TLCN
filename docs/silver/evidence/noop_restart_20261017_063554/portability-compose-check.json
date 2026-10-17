@@ -1,0 +1,71 @@
+{
+  "at": "2026-10-17T06:44:11.508448+00:00",
+  "status": "PASS_CONFIG_ONLY",
+  "services": {
+    "airflow-init": {
+      "image": "tlcn/silver-airflow:local",
+      "build": {
+        "context": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+        "dockerfile": "docker/silver-airflow.Dockerfile"
+      },
+      "memory_cap": "805306368"
+    },
+    "airflow-scheduler": {
+      "image": "tlcn/silver-airflow:local",
+      "build": {
+        "context": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+        "dockerfile": "docker/silver-airflow.Dockerfile"
+      },
+      "memory_cap": "1610612736"
+    },
+    "airflow-webserver": {
+      "image": "tlcn/silver-airflow:local",
+      "build": {
+        "context": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+        "dockerfile": "docker/silver-airflow.Dockerfile"
+      },
+      "memory_cap": "1073741824"
+    },
+    "minio-test": {
+      "image": "ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "build": null,
+      "memory_cap": "536870912"
+    },
+    "postgres-test": {
+      "image": "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "build": null,
+      "memory_cap": "268435456"
+    },
+    "rest-test": {
+      "image": "tabulario/iceberg-rest@sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "build": null,
+      "memory_cap": "469762048"
+    },
+    "runner": {
+      "image": "tlcn/silver-spark:local",
+      "build": {
+        "context": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+        "dockerfile": "docker/silver-spark.Dockerfile"
+      },
+      "memory_cap": "3221225472"
+    },
+    "trino-test": {
+      "image": "trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "build": null,
+      "memory_cap": "1610612736"
+    }
+  },
+  "volumes": {
+    "local_airflow_logs": "tlcn-local-portability-check_local_airflow_logs",
+    "local_catalog_data": "tlcn-local-portability-check_local_catalog_data",
+    "local_minio_data": "tlcn-local-portability-check_local_minio_data",
+    "local_postgres_data": "tlcn-local-portability-check_local_postgres_data"
+  },
+  "no_runtime_apply": true,
+  "raw21_and_support_checksum": "PASS",
+  "code_syntax": "PASS",
+  "image_builds": "NOT_RUN",
+  "native_airflow_dag_parse": "PENDING_ACCEPTED_EXECUTION_RUNTIME",
+  "second_laptop": "NOT_RUN",
+  "initial_check_harness_correction": "Compose JSON reports mem_limit as string; corrected validation to int. No resource config changed."
+}

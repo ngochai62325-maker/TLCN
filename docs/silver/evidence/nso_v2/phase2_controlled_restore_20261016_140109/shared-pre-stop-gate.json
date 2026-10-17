@@ -1,0 +1,483 @@
+{
+  "at": "2026-10-16T14:01:29.008512+00:00",
+  "status": "PASS",
+  "approval_sha256": "e129a4d85650e639e9aad22641cba9e4425b16cdbd9bf7d05abaf2c37a77c0af",
+  "containers": [
+    {
+      "id": "e97397848ca4d2845efe41df6b0d439568a7995b24a09bcac20064ebcd0038b6",
+      "name": "/airflow-scheduler",
+      "created": "2026-10-16T13:29:05.639773356Z",
+      "image": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "image_reference": "apache/airflow:2.10.4-python3.11",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1727,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:31.732607227Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\dags",
+          "Destination": "/opt/airflow/dags",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\logs",
+          "Destination": "/opt/airflow/logs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\plugins",
+          "Destination": "/opt/airflow/plugins",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/opt/airflow/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/opt/airflow/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config",
+          "Destination": "/opt/airflow/config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/opt/airflow/contracts",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/opt/airflow/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ]
+    },
+    {
+      "id": "085ad49facb00ec17ddf269545182f83c5bfd9bd98f28cdc399f55549e2ab665",
+      "name": "/airflow-webserver",
+      "created": "2026-10-16T13:29:05.639846531Z",
+      "image": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "image_reference": "apache/airflow:2.10.4-python3.11",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1745,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:31.766371565Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/opt/airflow/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config",
+          "Destination": "/opt/airflow/config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/opt/airflow/contracts",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/opt/airflow/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\dags",
+          "Destination": "/opt/airflow/dags",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\logs",
+          "Destination": "/opt/airflow/logs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\plugins",
+          "Destination": "/opt/airflow/plugins",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/opt/airflow/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ]
+    },
+    {
+      "id": "b5774d0f5aed5869cf1d1dcea8b3d63d2628890abca5c8459dd7ec7bb1d2dcbd",
+      "name": "/spark-iceberg",
+      "created": "2026-10-16T13:29:05.723080791Z",
+      "image": "sha256:790a72e744e0d09f161e1b4c7c2f79625cc598cf0476da4703e62f1f4e023460",
+      "image_reference": "tabulario/spark-iceberg:latest",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1108,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:13.174474673Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\notebooks",
+          "Destination": "/home/iceberg/notebooks",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/home/iceberg/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\tests",
+          "Destination": "/home/iceberg/tests",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/home/iceberg/contracts",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\silver",
+          "Destination": "/home/iceberg/config/silver",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\spark\\spark-defaults.conf",
+          "Destination": "/opt/spark/conf/spark-defaults.conf",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/home/iceberg/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/home/iceberg/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ]
+    },
+    {
+      "id": "dde50d530f2a98d060ab7545048fd95eb05c94a5875d939a690f720be2331b0c",
+      "name": "/trino",
+      "created": "2026-10-16T13:29:05.672994537Z",
+      "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "image_reference": "trinodb/trino:448",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1062,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:13.058727272Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\catalog\\iceberg.properties",
+          "Destination": "/etc/trino/catalog/iceberg.properties",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\config.properties",
+          "Destination": "/etc/trino/config.properties",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\jvm.config",
+          "Destination": "/etc/trino/jvm.config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ]
+    },
+    {
+      "id": "9de335c9cfda42a3c1709df0761ab810f9956d50a1192085a1829ad23d57ef7a",
+      "name": "/iceberg-rest",
+      "created": "2026-10-16T13:29:05.47243845Z",
+      "image": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "image_reference": "tabulario/iceberg-rest:0.8.0",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 981,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:12.691002517Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_catalog_data",
+          "Source": "/var/lib/docker/volumes/tlcn_catalog_data/_data",
+          "Destination": "/data/catalog",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    },
+    {
+      "id": "ed96e8d61e8fad38f9615d2dbe91b89e4d9cb409a2817bb321a4179db217ddd2",
+      "name": "/minio",
+      "created": "2026-10-16T13:29:05.151429663Z",
+      "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "image_reference": "ghcr.io/coollabsio/minio:latest",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 597,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:06.466864341Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_minio_data",
+          "Source": "/var/lib/docker/volumes/tlcn_minio_data/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    },
+    {
+      "id": "aca5ddca120c3ca24c8d45202fbec043c3661a03ee67958220ea4535023ba4e7",
+      "name": "/postgres",
+      "created": "2026-10-16T13:29:05.171917542Z",
+      "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "image_reference": "postgres:15-alpine",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 598,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:06.436662374Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_postgres_data",
+          "Source": "/var/lib/docker/volumes/tlcn_postgres_data/_data",
+          "Destination": "/var/lib/postgresql/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ]
+    }
+  ],
+  "activity": {
+    "active_runs": [],
+    "writer_tasks": [],
+    "scheduled_tasks": [
+      {
+        "task_id": "publish_silver_signal",
+        "run_id": "manual__2026-10-15T14:02:14+00:00",
+        "state": "scheduled",
+        "parent_state": "failed",
+        "pid": null
+      }
+    ],
+    "locks": 0,
+    "in_progress": 0,
+    "dags": [
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "paused": true
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "paused": true
+      }
+    ]
+  },
+  "catalog29_match": true,
+  "metadata5_match": true
+}

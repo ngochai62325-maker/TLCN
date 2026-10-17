@@ -1,0 +1,80 @@
+[
+  {
+    "id": "ab125221fab9edef399a617968cd03ddf450b022adade2084ed11bfcafc610b8",
+    "name": "/tlcn-local-nine-airflow-20261016-postgres-test-1",
+    "created": "2026-10-16T10:02:38.410526473Z",
+    "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+    "image_reference": "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 34873,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-16T14:16:07.489584293Z",
+      "FinishedAt": "2026-10-16T11:31:12.523351043Z"
+    },
+    "health": "healthy",
+    "restart_count": 0,
+    "restart_policy": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    },
+    "memory_limit": 268435456,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "tlcn-local-nine-airflow-20261016_local_postgres_data",
+        "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_postgres_data/_data",
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ]
+  },
+  {
+    "id": "2154802e0c7f48c4afc28101a4053e56b068b7696f31abfb6689157a589b7c94",
+    "name": "/tlcn-local-nine-airflow-20261016-minio-test-1",
+    "created": "2026-10-16T10:02:38.414725926Z",
+    "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+    "image_reference": "ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 34951,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-16T14:16:07.779738479Z",
+      "FinishedAt": "2026-10-16T11:31:12.485777477Z"
+    },
+    "health": "healthy",
+    "restart_count": 0,
+    "restart_policy": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    },
+    "memory_limit": 536870912,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "tlcn-local-nine-airflow-20261016_local_minio_data",
+        "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_minio_data/_data",
+        "Destination": "/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ]
+  }
+]

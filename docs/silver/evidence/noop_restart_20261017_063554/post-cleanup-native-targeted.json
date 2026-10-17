@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-17T07:29:17.299215+00:00",
+  "exit_code": 1,
+  "command": [
+    "powershell",
+    "-NoProfile",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-Command",
+    "& 'scripts/test_silver_isolated.ps1' -SkipDownload -Image 'tlcn/silver-spark@sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843' -TestPaths @('tests/integration/test_faostat_nso_silver.py::test_existing_framework_discovers_production_adapter','tests/integration/test_faostat_nso_silver.py::test_isolated_actual_iceberg_rerun_and_quarantine','tests/integration/test_silver_pipeline_isolated.py::test_complete_pipeline_real_iceberg')"
+  ],
+  "log": "post-cleanup-native-targeted.sanitized.log",
+  "no_network_or_shared_volumes": true
+}

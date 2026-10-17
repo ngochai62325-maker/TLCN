@@ -1,0 +1,232 @@
+{
+  "at": "2026-10-17T01:27:26.566760+00:00",
+  "raw": [
+    {
+      "source": "faostat_production",
+      "path": "data\\raw\\faostat\\production_world.csv",
+      "bytes": 3292244,
+      "sha256": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+      "actual_bytes": 3292244,
+      "actual_sha256": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+      "matches": true
+    },
+    {
+      "source": "faostat_monthly_price",
+      "path": "data\\raw\\faostat\\price.csv",
+      "bytes": 2509272,
+      "sha256": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af",
+      "actual_bytes": 2509272,
+      "actual_sha256": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af",
+      "matches": true
+    },
+    {
+      "source": "faostat_supply_utilization",
+      "path": "data\\raw\\faostat\\supply_utilization.csv",
+      "bytes": 6096569,
+      "sha256": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c",
+      "actual_bytes": 6096569,
+      "actual_sha256": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c",
+      "matches": true
+    },
+    {
+      "source": "faostat_trade",
+      "path": "data\\raw\\faostat\\Trade_DetailedTradeMatrix_E_All_Data_(Normalized)\\rice_trade_data.csv",
+      "bytes": 167990400,
+      "sha256": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168",
+      "actual_bytes": 167990400,
+      "actual_sha256": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168",
+      "matches": true
+    },
+    {
+      "source": "usda_psd",
+      "path": "data\\raw\\usda\\usda.xls",
+      "bytes": 45549,
+      "sha256": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf",
+      "actual_bytes": 45549,
+      "actual_sha256": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf",
+      "matches": true
+    },
+    {
+      "source": "usda_rice_yearbook",
+      "path": "data\\raw\\usda\\Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+      "bytes": 2122534,
+      "sha256": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba",
+      "actual_bytes": 2122534,
+      "actual_sha256": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba",
+      "matches": true
+    },
+    {
+      "source": "worldbank_pinksheet",
+      "path": "data\\raw\\world_bank\\CMO-Historical-Data-Monthly.xlsx",
+      "bytes": 778415,
+      "sha256": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290",
+      "actual_bytes": 778415,
+      "actual_sha256": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290",
+      "matches": true
+    },
+    {
+      "source": "thitruongnongsan",
+      "path": "data\\raw\\thitruongnongsan\\price_luagao.xlsx",
+      "bytes": 756440,
+      "sha256": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+      "actual_bytes": 756440,
+      "actual_sha256": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.12.csv",
+      "bytes": 6281,
+      "sha256": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb",
+      "actual_bytes": 6281,
+      "actual_sha256": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.13.csv",
+      "bytes": 12726,
+      "sha256": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110",
+      "actual_bytes": 12726,
+      "actual_sha256": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.14.csv",
+      "bytes": 11766,
+      "sha256": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc",
+      "actual_bytes": 11766,
+      "actual_sha256": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.15.csv",
+      "bytes": 14205,
+      "sha256": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7",
+      "actual_bytes": 14205,
+      "actual_sha256": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.16.csv",
+      "bytes": 11726,
+      "sha256": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5",
+      "actual_bytes": 11726,
+      "actual_sha256": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.17.csv",
+      "bytes": 11738,
+      "sha256": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be",
+      "actual_bytes": 11738,
+      "actual_sha256": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.18.csv",
+      "bytes": 13393,
+      "sha256": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84",
+      "actual_bytes": 13393,
+      "actual_sha256": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.19.csv",
+      "bytes": 6462,
+      "sha256": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6",
+      "actual_bytes": 6462,
+      "actual_sha256": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.20.csv",
+      "bytes": 6203,
+      "sha256": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8",
+      "actual_bytes": 6203,
+      "actual_sha256": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.21.csv",
+      "bytes": 7127,
+      "sha256": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab",
+      "actual_bytes": 7127,
+      "actual_sha256": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.22.csv",
+      "bytes": 11467,
+      "sha256": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7",
+      "actual_bytes": 11467,
+      "actual_sha256": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.23.csv",
+      "bytes": 11505,
+      "sha256": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76",
+      "actual_bytes": 11505,
+      "actual_sha256": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76",
+      "matches": true
+    },
+    {
+      "source": "nso_vietnam",
+      "path": "data\\raw\\nso\\V06.24.csv",
+      "bytes": 12702,
+      "sha256": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b",
+      "actual_bytes": 12702,
+      "actual_sha256": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b",
+      "matches": true
+    }
+  ],
+  "pins": {
+    "config/ingestion/source_registry.yaml": {
+      "expected": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "actual": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6"
+    },
+    "data/raw/nso/metadata.txt": {
+      "expected": "f17faf04e163da55e949593797bc60a8240d2137fea55a43342225d50d810555",
+      "actual": "f17faf04e163da55e949593797bc60a8240d2137fea55a43342225d50d810555"
+    },
+    "src/silver/transformers/nso_vietnam_v2.py": {
+      "expected": "9007e3d65ac340a6bb837b9cb20dbb1a7a3b23fc23fdf27d19a46a3463118d19",
+      "actual": "9007e3d65ac340a6bb837b9cb20dbb1a7a3b23fc23fdf27d19a46a3463118d19"
+    },
+    "contracts/silver/nso_vietnam_v2.yaml": {
+      "expected": "4a11b6f31183ee2828d0fef2f9ad94475628982fe7c701eab77b0c7b57dc8b05",
+      "actual": "4a11b6f31183ee2828d0fef2f9ad94475628982fe7c701eab77b0c7b57dc8b05"
+    },
+    "config/silver/nso_v2_metadata.json": {
+      "expected": "a076880448eaf84593e75a20d0fc6156302d26c053b07e260c3b3916d4da335d",
+      "actual": "a076880448eaf84593e75a20d0fc6156302d26c053b07e260c3b3916d4da335d"
+    }
+  },
+  "all_raw_match": true,
+  "all_pins_match": true,
+  "cleanroom_containers_unchanged_since_inventory": true,
+  "phase2_19_identities_match": true,
+  "phase2_pg_metadata_requeried": false,
+  "shared_cgroup": {
+    "spark-iceberg": "memory.current\n33804288\nmemory.peak\n40869888\nmemory.events\nlow 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "trino": "memory.current\n1093259264\nmemory.peak\n1098600448\nmemory.events\nlow 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "airflow-webserver": "memory.current\n1098698752\nmemory.peak\n1100677120\nmemory.events\nlow 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "airflow-scheduler": "memory.current\n693211136\nmemory.peak\n969908224\nmemory.events\nlow 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "iceberg-rest": "memory.current\n237768704\nmemory.peak\n243855360\nmemory.events\nlow 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "postgres": "memory.current\n72208384\nmemory.peak\n74825728\nmemory.events\nlow 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "minio": "memory.current\n214437888\nmemory.peak\n214933504\nmemory.events\nlow 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "runtime_mutations_performed": [],
+  "container_comparison_note": "Mounts normalized by Destination; raw Docker inspect mount order is not a configuration change."
+}

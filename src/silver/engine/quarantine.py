@@ -39,6 +39,23 @@ class SilverQuarantineManager:
             F.current_timestamp().alias("detected_at"), F.sha2(key, 256).alias("business_key_hash"),
             F.col("dq_errors").cast(ERROR_TYPE).alias("errors"), payload.alias("payload"),
         ).dropDuplicates(["quarantine_record_id"])
+
+        incoming = letters.alias("s")
+        stored = self.spark.table(self.target_table).select(
+            "quarantine_record_id", "payload", "errors").alias("t")
+        matched = incoming.join(stored,
+                                F.col("s.quarantine_record_id") == F.col("t.quarantine_record_id"), "left")
+        exists = F.col("t.quarantine_record_id").isNotNull()
+        if not matched.filter(exists & ~F.col("s.payload").eqNullSafe(F.col("t.payload"))).isEmpty():
+            # Payload is part of the deterministic ID. Never silently retain or
+            # overwrite a different payload under an existing identity.
+            raise ValueError("Quarantine identity matches a different persisted payload")
+        letters = matched.filter(
+            ~exists | ~F.col("s.errors").eqNullSafe(F.col("t.errors"))).select("s.*")
+        # Even an empty Iceberg MERGE can commit metadata. Identical records must
+        # retain their original detection/run audit fields without executing it.
+        if letters.isEmpty():
+            return
         view = "incoming_quarantine_" + uuid.uuid4().hex
         letters.createOrReplaceTempView(view)
         try:

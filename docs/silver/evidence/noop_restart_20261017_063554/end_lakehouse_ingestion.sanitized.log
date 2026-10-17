@@ -1,0 +1,2 @@
+[2026-10-17T06:57:56.688+0000] {dagbag.py:588} INFO - Filling up the DagBag from /workspace/dags
+[2026-10-17T06:57:57.939+0000] {task_command.py:467} INFO - Running <TaskInstance: rice_lakehouse_ingestion.end_lakehouse_ingestion local_nine_cleanroom_noop_full__20261017T031611Z [None]> on host 0eed4b0b90f8

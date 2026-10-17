@@ -1,0 +1,15 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.11, pytest-8.4.2, pluggy-1.6.0
+rootdir: /workspace
+configfile: pyproject.toml
+plugins: time-machine-2.16.0, anyio-4.7.0
+collected 67 items
+
+tests/unit/test_local_nine_profile.py .................                  [ 25%]
+tests/unit/test_local_nine_dags.py ..                                    [ 28%]
+tests/unit/test_dag_structure.py ..........                              [ 43%]
+tests/unit/test_pipeline_tasks.py ...........................            [ 83%]
+tests/unit/test_advisory_lock.py .........                               [ 97%]
+tests/unit/test_metadata_silver_recovery.py ..                           [100%]
+
+============================== 67 passed in 8.06s ==============================

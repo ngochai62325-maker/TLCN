@@ -1,0 +1,632 @@
+{
+  "at": "2026-10-17T01:45:13.062079+00:00",
+  "bronze_run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+  "silver_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+  "bronze": [
+    {
+      "source": "faostat_production",
+      "run_id": "faostat_production_20261016155856_6ba3a6e8",
+      "rows": 22738,
+      "snapshot_id": "4843563875751184854",
+      "task_attempt": 2
+    },
+    {
+      "source": "faostat_monthly_price",
+      "run_id": "faostat_monthly_price_20261016155906_428dc755",
+      "rows": 15334,
+      "snapshot_id": "3069013476710882292",
+      "task_attempt": 1
+    },
+    {
+      "source": "faostat_supply_utilization",
+      "run_id": "faostat_supply_utilization_20261016155912_7f1d590f",
+      "rows": 36380,
+      "snapshot_id": "1149052647847510586",
+      "task_attempt": 1
+    },
+    {
+      "source": "faostat_trade",
+      "run_id": "faostat_trade_20261016155919_cc04dc8d",
+      "rows": 1226470,
+      "snapshot_id": "2171934088797835179",
+      "task_attempt": 1
+    },
+    {
+      "source": "usda_psd",
+      "run_id": "usda_psd_20261016160010_51f6293c",
+      "rows": 15,
+      "snapshot_id": "6725163293089992461",
+      "task_attempt": 1
+    },
+    {
+      "source": "usda_rice_yearbook",
+      "run_id": "usda_rice_yearbook_20261016160015_07a33116",
+      "rows": 13131,
+      "snapshot_id": "4564470349869842851",
+      "task_attempt": 1
+    },
+    {
+      "source": "worldbank_pinksheet",
+      "run_id": "worldbank_pinksheet_20261016160019_068e77d4",
+      "rows": 792,
+      "snapshot_id": "2608578091811865170",
+      "task_attempt": 1
+    },
+    {
+      "source": "thitruongnongsan",
+      "run_id": "thitruongnongsan_20261016160024_6847418e",
+      "rows": 20394,
+      "snapshot_id": "6284553868447052727",
+      "task_attempt": 1
+    },
+    {
+      "source": "nso_vietnam",
+      "run_id": "nso_vietnam_20261016160030_2c409d8a",
+      "rows": 833,
+      "snapshot_id": "6239067651375331267",
+      "task_attempt": 1
+    }
+  ],
+  "completed_silver": [
+    {
+      "dataset": "faostat_monthly_price",
+      "rows": 15334,
+      "uuid": "63a487b2-703d-49df-8a6d-baf903509145",
+      "snapshot_id": "1591520480261276952",
+      "state": "success",
+      "try_number": 1,
+      "xcom_timestamp": "2026-10-16T16:04:31.168851+00:00"
+    },
+    {
+      "dataset": "faostat_production",
+      "rows": 22738,
+      "uuid": "7fc0d9b6-9b00-40f8-8207-64e5f7678d93",
+      "snapshot_id": "3025742236916912946",
+      "state": "success",
+      "try_number": 1,
+      "xcom_timestamp": "2026-10-16T16:03:55.629182+00:00"
+    },
+    {
+      "dataset": "faostat_supply_utilization",
+      "rows": 36380,
+      "uuid": "952160ba-11d3-4c53-b60a-929dcca3b0e1",
+      "snapshot_id": "4289048808299983571",
+      "state": "success",
+      "try_number": 1,
+      "xcom_timestamp": "2026-10-16T16:05:10.269943+00:00"
+    },
+    {
+      "dataset": "faostat_trade",
+      "rows": 1226470,
+      "uuid": "c1800fdd-6d37-4b05-a913-bc61fa922b00",
+      "snapshot_id": "4017675517054557099",
+      "state": "success",
+      "try_number": 1,
+      "xcom_timestamp": "2026-10-16T16:06:48.502328+00:00"
+    },
+    {
+      "dataset": "thitruongnongsan",
+      "rows": 20387,
+      "uuid": "6950791c-cfd2-45b7-910d-ad88803b8904",
+      "snapshot_id": "4817852030779680459",
+      "state": "success",
+      "try_number": 1,
+      "xcom_timestamp": "2026-10-16T16:09:07.611339+00:00"
+    },
+    {
+      "dataset": "usda_psd",
+      "rows": 990,
+      "uuid": "82e6f676-0e8b-4066-a6ef-eeb6284f54fe",
+      "snapshot_id": "4876825965550487606",
+      "state": "success",
+      "try_number": 1,
+      "xcom_timestamp": "2026-10-16T16:07:29.627033+00:00"
+    },
+    {
+      "dataset": "usda_rice_yearbook",
+      "rows": 12936,
+      "uuid": "a92b8fdf-dbf5-4f0c-a5c5-3c66857ee93d",
+      "snapshot_id": "4249957608382647425",
+      "state": "success",
+      "try_number": 1,
+      "xcom_timestamp": "2026-10-16T16:07:58.062355+00:00"
+    },
+    {
+      "dataset": "worldbank_pinksheet",
+      "rows": 56232,
+      "uuid": "be48b680-f86b-4a4d-b552-705cac58103b",
+      "snapshot_id": "6762326735303774082",
+      "state": "success",
+      "try_number": 1,
+      "xcom_timestamp": "2026-10-16T16:08:32.161954+00:00"
+    }
+  ],
+  "nso_task": {
+    "dag_id": "rice_lakehouse_silver_pipeline",
+    "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+    "task_id": "transform_nso_vietnam_v2",
+    "state": "running",
+    "try_number": 1,
+    "max_tries": 0,
+    "start_date": "2026-10-16T16:09:11.221224+00:00",
+    "end_date": null,
+    "queued_dttm": "2026-10-16T16:09:08.926674+00:00",
+    "job_id": 24,
+    "hostname": "airflow-scheduler",
+    "pid": 2401,
+    "updated_at": "2026-10-16T16:09:11.408714+00:00"
+  },
+  "bronze_wait_task": {
+    "dag_id": "rice_lakehouse_ingestion",
+    "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+    "task_id": "trigger_silver_release",
+    "state": "running",
+    "try_number": 1,
+    "max_tries": 0,
+    "start_date": "2026-10-16T16:00:46.767584+00:00",
+    "end_date": null,
+    "queued_dttm": "2026-10-16T16:00:45.62216+00:00",
+    "job_id": 14,
+    "hostname": "airflow-scheduler",
+    "pid": 1675,
+    "updated_at": "2026-10-16T16:00:46.909265+00:00"
+  },
+  "nso_xcom_exists": false,
+  "nso_target_actual_rows": 0,
+  "dead_letters_actual_rows": 17,
+  "dead_letter_source_counts": {
+    "nso_vietnam_v2_exclusions": 13,
+    "thitruongnongsan": 4
+  },
+  "duplicate_quarantine_record_ids": {},
+  "duplicate_business_key_hash_groups": [
+    {
+      "source_dataset": "thitruongnongsan",
+      "business_key_hash": "8a84230dc57096bc0a57aebff767752b98b5061593077384ea113000a92f39c5",
+      "rows": 2,
+      "rule": "VN_QUOTE_CONFLICT; competing price variants, not duplicate quarantine records"
+    },
+    {
+      "source_dataset": "thitruongnongsan",
+      "business_key_hash": "e122ed6d5ca6772f2bed0134ab15edd9ce7c7116cd455660f7e418af11d7a03a",
+      "rows": 2,
+      "rule": "VN_QUOTE_CONFLICT; competing price variants, not duplicate quarantine records"
+    }
+  ],
+  "dead_letters_record_proof": [
+    {
+      "quarantine_record_id": "16eada408e0fdc2c283f606b52e895e3d1eda632514da609c50582fd616f2584",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "15f342beecd34e33748494dddbf5b2066317e68143aeb00d5b87d6928d773d8b",
+      "business_key": {
+        "source_table": "V06.12.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 0,
+        "_ingestion_timestamp": "2026-10-16T16:00:30.529Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.12.csv",
+        "_source_checksum": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "2f1b8bf8cea9558310c092bad8933b668ab1409ec7b6a0dd98a819c2251dc0dd",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "b4788806a5d7d35a89c71dd773f5c3bd9c80f378056728e42e1d182e3b0c358a",
+      "business_key": {
+        "source_table": "V06.20.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 8,
+        "_ingestion_timestamp": "2026-10-16T16:00:37.080Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.20.csv",
+        "_source_checksum": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "3d9b4852c1b2335a231b1508d5f9e3fb0a9db5cafa64166869cec24699bcb0f1",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "14ac02968c61e57fb76a4b45a011397ff55b98b95171a89a7da1ba029e060fd8",
+      "business_key": {
+        "source_table": "V06.17.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 5,
+        "_ingestion_timestamp": "2026-10-16T16:00:35.183Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.17.csv",
+        "_source_checksum": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "4b8b0d3992e13258dfc8869b04efd713b12713809561b0701f3ad7b5451427d6",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "fb43c4b467bafa4988cfd9fee8b1fff8f6b70bbfde32310166101eda91a9dade",
+      "business_key": {
+        "source_table": "V06.13.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 1,
+        "_ingestion_timestamp": "2026-10-16T16:00:32.484Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.13.csv",
+        "_source_checksum": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "71357c07919144032034a3ac656eec0348c2fe1fc845a0654f904173f6ce0b21",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "7b1a3bb6094cf9e58bdb92c7cb9d3b3a7a9fcd0d6f6b9d9978699698aee76224",
+      "business_key": {
+        "source_table": "V06.14.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 2,
+        "_ingestion_timestamp": "2026-10-16T16:00:33.209Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.14.csv",
+        "_source_checksum": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "777c6a8c8d37c3e743765e51325c8d41c98ef73244fbc5cb654e8ec56cc42c04",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "d2971feab2a05cae0994f873e9a97060566edda3f1da0cdc2896508d527c3bf3",
+      "business_key": {
+        "source_table": "V06.18.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 6,
+        "_ingestion_timestamp": "2026-10-16T16:00:35.766Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.18.csv",
+        "_source_checksum": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "81f3fa1e0a3bf8d3e3bbc4f5e679fcd3fc19ae2f697ca2c532a3eaf35de39022",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "72ad9fca0a47def3397ead854e8b2dd28aed24c182f4d47a542138c8a014918c",
+      "business_key": {
+        "source_table": "V06.23.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 11,
+        "_ingestion_timestamp": "2026-10-16T16:00:39.281Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.23.csv",
+        "_source_checksum": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "9708f6896e38963bb7a5e4f4e71787e559b8b90a4ad8da55fbfa8fdb27e66cdf",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "8a0047a7f6c5196c4901930ee1387912e33b9a9c0bd8e5a4ec588fddae6c6abd",
+      "business_key": {
+        "source_table": "V06.19.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 7,
+        "_ingestion_timestamp": "2026-10-16T16:00:36.360Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.19.csv",
+        "_source_checksum": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "a6466e199e494928efb44e50428d03cea445bd397a465600bcbfefbe2f9c524b",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "2bdc9323d188859e2131386831aba1d799cd9cb56d60c5c07737463a5429515f",
+      "business_key": {
+        "source_table": "V06.24.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 12,
+        "_ingestion_timestamp": "2026-10-16T16:00:39.865Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.24.csv",
+        "_source_checksum": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "acefe104e5b8e863ff85334f63d8dadb330e04a531a60309cf28918af811fca1",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "051b7e031fb42c0374b11fdfe645d7e47daacdc333e06d87a2b095653b9cee5c",
+      "business_key": {
+        "source_table": "V06.15.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 3,
+        "_ingestion_timestamp": "2026-10-16T16:00:33.889Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.15.csv",
+        "_source_checksum": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "afbeb90f0eae817119bb49229d4c3cc8dccf3a3775834b551e4c6f468a9e1004",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "dd23fe447bdec2553bd7b32b51650377120c62458131896089a8a78c034daa35",
+      "business_key": {
+        "source_table": "V06.21.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 9,
+        "_ingestion_timestamp": "2026-10-16T16:00:37.764Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.21.csv",
+        "_source_checksum": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "b1623ee49020d44664b5c0316939250411cdd40d67c8f492d1345ff7ef070a6c",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "c885529f048dcc8d65f2de6b583e1525f8f2c9138e7bca34ced7db1c50ef8e34",
+      "business_key": {
+        "source_table": "V06.16.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 4,
+        "_ingestion_timestamp": "2026-10-16T16:00:34.474Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.16.csv",
+        "_source_checksum": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "b6d0264b53d2d829965d0683aa465155b2ab39c7dd63446a8d15d006eff78c90",
+      "source_dataset": "nso_vietnam_v2_exclusions",
+      "business_key_hash": "ba25e91907153754308c34b1c4ccdd42fcdb9f4ecd7d279aff197040e252e94b",
+      "business_key": {
+        "source_table": "V06.22.csv"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:10:17.672858+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "nso_vietnam_20261016160030_2c409d8a",
+        "_ingestion_batch_id": "nso_vietnam_20261016_2a8e",
+        "_ingestion_chunk_id": 10,
+        "_ingestion_timestamp": "2026-10-16T16:00:38.574Z",
+        "_source_id": "nso_vietnam",
+        "_source_file": "V06.22.csv",
+        "_source_checksum": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "72eb025464e641a7b23fb66dc11c5954f5c87fab9c7632c037bffb69a38ab8e4",
+      "source_dataset": "thitruongnongsan",
+      "business_key_hash": "8a84230dc57096bc0a57aebff767752b98b5061593077384ea113000a92f39c5",
+      "business_key": {
+        "market": "An Giang",
+        "commodity": "Lúa IR 50404 (lúa tươi)",
+        "price_type": "Thương lái thu mua",
+        "unit": "VND/kg",
+        "currency": "VND",
+        "source": "CTV địa phương",
+        "date": "2025-01-03"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:08:58.556304+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "thitruongnongsan_20261016160024_6847418e",
+        "_ingestion_batch_id": "thitruongnongsan_20261016_8b86",
+        "_ingestion_chunk_id": 0,
+        "_ingestion_timestamp": "2026-10-16T16:00:26.010Z",
+        "_source_id": "thitruongnongsan",
+        "_source_file": "price_luagao.xlsx",
+        "_source_checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "75c4d8a12bc39f55f3d994a782eb56e22c87c347b64763b50feabc3adc214b22",
+      "source_dataset": "thitruongnongsan",
+      "business_key_hash": "e122ed6d5ca6772f2bed0134ab15edd9ce7c7116cd455660f7e418af11d7a03a",
+      "business_key": {
+        "market": "An Giang",
+        "commodity": "Lúa IR 50404 (lúa tươi)",
+        "price_type": "Thương lái thu mua",
+        "unit": "VND/kg",
+        "currency": "VND",
+        "source": "CTV địa phương",
+        "date": "2025-02-10"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:08:58.556304+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "thitruongnongsan_20261016160024_6847418e",
+        "_ingestion_batch_id": "thitruongnongsan_20261016_8b86",
+        "_ingestion_chunk_id": 0,
+        "_ingestion_timestamp": "2026-10-16T16:00:26.010Z",
+        "_source_id": "thitruongnongsan",
+        "_source_file": "price_luagao.xlsx",
+        "_source_checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "99da0ca7b4072e964c303cc9bedbfdb71273eb2dff89df09886118ec2e0bc4eb",
+      "source_dataset": "thitruongnongsan",
+      "business_key_hash": "e122ed6d5ca6772f2bed0134ab15edd9ce7c7116cd455660f7e418af11d7a03a",
+      "business_key": {
+        "market": "An Giang",
+        "commodity": "Lúa IR 50404 (lúa tươi)",
+        "price_type": "Thương lái thu mua",
+        "unit": "VND/kg",
+        "currency": "VND",
+        "source": "CTV địa phương",
+        "date": "2025-02-10"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:08:58.556304+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "thitruongnongsan_20261016160024_6847418e",
+        "_ingestion_batch_id": "thitruongnongsan_20261016_8b86",
+        "_ingestion_chunk_id": 0,
+        "_ingestion_timestamp": "2026-10-16T16:00:26.010Z",
+        "_source_id": "thitruongnongsan",
+        "_source_file": "price_luagao.xlsx",
+        "_source_checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    },
+    {
+      "quarantine_record_id": "9d9b6bba9574515eaad407843275c1523105122a0aacf6c5f985a391a3a2592b",
+      "source_dataset": "thitruongnongsan",
+      "business_key_hash": "8a84230dc57096bc0a57aebff767752b98b5061593077384ea113000a92f39c5",
+      "business_key": {
+        "market": "An Giang",
+        "commodity": "Lúa IR 50404 (lúa tươi)",
+        "price_type": "Thương lái thu mua",
+        "unit": "VND/kg",
+        "currency": "VND",
+        "source": "CTV địa phương",
+        "date": "2025-01-03"
+      },
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "detected_at": "2026-10-16 16:08:58.556304+00:00",
+      "bronze_lineage": {
+        "_ingestion_run_id": "thitruongnongsan_20261016160024_6847418e",
+        "_ingestion_batch_id": "thitruongnongsan_20261016_8b86",
+        "_ingestion_chunk_id": 0,
+        "_ingestion_timestamp": "2026-10-16T16:00:26.010Z",
+        "_source_id": "thitruongnongsan",
+        "_source_file": "price_luagao.xlsx",
+        "_source_checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+        "_source_snapshot_id": 0
+      },
+      "identity_hash_recomputed": true,
+      "business_key_hash_recomputed": true
+    }
+  ],
+  "dead_letters_logical_sha256": "1507612e5c0e5f201ae662b8ed9712e80e0ebf636a5a475570810ac1cf5a7708",
+  "dead_letters_full_content_and_audit_sha256": "1224240117484e1bc8dd020deed57f737dfc2097dd7a0146360e7ddae968f305",
+  "commit_timeline": [
+    {
+      "table": "silver_local.dead_letters",
+      "snapshot_id": "7512195715552547853",
+      "timestamp_utc": "2026-10-16T16:09:00.981000+00:00",
+      "total_records": "4",
+      "added_records": "4",
+      "app_id": "local-1792166920802"
+    },
+    {
+      "table": "silver_local.dead_letters",
+      "snapshot_id": "3806092623472970273",
+      "timestamp_utc": "2026-10-16T16:10:22.021000+00:00",
+      "total_records": "17",
+      "added_records": "13",
+      "app_id": "local-1792166958709"
+    },
+    {
+      "table": "silver_local.nso_rice_statistics_v2",
+      "snapshot_id": "6224708582587211745",
+      "timestamp_utc": "2026-10-16T16:10:25.676000+00:00",
+      "total_records": "0",
+      "added_records": "0",
+      "app_id": "local-1792166958709"
+    }
+  ],
+  "pipeline_classification": "CONFIRMED_PARTIAL_EXECUTION_REQUIRES_APPROVED_RECOVERY",
+  "catalog_commit_outcome": "RESOLVED: 13 NSO exclusions committed; NSO empty snapshot committed; observation merge not published. No evidence of an unresolved catalog commit. 34 staged Parquet files are unreferenced, not published.",
+  "airflow_completion": "NOT_COMPLETE: stale running NSO and parent wait task; no NSO return_value or downstream audit/signal XCom",
+  "task_state_mutations": [],
+  "static_recovery_blockers": [
+    "Current route_quarantine unconditionally updates detected_at for existing IDs and executes MERGE; retry would refresh existing 13 exclusions even using the same pipeline_run_id.",
+    "Clearing trigger_silver_release would execute duplicate-run guard and fail; it must not be retriggered/reset. After child success, an explicitly approved state-only finalization of its already-created trigger/wait task is needed."
+  ]
+}

@@ -1,3 +1,5 @@
+> Historical/legacy reference. Current local nine-source routing, NSO V2 and acceptance are documented in [README](README.md), [data catalog](data_catalog.md) and [validation](validation.md). Original bytes are preserved in [archive](archive/manifest.json).
+
 # Data Cleaning & Transformation rules
 
 ## Quy tắc chung

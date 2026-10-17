@@ -1,0 +1,390 @@
+{
+  "at": "2026-10-17T01:29:02.509517+00:00",
+  "files": [
+    {
+      "path": "airflow-scheduler.sanitized.log",
+      "bytes": 37118,
+      "sha256": "35e6b4893adcd03ad7e11c0cbb79d63e8041bec4ac2658d7e3d1c0ef5f1d8a53"
+    },
+    {
+      "path": "airflow-webserver.sanitized.log",
+      "bytes": 29949,
+      "sha256": "1e8728b70c3f9c5052b7d8f827645ed4e2e4ff87d6f914f114c93ddca754cadb"
+    },
+    {
+      "path": "artifact-and-preservation-checks.json",
+      "bytes": 10145,
+      "sha256": "cd3dad105e481136d3b3a6f0599080d20cb6afeff005d1c2b99dbde4e5d878e7"
+    },
+    {
+      "path": "bronze__ingest_faostat_monthly_price__attempt=1.log",
+      "bytes": 15217,
+      "sha256": "5ee05c0e78d0c792df40fbd6b4bc3fbe81b146666d9cdf534b182c55d1ccc72d"
+    },
+    {
+      "path": "bronze__ingest_faostat_production__attempt=1.log",
+      "bytes": 25723,
+      "sha256": "8cb2f2c28540103e20ac5e396b12369d12a13ae9d008e13d511983628a2dcf20"
+    },
+    {
+      "path": "bronze__ingest_faostat_production__attempt=2.log",
+      "bytes": 14849,
+      "sha256": "ad846509b0d67e8042ab0b71fd9c1a96001a0a3ee1d9033b72806d06ca2c0f55"
+    },
+    {
+      "path": "bronze__ingest_faostat_supply_utilization__attempt=1.log",
+      "bytes": 16125,
+      "sha256": "b050a9818fb1536525f9a6821790cbafc6639d6a30f5617288254421fd2b2eee"
+    },
+    {
+      "path": "bronze__ingest_faostat_trade__attempt=1.log",
+      "bytes": 53867,
+      "sha256": "04d1371af3d4f3a63186359f894c1f64eb34c79acffc31e1d2c180aa0a121347"
+    },
+    {
+      "path": "bronze__ingest_nso_vietnam__attempt=1.log",
+      "bytes": 32748,
+      "sha256": "424fc3cf07ab05c162f8ccdbaeb6c35acbaea40c31a9259e0846c6f8bafdecd2"
+    },
+    {
+      "path": "bronze__ingest_thitruongnongsan__attempt=1.log",
+      "bytes": 14311,
+      "sha256": "9df939d5643ef7dea6456f7cf66974b66f85328a159f2a02c10c5eac851ef9ec"
+    },
+    {
+      "path": "bronze__ingest_usda_psd__attempt=1.log",
+      "bytes": 13140,
+      "sha256": "a9f87c455e0fe9f5022c0e371c5045981a9e2782ccc6c0b263b357e98c2d01ad"
+    },
+    {
+      "path": "bronze__ingest_usda_rice_yearbook__attempt=1.log",
+      "bytes": 14758,
+      "sha256": "0b497cdecd9a7b5a83b6efba4b3eaf26d7aa6bbe0dcbf0a040069e28de52b2c8"
+    },
+    {
+      "path": "bronze__ingest_worldbank_pinksheet__attempt=1.log",
+      "bytes": 14882,
+      "sha256": "2137009e65ca999b69f029906bddd45ea47b222b69b18e4ee9c7fadb9299c0ca"
+    },
+    {
+      "path": "bronze__initialize_metadata__attempt=1.log",
+      "bytes": 2912,
+      "sha256": "5ae0c0c9abf6c5198ac8c7464c6257920f1677414cc09df86109a41620029ed1"
+    },
+    {
+      "path": "bronze__trigger_silver_release__attempt=1.log",
+      "bytes": 6106,
+      "sha256": "be62cd5f882a6df6e6226ccc40ac473108e1c64d2b4bf8f49e846b011b770dd4"
+    },
+    {
+      "path": "bronze__verify_bronze_batch__attempt=1.log",
+      "bytes": 30233,
+      "sha256": "47b7adcfceba3eda936769e1cbc44d15ae6f2e21c7e96567c9e6e758c8104eca"
+    },
+    {
+      "path": "cleanroom__bronze__faostat_monthly_price.metadata.json",
+      "bytes": 6208,
+      "sha256": "fa863135819dc233dff801379c8298f5b4bed5150b7569af088917165e7a60c4"
+    },
+    {
+      "path": "cleanroom__bronze__faostat_production.metadata.json",
+      "bytes": 6058,
+      "sha256": "cc4b5b4d56507cb0db8a56c07fca8ddbdd3888cf4e47ad8fd6e90f1656c052c5"
+    },
+    {
+      "path": "cleanroom__bronze__faostat_supply_utilization.metadata.json",
+      "bytes": 6096,
+      "sha256": "e9ac8a827d092d991ccf3e68ab3ce2633b3da33d673e3ee523cfcd843d343d35"
+    },
+    {
+      "path": "cleanroom__bronze__faostat_trade.metadata.json",
+      "bytes": 32065,
+      "sha256": "a684b0aecc892ecccfa8180cbecc1ae2e888680075cebed0499defc637017ea3"
+    },
+    {
+      "path": "cleanroom__bronze__nso_vietnam.metadata.json",
+      "bytes": 22435,
+      "sha256": "3659c1f0f777f11bedf6d340b9ad6435eb044fa1ea74ffc0acb0d7c91bf6db38"
+    },
+    {
+      "path": "cleanroom__bronze__thitruongnongsan.metadata.json",
+      "bytes": 5127,
+      "sha256": "d16292b25f5f19fd61c75614398f27b8714ecc9560cf315932646938a72bb3f0"
+    },
+    {
+      "path": "cleanroom__bronze__usda_psd.metadata.json",
+      "bytes": 13680,
+      "sha256": "49d4486b00094d3dfe3300843185c703d59e8a37e4ca67a770539d903138bc5b"
+    },
+    {
+      "path": "cleanroom__bronze__usda_rice_yearbook.metadata.json",
+      "bytes": 5477,
+      "sha256": "f04e16f1615ed690a5c543116191b8f2f534c7189e0c032fbe07557c49792881"
+    },
+    {
+      "path": "cleanroom__bronze__worldbank_pinksheet.metadata.json",
+      "bytes": 16570,
+      "sha256": "21089bdba9755c94f0344227f2007d1c360739d9e0d9fbb990c0c051f703431e"
+    },
+    {
+      "path": "cleanroom__silver_local__dead_letters.metadata.json",
+      "bytes": 5711,
+      "sha256": "662d2d98442deef436a11ced0f853f76cf1011264d5346a3cc5e7e23e5294c96"
+    },
+    {
+      "path": "cleanroom__silver_local__faostat_monthly_price.metadata.json",
+      "bytes": 8771,
+      "sha256": "1ac8a5c33ef47d54d0b0b661928dc8bc2db3f43e0655a0d4bd66ba2e017fe0f2"
+    },
+    {
+      "path": "cleanroom__silver_local__faostat_production.metadata.json",
+      "bytes": 7961,
+      "sha256": "c6acf3e5ee38d07cc22a7e6aeac1c36c71c16fa193b70526aa4071a0a8b74cc9"
+    },
+    {
+      "path": "cleanroom__silver_local__faostat_supply_utilization.metadata.json",
+      "bytes": 8120,
+      "sha256": "9413c596ca1c9e4cf03406c8a0a80962b7a2999813f17aa4ad1cdc6618460414"
+    },
+    {
+      "path": "cleanroom__silver_local__faostat_trade.metadata.json",
+      "bytes": 7852,
+      "sha256": "00c26023a5bc9ac35cdd2db66e61edcd741b657779ae012db58b2d864853e2a2"
+    },
+    {
+      "path": "cleanroom__silver_local__nso_rice_statistics_v2.metadata.json",
+      "bytes": 9216,
+      "sha256": "88f1ad692e5844a20261efecc784dcdab97d397e3fe3f37c60454cfc594bf22b"
+    },
+    {
+      "path": "cleanroom__silver_local__thitruongnongsan.metadata.json",
+      "bytes": 7387,
+      "sha256": "052d1a5736c8654d669963bc88959ae99e1dc151dbf784890377c6b8a08f91d8"
+    },
+    {
+      "path": "cleanroom__silver_local__usda_rice_psd.metadata.json",
+      "bytes": 7423,
+      "sha256": "414a3bc1aea24d399057b7853ca9978df8e84909754eaf136dd94225bb987d82"
+    },
+    {
+      "path": "cleanroom__silver_local__usda_rice_yearbook.metadata.json",
+      "bytes": 7557,
+      "sha256": "8a75f3f41591e8bc686af1a644f52e172c8ca3bcef0a36145579331ad5054c44"
+    },
+    {
+      "path": "cleanroom__silver_local__worldbank_commodity_monthly.metadata.json",
+      "bytes": 7450,
+      "sha256": "e65af57027864d618420e482f5f6b7e13b4e70f82e46c8b48067a2f518ba89a2"
+    },
+    {
+      "path": "controlled-stop-proposal.json",
+      "bytes": 2968,
+      "sha256": "404bfe09c5106c4e2cff6d3701d2ef78c7129d6c7fa71973f2d4006d1d0b1dbc"
+    },
+    {
+      "path": "docker-events.json",
+      "bytes": 67630,
+      "sha256": "359e613ea2377a7a380dd90043379b0c484062a0a74a3e521719947512c43104"
+    },
+    {
+      "path": "log-manifest.json",
+      "bytes": 657,
+      "sha256": "9a8db5d963e2e041d2c25573f4a2c1a133fd2edfdb5b61937cfc3b0b7f9e55b0"
+    },
+    {
+      "path": "offline-catalog-and-task-logs.json",
+      "bytes": 106233,
+      "sha256": "cfe39c52c944f82fb68c7303fe31bf73bd8b397d570271d4e8a83f6207a6e305"
+    },
+    {
+      "path": "offline-physical-metadata.json",
+      "bytes": 210998,
+      "sha256": "1d11f1aa6a5e44cec39a8ddb7f02ea956f59e4f49de5654cf878c2903a545bc6"
+    },
+    {
+      "path": "phase2__bronze__faostat_monthly_price.metadata.json",
+      "bytes": 6203,
+      "sha256": "0103a206a3009da8b72646d7401d7225e4e5b27ff6287c2127959acb222311ad"
+    },
+    {
+      "path": "phase2__bronze__faostat_production.metadata.json",
+      "bytes": 6062,
+      "sha256": "7119b9016fd3bc22619b27a7954462bb2363ef9e7f6240a4a49bbd1b1e37b638"
+    },
+    {
+      "path": "phase2__bronze__faostat_supply_utilization.metadata.json",
+      "bytes": 6091,
+      "sha256": "c44960dbc635021600d0fb4a3c9d9fe92f1f7efa22e822b1c3c285b611c0bd19"
+    },
+    {
+      "path": "phase2__bronze__faostat_trade.metadata.json",
+      "bytes": 32065,
+      "sha256": "8396073e8bef5a523c0812327fa4a1ac9d225da0772e369ddf594111be2f2a54"
+    },
+    {
+      "path": "phase2__bronze__nso_vietnam.metadata.json",
+      "bytes": 22435,
+      "sha256": "aee70c2cf1946f71d4f529dd371f8b9ae711ef6022dda6e7c633b323e4c40e53"
+    },
+    {
+      "path": "phase2__bronze__thitruongnongsan.metadata.json",
+      "bytes": 5127,
+      "sha256": "d525e12e269cdee1247021949dc77fcb9b23c96567fbadc12f1df7d463b16765"
+    },
+    {
+      "path": "phase2__bronze__usda_psd.metadata.json",
+      "bytes": 13680,
+      "sha256": "9739e32aeeffd2501df3805a178cbaf2ecf5632250f7c414bc8d0ab5b432683b"
+    },
+    {
+      "path": "phase2__bronze__usda_rice_yearbook.metadata.json",
+      "bytes": 5477,
+      "sha256": "92eb22b721e7d1c35ede71db8a38f4de4afc59546ef57591e304c96954ca4404"
+    },
+    {
+      "path": "phase2__bronze__worldbank_pinksheet.metadata.json",
+      "bytes": 16570,
+      "sha256": "61a4757056c439b025bf5bc902d30bab4dd9fd06f6f2bcd7d5a5f450410e550d"
+    },
+    {
+      "path": "phase2__silver_local__dead_letters.metadata.json",
+      "bytes": 5711,
+      "sha256": "97c036be248983baad17ac139c7f5f85955744ebf7cce2f3c9f1ae7437df1dd2"
+    },
+    {
+      "path": "phase2__silver_local__faostat_monthly_price.metadata.json",
+      "bytes": 8766,
+      "sha256": "4adcc0bcd70075dd7b093084874750511b3d9a992486fd54468f9d4b2284a68e"
+    },
+    {
+      "path": "phase2__silver_local__faostat_production.metadata.json",
+      "bytes": 7961,
+      "sha256": "c1c9844b8433bee4f99a4c5bf476b02e2fd0ebc4b9ad19dd8e2ab5f63d530733"
+    },
+    {
+      "path": "phase2__silver_local__faostat_supply_utilization.metadata.json",
+      "bytes": 8120,
+      "sha256": "6b2d553c24c3d6c0a25931272419199f33b57b6ac5fd5cb0f5404d2f02f60b47"
+    },
+    {
+      "path": "phase2__silver_local__faostat_trade.metadata.json",
+      "bytes": 7852,
+      "sha256": "5922437a2bdf966f2489ea2f51890fb245c7176482bc0274a91e63c7b21178fb"
+    },
+    {
+      "path": "phase2__silver_local__nso_rice_statistics_v2.metadata.json",
+      "bytes": 10563,
+      "sha256": "4015c65909f4389c472b1d07f07371c1e5937b0da24f0aaad3f5e3af53e9fce5"
+    },
+    {
+      "path": "phase2__silver_local__thitruongnongsan.metadata.json",
+      "bytes": 7387,
+      "sha256": "f5c8de63b038429f4cbff35630e69e2e7be72369f4bb903d6a0f29fee1115674"
+    },
+    {
+      "path": "phase2__silver_local__usda_rice_psd.metadata.json",
+      "bytes": 7423,
+      "sha256": "5211dd316cb08051fbf4670810b321dc92183cc1f617995a24979fd3f408b2ab"
+    },
+    {
+      "path": "phase2__silver_local__usda_rice_yearbook.metadata.json",
+      "bytes": 7557,
+      "sha256": "00ab02b015256ad1d2e634d44409238e1f747bfc4ffcfec44d74648d6b618754"
+    },
+    {
+      "path": "phase2__silver_local__worldbank_commodity_monthly.metadata.json",
+      "bytes": 7450,
+      "sha256": "fa3a822b359b02c72044b92a269d60dcd1948fd5f1274f80447b0688c90266af"
+    },
+    {
+      "path": "postgres-test.sanitized.log",
+      "bytes": 10869,
+      "sha256": "2db48fa85b66f6e11220ccd923d160921b236499fa172c146ef480849c5ce488"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3914,
+      "sha256": "f5a41d1846d119b03e681056f8ea76ad08d319104d4003315b137694b6119c70"
+    },
+    {
+      "path": "report.json",
+      "bytes": 26143,
+      "sha256": "9af7bcea1c6de46b29e9769231cefd6d27682b6c510bb11e6e80db4d564db6c6"
+    },
+    {
+      "path": "resource-screening.json",
+      "bytes": 12393,
+      "sha256": "4b571e98811fe6134994eef71336644fd1d30476eda1d52e3b2febcb7fff3a6a"
+    },
+    {
+      "path": "rest-test.sanitized.log",
+      "bytes": 27001,
+      "sha256": "9ea872af81406ecc5054e54fbb95b32b4d2ceb4dbc1080f541f823677e560ee8"
+    },
+    {
+      "path": "runner.sanitized.log",
+      "bytes": 21561,
+      "sha256": "c7ad11a7b4d07946f9884973f678f47a8471dc9b6563c6ec714b1251de59913b"
+    },
+    {
+      "path": "runtime-inventory.json",
+      "bytes": 85528,
+      "sha256": "f319b4b4fefc0361b44d27e0b141075bb4bfbbee05a2cc1b95f8e1e1c5af14ab"
+    },
+    {
+      "path": "shared-readonly-safety.json",
+      "bytes": 13448,
+      "sha256": "36e2fded0eec6402a092bd027754414563785114cae887cae38cbdf3f0b6eed8"
+    },
+    {
+      "path": "silver__gate_check_bronze__attempt=1.log",
+      "bytes": 4072,
+      "sha256": "1fb9793450248ca22169499383f7d3451ccbb3bcf69851d6238ec90ea0354e0d"
+    },
+    {
+      "path": "silver__transform_faostat_monthly_price__attempt=1.log",
+      "bytes": 3950,
+      "sha256": "5132a432374b93d759f1457c13329ba86d8084a7cb961735f38d723ed59eefcb"
+    },
+    {
+      "path": "silver__transform_faostat_production__attempt=1.log",
+      "bytes": 3911,
+      "sha256": "6aaffc73d48807b2d3c83f63ec4ad33cb30abdc58c16ad5fde256abb87215293"
+    },
+    {
+      "path": "silver__transform_faostat_supply_utilization__attempt=1.log",
+      "bytes": 4017,
+      "sha256": "8eed3411fdf814a5f9f5de34cd0b50afc39df60ebe20b429e2481e1a20dbceae"
+    },
+    {
+      "path": "silver__transform_faostat_trade__attempt=1.log",
+      "bytes": 3856,
+      "sha256": "f59a0feafade125e4b50e687ecb4acad6481be12ff7c074ff8077ad29526858f"
+    },
+    {
+      "path": "silver__transform_nso_vietnam_v2__attempt=1.log",
+      "bytes": 28377,
+      "sha256": "1ea11d976bcec2660ec23a43ac63dd28bfa539a27864e93777323a2cdccaa102"
+    },
+    {
+      "path": "silver__transform_thitruongnongsan__attempt=1.log",
+      "bytes": 3886,
+      "sha256": "ae66e778f86dafc4d115609ef322066cdf2bd0ca75a8f98853843e7e8bfa2dd2"
+    },
+    {
+      "path": "silver__transform_usda_psd__attempt=1.log",
+      "bytes": 3785,
+      "sha256": "722b344889881a894cc396e1044e85e1e2e1350ad9f5b9fde2f287af7c432a2f"
+    },
+    {
+      "path": "silver__transform_usda_rice_yearbook__attempt=1.log",
+      "bytes": 3913,
+      "sha256": "996633f27f165a7b94706be5828022b4986e6efa6f8abfd21ad0ef77a454ab21"
+    },
+    {
+      "path": "silver__transform_worldbank_pinksheet__attempt=1.log",
+      "bytes": 3946,
+      "sha256": "8e21b49f8438e7ef0d2d2bb4acfc1c37c9f1334b98326c9dc3dfc38f8be69b8a"
+    }
+  ]
+}

@@ -1,0 +1,469 @@
+{
+  "folder": "docs\\silver\\evidence\\nso_v2\\phase2_sigint_resume_20261016_141546",
+  "started_at": "2026-10-16T14:15:46.456084+00:00",
+  "actions": [
+    {
+      "at": "2026-10-16T14:15:48.337905+00:00",
+      "action": "sigint_fresh_gate",
+      "status": "PASS"
+    },
+    {
+      "at": "2026-10-16T14:15:48.401498+00:00",
+      "action": "sigint_intent",
+      "id": "b5774d0f5aed5869cf1d1dcea8b3d63d2628890abca5c8459dd7ec7bb1d2dcbd",
+      "signal": "SIGINT",
+      "maximum_deliveries": 1
+    },
+    {
+      "at": "2026-10-16T14:15:48.515757+00:00",
+      "action": "sigint_sent",
+      "id": "b5774d0f5aed5869cf1d1dcea8b3d63d2628890abca5c8459dd7ec7bb1d2dcbd"
+    },
+    {
+      "at": "2026-10-16T14:15:49.283166+00:00",
+      "action": "sigint_exit",
+      "container": {
+        "id": "b5774d0f5aed5869cf1d1dcea8b3d63d2628890abca5c8459dd7ec7bb1d2dcbd",
+        "name": "/spark-iceberg",
+        "created": "2026-10-16T13:29:05.723080791Z",
+        "image": "sha256:790a72e744e0d09f161e1b4c7c2f79625cc598cf0476da4703e62f1f4e023460",
+        "image_reference": "tabulario/spark-iceberg:latest",
+        "state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 130,
+          "Error": "",
+          "StartedAt": "2026-10-16T13:29:13.174474673Z",
+          "FinishedAt": "2026-10-16T14:15:48.536800817Z"
+        },
+        "health": "unhealthy",
+        "restart_count": 0,
+        "restart_policy": {
+          "Name": "no",
+          "MaximumRetryCount": 0
+        },
+        "memory_limit": 0,
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+            "Destination": "/home/iceberg/src",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\tests",
+            "Destination": "/home/iceberg/tests",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+            "Destination": "/home/iceberg/contracts",
+            "Mode": "ro",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\silver",
+            "Destination": "/home/iceberg/config/silver",
+            "Mode": "ro",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\spark\\spark-defaults.conf",
+            "Destination": "/opt/spark/conf/spark-defaults.conf",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+            "Destination": "/home/iceberg/data",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+            "Destination": "/home/iceberg/jobs",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\notebooks",
+            "Destination": "/home/iceberg/notebooks",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+          }
+        ]
+      }
+    },
+    {
+      "at": "2026-10-16T14:15:50.285143+00:00",
+      "action": "sigint_reconciliation",
+      "status": "PASS"
+    },
+    {
+      "at": "2026-10-16T14:15:50.423400+00:00",
+      "action": "shared_sigterm_sent",
+      "services": [
+        "trino"
+      ],
+      "ids": [
+        "dde50d530f2a98d060ab7545048fd95eb05c94a5875d939a690f720be2331b0c"
+      ]
+    },
+    {
+      "at": "2026-10-16T14:15:51.559479+00:00",
+      "action": "shared_graceful_exit",
+      "services": [
+        "trino"
+      ],
+      "containers": [
+        {
+          "id": "dde50d530f2a98d060ab7545048fd95eb05c94a5875d939a690f720be2331b0c",
+          "name": "/trino",
+          "created": "2026-10-16T13:29:05.672994537Z",
+          "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+          "image_reference": "trinodb/trino:448",
+          "state": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 143,
+            "Error": "",
+            "StartedAt": "2026-10-16T13:29:13.058727272Z",
+            "FinishedAt": "2026-10-16T14:15:50.675357065Z"
+          },
+          "health": "unhealthy",
+          "restart_count": 0,
+          "restart_policy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "memory_limit": 0,
+          "mounts": [
+            {
+              "Type": "bind",
+              "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\jvm.config",
+              "Destination": "/etc/trino/jvm.config",
+              "Mode": "rw",
+              "RW": true,
+              "Propagation": "rprivate"
+            },
+            {
+              "Type": "bind",
+              "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\catalog\\iceberg.properties",
+              "Destination": "/etc/trino/catalog/iceberg.properties",
+              "Mode": "rw",
+              "RW": true,
+              "Propagation": "rprivate"
+            },
+            {
+              "Type": "bind",
+              "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\config.properties",
+              "Destination": "/etc/trino/config.properties",
+              "Mode": "rw",
+              "RW": true,
+              "Propagation": "rprivate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "at": "2026-10-16T14:15:51.702229+00:00",
+      "action": "shared_sigterm_sent",
+      "services": [
+        "iceberg-rest"
+      ],
+      "ids": [
+        "9de335c9cfda42a3c1709df0761ab810f9956d50a1192085a1829ad23d57ef7a"
+      ]
+    },
+    {
+      "at": "2026-10-16T14:15:52.895915+00:00",
+      "action": "shared_graceful_exit",
+      "services": [
+        "iceberg-rest"
+      ],
+      "containers": [
+        {
+          "id": "9de335c9cfda42a3c1709df0761ab810f9956d50a1192085a1829ad23d57ef7a",
+          "name": "/iceberg-rest",
+          "created": "2026-10-16T13:29:05.47243845Z",
+          "image": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+          "image_reference": "tabulario/iceberg-rest:0.8.0",
+          "state": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 143,
+            "Error": "",
+            "StartedAt": "2026-10-16T13:29:12.691002517Z",
+            "FinishedAt": "2026-10-16T14:15:52.050554388Z"
+          },
+          "health": null,
+          "restart_count": 0,
+          "restart_policy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "memory_limit": 0,
+          "mounts": [
+            {
+              "Type": "volume",
+              "Name": "tlcn_catalog_data",
+              "Source": "/var/lib/docker/volumes/tlcn_catalog_data/_data",
+              "Destination": "/data/catalog",
+              "Driver": "local",
+              "Mode": "rw",
+              "RW": true,
+              "Propagation": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "at": "2026-10-16T14:15:53.040714+00:00",
+      "action": "shared_sigterm_sent",
+      "services": [
+        "minio"
+      ],
+      "ids": [
+        "ed96e8d61e8fad38f9615d2dbe91b89e4d9cb409a2817bb321a4179db217ddd2"
+      ]
+    },
+    {
+      "at": "2026-10-16T14:15:53.580371+00:00",
+      "action": "shared_graceful_exit",
+      "services": [
+        "minio"
+      ],
+      "containers": [
+        {
+          "id": "ed96e8d61e8fad38f9615d2dbe91b89e4d9cb409a2817bb321a4179db217ddd2",
+          "name": "/minio",
+          "created": "2026-10-16T13:29:05.151429663Z",
+          "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+          "image_reference": "ghcr.io/coollabsio/minio:latest",
+          "state": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-16T13:29:06.466864341Z",
+            "FinishedAt": "2026-10-16T14:15:53.067548167Z"
+          },
+          "health": "unhealthy",
+          "restart_count": 0,
+          "restart_policy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "memory_limit": 0,
+          "mounts": [
+            {
+              "Type": "volume",
+              "Name": "tlcn_minio_data",
+              "Source": "/var/lib/docker/volumes/tlcn_minio_data/_data",
+              "Destination": "/data",
+              "Driver": "local",
+              "Mode": "rw",
+              "RW": true,
+              "Propagation": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "at": "2026-10-16T14:15:53.780905+00:00",
+      "action": "shared_sigterm_sent",
+      "services": [
+        "postgres"
+      ],
+      "ids": [
+        "aca5ddca120c3ca24c8d45202fbec043c3661a03ee67958220ea4535023ba4e7"
+      ]
+    },
+    {
+      "at": "2026-10-16T14:15:54.155829+00:00",
+      "action": "shared_graceful_exit",
+      "services": [
+        "postgres"
+      ],
+      "containers": [
+        {
+          "id": "aca5ddca120c3ca24c8d45202fbec043c3661a03ee67958220ea4535023ba4e7",
+          "name": "/postgres",
+          "created": "2026-10-16T13:29:05.171917542Z",
+          "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+          "image_reference": "postgres:15-alpine",
+          "state": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-16T13:29:06.436662374Z",
+            "FinishedAt": "2026-10-16T14:15:53.819615281Z"
+          },
+          "health": "unhealthy",
+          "restart_count": 0,
+          "restart_policy": {
+            "Name": "no",
+            "MaximumRetryCount": 0
+          },
+          "memory_limit": 0,
+          "mounts": [
+            {
+              "Type": "volume",
+              "Name": "tlcn_postgres_data",
+              "Source": "/var/lib/docker/volumes/tlcn_postgres_data/_data",
+              "Destination": "/var/lib/postgresql/data",
+              "Driver": "local",
+              "Mode": "rw",
+              "RW": true,
+              "Propagation": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "at": "2026-10-16T14:15:54.226933+00:00",
+      "action": "shared_stop_complete",
+      "volumes_preserved": true
+    },
+    {
+      "at": "2026-10-16T14:16:08.073716+00:00",
+      "action": "isolated_start",
+      "services": [
+        "postgres-test",
+        "minio-test"
+      ],
+      "ids": [
+        "ab125221fab9edef399a617968cd03ddf450b022adade2084ed11bfcafc610b8",
+        "2154802e0c7f48c4afc28101a4053e56b068b7696f31abfb6689157a589b7c94"
+      ]
+    },
+    {
+      "at": "2026-10-16T14:16:15.010220+00:00",
+      "action": "isolated_start",
+      "services": [
+        "rest-test",
+        "trino-test"
+      ],
+      "ids": [
+        "4ca90539494482112a1869096bf9d78d7cdeb64be460b95faf48ae88b563d4cf",
+        "5fe24960fb14d5c4c11481998d8795fff9415aa3dac7459f0e772accce7622a8"
+      ]
+    },
+    {
+      "at": "2026-10-16T14:17:04.101024+00:00",
+      "action": "isolated_storage_gate",
+      "status": "PASS"
+    },
+    {
+      "at": "2026-10-16T14:17:24.393121+00:00",
+      "action": "isolated_start",
+      "services": [
+        "runner"
+      ],
+      "ids": [
+        "f42feb8efea58e67ce4cf3b22906a903c083f13b0a75439d86fe11f2d7d750cc"
+      ]
+    },
+    {
+      "at": "2026-10-16T14:17:30.953579+00:00",
+      "action": "isolated_start",
+      "services": [
+        "airflow-webserver"
+      ],
+      "ids": [
+        "95736198e85ed0e490aaf6eac0d094f0e405e634313e7d072e73dfe43d152381"
+      ]
+    },
+    {
+      "at": "2026-10-16T14:17:34.805052+00:00",
+      "action": "isolated_start",
+      "services": [
+        "airflow-scheduler"
+      ],
+      "ids": [
+        "9909770f97b03edb19bc1b8dc08d23fbac5add21206509adeb6e95454eb7dc04"
+      ]
+    },
+    {
+      "at": "2026-10-16T14:22:09.841517+00:00",
+      "action": "resource_admission",
+      "status": "PASS_MINIMUM_SCREEN"
+    },
+    {
+      "at": "2026-10-16T14:23:56.810288+00:00",
+      "action": "unpause_silver"
+    },
+    {
+      "at": "2026-10-16T14:24:03.861669+00:00",
+      "action": "unpause_bronze"
+    },
+    {
+      "at": "2026-10-16T14:24:03.862922+00:00",
+      "action": "bronze_trigger_intent",
+      "run_id": "local_nine_phase2__20261016T142353Z",
+      "conf": {
+        "force_reprocess": false
+      }
+    },
+    {
+      "at": "2026-10-16T14:24:08.970781+00:00",
+      "action": "bronze_trigger_returned",
+      "run_id": "local_nine_phase2__20261016T142353Z"
+    },
+    {
+      "at": "2026-10-16T14:39:12.373813+00:00",
+      "action": "dag_pause",
+      "dag_ids": [
+        "rice_lakehouse_ingestion",
+        "rice_lakehouse_silver_pipeline"
+      ]
+    }
+  ]
+}

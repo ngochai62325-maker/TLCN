@@ -1,0 +1,67 @@
+{
+  "archive": "before_local_consolidation.zip",
+  "sha256": "d4cf99824b2ccfe514b566feafd0485a058819283d76ca44d6d1aef0a961309c",
+  "files": [
+    {
+      "path": "docs/silver/README.md",
+      "bytes": 9963,
+      "sha256": "e6bcb28f418757da54dc60099f6f3b210ef29eaaa7a6723b8559a384551243cc"
+    },
+    {
+      "path": "docs/silver/validation.md",
+      "bytes": 13835,
+      "sha256": "6da925c4048be8d226d8d10f3ed5018930d6158f78ac630aa5212d5bb17bd3c2"
+    },
+    {
+      "path": "docs/silver/nso_v2.md",
+      "bytes": 10330,
+      "sha256": "fe05bb789f209252d6e963952dde873a28680afa348d2a9b6f0e51f1cda9ab4c"
+    },
+    {
+      "path": "docs/silver/local_nine.md",
+      "bytes": 8989,
+      "sha256": "9e540066790cd56270dd69130f07a2eca82b04077493ab20dec50cb0f4abd738"
+    },
+    {
+      "path": "docs/silver/rebuild.md",
+      "bytes": 86537,
+      "sha256": "80105d408cfbccd755e0bd8b78ca93bfe8c64f2eb7e493bfa043174e5ba91d2f"
+    },
+    {
+      "path": "docs/silver/silver_layer_architecture.md",
+      "bytes": 10692,
+      "sha256": "b5cd351106b7904d3f7addc0445a741ad6947df795095c557d27bac7d98fd482"
+    },
+    {
+      "path": "docs/silver/schemas.md",
+      "bytes": 16459,
+      "sha256": "db0964608af8e8cf15d8538f8b0dbe4f01637b3cd8ec60c8d939f006d8f78f8b"
+    },
+    {
+      "path": "docs/silver/cleaning_rules.md",
+      "bytes": 11070,
+      "sha256": "a264b06f1c17a82722aae2d37583d3ceca49045316b52198ef1148e2560a6cc8"
+    },
+    {
+      "path": "docs/silver/nso.md",
+      "bytes": 7588,
+      "sha256": "a2a5237f5b8848705046d8e0fae52f2310161b3745aec79bed87cfa8464dced3"
+    },
+    {
+      "path": "docs/silver/faostat_nso_repository_audit.md",
+      "bytes": 9396,
+      "sha256": "a2fba7d0a9b80316f58520fdd782aaf6167e707e21aca72b30bbc45bf2742fe0"
+    },
+    {
+      "path": "docs/silver/faostat_nso_source_transformations.md",
+      "bytes": 17449,
+      "sha256": "c54cc780cbecefe12f6b7868af47f462ffb203c4daac4f2490c7242afadc779d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3746,
+      "sha256": "d3e3c92457f5c05b957aec5b4bcb9e685dccc1c87d9e798bd9fb01702b166afb"
+    }
+  ],
+  "note": "Exact original live documentation bytes before consolidation; original accepted evidence reports and runtime overlays remain at their existing paths."
+}

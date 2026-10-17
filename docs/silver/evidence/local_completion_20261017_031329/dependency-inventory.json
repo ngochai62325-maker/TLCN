@@ -1,0 +1,4925 @@
+{
+  "files": [
+    {
+      "path": "docs/silver/validation.md",
+      "bytes": 13835,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/silver_layer_architecture.md",
+      "bytes": 10692,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/schemas.md",
+      "bytes": 16459,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/rebuild.md",
+      "bytes": 86537,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/README.md",
+      "bytes": 9963,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/nso_v2.md",
+      "bytes": 10330,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/nso.md",
+      "bytes": 7588,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/local_nine.md",
+      "bytes": 8989,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/faostat_nso_source_transformations.md",
+      "bytes": 17449,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/faostat_nso_repository_audit.md",
+      "bytes": 9396,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/evidence/trino_validation.json",
+      "bytes": 1196,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "lakehouse.ps1",
+      "bytes": 3286,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "docs/silver/evidence/live_validation.json",
+      "bytes": 54961,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/legacy_schema_migrations.json",
+      "bytes": 1447,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/cleaning_rules.md",
+      "bytes": 11070,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docker-compose.yml",
+      "bytes": 10170,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "tlcn_explain-for_eda/analyze_EDA.ipynb",
+      "bytes": 65677,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3746,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/evidence/nso_geography_trino.json",
+      "bytes": 443,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "query_silver_usda.py",
+      "bytes": 1750,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 903,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "tlcn_explain-for_eda/.gitignore",
+      "bytes": 170,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "profile_usda.py",
+      "bytes": 1593,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_bronze_schema_repair.json",
+      "bytes": 1565,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_bronze_recovery.json",
+      "bytes": 2031,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_bronze_cold_start.json",
+      "bytes": 604,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "compose.silver-production.yml",
+      "bytes": 2102,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "compose.silver-canary.yml",
+      "bytes": 1022,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "compose.nso-rest-test.yml",
+      "bytes": 1963,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "compose.local-nine-test.yml",
+      "bytes": 5658,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 653,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 1085,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "tlcn_explain-for_eda/world_bank/cleaning_pinksheet.md",
+      "bytes": 47640,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "docs/silver/evidence/release_20261013/runtime_preparation.json",
+      "bytes": 31938,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/release_20261013/preflight.json",
+      "bytes": 9951,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/release_20261013/incremental_new_raw.log",
+      "bytes": 12380,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/release_20261013/deployment.json",
+      "bytes": 55906,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/release_20261013/closure.json",
+      "bytes": 27414,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/release_20261013/canary_logs.zip",
+      "bytes": 48196,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/release_20261013/canary.json",
+      "bytes": 277776,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/release_20261013/activation_canary_logs.zip",
+      "bytes": 66158,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/release_20261013/activation_canary.json",
+      "bytes": 145280,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/release_20261013/acceptance.json",
+      "bytes": 105531,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docker/silver-spark.Dockerfile",
+      "bytes": 808,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docker/silver-airflow.Dockerfile",
+      "bytes": 856,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_recovery_trino.json",
+      "bytes": 1109,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_recovery_e2e.json",
+      "bytes": 8343,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_geography_validation.json",
+      "bytes": 8341,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_silver_recovery.json",
+      "bytes": 768,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "tlcn_explain-for_eda/usda/cleaning_rice_yearbook.md",
+      "bytes": 19162,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "tlcn_explain-for_eda/usda/cleaning_psd.md",
+      "bytes": 19907,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": ".env.example",
+      "bytes": 617,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": ".dockerignore",
+      "bytes": 159,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "plugins/.gitkeep",
+      "bytes": 0,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "scripts/validate_silver_local_snapshots.py",
+      "bytes": 18322,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "scripts/validate_silver_contracts.py",
+      "bytes": 1416,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "scripts/test_silver_isolated.ps1",
+      "bytes": 1928,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "scripts/test_faostat_nso_isolated.ps1",
+      "bytes": 1581,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "scripts/preview_faostat_nso_bronze.ps1",
+      "bytes": 826,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 201,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/webserver-graceful-stop.json",
+      "bytes": 3054,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/resource-admission.json",
+      "bytes": 18351,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/replay-trigger-cli.json",
+      "bytes": 1550,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/replay-monitor.jsonl",
+      "bytes": 50333,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/replay-intent.json",
+      "bytes": 622,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/raw-pins.json",
+      "bytes": 4474,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/postgres-persisted-state.json",
+      "bytes": 337578,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/latest-replay-state.json",
+      "bytes": 16139,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/fresh-preflight.json",
+      "bytes": 74330,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/cli-webserver-dependency-proof.json",
+      "bytes": 6345,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/local_completion_20261017_031329/actions.json",
+      "bytes": 1440,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "tests/__init__.py",
+      "bytes": 42,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tlcn_explain-for_eda/thitruongnongsan/cleaning_prices.md",
+      "bytes": 23037,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "notebooks/.gitkeep",
+      "bytes": 0,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "mark_success.py",
+      "bytes": 394,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "compose.silver-test.yml",
+      "bytes": 4771,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "requirements/silver-spark.lock",
+      "bytes": 196,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "requirements/silver-airflow.lock",
+      "bytes": 769,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "tests/conftest.py",
+      "bytes": 3168,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/verify_silver_trino.py",
+      "bytes": 9948,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/validate_silver_e2e.py",
+      "bytes": 24399,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/spark_api_server.py",
+      "bytes": 5105,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/run_all_silver.py",
+      "bytes": 9017,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/preview_faostat_nso.py",
+      "bytes": 5011,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/migrate_empty_silver_schema.py",
+      "bytes": 3484,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/job_worldbank.py",
+      "bytes": 163,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/job_usda_psd.py",
+      "bytes": 152,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/job_usda_export_price.py",
+      "bytes": 162,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/job_thitruongnongsan.py",
+      "bytes": 160,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/job_nso_vietnam.py",
+      "bytes": 158,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/job_faostat_trade.py",
+      "bytes": 157,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/job_faostat_supply_utilization.py",
+      "bytes": 170,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/job_faostat_production.py",
+      "bytes": 162,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/silver/job_faostat_monthly_price.py",
+      "bytes": 165,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "contracts/silver/worldbank_pinksheet.yaml",
+      "bytes": 4929,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "contracts/silver/usda_rice_yearbook.yaml",
+      "bytes": 5062,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "contracts/silver/usda_psd.yaml",
+      "bytes": 5752,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "contracts/silver/thitruongnongsan.yaml",
+      "bytes": 4797,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "contracts/silver/nso_vietnam_v2.yaml",
+      "bytes": 6607,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "contracts/silver/nso_vietnam.yaml",
+      "bytes": 6635,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "contracts/silver/faostat_trade.yaml",
+      "bytes": 5215,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "contracts/silver/faostat_supply_utilization.yaml",
+      "bytes": 5351,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "contracts/silver/faostat_production.yaml",
+      "bytes": 6340,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "contracts/silver/faostat_monthly_price.yaml",
+      "bytes": 6236,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "dags/dag_silver_pipeline.py",
+      "bytes": 6947,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "dags/dag_ingestion_pipeline.py",
+      "bytes": 7980,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "dags/.gitkeep",
+      "bytes": 0,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "lakehouse.sh",
+      "bytes": 2659,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "jobs/.gitkeep",
+      "bytes": 0,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "tlcn_explain-for_eda/nso/metadata.txt",
+      "bytes": 907,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "tlcn_explain-for_eda/nso/cleaning_schema_group_02.md",
+      "bytes": 94853,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "tlcn_explain-for_eda/nso/cleaning_schema_group_01.md",
+      "bytes": 22048,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "config/silver/nso_v2_metadata.json",
+      "bytes": 42176,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/bronze/validate_nso_bronze.py",
+      "bytes": 3388,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "config/ingestion/source_registry.yaml",
+      "bytes": 12328,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "jobs/bronze/repair_nso_bronze_schema.py",
+      "bytes": 1353,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "config/silver/nso_source_tables.json",
+      "bytes": 19913,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "config/silver/nso_geography_candidates.json",
+      "bytes": 3334,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_faostat_nso_silver.py",
+      "bytes": 4694,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/manual_run_reconciliation.json",
+      "bytes": 25879,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/implementation_progress.json",
+      "bytes": 2767,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/hook-regression-initial.log",
+      "bytes": 5430,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/compat-regression.log",
+      "bytes": 654,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "logs/.gitkeep",
+      "bytes": 0,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/runtime_interruption.json",
+      "bytes": 222,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "config/spark/spark-defaults.conf",
+      "bytes": 1215,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "tlcn_explain-for_eda/EDA_step_by_step.ipynb",
+      "bytes": 170178,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "tlcn_explain-for_eda/EDA_v2.ipynb",
+      "bytes": 375852,
+      "category": "UNCERTAIN_PRESERVE"
+    },
+    {
+      "path": "tests/integration/__init__.py",
+      "bytes": 52,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_silver_pipeline_isolated.py",
+      "bytes": 30264,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_silver_framework.py",
+      "bytes": 4016,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_release_orchestration.py",
+      "bytes": 6640,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_phase2_validation.py",
+      "bytes": 11188,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_phase2e_integration.py",
+      "bytes": 31759,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_nso_v2_rest_e2e.py",
+      "bytes": 20065,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_nso_v2_read_context.py",
+      "bytes": 3187,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_nso_v2_isolated.py",
+      "bytes": 21252,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_local_nine_orchestration.py",
+      "bytes": 5433,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_local_nine_native.py",
+      "bytes": 2124,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/integration/test_faostat_poc.py",
+      "bytes": 8496,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "config/trino/etc/jvm.config",
+      "bytes": 249,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "config/trino/etc/config.properties",
+      "bytes": 174,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/common/__init__.py",
+      "bytes": 0,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "tlcn_explain-for_eda/faostat/cleaning_trade.md",
+      "bytes": 30534,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "tlcn_explain-for_eda/faostat/cleaning_supply_utilization.md",
+      "bytes": 20028,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "tlcn_explain-for_eda/faostat/cleaning_production.md",
+      "bytes": 18729,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "tlcn_explain-for_eda/faostat/cleaning_monthly_price.md",
+      "bytes": 20111,
+      "category": "KEEP_DOCUMENTATION"
+    },
+    {
+      "path": "config/trino/etc/catalog/iceberg.properties",
+      "bytes": 311,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_controlled_restore_20261016_140109/timeout-readonly-reconciliation.json",
+      "bytes": 33412,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_controlled_restore_20261016_140109/shared-volumes-before.json",
+      "bytes": 1506,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_controlled_restore_20261016_140109/shared-pre-stop-gate.json",
+      "bytes": 16374,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_controlled_restore_20261016_140109/shared-commit-and-writer-readonly.json",
+      "bytes": 13676,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_controlled_restore_20261016_140109/report.json",
+      "bytes": 22474,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_controlled_restore_20261016_140109/README.md",
+      "bytes": 5371,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_controlled_restore_20261016_140109/alternative-signal-proposal.json",
+      "bytes": 1378,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_controlled_restore_20261016_140109/actions.json",
+      "bytes": 12540,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/trino-heap.json",
+      "bytes": 416,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/report.json",
+      "bytes": 18035,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/README.md",
+      "bytes": 7743,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/processes-and-trino.json",
+      "bytes": 1847,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/input-integrity.json",
+      "bytes": 5139,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/health-105254.json",
+      "bytes": 27829,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/health-105132.json",
+      "bytes": 27828,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/health-105029.json",
+      "bytes": 27832,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/failed-webserver.log.gz",
+      "bytes": 2690,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/compose-plan.json",
+      "bytes": 285,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/before.json",
+      "bytes": 33290,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/apply.json",
+      "bytes": 351,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/airflow-webserver-post.log.gz",
+      "bytes": 941,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_final_airflow_20261016/airflow-scheduler-post.log.gz",
+      "bytes": 580,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/empty-catalog-readback.json",
+      "bytes": 46,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/compose-preflight.json",
+      "bytes": 2374,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/apply-preflight.json",
+      "bytes": 3640,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/airflow-webserver.log.gz",
+      "bytes": 2691,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/airflow-scheduler.log.gz",
+      "bytes": 522,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/airflow-post-failure.json",
+      "bytes": 1414,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/airflow-init.log.gz",
+      "bytes": 1162,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_recovery_20261016/report.json",
+      "bytes": 13659,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_recovery_20261016/recovery-before.json",
+      "bytes": 29028,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_recovery_20261016/README.md",
+      "bytes": 5937,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_recovery_20261016/fresh-gate.json",
+      "bytes": 18747,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_recovery_20261016/failed-webserver.log.gz",
+      "bytes": 2690,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/actions.json",
+      "bytes": 15211,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/actions.json",
+      "bytes": 13285,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/silver/__init__.py",
+      "bytes": 56,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/wsl-memory.json",
+      "bytes": 154,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/targeted-storage-recovery.json",
+      "bytes": 385,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/shared-trino-readback.json",
+      "bytes": 1020,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/shared-safety.json",
+      "bytes": 13705,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/shared-catalog-inventory.json",
+      "bytes": 3265,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/runtime-state.json",
+      "bytes": 11328,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/rest-tests.log.gz",
+      "bytes": 1807,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/rest-catalog-pointers.json",
+      "bytes": 1343,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/report.json",
+      "bytes": 14750,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/README.md",
+      "bytes": 11981,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/native-tests.log.gz",
+      "bytes": 5375,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/native-physical-readback.json",
+      "bytes": 2348,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/native-catalog-recovered.json",
+      "bytes": 24718,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/recovery_20261016/incident-events.json",
+      "bytes": 1511,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/trino-test.log.gz",
+      "bytes": 20532,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/common/reliability/__init__.py",
+      "bytes": 0,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/common/reliability/retry.py",
+      "bytes": 2505,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/tlcn-local-nine-runner-regression-20261016.log.gz",
+      "bytes": 412,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/common/reliability/hashing.py",
+      "bytes": 1481,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/tlcn-local-nine-native-verified-20261016.log.gz",
+      "bytes": 1522,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/tlcn-local-nine-metadata-regression-20261016.log.gz",
+      "bytes": 714,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/tlcn-local-nine-final-dag-regression-20261016.log.gz",
+      "bytes": 754,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/tlcn-local-nine-airflow-regression-20261016.log.gz",
+      "bytes": 786,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/safety-before-isolated.json",
+      "bytes": 18041,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/runtime-failure.json",
+      "bytes": 20628,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/runtime-admission.json",
+      "bytes": 1772,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/runner.log.gz",
+      "bytes": 315,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/rest-test.log.gz",
+      "bytes": 702,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/resources-after-failure.json",
+      "bytes": 3775,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/report.json",
+      "bytes": 25461,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/README.md",
+      "bytes": 6114,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/postgres-test.log.gz",
+      "bytes": 1822,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/native-collection-dependency-error.log.gz",
+      "bytes": 918,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_local_nine_20261016/minio-test.log.gz",
+      "bytes": 366,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "tests/unit/__init__.py",
+      "bytes": 19,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_source_registry.py",
+      "bytes": 8753,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_silver_quarantine.py",
+      "bytes": 7124,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_silver_quality_engine.py",
+      "bytes": 5151,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_silver_orchestration.py",
+      "bytes": 18201,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_silver_merge_engine.py",
+      "bytes": 3917,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_silver_contract_paths.py",
+      "bytes": 439,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_silver_contract_loader.py",
+      "bytes": 3999,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_retry.py",
+      "bytes": 4780,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_readiness.py",
+      "bytes": 3033,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_pipeline_tasks.py",
+      "bytes": 9344,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_phase6_failure_recovery.py",
+      "bytes": 12502,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_orphan_cleanup.py",
+      "bytes": 4130,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_nso_union_schema.py",
+      "bytes": 1666,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_nso_schema_repair.py",
+      "bytes": 2691,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_metadata_silver_recovery.py",
+      "bytes": 1841,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_manifest.py",
+      "bytes": 3056,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_local_nine_profile.py",
+      "bytes": 5467,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_local_nine_dags.py",
+      "bytes": 2185,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_ingestion_engine.py",
+      "bytes": 4221,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_incremental_loader.py",
+      "bytes": 3759,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_hashing.py",
+      "bytes": 1344,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_full_loader.py",
+      "bytes": 6613,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_error_classifier.py",
+      "bytes": 3824,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_dag_structure.py",
+      "bytes": 6411,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_chunk_idempotency.py",
+      "bytes": 7048,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_bronze_storage_deliverables.py",
+      "bytes": 17565,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_bronze_schema_preservation.py",
+      "bytes": 5132,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_bronze_identity.py",
+      "bytes": 5736,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_advisory_lock.py",
+      "bytes": 5836,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "tests/unit/test_adapters.py",
+      "bytes": 62598,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "src/common/errors/__init__.py",
+      "bytes": 0,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/common/errors/error_classifier.py",
+      "bytes": 2305,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/audit.py",
+      "bytes": 3986,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/core/spark_session.py",
+      "bytes": 2661,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/core/base_transformer.py",
+      "bytes": 5742,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/shared-postgresql-readonly.json",
+      "bytes": 7512,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/shared-commit-and-writer-readonly.json",
+      "bytes": 13676,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/runtime-provenance.json",
+      "bytes": 24590,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/runner-tail.log.gz",
+      "bytes": 270,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/rest-test-tail.log.gz",
+      "bytes": 707,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/report.json",
+      "bytes": 7151,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/README.md",
+      "bytes": 8852,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/preflight.json",
+      "bytes": 67156,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/postgres-test-tail.log.gz",
+      "bytes": 1349,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/graceful-stop-proposal.json",
+      "bytes": 4642,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/airflow-scheduler-tail.log.gz",
+      "bytes": 803,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/trino-readback-interruption.json",
+      "bytes": 36093,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "tests/unit/silver/test_usda_psd_transformer.py",
+      "bytes": 3265,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/trino-oom.log.gz",
+      "bytes": 15663,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "tests/unit/silver/test_usda_milling_rate.py",
+      "bytes": 2065,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/trigger-cli.json",
+      "bytes": 1548,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "tests/unit/silver/test_silver_transformers.py",
+      "bytes": 6691,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/spark-sigint-exit.log.gz",
+      "bytes": 656,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "tests/unit/silver/test_nso_v2_semantics.py",
+      "bytes": 3056,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/shared-volumes-preserved.json",
+      "bytes": 1506,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "tests/unit/silver/test_nso_contract.py",
+      "bytes": 5689,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/shared-commit-and-writer-readonly.json",
+      "bytes": 13325,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/run-intent.json",
+      "bytes": 342,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "tests/unit/silver/test_faostat_nso_transformers.py",
+      "bytes": 10704,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/resource-admission.json",
+      "bytes": 22273,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "tests/unit/silver/faostat_nso_fixtures.py",
+      "bytes": 1491,
+      "category": "KEEP_TEST_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/report.json",
+      "bytes": 73042,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/README.md",
+      "bytes": 7598,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/pyiceberg-native-readback.json",
+      "bytes": 177001,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/post-sigint-reconciliation.json",
+      "bytes": 4083,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/post-oom-catalog-reconciliation.json",
+      "bytes": 23436,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/monitor.jsonl",
+      "bytes": 728655,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/latest-run-state.json",
+      "bytes": 15596,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/isolated-storage-gate.json",
+      "bytes": 2024,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/isolated-start-group-4.json",
+      "bytes": 1889,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/isolated-start-group-3.json",
+      "bytes": 1889,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/isolated-start-group-2.json",
+      "bytes": 1799,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/isolated-start-group-1.json",
+      "bytes": 2249,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/isolated-start-group-0.json",
+      "bytes": 2623,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/isolated-health-scope-inputs.json",
+      "bytes": 41625,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/isolated-before-start.json",
+      "bytes": 14153,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/immediate-pre-trigger.json",
+      "bytes": 4331,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/fresh-sigint-gate.json",
+      "bytes": 16430,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/final-paused-state.json",
+      "bytes": 15594,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/evidence-manifest.json",
+      "bytes": 3227,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/airflow-terminal-success.json",
+      "bytes": 15596,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/airflow-task-logs.sanitized.json.gz",
+      "bytes": 108593,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/airflow-results-contracts.json",
+      "bytes": 138204,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/latest-run-state.json",
+      "bytes": 15924,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/initial-startup-failure.json",
+      "bytes": 7347,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/initial-failure-reconciliation.json",
+      "bytes": 21704,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/immediate-pre-trigger.json",
+      "bytes": 4035,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/fresh-runtime-health-inputs.json",
+      "bytes": 24915,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/fresh-init.sanitized.log.gz",
+      "bytes": 1137,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/fresh-before-dag-bootstrap.json",
+      "bytes": 9495,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/final-paused-state.json",
+      "bytes": 6827,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/failed-production-task-log.json",
+      "bytes": 26084,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/dag-bootstrap.json",
+      "bytes": 2475,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/compose.cleanroom.yml",
+      "bytes": 138,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/compose-isolation-plan.json",
+      "bytes": 7156,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/actual-resource-separation.json",
+      "bytes": 46159,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/new-containers-18.json",
+      "bytes": 12992,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/new-containers-16.json",
+      "bytes": 10874,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/new-containers-14.json",
+      "bytes": 8752,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/new-containers-12.json",
+      "bytes": 3078,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/monitor.jsonl",
+      "bytes": 565248,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/manual-clear-cli.json",
+      "bytes": 120,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/manual-clear-approved-scope.json",
+      "bytes": 6138,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/pre-retry-commit-proof.json",
+      "bytes": 7622,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/pre-resume-exact-dagrun.json",
+      "bytes": 325,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/phase2-stopped.json",
+      "bytes": 14149,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/new-containers-26.json",
+      "bytes": 14152,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/preservation-preflight.json",
+      "bytes": 365499,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/pre-scheduler-empty-state.json",
+      "bytes": 2994,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/resource-admission-retry.json",
+      "bytes": 22343,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/resource-admission.json",
+      "bytes": 20189,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/isolated-storage-network.json",
+      "bytes": 5392,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/isolated-stop.json",
+      "bytes": 7000,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/isolated-postgresql.json",
+      "bytes": 4438,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/isolated-infrastructure.json",
+      "bytes": 7092,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/isolated-final-pre-stop.json",
+      "bytes": 375,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/isolated-compose-preflight.json",
+      "bytes": 3777,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/input-integrity.json",
+      "bytes": 4710,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/final-integrity.json",
+      "bytes": 3351,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/catalog-during-full.json",
+      "bytes": 1516,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/resource-samples.jsonl",
+      "bytes": 6581,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/report.json",
+      "bytes": 9980,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/README.md",
+      "bytes": 9791,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/pre-full-resources.json",
+      "bytes": 2879,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/rest-final-readback.json",
+      "bytes": 106311,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/rest-acceptance.json",
+      "bytes": 6415,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/rest-initial-counts.json",
+      "bytes": 137,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/rest-process.json",
+      "bytes": 1092,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/run-failure.json",
+      "bytes": 7347,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_resume_20261016/trino-runner-health.json",
+      "bytes": 354,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_resume_20261016/report.json",
+      "bytes": 13354,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_resume_20261016/README.md",
+      "bytes": 5352,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_resume_20261016/inputs.json",
+      "bytes": 16299,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_resume_20261016/admission-111035.json",
+      "bytes": 28114,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_resume_20261016/admission-110948.json",
+      "bytes": 28113,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_resume_20261016/admission-110856.json",
+      "bytes": 28115,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/__init__.py",
+      "bytes": 45,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/trigger-cli.json",
+      "bytes": 1550,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/run-intent.json",
+      "bytes": 355,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/rest-tests.log.gz",
+      "bytes": 5371,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/rest-startup-failure.log",
+      "bytes": 2365,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/runtime-packages.json",
+      "bytes": 353,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/shared-final-frozen.json",
+      "bytes": 1738,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/silver/contract/__init__.py",
+      "bytes": 0,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/contract/loader.py",
+      "bytes": 6976,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/faostat_supply_utilization.py",
+      "bytes": 2015,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/faostat_source.py",
+      "bytes": 7046,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/faostat_production.py",
+      "bytes": 2218,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/faostat_monthly_price.py",
+      "bytes": 3070,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/orchestration.py",
+      "bytes": 2227,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/local_profile.py",
+      "bytes": 4144,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/framework.py",
+      "bytes": 14615,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/__init__.py",
+      "bytes": 0,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/worldbank_transformer.py",
+      "bytes": 4797,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/worldbank_pinksheet.py",
+      "bytes": 3785,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/usda_rice_yearbook.py",
+      "bytes": 1394,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/usda_psd_transformer.py",
+      "bytes": 3696,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/usda_psd.py",
+      "bytes": 3032,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/usda_export_price_transformer.py",
+      "bytes": 3025,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/thitruongnongsan.py",
+      "bytes": 3873,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/nso_vietnam_v2.py",
+      "bytes": 21279,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/nso_vietnam.py",
+      "bytes": 13509,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/faostat_trade_transformer.py",
+      "bytes": 3988,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/transformers/faostat_trade.py",
+      "bytes": 2457,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/child-independent-sql.json",
+      "bytes": 244,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/approval-scope.json",
+      "bytes": 1224,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/airflow-terminal-success.json",
+      "bytes": 439,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/airflow-results-contracts.json",
+      "bytes": 138559,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/actions.json",
+      "bytes": 2978,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/final-readonly-verification.json",
+      "bytes": 90685,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/final-native-files-and-audit.json",
+      "bytes": 4978,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/child-supported-finalization.json",
+      "bytes": 288,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/initial-readback-resources.jsonl",
+      "bytes": 15090,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/initial-reader-exit.json",
+      "bytes": 59,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/post-airflow-stop.json",
+      "bytes": 23561,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/original-oom-query.reconstructed.sql",
+      "bytes": 759,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/lineage-comparison-diagnostic.json",
+      "bytes": 1969,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/explain-plans.json",
+      "bytes": 19449,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/evidence-manifest.json",
+      "bytes": 3211,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/attempt1-reader-exit.json",
+      "bytes": 306,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/attempt1-readback_client.py",
+      "bytes": 14602,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/attempt1-readback-resources.jsonl",
+      "bytes": 5058,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/attempt1-readback-plan.json",
+      "bytes": 883,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/attempt1-query-events.jsonl",
+      "bytes": 9778,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/actions.json",
+      "bytes": 5575,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/trino-start.json",
+      "bytes": 1134,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/manifest/__init__.py",
+      "bytes": 38,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/manifest/manifest.py",
+      "bytes": 4898,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/trino-session-options.json",
+      "bytes": 2911,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/trino-recovery.sanitized.log.gz",
+      "bytes": 24472,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/timestamp-wire-precision-diagnostic.json",
+      "bytes": 1472,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/resource-samples.json",
+      "bytes": 85341,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/resource-guard-stop.json",
+      "bytes": 1056,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/resource-admission.json",
+      "bytes": 88386,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/report.json",
+      "bytes": 42370,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/README.md",
+      "bytes": 8332,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/reader-exit.json",
+      "bytes": 360,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/readback_client.py",
+      "bytes": 14654,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/readback-resources.jsonl",
+      "bytes": 25304,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/readback-plan.json",
+      "bytes": 883,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/readback-faostat_supply_utilization.json",
+      "bytes": 5428,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/readback-faostat_production.json",
+      "bytes": 5314,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/readback-faostat_monthly_price.json",
+      "bytes": 5859,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/query-events.jsonl",
+      "bytes": 90054,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/preflight.json",
+      "bytes": 69491,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/post-validation-telemetry.json",
+      "bytes": 95293,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/post-validation-reconciliation.json",
+      "bytes": 142524,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/config/registry.py",
+      "bytes": 14314,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/config/__init__.py",
+      "bytes": 42,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/utils/__init__.py",
+      "bytes": 77,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/utils/retry.py",
+      "bytes": 163,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/utils/logging_config.py",
+      "bytes": 3062,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/utils/hashing.py",
+      "bytes": 309,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/utils/error_classifier.py",
+      "bytes": 454,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/engine/__init__.py",
+      "bytes": 0,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/engine/quarantine.py",
+      "bytes": 4242,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/engine/quality.py",
+      "bytes": 1963,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/silver/engine/merge.py",
+      "bytes": 6229,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/post-restoration-memory.json",
+      "bytes": 9401,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/physical-target-and-deadletters-readback.json",
+      "bytes": 88510,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/nso-unreferenced-files-inspection.json",
+      "bytes": 13037,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/minimal-recovery-proposal.json",
+      "bytes": 5307,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/manifest.json",
+      "bytes": 3062,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/test-contract-read-cost.json",
+      "bytes": 84,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/live-rest-catalog.json",
+      "bytes": 241476,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/final-preservation.json",
+      "bytes": 78114,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/corrected-execution-plan.json",
+      "bytes": 49025,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/actions.json",
+      "bytes": 36479,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/README.md",
+      "bytes": 8195,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/pre-storage-memory.json",
+      "bytes": 2024,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/postgres-persisted-state.json",
+      "bytes": 329091,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/post-shared-stop.json",
+      "bytes": 22321,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/report.json",
+      "bytes": 175770,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/reconciliation-analysis.json",
+      "bytes": 27380,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/shared-post-spark-catalog.json",
+      "bytes": 12083,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/shared-readonly-safety.json",
+      "bytes": 13448,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/startup-reconciliation.json",
+      "bytes": 302,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/physical-before-replay.json",
+      "bytes": 311198,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/staging-tests.log.gz",
+      "bytes": 2700,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/parent-supported-computed-success.json",
+      "bytes": 214,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/staging-regression.json",
+      "bytes": 1308,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/parent-end.sanitized.log",
+      "bytes": 307,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/staging-process.json",
+      "bytes": 398,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/parent-api-state-only-commit.json",
+      "bytes": 99,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/parent-api-session-dry-run.json",
+      "bytes": 308,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/parent-api-dry-run.json",
+      "bytes": 253,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/shared-stop.json",
+      "bytes": 8620,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/parent-after-trigger-finalization.json",
+      "bytes": 3173,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase1_rest_20261016/shared-pre-stop.json",
+      "bytes": 43990,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/parent-after-terminal-execution.json",
+      "bytes": 3176,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/manifest.json",
+      "bytes": 6866,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/initial-trino-events.jsonl",
+      "bytes": 358910,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/shared-spark-exit.sanitized.log",
+      "bytes": 4673,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/report.json",
+      "bytes": 125172,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/README.md",
+      "bytes": 1995,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/raw-pins-before-replay.json",
+      "bytes": 4474,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/pyiceberg-native-readback.json",
+      "bytes": 177005,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/pre-scheduler-gate.json",
+      "bytes": 3024,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/postgres-persisted-state.json",
+      "bytes": 337578,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/run-intent.json",
+      "bytes": 355,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/resource-monitor.jsonl",
+      "bytes": 5041,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/resource-admission-replay.json",
+      "bytes": 20511,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/storage-restored.json",
+      "bytes": 24327,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/scheduler-restored.json",
+      "bytes": 2740,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/secret-scan.json",
+      "bytes": 161,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/airflow-supported-recovery-api.json",
+      "bytes": 2357,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/airflow-supported-clear-proof.json",
+      "bytes": 6120,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/airflow-force-task-run-proof.json",
+      "bytes": 1773,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/airflow-cli-attempt-lifecycle.json",
+      "bytes": 630,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/airflow-attempt-number-proof.json",
+      "bytes": 2212,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/actions.json",
+      "bytes": 21879,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/supported-child-state-reconciliation.json",
+      "bytes": 429,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/automatic-review-block.json",
+      "bytes": 790,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/audit-dependency-attempt=1.log",
+      "bytes": 532,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/airflow-webserver-start-health.json",
+      "bytes": 3348,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/end-cli-exit.json",
+      "bytes": 330,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/bounded-nso-readback-client.py",
+      "bytes": 18140,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/end-execution.sanitized.log",
+      "bytes": 330,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/trino-worldbank_pinksheet.json",
+      "bytes": 10056,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/trino-usda_rice_yearbook.json",
+      "bytes": 9338,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/trino-usda_psd.json",
+      "bytes": 9436,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/trino-thitruongnongsan.json",
+      "bytes": 9032,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/trino-readback.json",
+      "bytes": 119959,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/trino-nso_vietnam_v2.json",
+      "bytes": 16867,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/trino-faostat_trade.json",
+      "bytes": 13666,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/trino-faostat_supply_utilization.json",
+      "bytes": 10669,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/trino-faostat_production.json",
+      "bytes": 10658,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_final_20261017_024536/trino-faostat_monthly_price.json",
+      "bytes": 12113,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/fresh-safety-gate.json",
+      "bytes": 68143,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/final-readonly-verification.json",
+      "bytes": 90684,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/final-native-files-and-audit.json",
+      "bytes": 4978,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/end-persisted-success.json",
+      "bytes": 199,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/live-rest-catalog.json",
+      "bytes": 241476,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/immediate-pre-writer.json",
+      "bytes": 350211,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/manifest.json",
+      "bytes": 11950,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/orchestration/pipeline_tasks.py",
+      "bytes": 15505,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/nso-acceptance-pass.json",
+      "bytes": 311,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/actions.json",
+      "bytes": 890,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/compose-change.json",
+      "bytes": 187,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/readiness/source_readiness.py",
+      "bytes": 2308,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/orchestration/__init__.py",
+      "bytes": 190,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/core/base_loader.py",
+      "bytes": 1585,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/readiness/__init__.py",
+      "bytes": 32,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/storage/bronze_storage_layout.py",
+      "bytes": 8944,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/evidence-manifest.json",
+      "bytes": 2762,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/nso-commit-response.json",
+      "bytes": 1035,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/storage/__init__.py",
+      "bytes": 65,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/storage/nso_schema_repair.py",
+      "bytes": 3985,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/storage/minio_storage.py",
+      "bytes": 3822,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/storage/metadata_schemas.py",
+      "bytes": 3885,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/storage/metadata_repository.py",
+      "bytes": 14436,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/storage/init_db.sql",
+      "bytes": 2682,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/storage/bronze_writer.py",
+      "bytes": 31324,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/post-validation-telemetry.json",
+      "bytes": 277421,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/post-validation-reconciliation.json",
+      "bytes": 334782,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/core/__init__.py",
+      "bytes": 44,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/memory-adjustment.json",
+      "bytes": 9070,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/explain-plans.json",
+      "bytes": 30943,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/core/watermark.py",
+      "bytes": 1520,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/core/result.py",
+      "bytes": 3955,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/query-events.jsonl",
+      "bytes": 332687,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/core/ingestion_engine.py",
+      "bytes": 10600,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/preflight.json",
+      "bytes": 158561,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/core/incremental_loader.py",
+      "bytes": 6893,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/core/full_loader.py",
+      "bytes": 30390,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/readback-dead_letters.json",
+      "bytes": 2202,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/core/enums.py",
+      "bytes": 1475,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/readback-faostat_trade.json",
+      "bytes": 39838,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/core/config.py",
+      "bytes": 3282,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/core/checkpoint.py",
+      "bytes": 3269,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/nso-trino-acceptance.json",
+      "bytes": 22506,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/nso-supported-clear.json",
+      "bytes": 482,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/nso-native-observations.json",
+      "bytes": 32327,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/reliability/bronze_quality_validator.py",
+      "bytes": 8858,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/nso-native-acceptance.json",
+      "bytes": 32327,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/reliability/idempotency_controller.py",
+      "bytes": 6586,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/physical-target-and-deadletters-readback.json",
+      "bytes": 88510,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/postgres-persisted-state.json",
+      "bytes": 336307,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/parent-supported-state-api-readonly.json",
+      "bytes": 8201,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/adapters/faostat_bulk_adapter.py",
+      "bytes": 12810,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/protective-pause.json",
+      "bytes": 722,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/adapters/base_adapter.py",
+      "bytes": 3852,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/adapters/nso_adapter.py",
+      "bytes": 10257,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/reliability/quarantine_manager.py",
+      "bytes": 6491,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/readback-nso_vietnam_v2.json",
+      "bytes": 11244,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/adapters/thitruongnongsan_adapter.py",
+      "bytes": 7527,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/adapters/usda_adapter.py",
+      "bytes": 16414,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/reliability/__init__.py",
+      "bytes": 80,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/readback-plan.json",
+      "bytes": 884,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/readback-resources.jsonl",
+      "bytes": 121445,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/airflow-scheduler.sanitized.log",
+      "bytes": 37118,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/publish_silver_signal-cli-exit.json",
+      "bytes": 337,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "src/ingestion/adapters/worldbank_adapter.py",
+      "bytes": 8650,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "src/ingestion/adapters/__init__.py",
+      "bytes": 33,
+      "category": "KEEP_RUNTIME_REQUIRED"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/publish_silver_signal-execution.sanitized.log",
+      "bytes": 353,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/airflow-webserver.sanitized.log",
+      "bytes": 29949,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/trino-recovery.sanitized.log.gz",
+      "bytes": 29841,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/trino-full-content-readback.json",
+      "bytes": 102901,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/trade-coverage.json",
+      "bytes": 42121,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/serialized-dags.json",
+      "bytes": 335,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/reuse-evidence.json",
+      "bytes": 8291,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/report.json",
+      "bytes": 34966,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/README.md",
+      "bytes": 8274,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/reader-exit.json",
+      "bytes": 118,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/readback_client.py",
+      "bytes": 17334,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/readback-worldbank_pinksheet.json",
+      "bytes": 6167,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/readback-usda_rice_yearbook.json",
+      "bytes": 5091,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/readback-usda_psd.json",
+      "bytes": 5241,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/readback-thitruongnongsan.json",
+      "bytes": 4965,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__ingest_faostat_production__attempt=1.log",
+      "bytes": 25723,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__ingest_faostat_monthly_price__attempt=1.log",
+      "bytes": 15217,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/artifact-and-preservation-checks.json",
+      "bytes": 10145,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__ingest_faostat_production__attempt=2.log",
+      "bytes": 14849,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__ingest_faostat_supply_utilization__attempt=1.log",
+      "bytes": 16125,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/quarantine-test-result.json",
+      "bytes": 1515,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/quarantine-test-attempt-3-result.json",
+      "bytes": 1515,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/quarantine-test-attempt-2-result.json",
+      "bytes": 1515,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/quarantine-native-snapshot-proof.jsonl",
+      "bytes": 10961,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/publish_silver_signal-persisted-success.json",
+      "bytes": 200,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/quarantine-tests.sanitized.log",
+      "bytes": 48,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/quarantine-tests-attempt-3.sanitized.log",
+      "bytes": 401,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/quarantine-tests-attempt-2.sanitized.log",
+      "bytes": 1156,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/README.md",
+      "bytes": 6035,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/reconciliation-analysis.json",
+      "bytes": 27380,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/trino-test-start-health.json",
+      "bytes": 2163,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/trino-reader-exit.json",
+      "bytes": 184,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/trino-query-events.jsonl",
+      "bytes": 33248,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/transform_nso_vietnam_v2-persisted-success.json",
+      "bytes": 200,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/transform_nso_vietnam_v2-execution.sanitized.log",
+      "bytes": 357,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/transform_nso_vietnam_v2-cli-exit.json",
+      "bytes": 354,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/test-evidence-read-error.json",
+      "bytes": 33,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/supported-child-state-reconciliation.json",
+      "bytes": 429,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/silver_data_quality_audit-scheduled-admission.sanitized.log",
+      "bytes": 357,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/silver_data_quality_audit-persisted-success.json",
+      "bytes": 200,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/silver_data_quality_audit-execution.sanitized.log",
+      "bytes": 357,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/silver_data_quality_audit-cli-exit.json",
+      "bytes": 337,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/secret-scan.json",
+      "bytes": 131,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/runtime-scope-and-versions.json",
+      "bytes": 1443,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/runner-start-health.json",
+      "bytes": 2974,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/resource-monitor.jsonl",
+      "bytes": 25237,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/resource-admission.json",
+      "bytes": 18597,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/report.json",
+      "bytes": 79744,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/remaining-finalization-proposal.json",
+      "bytes": 3179,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/regression-tests-attempt-3.sanitized.log",
+      "bytes": 3279,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/regression-tests-attempt-2.sanitized.log",
+      "bytes": 400247,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/regression-tests-attempt-1.sanitized.log",
+      "bytes": 2148,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/regression-test-result.json",
+      "bytes": 3162,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/regression-test-attempt-3-result.json",
+      "bytes": 3162,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/regression-test-attempt-2-result.json",
+      "bytes": 3162,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/regression-test-attempt-1-result.json",
+      "bytes": 1889,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/regression-targeted-tests-attempt-1.sanitized.log",
+      "bytes": 482,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/regression-targeted-test-result.json",
+      "bytes": 2948,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/regression-targeted-test-attempt-1-result.json",
+      "bytes": 2948,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__bronze__nso_vietnam.metadata.json",
+      "bytes": 22435,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__bronze__faostat_trade.metadata.json",
+      "bytes": 32065,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__bronze__faostat_supply_utilization.metadata.json",
+      "bytes": 6096,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__bronze__faostat_production.metadata.json",
+      "bytes": 6058,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__bronze__faostat_monthly_price.metadata.json",
+      "bytes": 6208,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__verify_bronze_batch__attempt=1.log",
+      "bytes": 30233,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__trigger_silver_release__attempt=1.log",
+      "bytes": 6106,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__initialize_metadata__attempt=1.log",
+      "bytes": 2912,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__ingest_worldbank_pinksheet__attempt=1.log",
+      "bytes": 14882,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__ingest_usda_rice_yearbook__attempt=1.log",
+      "bytes": 14758,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__ingest_usda_psd__attempt=1.log",
+      "bytes": 13140,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__ingest_thitruongnongsan__attempt=1.log",
+      "bytes": 14311,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__ingest_nso_vietnam__attempt=1.log",
+      "bytes": 32748,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/bronze__ingest_faostat_trade__attempt=1.log",
+      "bytes": 53867,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__silver_local__faostat_supply_utilization.metadata.json",
+      "bytes": 8120,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__silver_local__faostat_production.metadata.json",
+      "bytes": 7961,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__silver_local__faostat_monthly_price.metadata.json",
+      "bytes": 8771,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__silver_local__dead_letters.metadata.json",
+      "bytes": 5711,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__bronze__worldbank_pinksheet.metadata.json",
+      "bytes": 16570,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__bronze__usda_rice_yearbook.metadata.json",
+      "bytes": 5477,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__bronze__usda_psd.metadata.json",
+      "bytes": 13680,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__bronze__thitruongnongsan.metadata.json",
+      "bytes": 5127,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__silver_local__usda_rice_psd.metadata.json",
+      "bytes": 7423,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__silver_local__thitruongnongsan.metadata.json",
+      "bytes": 7387,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__silver_local__nso_rice_statistics_v2.metadata.json",
+      "bytes": 9216,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__silver_local__faostat_trade.metadata.json",
+      "bytes": 7852,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__silver_local__worldbank_commodity_monthly.metadata.json",
+      "bytes": 7450,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/cleanroom__silver_local__usda_rice_yearbook.metadata.json",
+      "bytes": 7557,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/controlled-stop-proposal.json",
+      "bytes": 2968,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/silver__transform_worldbank_pinksheet__attempt=1.log",
+      "bytes": 3946,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/silver__transform_usda_rice_yearbook__attempt=1.log",
+      "bytes": 3913,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/silver__transform_usda_psd__attempt=1.log",
+      "bytes": 3785,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/silver__transform_thitruongnongsan__attempt=1.log",
+      "bytes": 3886,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/silver__transform_nso_vietnam_v2__attempt=1.log",
+      "bytes": 28377,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/silver__transform_faostat_trade__attempt=1.log",
+      "bytes": 3856,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/silver__transform_faostat_supply_utilization__attempt=1.log",
+      "bytes": 4017,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/silver__transform_faostat_production__attempt=1.log",
+      "bytes": 3911,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/silver__transform_faostat_monthly_price__attempt=1.log",
+      "bytes": 3950,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/silver__gate_check_bronze__attempt=1.log",
+      "bytes": 4072,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/shared-readonly-safety.json",
+      "bytes": 13448,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/runtime-inventory.json",
+      "bytes": 85528,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/runner.sanitized.log",
+      "bytes": 21561,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/rest-test.sanitized.log",
+      "bytes": 27001,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/resource-screening.json",
+      "bytes": 12393,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/report.json",
+      "bytes": 26143,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/README.md",
+      "bytes": 3914,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/postgres-test.sanitized.log",
+      "bytes": 10869,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__silver_local__worldbank_commodity_monthly.metadata.json",
+      "bytes": 7450,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__silver_local__usda_rice_yearbook.metadata.json",
+      "bytes": 7557,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__silver_local__usda_rice_psd.metadata.json",
+      "bytes": 7423,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__silver_local__thitruongnongsan.metadata.json",
+      "bytes": 7387,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__silver_local__nso_rice_statistics_v2.metadata.json",
+      "bytes": 10563,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__silver_local__faostat_trade.metadata.json",
+      "bytes": 7852,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__silver_local__faostat_supply_utilization.metadata.json",
+      "bytes": 8120,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__silver_local__faostat_production.metadata.json",
+      "bytes": 7961,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__silver_local__faostat_monthly_price.metadata.json",
+      "bytes": 8766,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__silver_local__dead_letters.metadata.json",
+      "bytes": 5711,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__bronze__worldbank_pinksheet.metadata.json",
+      "bytes": 16570,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__bronze__usda_rice_yearbook.metadata.json",
+      "bytes": 5477,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__bronze__usda_psd.metadata.json",
+      "bytes": 13680,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__bronze__thitruongnongsan.metadata.json",
+      "bytes": 5127,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__bronze__nso_vietnam.metadata.json",
+      "bytes": 22435,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__bronze__faostat_trade.metadata.json",
+      "bytes": 32065,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__bronze__faostat_supply_utilization.metadata.json",
+      "bytes": 6091,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__bronze__faostat_production.metadata.json",
+      "bytes": 6062,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/phase2__bronze__faostat_monthly_price.metadata.json",
+      "bytes": 6203,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/offline-physical-metadata.json",
+      "bytes": 210998,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/offline-catalog-and-task-logs.json",
+      "bytes": 106233,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/manifest.json",
+      "bytes": 14349,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/log-manifest.json",
+      "bytes": 657,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    },
+    {
+      "path": "docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/docker-events.json",
+      "bytes": 67630,
+      "category": "KEEP_ACCEPTED_EVIDENCE"
+    }
+  ],
+  "python_imports": {
+    "query_silver_usda.py": [
+      "pyspark.sql",
+      "os"
+    ],
+    "profile_usda.py": [
+      "pyspark.sql",
+      "os"
+    ],
+    "scripts\\validate_silver_local_snapshots.py": [
+      "copy",
+      "argparse",
+      "importlib",
+      "json",
+      "logging",
+      "os",
+      "sys",
+      "tempfile",
+      "csv",
+      "dataclasses",
+      "datetime",
+      "pathlib",
+      "pandas",
+      "yaml",
+      "pyspark.sql",
+      "ingestion.config.registry",
+      "ingestion.storage.bronze_writer",
+      "jobs.silver.validate_silver_e2e",
+      "silver.audit",
+      "silver.contract.loader",
+      "silver.framework",
+      "ingestion.utils.hashing",
+      "openpyxl",
+      "ingestion.storage.metadata_repository",
+      "ingestion.storage.minio_storage",
+      "ingestion.storage.bronze_writer",
+      "ingestion.core.ingestion_engine",
+      "jobs.silver.verify_silver_trino",
+      "re",
+      "decimal"
+    ],
+    "scripts\\validate_silver_contracts.py": [
+      "sys",
+      "pathlib",
+      "yaml",
+      "silver.contract.loader"
+    ],
+    "tests\\__init__.py": [],
+    "mark_success.py": [
+      "ingestion.storage.metadata_repository"
+    ],
+    "tests\\conftest.py": [
+      "pytest",
+      "unittest.mock",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.core.result",
+      "ingestion.adapters.base_adapter"
+    ],
+    "jobs\\silver\\verify_silver_trino.py": [
+      "argparse",
+      "json",
+      "time",
+      "urllib.request",
+      "datetime",
+      "pathlib",
+      "decimal",
+      "silver.framework"
+    ],
+    "jobs\\silver\\validate_silver_e2e.py": [
+      "argparse",
+      "json",
+      "logging",
+      "hashlib",
+      "os",
+      "re",
+      "pathlib",
+      "datetime",
+      "run_all_silver",
+      "silver.audit",
+      "silver.core.spark_session",
+      "silver.framework",
+      "pyspark.sql",
+      "ingestion.storage.bronze_writer",
+      "ingestion.utils.hashing",
+      "pyiceberg.table",
+      "ingestion.config.registry",
+      "ingestion.storage.metadata_repository",
+      "verify_silver_trino"
+    ],
+    "jobs\\silver\\spark_api_server.py": [
+      "json",
+      "logging",
+      "subprocess",
+      "http.server",
+      "pathlib",
+      "threading",
+      "sys",
+      "silver.local_profile"
+    ],
+    "jobs\\silver\\run_all_silver.py": [
+      "argparse",
+      "json",
+      "logging",
+      "sys",
+      "uuid",
+      "os",
+      "contextlib",
+      "datetime",
+      "pathlib",
+      "silver.contract.loader",
+      "silver.core.spark_session",
+      "silver.framework",
+      "silver.local_profile",
+      "ingestion.storage.metadata_repository",
+      "silver.local_profile",
+      "silver.local_profile",
+      "silver.audit",
+      "validate_silver_e2e"
+    ],
+    "jobs\\silver\\preview_faostat_nso.py": [
+      "argparse",
+      "datetime",
+      "json",
+      "pathlib",
+      "sys",
+      "pyspark.sql",
+      "ingestion.storage.bronze_writer",
+      "silver.core.spark_session",
+      "silver.engine.merge",
+      "silver.transformers.faostat_production",
+      "silver.transformers.faostat_monthly_price",
+      "silver.transformers.faostat_supply_utilization",
+      "silver.transformers.nso_vietnam"
+    ],
+    "jobs\\silver\\migrate_empty_silver_schema.py": [
+      "argparse",
+      "json",
+      "pathlib",
+      "run_all_silver",
+      "silver.core.spark_session",
+      "silver.engine.merge",
+      "silver.framework",
+      "pyspark.sql"
+    ],
+    "jobs\\silver\\job_worldbank.py": [
+      "run_all_silver"
+    ],
+    "jobs\\silver\\job_usda_psd.py": [
+      "run_all_silver"
+    ],
+    "jobs\\silver\\job_usda_export_price.py": [
+      "run_all_silver"
+    ],
+    "jobs\\silver\\job_thitruongnongsan.py": [
+      "run_all_silver"
+    ],
+    "jobs\\silver\\job_nso_vietnam.py": [
+      "run_all_silver"
+    ],
+    "jobs\\silver\\job_faostat_trade.py": [
+      "run_all_silver"
+    ],
+    "jobs\\silver\\job_faostat_supply_utilization.py": [
+      "run_all_silver"
+    ],
+    "jobs\\silver\\job_faostat_production.py": [
+      "run_all_silver"
+    ],
+    "jobs\\silver\\job_faostat_monthly_price.py": [
+      "run_all_silver"
+    ],
+    "dags\\dag_silver_pipeline.py": [
+      "datetime",
+      "pathlib",
+      "sys",
+      "os",
+      "contextlib",
+      "pendulum",
+      "airflow",
+      "airflow.decorators",
+      "airflow.operators.empty",
+      "silver.contract.loader",
+      "silver.orchestration",
+      "ingestion.orchestration.pipeline_tasks",
+      "silver.local_profile",
+      "silver.local_profile",
+      "ingestion.storage.metadata_repository",
+      "ingestion.orchestration.pipeline_tasks",
+      "silver.local_profile",
+      "ingestion.orchestration.pipeline_tasks"
+    ],
+    "dags\\dag_ingestion_pipeline.py": [
+      "__future__",
+      "logging",
+      "os",
+      "sys",
+      "datetime",
+      "typing",
+      "pendulum",
+      "airflow",
+      "airflow.decorators",
+      "airflow.operators.empty",
+      "airflow.operators.trigger_dagrun",
+      "ingestion.config.registry",
+      "ingestion.orchestration.pipeline_tasks",
+      "ingestion.storage.metadata_repository",
+      "silver.local_profile",
+      "ingestion.orchestration.pipeline_tasks",
+      "ingestion.storage.bronze_writer"
+    ],
+    "jobs\\bronze\\validate_nso_bronze.py": [
+      "__future__",
+      "argparse",
+      "json",
+      "sys",
+      "tempfile",
+      "uuid",
+      "pathlib",
+      "ingestion.adapters.nso_adapter",
+      "ingestion.config.registry",
+      "ingestion.storage.bronze_writer"
+    ],
+    "jobs\\bronze\\repair_nso_bronze_schema.py": [
+      "__future__",
+      "argparse",
+      "json",
+      "sys",
+      "pathlib",
+      "ingestion.storage.bronze_writer",
+      "ingestion.storage.metadata_repository",
+      "ingestion.storage.nso_schema_repair"
+    ],
+    "tests\\integration\\test_faostat_nso_silver.py": [
+      "unittest.mock",
+      "os",
+      "pytest",
+      "pyspark.sql",
+      "silver.framework",
+      "silver.engine.merge",
+      "silver.engine.quarantine",
+      "silver.transformers.faostat_production",
+      "silver.transformers.faostat_monthly_price",
+      "silver.transformers.faostat_supply_utilization",
+      "tests.unit.silver.faostat_nso_fixtures"
+    ],
+    "tests\\integration\\__init__.py": [],
+    "tests\\integration\\test_silver_pipeline_isolated.py": [
+      "copy",
+      "json",
+      "datetime",
+      "decimal",
+      "pathlib",
+      "pytest",
+      "yaml",
+      "pyspark.sql",
+      "silver.audit",
+      "silver.contract.loader",
+      "silver.engine.merge",
+      "silver.engine.quality",
+      "silver.framework",
+      "ingestion.storage.bronze_writer",
+      "tests.unit.silver.faostat_nso_fixtures",
+      "jobs.silver.validate_silver_e2e",
+      "csv",
+      "hashlib",
+      "os",
+      "uuid",
+      "urllib.parse",
+      "psycopg2",
+      "psycopg2",
+      "ingestion.config.registry",
+      "ingestion.core.ingestion_engine",
+      "ingestion.storage.metadata_repository",
+      "ingestion.storage.minio_storage",
+      "ingestion.storage.bronze_writer",
+      "jobs.silver.validate_silver_e2e",
+      "jobs.silver.verify_silver_trino",
+      "silver.framework",
+      "silver.transformers.worldbank_pinksheet",
+      "silver.transformers.nso_vietnam",
+      "urllib.parse",
+      "unittest.mock",
+      "jobs.silver.validate_silver_e2e"
+    ],
+    "tests\\integration\\test_silver_framework.py": [
+      "os",
+      "pytest",
+      "silver.framework",
+      "pyspark.sql"
+    ],
+    "tests\\integration\\test_release_orchestration.py": [
+      "copy",
+      "os",
+      "uuid",
+      "unittest.mock",
+      "pytest",
+      "airflow",
+      "airflow.models",
+      "airflow.models.serialized_dag",
+      "airflow.utils.session",
+      "airflow.models",
+      "airflow.utils.session",
+      "ingestion.orchestration.pipeline_tasks",
+      "airflow.models",
+      "airflow.utils.session",
+      "ingestion.orchestration.pipeline_tasks",
+      "airflow.exceptions",
+      "airflow.models",
+      "airflow.utils.session",
+      "ingestion.orchestration.pipeline_tasks",
+      "airflow.models.serialized_dag",
+      "ingestion.orchestration.pipeline_tasks",
+      "airflow.models",
+      "airflow.ti_deps.dep_context",
+      "airflow.ti_deps.deps.trigger_rule_dep",
+      "airflow.utils",
+      "airflow.utils.session",
+      "airflow.utils.types"
+    ],
+    "tests\\integration\\test_phase2_validation.py": [
+      "__future__",
+      "os",
+      "time",
+      "pandas",
+      "pytest",
+      "ingestion.config.registry",
+      "ingestion.core.enums",
+      "ingestion.core.ingestion_engine",
+      "ingestion.core.result",
+      "ingestion.readiness.source_readiness",
+      "ingestion.storage.bronze_writer",
+      "ingestion.storage.metadata_repository",
+      "ingestion.storage.minio_storage",
+      "ingestion.core.config",
+      "ingestion.core.checkpoint",
+      "ingestion.core.enums",
+      "ingestion.core.full_loader"
+    ],
+    "tests\\integration\\test_phase2e_integration.py": [
+      "__future__",
+      "glob",
+      "os",
+      "shutil",
+      "tempfile",
+      "time",
+      "datetime",
+      "pandas",
+      "pytest",
+      "ingestion.adapters.base_adapter",
+      "ingestion.adapters.nso_adapter",
+      "ingestion.config.registry",
+      "ingestion.core.checkpoint",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.core.full_loader",
+      "ingestion.core.ingestion_engine",
+      "ingestion.core.result",
+      "ingestion.readiness.source_readiness",
+      "ingestion.storage.bronze_writer",
+      "ingestion.storage.metadata_repository",
+      "ingestion.storage.minio_storage",
+      "ingestion.utils.error_classifier",
+      "ingestion.core.config",
+      "ingestion.utils.retry",
+      "json",
+      "subprocess"
+    ],
+    "tests\\integration\\test_nso_v2_rest_e2e.py": [
+      "copy",
+      "hashlib",
+      "json",
+      "os",
+      "shutil",
+      "uuid",
+      "collections",
+      "dataclasses",
+      "datetime",
+      "decimal",
+      "pathlib",
+      "pytest",
+      "yaml",
+      "pyspark.sql",
+      "ingestion.config.registry",
+      "ingestion.storage.bronze_writer",
+      "scripts.validate_silver_local_snapshots",
+      "silver.contract.loader",
+      "silver.framework",
+      "tests.integration.test_nso_v2_isolated",
+      "psycopg2",
+      "psycopg2",
+      "urllib.parse",
+      "ingestion.storage.metadata_repository",
+      "ingestion.core.ingestion_engine",
+      "datetime"
+    ],
+    "tests\\integration\\test_nso_v2_read_context.py": [
+      "pytest",
+      "pyspark.sql",
+      "silver.framework",
+      "silver.transformers.nso_vietnam_v2",
+      "tests.integration.test_nso_v2_isolated",
+      "silver.framework"
+    ],
+    "tests\\integration\\test_nso_v2_isolated.py": [
+      "copy",
+      "csv",
+      "hashlib",
+      "uuid",
+      "json",
+      "re",
+      "collections",
+      "datetime",
+      "decimal",
+      "pathlib",
+      "pytest",
+      "yaml",
+      "pyspark.sql",
+      "ingestion.storage.bronze_writer",
+      "silver.audit",
+      "silver.contract.loader",
+      "silver.engine.quality",
+      "silver.framework",
+      "silver.transformers.nso_vietnam_v2",
+      "silver.framework"
+    ],
+    "tests\\integration\\test_local_nine_orchestration.py": [
+      "copy",
+      "os",
+      "uuid",
+      "unittest.mock",
+      "pytest",
+      "tests.unit.test_local_nine_profile",
+      "airflow",
+      "airflow.models",
+      "airflow.models.serialized_dag",
+      "airflow.utils.session",
+      "airflow.exceptions",
+      "airflow.models",
+      "airflow.utils.session",
+      "ingestion.orchestration.pipeline_tasks",
+      "airflow.utils",
+      "airflow.utils.types",
+      "airflow.utils.session",
+      "airflow.ti_deps.dep_context",
+      "airflow.ti_deps.deps.trigger_rule_dep",
+      "airflow.models",
+      "airflow.utils",
+      "airflow.utils.types",
+      "airflow.utils.session",
+      "ingestion.orchestration"
+    ],
+    "tests\\integration\\test_local_nine_native.py": [
+      "pyspark.sql",
+      "tests.integration.test_nso_v2_isolated",
+      "tests.unit.test_local_nine_profile",
+      "silver.framework",
+      "silver.audit"
+    ],
+    "tests\\integration\\test_faostat_poc.py": [
+      "pytest",
+      "os",
+      "pyspark.sql",
+      "pyspark.sql.functions",
+      "pyspark.sql.types",
+      "silver.framework",
+      "silver.engine.quality",
+      "yaml",
+      "tempfile"
+    ],
+    "src\\common\\__init__.py": [],
+    "src\\silver\\__init__.py": [],
+    "src\\common\\reliability\\__init__.py": [],
+    "src\\common\\reliability\\retry.py": [
+      "time",
+      "random",
+      "functools",
+      "typing",
+      "ingestion.core.config",
+      "common.errors.error_classifier",
+      "ingestion.core.enums"
+    ],
+    "src\\common\\reliability\\hashing.py": [
+      "hashlib",
+      "typing",
+      "glob",
+      "os"
+    ],
+    "tests\\unit\\__init__.py": [],
+    "tests\\unit\\test_source_registry.py": [
+      "os",
+      "pytest",
+      "ingestion.config.registry",
+      "ingestion.core.enums",
+      "ingestion.utils.error_classifier",
+      "ingestion.core.ingestion_engine"
+    ],
+    "tests\\unit\\test_silver_quarantine.py": [
+      "json",
+      "os",
+      "uuid",
+      "pathlib",
+      "pytest",
+      "pyiceberg.table",
+      "pyspark.sql",
+      "silver.engine.quarantine"
+    ],
+    "tests\\unit\\test_silver_quality_engine.py": [
+      "pytest",
+      "silver.engine.quality",
+      "pyspark.sql.utils",
+      "pyspark.sql.utils",
+      "pyspark.sql.types",
+      "pyspark.sql"
+    ],
+    "tests\\unit\\test_silver_orchestration.py": [
+      "io",
+      "json",
+      "unittest.mock",
+      "pytest",
+      "silver.orchestration",
+      "jobs.silver.spark_api_server",
+      "jobs.silver.run_all_silver",
+      "silver.framework",
+      "contextlib",
+      "jobs.silver.validate_silver_e2e",
+      "contextlib",
+      "jobs.silver.verify_silver_trino",
+      "subprocess",
+      "contextlib",
+      "jobs.silver.run_all_silver",
+      "unittest.mock",
+      "concurrent.futures",
+      "threading",
+      "urllib.request",
+      "silver.local_profile",
+      "contextlib",
+      "jobs.silver.run_all_silver",
+      "jobs.silver.run_all_silver"
+    ],
+    "tests\\unit\\test_silver_merge_engine.py": [
+      "pytest",
+      "silver.engine.merge",
+      "pyspark.sql"
+    ],
+    "tests\\unit\\test_silver_contract_paths.py": [
+      "silver.contract.loader"
+    ],
+    "tests\\unit\\test_silver_contract_loader.py": [
+      "pytest",
+      "os",
+      "tempfile",
+      "yaml",
+      "silver.contract.loader"
+    ],
+    "tests\\unit\\test_retry.py": [
+      "pytest",
+      "unittest.mock",
+      "ingestion.core.config",
+      "ingestion.utils.retry",
+      "ingestion.utils.error_classifier"
+    ],
+    "tests\\unit\\test_readiness.py": [
+      "pytest",
+      "responses",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.readiness.source_readiness"
+    ],
+    "tests\\unit\\test_pipeline_tasks.py": [
+      "pytest",
+      "unittest.mock",
+      "ingestion.orchestration.pipeline_tasks",
+      "ingestion.core.enums",
+      "ingestion.core.result",
+      "ingestion.orchestration.pipeline_tasks",
+      "ingestion.orchestration.pipeline_tasks",
+      "ingestion.core.enums",
+      "copy",
+      "types",
+      "ingestion.orchestration.pipeline_tasks",
+      "ingestion.config.registry",
+      "ingestion.orchestration.pipeline_tasks"
+    ],
+    "tests\\unit\\test_phase6_failure_recovery.py": [
+      "pytest",
+      "unittest.mock",
+      "pandas",
+      "datetime",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.core.result",
+      "ingestion.core.ingestion_engine",
+      "ingestion.core.full_loader",
+      "ingestion.core.checkpoint",
+      "ingestion.adapters.base_adapter",
+      "ingestion.core.enums",
+      "ingestion.reliability.idempotency_controller",
+      "ingestion.core.incremental_loader",
+      "ingestion.storage.bronze_writer",
+      "ingestion.orchestration.pipeline_tasks",
+      "ingestion.core.result"
+    ],
+    "tests\\unit\\test_orphan_cleanup.py": [
+      "pytest",
+      "unittest.mock",
+      "ingestion.storage.bronze_writer",
+      "ingestion.reliability.idempotency_controller"
+    ],
+    "tests\\unit\\test_nso_union_schema.py": [
+      "dataclasses",
+      "pandas",
+      "ingestion.adapters.nso_adapter",
+      "ingestion.config.registry",
+      "ingestion.storage.bronze_writer"
+    ],
+    "tests\\unit\\test_nso_schema_repair.py": [
+      "types",
+      "unittest.mock",
+      "pytest",
+      "ingestion.storage.nso_schema_repair"
+    ],
+    "tests\\unit\\test_metadata_silver_recovery.py": [
+      "pytest",
+      "unittest.mock",
+      "ingestion.storage.metadata_repository"
+    ],
+    "tests\\unit\\test_manifest.py": [
+      "json",
+      "ingestion.manifest.manifest",
+      "ingestion.core.enums"
+    ],
+    "tests\\unit\\test_local_nine_profile.py": [
+      "copy",
+      "unittest.mock",
+      "pytest",
+      "silver",
+      "silver.contract.loader",
+      "ingestion.orchestration",
+      "pathlib"
+    ],
+    "tests\\unit\\test_local_nine_dags.py": [
+      "pytest",
+      "airflow.models",
+      "tests.unit.test_local_nine_profile",
+      "silver.local_profile",
+      "ingestion.orchestration.pipeline_tasks"
+    ],
+    "tests\\unit\\test_ingestion_engine.py": [
+      "pytest",
+      "unittest.mock",
+      "ingestion.core.ingestion_engine",
+      "ingestion.core.enums",
+      "ingestion.core.config"
+    ],
+    "tests\\unit\\test_incremental_loader.py": [
+      "pandas",
+      "unittest.mock",
+      "ingestion.core.incremental_loader",
+      "ingestion.core.result",
+      "ingestion.core.enums",
+      "ingestion.core.config",
+      "ingestion.core.enums"
+    ],
+    "tests\\unit\\test_hashing.py": [
+      "os",
+      "ingestion.utils.hashing"
+    ],
+    "tests\\unit\\test_full_loader.py": [
+      "os",
+      "pandas",
+      "unittest.mock",
+      "ingestion.core.full_loader",
+      "ingestion.core.result",
+      "ingestion.core.enums",
+      "ingestion.core.config"
+    ],
+    "tests\\unit\\test_error_classifier.py": [
+      "pytest",
+      "ingestion.utils.error_classifier",
+      "ingestion.core.enums"
+    ],
+    "tests\\unit\\test_dag_structure.py": [
+      "pytest",
+      "airflow.models",
+      "dags.dag_silver_pipeline"
+    ],
+    "tests\\unit\\test_chunk_idempotency.py": [
+      "pytest",
+      "pandas",
+      "unittest.mock",
+      "ingestion.storage.bronze_writer"
+    ],
+    "tests\\unit\\test_bronze_storage_deliverables.py": [
+      "json",
+      "os",
+      "pytest",
+      "unittest.mock",
+      "pandas",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.core.full_loader",
+      "ingestion.core.result",
+      "ingestion.reliability.bronze_quality_validator",
+      "ingestion.reliability.idempotency_controller",
+      "ingestion.reliability.quarantine_manager",
+      "ingestion.storage.bronze_storage_layout",
+      "ingestion.storage.metadata_schemas"
+    ],
+    "tests\\unit\\test_bronze_schema_preservation.py": [
+      "types",
+      "unittest.mock",
+      "pandas",
+      "pytest",
+      "ingestion.storage.bronze_writer",
+      "ingestion.utils.error_classifier"
+    ],
+    "tests\\unit\\test_bronze_identity.py": [
+      "pytest",
+      "pandas",
+      "unittest.mock",
+      "ingestion.storage.bronze_writer"
+    ],
+    "tests\\unit\\test_advisory_lock.py": [
+      "pytest",
+      "unittest.mock",
+      "ingestion.storage.metadata_repository",
+      "ingestion.reliability.idempotency_controller"
+    ],
+    "tests\\unit\\test_adapters.py": [
+      "os",
+      "pytest",
+      "pandas",
+      "unittest.mock",
+      "ingestion.config.registry",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.core.full_loader",
+      "ingestion.core.result",
+      "ingestion.adapters.faostat_bulk_adapter",
+      "ingestion.adapters.nso_adapter",
+      "ingestion.adapters.worldbank_adapter",
+      "ingestion.adapters.thitruongnongsan_adapter",
+      "ingestion.adapters.usda_adapter",
+      "ingestion.utils.error_classifier",
+      "zipfile",
+      "zipfile",
+      "glob"
+    ],
+    "src\\common\\errors\\__init__.py": [],
+    "src\\common\\errors\\error_classifier.py": [
+      "typing",
+      "ingestion.core.enums"
+    ],
+    "src\\silver\\audit.py": [
+      "pyspark.sql",
+      "silver.framework",
+      "silver.engine.quality",
+      "silver.framework"
+    ],
+    "src\\silver\\core\\spark_session.py": [
+      "__future__",
+      "os",
+      "pyspark.sql"
+    ],
+    "src\\silver\\core\\base_transformer.py": [
+      "__future__",
+      "logging",
+      "abc",
+      "datetime",
+      "typing",
+      "pyspark.sql",
+      "pyspark.sql",
+      "pyspark.sql.window",
+      "silver.core.spark_session",
+      "silver.framework",
+      "pathlib",
+      "uuid"
+    ],
+    "tests\\unit\\silver\\test_usda_psd_transformer.py": [
+      "pytest",
+      "pyspark.sql",
+      "pyspark.sql.functions",
+      "pyspark.sql.types",
+      "silver.transformers.usda_psd",
+      "silver.engine.quality",
+      "silver.framework",
+      "silver.contract.loader"
+    ],
+    "tests\\unit\\silver\\test_usda_milling_rate.py": [
+      "decimal",
+      "pyspark.sql",
+      "silver.transformers.usda_psd",
+      "silver.framework",
+      "silver.contract.loader",
+      "silver.engine.quality",
+      "tests.unit.silver.faostat_nso_fixtures",
+      "tests.unit.silver.test_faostat_nso_transformers"
+    ],
+    "tests\\unit\\silver\\test_silver_transformers.py": [
+      "pytest",
+      "pyspark.sql",
+      "pyspark.sql.types",
+      "silver.transformers.faostat_trade_transformer",
+      "silver.transformers.usda_psd_transformer",
+      "silver.transformers.usda_export_price_transformer",
+      "silver.transformers.worldbank_transformer"
+    ],
+    "tests\\unit\\silver\\test_nso_v2_semantics.py": [
+      "copy",
+      "json",
+      "decimal",
+      "pytest",
+      "silver.transformers"
+    ],
+    "tests\\unit\\silver\\test_nso_contract.py": [
+      "decimal",
+      "pytest",
+      "pyspark.sql",
+      "silver.transformers.nso_vietnam",
+      "tests.unit.silver.faostat_nso_fixtures",
+      "tests.unit.silver.test_faostat_nso_transformers"
+    ],
+    "tests\\unit\\silver\\test_faostat_nso_transformers.py": [
+      "json",
+      "decimal",
+      "pytest",
+      "pyspark.sql",
+      "silver.engine.merge",
+      "silver.transformers.faostat_production",
+      "silver.transformers.faostat_monthly_price",
+      "silver.transformers.faostat_supply_utilization",
+      "silver.transformers.nso_vietnam",
+      "tests.unit.silver.faostat_nso_fixtures"
+    ],
+    "tests\\unit\\silver\\faostat_nso_fixtures.py": [],
+    "src\\ingestion\\__init__.py": [],
+    "src\\silver\\contract\\__init__.py": [],
+    "src\\silver\\contract\\loader.py": [
+      "os",
+      "re",
+      "yaml",
+      "pathlib",
+      "typing"
+    ],
+    "src\\silver\\transformers\\faostat_supply_utilization.py": [
+      "pyspark.sql",
+      "silver.transformers.faostat_source"
+    ],
+    "src\\silver\\transformers\\faostat_source.py": [
+      "__future__",
+      "pyspark.sql",
+      "ingestion.storage.bronze_writer",
+      "silver.contract.loader",
+      "silver.engine.quality"
+    ],
+    "src\\silver\\transformers\\faostat_production.py": [
+      "pyspark.sql",
+      "silver.transformers.faostat_source"
+    ],
+    "src\\silver\\transformers\\faostat_monthly_price.py": [
+      "pyspark.sql",
+      "silver.transformers.faostat_source"
+    ],
+    "src\\silver\\orchestration.py": [
+      "json",
+      "os",
+      "urllib.request",
+      "urllib.error",
+      "silver.local_profile"
+    ],
+    "src\\silver\\local_profile.py": [
+      "copy",
+      "hashlib",
+      "os",
+      "pathlib",
+      "ingestion.config.registry",
+      "silver.contract.loader"
+    ],
+    "src\\silver\\framework.py": [
+      "importlib",
+      "copy",
+      "logging",
+      "datetime",
+      "dataclasses",
+      "typing",
+      "pyspark",
+      "pyspark.sql",
+      "ingestion.storage.bronze_writer",
+      "silver.contract.loader",
+      "silver.engine.quality",
+      "silver.engine.quarantine",
+      "silver.engine.merge",
+      "silver.local_profile",
+      "silver.local_profile",
+      "silver.local_profile"
+    ],
+    "src\\silver\\transformers\\__init__.py": [],
+    "src\\silver\\transformers\\worldbank_transformer.py": [
+      "__future__",
+      "re",
+      "typing",
+      "pyspark.sql",
+      "pyspark.sql",
+      "silver.core.base_transformer"
+    ],
+    "src\\silver\\transformers\\worldbank_pinksheet.py": [
+      "re",
+      "logging",
+      "pyspark.sql",
+      "silver.transformers.faostat_source"
+    ],
+    "src\\silver\\transformers\\usda_rice_yearbook.py": [
+      "pyspark.sql",
+      "silver.transformers.faostat_source"
+    ],
+    "src\\silver\\transformers\\usda_psd_transformer.py": [
+      "__future__",
+      "re",
+      "typing",
+      "pyspark.sql",
+      "pyspark.sql",
+      "silver.core.base_transformer"
+    ],
+    "src\\silver\\transformers\\usda_psd.py": [
+      "re",
+      "pyspark.sql",
+      "silver.transformers.faostat_source"
+    ],
+    "src\\silver\\transformers\\usda_export_price_transformer.py": [
+      "__future__",
+      "typing",
+      "pyspark.sql",
+      "pyspark.sql",
+      "silver.core.base_transformer"
+    ],
+    "src\\silver\\transformers\\thitruongnongsan.py": [
+      "pyspark.sql",
+      "ingestion.storage.bronze_writer",
+      "silver.transformers.faostat_source"
+    ],
+    "src\\silver\\transformers\\nso_vietnam_v2.py": [
+      "json",
+      "hashlib",
+      "logging",
+      "collections",
+      "decimal",
+      "functools",
+      "pathlib",
+      "pyspark.sql",
+      "silver.framework",
+      "silver.transformers.faostat_source"
+    ],
+    "src\\silver\\transformers\\nso_vietnam.py": [
+      "json",
+      "re",
+      "functools",
+      "pathlib",
+      "pyspark.sql",
+      "silver.engine.quality",
+      "silver.transformers.faostat_source"
+    ],
+    "src\\silver\\transformers\\faostat_trade_transformer.py": [
+      "__future__",
+      "typing",
+      "pyspark.sql",
+      "pyspark.sql",
+      "silver.core.base_transformer"
+    ],
+    "src\\silver\\transformers\\faostat_trade.py": [
+      "pyspark.sql",
+      "silver.transformers.faostat_source"
+    ],
+    "docs\\silver\\evidence\\nso_v2\\phase2_trino_readback_20261016_145432\\attempt1-readback_client.py": [
+      "os,json,time,urllib.request,hashlib,sqlite3,re,sys",
+      "pathlib",
+      "datetime",
+      "decimal",
+      "collections",
+      "pyarrow",
+      "pyiceberg.expressions",
+      "ingestion.storage.bronze_writer"
+    ],
+    "src\\ingestion\\manifest\\__init__.py": [],
+    "src\\ingestion\\manifest\\manifest.py": [
+      "json",
+      "datetime",
+      "os",
+      "ingestion.core.enums"
+    ],
+    "docs\\silver\\evidence\\nso_v2\\phase2_trino_readback_20261016_145432\\readback_client.py": [
+      "os,json,time,urllib.request,hashlib,sqlite3,re,sys",
+      "pathlib",
+      "datetime",
+      "decimal",
+      "collections",
+      "pyarrow",
+      "pyiceberg.expressions",
+      "ingestion.storage.bronze_writer"
+    ],
+    "src\\ingestion\\config\\registry.py": [
+      "__future__",
+      "os",
+      "re",
+      "typing",
+      "yaml",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.utils.error_classifier"
+    ],
+    "src\\ingestion\\config\\__init__.py": [],
+    "src\\ingestion\\utils\\__init__.py": [],
+    "src\\ingestion\\utils\\retry.py": [
+      "time",
+      "random",
+      "common.reliability.retry"
+    ],
+    "src\\ingestion\\utils\\logging_config.py": [
+      "__future__",
+      "logging",
+      "sys",
+      "typing"
+    ],
+    "src\\ingestion\\utils\\hashing.py": [
+      "common.reliability.hashing"
+    ],
+    "src\\ingestion\\utils\\error_classifier.py": [
+      "common.errors.error_classifier"
+    ],
+    "src\\silver\\engine\\__init__.py": [],
+    "src\\silver\\engine\\quarantine.py": [
+      "uuid",
+      "pyspark.sql",
+      "silver.engine.merge",
+      "silver.engine.quality"
+    ],
+    "src\\silver\\engine\\quality.py": [
+      "pyspark.sql"
+    ],
+    "src\\silver\\engine\\merge.py": [
+      "uuid",
+      "logging",
+      "functools",
+      "pyspark.sql",
+      "pyspark.sql.window"
+    ],
+    "docs\\silver\\evidence\\nso_v2\\phase3_nso_targeted_20261017_015603\\bounded-nso-readback-client.py": [
+      "os,json,time,urllib.request,hashlib,sqlite3,re,sys",
+      "pathlib",
+      "datetime",
+      "decimal",
+      "collections",
+      "pyarrow",
+      "pyiceberg.expressions",
+      "ingestion.storage.bronze_writer"
+    ],
+    "src\\ingestion\\orchestration\\pipeline_tasks.py": [
+      "__future__",
+      "typing",
+      "hashlib",
+      "re",
+      "pathlib",
+      "ingestion.core.ingestion_engine",
+      "ingestion.core.enums",
+      "ingestion.config.registry",
+      "ingestion.storage.metadata_repository",
+      "airflow.exceptions",
+      "airflow.models",
+      "airflow.models.serialized_dag",
+      "airflow.utils.session",
+      "contextlib",
+      "silver.local_profile",
+      "ingestion.storage.bronze_writer",
+      "pyiceberg.expressions",
+      "pyarrow.compute",
+      "silver.local_profile",
+      "silver.local_profile",
+      "airflow.models",
+      "airflow.utils.session",
+      "silver.local_profile",
+      "silver.local_profile",
+      "silver.local_profile",
+      "silver.local_profile"
+    ],
+    "src\\ingestion\\readiness\\source_readiness.py": [
+      "os",
+      "ingestion.core.enums",
+      "ingestion.core.config",
+      "ingestion.core.result"
+    ],
+    "src\\ingestion\\orchestration\\__init__.py": [
+      "ingestion.orchestration.pipeline_tasks"
+    ],
+    "src\\ingestion\\core\\base_loader.py": [
+      "__future__",
+      "abc",
+      "ingestion.core.config",
+      "ingestion.core.result"
+    ],
+    "src\\ingestion\\readiness\\__init__.py": [],
+    "src\\ingestion\\storage\\bronze_storage_layout.py": [
+      "__future__",
+      "json",
+      "os",
+      "datetime",
+      "typing",
+      "ingestion.storage.metadata_schemas",
+      "ingestion.storage.minio_storage",
+      "ingestion.utils.logging_config"
+    ],
+    "src\\ingestion\\storage\\__init__.py": [],
+    "src\\ingestion\\storage\\nso_schema_repair.py": [
+      "__future__",
+      "typing",
+      "ingestion.storage.bronze_writer",
+      "pyiceberg.types"
+    ],
+    "src\\ingestion\\storage\\minio_storage.py": [
+      "os",
+      "json",
+      "boto3",
+      "botocore.exceptions",
+      "typing"
+    ],
+    "src\\ingestion\\storage\\metadata_schemas.py": [
+      "__future__",
+      "dataclasses",
+      "enum",
+      "typing"
+    ],
+    "src\\ingestion\\storage\\metadata_repository.py": [
+      "os",
+      "json",
+      "contextlib",
+      "typing",
+      "psycopg2",
+      "psycopg2.extras",
+      "hashlib"
+    ],
+    "src\\ingestion\\storage\\bronze_writer.py": [
+      "__future__",
+      "os",
+      "re",
+      "time",
+      "datetime",
+      "typing",
+      "pandas",
+      "requests",
+      "ingestion.utils.logging_config",
+      "ingestion.utils.error_classifier",
+      "inspect",
+      "pyarrow.parquet",
+      "pyarrow.types",
+      "pyarrow",
+      "pyiceberg.types",
+      "pyiceberg.catalog",
+      "random",
+      "random",
+      "pyiceberg.types"
+    ],
+    "src\\ingestion\\core\\__init__.py": [],
+    "src\\ingestion\\core\\watermark.py": [
+      "abc",
+      "dataclasses",
+      "typing",
+      "datetime",
+      "ingestion.storage.metadata_repository"
+    ],
+    "src\\ingestion\\core\\result.py": [
+      "__future__",
+      "dataclasses",
+      "datetime",
+      "typing",
+      "ingestion.core.enums"
+    ],
+    "src\\ingestion\\core\\ingestion_engine.py": [
+      "__future__",
+      "importlib",
+      "os",
+      "uuid",
+      "datetime",
+      "typing",
+      "ingestion.adapters.base_adapter",
+      "ingestion.config.registry",
+      "ingestion.core.base_loader",
+      "ingestion.core.checkpoint",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.core.full_loader",
+      "ingestion.core.incremental_loader",
+      "ingestion.core.result",
+      "ingestion.core.watermark",
+      "ingestion.readiness.source_readiness",
+      "ingestion.storage.bronze_writer",
+      "ingestion.storage.metadata_repository",
+      "ingestion.storage.minio_storage",
+      "ingestion.utils.error_classifier",
+      "ingestion.utils.logging_config"
+    ],
+    "src\\ingestion\\core\\incremental_loader.py": [
+      "__future__",
+      "tempfile",
+      "datetime",
+      "typing",
+      "ingestion.adapters.base_adapter",
+      "ingestion.core.base_loader",
+      "ingestion.core.checkpoint",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.core.result",
+      "ingestion.core.watermark",
+      "ingestion.storage.metadata_repository",
+      "ingestion.storage.minio_storage",
+      "ingestion.utils.error_classifier",
+      "ingestion.utils.logging_config"
+    ],
+    "src\\ingestion\\core\\full_loader.py": [
+      "__future__",
+      "os",
+      "tempfile",
+      "datetime",
+      "typing",
+      "ingestion.adapters.base_adapter",
+      "ingestion.core.base_loader",
+      "ingestion.core.checkpoint",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.core.result",
+      "ingestion.manifest.manifest",
+      "ingestion.reliability.bronze_quality_validator",
+      "ingestion.reliability.idempotency_controller",
+      "ingestion.reliability.quarantine_manager",
+      "ingestion.storage.bronze_storage_layout",
+      "ingestion.storage.bronze_writer",
+      "ingestion.storage.metadata_repository",
+      "ingestion.storage.metadata_schemas",
+      "ingestion.storage.minio_storage",
+      "ingestion.utils.error_classifier",
+      "ingestion.utils.hashing",
+      "ingestion.utils.logging_config",
+      "glob",
+      "zipfile"
+    ],
+    "src\\ingestion\\core\\enums.py": [
+      "enum"
+    ],
+    "src\\ingestion\\core\\config.py": [
+      "__future__",
+      "dataclasses",
+      "typing",
+      "ingestion.core.enums"
+    ],
+    "src\\ingestion\\core\\checkpoint.py": [
+      "abc",
+      "dataclasses",
+      "typing",
+      "datetime",
+      "ingestion.storage.metadata_repository"
+    ],
+    "src\\ingestion\\reliability\\bronze_quality_validator.py": [
+      "__future__",
+      "hashlib",
+      "os",
+      "dataclasses",
+      "typing",
+      "pandas",
+      "ingestion.storage.metadata_schemas",
+      "json"
+    ],
+    "src\\ingestion\\reliability\\idempotency_controller.py": [
+      "__future__",
+      "dataclasses",
+      "typing",
+      "ingestion.storage.bronze_storage_layout",
+      "ingestion.storage.metadata_repository",
+      "ingestion.storage.metadata_schemas",
+      "ingestion.utils.logging_config",
+      "ingestion.storage.bronze_writer"
+    ],
+    "src\\ingestion\\adapters\\faostat_bulk_adapter.py": [
+      "__future__",
+      "os",
+      "zipfile",
+      "typing",
+      "pandas",
+      "ingestion.adapters.base_adapter",
+      "ingestion.core.config",
+      "ingestion.core.enums",
+      "ingestion.core.result",
+      "ingestion.utils.error_classifier",
+      "ingestion.utils.hashing",
+      "ingestion.utils.logging_config"
+    ],
+    "src\\ingestion\\adapters\\base_adapter.py": [
+      "__future__",
+      "abc",
+      "typing",
+      "ingestion.core.config",
+      "ingestion.core.result"
+    ],
+    "src\\ingestion\\adapters\\nso_adapter.py": [
+      "__future__",
+      "glob",
+      "os",
+      "typing",
+      "pandas",
+      "ingestion.adapters.base_adapter",
+      "ingestion.core.config",
+      "ingestion.core.result",
+      "ingestion.utils.error_classifier",
+      "ingestion.utils.hashing",
+      "ingestion.utils.logging_config",
+      "ingestion.storage.bronze_writer"
+    ],
+    "src\\ingestion\\reliability\\quarantine_manager.py": [
+      "__future__",
+      "os",
+      "dataclasses",
+      "datetime",
+      "typing",
+      "ingestion.reliability.bronze_quality_validator",
+      "ingestion.storage.bronze_storage_layout",
+      "ingestion.storage.metadata_schemas",
+      "ingestion.utils.logging_config"
+    ],
+    "src\\ingestion\\adapters\\thitruongnongsan_adapter.py": [
+      "__future__",
+      "os",
+      "typing",
+      "openpyxl",
+      "pandas",
+      "ingestion.adapters.base_adapter",
+      "ingestion.core.config",
+      "ingestion.core.result",
+      "ingestion.utils.error_classifier",
+      "ingestion.utils.hashing",
+      "ingestion.utils.logging_config"
+    ],
+    "src\\ingestion\\adapters\\usda_adapter.py": [
+      "__future__",
+      "os",
+      "typing",
+      "pandas",
+      "ingestion.adapters.base_adapter",
+      "ingestion.core.config",
+      "ingestion.core.result",
+      "ingestion.utils.error_classifier",
+      "ingestion.utils.hashing",
+      "ingestion.utils.logging_config"
+    ],
+    "src\\ingestion\\reliability\\__init__.py": [],
+    "src\\ingestion\\adapters\\worldbank_adapter.py": [
+      "__future__",
+      "os",
+      "typing",
+      "openpyxl",
+      "pandas",
+      "ingestion.adapters.base_adapter",
+      "ingestion.core.config",
+      "ingestion.core.result",
+      "ingestion.utils.error_classifier",
+      "ingestion.utils.hashing",
+      "ingestion.utils.logging_config"
+    ],
+    "src\\ingestion\\adapters\\__init__.py": [],
+    "docs\\silver\\evidence\\nso_v2\\phase2_trino_adjustment_20261016_152237\\readback_client.py": [
+      "os,json,time,urllib.request,hashlib,sqlite3,re,sys",
+      "pathlib",
+      "datetime",
+      "decimal",
+      "collections",
+      "pyarrow",
+      "pyiceberg.expressions",
+      "ingestion.storage.bronze_writer"
+    ]
+  },
+  "candidates": {
+    "mark_success.py": {
+      "sha256": "2dc7a467f0a7614f32409b96609730fc44ebf33232b0a13e0d777296cbc99528",
+      "references": [],
+      "classification": "SAFE_DELETE_REDUNDANT",
+      "reason": "Obsolete standalone one-off shared metadata success override; not a supported entrypoint"
+    },
+    "profile_usda.py": {
+      "sha256": "4743a26beaa3a053e0215e38663acb2dcd4d0e616b43d548d467389c266385c4",
+      "references": [],
+      "classification": "SAFE_DELETE_REDUNDANT",
+      "reason": "Standalone historical shared USDA probe; current verified local Trino/native workflow supersedes it"
+    },
+    "query_silver_usda.py": {
+      "sha256": "3e19375d4cbc70b223a4e8426586b10a8ae96eac944e7e4bd9c1d756af53b22a",
+      "references": [
+        "docs/silver/rebuild.md"
+      ],
+      "classification": "UNCERTAIN_PRESERVE",
+      "reason": "Standalone historical shared USDA probe; current verified local Trino/native workflow supersedes it"
+    }
+  },
+  "scope": "Python imports and dynamic string references, DAG/Compose/config/entrypoints, tests, docs and evidence text. Absence of import alone is not a deletion decision. All Raw, locks, manifests, accepted evidence and active Compose overlay preserved.",
+  "active_overlay": "docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/compose.cleanroom.yml",
+  "generated_cache_policy": "Only regenerable ignored __pycache__ with available source; operator journals and test wheels remain needed until all checks finish."
+}

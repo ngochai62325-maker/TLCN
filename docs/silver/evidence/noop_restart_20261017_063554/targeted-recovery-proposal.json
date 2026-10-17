@@ -1,0 +1,99 @@
+{
+  "status": "PROPOSED_ONLY_NOT_EXECUTED",
+  "reason": "Latest owner prompt requires separate explicit approval for signals to newly created shared IDs and unapproved Airflow state mutation.",
+  "fresh_gates": [
+    "Recheck exact current shared IDs and quiescence/29identities/five metadata hashes",
+    "Recheck current cleanroom original runs SUCCESS,19 physical identities,zero source locks",
+    "No unknown commits; keep scheduler stopped until DAG paused and stale task reconciled"
+  ],
+  "shared_controlled_stop": [
+    {
+      "service": "airflow-scheduler",
+      "container_id": "e2ba7f3b354a90922b234adaef8743f4c279bafcccfe41420cd32c40216c2662",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "service": "airflow-webserver",
+      "container_id": "089fe84c85cfcf6b1ef890423e67b2b63aaadf2e5d8097bf03e3c6d2598fa8a5",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "service": "spark-iceberg",
+      "container_id": "c29f0a929a4243f9e4404ed953551e6639793434587a04447f31f76020989cff",
+      "signal": "SIGINT",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "service": "trino",
+      "container_id": "4583d720af51252cd21eedb19c6900e0f494b2d6f47e315d03e93c51f73a9509",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "service": "iceberg-rest",
+      "container_id": "786f477b8e01132643521a6ed7c4880f754acdab31a37a6e5849717727984632",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "service": "minio",
+      "container_id": "35c6358ad3f2c63c3b4deec8bb089d13bcfd40ebf084f140be1f0d467d811b09",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "service": "postgres",
+      "container_id": "c5b4b341669e821a42e74bb615451587b6039ca2a22e282f0e445d6f55b65bd9",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    }
+  ],
+  "same_existing_run_recovery": {
+    "parent": "local_nine_cleanroom_noop_full__20261017T031611Z",
+    "child": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+    "preserve_success_tasks": [
+      "gate_check_bronze",
+      "start",
+      "transform_faostat_monthly_price",
+      "transform_faostat_production",
+      "transform_faostat_supply_utilization",
+      "transform_faostat_trade",
+      "transform_usda_psd",
+      "transform_usda_rice_yearbook",
+      "transform_worldbank_pinksheet"
+    ],
+    "approved_actions_requested": [
+      "Use supported Airflow CLI/ORM only to pause both isolated DAGs while scheduler stopped",
+      "Clear only interrupted transform_thitruongnongsan TI through clear_task_instances(dag_run_state=False), preserving TaskInstanceHistory and original successful tasks/run IDs",
+      "Execute only that market task then never-run transform_nso_vietnam_v2, silver_data_quality_audit, publish_silver_signal and end via supported Airflow task execution",
+      "Compute existing child state with DagRun.update_state(execute_callbacks=False), commit only all actual tasks SUCCESS and no unexpected runnable tasks",
+      "Preview then state-only PATCH original parent trigger_silver_release only after child persisted SUCCESS, no TriggerDagRunOperator execution; run only parent terminal and compute actual parent SUCCESS"
+    ],
+    "constraints": [
+      "No new parent/child DagRun",
+      "No original initial rerun",
+      "No clear/reset of other7 successful transformers",
+      "No snapshots reset/rollback/deletion",
+      "No fake SUCCESS",
+      "No scheduler start with unpaused/stale work"
+    ],
+    "runtime": "After controlled shared stop approval, start only existing isolated storage/runner/Trino as necessary; keep scheduler stopped during targeted CLI recovery. Use existing Airflow execution container for CLI only, no unapproved container recreation; fresh resource gate before any transformer."
+  },
+  "after_full_pass": "Run existing supported incremental Spark API/common runner sequentially with real source proofs and fresh resource admission; then strict19-table hash reconciliation and cleanup/handoff."
+}

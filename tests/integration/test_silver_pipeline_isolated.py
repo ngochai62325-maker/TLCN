@@ -89,16 +89,23 @@ def test_complete_pipeline_real_iceberg(spark, tmp_path, dataset):
     table = data["dataset"]["silver_output"]
     original = spark.table(table).collect()
     snapshot_before = spark.table(table + ".snapshots").count()
+    dead_table = "silver_test.silver.dead_letters"
+    dead_before = spark.table(dead_table).orderBy("quarantine_record_id").collect()
+    dead_snapshot_before = spark.sql(
+        f"SELECT snapshot_id FROM {dead_table}.refs WHERE name='main'").first()[0]
     second = framework.run(dataset, "second")
     assert second["dedup_count"] == 1
     assert original == spark.table(table).collect()  # Processing timestamp must stay unchanged.
     assert spark.table(table + ".snapshots").count() == snapshot_before
     assert spark.table("silver_test.silver.dead_letters").filter(F.col("source_dataset") == dataset).count() == 2
+    assert spark.table(dead_table).orderBy("quarantine_record_id").collect() == dead_before
+    assert spark.sql(
+        f"SELECT snapshot_id FROM {dead_table}.refs WHERE name='main'").first()[0] == dead_snapshot_before
     audit = audit_tables(spark, [SilverContract(data)])
     assert audit["status"] == "PASSED"
     dead = spark.table("silver_test.silver.dead_letters").filter(F.col("source_dataset") == dataset).first()
     assert "_source_payload" in json.loads(dead.payload)
-    assert dead.pipeline_run_id == "second"
+    assert dead.pipeline_run_id == "first"
     assert not any(c.startswith("_raw") for c in spark.table(table).columns)
     # Exercise the same eight sources through opt-in routing without touching legacy.
     released = SilverTransformationFramework(spark, str(tmp_path), release=RELEASE_NAMESPACE)

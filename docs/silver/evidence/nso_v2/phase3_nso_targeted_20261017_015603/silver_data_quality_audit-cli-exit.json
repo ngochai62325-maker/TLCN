@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-17T02:22:47.974279+00:00",
+  "exit_code": 0,
+  "interface": "airflow tasks run --local",
+  "before": {
+    "state": "scheduled",
+    "try_number": 1,
+    "job_id": null,
+    "start_date": null
+  },
+  "existing_child": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1"
+}

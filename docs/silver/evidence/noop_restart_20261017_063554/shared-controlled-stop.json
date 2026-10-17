@@ -1,0 +1,64 @@
+{
+  "at": "2026-10-17T06:44:57.069595+00:00",
+  "status": "PASS",
+  "outcomes": [
+    {
+      "at": "2026-10-17T06:44:45.461522+00:00",
+      "action": "shared_container_exited",
+      "service": "airflow-scheduler",
+      "container_id": "e2ba7f3b354a90922b234adaef8743f4c279bafcccfe41420cd32c40216c2662",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T06:44:45.106272602Z"
+    },
+    {
+      "at": "2026-10-17T06:44:51.426292+00:00",
+      "action": "shared_container_exited",
+      "service": "airflow-webserver",
+      "container_id": "089fe84c85cfcf6b1ef890423e67b2b63aaadf2e5d8097bf03e3c6d2598fa8a5",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T06:44:50.966243063Z"
+    },
+    {
+      "at": "2026-10-17T06:44:52.658515+00:00",
+      "action": "shared_container_exited",
+      "service": "spark-iceberg",
+      "container_id": "c29f0a929a4243f9e4404ed953551e6639793434587a04447f31f76020989cff",
+      "exit_code": 130,
+      "finished_at": "2026-10-17T06:44:51.617541598Z"
+    },
+    {
+      "at": "2026-10-17T06:44:53.949525+00:00",
+      "action": "shared_container_exited",
+      "service": "trino",
+      "container_id": "4583d720af51252cd21eedb19c6900e0f494b2d6f47e315d03e93c51f73a9509",
+      "exit_code": 143,
+      "finished_at": "2026-10-17T06:44:53.229667414Z"
+    },
+    {
+      "at": "2026-10-17T06:44:55.255940+00:00",
+      "action": "shared_container_exited",
+      "service": "iceberg-rest",
+      "container_id": "786f477b8e01132643521a6ed7c4880f754acdab31a37a6e5849717727984632",
+      "exit_code": 143,
+      "finished_at": "2026-10-17T06:44:54.448761369Z"
+    },
+    {
+      "at": "2026-10-17T06:44:55.849010+00:00",
+      "action": "shared_container_exited",
+      "service": "minio",
+      "container_id": "35c6358ad3f2c63c3b4deec8bb089d13bcfd40ebf084f140be1f0d467d811b09",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T06:44:55.451886804Z"
+    },
+    {
+      "at": "2026-10-17T06:44:57.068064+00:00",
+      "action": "shared_container_exited",
+      "service": "postgres",
+      "container_id": "c5b4b341669e821a42e74bb615451587b6039ca2a22e282f0e445d6f55b65bd9",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T06:44:56.030208563Z"
+    }
+  ],
+  "pre_stop_catalog29_metadata_match": true,
+  "no_escalation_or_retry": true
+}

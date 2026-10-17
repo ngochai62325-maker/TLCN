@@ -1,0 +1,451 @@
+{
+  "runs": [
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "state": "running",
+      "start_date": "2026-10-16T15:58:54.568068+00:00",
+      "end_date": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "state": "running",
+      "start_date": "2026-10-16T16:00:47.759893+00:00",
+      "end_date": null
+    }
+  ],
+  "tasks": [
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "gate_check_bronze",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:00:50.333622+00:00",
+      "end_date": "2026-10-16T16:03:21.442574+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 1689
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_production",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:03:25.520175+00:00",
+      "end_date": "2026-10-16T16:03:55.655223+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 1943
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_monthly_price",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:03:58.520529+00:00",
+      "end_date": "2026-10-16T16:04:31.193646+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 1992
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "initialize_metadata",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T15:52:28.987106+00:00",
+      "end_date": "2026-10-16T15:52:30.071154+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 399
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "start_lakehouse_ingestion",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T15:52:30.586148+00:00",
+      "end_date": "2026-10-16T15:52:30.58615+00:00",
+      "hostname": "",
+      "pid": null
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "end_lakehouse_ingestion",
+      "state": null,
+      "try_number": 0,
+      "max_tries": 0,
+      "start_date": "2026-10-16T15:52:36.681649+00:00",
+      "end_date": "2026-10-16T15:52:36.681649+00:00",
+      "hostname": "",
+      "pid": null
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_production",
+      "state": "success",
+      "try_number": 2,
+      "max_tries": 1,
+      "start_date": "2026-10-16T15:58:56.322446+00:00",
+      "end_date": "2026-10-16T15:59:04.916918+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 925
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_monthly_price",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T15:59:06.313656+00:00",
+      "end_date": "2026-10-16T15:59:09.812379+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 964
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_supply_utilization",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T15:59:12.386445+00:00",
+      "end_date": "2026-10-16T15:59:17.324402+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 994
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_trade",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T15:59:19.177186+00:00",
+      "end_date": "2026-10-16T16:00:08.691496+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 1027
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_usda_psd",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:00:10.600401+00:00",
+      "end_date": "2026-10-16T16:00:13.213048+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 1420
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_usda_rice_yearbook",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:00:14.721414+00:00",
+      "end_date": "2026-10-16T16:00:17.324063+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 1448
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_thitruongnongsan",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:00:23.972244+00:00",
+      "end_date": "2026-10-16T16:00:27.954328+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 1494
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_worldbank_pinksheet",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:00:18.698325+00:00",
+      "end_date": "2026-10-16T16:00:21.924872+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 1476
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "start",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:00:47.784332+00:00",
+      "end_date": "2026-10-16T16:00:47.784336+00:00",
+      "hostname": "",
+      "pid": null
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "verify_bronze_batch",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:00:43.046536+00:00",
+      "end_date": "2026-10-16T16:00:44.847352+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 1614
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_nso_vietnam",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:00:29.820124+00:00",
+      "end_date": "2026-10-16T16:00:40.909317+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 1529
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "trigger_silver_release",
+      "state": "running",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:00:46.767584+00:00",
+      "end_date": null,
+      "hostname": "airflow-scheduler",
+      "pid": 1675
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "end",
+      "state": null,
+      "try_number": 0,
+      "max_tries": 0,
+      "start_date": null,
+      "end_date": null,
+      "hostname": "",
+      "pid": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "silver_data_quality_audit",
+      "state": null,
+      "try_number": 0,
+      "max_tries": 0,
+      "start_date": null,
+      "end_date": null,
+      "hostname": "",
+      "pid": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "publish_silver_signal",
+      "state": null,
+      "try_number": 0,
+      "max_tries": 0,
+      "start_date": null,
+      "end_date": null,
+      "hostname": "",
+      "pid": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_supply_utilization",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:04:34.598459+00:00",
+      "end_date": "2026-10-16T16:05:10.290016+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 2041
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_usda_psd",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:06:52.54756+00:00",
+      "end_date": "2026-10-16T16:07:29.655694+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 2217
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_trade",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:05:14.488716+00:00",
+      "end_date": "2026-10-16T16:06:48.552361+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 2090
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_worldbank_pinksheet",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:08:01.748312+00:00",
+      "end_date": "2026-10-16T16:08:32.188648+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 2313
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_usda_rice_yearbook",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:07:33.300435+00:00",
+      "end_date": "2026-10-16T16:07:58.08457+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 2266
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_nso_vietnam_v2",
+      "state": "running",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:09:11.221224+00:00",
+      "end_date": null,
+      "hostname": "airflow-scheduler",
+      "pid": 2401
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_thitruongnongsan",
+      "state": "success",
+      "try_number": 1,
+      "max_tries": 0,
+      "start_date": "2026-10-16T16:08:35.229846+00:00",
+      "end_date": "2026-10-16T16:09:07.637187+00:00",
+      "hostname": "airflow-scheduler",
+      "pid": 2355
+    }
+  ],
+  "locks": 1,
+  "dags": [
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "paused": false
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "paused": false
+    }
+  ],
+  "has_ingestion": true,
+  "ingestion": [
+    {
+      "source_id": "faostat_production",
+      "run_id": "faostat_production_20261016155233_b4819bde",
+      "status": "FAILED",
+      "records_extracted": 22738,
+      "checksum": null,
+      "error_message": "HTTPConnectionPool(host='trino-test', port=8080): Max retries exceeded with url: /v1/statement (Caused by NameResolutionError(\"<urllib3.connection.HTTPConnection object at 0x7f90aab94790>: Failed to resolve 'trino-test' ([Errno -3] Temporary failure in name resolution)\"))"
+    },
+    {
+      "source_id": "faostat_production",
+      "run_id": "faostat_production_20261016155856_6ba3a6e8",
+      "status": "SUCCESS",
+      "records_extracted": 22738,
+      "checksum": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+      "error_message": null
+    },
+    {
+      "source_id": "faostat_monthly_price",
+      "run_id": "faostat_monthly_price_20261016155906_428dc755",
+      "status": "SUCCESS",
+      "records_extracted": 15334,
+      "checksum": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af",
+      "error_message": null
+    },
+    {
+      "source_id": "faostat_supply_utilization",
+      "run_id": "faostat_supply_utilization_20261016155912_7f1d590f",
+      "status": "SUCCESS",
+      "records_extracted": 36380,
+      "checksum": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c",
+      "error_message": null
+    },
+    {
+      "source_id": "faostat_trade",
+      "run_id": "faostat_trade_20261016155919_cc04dc8d",
+      "status": "SUCCESS",
+      "records_extracted": 1226470,
+      "checksum": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168",
+      "error_message": null
+    },
+    {
+      "source_id": "usda_psd",
+      "run_id": "usda_psd_20261016160010_51f6293c",
+      "status": "SUCCESS",
+      "records_extracted": 15,
+      "checksum": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf",
+      "error_message": null
+    },
+    {
+      "source_id": "usda_rice_yearbook",
+      "run_id": "usda_rice_yearbook_20261016160015_07a33116",
+      "status": "SUCCESS",
+      "records_extracted": 13131,
+      "checksum": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba",
+      "error_message": null
+    },
+    {
+      "source_id": "worldbank_pinksheet",
+      "run_id": "worldbank_pinksheet_20261016160019_068e77d4",
+      "status": "SUCCESS",
+      "records_extracted": 792,
+      "checksum": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290",
+      "error_message": null
+    },
+    {
+      "source_id": "thitruongnongsan",
+      "run_id": "thitruongnongsan_20261016160024_6847418e",
+      "status": "SUCCESS",
+      "records_extracted": 20394,
+      "checksum": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+      "error_message": null
+    },
+    {
+      "source_id": "nso_vietnam",
+      "run_id": "nso_vietnam_20261016160030_2c409d8a",
+      "status": "SUCCESS",
+      "records_extracted": 833,
+      "checksum": "b4bbdad365bf03e4a1867c4ff3b73829335955047d6e6f007da74bcb5993580a",
+      "error_message": null
+    }
+  ],
+  "at": "2026-10-16T16:09:45.514883+00:00"
+}

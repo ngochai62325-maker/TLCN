@@ -1,0 +1,9 @@
+{
+  "dag_id": "rice_lakehouse_silver_pipeline",
+  "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+  "state": "success",
+  "tasks": 14,
+  "end_date": "2026-10-17 06:57:03.078545+00:00",
+  "runnable": 0,
+  "callbacks_executed": false
+}

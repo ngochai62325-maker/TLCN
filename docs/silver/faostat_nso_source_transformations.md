@@ -1,3 +1,5 @@
+> Historical/legacy reference. Current local nine-source routing, NSO V2 and acceptance are documented in [README](README.md), [data catalog](data_catalog.md) and [validation](validation.md). Original bytes are preserved in [archive](archive/manifest.json).
+
 # Silver FAOSTAT + NSO — triển khai phần Hoàng
 
 > Tài liệu bàn giao ngày 10/10, trước tích hợp shared pipeline. Từ 11/10,

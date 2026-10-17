@@ -1,0 +1,320 @@
+{
+  "at": "2026-10-17T01:42:24.323755+00:00",
+  "status": "UNPUBLISHED_STAGED_DATA_NOT_A_SUCCESSFUL_COMMIT",
+  "files": [
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=1990/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00001.parquet",
+      "last_modified": "2026-10-16T16:10:29.062Z",
+      "bytes": 20721,
+      "sha256": "a1b5ad5ae4d552657fa022a57afd5db282d2796f85e705c976e8323bc87adfdb",
+      "rows": 16
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=1991/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00002.parquet",
+      "last_modified": "2026-10-16T16:10:29.176Z",
+      "bytes": 20706,
+      "sha256": "aea0e2ec1bf8153f29cae6cabef775cb5dad0d46a51fddde58338906750c3bc4",
+      "rows": 16
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=1992/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00001.parquet",
+      "last_modified": "2026-10-16T16:10:29.062Z",
+      "bytes": 20705,
+      "sha256": "e65b6f26aed454c1a3928b51036adf5ae2500ad4c0b2d9f42234789310b09744",
+      "rows": 16
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=1993/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00002.parquet",
+      "last_modified": "2026-10-16T16:10:29.176Z",
+      "bytes": 20699,
+      "sha256": "12f0fe54bf9fe689a35b1ec3a4c4cec5277de0fbd87471b9768dac39aebd27f5",
+      "rows": 16
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=1994/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00003.parquet",
+      "last_modified": "2026-10-16T16:10:29.268Z",
+      "bytes": 20702,
+      "sha256": "1d4950d5234b879b0f06e166566a82f2d648048c4fd594c761db78f7bd1e272f",
+      "rows": 16
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=1995/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00004.parquet",
+      "last_modified": "2026-10-16T16:10:29.461Z",
+      "bytes": 37768,
+      "sha256": "4afb4f6581a642311b85696d7d1760d89a4079f433ea9ffefeca3e328a4dac68",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=1996/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00003.parquet",
+      "last_modified": "2026-10-16T16:10:29.359Z",
+      "bytes": 39380,
+      "sha256": "6d0061e95ff56e9575a57002cfdcef1e63a2b4a2a5b765c6f2ad198debf6a6c1",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=1997/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00005.parquet",
+      "last_modified": "2026-10-16T16:10:29.705Z",
+      "bytes": 39531,
+      "sha256": "6dd1840ee33c85911b217d5e7c4dfb8baf97d1734d828784ebeaf8287369da20",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=1998/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00004.parquet",
+      "last_modified": "2026-10-16T16:10:29.548Z",
+      "bytes": 39468,
+      "sha256": "52c7c1f890b0e0c3f5506e7bcb784c20e5f964b31c6229be4699459290ee2cc1",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=1999/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00005.parquet",
+      "last_modified": "2026-10-16T16:10:29.882Z",
+      "bytes": 38120,
+      "sha256": "da62c64ffef85ab2934212503f8f95c456bb4cadb45ee317b855fa0648c8e7d6",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2000/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00006.parquet",
+      "last_modified": "2026-10-16T16:10:29.958Z",
+      "bytes": 38091,
+      "sha256": "44522883306a59b0cf079c270c8e690cf4f659614c77ce918bf72299d689d537",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2001/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00007.parquet",
+      "last_modified": "2026-10-16T16:10:30.141Z",
+      "bytes": 38143,
+      "sha256": "92232f3c204a20508ede2309c360aa50363f2614017eb0f865760707538c1f37",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2002/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00008.parquet",
+      "last_modified": "2026-10-16T16:10:30.258Z",
+      "bytes": 38078,
+      "sha256": "c9d3223e82c34da6f067a3bec417496a21f99589cc28954e56b34598f33afa71",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2003/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00006.parquet",
+      "last_modified": "2026-10-16T16:10:30.076Z",
+      "bytes": 38058,
+      "sha256": "a27bf1ebb28d39490011ee6d99522b79a119c1f158322bbf588dc0b3c7249952",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2004/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00007.parquet",
+      "last_modified": "2026-10-16T16:10:30.246Z",
+      "bytes": 38132,
+      "sha256": "f341d954bef787e2861a0f918e1f13c8e3d53d280801024006ff091c948a1008",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2005/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00009.parquet",
+      "last_modified": "2026-10-16T16:10:30.351Z",
+      "bytes": 38024,
+      "sha256": "61c19e46f30b26a1e54cc90ba8ae46092edf7b88ab2969e7676917a6289f5200",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2006/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00010.parquet",
+      "last_modified": "2026-10-16T16:10:30.394Z",
+      "bytes": 38195,
+      "sha256": "fad9718c804d73358092444ab9e722a87f3caa5000b9628f0e79866a84abfe31",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2007/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00011.parquet",
+      "last_modified": "2026-10-16T16:10:30.463Z",
+      "bytes": 43535,
+      "sha256": "caef1c5273fa452cd5b9c8762bdc4de2f28990eac3caaf46975121ac6bb8b68e",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2008/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00012.parquet",
+      "last_modified": "2026-10-16T16:10:30.504Z",
+      "bytes": 46825,
+      "sha256": "3210794464bcb54931c961148ed00f0e4936f9a989989cadd7584e51f3513724",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2009/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00008.parquet",
+      "last_modified": "2026-10-16T16:10:30.306Z",
+      "bytes": 38107,
+      "sha256": "79989110060ea45a7d4384b1bacb4a1707d4a89f5270682c053e2a114d761f0b",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2010/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00009.parquet",
+      "last_modified": "2026-10-16T16:10:30.371Z",
+      "bytes": 38129,
+      "sha256": "ad950851fbf181c9faea124837e2099311155e611a4ae168a9588c0af37cc016",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2011/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00013.parquet",
+      "last_modified": "2026-10-16T16:10:30.575Z",
+      "bytes": 38218,
+      "sha256": "aa4985eb9f558272b2c3b5111d9a7ce4a96191597dcab40bbae70c0b2bab8da8",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2012/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00014.parquet",
+      "last_modified": "2026-10-16T16:10:30.657Z",
+      "bytes": 38080,
+      "sha256": "41d947f4cc141cbc3ddc1dcb287834ce6461e4508acf354e5efe1b72e86e8ae3",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2013/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00015.parquet",
+      "last_modified": "2026-10-16T16:10:30.701Z",
+      "bytes": 38196,
+      "sha256": "5d8b4bb61b78109d59a87fdc29836f894cd072c61c325cf6bea9e0464f1775c1",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2014/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00016.parquet",
+      "last_modified": "2026-10-16T16:10:30.752Z",
+      "bytes": 38210,
+      "sha256": "5cdfe764a12d42a6567232f11e772ea1ed4a121bff6e0c6fb0356884694abe68",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2015/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00017.parquet",
+      "last_modified": "2026-10-16T16:10:30.800Z",
+      "bytes": 38173,
+      "sha256": "51e4c81778274f145dd0b27d2c034f54a1007d1f0c617befccfcc709f6f7b462",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2016/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00010.parquet",
+      "last_modified": "2026-10-16T16:10:30.444Z",
+      "bytes": 38114,
+      "sha256": "1f1ed0436a6c7e89bdb67d15fb7044bd3efb2e57a8d5078a6652c07feeeda8c5",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2017/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00011.parquet",
+      "last_modified": "2026-10-16T16:10:30.482Z",
+      "bytes": 38117,
+      "sha256": "2c25dd78517adaa17001538e3a2d47b15bf6e652f3f033c1f46e97d948faebc0",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2018/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00018.parquet",
+      "last_modified": "2026-10-16T16:10:30.855Z",
+      "bytes": 39251,
+      "sha256": "f73b65882eb141a9ea789e744de09851c4478f3437842bae370a37141cb1d2ca",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2019/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00019.parquet",
+      "last_modified": "2026-10-16T16:10:30.906Z",
+      "bytes": 39202,
+      "sha256": "e565cdffe7a893c529dda7b26d77b6bf12620cad9c54e6c7a33c131755855b14",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2020/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00012.parquet",
+      "last_modified": "2026-10-16T16:10:30.560Z",
+      "bytes": 39163,
+      "sha256": "24fe5f228be8bd59d25f2b9b06c6a7c9855a545f1c374f50f3745e967abcc56e",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2021/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00020.parquet",
+      "last_modified": "2026-10-16T16:10:30.963Z",
+      "bytes": 39398,
+      "sha256": "61b994e05bd6542d6511c6f2b24f527b8b7e3bf24e8c6e69c1536e4571d9b1dd",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2022/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00021.parquet",
+      "last_modified": "2026-10-16T16:10:31.012Z",
+      "bytes": 39087,
+      "sha256": "55d0f03088456a9a40eb38947d304cce0782afb8443ab624f8a7dc9550238bcb",
+      "rows": 766
+    },
+    {
+      "key": "silver_local/nso_rice_statistics_v2/data/year=2023/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00022.parquet",
+      "last_modified": "2026-10-16T16:10:31.066Z",
+      "bytes": 39115,
+      "sha256": "097b81904275108e53b6111e8aea22d6461d58f7f622962dc7377e9132062698",
+      "rows": 766
+    }
+  ],
+  "rows_in_unreferenced_files": 22294,
+  "business_keys": [
+    "source_table",
+    "source_geography_key",
+    "year",
+    "measure",
+    "season",
+    "statistic_kind"
+  ],
+  "unique_business_keys": 22294,
+  "duplicate_business_key_groups": 0,
+  "missing_value_rows": 916,
+  "zero_value_rows": 5,
+  "bronze_read_snapshot_ids": [
+    "6239067651375331267"
+  ],
+  "ingestion_run_ids": [
+    "nso_vietnam_20261016160030_2c409d8a"
+  ],
+  "source_ids": [
+    "nso_vietnam"
+  ],
+  "columns": [
+    "bronze_read_snapshot_id",
+    "source_table",
+    "source_column",
+    "source_geography_key",
+    "geography_raw",
+    "geography_name_candidate",
+    "geography_level",
+    "geography_status",
+    "geography_code",
+    "boundary_version",
+    "geography_mapping_version",
+    "geography_evidence",
+    "period_raw",
+    "year",
+    "measure",
+    "season",
+    "statistic_kind",
+    "release_status",
+    "value_raw",
+    "value_source",
+    "unit_raw",
+    "unit_source_reference",
+    "conversion_factor",
+    "value",
+    "unit",
+    "unit_status",
+    "unit_reference",
+    "unit_evidence",
+    "unit_mapping_version",
+    "metadata_version",
+    "quality_status",
+    "missing_reason",
+    "review_reason",
+    "diagnostic_evidence",
+    "_ingestion_run_id",
+    "_ingestion_batch_id",
+    "_ingestion_chunk_id",
+    "_ingestion_timestamp",
+    "_source_id",
+    "_source_file",
+    "_source_checksum",
+    "_source_snapshot_id",
+    "_dq_warnings",
+    "_silver_processed_at"
+  ],
+  "unit_counts": {
+    "percent": 272,
+    "hectare": 7386,
+    "tonne": 7386,
+    "kg/hectare": 7250
+  },
+  "published_observation_count": 0,
+  "caveat": "Readable staged files are unreferenced by catalog-current snapshot and are not published observations; no adoption/deletion/retry performed."
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "9909770f97b03edb19bc1b8dc08d23fbac5add21206509adeb6e95454eb7dc04",
+    "name": "/tlcn-local-nine-airflow-20261016-airflow-scheduler-1",
+    "created": "2026-10-16T10:02:39.380634113Z",
+    "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+    "image_reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 36564,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-16T14:17:34.577922265Z",
+      "FinishedAt": "2026-10-16T11:31:13.425235585Z"
+    },
+    "health": null,
+    "restart_count": 0,
+    "restart_policy": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    },
+    "memory_limit": 1610612736,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "tlcn-local-nine-airflow-20261016_local_airflow_logs",
+        "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_airflow_logs/_data",
+        "Destination": "/opt/airflow/logs",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      },
+      {
+        "Type": "bind",
+        "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+        "Destination": "/workspace",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+        "Destination": "/workspace/data/raw",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      }
+    ]
+  }
+]

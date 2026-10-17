@@ -1,0 +1,25 @@
+{
+  "worldbank_pinksheet": {
+    "status": "SUCCESS",
+    "dataset": "worldbank_pinksheet",
+    "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+    "target_table": "iceberg.silver_local.worldbank_commodity_monthly",
+    "bronze_read_snapshot_id": 2608578091811865170,
+    "bronze_count": 792,
+    "prepared_count": 56232,
+    "valid_count": 56232,
+    "quarantine_count": 0,
+    "warning_count": 0,
+    "dedup_count": 56232,
+    "duplicate_count": 0,
+    "commit_verified": {
+      "exists": true,
+      "uuid": "be48b680-f86b-4a4d-b552-705cac58103b",
+      "location": "s3://warehouse/silver_local/worldbank_commodity_monthly",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00001-2be316fd-844b-4cb9-94fa-1ebba6f789b3.metadata.json",
+      "snapshot_id": "6762326735303774082",
+      "rows": 56232
+    }
+  }
+}

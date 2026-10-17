@@ -1,0 +1,230 @@
+{
+  "status": "PASS",
+  "before_host_config": {
+    "Binds": null,
+    "ContainerIDFile": "",
+    "LogConfig": {
+      "Type": "json-file",
+      "Config": {}
+    },
+    "NetworkMode": "tlcn-local-nine-airflow-20261016_default",
+    "PortBindings": {
+      "8080/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "18080"
+        }
+      ]
+    },
+    "RestartPolicy": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    },
+    "AutoRemove": false,
+    "VolumeDriver": "",
+    "VolumesFrom": null,
+    "ConsoleSize": [
+      0,
+      0
+    ],
+    "CapAdd": null,
+    "CapDrop": null,
+    "CgroupnsMode": "private",
+    "Dns": [],
+    "DnsOptions": [],
+    "DnsSearch": [],
+    "ExtraHosts": [],
+    "GroupAdd": null,
+    "IpcMode": "private",
+    "Cgroup": "",
+    "Links": null,
+    "OomScoreAdj": 0,
+    "PidMode": "",
+    "Privileged": false,
+    "PublishAllPorts": false,
+    "ReadonlyRootfs": false,
+    "SecurityOpt": null,
+    "UTSMode": "",
+    "UsernsMode": "",
+    "ShmSize": 67108864,
+    "Runtime": "runc",
+    "Isolation": "",
+    "CpuShares": 0,
+    "Memory": 1073741824,
+    "NanoCpus": 2000000000,
+    "CgroupParent": "",
+    "BlkioWeight": 0,
+    "BlkioWeightDevice": null,
+    "BlkioDeviceReadBps": null,
+    "BlkioDeviceWriteBps": null,
+    "BlkioDeviceReadIOps": null,
+    "BlkioDeviceWriteIOps": null,
+    "CpuPeriod": 0,
+    "CpuQuota": 0,
+    "CpuRealtimePeriod": 0,
+    "CpuRealtimeRuntime": 0,
+    "CpusetCpus": "",
+    "CpusetMems": "",
+    "Devices": null,
+    "DeviceCgroupRules": null,
+    "DeviceRequests": null,
+    "MemoryReservation": 0,
+    "MemorySwap": 2147483648,
+    "MemorySwappiness": null,
+    "OomKillDisable": null,
+    "PidsLimit": null,
+    "Ulimits": null,
+    "CpuCount": 0,
+    "CpuPercent": 0,
+    "IOMaximumIOps": 0,
+    "IOMaximumBandwidth": 0,
+    "MaskedPaths": [
+      "/proc/asound",
+      "/proc/acpi",
+      "/proc/interrupts",
+      "/proc/kcore",
+      "/proc/keys",
+      "/proc/latency_stats",
+      "/proc/timer_list",
+      "/proc/timer_stats",
+      "/proc/sched_debug",
+      "/proc/scsi",
+      "/sys/firmware",
+      "/sys/devices/virtual/powercap"
+    ],
+    "ReadonlyPaths": [
+      "/proc/bus",
+      "/proc/fs",
+      "/proc/irq",
+      "/proc/sys",
+      "/proc/sysrq-trigger"
+    ]
+  },
+  "after_host_config": {
+    "Binds": null,
+    "ContainerIDFile": "",
+    "LogConfig": {
+      "Type": "json-file",
+      "Config": {}
+    },
+    "NetworkMode": "tlcn-local-nine-airflow-20261016_default",
+    "PortBindings": {
+      "8080/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "18080"
+        }
+      ]
+    },
+    "RestartPolicy": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    },
+    "AutoRemove": false,
+    "VolumeDriver": "",
+    "VolumesFrom": null,
+    "ConsoleSize": [
+      0,
+      0
+    ],
+    "CapAdd": null,
+    "CapDrop": null,
+    "CgroupnsMode": "private",
+    "Dns": [],
+    "DnsOptions": [],
+    "DnsSearch": [],
+    "ExtraHosts": [],
+    "GroupAdd": null,
+    "IpcMode": "private",
+    "Cgroup": "",
+    "Links": null,
+    "OomScoreAdj": 0,
+    "PidMode": "",
+    "Privileged": false,
+    "PublishAllPorts": false,
+    "ReadonlyRootfs": false,
+    "SecurityOpt": null,
+    "UTSMode": "",
+    "UsernsMode": "",
+    "ShmSize": 67108864,
+    "Runtime": "runc",
+    "Isolation": "",
+    "CpuShares": 0,
+    "Memory": 1610612736,
+    "NanoCpus": 2000000000,
+    "CgroupParent": "",
+    "BlkioWeight": 0,
+    "BlkioWeightDevice": null,
+    "BlkioDeviceReadBps": null,
+    "BlkioDeviceWriteBps": null,
+    "BlkioDeviceReadIOps": null,
+    "BlkioDeviceWriteIOps": null,
+    "CpuPeriod": 0,
+    "CpuQuota": 0,
+    "CpuRealtimePeriod": 0,
+    "CpuRealtimeRuntime": 0,
+    "CpusetCpus": "",
+    "CpusetMems": "",
+    "Devices": null,
+    "DeviceCgroupRules": null,
+    "DeviceRequests": null,
+    "MemoryReservation": 0,
+    "MemorySwap": 2147483648,
+    "MemorySwappiness": null,
+    "OomKillDisable": null,
+    "PidsLimit": null,
+    "Ulimits": null,
+    "CpuCount": 0,
+    "CpuPercent": 0,
+    "IOMaximumIOps": 0,
+    "IOMaximumBandwidth": 0,
+    "MaskedPaths": [
+      "/proc/asound",
+      "/proc/acpi",
+      "/proc/interrupts",
+      "/proc/kcore",
+      "/proc/keys",
+      "/proc/latency_stats",
+      "/proc/timer_list",
+      "/proc/timer_stats",
+      "/proc/sched_debug",
+      "/proc/scsi",
+      "/sys/firmware",
+      "/sys/devices/virtual/powercap"
+    ],
+    "ReadonlyPaths": [
+      "/proc/bus",
+      "/proc/fs",
+      "/proc/irq",
+      "/proc/sys",
+      "/proc/sysrq-trigger"
+    ]
+  },
+  "started_at_unchanged": true,
+  "restart_count_unchanged": true,
+  "same_container_id": true,
+  "telemetry": {
+    "memory.max": "1610612736\n",
+    "memory.current": "953065472\n",
+    "memory.peak": "978161664\n",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "jvm_config": "-server\n-Xmx512M\n-XX:ActiveProcessorCount=2\n-XX:+UseG1GC\n-XX:+ExitOnOutOfMemoryError\n-Djdk.attach.allowAttachSelf=true\n",
+    "heap": "1:\n garbage-first heap   total reserved 524288K, committed 295936K, used 180115K [0x00000000e0000000, 0x0000000100000000)\n  region size 1024K, 21 young (21504K), 1 survivors (1024K)\n Metaspace       used 180639K, committed 183872K, reserved 1245184K\n  class space    used 23600K, committed 25024K, reserved 1048576K\n",
+    "health": {
+      "nodeVersion": {
+        "version": "448"
+      },
+      "environment": "docker",
+      "coordinator": true,
+      "starting": false,
+      "uptime": "27.08m"
+    }
+  },
+  "resources": {
+    "at": "2026-10-16T15:23:40.437264+00:00",
+    "windows_available": 3758022656,
+    "windows_load": 77,
+    "wsl_meminfo": "MemTotal:        8131796 kB\nMemFree:         4623436 kB\nMemAvailable:    6181668 kB\nBuffers:           79024 kB\nCached:          1491092 kB\nSwapCached:            0 kB\nActive:           681012 kB\nInactive:        2276312 kB\nActive(anon):      14804 kB\nInactive(anon):  1394904 kB\nActive(file):     666208 kB\nInactive(file):   881408 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:               124 kB\nWriteback:            28 kB\nAnonPages:       1387064 kB\nMapped:           430524 kB\nShmem:             22500 kB\nKReclaimable:     207196 kB\nSlab:             296980 kB\nSReclaimable:     207196 kB\nSUnreclaim:        89784 kB\nKernelStack:       11456 kB\nPageTables:        10364 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:    3715316 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       36356 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       76800 kB\nDirectMap2M:     6213632 kB\nDirectMap1G:    11534336 kB\n",
+    "stats": "{\"BlockIO\":\"296MB / 198MB\",\"CPUPerc\":\"0.02%\",\"Container\":\"f42feb8efea58e67ce4cf3b22906a903c083f13b0a75439d86fe11f2d7d750cc\",\"ID\":\"f42feb8efea5\",\"MemPerc\":\"7.82%\",\"MemUsage\":\"240.4MiB / 3GiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-runner-1\",\"NetIO\":\"191MB / 28.9MB\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"151MB / 3.24MB\",\"CPUPerc\":\"8.60%\",\"Container\":\"5fe24960fb14d5c4c11481998d8795fff9415aa3dac7459f0e772accce7622a8\",\"ID\":\"5fe24960fb14\",\"MemPerc\":\"51.70%\",\"MemUsage\":\"794.1MiB / 1.5GiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-trino-test-1\",\"NetIO\":\"7.8MB / 73.6MB\",\"PIDs\":\"214\"}\n{\"BlockIO\":\"46.1MB / 5.74MB\",\"CPUPerc\":\"0.11%\",\"Container\":\"4ca90539494482112a1869096bf9d78d7cdeb64be460b95faf48ae88b563d4cf\",\"ID\":\"4ca905394944\",\"MemPerc\":\"34.57%\",\"MemUsage\":\"154.9MiB / 448MiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-rest-test-1\",\"NetIO\":\"10.7MB / 5.44MB\",\"PIDs\":\"25\"}\n{\"BlockIO\":\"62.8MB / 440MB\",\"CPUPerc\":\"0.07%\",\"Container\":\"2154802e0c7f48c4afc28101a4053e56b068b7696f31abfb6689157a589b7c94\",\"ID\":\"2154802e0c7f\",\"MemPerc\":\"37.00%\",\"MemUsage\":\"189.5MiB / 512MiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-minio-test-1\",\"NetIO\":\"412MB / 173MB\",\"PIDs\":\"18\"}\n{\"BlockIO\":\"12.1MB / 45.2MB\",\"CPUPerc\":\"0.00%\",\"Container\":\"ab125221fab9edef399a617968cd03ddf450b022adade2084ed11bfcafc610b8\",\"ID\":\"ab125221fab9\",\"MemPerc\":\"10.39%\",\"MemUsage\":\"26.59MiB / 256MiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-postgres-test-1\",\"NetIO\":\"50.7MB / 780MB\",\"PIDs\":\"6\"}\n"
+  }
+}

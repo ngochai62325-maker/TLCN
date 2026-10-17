@@ -1,0 +1,6 @@
+{
+  "local_job": [],
+  "task": [
+    "                session.commit()\n                return False\n\n        if ti.next_kwargs is not None:\n            cls.logger().info(\"Resuming after deferral\")\n        else:\n            cls.logger().info(\"Starting attempt %s of %s\", ti.try_number, ti.max_tries + 1)\n\n        if not test_mode:\n            session.add(Log(TaskInstanceState.RUNNING.value, ti))\n\n        ti.state = TaskInstanceState.RUNNING\n        ti.emit_state_change_metric(TaskInstanceState.RUNNING)\n\n        if external_executor_id:\n            ti.external_executor_id = external_executor_id"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "container": {
+    "id": "5fe24960fb14d5c4c11481998d8795fff9415aa3dac7459f0e772accce7622a8",
+    "name": "/tlcn-local-nine-airflow-20261016-trino-test-1",
+    "created": "2026-10-16T10:02:38.85298897Z",
+    "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+    "image_reference": "trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 83184,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-16T14:56:28.896199191Z",
+      "FinishedAt": "2026-10-16T14:41:56.495374552Z"
+    },
+    "health": "healthy",
+    "restart_count": 0,
+    "restart_policy": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    },
+    "memory_limit": 1073741824,
+    "mounts": []
+  },
+  "health": {
+    "nodeVersion": {
+      "version": "448"
+    },
+    "environment": "docker",
+    "coordinator": true,
+    "starting": false,
+    "uptime": "9.74s"
+  }
+}

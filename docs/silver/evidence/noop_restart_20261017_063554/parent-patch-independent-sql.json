@@ -1,0 +1,117 @@
+{
+  "tasks": [
+    {
+      "task_id": "end_lakehouse_ingestion",
+      "state": null,
+      "job_id": null,
+      "try_number": 0,
+      "start_date": null,
+      "end_date": null
+    },
+    {
+      "task_id": "ingest_faostat_monthly_price",
+      "state": "success",
+      "job_id": 34,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:16:35.028005+00:00",
+      "end_date": "2026-10-17T03:16:36.611281+00:00"
+    },
+    {
+      "task_id": "ingest_faostat_production",
+      "state": "success",
+      "job_id": 33,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:16:32.173095+00:00",
+      "end_date": "2026-10-17T03:16:33.94113+00:00"
+    },
+    {
+      "task_id": "ingest_faostat_supply_utilization",
+      "state": "success",
+      "job_id": 35,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:16:38.588305+00:00",
+      "end_date": "2026-10-17T03:16:40.081431+00:00"
+    },
+    {
+      "task_id": "ingest_faostat_trade",
+      "state": "success",
+      "job_id": 36,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:16:41.662281+00:00",
+      "end_date": "2026-10-17T03:16:46.304694+00:00"
+    },
+    {
+      "task_id": "ingest_nso_vietnam",
+      "state": "success",
+      "job_id": 41,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:17:02.3571+00:00",
+      "end_date": "2026-10-17T03:17:03.93284+00:00"
+    },
+    {
+      "task_id": "ingest_thitruongnongsan",
+      "state": "success",
+      "job_id": 40,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:16:58.791752+00:00",
+      "end_date": "2026-10-17T03:17:00.618436+00:00"
+    },
+    {
+      "task_id": "ingest_usda_psd",
+      "state": "success",
+      "job_id": 37,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:16:48.2462+00:00",
+      "end_date": "2026-10-17T03:16:50.058751+00:00"
+    },
+    {
+      "task_id": "ingest_usda_rice_yearbook",
+      "state": "success",
+      "job_id": 38,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:16:52.368105+00:00",
+      "end_date": "2026-10-17T03:16:53.87715+00:00"
+    },
+    {
+      "task_id": "ingest_worldbank_pinksheet",
+      "state": "success",
+      "job_id": 39,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:16:55.250905+00:00",
+      "end_date": "2026-10-17T03:16:56.918616+00:00"
+    },
+    {
+      "task_id": "initialize_metadata",
+      "state": "success",
+      "job_id": 32,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:16:28.735492+00:00",
+      "end_date": "2026-10-17T03:16:29.928869+00:00"
+    },
+    {
+      "task_id": "start_lakehouse_ingestion",
+      "state": "success",
+      "job_id": null,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:16:31.038064+00:00",
+      "end_date": "2026-10-17T03:16:31.038066+00:00"
+    },
+    {
+      "task_id": "trigger_silver_release",
+      "state": "success",
+      "job_id": 43,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:17:09.352355+00:00",
+      "end_date": "2026-10-17T06:57:28.141412+00:00"
+    },
+    {
+      "task_id": "verify_bronze_batch",
+      "state": "success",
+      "job_id": 42,
+      "try_number": 1,
+      "start_date": "2026-10-17T03:17:05.335738+00:00",
+      "end_date": "2026-10-17T03:17:07.788288+00:00"
+    }
+  ],
+  "note": "Stable endpoint returnedHTTP200 empty object after committed supported mutation. Local response-shape assertion raised after request; no PATCH was resent. Independent SQL verifies exact trigger SUCCESS."
+}

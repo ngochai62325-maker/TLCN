@@ -1,0 +1,4 @@
+{
+  "http_status": 401,
+  "response": "{\n  \"detail\": null,\n  \"status\": 401,\n  \"title\": \"Unauthorized\",\n  \"type\": \"https://airflow.apache.org/docs/apache-airflow/2.10.4/stable-rest-api-ref.html#section/Errors/Unauthenticated\"\n}\n"
+}

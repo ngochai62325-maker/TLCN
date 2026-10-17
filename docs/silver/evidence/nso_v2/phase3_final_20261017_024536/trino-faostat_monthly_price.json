@@ -1,0 +1,527 @@
+{
+  "status": "PASS",
+  "rows": 15334,
+  "counts": {
+    "rows": 15334,
+    "unique_keys": 15334,
+    "required_nulls": 0,
+    "warnings": 0,
+    "invalid_missing": 0,
+    "processed_at_min": "2026-10-16 16:04:22.455901 UTC",
+    "processed_at_max": "2026-10-16 16:04:22.455901 UTC"
+  },
+  "schema": [
+    {
+      "Column": "domain_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "domain",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "country_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "country_name",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "element_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "element",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "commodity_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "commodity_name",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "year",
+      "Type": "integer",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "month_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "month_name",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value",
+      "Type": "decimal(18,4)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "flag",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "flag_description",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "time_grain",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "month",
+      "Type": "integer",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "currency",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "price_kind",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "missing_reason",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_run_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_batch_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_chunk_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_timestamp",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_file",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_checksum",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_dq_warnings",
+      "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_silver_processed_at",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    }
+  ],
+  "lineage_mismatch": 0,
+  "bronze_read_snapshot_id": "3069013476710882292",
+  "units": [
+    {
+      "unit": "SLC",
+      "rows": 2310,
+      "present": 2310,
+      "sum_value": "1784880502.5000"
+    },
+    {
+      "unit": null,
+      "rows": 3136,
+      "present": 3136,
+      "sum_value": "290348.1700"
+    },
+    {
+      "unit": "LCU",
+      "rows": 7654,
+      "present": 7654,
+      "sum_value": "8116588925.3000"
+    },
+    {
+      "unit": "USD",
+      "rows": 2234,
+      "present": 2234,
+      "sum_value": "1109432.7000"
+    }
+  ],
+  "flags": {
+    "flag": [
+      {
+        "flag": "A",
+        "rows": 12174
+      },
+      {
+        "flag": "E",
+        "rows": 3136
+      },
+      {
+        "flag": "X",
+        "rows": 24
+      }
+    ]
+  },
+  "core_metrics": {},
+  "business_key_partitions": [],
+  "table_identity": {
+    "uuid": "63a487b2-703d-49df-8a6d-baf903509145",
+    "snapshot_id": "1591520480261276952",
+    "schema_id": 0,
+    "metadata_location": "s3://warehouse/silver_local/faostat_monthly_price/metadata/00001-06dac4f2-c909-4f3d-865c-55b056a11593.metadata.json",
+    "location": "s3://warehouse/silver_local/faostat_monthly_price",
+    "schema": {
+      "type": "struct",
+      "fields": [
+        {
+          "id": 1,
+          "name": "domain_code",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 2,
+          "name": "domain",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 3,
+          "name": "country_code",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 4,
+          "name": "country_name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 5,
+          "name": "element_code",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 6,
+          "name": "element",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 7,
+          "name": "commodity_code",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 8,
+          "name": "commodity_name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 9,
+          "name": "year",
+          "type": "int",
+          "required": false
+        },
+        {
+          "id": 10,
+          "name": "month_code",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 11,
+          "name": "month_name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 12,
+          "name": "unit",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 13,
+          "name": "value",
+          "type": "decimal(18, 4)",
+          "required": false
+        },
+        {
+          "id": 14,
+          "name": "flag",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 15,
+          "name": "flag_description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 16,
+          "name": "time_grain",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 17,
+          "name": "month",
+          "type": "int",
+          "required": false
+        },
+        {
+          "id": 18,
+          "name": "currency",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 19,
+          "name": "price_kind",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 20,
+          "name": "value_raw",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 21,
+          "name": "unit_raw",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 22,
+          "name": "missing_reason",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 23,
+          "name": "_ingestion_run_id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 24,
+          "name": "_ingestion_batch_id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 25,
+          "name": "_ingestion_chunk_id",
+          "type": "long",
+          "required": false
+        },
+        {
+          "id": 26,
+          "name": "_ingestion_timestamp",
+          "type": "timestamptz",
+          "required": false
+        },
+        {
+          "id": 27,
+          "name": "_source_id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 28,
+          "name": "_source_file",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 29,
+          "name": "_source_checksum",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 30,
+          "name": "_source_snapshot_id",
+          "type": "long",
+          "required": false
+        },
+        {
+          "id": 31,
+          "name": "_dq_warnings",
+          "type": {
+            "type": "list",
+            "element-id": 33,
+            "element": {
+              "type": "struct",
+              "fields": [
+                {
+                  "id": 34,
+                  "name": "rule_id",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 35,
+                  "name": "error_message",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 36,
+                  "name": "failed_column",
+                  "type": "string",
+                  "required": false
+                }
+              ]
+            },
+            "element-required": false
+          },
+          "required": false
+        },
+        {
+          "id": 32,
+          "name": "_silver_processed_at",
+          "type": "timestamptz",
+          "required": false
+        }
+      ],
+      "schema-id": 0,
+      "identifier-field-ids": []
+    },
+    "snapshots": [
+      {
+        "snapshot_id": "1907746107973744798",
+        "parent_snapshot_id": null,
+        "summary": {
+          "spark.app.id": "local-1792166644198",
+          "changed-partition-count": "0",
+          "total-records": "0",
+          "total-files-size": "0",
+          "total-data-files": "0",
+          "total-delete-files": "0",
+          "total-position-deletes": "0",
+          "total-equality-deletes": "0",
+          "engine-version": "3.5.5",
+          "app-id": "local-1792166644198",
+          "engine-name": "spark",
+          "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+        }
+      },
+      {
+        "snapshot_id": "1591520480261276952",
+        "parent_snapshot_id": "1907746107973744798",
+        "summary": {
+          "spark.app.id": "local-1792166644198",
+          "added-data-files": "35",
+          "added-records": "15334",
+          "added-files-size": "693586",
+          "changed-partition-count": "35",
+          "total-records": "15334",
+          "total-files-size": "693586",
+          "total-data-files": "35",
+          "total-delete-files": "0",
+          "total-position-deletes": "0",
+          "total-equality-deletes": "0",
+          "engine-version": "3.5.5",
+          "app-id": "local-1792166644198",
+          "engine-name": "spark",
+          "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,676 @@
+{
+  "at": "2026-10-16T13:47:22.807329+00:00",
+  "docker_context": "desktop-linux",
+  "containers": [
+    {
+      "name": "/spark-iceberg",
+      "id": "b5774d0f5aed5869cf1d1dcea8b3d63d2628890abca5c8459dd7ec7bb1d2dcbd",
+      "created": "2026-10-16T13:29:05.723080791Z",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1108,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:13.174474673Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "restart_count": 0,
+      "compose_service": "spark-iceberg",
+      "compose_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_version": "2.40.3",
+      "image": "sha256:790a72e744e0d09f161e1b4c7c2f79625cc598cf0476da4703e62f1f4e023460",
+      "image_reference": "tabulario/spark-iceberg:latest",
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\notebooks",
+          "Destination": "/home/iceberg/notebooks",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/home/iceberg/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\tests",
+          "Destination": "/home/iceberg/tests",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/home/iceberg/contracts",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\silver",
+          "Destination": "/home/iceberg/config/silver",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\spark\\spark-defaults.conf",
+          "Destination": "/opt/spark/conf/spark-defaults.conf",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/home/iceberg/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/home/iceberg/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "name": "/trino",
+      "id": "dde50d530f2a98d060ab7545048fd95eb05c94a5875d939a690f720be2331b0c",
+      "created": "2026-10-16T13:29:05.672994537Z",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1062,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:13.058727272Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "restart_count": 0,
+      "compose_service": "trino",
+      "compose_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_version": "2.40.3",
+      "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "image_reference": "trinodb/trino:448",
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\catalog\\iceberg.properties",
+          "Destination": "/etc/trino/catalog/iceberg.properties",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\config.properties",
+          "Destination": "/etc/trino/config.properties",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\jvm.config",
+          "Destination": "/etc/trino/jvm.config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "name": "/airflow-webserver",
+      "id": "085ad49facb00ec17ddf269545182f83c5bfd9bd98f28cdc399f55549e2ab665",
+      "created": "2026-10-16T13:29:05.639846531Z",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1745,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:31.766371565Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": null,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "restart_count": 0,
+      "compose_service": "airflow-webserver",
+      "compose_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_version": "2.40.3",
+      "image": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "image_reference": "apache/airflow:2.10.4-python3.11",
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/opt/airflow/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\dags",
+          "Destination": "/opt/airflow/dags",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\logs",
+          "Destination": "/opt/airflow/logs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\plugins",
+          "Destination": "/opt/airflow/plugins",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/opt/airflow/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/opt/airflow/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config",
+          "Destination": "/opt/airflow/config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/opt/airflow/contracts",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "name": "/airflow-scheduler",
+      "id": "e97397848ca4d2845efe41df6b0d439568a7995b24a09bcac20064ebcd0038b6",
+      "created": "2026-10-16T13:29:05.639773356Z",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1727,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:31.732607227Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": null,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "restart_count": 0,
+      "compose_service": "airflow-scheduler",
+      "compose_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_version": "2.40.3",
+      "image": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "image_reference": "apache/airflow:2.10.4-python3.11",
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/opt/airflow/contracts",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/opt/airflow/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\dags",
+          "Destination": "/opt/airflow/dags",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\logs",
+          "Destination": "/opt/airflow/logs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\plugins",
+          "Destination": "/opt/airflow/plugins",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/opt/airflow/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/opt/airflow/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config",
+          "Destination": "/opt/airflow/config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "name": "/iceberg-rest",
+      "id": "9de335c9cfda42a3c1709df0761ab810f9956d50a1192085a1829ad23d57ef7a",
+      "created": "2026-10-16T13:29:05.47243845Z",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 981,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:12.691002517Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": null,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "restart_count": 0,
+      "compose_service": "iceberg-rest",
+      "compose_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_version": "2.40.3",
+      "image": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "image_reference": "tabulario/iceberg-rest:0.8.0",
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_catalog_data",
+          "Source": "/var/lib/docker/volumes/tlcn_catalog_data/_data",
+          "Destination": "/data/catalog",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "name": "/airflow-init",
+      "id": "1c5961bb01a2d3d6213094b8365f25e5b4bd44cf76a2376eea5acc6d0725bf41",
+      "created": "2026-10-16T13:29:05.378242833Z",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:12.412536317Z",
+        "FinishedAt": "2026-10-16T13:29:31.257549126Z"
+      },
+      "health": null,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "restart_count": 0,
+      "compose_service": "airflow-init",
+      "compose_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_version": "2.40.3",
+      "image": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "image_reference": "apache/airflow:2.10.4-python3.11",
+      "memory_limit": 0,
+      "mounts": [],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "name": "/mc-init",
+      "id": "73d0184bde478eeacfd0ccb86ab51401aaa5467b805d47225a5138a9cca2448f",
+      "created": "2026-10-16T13:29:05.304650705Z",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:11.879230222Z",
+        "FinishedAt": "2026-10-16T13:29:12.327770875Z"
+      },
+      "health": null,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "restart_count": 0,
+      "compose_service": "mc-init",
+      "compose_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_version": "2.40.3",
+      "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "image_reference": "ghcr.io/coollabsio/minio:latest",
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "627d1f3497afaae89d646c6d61c24e90d5d0fcc8c0b107ba6636bbaa3d3fafae",
+          "Source": "/var/lib/docker/volumes/627d1f3497afaae89d646c6d61c24e90d5d0fcc8c0b107ba6636bbaa3d3fafae/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "name": "/postgres",
+      "id": "aca5ddca120c3ca24c8d45202fbec043c3661a03ee67958220ea4535023ba4e7",
+      "created": "2026-10-16T13:29:05.171917542Z",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 598,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:06.436662374Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "restart_count": 0,
+      "compose_service": "postgres",
+      "compose_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_version": "2.40.3",
+      "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "image_reference": "postgres:15-alpine",
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_postgres_data",
+          "Source": "/var/lib/docker/volumes/tlcn_postgres_data/_data",
+          "Destination": "/var/lib/postgresql/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "name": "/minio",
+      "id": "ed96e8d61e8fad38f9615d2dbe91b89e4d9cb409a2817bb321a4179db217ddd2",
+      "created": "2026-10-16T13:29:05.151429663Z",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 597,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T13:29:06.466864341Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "restart_count": 0,
+      "compose_service": "minio",
+      "compose_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_version": "2.40.3",
+      "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "image_reference": "ghcr.io/coollabsio/minio:latest",
+      "memory_limit": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_minio_data",
+          "Source": "/var/lib/docker/volumes/tlcn_minio_data/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    }
+  ],
+  "shared_volumes": [
+    {
+      "Name": "627d1f3497afaae89d646c6d61c24e90d5d0fcc8c0b107ba6636bbaa3d3fafae",
+      "CreatedAt": "2026-10-16T13:29:05Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.volume.anonymous": ""
+      },
+      "Mountpoint": "/var/lib/docker/volumes/627d1f3497afaae89d646c6d61c24e90d5d0fcc8c0b107ba6636bbaa3d3fafae/_data"
+    },
+    {
+      "Name": "tlcn_catalog_data",
+      "CreatedAt": "2026-10-11T15:31:52Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "67f38a383c4226eb0eeb045e3576cd8b644ca5dc207c1fe9288c4be3b6ba8fa9",
+        "com.docker.compose.project": "tlcn",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "catalog_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn_catalog_data/_data"
+    },
+    {
+      "Name": "tlcn_minio_data",
+      "CreatedAt": "2026-10-11T15:31:52Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "60838f61a5a7414bc7e783886872efc39c849f0ca95d8de9c5225932416b219c",
+        "com.docker.compose.project": "tlcn",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "minio_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn_minio_data/_data"
+    },
+    {
+      "Name": "tlcn_postgres_data",
+      "CreatedAt": "2026-10-11T15:31:52Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "fa70deb0fd95d45ae5306dd73a79e13fcec49937de740bed8f05f5e2db4761a3",
+        "com.docker.compose.project": "tlcn",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "postgres_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn_postgres_data/_data"
+    }
+  ],
+  "events_window_utc": [
+    "2026-10-16T13:28:00Z",
+    "2026-10-16T13:31:00Z"
+  ],
+  "retained_events": [],
+  "owner_context": "Owner reports Windows restart and opening Docker Desktop only; no intentional compose up/start projecttlcn",
+  "actor_attribution": "UNDETERMINED: inspect/events do not establish who requested creation",
+  "restart_policy_findings": "All current shared containers have restart_policy=no and restart_count=0; they have fresh creation timestamps. Do not infer that Docker restart policy created these replacements."
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "dag_id": "rice_lakehouse_ingestion",
+    "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+    "execution_date": "2026-10-16T15:52:27+00:00",
+    "state": "failed"
+  },
+  {
+    "failed_task": "ingest_faostat_production",
+    "state": "failed",
+    "try_number": 1,
+    "max_tries": 0
+  }
+]

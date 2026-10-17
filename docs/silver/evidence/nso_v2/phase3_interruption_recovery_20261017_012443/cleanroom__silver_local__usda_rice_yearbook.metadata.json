@@ -1,0 +1,286 @@
+{
+  "format-version": 2,
+  "table-uuid": "a92b8fdf-dbf5-4f0c-a5c5-3c66857ee93d",
+  "location": "s3://warehouse/silver_local/usda_rice_yearbook",
+  "last-sequence-number": 2,
+  "last-updated-ms": 1792166877330,
+  "last-column-id": 27,
+  "current-schema-id": 0,
+  "schemas": [
+    {
+      "type": "struct",
+      "schema-id": 0,
+      "fields": [
+        {
+          "id": 1,
+          "name": "table_name",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 2,
+          "name": "table_number",
+          "required": false,
+          "type": "int"
+        },
+        {
+          "id": 3,
+          "name": "commodity",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 4,
+          "name": "commodity_class",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 5,
+          "name": "year",
+          "required": false,
+          "type": "int"
+        },
+        {
+          "id": 6,
+          "name": "reference_period",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 7,
+          "name": "location",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 8,
+          "name": "statistic_type",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 9,
+          "name": "value",
+          "required": false,
+          "type": "decimal(18, 2)"
+        },
+        {
+          "id": 10,
+          "name": "unit",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 11,
+          "name": "value_raw",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 12,
+          "name": "unit_raw",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 13,
+          "name": "missing_reason",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 14,
+          "name": "_ingestion_run_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 15,
+          "name": "_ingestion_batch_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 16,
+          "name": "_ingestion_chunk_id",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 17,
+          "name": "_ingestion_timestamp",
+          "required": false,
+          "type": "timestamptz"
+        },
+        {
+          "id": 18,
+          "name": "_source_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 19,
+          "name": "_source_file",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 20,
+          "name": "_source_checksum",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 21,
+          "name": "_source_snapshot_id",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 22,
+          "name": "_dq_warnings",
+          "required": false,
+          "type": {
+            "type": "list",
+            "element-id": 24,
+            "element": {
+              "type": "struct",
+              "fields": [
+                {
+                  "id": 25,
+                  "name": "rule_id",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "id": 26,
+                  "name": "error_message",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "id": 27,
+                  "name": "failed_column",
+                  "required": false,
+                  "type": "string"
+                }
+              ]
+            },
+            "element-required": false
+          }
+        },
+        {
+          "id": 23,
+          "name": "_silver_processed_at",
+          "required": false,
+          "type": "timestamptz"
+        }
+      ]
+    }
+  ],
+  "default-spec-id": 0,
+  "partition-specs": [
+    {
+      "spec-id": 0,
+      "fields": [
+        {
+          "name": "year",
+          "transform": "identity",
+          "source-id": 5,
+          "field-id": 1000
+        }
+      ]
+    }
+  ],
+  "last-partition-id": 1000,
+  "default-sort-order-id": 0,
+  "sort-orders": [
+    {
+      "order-id": 0,
+      "fields": []
+    }
+  ],
+  "properties": {
+    "owner": "root",
+    "write.spark.fanout.enabled": "false",
+    "write.parquet.compression-codec": "zstd",
+    "created-at": "2026-10-16T16:07:52.575639593Z",
+    "write.distribution-mode": "hash",
+    "write.merge.distribution-mode": "hash"
+  },
+  "current-snapshot-id": 4249957608382647425,
+  "refs": {
+    "main": {
+      "snapshot-id": 4249957608382647425,
+      "type": "branch"
+    }
+  },
+  "snapshots": [
+    {
+      "sequence-number": 1,
+      "snapshot-id": 1438915121931073098,
+      "timestamp-ms": 1792166872870,
+      "summary": {
+        "operation": "append",
+        "spark.app.id": "local-1792166858187",
+        "changed-partition-count": "0",
+        "total-records": "0",
+        "total-files-size": "0",
+        "total-data-files": "0",
+        "total-delete-files": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0",
+        "engine-version": "3.5.5",
+        "app-id": "local-1792166858187",
+        "engine-name": "spark",
+        "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+      },
+      "manifest-list": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/snap-1438915121931073098-1-1c1e2291-fe16-46f8-b482-5b00abf8bc6e.avro",
+      "schema-id": 0
+    },
+    {
+      "sequence-number": 2,
+      "snapshot-id": 4249957608382647425,
+      "parent-snapshot-id": 1438915121931073098,
+      "timestamp-ms": 1792166877330,
+      "summary": {
+        "operation": "append",
+        "spark.app.id": "local-1792166858187",
+        "added-data-files": "41",
+        "added-records": "12936",
+        "added-files-size": "516594",
+        "changed-partition-count": "41",
+        "total-records": "12936",
+        "total-files-size": "516594",
+        "total-data-files": "41",
+        "total-delete-files": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0",
+        "engine-version": "3.5.5",
+        "app-id": "local-1792166858187",
+        "engine-name": "spark",
+        "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+      },
+      "manifest-list": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/snap-4249957608382647425-1-89a2d5a9-6869-42ff-8e9c-8de4908cb4a0.avro",
+      "schema-id": 0
+    }
+  ],
+  "statistics": [],
+  "snapshot-log": [
+    {
+      "timestamp-ms": 1792166872870,
+      "snapshot-id": 1438915121931073098
+    },
+    {
+      "timestamp-ms": 1792166877330,
+      "snapshot-id": 4249957608382647425
+    }
+  ],
+  "metadata-log": [
+    {
+      "timestamp-ms": 1792166872870,
+      "metadata-file": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/00000-4c6db542-107b-4517-b31e-a644f76a4b30.metadata.json"
+    }
+  ]
+}

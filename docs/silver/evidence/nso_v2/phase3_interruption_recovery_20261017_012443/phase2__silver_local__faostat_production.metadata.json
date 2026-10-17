@@ -1,0 +1,304 @@
+{
+  "format-version": 2,
+  "table-uuid": "3103676e-f1b8-4395-b255-0223fccb8def",
+  "location": "s3://warehouse/silver_local/faostat_production",
+  "last-sequence-number": 2,
+  "last-updated-ms": 1792160918412,
+  "last-column-id": 30,
+  "current-schema-id": 0,
+  "schemas": [
+    {
+      "type": "struct",
+      "schema-id": 0,
+      "fields": [
+        {
+          "id": 1,
+          "name": "domain_code",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 2,
+          "name": "domain",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 3,
+          "name": "country_code",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 4,
+          "name": "country_name",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 5,
+          "name": "element_code",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 6,
+          "name": "element",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 7,
+          "name": "commodity_code",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 8,
+          "name": "commodity_name",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 9,
+          "name": "year",
+          "required": false,
+          "type": "int"
+        },
+        {
+          "id": 10,
+          "name": "unit",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 11,
+          "name": "value",
+          "required": false,
+          "type": "decimal(18, 2)"
+        },
+        {
+          "id": 12,
+          "name": "flag",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 13,
+          "name": "flag_description",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 14,
+          "name": "value_raw",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 15,
+          "name": "unit_raw",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 16,
+          "name": "missing_reason",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 17,
+          "name": "_ingestion_run_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 18,
+          "name": "_ingestion_batch_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 19,
+          "name": "_ingestion_chunk_id",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 20,
+          "name": "_ingestion_timestamp",
+          "required": false,
+          "type": "timestamptz"
+        },
+        {
+          "id": 21,
+          "name": "_source_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 22,
+          "name": "_source_file",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 23,
+          "name": "_source_checksum",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 24,
+          "name": "_source_snapshot_id",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 25,
+          "name": "_dq_warnings",
+          "required": false,
+          "type": {
+            "type": "list",
+            "element-id": 27,
+            "element": {
+              "type": "struct",
+              "fields": [
+                {
+                  "id": 28,
+                  "name": "rule_id",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "id": 29,
+                  "name": "error_message",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "id": 30,
+                  "name": "failed_column",
+                  "required": false,
+                  "type": "string"
+                }
+              ]
+            },
+            "element-required": false
+          }
+        },
+        {
+          "id": 26,
+          "name": "_silver_processed_at",
+          "required": false,
+          "type": "timestamptz"
+        }
+      ]
+    }
+  ],
+  "default-spec-id": 0,
+  "partition-specs": [
+    {
+      "spec-id": 0,
+      "fields": [
+        {
+          "name": "year",
+          "transform": "identity",
+          "source-id": 9,
+          "field-id": 1000
+        }
+      ]
+    }
+  ],
+  "last-partition-id": 1000,
+  "default-sort-order-id": 0,
+  "sort-orders": [
+    {
+      "order-id": 0,
+      "fields": []
+    }
+  ],
+  "properties": {
+    "owner": "root",
+    "write.spark.fanout.enabled": "false",
+    "write.parquet.compression-codec": "zstd",
+    "created-at": "2026-10-16T14:28:33.304943626Z",
+    "write.distribution-mode": "hash",
+    "write.merge.distribution-mode": "hash"
+  },
+  "current-snapshot-id": 8931802191858281040,
+  "refs": {
+    "main": {
+      "snapshot-id": 8931802191858281040,
+      "type": "branch"
+    }
+  },
+  "snapshots": [
+    {
+      "sequence-number": 1,
+      "snapshot-id": 5556305990803083699,
+      "timestamp-ms": 1792160913564,
+      "summary": {
+        "operation": "append",
+        "spark.app.id": "local-1792160896370",
+        "changed-partition-count": "0",
+        "total-records": "0",
+        "total-files-size": "0",
+        "total-data-files": "0",
+        "total-delete-files": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0",
+        "engine-version": "3.5.5",
+        "app-id": "local-1792160896370",
+        "engine-name": "spark",
+        "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+      },
+      "manifest-list": "s3://warehouse/silver_local/faostat_production/metadata/snap-5556305990803083699-1-832b07b7-2b2d-4296-b2aa-0f2dba8d594e.avro",
+      "schema-id": 0
+    },
+    {
+      "sequence-number": 2,
+      "snapshot-id": 8931802191858281040,
+      "parent-snapshot-id": 5556305990803083699,
+      "timestamp-ms": 1792160918412,
+      "summary": {
+        "operation": "append",
+        "spark.app.id": "local-1792160896370",
+        "added-data-files": "64",
+        "added-records": "22738",
+        "added-files-size": "1052536",
+        "changed-partition-count": "64",
+        "total-records": "22738",
+        "total-files-size": "1052536",
+        "total-data-files": "64",
+        "total-delete-files": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0",
+        "engine-version": "3.5.5",
+        "app-id": "local-1792160896370",
+        "engine-name": "spark",
+        "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+      },
+      "manifest-list": "s3://warehouse/silver_local/faostat_production/metadata/snap-8931802191858281040-1-6f9f49ff-8a80-4d6a-8b2b-6ef5b01d3616.avro",
+      "schema-id": 0
+    }
+  ],
+  "statistics": [],
+  "snapshot-log": [
+    {
+      "timestamp-ms": 1792160913564,
+      "snapshot-id": 5556305990803083699
+    },
+    {
+      "timestamp-ms": 1792160918412,
+      "snapshot-id": 8931802191858281040
+    }
+  ],
+  "metadata-log": [
+    {
+      "timestamp-ms": 1792160913564,
+      "metadata-file": "s3://warehouse/silver_local/faostat_production/metadata/00000-6e513d9d-38cb-41fd-8ddb-c4bcbfc0fa09.metadata.json"
+    }
+  ]
+}

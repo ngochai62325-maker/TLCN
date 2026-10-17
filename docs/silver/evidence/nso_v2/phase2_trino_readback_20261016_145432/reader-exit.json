@@ -1,0 +1,6 @@
+{
+  "exit_code": 1,
+  "resource_guard": "TRINO_RESOURCE_BLOCKED_NEAR_CGROUP_CAP",
+  "stderr": "Traceback (most recent call last):\n  File \"<stdin>\", line 162, in <module>\n  File \"<stdin>\", line 38, in stream\n  File \"<stdin>\", line 29, in check\nRuntimeError: RESOURCE_GUARD_STOP_NO_NEW_QUERY\n",
+  "job": "local-nine-readonly-20261016T150441Z"
+}

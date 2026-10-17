@@ -1,0 +1,160 @@
+{
+  "status": "AIRFLOW_RUNTIME_FAILED",
+  "recorded_at": "2026-10-16T13:50:27.541983+00:00",
+  "scope": "Phase2 handoff and owner-requested read-only runtime/writer investigation; no runtime changes",
+  "git": {
+    "branch": "handoff/local-nine-phase2",
+    "head": "82bfec47988124cfcd73d53f14604714da6c2108",
+    "tracking_head": "82bfec47988124cfcd73d53f14604714da6c2108",
+    "status": "?? docs/silver/evidence/nso_v2/compat-regression.log\n?? docs/silver/evidence/nso_v2/hook-regression-initial.log\n?? docs/silver/evidence/nso_v2/phase1_rest_20261016/rest-startup-failure.log"
+  },
+  "integrity": {
+    "raw_files": 21,
+    "raw_bytes": 183728724,
+    "pins": {
+      "config/ingestion/source_registry.yaml": "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6",
+      "data/raw/nso/metadata.txt": "f17faf04e163da55e949593797bc60a8240d2137fea55a43342225d50d810555",
+      "src/silver/transformers/nso_vietnam_v2.py": "9007e3d65ac340a6bb837b9cb20dbb1a7a3b23fc23fdf27d19a46a3463118d19",
+      "contracts/silver/nso_vietnam_v2.yaml": "4a11b6f31183ee2828d0fef2f9ad94475628982fe7c701eab77b0c7b57dc8b05",
+      "config/silver/nso_v2_metadata.json": "a076880448eaf84593e75a20d0fc6156302d26c053b07e260c3b3916d4da335d"
+    },
+    "historical_checks_passed": 77,
+    "routing_code": "UNCHANGED",
+    "untracked_logs_preserved": true
+  },
+  "owner_context": "Owner reports Windows restart and opening Docker Desktop only; no intentional compose up/start projecttlcn",
+  "actor_attribution": "UNDETERMINED: inspect/events do not establish who requested creation",
+  "current_context": "desktop-linux",
+  "shared_creation_utc": {
+    "earliest": "2026-10-16T13:29:05.151429663Z",
+    "latest": "2026-10-16T13:29:05.723080791Z"
+  },
+  "shared_restart_policies": [
+    "no"
+  ],
+  "shared_running": 7,
+  "shared_container_identity_drift": true,
+  "shared_compose_file": "docker-compose.yml (base)",
+  "shared_images": "Base mutable reference Spark/Airflow, actual IDs recorded in runtime-provenance.json; different from immutable isolated execution images",
+  "retained_events": 0,
+  "isolated_services_running": 0,
+  "isolated_container_identity_preserved": true,
+  "isolated_volumes_exist": 4,
+  "isolated_live_dag_metadata_catalog_state": "NOT_REMEASURED: intended services stopped",
+  "memory_samples": [
+    {
+      "at": "2026-10-16T13:36:50.211144+00:00",
+      "windows_available_bytes": 2871771136,
+      "wsl_available_bytes": 5301817344,
+      "swap_total_bytes": 0
+    },
+    {
+      "at": "2026-10-16T13:37:35.210985+00:00",
+      "windows_available_bytes": 2800967680,
+      "wsl_available_bytes": 5299912704,
+      "swap_total_bytes": 0
+    },
+    {
+      "at": "2026-10-16T13:38:20.211514+00:00",
+      "windows_available_bytes": 2803179520,
+      "wsl_available_bytes": 5287874560,
+      "swap_total_bytes": 0
+    }
+  ],
+  "resource_screen": "Numerical2 GiB Windows and4 GiB WSL screens passed with shared running; not valid admission for currently stopped isolated infrastructure",
+  "shared_observed_quiescence": {
+    "active_runs": [],
+    "running_queued_retrying_tasks": [],
+    "advisory_locks": 0,
+    "ingestion_in_progress": 0,
+    "dags": [
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "paused": true,
+        "active": true,
+        "import_errors": false
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "paused": true,
+        "active": true,
+        "import_errors": false
+      }
+    ],
+    "spark_writer_markers": [],
+    "active_trino_queries": [],
+    "historical_scheduled_nonwriter_task": [
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "manual__2026-10-15T14:02:14+00:00",
+        "task_id": "publish_silver_signal",
+        "task_state": "scheduled",
+        "parent_state": "failed",
+        "pid": null,
+        "hostname": ""
+      }
+    ]
+  },
+  "shared_commit_reconciliation": {
+    "catalog_identities": 29,
+    "identities_match_baseline": true,
+    "ingestion_metadata": {
+      "dead_letter_records": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "ingestion_checkpoints": {
+        "count": 4,
+        "sha256": "fdcd8d2950a73bba7d4711f5adc3e57a29ce11b0c1b552c66d129cce9ac072e8"
+      },
+      "ingestion_runs": {
+        "count": 29,
+        "sha256": "f329c2ce96a2ac5d6cc3a12c40fdb9a915b5a53b41e025857818a0b5c3ee6d23"
+      },
+      "source_snapshots": {
+        "count": 10,
+        "sha256": "383a74fb457a6e8270610b107b1fb1c343523187149044725542b10cbcab8622"
+      },
+      "source_watermarks": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "all5_metadata_hashes_match_baseline": true,
+    "unknown_commit_assessment": "No new persisted metadata/catalog commit drift detected"
+  },
+  "manual_bronze_run_id": null,
+  "automatic_silver_run_id": null,
+  "new_agent_runs": 0,
+  "nine_source_e2e": "NOT_RUN",
+  "target_rows_uuids_snapshots": "NOT_RUN_FOR_LOCAL_NINE",
+  "trino_lineage_dq_noop": "NOT_RUN_FOR_LOCAL_NINE",
+  "nso_production_contract": "DRAFT unchanged",
+  "regression_reruns": false,
+  "source_config_changes": [],
+  "historical_evidence_changed": false,
+  "runtime_changes_performed": [],
+  "shared_pipeline_runs_by_agent": 0,
+  "git_mutations": false,
+  "graceful_stop_and_restore_plan": "graceful-stop-proposal.json; PROPOSED_PENDING_OWNER_APPROVAL_NOT_EXECUTED",
+  "minimum_recovery": "Fresh quiescence recheck, owner-approved graceful stop7 shared services with no force kill, restore only existing7 isolated services under storage-before-scheduler gates, then fresh resource admission before the separately already-approved one manual Bronze -> automatic Silver E2E.",
+  "files_added_this_turn": [
+    "docs\\silver\\evidence\\nso_v2\\phase2_handoff_20261016_133648/"
+  ],
+  "static_checks": {
+    "git_diff_check": 0,
+    "new_evidence_credential_scan": []
+  },
+  "evidence_sha256": {
+    "airflow-scheduler-tail.log.gz": "8094944021e5e2e8989d4f7561ab6ca67971a126fcd6a28860927fffb84720c5",
+    "graceful-stop-proposal.json": "44e7cba092d008ad0070268a883178c9ffe9633d418ef9c560671025d00f621d",
+    "postgres-test-tail.log.gz": "964a3bd0589d2a33d34d0c75644dec05ed3d5fbf9420ff3e08bff29f127ef4f6",
+    "preflight.json": "1278f7982819264ebf9015fad1126c240d31f241864c3ecc7994332ebfd818c8",
+    "README.md": "a732be9354b0ca4dd47a5a1e2d5727edaab09d500d32dad6361ac1e52ee0aad1",
+    "rest-test-tail.log.gz": "173520424d770e40ee59a0b08506363a08bfed4f747d9df6c52aca17cf204659",
+    "runner-tail.log.gz": "9ac5e7e43bddd1fe56b3e9304357cb7d05de14c8ad5b44b9373e704b1981be95",
+    "runtime-provenance.json": "440339c59ca7871e7e62dcc025cb5a71fa9a048b727178a7ee124c9c855f9a35",
+    "shared-commit-and-writer-readonly.json": "e40b623f1488ea21abf25bcc5713f3a61b8b0e0e8b760a4dd755b73fecf3601c",
+    "shared-postgresql-readonly.json": "9602b865f9673011d7c16471040cffa66f1d09b965dd574b61a3afa23eb223b1"
+  }
+}

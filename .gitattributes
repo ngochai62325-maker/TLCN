@@ -18,3 +18,8 @@ config/ingestion/source_registry.yaml text eol=crlf
 docs/silver/evidence/release_20261013/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 # This validator was accepted with LF; do not rewrite it on Windows checkout.
 jobs/silver/verify_silver_trino.py text eol=lf
+
+# Audit evidence is byte-addressed: never normalize captured line endings.
+docs/silver/evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Sanitized logs preserve original diagnostic formatting, including blank lines.
+docs/silver/evidence/**/*.log -whitespace

@@ -1,0 +1,94 @@
+[
+  {
+    "id": "58722513ce15fde1f4cc22ba556ae021d547892d2c5ee912d2308930abdb10da",
+    "name": "/tlcn-local-nine-cleanroom-20261016-postgres-test-1",
+    "service": "postgres-test",
+    "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+    "image_reference": "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 31085,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-16T15:47:20.278802517Z",
+      "FinishedAt": "0001-01-01T00:00:00Z"
+    },
+    "health": "starting",
+    "restart_count": 0,
+    "memory_limit": 268435456,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "tlcn-local-nine-cleanroom-20261016_local_postgres_data",
+        "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_postgres_data/_data",
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "networks": [
+      "tlcn-local-nine-cleanroom-20261016_default"
+    ],
+    "flags": {
+      "SILVER_LOCAL_PROFILE": null,
+      "SILVER_LOCAL_ENABLED": null,
+      "SILVER_ACCEPTED_RELEASE": null,
+      "SILVER_PRODUCTION_ENABLED": null,
+      "SILVER_CANARY_ONLY": null,
+      "SILVER_BRONZE_SCHEDULE": null
+    }
+  },
+  {
+    "id": "e67f2c2e36c65f972a405ab2d87cac8c243b6d47674665f49e662326a87c5281",
+    "name": "/tlcn-local-nine-cleanroom-20261016-minio-test-1",
+    "service": "minio-test",
+    "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+    "image_reference": "ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 31084,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-16T15:47:20.300682662Z",
+      "FinishedAt": "0001-01-01T00:00:00Z"
+    },
+    "health": "starting",
+    "restart_count": 0,
+    "memory_limit": 536870912,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "tlcn-local-nine-cleanroom-20261016_local_minio_data",
+        "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_minio_data/_data",
+        "Destination": "/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "networks": [
+      "tlcn-local-nine-cleanroom-20261016_default"
+    ],
+    "flags": {
+      "SILVER_LOCAL_PROFILE": null,
+      "SILVER_LOCAL_ENABLED": null,
+      "SILVER_ACCEPTED_RELEASE": null,
+      "SILVER_PRODUCTION_ENABLED": null,
+      "SILVER_CANARY_ONLY": null,
+      "SILVER_BRONZE_SCHEDULE": null
+    }
+  }
+]

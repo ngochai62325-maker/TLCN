@@ -1,0 +1,2151 @@
+{
+  "at": "2026-10-17T02:30:57.430612+00:00",
+  "status": "NSO_RECOVERY_VALIDATED_CHILD_TASKS_PASS_DAGRUN_FINALIZATION_BLOCKED",
+  "phase3_full_pass": false,
+  "approval_sha256": "e3a84222423b3a15aa279abea42e7fcc6cfd0b1c29ee35ab92a27903fd3cda7b",
+  "files_changed_this_task": [
+    "src/silver/engine/quarantine.py",
+    "tests/unit/test_silver_quarantine.py"
+  ],
+  "preexisting_modified_file_preserved": "compose.local-nine-test.yml, previous trino 1536m limit only",
+  "quarantine_change": {
+    "production_lines_added": 17,
+    "identity_derivation": "UNCHANGED",
+    "no_delta": "Compare existing ID/payload/errors; return before MERGE when identical, preserving audit metadata and physical Iceberg identity.",
+    "new_or_mixed_records": "MERGE only real delta; retain all identical existing records.",
+    "errors_changed": "Original matched update policy retained: errors and run/detection audit update only for real error change.",
+    "payload_changed": "New deterministic ID inserted; existing record retained. Persisted same-ID/different-payload corruption fails closed before write."
+  },
+  "tests": {
+    "focused_native_passed": 7,
+    "affected_regression_cases_passed": 52,
+    "total_distinct_passed": 59,
+    "method": "7 focused; latest corrected regression batch 50 passed +2 test-catalog configuration failures, then only those2 rerun successfully. Earlier collection/harness failures preserved, not presented as successful runs.",
+    "native_snapshot_noop_proof": "quarantine-native-snapshot-proof.jsonl",
+    "execution": "Existing cached pure-Python pytest/SDK wheels through test-only PYTHONPATH, Spark Python paths and temporary Hadoop-only catalogs; no pip installation, image change or production routing change.",
+    "test_framework_failures": "Missing pytest/PySpark path, missing fixture SDK, inherited profile/default REST catalog, then dual Hadoop type/catalog-impl options were corrected only in private test invocation, without modifying business semantics."
+  },
+  "resource_admission": {
+    "status": "PASS",
+    "samples": [
+      {
+        "at": "2026-10-17T02:00:50.946385+00:00",
+        "windows_available_bytes": 3878531072,
+        "windows_memory_load": 76,
+        "wsl_meminfo": "MemTotal:        8131792 kB\nMemFree:         5050968 kB\nMemAvailable:    5892700 kB\nBuffers:           24016 kB\nCached:           901844 kB\nSwapCached:            0 kB\nActive:           317472 kB\nInactive:        2297884 kB\nActive(anon):       9184 kB\nInactive(anon):  1702240 kB\nActive(file):     308288 kB\nInactive(file):   595644 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:               244 kB\nWriteback:            60 kB\nAnonPages:       1689968 kB\nMapped:           512164 kB\nShmem:             21524 kB\nKReclaimable:     134572 kB\nSlab:             217048 kB\nSReclaimable:     134572 kB\nSUnreclaim:        82476 kB\nKernelStack:       10084 kB\nPageTables:        12368 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:    4814920 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       35028 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       70656 kB\nDirectMap2M:     7268352 kB\nDirectMap1G:    10485760 kB\n",
+        "wsl_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=5743\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=5660\nsome avg10=0.00 avg60=0.20 avg300=0.19 total=6201866\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.08 avg60=0.23 avg300=0.24 total=9777708\nfull avg10=0.08 avg60=0.23 avg300=0.24 total=9517995\n",
+        "docker_stats": "{\"BlockIO\":\"184MB / 1.66MB\",\"CPUPerc\":\"3.17%\",\"Container\":\"577262f9fc99d8c494814b4467cf991827ddf9653254f7c4803f72ca5c6bc3a4\",\"ID\":\"577262f9fc99\",\"MemPerc\":\"41.87%\",\"MemUsage\":\"643.2MiB / 1.5GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-trino-test-1\",\"NetIO\":\"872B / 126B\",\"PIDs\":\"150\"}\n{\"BlockIO\":\"318MB / 73.7kB\",\"CPUPerc\":\"0.09%\",\"Container\":\"0eed4b0b90f8ad5ece4d53fd4ff3a242f9001a99d89392e74e3c28a355027910\",\"ID\":\"0eed4b0b90f8\",\"MemPerc\":\"70.15%\",\"MemUsage\":\"718.4MiB / 1GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-airflow-webserver-1\",\"NetIO\":\"823kB / 263kB\",\"PIDs\":\"5\"}\n{\"BlockIO\":\"16.4MB / 0B\",\"CPUPerc\":\"0.02%\",\"Container\":\"4136491a6d72e0cd2b915815e1fbe6890392a7ca5a2cf5e2951929866985bad7\",\"ID\":\"4136491a6d72\",\"MemPerc\":\"0.67%\",\"MemUsage\":\"20.49MiB / 3GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-runner-1\",\"NetIO\":\"998B / 126B\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"545kB / 1.74MB\",\"CPUPerc\":\"0.13%\",\"Container\":\"46572a5cf4d7edf9eaeffae883735fb3f810ca2bd094004348e5c04e1c11817a\",\"ID\":\"46572a5cf4d7\",\"MemPerc\":\"25.92%\",\"MemUsage\":\"116.1MiB / 448MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-rest-test-1\",\"NetIO\":\"386kB / 310kB\",\"PIDs\":\"25\"}\n{\"BlockIO\":\"23.3MB / 1.23MB\",\"CPUPerc\":\"0.00%\",\"Container\":\"58722513ce15fde1f4cc22ba556ae021d547892d2c5ee912d2308930abdb10da\",\"ID\":\"58722513ce15\",\"MemPerc\":\"13.03%\",\"MemUsage\":\"33.35MiB / 256MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-postgres-test-1\",\"NetIO\":\"2MB / 907kB\",\"PIDs\":\"9\"}\n{\"BlockIO\":\"28.4MB / 5.91MB\",\"CPUPerc\":\"2.32%\",\"Container\":\"e67f2c2e36c65f972a405ab2d87cac8c243b6d47674665f49e662326a87c5281\",\"ID\":\"e67f2c2e36c6\",\"MemPerc\":\"17.30%\",\"MemUsage\":\"88.6MiB / 512MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-minio-test-1\",\"NetIO\":\"105kB / 1.82MB\",\"PIDs\":\"17\"}\n",
+        "cgroup": {
+          "runner": {
+            "current": 29016064,
+            "peak": 36651008,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 3221225472
+          },
+          "airflow-webserver": {
+            "current": 922243072,
+            "peak": 1073741824,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 170,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 1073741824
+          },
+          "trino-test": {
+            "current": 791355392,
+            "peak": 799367168,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 1610612736
+          },
+          "rest-test": {
+            "current": 123867136,
+            "peak": 127508480,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 469762048
+          },
+          "minio-test": {
+            "current": 98033664,
+            "peak": 107487232,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 536870912
+          },
+          "postgres-test": {
+            "current": 40771584,
+            "peak": 43671552,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 268435456
+          }
+        },
+        "wsl_available_bytes": 6034124800,
+        "expected_runner_growth_bytes": 3192209408,
+        "infrastructure_growth_allowance_bytes": 805306368,
+        "failures": []
+      },
+      {
+        "at": "2026-10-17T02:01:39.962786+00:00",
+        "windows_available_bytes": 3884630016,
+        "windows_memory_load": 76,
+        "wsl_meminfo": "MemTotal:        8131792 kB\nMemFree:         5037716 kB\nMemAvailable:    5883048 kB\nBuffers:           24108 kB\nCached:           904652 kB\nSwapCached:            0 kB\nActive:           320160 kB\nInactive:        2308064 kB\nActive(anon):       9188 kB\nInactive(anon):  1711792 kB\nActive(file):     310972 kB\nInactive(file):   596272 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:                76 kB\nWriteback:             0 kB\nAnonPages:       1699956 kB\nMapped:           512036 kB\nShmem:             21516 kB\nKReclaimable:     134860 kB\nSlab:             217172 kB\nSReclaimable:     134860 kB\nSUnreclaim:        82312 kB\nKernelStack:       10052 kB\nPageTables:        12292 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:    4816704 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       35044 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       70656 kB\nDirectMap2M:     7268352 kB\nDirectMap1G:    10485760 kB\n",
+        "wsl_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=5743\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=5660\nsome avg10=0.04 avg60=0.11 avg300=0.16 total=6329573\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.10 avg300=0.19 total=9790394\nfull avg10=0.00 avg60=0.10 avg300=0.19 total=9530157\n",
+        "docker_stats": "{\"BlockIO\":\"184MB / 1.73MB\",\"CPUPerc\":\"2.73%\",\"Container\":\"577262f9fc99d8c494814b4467cf991827ddf9653254f7c4803f72ca5c6bc3a4\",\"ID\":\"577262f9fc99\",\"MemPerc\":\"41.91%\",\"MemUsage\":\"643.8MiB / 1.5GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-trino-test-1\",\"NetIO\":\"872B / 126B\",\"PIDs\":\"149\"}\n{\"BlockIO\":\"318MB / 73.7kB\",\"CPUPerc\":\"0.14%\",\"Container\":\"0eed4b0b90f8ad5ece4d53fd4ff3a242f9001a99d89392e74e3c28a355027910\",\"ID\":\"0eed4b0b90f8\",\"MemPerc\":\"70.21%\",\"MemUsage\":\"718.9MiB / 1GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-airflow-webserver-1\",\"NetIO\":\"823kB / 263kB\",\"PIDs\":\"5\"}\n{\"BlockIO\":\"17MB / 0B\",\"CPUPerc\":\"0.01%\",\"Container\":\"4136491a6d72e0cd2b915815e1fbe6890392a7ca5a2cf5e2951929866985bad7\",\"ID\":\"4136491a6d72\",\"MemPerc\":\"0.68%\",\"MemUsage\":\"20.8MiB / 3GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-runner-1\",\"NetIO\":\"998B / 126B\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"889kB / 1.76MB\",\"CPUPerc\":\"0.09%\",\"Container\":\"46572a5cf4d7edf9eaeffae883735fb3f810ca2bd094004348e5c04e1c11817a\",\"ID\":\"46572a5cf4d7\",\"MemPerc\":\"25.94%\",\"MemUsage\":\"116.2MiB / 448MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-rest-test-1\",\"NetIO\":\"386kB / 310kB\",\"PIDs\":\"25\"}\n{\"BlockIO\":\"23.4MB / 1.23MB\",\"CPUPerc\":\"4.63%\",\"Container\":\"58722513ce15fde1f4cc22ba556ae021d547892d2c5ee912d2308930abdb10da\",\"ID\":\"58722513ce15\",\"MemPerc\":\"13.08%\",\"MemUsage\":\"33.47MiB / 256MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-postgres-test-1\",\"NetIO\":\"2MB / 907kB\",\"PIDs\":\"9\"}\n{\"BlockIO\":\"30.1MB / 6.26MB\",\"CPUPerc\":\"6.87%\",\"Container\":\"e67f2c2e36c65f972a405ab2d87cac8c243b6d47674665f49e662326a87c5281\",\"ID\":\"e67f2c2e36c6\",\"MemPerc\":\"17.51%\",\"MemUsage\":\"89.68MiB / 512MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-minio-test-1\",\"NetIO\":\"105kB / 1.82MB\",\"PIDs\":\"17\"}\n",
+        "cgroup": {
+          "runner": {
+            "current": 29306880,
+            "peak": 37064704,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 3221225472
+          },
+          "airflow-webserver": {
+            "current": 922177536,
+            "peak": 1073741824,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 170,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 1073741824
+          },
+          "trino-test": {
+            "current": 792449024,
+            "peak": 800411648,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 1610612736
+          },
+          "rest-test": {
+            "current": 124989440,
+            "peak": 127508480,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 469762048
+          },
+          "minio-test": {
+            "current": 99028992,
+            "peak": 107487232,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 536870912
+          },
+          "postgres-test": {
+            "current": 40407040,
+            "peak": 43671552,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 268435456
+          }
+        },
+        "wsl_available_bytes": 6024241152,
+        "expected_runner_growth_bytes": 3191918592,
+        "infrastructure_growth_allowance_bytes": 805306368,
+        "failures": []
+      },
+      {
+        "at": "2026-10-17T02:02:28.874685+00:00",
+        "windows_available_bytes": 3717574656,
+        "windows_memory_load": 77,
+        "wsl_meminfo": "MemTotal:        8131792 kB\nMemFree:         5038516 kB\nMemAvailable:    5884448 kB\nBuffers:           24380 kB\nCached:           904788 kB\nSwapCached:            0 kB\nActive:           321400 kB\nInactive:        2307236 kB\nActive(anon):       9216 kB\nInactive(anon):  1711748 kB\nActive(file):     312184 kB\nInactive(file):   595488 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:                64 kB\nWriteback:             0 kB\nAnonPages:       1699608 kB\nMapped:           511904 kB\nShmem:             21496 kB\nKReclaimable:     135032 kB\nSlab:             217448 kB\nSReclaimable:     135032 kB\nSUnreclaim:        82416 kB\nKernelStack:       10096 kB\nPageTables:        12860 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:    4818168 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       35092 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       70656 kB\nDirectMap2M:     7268352 kB\nDirectMap1G:    10485760 kB\n",
+        "wsl_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=5743\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=5660\nsome avg10=0.00 avg60=0.04 avg300=0.13 total=6464864\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.03 avg300=0.16 total=9810513\nfull avg10=0.00 avg60=0.03 avg300=0.16 total=9549512\n",
+        "docker_stats": "{\"BlockIO\":\"184MB / 1.8MB\",\"CPUPerc\":\"3.06%\",\"Container\":\"577262f9fc99d8c494814b4467cf991827ddf9653254f7c4803f72ca5c6bc3a4\",\"ID\":\"577262f9fc99\",\"MemPerc\":\"42.01%\",\"MemUsage\":\"645.2MiB / 1.5GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-trino-test-1\",\"NetIO\":\"872B / 126B\",\"PIDs\":\"148\"}\n{\"BlockIO\":\"318MB / 73.7kB\",\"CPUPerc\":\"0.11%\",\"Container\":\"0eed4b0b90f8ad5ece4d53fd4ff3a242f9001a99d89392e74e3c28a355027910\",\"ID\":\"0eed4b0b90f8\",\"MemPerc\":\"70.25%\",\"MemUsage\":\"719.4MiB / 1GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-airflow-webserver-1\",\"NetIO\":\"823kB / 263kB\",\"PIDs\":\"5\"}\n{\"BlockIO\":\"17MB / 0B\",\"CPUPerc\":\"8.65%\",\"Container\":\"4136491a6d72e0cd2b915815e1fbe6890392a7ca5a2cf5e2951929866985bad7\",\"ID\":\"4136491a6d72\",\"MemPerc\":\"0.68%\",\"MemUsage\":\"21.02MiB / 3GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-runner-1\",\"NetIO\":\"998B / 126B\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"889kB / 1.78MB\",\"CPUPerc\":\"0.12%\",\"Container\":\"46572a5cf4d7edf9eaeffae883735fb3f810ca2bd094004348e5c04e1c11817a\",\"ID\":\"46572a5cf4d7\",\"MemPerc\":\"25.97%\",\"MemUsage\":\"116.3MiB / 448MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-rest-test-1\",\"NetIO\":\"386kB / 310kB\",\"PIDs\":\"25\"}\n{\"BlockIO\":\"23.4MB / 1.23MB\",\"CPUPerc\":\"0.00%\",\"Container\":\"58722513ce15fde1f4cc22ba556ae021d547892d2c5ee912d2308930abdb10da\",\"ID\":\"58722513ce15\",\"MemPerc\":\"13.07%\",\"MemUsage\":\"33.45MiB / 256MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-postgres-test-1\",\"NetIO\":\"2MB / 907kB\",\"PIDs\":\"9\"}\n{\"BlockIO\":\"30.1MB / 6.54MB\",\"CPUPerc\":\"0.00%\",\"Container\":\"e67f2c2e36c65f972a405ab2d87cac8c243b6d47674665f49e662326a87c5281\",\"ID\":\"e67f2c2e36c6\",\"MemPerc\":\"17.53%\",\"MemUsage\":\"89.75MiB / 512MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-minio-test-1\",\"NetIO\":\"105kB / 1.82MB\",\"PIDs\":\"17\"}\n",
+        "cgroup": {
+          "runner": {
+            "current": 28409856,
+            "peak": 37064704,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 3221225472
+          },
+          "airflow-webserver": {
+            "current": 922071040,
+            "peak": 1073741824,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 170,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 1073741824
+          },
+          "trino-test": {
+            "current": 795791360,
+            "peak": 803602432,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 1610612736
+          },
+          "rest-test": {
+            "current": 124383232,
+            "peak": 127508480,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 469762048
+          },
+          "minio-test": {
+            "current": 99266560,
+            "peak": 107487232,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 536870912
+          },
+          "postgres-test": {
+            "current": 40673280,
+            "peak": 43671552,
+            "events": {
+              "low": 0,
+              "high": 0,
+              "max": 0,
+              "oom": 0,
+              "oom_kill": 0,
+              "oom_group_kill": 0
+            },
+            "cap": 268435456
+          }
+        },
+        "wsl_available_bytes": 6025674752,
+        "expected_runner_growth_bytes": 3192815616,
+        "infrastructure_growth_allowance_bytes": 805306368,
+        "failures": []
+      }
+    ],
+    "runner_idle_processes": "PID                 PPID                COMMAND\n28490               28468               python3\n",
+    "no_scheduler": true
+  },
+  "observed_peaks_mib": {
+    "runner": 1741.12890625,
+    "airflow-webserver": 1024.18359375,
+    "trino-test": 893.609375,
+    "rest-test": 134.3515625,
+    "minio-test": 309.44140625,
+    "postgres-test": 44.046875
+  },
+  "sampled_windows_min_gib": 2.4101829528808594,
+  "oom_kill_counters": {
+    "runner": 0,
+    "airflow-webserver": 0,
+    "trino-test": 0,
+    "rest-test": 0,
+    "minio-test": 0,
+    "postgres-test": 0
+  },
+  "runtime_scope_and_versions": {
+    "sources": [
+      "faostat_production",
+      "faostat_monthly_price",
+      "faostat_supply_utilization",
+      "faostat_trade",
+      "usda_psd",
+      "usda_rice_yearbook",
+      "worldbank_pinksheet",
+      "thitruongnongsan",
+      "nso_vietnam"
+    ],
+    "mappings": [
+      [
+        "faostat_production",
+        "faostat_production",
+        "faostat_production"
+      ],
+      [
+        "faostat_monthly_price",
+        "faostat_monthly_price",
+        "faostat_monthly_price"
+      ],
+      [
+        "faostat_supply_utilization",
+        "faostat_supply_utilization",
+        "faostat_supply_utilization"
+      ],
+      [
+        "faostat_trade",
+        "faostat_trade",
+        "faostat_trade"
+      ],
+      [
+        "usda_psd",
+        "usda_psd",
+        "usda_rice_psd"
+      ],
+      [
+        "usda_rice_yearbook",
+        "usda_rice_yearbook",
+        "usda_rice_yearbook"
+      ],
+      [
+        "worldbank_pinksheet",
+        "worldbank_pinksheet",
+        "worldbank_commodity_monthly"
+      ],
+      [
+        "thitruongnongsan",
+        "thitruongnongsan",
+        "thitruongnongsan"
+      ],
+      [
+        "nso_vietnam",
+        "nso_vietnam_v2",
+        "nso_rice_statistics_v2"
+      ]
+    ],
+    "nso_production_status": "DRAFT",
+    "nso_local_target": "iceberg.silver_local.nso_rice_statistics_v2",
+    "versions": {
+      "pyiceberg": "0.7.1",
+      "pyarrow": "17.0.0",
+      "pandas": "2.2.3",
+      "psycopg2-binary": "2.9.10",
+      "PyYAML": "6.0.2"
+    }
+  },
+  "nso_task_recovery": {
+    "supported_clear": {
+      "before": {
+        "state": "running",
+        "try_number": 1,
+        "job_id": 24,
+        "start_date": "2026-10-16 16:09:11.221224+00:00"
+      },
+      "after": {
+        "state": "restarting",
+        "try_number": 1,
+        "job_id": 24
+      },
+      "dagrun_state": "running",
+      "history": [
+        {
+          "try_number": 1,
+          "state": "failed",
+          "job_id": 24,
+          "start_date": "2026-10-16 16:09:11.221224+00:00",
+          "end_date": "2026-10-17 02:13:33.432522+00:00"
+        }
+      ]
+    },
+    "actual_task_success": {
+      "state": "success",
+      "try_number": 1,
+      "start_date": "2026-10-17T02:13:54.064265+00:00",
+      "end_date": "2026-10-17T02:14:49.129985+00:00",
+      "job_id": 25,
+      "hostname": "0eed4b0b90f8"
+    },
+    "historical_job": 24,
+    "new_execution_job": 25,
+    "actual_try_number": 1,
+    "note": "CLI manual recovery reused Airflow2.10 try_number1; no artificial counter increment. Original attempt is preserved in TaskInstanceHistory and copied logs. Two physical executions are not described as a single uninterrupted attempt.",
+    "execution_path": "Existing Airflow LocalTaskJob -> established Spark API -> common runner -> NSO transformer; same child pipeline_run_id and Bronze pin6239067651375331267.",
+    "writer_recovery_count": 1
+  },
+  "nso_committed_table": {
+    "identity": {
+      "uuid": "585ec4d4-d44b-45ad-b6ff-dc55548ebdaf",
+      "snapshot_id": "833301860238618812",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00001-d570a8a9-4b88-4d18-8ca4-7f84de7b5b9e.metadata.json",
+      "location": "s3://warehouse/silver_local/nso_rice_statistics_v2",
+      "schema": {
+        "type": "struct",
+        "fields": [
+          {
+            "id": 1,
+            "name": "bronze_read_snapshot_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 2,
+            "name": "source_table",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 3,
+            "name": "source_column",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 4,
+            "name": "source_geography_key",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 5,
+            "name": "geography_raw",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 6,
+            "name": "geography_name_candidate",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 7,
+            "name": "geography_level",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 8,
+            "name": "geography_status",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 9,
+            "name": "geography_code",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 10,
+            "name": "boundary_version",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 11,
+            "name": "geography_mapping_version",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 12,
+            "name": "geography_evidence",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 13,
+            "name": "period_raw",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 14,
+            "name": "year",
+            "type": "int",
+            "required": false
+          },
+          {
+            "id": 15,
+            "name": "measure",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 16,
+            "name": "season",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 17,
+            "name": "statistic_kind",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 18,
+            "name": "release_status",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 19,
+            "name": "value_raw",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 20,
+            "name": "value_source",
+            "type": "decimal(28, 8)",
+            "required": false
+          },
+          {
+            "id": 21,
+            "name": "unit_raw",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 22,
+            "name": "unit_source_reference",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 23,
+            "name": "conversion_factor",
+            "type": "decimal(8, 0)",
+            "required": false
+          },
+          {
+            "id": 24,
+            "name": "value",
+            "type": "decimal(28, 8)",
+            "required": false
+          },
+          {
+            "id": 25,
+            "name": "unit",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 26,
+            "name": "unit_status",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 27,
+            "name": "unit_reference",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 28,
+            "name": "unit_evidence",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 29,
+            "name": "unit_mapping_version",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 30,
+            "name": "metadata_version",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 31,
+            "name": "quality_status",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 32,
+            "name": "missing_reason",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 33,
+            "name": "review_reason",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 34,
+            "name": "diagnostic_evidence",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 35,
+            "name": "_ingestion_run_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 36,
+            "name": "_ingestion_batch_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 37,
+            "name": "_ingestion_chunk_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 38,
+            "name": "_ingestion_timestamp",
+            "type": "timestamptz",
+            "required": false
+          },
+          {
+            "id": 39,
+            "name": "_source_id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 40,
+            "name": "_source_file",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 41,
+            "name": "_source_checksum",
+            "type": "string",
+            "required": false
+          },
+          {
+            "id": 42,
+            "name": "_source_snapshot_id",
+            "type": "long",
+            "required": false
+          },
+          {
+            "id": 43,
+            "name": "_dq_warnings",
+            "type": {
+              "type": "list",
+              "element-id": 45,
+              "element": {
+                "type": "struct",
+                "fields": [
+                  {
+                    "id": 46,
+                    "name": "rule_id",
+                    "type": "string",
+                    "required": false
+                  },
+                  {
+                    "id": 47,
+                    "name": "error_message",
+                    "type": "string",
+                    "required": false
+                  },
+                  {
+                    "id": 48,
+                    "name": "failed_column",
+                    "type": "string",
+                    "required": false
+                  }
+                ]
+              },
+              "element-required": false
+            },
+            "required": false
+          },
+          {
+            "id": 44,
+            "name": "_silver_processed_at",
+            "type": "timestamptz",
+            "required": false
+          }
+        ],
+        "schema-id": 0,
+        "identifier-field-ids": []
+      },
+      "snapshots": [
+        {
+          "snapshot_id": "6224708582587211745",
+          "summary": {
+            "spark.app.id": "local-1792166958709",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "engine-version": "3.5.5",
+            "app-id": "local-1792166958709",
+            "engine-name": "spark",
+            "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+          }
+        },
+        {
+          "snapshot_id": "833301860238618812",
+          "summary": {
+            "spark.app.id": "local-1792203238096",
+            "added-data-files": "35",
+            "added-records": "23060",
+            "added-files-size": "1272629",
+            "changed-partition-count": "35",
+            "total-records": "23060",
+            "total-files-size": "1272629",
+            "total-data-files": "35",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "engine-version": "3.5.5",
+            "app-id": "local-1792203238096",
+            "engine-name": "spark",
+            "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+          }
+        }
+      ]
+    },
+    "rows": 23060,
+    "numeric": 22114,
+    "missing": 946,
+    "zeros": 5,
+    "unique_keys": 23060,
+    "warning_rows": 22534,
+    "pinned_bronze_read_snapshot_id": "6239067651375331267",
+    "lineage_unique_tuples": 13,
+    "units": {
+      "hectare": 7640,
+      "tonne": 7640,
+      "percent": 280,
+      "kg/hectare": 7500
+    },
+    "seasons": {
+      "summer_autumn": 140,
+      "annual": 6530,
+      "main_season": 6530,
+      "winter_spring": 6530,
+      "summer_autumn_autumn_winter": 3330
+    },
+    "geography_status": {
+      "national_scope_metadata": 560,
+      "candidate_review": 22500
+    },
+    "statistic_kind": {
+      "quantity": 22780,
+      "development_index": 280
+    },
+    "contract_keys": [
+      "source_table",
+      "source_geography_key",
+      "year",
+      "measure",
+      "season",
+      "statistic_kind"
+    ],
+    "contract_columns": [
+      {
+        "name": "bronze_read_snapshot_id",
+        "data_type": "long",
+        "nullable": false
+      },
+      {
+        "name": "source_table",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "source_column",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "source_geography_key",
+        "data_type": "string",
+        "nullable": false,
+        "preserve_whitespace": true
+      },
+      {
+        "name": "geography_raw",
+        "data_type": "string",
+        "nullable": true,
+        "preserve_whitespace": true
+      },
+      {
+        "name": "geography_name_candidate",
+        "data_type": "string",
+        "nullable": true
+      },
+      {
+        "name": "geography_level",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "geography_status",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "geography_code",
+        "data_type": "string",
+        "nullable": true
+      },
+      {
+        "name": "boundary_version",
+        "data_type": "string",
+        "nullable": true
+      },
+      {
+        "name": "geography_mapping_version",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "geography_evidence",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "period_raw",
+        "data_type": "string",
+        "nullable": false,
+        "preserve_whitespace": true
+      },
+      {
+        "name": "year",
+        "data_type": "integer",
+        "nullable": false
+      },
+      {
+        "name": "measure",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "season",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "statistic_kind",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "release_status",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "value_raw",
+        "data_type": "string",
+        "nullable": true,
+        "preserve_whitespace": true
+      },
+      {
+        "name": "value_source",
+        "data_type": "decimal(28,8)",
+        "nullable": true
+      },
+      {
+        "name": "unit_raw",
+        "data_type": "string",
+        "nullable": true,
+        "preserve_whitespace": true
+      },
+      {
+        "name": "unit_source_reference",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "conversion_factor",
+        "data_type": "decimal(8,0)",
+        "nullable": false
+      },
+      {
+        "name": "value",
+        "data_type": "decimal(28,8)",
+        "nullable": true
+      },
+      {
+        "name": "unit",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "unit_status",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "unit_reference",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "unit_evidence",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "unit_mapping_version",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "metadata_version",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "quality_status",
+        "data_type": "string",
+        "nullable": false
+      },
+      {
+        "name": "missing_reason",
+        "data_type": "string",
+        "nullable": true
+      },
+      {
+        "name": "review_reason",
+        "data_type": "string",
+        "nullable": true
+      },
+      {
+        "name": "diagnostic_evidence",
+        "data_type": "string",
+        "nullable": false
+      }
+    ]
+  },
+  "framework_commit_response": {
+    "nso_vietnam_v2": {
+      "status": "SUCCESS",
+      "dataset": "nso_vietnam_v2",
+      "pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "target_table": "iceberg.silver_local.nso_rice_statistics_v2",
+      "bronze_read_snapshot_id": 6239067651375331267,
+      "bronze_count": 833,
+      "prepared_count": 23060,
+      "valid_count": 23060,
+      "quarantine_count": 0,
+      "warning_count": 22534,
+      "dedup_count": 23060,
+      "duplicate_count": 0,
+      "observation_count": 23428,
+      "excluded_count": 368,
+      "excluded_record_count": 13,
+      "commit_verified": {
+        "exists": true,
+        "uuid": "585ec4d4-d44b-45ad-b6ff-dc55548ebdaf",
+        "location": "s3://warehouse/silver_local/nso_rice_statistics_v2",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00001-d570a8a9-4b88-4d18-8ca4-7f84de7b5b9e.metadata.json",
+        "snapshot_id": "833301860238618812",
+        "rows": 23060
+      }
+    }
+  },
+  "dead_letters": {
+    "iceberg_identity": {
+      "uuid": "7711cdc0-135f-491c-a153-09c5ff6c1689",
+      "snapshot_id": "3806092623472970273",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00002-febb5d42-a466-43ba-9c82-acbe9f7dc02a.metadata.json",
+      "location": "s3://warehouse/silver_local/dead_letters"
+    },
+    "logical_records": 17,
+    "sources": {
+      "nso_vietnam_v2_exclusions": 13,
+      "thitruongnongsan": 4
+    },
+    "before_full_audit_sha256": "1224240117484e1bc8dd020deed57f737dfc2097dd7a0146360e7ddae968f305",
+    "after_full_audit_sha256": "1224240117484e1bc8dd020deed57f737dfc2097dd7a0146360e7ddae968f305",
+    "snapshot_metadata_audit_unchanged": true,
+    "duplicate_quarantine_ids": 0,
+    "namespace": "iceberg.silver_local",
+    "note": "ingestion PostgreSQL dead_letter_records is a separate table from Iceberg dead_letters; all five ingestion hashes remain unchanged."
+  },
+  "readback": {
+    "native_pyiceberg": "PASS_REAL_PARQUET_READ",
+    "trino": {
+      "status": "PASS",
+      "tables": {
+        "nso_vietnam_v2": {
+          "status": "PASS",
+          "rows": 23060,
+          "unique_keys": 23060,
+          "full_content": "ALL_ROWS_ALL_COLUMNS_NATIVE_TRINO_MATCH",
+          "canonical_sha256": "7e70b364b5c08af0a3eb31929cb18171f5e1609d428e8d7d7853cb1752057dcf",
+          "identity": {
+            "uuid": "585ec4d4-d44b-45ad-b6ff-dc55548ebdaf",
+            "snapshot_id": "833301860238618812",
+            "schema_id": 0,
+            "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00001-d570a8a9-4b88-4d18-8ca4-7f84de7b5b9e.metadata.json",
+            "location": "s3://warehouse/silver_local/nso_rice_statistics_v2",
+            "schema": {
+              "type": "struct",
+              "fields": [
+                {
+                  "id": 1,
+                  "name": "bronze_read_snapshot_id",
+                  "type": "long",
+                  "required": false
+                },
+                {
+                  "id": 2,
+                  "name": "source_table",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 3,
+                  "name": "source_column",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 4,
+                  "name": "source_geography_key",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 5,
+                  "name": "geography_raw",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 6,
+                  "name": "geography_name_candidate",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 7,
+                  "name": "geography_level",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 8,
+                  "name": "geography_status",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 9,
+                  "name": "geography_code",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 10,
+                  "name": "boundary_version",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 11,
+                  "name": "geography_mapping_version",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 12,
+                  "name": "geography_evidence",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 13,
+                  "name": "period_raw",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 14,
+                  "name": "year",
+                  "type": "int",
+                  "required": false
+                },
+                {
+                  "id": 15,
+                  "name": "measure",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 16,
+                  "name": "season",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 17,
+                  "name": "statistic_kind",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 18,
+                  "name": "release_status",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 19,
+                  "name": "value_raw",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 20,
+                  "name": "value_source",
+                  "type": "decimal(28, 8)",
+                  "required": false
+                },
+                {
+                  "id": 21,
+                  "name": "unit_raw",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 22,
+                  "name": "unit_source_reference",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 23,
+                  "name": "conversion_factor",
+                  "type": "decimal(8, 0)",
+                  "required": false
+                },
+                {
+                  "id": 24,
+                  "name": "value",
+                  "type": "decimal(28, 8)",
+                  "required": false
+                },
+                {
+                  "id": 25,
+                  "name": "unit",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 26,
+                  "name": "unit_status",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 27,
+                  "name": "unit_reference",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 28,
+                  "name": "unit_evidence",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 29,
+                  "name": "unit_mapping_version",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 30,
+                  "name": "metadata_version",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 31,
+                  "name": "quality_status",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 32,
+                  "name": "missing_reason",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 33,
+                  "name": "review_reason",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 34,
+                  "name": "diagnostic_evidence",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 35,
+                  "name": "_ingestion_run_id",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 36,
+                  "name": "_ingestion_batch_id",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 37,
+                  "name": "_ingestion_chunk_id",
+                  "type": "long",
+                  "required": false
+                },
+                {
+                  "id": 38,
+                  "name": "_ingestion_timestamp",
+                  "type": "timestamptz",
+                  "required": false
+                },
+                {
+                  "id": 39,
+                  "name": "_source_id",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 40,
+                  "name": "_source_file",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 41,
+                  "name": "_source_checksum",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 42,
+                  "name": "_source_snapshot_id",
+                  "type": "long",
+                  "required": false
+                },
+                {
+                  "id": 43,
+                  "name": "_dq_warnings",
+                  "type": {
+                    "type": "list",
+                    "element-id": 45,
+                    "element": {
+                      "type": "struct",
+                      "fields": [
+                        {
+                          "id": 46,
+                          "name": "rule_id",
+                          "type": "string",
+                          "required": false
+                        },
+                        {
+                          "id": 47,
+                          "name": "error_message",
+                          "type": "string",
+                          "required": false
+                        },
+                        {
+                          "id": 48,
+                          "name": "failed_column",
+                          "type": "string",
+                          "required": false
+                        }
+                      ]
+                    },
+                    "element-required": false
+                  },
+                  "required": false
+                },
+                {
+                  "id": 44,
+                  "name": "_silver_processed_at",
+                  "type": "timestamptz",
+                  "required": false
+                }
+              ],
+              "schema-id": 0,
+              "identifier-field-ids": []
+            },
+            "snapshots": [
+              {
+                "snapshot_id": "6224708582587211745",
+                "summary": {
+                  "spark.app.id": "local-1792166958709",
+                  "changed-partition-count": "0",
+                  "total-records": "0",
+                  "total-files-size": "0",
+                  "total-data-files": "0",
+                  "total-delete-files": "0",
+                  "total-position-deletes": "0",
+                  "total-equality-deletes": "0",
+                  "engine-version": "3.5.5",
+                  "app-id": "local-1792166958709",
+                  "engine-name": "spark",
+                  "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+                }
+              },
+              {
+                "snapshot_id": "833301860238618812",
+                "summary": {
+                  "spark.app.id": "local-1792203238096",
+                  "added-data-files": "35",
+                  "added-records": "23060",
+                  "added-files-size": "1272629",
+                  "changed-partition-count": "35",
+                  "total-records": "23060",
+                  "total-files-size": "1272629",
+                  "total-data-files": "35",
+                  "total-delete-files": "0",
+                  "total-position-deletes": "0",
+                  "total-equality-deletes": "0",
+                  "engine-version": "3.5.5",
+                  "app-id": "local-1792203238096",
+                  "engine-name": "spark",
+                  "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+                }
+              }
+            ]
+          },
+          "schema": [
+            {
+              "Column": "bronze_read_snapshot_id",
+              "Type": "bigint",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "source_table",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "source_column",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "source_geography_key",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "geography_raw",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "geography_name_candidate",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "geography_level",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "geography_status",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "geography_code",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "boundary_version",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "geography_mapping_version",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "geography_evidence",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "period_raw",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "year",
+              "Type": "integer",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "measure",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "season",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "statistic_kind",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "release_status",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "value_raw",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "value_source",
+              "Type": "decimal(28,8)",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "unit_raw",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "unit_source_reference",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "conversion_factor",
+              "Type": "decimal(8,0)",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "value",
+              "Type": "decimal(28,8)",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "unit",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "unit_status",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "unit_reference",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "unit_evidence",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "unit_mapping_version",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "metadata_version",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "quality_status",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "missing_reason",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "review_reason",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "diagnostic_evidence",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "_ingestion_run_id",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "_ingestion_batch_id",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "_ingestion_chunk_id",
+              "Type": "bigint",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "_ingestion_timestamp",
+              "Type": "timestamp(6) with time zone",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "_source_id",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "_source_file",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "_source_checksum",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "_source_snapshot_id",
+              "Type": "bigint",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "_dq_warnings",
+              "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "_silver_processed_at",
+              "Type": "timestamp(6) with time zone",
+              "Extra": "",
+              "Comment": ""
+            }
+          ]
+        },
+        "dead_letters": {
+          "status": "PASS",
+          "rows": 17,
+          "unique_keys": 17,
+          "full_content": "ALL_ROWS_ALL_COLUMNS_NATIVE_TRINO_MATCH",
+          "canonical_sha256": "f94e78125b2499c1af1a18b21815a34552c1569abb6cff10c49b2652d5360471",
+          "identity": {
+            "uuid": "7711cdc0-135f-491c-a153-09c5ff6c1689",
+            "snapshot_id": "3806092623472970273",
+            "schema_id": 0,
+            "metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00002-febb5d42-a466-43ba-9c82-acbe9f7dc02a.metadata.json",
+            "location": "s3://warehouse/silver_local/dead_letters",
+            "schema": {
+              "type": "struct",
+              "fields": [
+                {
+                  "id": 1,
+                  "name": "quarantine_record_id",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 2,
+                  "name": "source_dataset",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 3,
+                  "name": "pipeline_run_id",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 4,
+                  "name": "detected_at",
+                  "type": "timestamptz",
+                  "required": false
+                },
+                {
+                  "id": 5,
+                  "name": "business_key_hash",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 6,
+                  "name": "errors",
+                  "type": {
+                    "type": "list",
+                    "element-id": 8,
+                    "element": {
+                      "type": "struct",
+                      "fields": [
+                        {
+                          "id": 9,
+                          "name": "rule_id",
+                          "type": "string",
+                          "required": false
+                        },
+                        {
+                          "id": 10,
+                          "name": "error_message",
+                          "type": "string",
+                          "required": false
+                        },
+                        {
+                          "id": 11,
+                          "name": "failed_column",
+                          "type": "string",
+                          "required": false
+                        }
+                      ]
+                    },
+                    "element-required": false
+                  },
+                  "required": false
+                },
+                {
+                  "id": 7,
+                  "name": "payload",
+                  "type": "string",
+                  "required": false
+                }
+              ],
+              "schema-id": 0,
+              "identifier-field-ids": []
+            },
+            "snapshots": [
+              {
+                "snapshot_id": "7512195715552547853",
+                "summary": {
+                  "spark.app.id": "local-1792166920802",
+                  "added-data-files": "1",
+                  "added-records": "4",
+                  "added-files-size": "9197",
+                  "changed-partition-count": "1",
+                  "total-records": "4",
+                  "total-files-size": "9197",
+                  "total-data-files": "1",
+                  "total-delete-files": "0",
+                  "total-position-deletes": "0",
+                  "total-equality-deletes": "0",
+                  "engine-version": "3.5.5",
+                  "app-id": "local-1792166920802",
+                  "engine-name": "spark",
+                  "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+                }
+              },
+              {
+                "snapshot_id": "3806092623472970273",
+                "summary": {
+                  "spark.app.id": "local-1792166958709",
+                  "added-data-files": "1",
+                  "added-records": "13",
+                  "added-files-size": "7530",
+                  "changed-partition-count": "1",
+                  "total-records": "17",
+                  "total-files-size": "16727",
+                  "total-data-files": "2",
+                  "total-delete-files": "0",
+                  "total-position-deletes": "0",
+                  "total-equality-deletes": "0",
+                  "engine-version": "3.5.5",
+                  "app-id": "local-1792166958709",
+                  "engine-name": "spark",
+                  "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+                }
+              }
+            ]
+          },
+          "schema": [
+            {
+              "Column": "quarantine_record_id",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "source_dataset",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "pipeline_run_id",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "detected_at",
+              "Type": "timestamp(6) with time zone",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "business_key_hash",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "errors",
+              "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+              "Extra": "",
+              "Comment": ""
+            },
+            {
+              "Column": "payload",
+              "Type": "varchar",
+              "Extra": "",
+              "Comment": ""
+            }
+          ]
+        }
+      }
+    },
+    "schema": "Spark-written Iceberg metadata / PyIceberg / Trino DESCRIBE compatible",
+    "lineage": "All NSO observations including946 missing preserve eight Bronze lineage fields and pinned long snapshot identity."
+  },
+  "child": {
+    "dag_id": "rice_lakehouse_silver_pipeline",
+    "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+    "tasks": [
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "end",
+        "state": "success",
+        "try_number": 0,
+        "max_tries": 0,
+        "start_date": "2026-10-17T02:23:38.943839+00:00",
+        "end_date": "2026-10-17T02:23:39.16801+00:00",
+        "queued_dttm": null,
+        "job_id": 29,
+        "hostname": "0eed4b0b90f8",
+        "pid": 312,
+        "updated_at": "2026-10-17T02:23:39.168487+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "gate_check_bronze",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T16:00:50.333622+00:00",
+        "end_date": "2026-10-16T16:03:21.442574+00:00",
+        "queued_dttm": "2026-10-16T16:00:48.841786+00:00",
+        "job_id": 15,
+        "hostname": "airflow-scheduler",
+        "pid": 1689,
+        "updated_at": "2026-10-16T16:03:21.443087+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "publish_silver_signal",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-17T02:23:24.808408+00:00",
+        "end_date": "2026-10-17T02:23:25.082524+00:00",
+        "queued_dttm": null,
+        "job_id": 28,
+        "hostname": "0eed4b0b90f8",
+        "pid": 291,
+        "updated_at": "2026-10-17T02:23:25.082914+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "silver_data_quality_audit",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-17T02:20:24.696456+00:00",
+        "end_date": "2026-10-17T02:22:47.237333+00:00",
+        "queued_dttm": null,
+        "job_id": 27,
+        "hostname": "0eed4b0b90f8",
+        "pid": 254,
+        "updated_at": "2026-10-17T02:22:47.237681+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "start",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T16:00:47.784332+00:00",
+        "end_date": "2026-10-16T16:00:47.784336+00:00",
+        "queued_dttm": null,
+        "job_id": null,
+        "hostname": "",
+        "pid": null,
+        "updated_at": "2026-10-16T16:00:47.784708+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "transform_faostat_monthly_price",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T16:03:58.520529+00:00",
+        "end_date": "2026-10-16T16:04:31.193646+00:00",
+        "queued_dttm": "2026-10-16T16:03:56.852949+00:00",
+        "job_id": 17,
+        "hostname": "airflow-scheduler",
+        "pid": 1992,
+        "updated_at": "2026-10-16T16:04:31.194111+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "transform_faostat_production",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T16:03:25.520175+00:00",
+        "end_date": "2026-10-16T16:03:55.655223+00:00",
+        "queued_dttm": "2026-10-16T16:03:23.610494+00:00",
+        "job_id": 16,
+        "hostname": "airflow-scheduler",
+        "pid": 1943,
+        "updated_at": "2026-10-16T16:03:55.65571+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "transform_faostat_supply_utilization",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T16:04:34.598459+00:00",
+        "end_date": "2026-10-16T16:05:10.290016+00:00",
+        "queued_dttm": "2026-10-16T16:04:32.486551+00:00",
+        "job_id": 18,
+        "hostname": "airflow-scheduler",
+        "pid": 2041,
+        "updated_at": "2026-10-16T16:05:10.290435+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "transform_faostat_trade",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T16:05:14.488716+00:00",
+        "end_date": "2026-10-16T16:06:48.552361+00:00",
+        "queued_dttm": "2026-10-16T16:05:12.356816+00:00",
+        "job_id": 19,
+        "hostname": "airflow-scheduler",
+        "pid": 2090,
+        "updated_at": "2026-10-16T16:06:48.558885+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "transform_nso_vietnam_v2",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-17T02:13:54.064265+00:00",
+        "end_date": "2026-10-17T02:14:49.129985+00:00",
+        "queued_dttm": "2026-10-16T16:09:08.926674+00:00",
+        "job_id": 25,
+        "hostname": "0eed4b0b90f8",
+        "pid": 182,
+        "updated_at": "2026-10-17T02:14:49.130462+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "transform_thitruongnongsan",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T16:08:35.229846+00:00",
+        "end_date": "2026-10-16T16:09:07.637187+00:00",
+        "queued_dttm": "2026-10-16T16:08:33.571947+00:00",
+        "job_id": 23,
+        "hostname": "airflow-scheduler",
+        "pid": 2355,
+        "updated_at": "2026-10-16T16:09:07.637643+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "transform_usda_psd",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T16:06:52.54756+00:00",
+        "end_date": "2026-10-16T16:07:29.655694+00:00",
+        "queued_dttm": "2026-10-16T16:06:50.25187+00:00",
+        "job_id": 20,
+        "hostname": "airflow-scheduler",
+        "pid": 2217,
+        "updated_at": "2026-10-16T16:07:29.656176+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "transform_usda_rice_yearbook",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T16:07:33.300435+00:00",
+        "end_date": "2026-10-16T16:07:58.08457+00:00",
+        "queued_dttm": "2026-10-16T16:07:31.404321+00:00",
+        "job_id": 21,
+        "hostname": "airflow-scheduler",
+        "pid": 2266,
+        "updated_at": "2026-10-16T16:07:58.084961+00:00"
+      },
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+        "task_id": "transform_worldbank_pinksheet",
+        "state": "success",
+        "try_number": 1,
+        "max_tries": 0,
+        "start_date": "2026-10-16T16:08:01.748312+00:00",
+        "end_date": "2026-10-16T16:08:32.188648+00:00",
+        "queued_dttm": "2026-10-16T16:07:59.942189+00:00",
+        "job_id": 22,
+        "hostname": "airflow-scheduler",
+        "pid": 2313,
+        "updated_at": "2026-10-16T16:08:32.189039+00:00"
+      }
+    ],
+    "task_success_count": 14,
+    "audit_pass_count": 9,
+    "signal": {
+      "silver_status": "DQ_PASSED",
+      "acceptance": "CLI_AND_OWNER_REQUIRED",
+      "release": null,
+      "datasets": [
+        "faostat_production",
+        "faostat_monthly_price",
+        "faostat_supply_utilization",
+        "faostat_trade",
+        "usda_psd",
+        "usda_rice_yearbook",
+        "worldbank_pinksheet",
+        "thitruongnongsan",
+        "nso_vietnam_v2"
+      ],
+      "pending_datasets": [
+        "nso_vietnam_v2"
+      ],
+      "profile": "local_nine",
+      "production_nso_contract": "DRAFT"
+    },
+    "dagrun_state": "running",
+    "not_success_until_supported_finalization": true,
+    "audit_first_cli_invocation": "Dependency-admission rejection at scheduled state; no operator execution. Supported --force queue-state-only invocation then executed once with upstream checks retained."
+  },
+  "preservation": {
+    "catalog_18_other_identities_unchanged": true,
+    "eight_successful_task_instances_unchanged": true,
+    "nine_bronze_snapshots_and_run_identities_unchanged": true,
+    "five_ingestion_metadata_hashes_unchanged": true,
+    "ingestion_runs_count": 10,
+    "shared_and_phase2_containers_stopped_unchanged": true,
+    "no_volume_or_image_recreation": true,
+    "staged_objects_preserved_not_adopted": 34,
+    "new_nso_active_data_files": 35,
+    "parent_run_and_tasks_unchanged": true,
+    "silver_total_current_metadata_rows": 1414527
+  },
+  "final_dags": [
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "paused": true,
+      "import_errors": false
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "paused": true,
+      "import_errors": false
+    }
+  ],
+  "serialized_schedule_none": [
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "schedule_interval": null
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "schedule_interval": null
+    }
+  ],
+  "scheduler": "STOPPED",
+  "parent": {
+    "dag_id": "rice_lakehouse_ingestion",
+    "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+    "state": "running",
+    "execution_date": "2026-10-16T15:52:27+00:00",
+    "start_date": "2026-10-16T15:58:54.568068+00:00",
+    "end_date": null,
+    "queued_at": "2026-10-16T15:58:39.40671+00:00",
+    "last_scheduling_decision": "2026-10-16T16:10:31.077002+00:00",
+    "clear_number": 1,
+    "conf": "\\x80059517000000000000007d948c0f666f7263655f726570726f636573739489732e"
+  },
+  "blocker": {
+    "status": "BLOCKED_AUTO_REVIEW_CHILD_DAGRUN_FINALIZATION",
+    "rejected_action": "Final verification script containing a conditional supported DagRun.update_state(execute_callbacks=False) call after verifying all 14 tasks success.",
+    "stated_reason": "Automatic approval review interpreted parent/terminal finalization as outside owner-approved scope.",
+    "actual_execution": "Rejected before process execution. Mutation branch removed; only SELECT/GET verification followed. No child/parent DagRun finalization was invoked.",
+    "current_child_state": "running",
+    "all_child_tasks_success": true,
+    "owner_approval_needed": "Explicit approval for supported child-only state computation; no direct state override, no parent state change, no scheduler startup and no writer."
+  },
+  "remaining_finalization_proposal": "remaining-finalization-proposal.json",
+  "pipeline_noop_replay": "NOT_RUN_NOT_APPROVED",
+  "nso_production_contract": "DRAFT",
+  "git_head": "82bfec47988124cfcd73d53f14604714da6c2108",
+  "commit_push": "NOT_PERFORMED"
+}

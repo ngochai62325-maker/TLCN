@@ -1,0 +1,239 @@
+{
+  "format-version": 2,
+  "table-uuid": "8f12937d-0930-40cc-9d4e-1cb287515f8c",
+  "location": "s3://warehouse/bronze/faostat_production-15e05906fe5540cba6295fea11267a0d",
+  "last-sequence-number": 2,
+  "last-updated-ms": 1792160659797,
+  "last-column-id": 23,
+  "current-schema-id": 0,
+  "schemas": [
+    {
+      "type": "struct",
+      "schema-id": 0,
+      "fields": [
+        {
+          "id": 1,
+          "name": "domain_code",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 2,
+          "name": "domain",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 3,
+          "name": "area_code_m49_",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 4,
+          "name": "area",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 5,
+          "name": "element_code",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 6,
+          "name": "element",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 7,
+          "name": "item_code_cpc_",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 8,
+          "name": "item",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 9,
+          "name": "year_code",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 10,
+          "name": "year",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 11,
+          "name": "unit",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 12,
+          "name": "value",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 13,
+          "name": "flag",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 14,
+          "name": "flag_description",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 15,
+          "name": "note",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 16,
+          "name": "_ingestion_run_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 17,
+          "name": "_ingestion_batch_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 18,
+          "name": "_ingestion_chunk_id",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 19,
+          "name": "_ingestion_timestamp",
+          "required": false,
+          "type": "timestamptz"
+        },
+        {
+          "id": 20,
+          "name": "_source_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 21,
+          "name": "_source_file",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 22,
+          "name": "_source_checksum",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 23,
+          "name": "_source_snapshot_id",
+          "required": false,
+          "type": "long"
+        }
+      ]
+    }
+  ],
+  "default-spec-id": 0,
+  "partition-specs": [
+    {
+      "spec-id": 0,
+      "fields": []
+    }
+  ],
+  "last-partition-id": 999,
+  "default-sort-order-id": 0,
+  "sort-orders": [
+    {
+      "order-id": 0,
+      "fields": []
+    }
+  ],
+  "properties": {
+    "created-at": "2026-10-16T14:24:15.302700599Z",
+    "write.format.default": "PARQUET",
+    "write.parquet.compression-codec": "zstd"
+  },
+  "current-snapshot-id": 7950425895897888927,
+  "refs": {
+    "main": {
+      "snapshot-id": 7950425895897888927,
+      "type": "branch"
+    }
+  },
+  "snapshots": [
+    {
+      "sequence-number": 1,
+      "snapshot-id": 4927567159615847728,
+      "timestamp-ms": 1792160655732,
+      "summary": {
+        "operation": "append",
+        "trino_query_id": "20261016_142415_00004_zkj49",
+        "changed-partition-count": "0",
+        "total-records": "0",
+        "total-files-size": "0",
+        "total-data-files": "0",
+        "total-delete-files": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0"
+      },
+      "manifest-list": "s3://warehouse/bronze/faostat_production-15e05906fe5540cba6295fea11267a0d/metadata/snap-4927567159615847728-1-8f490da0-da09-4aba-9bae-d0c4a182c2c6.avro",
+      "schema-id": 0
+    },
+    {
+      "sequence-number": 2,
+      "snapshot-id": 7950425895897888927,
+      "parent-snapshot-id": 4927567159615847728,
+      "timestamp-ms": 1792160659797,
+      "summary": {
+        "operation": "append",
+        "added-files-size": "126700",
+        "added-data-files": "1",
+        "added-records": "22738",
+        "total-data-files": "1",
+        "total-delete-files": "0",
+        "total-records": "22738",
+        "total-files-size": "126700",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0"
+      },
+      "manifest-list": "s3://warehouse/bronze/faostat_production-15e05906fe5540cba6295fea11267a0d/metadata/snap-7950425895897888927-0-375435c3-6f88-4193-a984-b005d5733ed0.avro",
+      "schema-id": 0
+    }
+  ],
+  "statistics": [],
+  "snapshot-log": [
+    {
+      "timestamp-ms": 1792160655732,
+      "snapshot-id": 4927567159615847728
+    },
+    {
+      "timestamp-ms": 1792160659797,
+      "snapshot-id": 7950425895897888927
+    }
+  ],
+  "metadata-log": [
+    {
+      "timestamp-ms": 1792160655732,
+      "metadata-file": "s3://warehouse/bronze/faostat_production-15e05906fe5540cba6295fea11267a0d/metadata/00000-cc3e8929-5e98-4b3d-8f2a-2ce4e0df1f18.metadata.json"
+    }
+  ]
+}

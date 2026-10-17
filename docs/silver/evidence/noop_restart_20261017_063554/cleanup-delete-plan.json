@@ -1,0 +1,189 @@
+{
+  "workspace": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+  "dependency_inventory": "docs\\silver\\evidence\\local_completion_20261017_031329\\dependency-inventory.json",
+  "paths": [
+    {
+      "path": "mark_success.py",
+      "sha256": "2dc7a467f0a7614f32409b96609730fc44ebf33232b0a13e0d777296cbc99528",
+      "reason": "Obsolete standalone one-off shared metadata success override; not a supported entrypoint",
+      "category": "SAFE_DELETE_REDUNDANT",
+      "recursive": false
+    },
+    {
+      "path": "profile_usda.py",
+      "sha256": "4743a26beaa3a053e0215e38663acb2dcd4d0e616b43d548d467389c266385c4",
+      "reason": "Standalone historical shared USDA probe; current verified local Trino/native workflow supersedes it",
+      "category": "SAFE_DELETE_REDUNDANT",
+      "recursive": false
+    },
+    {
+      "path": "src/common/__pycache__",
+      "bytes": 473,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/ingestion/__pycache__",
+      "bytes": 634,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/silver/__pycache__",
+      "bytes": 53424,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/silver/contract/__pycache__",
+      "bytes": 34447,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/silver/core/__pycache__",
+      "bytes": 14490,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/silver/engine/__pycache__",
+      "bytes": 35394,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/silver/transformers/__pycache__",
+      "bytes": 159509,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/ingestion/adapters/__pycache__",
+      "bytes": 141664,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/ingestion/config/__pycache__",
+      "bytes": 47827,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/ingestion/core/__pycache__",
+      "bytes": 144411,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/ingestion/manifest/__pycache__",
+      "bytes": 14237,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/ingestion/orchestration/__pycache__",
+      "bytes": 27921,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/ingestion/readiness/__pycache__",
+      "bytes": 8963,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/ingestion/reliability/__pycache__",
+      "bytes": 50358,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/ingestion/storage/__pycache__",
+      "bytes": 233127,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/ingestion/utils/__pycache__",
+      "bytes": 15229,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/common/errors/__pycache__",
+      "bytes": 10252,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "src/common/reliability/__pycache__",
+      "bytes": 13018,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "dags/__pycache__",
+      "bytes": 31608,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "tests/__pycache__",
+      "bytes": 5828,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "tests/integration/__pycache__",
+      "bytes": 64643,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "tests/unit/__pycache__",
+      "bytes": 671550,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    },
+    {
+      "path": "tests/unit/silver/__pycache__",
+      "bytes": 44011,
+      "reason": "Generated ignored Python bytecode; all original .py sources are present. Does not contain runtime config or evidence.",
+      "category": "SAFE_DELETE_GENERATED",
+      "recursive": true
+    }
+  ],
+  "preserved": [
+    "All53 test files",
+    "All Raw/source metadata/contracts/requirements/locks",
+    "All accepted evidence/manifests",
+    "Active original clean-room Compose overlay",
+    "Private operator recovery journals and test wheels currently still in use",
+    "query_silver_usda.py has a historical documentation reference; uncertain, preserved"
+  ]
+}

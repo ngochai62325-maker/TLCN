@@ -1,0 +1,729 @@
+{
+  "status": "FULL_PASS",
+  "inventory": {
+    "at": "2026-10-16T15:26:12.198140+00:00",
+    "kind": "partition_inventory",
+    "dataset": "faostat_trade",
+    "partitions": [
+      {
+        "year": 2009,
+        "rows": 33028
+      },
+      {
+        "year": 2022,
+        "rows": 57158
+      },
+      {
+        "year": 1994,
+        "rows": 15066
+      },
+      {
+        "year": 2020,
+        "rows": 55442
+      },
+      {
+        "year": 1997,
+        "rows": 18038
+      },
+      {
+        "year": 2010,
+        "rows": 33858
+      },
+      {
+        "year": 1995,
+        "rows": 16222
+      },
+      {
+        "year": 2012,
+        "rows": 43814
+      },
+      {
+        "year": 2023,
+        "rows": 56406
+      },
+      {
+        "year": 2001,
+        "rows": 25388
+      },
+      {
+        "year": 1999,
+        "rows": 21212
+      },
+      {
+        "year": 1986,
+        "rows": 8304
+      },
+      {
+        "year": 1996,
+        "rows": 16658
+      },
+      {
+        "year": 1990,
+        "rows": 9512
+      },
+      {
+        "year": 2014,
+        "rows": 47444
+      },
+      {
+        "year": 2013,
+        "rows": 44880
+      },
+      {
+        "year": 1987,
+        "rows": 8156
+      },
+      {
+        "year": 1988,
+        "rows": 8728
+      },
+      {
+        "year": 2003,
+        "rows": 29348
+      },
+      {
+        "year": 2021,
+        "rows": 57396
+      },
+      {
+        "year": 2016,
+        "rows": 51362
+      },
+      {
+        "year": 2000,
+        "rows": 22698
+      },
+      {
+        "year": 2017,
+        "rows": 52802
+      },
+      {
+        "year": 1992,
+        "rows": 12850
+      },
+      {
+        "year": 1998,
+        "rows": 20042
+      },
+      {
+        "year": 2005,
+        "rows": 30916
+      },
+      {
+        "year": 2018,
+        "rows": 53056
+      },
+      {
+        "year": 2004,
+        "rows": 29756
+      },
+      {
+        "year": 1993,
+        "rows": 13298
+      },
+      {
+        "year": 1989,
+        "rows": 9454
+      },
+      {
+        "year": 2019,
+        "rows": 54730
+      },
+      {
+        "year": 2008,
+        "rows": 32192
+      },
+      {
+        "year": 2006,
+        "rows": 30950
+      },
+      {
+        "year": 2007,
+        "rows": 31814
+      },
+      {
+        "year": 2011,
+        "rows": 34768
+      },
+      {
+        "year": 2015,
+        "rows": 48924
+      },
+      {
+        "year": 2002,
+        "rows": 28614
+      },
+      {
+        "year": 1991,
+        "rows": 11522
+      },
+      {
+        "year": 2024,
+        "rows": 50664
+      }
+    ],
+    "native_partitions": [
+      {
+        "year": 1989,
+        "rows": 9454
+      },
+      {
+        "year": 1992,
+        "rows": 12850
+      },
+      {
+        "year": 1993,
+        "rows": 13298
+      },
+      {
+        "year": 1996,
+        "rows": 16658
+      },
+      {
+        "year": 1998,
+        "rows": 20042
+      },
+      {
+        "year": 1999,
+        "rows": 21212
+      },
+      {
+        "year": 2003,
+        "rows": 29348
+      },
+      {
+        "year": 2004,
+        "rows": 29756
+      },
+      {
+        "year": 2009,
+        "rows": 33028
+      },
+      {
+        "year": 2010,
+        "rows": 33858
+      },
+      {
+        "year": 2016,
+        "rows": 51362
+      },
+      {
+        "year": 2017,
+        "rows": 52802
+      },
+      {
+        "year": 2020,
+        "rows": 55442
+      },
+      {
+        "year": 1986,
+        "rows": 8304
+      },
+      {
+        "year": 1987,
+        "rows": 8156
+      },
+      {
+        "year": 1988,
+        "rows": 8728
+      },
+      {
+        "year": 1990,
+        "rows": 9512
+      },
+      {
+        "year": 1991,
+        "rows": 11522
+      },
+      {
+        "year": 1994,
+        "rows": 15066
+      },
+      {
+        "year": 1995,
+        "rows": 16222
+      },
+      {
+        "year": 1997,
+        "rows": 18038
+      },
+      {
+        "year": 2000,
+        "rows": 22698
+      },
+      {
+        "year": 2001,
+        "rows": 25388
+      },
+      {
+        "year": 2002,
+        "rows": 28614
+      },
+      {
+        "year": 2005,
+        "rows": 30916
+      },
+      {
+        "year": 2006,
+        "rows": 30950
+      },
+      {
+        "year": 2007,
+        "rows": 31814
+      },
+      {
+        "year": 2008,
+        "rows": 32192
+      },
+      {
+        "year": 2011,
+        "rows": 34768
+      },
+      {
+        "year": 2012,
+        "rows": 43814
+      },
+      {
+        "year": 2013,
+        "rows": 44880
+      },
+      {
+        "year": 2014,
+        "rows": 47444
+      },
+      {
+        "year": 2015,
+        "rows": 48924
+      },
+      {
+        "year": 2018,
+        "rows": 53056
+      },
+      {
+        "year": 2019,
+        "rows": 54730
+      },
+      {
+        "year": 2021,
+        "rows": 57396
+      },
+      {
+        "year": 2022,
+        "rows": 57158
+      },
+      {
+        "year": 2023,
+        "rows": 56406
+      },
+      {
+        "year": 2024,
+        "rows": 50664
+      }
+    ],
+    "null_year_rows": 0,
+    "unexpected_years": [],
+    "rows": 1226470,
+    "year_is_business_key": true
+  },
+  "completed_partitions": [
+    {
+      "year": 1986,
+      "rows": 8304,
+      "unique_keys": 8304,
+      "native_sha256": "f230c6ae497f4ed0f626691f033ecb94ea520f68cdb4a030a11fe53627bc5dbc",
+      "trino_sha256": "f230c6ae497f4ed0f626691f033ecb94ea520f68cdb4a030a11fe53627bc5dbc",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1986"
+    },
+    {
+      "year": 1987,
+      "rows": 8156,
+      "unique_keys": 8156,
+      "native_sha256": "fa883761a4a42d15817fc76b2c7170977d8fee069e19fc9f587f137611c447cf",
+      "trino_sha256": "fa883761a4a42d15817fc76b2c7170977d8fee069e19fc9f587f137611c447cf",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1987"
+    },
+    {
+      "year": 1988,
+      "rows": 8728,
+      "unique_keys": 8728,
+      "native_sha256": "38f880096b0579a9c091d287279925ad7d78569612f1eb06b25adaaa728802df",
+      "trino_sha256": "38f880096b0579a9c091d287279925ad7d78569612f1eb06b25adaaa728802df",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1988"
+    },
+    {
+      "year": 1989,
+      "rows": 9454,
+      "unique_keys": 9454,
+      "native_sha256": "2e70d7a1856684f6f4ebde8e2b55a643a4b70a140c988dd4846cfc9e21f0a44c",
+      "trino_sha256": "2e70d7a1856684f6f4ebde8e2b55a643a4b70a140c988dd4846cfc9e21f0a44c",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1989"
+    },
+    {
+      "year": 1990,
+      "rows": 9512,
+      "unique_keys": 9512,
+      "native_sha256": "1ccf2182d0496d956c6c9bd6b1f43f38f0077f400c679af1a875fb4352d7e9a3",
+      "trino_sha256": "1ccf2182d0496d956c6c9bd6b1f43f38f0077f400c679af1a875fb4352d7e9a3",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1990"
+    },
+    {
+      "year": 1991,
+      "rows": 11522,
+      "unique_keys": 11522,
+      "native_sha256": "45f9988ad91a8fb4ef0c3515bca2140d42f1012a44c293be3d9431567161170b",
+      "trino_sha256": "45f9988ad91a8fb4ef0c3515bca2140d42f1012a44c293be3d9431567161170b",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1991"
+    },
+    {
+      "year": 1992,
+      "rows": 12850,
+      "unique_keys": 12850,
+      "native_sha256": "7b8be83915f24418486a2ebfbb3a0f3cd722bf44e727d537f7f4fb74cb52a544",
+      "trino_sha256": "7b8be83915f24418486a2ebfbb3a0f3cd722bf44e727d537f7f4fb74cb52a544",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1992"
+    },
+    {
+      "year": 1993,
+      "rows": 13298,
+      "unique_keys": 13298,
+      "native_sha256": "86f6e860a505cdbc327f176ef65186ebfc7298632d5fa71c773a73c192b966dc",
+      "trino_sha256": "86f6e860a505cdbc327f176ef65186ebfc7298632d5fa71c773a73c192b966dc",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1993"
+    },
+    {
+      "year": 1994,
+      "rows": 15066,
+      "unique_keys": 15066,
+      "native_sha256": "7d4a91e257015a7ee2dc6270f6a930cc8a32e9c6b8a62f7c6acd974afe2e3442",
+      "trino_sha256": "7d4a91e257015a7ee2dc6270f6a930cc8a32e9c6b8a62f7c6acd974afe2e3442",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1994"
+    },
+    {
+      "year": 1995,
+      "rows": 16222,
+      "unique_keys": 16222,
+      "native_sha256": "7f5eec5517bb2d281b6504e89df7fe925f2744e98ce52c1a1c4ca7d0c9eddb5c",
+      "trino_sha256": "7f5eec5517bb2d281b6504e89df7fe925f2744e98ce52c1a1c4ca7d0c9eddb5c",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1995"
+    },
+    {
+      "year": 1996,
+      "rows": 16658,
+      "unique_keys": 16658,
+      "native_sha256": "5a7f98ca3f85ab35dd1941b0fef5d3ba04abbabe911c037da918c17e064dbb8c",
+      "trino_sha256": "5a7f98ca3f85ab35dd1941b0fef5d3ba04abbabe911c037da918c17e064dbb8c",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1996"
+    },
+    {
+      "year": 1997,
+      "rows": 18038,
+      "unique_keys": 18038,
+      "native_sha256": "81faf25e185e117a03bbcc99a8241b4100fe204df70bb3205b666751ac3cc9f4",
+      "trino_sha256": "81faf25e185e117a03bbcc99a8241b4100fe204df70bb3205b666751ac3cc9f4",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1997"
+    },
+    {
+      "year": 1998,
+      "rows": 20042,
+      "unique_keys": 20042,
+      "native_sha256": "8e2335adb32f206769378906e6f9e3c18c76d9459d62c63cb0f96cc946f7eb7c",
+      "trino_sha256": "8e2335adb32f206769378906e6f9e3c18c76d9459d62c63cb0f96cc946f7eb7c",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1998"
+    },
+    {
+      "year": 1999,
+      "rows": 21212,
+      "unique_keys": 21212,
+      "native_sha256": "91ed586413fc9c2250dd461eadc46d7e6c2dadcfa7c26dbb54e58f296d42fbd3",
+      "trino_sha256": "91ed586413fc9c2250dd461eadc46d7e6c2dadcfa7c26dbb54e58f296d42fbd3",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=1999"
+    },
+    {
+      "year": 2000,
+      "rows": 22698,
+      "unique_keys": 22698,
+      "native_sha256": "e09d6257df26dc1ebf008f1afb32daddcf91a7036af1cf2541e49573ef54e00b",
+      "trino_sha256": "e09d6257df26dc1ebf008f1afb32daddcf91a7036af1cf2541e49573ef54e00b",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2000"
+    },
+    {
+      "year": 2001,
+      "rows": 25388,
+      "unique_keys": 25388,
+      "native_sha256": "427d6bde75f5418504c61c7dae397192968bc3b580424b2d11971c5487b01d4c",
+      "trino_sha256": "427d6bde75f5418504c61c7dae397192968bc3b580424b2d11971c5487b01d4c",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2001"
+    },
+    {
+      "year": 2002,
+      "rows": 28614,
+      "unique_keys": 28614,
+      "native_sha256": "bdb1aca2b8efdeec503e5af3c73114d5e8f83832cefbc70310372868192827c4",
+      "trino_sha256": "bdb1aca2b8efdeec503e5af3c73114d5e8f83832cefbc70310372868192827c4",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2002"
+    },
+    {
+      "year": 2003,
+      "rows": 29348,
+      "unique_keys": 29348,
+      "native_sha256": "b56994c56a9ba80cd84a8d7fe58ebcef6581e6bb35e7ccee644216ae4774a55e",
+      "trino_sha256": "b56994c56a9ba80cd84a8d7fe58ebcef6581e6bb35e7ccee644216ae4774a55e",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2003"
+    },
+    {
+      "year": 2004,
+      "rows": 29756,
+      "unique_keys": 29756,
+      "native_sha256": "3952632129338100338d1151555ffff503ad6777d4110d00226a5f094263c094",
+      "trino_sha256": "3952632129338100338d1151555ffff503ad6777d4110d00226a5f094263c094",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2004"
+    },
+    {
+      "year": 2005,
+      "rows": 30916,
+      "unique_keys": 30916,
+      "native_sha256": "db5dfd1aa04555e71383461999cca3610a811b9fef018bab0c59e926825bd0d5",
+      "trino_sha256": "db5dfd1aa04555e71383461999cca3610a811b9fef018bab0c59e926825bd0d5",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2005"
+    },
+    {
+      "year": 2006,
+      "rows": 30950,
+      "unique_keys": 30950,
+      "native_sha256": "de477d568a36cfc77c9c8020c2b55bb545ddcba25def2a991bfc4d6ef1e5c8c8",
+      "trino_sha256": "de477d568a36cfc77c9c8020c2b55bb545ddcba25def2a991bfc4d6ef1e5c8c8",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2006"
+    },
+    {
+      "year": 2007,
+      "rows": 31814,
+      "unique_keys": 31814,
+      "native_sha256": "99862b160a8c247a681571fc64c62cccf92f4e5a86c7ba16cfc49edc74c53282",
+      "trino_sha256": "99862b160a8c247a681571fc64c62cccf92f4e5a86c7ba16cfc49edc74c53282",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2007"
+    },
+    {
+      "year": 2008,
+      "rows": 32192,
+      "unique_keys": 32192,
+      "native_sha256": "fea5ded096134224cf1ddeff4b2be27d790cf73e334452cf5a31fd952851dbbe",
+      "trino_sha256": "fea5ded096134224cf1ddeff4b2be27d790cf73e334452cf5a31fd952851dbbe",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2008"
+    },
+    {
+      "year": 2009,
+      "rows": 33028,
+      "unique_keys": 33028,
+      "native_sha256": "623b8ff47f0c542e259fe822bf64e840aa9f37dfd60ead7c01ce154c4232fc0b",
+      "trino_sha256": "623b8ff47f0c542e259fe822bf64e840aa9f37dfd60ead7c01ce154c4232fc0b",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2009"
+    },
+    {
+      "year": 2010,
+      "rows": 33858,
+      "unique_keys": 33858,
+      "native_sha256": "d634461c1d0f3426aff4a927cd726d6deeae91eb7ba94413aafe2efed25c9cee",
+      "trino_sha256": "d634461c1d0f3426aff4a927cd726d6deeae91eb7ba94413aafe2efed25c9cee",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2010"
+    },
+    {
+      "year": 2011,
+      "rows": 34768,
+      "unique_keys": 34768,
+      "native_sha256": "18b2c7ce4440a760f0a94a25c1430d206a51013333dc5da2b3fd4c71ca8a92ab",
+      "trino_sha256": "18b2c7ce4440a760f0a94a25c1430d206a51013333dc5da2b3fd4c71ca8a92ab",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2011"
+    },
+    {
+      "year": 2012,
+      "rows": 43814,
+      "unique_keys": 43814,
+      "native_sha256": "425fa22ebe88f6da60ed033d3d4cac991363ae6c5561b9b9a70653902442060c",
+      "trino_sha256": "425fa22ebe88f6da60ed033d3d4cac991363ae6c5561b9b9a70653902442060c",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2012"
+    },
+    {
+      "year": 2013,
+      "rows": 44880,
+      "unique_keys": 44880,
+      "native_sha256": "aefcaa0066a2689c25ef764d034dfb721ef2ff131b598c8bd8a61cdda4a814ff",
+      "trino_sha256": "aefcaa0066a2689c25ef764d034dfb721ef2ff131b598c8bd8a61cdda4a814ff",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2013"
+    },
+    {
+      "year": 2014,
+      "rows": 47444,
+      "unique_keys": 47444,
+      "native_sha256": "f3d8adefa10c40c00071283ff914d73202aa165440ea8cac23530b480cb3656f",
+      "trino_sha256": "f3d8adefa10c40c00071283ff914d73202aa165440ea8cac23530b480cb3656f",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2014"
+    },
+    {
+      "year": 2015,
+      "rows": 48924,
+      "unique_keys": 48924,
+      "native_sha256": "984f8cb9108c723089cb81397ef73d71de1114657f506499132533e0ae331500",
+      "trino_sha256": "984f8cb9108c723089cb81397ef73d71de1114657f506499132533e0ae331500",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2015"
+    },
+    {
+      "year": 2016,
+      "rows": 51362,
+      "unique_keys": 51362,
+      "native_sha256": "152ee7eac772f1569f4b0baa4180880a3cb7f3b0b46f515323e10facc0d37ea1",
+      "trino_sha256": "152ee7eac772f1569f4b0baa4180880a3cb7f3b0b46f515323e10facc0d37ea1",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2016"
+    },
+    {
+      "year": 2017,
+      "rows": 52802,
+      "unique_keys": 52802,
+      "native_sha256": "45ed4256f17fe4ce2857a00a18ba44b178b513aa03e5d0eacbd1cc09d3bf7279",
+      "trino_sha256": "45ed4256f17fe4ce2857a00a18ba44b178b513aa03e5d0eacbd1cc09d3bf7279",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2017"
+    },
+    {
+      "year": 2018,
+      "rows": 53056,
+      "unique_keys": 53056,
+      "native_sha256": "1d5872e655c76cedb970e4987fb63f3fdbc101f783d46b3872f528e069b03973",
+      "trino_sha256": "1d5872e655c76cedb970e4987fb63f3fdbc101f783d46b3872f528e069b03973",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2018"
+    },
+    {
+      "year": 2019,
+      "rows": 54730,
+      "unique_keys": 54730,
+      "native_sha256": "1a60ce29f29416b4d8f3b2b2831718c8bd5fd1c86641e1100ce8a61a134c0667",
+      "trino_sha256": "1a60ce29f29416b4d8f3b2b2831718c8bd5fd1c86641e1100ce8a61a134c0667",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2019"
+    },
+    {
+      "year": 2020,
+      "rows": 55442,
+      "unique_keys": 55442,
+      "native_sha256": "081fe55defcf82dc2e38786252b12d424ff079ca92d36802780e02d27d4b6a98",
+      "trino_sha256": "081fe55defcf82dc2e38786252b12d424ff079ca92d36802780e02d27d4b6a98",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2020"
+    },
+    {
+      "year": 2021,
+      "rows": 57396,
+      "unique_keys": 57396,
+      "native_sha256": "72cb89873b7535020761ce362171bb8d8cc2ac33893f9e69e82be6a6dd8fc5ea",
+      "trino_sha256": "72cb89873b7535020761ce362171bb8d8cc2ac33893f9e69e82be6a6dd8fc5ea",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2021"
+    },
+    {
+      "year": 2022,
+      "rows": 57158,
+      "unique_keys": 57158,
+      "native_sha256": "ec56411ea21a8fe72ebb627d52dae97b3d7e201a55ea659d74e30a24ad9c12b6",
+      "trino_sha256": "ec56411ea21a8fe72ebb627d52dae97b3d7e201a55ea659d74e30a24ad9c12b6",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2022"
+    },
+    {
+      "year": 2023,
+      "rows": 56406,
+      "unique_keys": 56406,
+      "native_sha256": "82bc247bc27591e769271bc574866da336cad013de8cdb95e5eb6bbee531d397",
+      "trino_sha256": "82bc247bc27591e769271bc574866da336cad013de8cdb95e5eb6bbee531d397",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2023"
+    },
+    {
+      "year": 2024,
+      "rows": 50664,
+      "unique_keys": 50664,
+      "native_sha256": "0e08835de50035f6920c7fa786c97f3a8dde1a72b41e00600d2c3327cfd0bf22",
+      "trino_sha256": "0e08835de50035f6920c7fa786c97f3a8dde1a72b41e00600d2c3327cfd0bf22",
+      "status": "PASS",
+      "sql": "SELECT \"reporter_country_name\",\"reporter_country_code\",\"partner_country_name\",\"partner_country_code\",\"commodity_name\",\"commodity_code\",\"element_name\",\"element_code\",\"year\",\"unit\",\"value\",\"flag\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"faostat_trade\" FOR VERSION AS OF 9100227375555158764 WHERE year=2024"
+    }
+  ],
+  "coverage": {
+    "status": "FULL_PASS",
+    "rows": 1226470,
+    "verified_rows": 1226470,
+    "coverage_percent": 100,
+    "partitions": 39,
+    "year_min": 1986,
+    "year_max": 2024,
+    "null_year_rows": 0,
+    "unexpected_years": [],
+    "duplicate_year_partitions": 0,
+    "reused_partitions": 8,
+    "reused_rows": 81824,
+    "new_partitions": 31,
+    "new_rows": 1144646,
+    "reused_new_overlap": [],
+    "native_trino_partition_inventory_exact_match": true,
+    "year_in_business_key": true,
+    "all_partition_keys_unique": true,
+    "all_partition_hashes_match": true,
+    "all_columns": true,
+    "inventory_evidence": "trade-coverage.json"
+  },
+  "content_roots": {
+    "dataset": "faostat_trade",
+    "source": "faostat_trade",
+    "target": "iceberg.silver_local.faostat_trade",
+    "rows": 1226470,
+    "unique_business_keys": 1226470,
+    "status": "PASS",
+    "full_content": "ALL_ROWS_ALL_COLUMNS",
+    "evidence": "current resumed full-content readback",
+    "uuid": "7c441846-2950-4f28-9b2d-0c7dfec87f50",
+    "snapshot_id": "9100227375555158764",
+    "schema_id": 0,
+    "metadata_location": "s3://warehouse/silver_local/faostat_trade/metadata/00001-7a174971-abe6-47f5-8964-2baf77c54277.metadata.json",
+    "bronze_read_snapshot_id": "1340155588230749129",
+    "bronze_uuid": "4a3dbf0e-07d0-4b9b-8e62-ac0dbb09fd2a",
+    "valid": 1226470,
+    "quarantine": 0,
+    "duplicates": 0,
+    "warnings": 0,
+    "native_content_root_sha256": "65b3b96cee1098f4e53596a3ed06e5f626189fcb6e552325be8083231dd0117e",
+    "trino_content_root_sha256": "65b3b96cee1098f4e53596a3ed06e5f626189fcb6e552325be8083231dd0117e",
+    "schema": "PASS",
+    "eight_bronze_lineage_fields": "PASS",
+    "units_values_flags_missing": "PASS"
+  }
+}

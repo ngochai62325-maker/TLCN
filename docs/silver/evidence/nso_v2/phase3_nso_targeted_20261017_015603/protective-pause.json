@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-17T01:58:36.599625+00:00",
+  "interface": "airflow dags pause in existing webserver, scheduler stopped",
+  "dags": [
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "paused": true
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "paused": true
+    }
+  ],
+  "outputs": [
+    "dag_id                   | is_paused\n=========================+==========\nrice_lakehouse_ingestion | True     \n                                    \n",
+    "dag_id                         | is_paused\n===============================+==========\nrice_lakehouse_silver_pipeline | True     \n                                          \n"
+  ],
+  "approved_paused_flag_only": true
+}

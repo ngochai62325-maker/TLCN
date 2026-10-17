@@ -1,0 +1,209 @@
+{
+  "format-version": 2,
+  "table-uuid": "26f68bd7-d87a-4d31-a153-b46403622233",
+  "location": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e",
+  "last-sequence-number": 2,
+  "last-updated-ms": 1792166416816,
+  "last-column-id": 18,
+  "current-schema-id": 0,
+  "schemas": [
+    {
+      "type": "struct",
+      "schema-id": 0,
+      "fields": [
+        {
+          "id": 1,
+          "name": "table_name",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 2,
+          "name": "table_number",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 3,
+          "name": "commodity_description",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 4,
+          "name": "class_description",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 5,
+          "name": "year",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 6,
+          "name": "reference_period_description",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 7,
+          "name": "location_description",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 8,
+          "name": "statistic_description",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 9,
+          "name": "value",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 10,
+          "name": "unit_description",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 11,
+          "name": "_ingestion_run_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 12,
+          "name": "_ingestion_batch_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 13,
+          "name": "_ingestion_chunk_id",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 14,
+          "name": "_ingestion_timestamp",
+          "required": false,
+          "type": "timestamptz"
+        },
+        {
+          "id": 15,
+          "name": "_source_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 16,
+          "name": "_source_file",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 17,
+          "name": "_source_checksum",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 18,
+          "name": "_source_snapshot_id",
+          "required": false,
+          "type": "long"
+        }
+      ]
+    }
+  ],
+  "default-spec-id": 0,
+  "partition-specs": [
+    {
+      "spec-id": 0,
+      "fields": []
+    }
+  ],
+  "last-partition-id": 999,
+  "default-sort-order-id": 0,
+  "sort-orders": [
+    {
+      "order-id": 0,
+      "fields": []
+    }
+  ],
+  "properties": {
+    "created-at": "2026-10-16T16:00:16.181891022Z",
+    "write.format.default": "PARQUET",
+    "write.parquet.compression-codec": "zstd"
+  },
+  "current-snapshot-id": 4564470349869842851,
+  "refs": {
+    "main": {
+      "snapshot-id": 4564470349869842851,
+      "type": "branch"
+    }
+  },
+  "snapshots": [
+    {
+      "sequence-number": 1,
+      "snapshot-id": 5200652557749495353,
+      "timestamp-ms": 1792166416206,
+      "summary": {
+        "operation": "append",
+        "trino_query_id": "20261016_160016_00110_2enta",
+        "changed-partition-count": "0",
+        "total-records": "0",
+        "total-files-size": "0",
+        "total-data-files": "0",
+        "total-delete-files": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0"
+      },
+      "manifest-list": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/snap-5200652557749495353-1-a68dd1e0-1ecb-4bec-a183-4ac9d7d62b02.avro",
+      "schema-id": 0
+    },
+    {
+      "sequence-number": 2,
+      "snapshot-id": 4564470349869842851,
+      "parent-snapshot-id": 5200652557749495353,
+      "timestamp-ms": 1792166416816,
+      "summary": {
+        "operation": "append",
+        "added-files-size": "30410",
+        "added-data-files": "1",
+        "added-records": "13131",
+        "total-data-files": "1",
+        "total-delete-files": "0",
+        "total-records": "13131",
+        "total-files-size": "30410",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0"
+      },
+      "manifest-list": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/snap-4564470349869842851-0-78c03454-61f7-4441-8030-ac84c6be298f.avro",
+      "schema-id": 0
+    }
+  ],
+  "statistics": [],
+  "snapshot-log": [
+    {
+      "timestamp-ms": 1792166416206,
+      "snapshot-id": 5200652557749495353
+    },
+    {
+      "timestamp-ms": 1792166416816,
+      "snapshot-id": 4564470349869842851
+    }
+  ],
+  "metadata-log": [
+    {
+      "timestamp-ms": 1792166416206,
+      "metadata-file": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/00000-495e98ec-0201-4ef1-a615-b68168ff24ad.metadata.json"
+    }
+  ]
+}

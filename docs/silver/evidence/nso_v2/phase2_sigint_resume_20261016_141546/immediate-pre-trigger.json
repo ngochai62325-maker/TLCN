@@ -1,0 +1,26 @@
+{
+  "state": {
+    "runs": [],
+    "tasks": [],
+    "locks": 0,
+    "dags": [
+      {
+        "dag_id": "rice_lakehouse_silver_pipeline",
+        "paused": true
+      },
+      {
+        "dag_id": "rice_lakehouse_ingestion",
+        "paused": true
+      }
+    ],
+    "has_ingestion": false,
+    "at": "2026-10-16T14:23:50.073978+00:00"
+  },
+  "resources": {
+    "at": "2026-10-16T14:23:47.189228+00:00",
+    "windows_available": 4204425216,
+    "windows_load": 74,
+    "wsl_meminfo": "MemTotal:        8131796 kB\nMemFree:         4526960 kB\nMemAvailable:    5601352 kB\nBuffers:           27692 kB\nCached:          1064460 kB\nSwapCached:            0 kB\nActive:           424996 kB\nInactive:        2638236 kB\nActive(anon):      10308 kB\nInactive(anon):  1982028 kB\nActive(file):     414688 kB\nInactive(file):   656208 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:               184 kB\nWriteback:             0 kB\nAnonPages:       1971056 kB\nMapped:           509312 kB\nShmem:             21256 kB\nKReclaimable:     200076 kB\nSlab:             289952 kB\nSReclaimable:     200076 kB\nSUnreclaim:        89876 kB\nKernelStack:       11076 kB\nPageTables:        17740 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:    9660132 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       36084 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       76800 kB\nDirectMap2M:     6213632 kB\nDirectMap1G:    11534336 kB\n",
+    "stats": "{\"BlockIO\":\"303MB / 4.1kB\",\"CPUPerc\":\"0.08%\",\"Container\":\"95736198e85ed0e490aaf6eac0d094f0e405e634313e7d072e73dfe43d152381\",\"ID\":\"95736198e85e\",\"MemPerc\":\"75.82%\",\"MemUsage\":\"776.4MiB / 1GiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-airflow-webserver-1\",\"NetIO\":\"923kB / 489kB\",\"PIDs\":\"5\"}\n{\"BlockIO\":\"52.2MB / 451kB\",\"CPUPerc\":\"2.69%\",\"Container\":\"9909770f97b03edb19bc1b8dc08d23fbac5add21206509adeb6e95454eb7dc04\",\"ID\":\"9909770f97b0\",\"MemPerc\":\"21.28%\",\"MemUsage\":\"326.8MiB / 1.5GiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-airflow-scheduler-1\",\"NetIO\":\"5.21MB / 4.9MB\",\"PIDs\":\"13\"}\n{\"BlockIO\":\"1.25MB / 0B\",\"CPUPerc\":\"0.01%\",\"Container\":\"f42feb8efea58e67ce4cf3b22906a903c083f13b0a75439d86fe11f2d7d750cc\",\"ID\":\"f42feb8efea5\",\"MemPerc\":\"0.34%\",\"MemUsage\":\"10.32MiB / 3GiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-runner-1\",\"NetIO\":\"2.51kB / 1.58kB\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"139MB / 1.9MB\",\"CPUPerc\":\"2.69%\",\"Container\":\"5fe24960fb14d5c4c11481998d8795fff9415aa3dac7459f0e772accce7622a8\",\"ID\":\"5fe24960fb14\",\"MemPerc\":\"61.40%\",\"MemUsage\":\"628.8MiB / 1GiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-trino-test-1\",\"NetIO\":\"5.29kB / 3kB\",\"PIDs\":\"144\"}\n{\"BlockIO\":\"34.5MB / 1.2MB\",\"CPUPerc\":\"0.13%\",\"Container\":\"4ca90539494482112a1869096bf9d78d7cdeb64be460b95faf48ae88b563d4cf\",\"ID\":\"4ca905394944\",\"MemPerc\":\"16.08%\",\"MemUsage\":\"72.04MiB / 448MiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-rest-test-1\",\"NetIO\":\"3.2kB / 1.99kB\",\"PIDs\":\"24\"}\n{\"BlockIO\":\"54.4MB / 1.28MB\",\"CPUPerc\":\"0.14%\",\"Container\":\"2154802e0c7f48c4afc28101a4053e56b068b7696f31abfb6689157a589b7c94\",\"ID\":\"2154802e0c7f\",\"MemPerc\":\"15.05%\",\"MemUsage\":\"77.04MiB / 512MiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-minio-test-1\",\"NetIO\":\"2.53kB / 126B\",\"PIDs\":\"17\"}\n{\"BlockIO\":\"11.4MB / 6MB\",\"CPUPerc\":\"0.90%\",\"Container\":\"ab125221fab9edef399a617968cd03ddf450b022adade2084ed11bfcafc610b8\",\"ID\":\"ab125221fab9\",\"MemPerc\":\"15.63%\",\"MemUsage\":\"40.02MiB / 256MiB\",\"Name\":\"tlcn-local-nine-airflow-20261016-postgres-test-1\",\"NetIO\":\"5.2MB / 5.93MB\",\"PIDs\":\"13\"}\n"
+  }
+}

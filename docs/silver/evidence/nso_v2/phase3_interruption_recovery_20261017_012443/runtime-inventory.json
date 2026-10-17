@@ -1,0 +1,2042 @@
+{
+  "at": "2026-10-17T01:24:44.773314+00:00",
+  "read_only": true,
+  "git_head": "82bfec47988124cfcd73d53f14604714da6c2108",
+  "branch": "handoff/local-nine-phase2",
+  "git_status": " M compose.local-nine-test.yml\n?? docs/silver/evidence/nso_v2/compat-regression.log\n?? docs/silver/evidence/nso_v2/hook-regression-initial.log\n?? docs/silver/evidence/nso_v2/phase1_rest_20261016/rest-startup-failure.log\n?? docs/silver/evidence/nso_v2/phase2_controlled_restore_20261016_140109/\n?? docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/\n?? docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/\n?? docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/\n?? docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/\n?? docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/\n",
+  "git_diff": "diff --git a/compose.local-nine-test.yml b/compose.local-nine-test.yml\nindex b06f3c0..5ddaa75 100644\n--- a/compose.local-nine-test.yml\n+++ b/compose.local-nine-test.yml\n@@ -64,6 +64,7 @@ services:\n     volumes: [local_catalog_data:/data/catalog]\n   trino-test:\n     image: trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3\n+    mem_limit: 1536m\n     ports: [127.0.0.1:18080:8080]\n     command:\n       - |\n",
+  "projects": [
+    {
+      "Name": "tlcn",
+      "Status": "exited(2), running(7)",
+      "ConfigFiles": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml"
+    },
+    {
+      "Name": "tlcn-local-nine-airflow-20261016",
+      "Status": "exited(8)",
+      "ConfigFiles": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml"
+    },
+    {
+      "Name": "tlcn-local-nine-cleanroom-20261016",
+      "Status": "exited(8)",
+      "ConfigFiles": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml"
+    },
+    {
+      "Name": "tlcn-nso-v2-20261015",
+      "Status": "exited(5)",
+      "ConfigFiles": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml"
+    },
+    {
+      "Name": "tlcn-nso-v2-rest-recovery-20261016",
+      "Status": "exited(6)",
+      "ConfigFiles": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.nso-rest-test.yml"
+    },
+    {
+      "Name": "tlcn-silver-fresh-20261015",
+      "Status": "exited(4)",
+      "ConfigFiles": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml"
+    },
+    {
+      "Name": "tlcn-silver-rebuild-test",
+      "Status": "exited(4)",
+      "ConfigFiles": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml"
+    },
+    {
+      "Name": "tlcn-silver-release-prep-20261013",
+      "Status": "exited(4)",
+      "ConfigFiles": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml"
+    }
+  ],
+  "containers": [
+    {
+      "id": "ac65ab2849c9a9a6762c8bb86f0fd7f7df3c958089eb8e1d5650f83572ee39cd",
+      "name": "/spark-iceberg",
+      "created": "2026-10-17T01:18:06.082819865Z",
+      "image": "sha256:790a72e744e0d09f161e1b4c7c2f79625cc598cf0476da4703e62f1f4e023460",
+      "reference": "tabulario/spark-iceberg:latest",
+      "project": "tlcn",
+      "service": "spark-iceberg",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_config_hash": "2066764faf24323e501bba1dc2b2e2e2eaf28e9067912005661ca3ac9b345b66",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1121,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-17T01:18:14.362953306Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "memory_swap": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\notebooks",
+          "Destination": "/home/iceberg/notebooks",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/home/iceberg/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\tests",
+          "Destination": "/home/iceberg/tests",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/home/iceberg/contracts",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\silver",
+          "Destination": "/home/iceberg/config/silver",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\spark\\spark-defaults.conf",
+          "Destination": "/opt/spark/conf/spark-defaults.conf",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/home/iceberg/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/home/iceberg/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn_lakehouse-net"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "628a560441838fbaba19276bcc787f14a074c81a15656558a3ba67c2cc7b2f1c",
+      "name": "/trino",
+      "created": "2026-10-17T01:18:06.024415729Z",
+      "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "reference": "trinodb/trino:448",
+      "project": "tlcn",
+      "service": "trino",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_config_hash": "c75a6115262eae584bf5e85b8f33cb6398b597c34d233c71a11d9e913a7e8a1b",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1080,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-17T01:18:14.235086036Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "memory_swap": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\catalog\\iceberg.properties",
+          "Destination": "/etc/trino/catalog/iceberg.properties",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\config.properties",
+          "Destination": "/etc/trino/config.properties",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config\\trino\\etc\\jvm.config",
+          "Destination": "/etc/trino/jvm.config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn_lakehouse-net"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "fbd0b78ac6d1fc1cd7f783f9c4c2a44f9f4e6050a6faff448153c41bc144a549",
+      "name": "/airflow-webserver",
+      "created": "2026-10-17T01:18:05.951664561Z",
+      "image": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "reference": "apache/airflow:2.10.4-python3.11",
+      "project": "tlcn",
+      "service": "airflow-webserver",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_config_hash": "18cf98a4c0971224e760c375f0e8ecdf6bce180e8fc0354fd76a80a3860de87b",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1878,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-17T01:18:39.953431626Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "memory_swap": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/opt/airflow/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\dags",
+          "Destination": "/opt/airflow/dags",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\logs",
+          "Destination": "/opt/airflow/logs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\plugins",
+          "Destination": "/opt/airflow/plugins",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/opt/airflow/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/opt/airflow/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config",
+          "Destination": "/opt/airflow/config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/opt/airflow/contracts",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn_lakehouse-net"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "b76394eb3290814d7ebc91c868ee5a762855ec4c2692fd21acb35c68ca19d8e0",
+      "name": "/airflow-scheduler",
+      "created": "2026-10-17T01:18:05.948485252Z",
+      "image": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "reference": "apache/airflow:2.10.4-python3.11",
+      "project": "tlcn",
+      "service": "airflow-scheduler",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_config_hash": "6176efef0c53619941a9a0ef50b24bd6c15e5d4c6702c10fd33de0b356fa9c3d",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 1867,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-17T01:18:39.926871094Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "memory_swap": 0,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\logs",
+          "Destination": "/opt/airflow/logs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\plugins",
+          "Destination": "/opt/airflow/plugins",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data",
+          "Destination": "/opt/airflow/data",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\src",
+          "Destination": "/opt/airflow/src",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\config",
+          "Destination": "/opt/airflow/config",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\contracts",
+          "Destination": "/opt/airflow/contracts",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\jobs",
+          "Destination": "/opt/airflow/jobs",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\dags",
+          "Destination": "/opt/airflow/dags",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn_lakehouse-net"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "f9c08d4e677b677abef9d5ead6c5e98e648b166cc5de58cb4ad61ea796b65a0f",
+      "name": "/iceberg-rest",
+      "created": "2026-10-17T01:18:05.770202145Z",
+      "image": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "reference": "tabulario/iceberg-rest:0.8.0",
+      "project": "tlcn",
+      "service": "iceberg-rest",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_config_hash": "0f46f5538a0cf6c2d6ee264f10e8cc468f33644bfafa886e4dc932e164082c00",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 999,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-17T01:18:13.724778811Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "memory_swap": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_catalog_data",
+          "Source": "/var/lib/docker/volumes/tlcn_catalog_data/_data",
+          "Destination": "/data/catalog",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn_lakehouse-net"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "04a268591eb25b91baf4eb296e7e41839f72c8a589557779759eaac289080276",
+      "name": "/airflow-init",
+      "created": "2026-10-17T01:18:05.682288025Z",
+      "image": "sha256:5afa55b7c6087112770605f9b9851afd665f5c7f3719b390fcb4bd28a47a7f9a",
+      "reference": "apache/airflow:2.10.4-python3.11",
+      "project": "tlcn",
+      "service": "airflow-init",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_config_hash": "913d5b660cf5f31e22e81ac742c6f73496228be6ea838338153addbfaebf2864",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-17T01:18:12.82613909Z",
+        "FinishedAt": "2026-10-17T01:18:39.347545184Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "memory_swap": 0,
+      "mounts": [],
+      "networks": [
+        "tlcn_lakehouse-net"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "723b18e72f2402cb1837fa4db83cf0d00b54efec2ea8c361b3dc4a96ecfb1fcc",
+      "name": "/mc-init",
+      "created": "2026-10-17T01:18:05.602269251Z",
+      "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "reference": "ghcr.io/coollabsio/minio:latest",
+      "project": "tlcn",
+      "service": "mc-init",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_config_hash": "eceb5fe52995c61e38a87f78075a342eb8453fc6c313df5dda547981325f9a2e",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-17T01:18:12.79404828Z",
+        "FinishedAt": "2026-10-17T01:18:13.388562788Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "memory_swap": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "e2afc8e4c868afe78a2bcd0f5f33ec4196d88c379f726bd7e436d539d804a18b",
+          "Source": "/var/lib/docker/volumes/e2afc8e4c868afe78a2bcd0f5f33ec4196d88c379f726bd7e436d539d804a18b/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn_lakehouse-net"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "dd6aa1baf544cfe516b983cd00ac9988e234478546dd376960a3fb00f6fe6b4c",
+      "name": "/postgres",
+      "created": "2026-10-17T01:18:05.462346785Z",
+      "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "reference": "postgres:15-alpine",
+      "project": "tlcn",
+      "service": "postgres",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_config_hash": "f0685494aed407285663b97ff08b12b13f24d4f077c59190ab92d95dd8eaa939",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 620,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-17T01:18:06.808539426Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "memory_swap": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_postgres_data",
+          "Source": "/var/lib/docker/volumes/tlcn_postgres_data/_data",
+          "Destination": "/var/lib/postgresql/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn_lakehouse-net"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "513e89e55d90014d495c980f8beefc6823671cf5e007eb909bb0499c98e74ca6",
+      "name": "/minio",
+      "created": "2026-10-17T01:18:05.442640199Z",
+      "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "reference": "ghcr.io/coollabsio/minio:latest",
+      "project": "tlcn",
+      "service": "minio",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docker-compose.yml",
+      "compose_config_hash": "080d3947a264ba2a76d594f69337d3b9b65b87f8f7e2f82656678b00bf822f39",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 621,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-17T01:18:06.840716516Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "health": "healthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 0,
+      "memory_swap": 0,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn_minio_data",
+          "Source": "/var/lib/docker/volumes/tlcn_minio_data/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn_lakehouse-net"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "577262f9fc99d8c494814b4467cf991827ddf9653254f7c4803f72ca5c6bc3a4",
+      "name": "/tlcn-local-nine-cleanroom-20261016-trino-test-1",
+      "created": "2026-10-16T15:55:24.39087425Z",
+      "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "reference": "trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "project": "tlcn-local-nine-cleanroom-20261016",
+      "service": "trino-test",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+      "compose_config_hash": "e24b5bdfa3b70a0d628ff2f629cdb0c1eb39627965b9fea7a98febd7e3983fba",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-16T15:55:24.645715986Z",
+        "FinishedAt": "2026-10-16T16:10:31.44944942Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 1610612736,
+      "memory_swap": 3221225472,
+      "mounts": [],
+      "networks": [
+        "tlcn-local-nine-cleanroom-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "311dd8666baed0be050cbc8d4620d8d43ba064113bf79546b7868f48525ec2e1",
+      "name": "/tlcn-local-nine-cleanroom-20261016-airflow-scheduler-1",
+      "created": "2026-10-16T15:48:50.596322079Z",
+      "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "project": "tlcn-local-nine-cleanroom-20261016",
+      "service": "airflow-scheduler",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+      "compose_config_hash": "7a6d82b3e51cb6207540f9d4a29b6fe48a4ef120c218d0c06cd094672b5b45c6",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-10-16T15:48:50.971085384Z",
+        "FinishedAt": "2026-10-16T16:10:32.260688779Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 1610612736,
+      "memory_swap": 3221225472,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-cleanroom-20261016_local_airflow_logs",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_airflow_logs/_data",
+          "Destination": "/opt/airflow/logs",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-cleanroom-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "0eed4b0b90f8ad5ece4d53fd4ff3a242f9001a99d89392e74e3c28a355027910",
+      "name": "/tlcn-local-nine-cleanroom-20261016-airflow-webserver-1",
+      "created": "2026-10-16T15:48:04.700520436Z",
+      "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "project": "tlcn-local-nine-cleanroom-20261016",
+      "service": "airflow-webserver",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+      "compose_config_hash": "69b13af6ab4aeeb00dbb1141fbc4b00a28ba0f2c54f9c3bbadf889f5a962ab23",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-10-16T15:48:05.009888253Z",
+        "FinishedAt": "2026-10-16T16:10:32.364917977Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 1073741824,
+      "memory_swap": 2147483648,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-cleanroom-20261016_local_airflow_logs",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_airflow_logs/_data",
+          "Destination": "/opt/airflow/logs",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-cleanroom-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "4136491a6d72e0cd2b915815e1fbe6890392a7ca5a2cf5e2951929866985bad7",
+      "name": "/tlcn-local-nine-cleanroom-20261016-runner-1",
+      "created": "2026-10-16T15:47:33.395128822Z",
+      "image": "sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843",
+      "reference": "tlcn/silver-spark@sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843",
+      "project": "tlcn-local-nine-cleanroom-20261016",
+      "service": "runner",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+      "compose_config_hash": "3cb7ba7670a88644e76dd90135145410e3bb6bcde57d303e188d14bfcce57095",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-10-16T15:47:33.885292866Z",
+        "FinishedAt": "2026-10-16T16:10:32.363720499Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 3221225472,
+      "memory_swap": 6442450944,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/raw-inputs",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-cleanroom-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "0b64dad27bc8473ea5ef084f29acbdba023c7105eeb10792d2596017230029f5",
+      "name": "/tlcn-local-nine-cleanroom-20261016-airflow-init-1",
+      "created": "2026-10-16T15:47:33.390115113Z",
+      "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "project": "tlcn-local-nine-cleanroom-20261016",
+      "service": "airflow-init",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+      "compose_config_hash": "3c1ddfaaa26234e9414ed74fd680f669c56d382850355dee777f60bb23c33d5d",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T15:47:33.913342119Z",
+        "FinishedAt": "2026-10-16T15:47:51.11486331Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 805306368,
+      "memory_swap": 1610612736,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-cleanroom-20261016_local_airflow_logs",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_airflow_logs/_data",
+          "Destination": "/opt/airflow/logs",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/c/Users/hoang/source/repos/final term/tieu luan chuyen nganh/source/nhanh2/TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/c/Users/hoang/source/repos/final term/tieu luan chuyen nganh/source/nhanh2/TLCN/data/raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-cleanroom-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "46572a5cf4d7edf9eaeffae883735fb3f810ca2bd094004348e5c04e1c11817a",
+      "name": "/tlcn-local-nine-cleanroom-20261016-rest-test-1",
+      "created": "2026-10-16T15:47:33.337423303Z",
+      "image": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "reference": "tabulario/iceberg-rest@sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "project": "tlcn-local-nine-cleanroom-20261016",
+      "service": "rest-test",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+      "compose_config_hash": "88d4ca8dd8d297bfacdea7f810d3694c9025d8c0e3b3412549d37e5682473d84",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-16T15:47:33.828948565Z",
+        "FinishedAt": "2026-10-16T16:10:31.471840777Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 469762048,
+      "memory_swap": 939524096,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-cleanroom-20261016_local_catalog_data",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_catalog_data/_data",
+          "Destination": "/data/catalog",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-cleanroom-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "58722513ce15fde1f4cc22ba556ae021d547892d2c5ee912d2308930abdb10da",
+      "name": "/tlcn-local-nine-cleanroom-20261016-postgres-test-1",
+      "created": "2026-10-16T15:47:20.015342319Z",
+      "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "reference": "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "project": "tlcn-local-nine-cleanroom-20261016",
+      "service": "postgres-test",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+      "compose_config_hash": "26563e4cd87099d01a28359a347f01d3a8a6312771558960810ab3282ab40d30",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T15:47:20.278802517Z",
+        "FinishedAt": "2026-10-16T16:10:31.248374332Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 268435456,
+      "memory_swap": 536870912,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-cleanroom-20261016_local_postgres_data",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_postgres_data/_data",
+          "Destination": "/var/lib/postgresql/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-cleanroom-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "e67f2c2e36c65f972a405ab2d87cac8c243b6d47674665f49e662326a87c5281",
+      "name": "/tlcn-local-nine-cleanroom-20261016-minio-test-1",
+      "created": "2026-10-16T15:47:20.002152107Z",
+      "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "reference": "ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "project": "tlcn-local-nine-cleanroom-20261016",
+      "service": "minio-test",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+      "compose_config_hash": "a17ded1345b5a7bbeadf2259c190a8e19e80889ee13e1aad96badfb5540caffe",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T15:47:20.300682662Z",
+        "FinishedAt": "2026-10-16T16:10:31.232781259Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 536870912,
+      "memory_swap": 1073741824,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-cleanroom-20261016_local_minio_data",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_minio_data/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-cleanroom-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "95736198e85ed0e490aaf6eac0d094f0e405e634313e7d072e73dfe43d152381",
+      "name": "/tlcn-local-nine-airflow-20261016-airflow-webserver-1",
+      "created": "2026-10-16T10:49:24.997496151Z",
+      "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "project": "tlcn-local-nine-airflow-20261016",
+      "service": "airflow-webserver",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml",
+      "compose_config_hash": "4f18845658d0b81cba78dae122d3be19dd3566166375085bc9f6fcf00622c49e",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:17:30.741885836Z",
+        "FinishedAt": "2026-10-16T14:56:12.65225033Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 1073741824,
+      "memory_swap": 2147483648,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_airflow_logs",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_airflow_logs/_data",
+          "Destination": "/opt/airflow/logs",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "9909770f97b03edb19bc1b8dc08d23fbac5add21206509adeb6e95454eb7dc04",
+      "name": "/tlcn-local-nine-airflow-20261016-airflow-scheduler-1",
+      "created": "2026-10-16T10:02:39.380634113Z",
+      "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "project": "tlcn-local-nine-airflow-20261016",
+      "service": "airflow-scheduler",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml",
+      "compose_config_hash": "7a6d82b3e51cb6207540f9d4a29b6fe48a4ef120c218d0c06cd094672b5b45c6",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:17:34.577922265Z",
+        "FinishedAt": "2026-10-16T14:56:02.334192292Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 1610612736,
+      "memory_swap": 3221225472,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_airflow_logs",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_airflow_logs/_data",
+          "Destination": "/opt/airflow/logs",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "f42feb8efea58e67ce4cf3b22906a903c083f13b0a75439d86fe11f2d7d750cc",
+      "name": "/tlcn-local-nine-airflow-20261016-runner-1",
+      "created": "2026-10-16T10:02:39.115038162Z",
+      "image": "sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843",
+      "reference": "tlcn/silver-spark@sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843",
+      "project": "tlcn-local-nine-airflow-20261016",
+      "service": "runner",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml",
+      "compose_config_hash": "3cb7ba7670a88644e76dd90135145410e3bb6bcde57d303e188d14bfcce57095",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 130,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:17:24.17206051Z",
+        "FinishedAt": "2026-10-16T15:47:07.642058492Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 3221225472,
+      "memory_swap": 6442450944,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/raw-inputs",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "5fe24960fb14d5c4c11481998d8795fff9415aa3dac7459f0e772accce7622a8",
+      "name": "/tlcn-local-nine-airflow-20261016-trino-test-1",
+      "created": "2026-10-16T10:02:38.85298897Z",
+      "image": "sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "reference": "trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3",
+      "project": "tlcn-local-nine-airflow-20261016",
+      "service": "trino-test",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml",
+      "compose_config_hash": "75e8a00d0d1d9d7dac98e2ac84da5c7da707a1b487276af568a029f83b3ae8fa",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:56:28.896199191Z",
+        "FinishedAt": "2026-10-16T15:47:03.57567314Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 1610612736,
+      "memory_swap": 2147483648,
+      "mounts": [],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "d63ce6d0625c6d718a020a0a621665e57c41a9199dfc8ab617004a5fa298ccb7",
+      "name": "/tlcn-local-nine-airflow-20261016-airflow-init-1",
+      "created": "2026-10-16T10:02:38.679236153Z",
+      "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+      "project": "tlcn-local-nine-airflow-20261016",
+      "service": "airflow-init",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml",
+      "compose_config_hash": "3c1ddfaaa26234e9414ed74fd680f669c56d382850355dee777f60bb23c33d5d",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T10:02:45.602413134Z",
+        "FinishedAt": "2026-10-16T10:03:04.728912179Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 805306368,
+      "memory_swap": 1610612736,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_airflow_logs",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_airflow_logs/_data",
+          "Destination": "/opt/airflow/logs",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/c/Users/hoang/source/repos/final term/tieu luan chuyen nganh/source/nhanh2/TLCN",
+          "Destination": "/workspace",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/c/Users/hoang/source/repos/final term/tieu luan chuyen nganh/source/nhanh2/TLCN/data/raw",
+          "Destination": "/workspace/data/raw",
+          "Mode": "ro",
+          "RW": false,
+          "Propagation": "rprivate"
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": "local_nine",
+        "SILVER_LOCAL_ENABLED": "1",
+        "SILVER_ACCEPTED_RELEASE": "",
+        "SILVER_PRODUCTION_ENABLED": "0",
+        "SILVER_CANARY_ONLY": "0",
+        "SILVER_BRONZE_SCHEDULE": ""
+      }
+    },
+    {
+      "id": "4ca90539494482112a1869096bf9d78d7cdeb64be460b95faf48ae88b563d4cf",
+      "name": "/tlcn-local-nine-airflow-20261016-rest-test-1",
+      "created": "2026-10-16T10:02:38.636853973Z",
+      "image": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "reference": "tabulario/iceberg-rest@sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+      "project": "tlcn-local-nine-airflow-20261016",
+      "service": "rest-test",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml",
+      "compose_config_hash": "88d4ca8dd8d297bfacdea7f810d3694c9025d8c0e3b3412549d37e5682473d84",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 143,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:16:14.437036737Z",
+        "FinishedAt": "2026-10-16T15:47:09.179919469Z"
+      },
+      "health": null,
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 469762048,
+      "memory_swap": 939524096,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_catalog_data",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_catalog_data/_data",
+          "Destination": "/data/catalog",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "2154802e0c7f48c4afc28101a4053e56b068b7696f31abfb6689157a589b7c94",
+      "name": "/tlcn-local-nine-airflow-20261016-minio-test-1",
+      "created": "2026-10-16T10:02:38.414725926Z",
+      "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "reference": "ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+      "project": "tlcn-local-nine-airflow-20261016",
+      "service": "minio-test",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml",
+      "compose_config_hash": "a17ded1345b5a7bbeadf2259c190a8e19e80889ee13e1aad96badfb5540caffe",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:16:07.779738479Z",
+        "FinishedAt": "2026-10-16T15:47:10.176080758Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 536870912,
+      "memory_swap": 1073741824,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_minio_data",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_minio_data/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    },
+    {
+      "id": "ab125221fab9edef399a617968cd03ddf450b022adade2084ed11bfcafc610b8",
+      "name": "/tlcn-local-nine-airflow-20261016-postgres-test-1",
+      "created": "2026-10-16T10:02:38.410526473Z",
+      "image": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "reference": "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "project": "tlcn-local-nine-airflow-20261016",
+      "service": "postgres-test",
+      "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml",
+      "compose_config_hash": "26563e4cd87099d01a28359a347f01d3a8a6312771558960810ab3282ab40d30",
+      "state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-16T14:16:07.489584293Z",
+        "FinishedAt": "2026-10-16T15:47:10.655413977Z"
+      },
+      "health": "unhealthy",
+      "restart_count": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "memory_limit": 268435456,
+      "memory_swap": 536870912,
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "tlcn-local-nine-airflow-20261016_local_postgres_data",
+          "Source": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_postgres_data/_data",
+          "Destination": "/var/lib/postgresql/data",
+          "Driver": "local",
+          "Mode": "rw",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "networks": [
+        "tlcn-local-nine-airflow-20261016_default"
+      ],
+      "flags": {
+        "SILVER_LOCAL_PROFILE": null,
+        "SILVER_LOCAL_ENABLED": null,
+        "SILVER_ACCEPTED_RELEASE": null,
+        "SILVER_PRODUCTION_ENABLED": null,
+        "SILVER_CANARY_ONLY": null,
+        "SILVER_BRONZE_SCHEDULE": null
+      }
+    }
+  ],
+  "volumes": [
+    {
+      "CreatedAt": "2026-10-17T01:18:05Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.volume.anonymous": ""
+      },
+      "Mountpoint": "/var/lib/docker/volumes/e2afc8e4c868afe78a2bcd0f5f33ec4196d88c379f726bd7e436d539d804a18b/_data",
+      "Name": "e2afc8e4c868afe78a2bcd0f5f33ec4196d88c379f726bd7e436d539d804a18b",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-16T10:02:38Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "5359ab234ffb4114f403c8ea8d0f1c5b7340ae14e1dde70d7ac807354dc69bf8",
+        "com.docker.compose.project": "tlcn-local-nine-airflow-20261016",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "local_airflow_logs"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_airflow_logs/_data",
+      "Name": "tlcn-local-nine-airflow-20261016_local_airflow_logs",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-16T10:02:38Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "4bf9dd6f2e3815152282869a1d760afee9adafbfb1c84c003fa206f277a6d49e",
+        "com.docker.compose.project": "tlcn-local-nine-airflow-20261016",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "local_catalog_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_catalog_data/_data",
+      "Name": "tlcn-local-nine-airflow-20261016_local_catalog_data",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-16T10:02:38Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "05fb2f9f70facd2c84d7fba2145f779b47d6021338055ea918e88f5374503895",
+        "com.docker.compose.project": "tlcn-local-nine-airflow-20261016",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "local_minio_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_minio_data/_data",
+      "Name": "tlcn-local-nine-airflow-20261016_local_minio_data",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-16T10:02:38Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "8616f8de2e0e21256a77e14005b6049e7339befdd9c18e1fedca8ce6857775d4",
+        "com.docker.compose.project": "tlcn-local-nine-airflow-20261016",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "local_postgres_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn-local-nine-airflow-20261016_local_postgres_data/_data",
+      "Name": "tlcn-local-nine-airflow-20261016_local_postgres_data",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-16T15:47:33Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "834167246bb22f78701b1005c3fb25000cea3e18807874d363f48bee3db4adc7",
+        "com.docker.compose.project": "tlcn-local-nine-cleanroom-20261016",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "local_airflow_logs"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_airflow_logs/_data",
+      "Name": "tlcn-local-nine-cleanroom-20261016_local_airflow_logs",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-16T15:47:33Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "10b7db81d80af87195b47fdf4abc56bcf48830cdbd375b15c49264d72dcd2cab",
+        "com.docker.compose.project": "tlcn-local-nine-cleanroom-20261016",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "local_catalog_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_catalog_data/_data",
+      "Name": "tlcn-local-nine-cleanroom-20261016_local_catalog_data",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-16T15:47:19Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "ed57b37a62db8dc9eb7e01177967c4b77d0b4c00fbf7eb417d088e10ca997600",
+        "com.docker.compose.project": "tlcn-local-nine-cleanroom-20261016",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "local_minio_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_minio_data/_data",
+      "Name": "tlcn-local-nine-cleanroom-20261016_local_minio_data",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-16T15:47:19Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "62ef86eb62266a0ceb72ec7db61558c991b52cdf106432240b9c58d61e34275c",
+        "com.docker.compose.project": "tlcn-local-nine-cleanroom-20261016",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "local_postgres_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_postgres_data/_data",
+      "Name": "tlcn-local-nine-cleanroom-20261016_local_postgres_data",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-11T15:31:52Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "67f38a383c4226eb0eeb045e3576cd8b644ca5dc207c1fe9288c4be3b6ba8fa9",
+        "com.docker.compose.project": "tlcn",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "catalog_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn_catalog_data/_data",
+      "Name": "tlcn_catalog_data",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-11T15:31:52Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "60838f61a5a7414bc7e783886872efc39c849f0ca95d8de9c5225932416b219c",
+        "com.docker.compose.project": "tlcn",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "minio_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn_minio_data/_data",
+      "Name": "tlcn_minio_data",
+      "Options": null,
+      "Scope": "local"
+    },
+    {
+      "CreatedAt": "2026-10-11T15:31:52Z",
+      "Driver": "local",
+      "Labels": {
+        "com.docker.compose.config-hash": "fa70deb0fd95d45ae5306dd73a79e13fcec49937de740bed8f05f5e2db4761a3",
+        "com.docker.compose.project": "tlcn",
+        "com.docker.compose.version": "2.40.3",
+        "com.docker.compose.volume": "postgres_data"
+      },
+      "Mountpoint": "/var/lib/docker/volumes/tlcn_postgres_data/_data",
+      "Name": "tlcn_postgres_data",
+      "Options": null,
+      "Scope": "local"
+    }
+  ],
+  "networks": [
+    {
+      "Name": "tlcn-local-nine-airflow-20261016_default",
+      "Id": "624e5c6dab9c522e6f6bb5b196c4608960c97d33dc926fd71dedbbcff53c3802",
+      "Created": "2026-10-16T10:02:38.260698641Z",
+      "Scope": "local",
+      "Driver": "bridge",
+      "EnableIPv4": true,
+      "EnableIPv6": false,
+      "IPAM": {
+        "Driver": "default",
+        "Options": null,
+        "Config": [
+          {
+            "Subnet": "172.24.0.0/16",
+            "Gateway": "172.24.0.1"
+          }
+        ]
+      },
+      "Internal": true,
+      "Attachable": false,
+      "Ingress": false,
+      "ConfigFrom": {
+        "Network": ""
+      },
+      "ConfigOnly": false,
+      "Containers": {},
+      "Options": {
+        "com.docker.network.enable_ipv4": "true",
+        "com.docker.network.enable_ipv6": "false"
+      },
+      "Labels": {
+        "com.docker.compose.config-hash": "d05938442ab382d40179272d6343fda88700560c8a11f9732d5df29b4c4a20ae",
+        "com.docker.compose.network": "default",
+        "com.docker.compose.project": "tlcn-local-nine-airflow-20261016",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "Name": "tlcn-local-nine-cleanroom-20261016_default",
+      "Id": "f7b6b9da134525bb05889921404cd2d215b6e044b52b633f2bc14a9f05e6faf2",
+      "Created": "2026-10-16T15:47:19.881838893Z",
+      "Scope": "local",
+      "Driver": "bridge",
+      "EnableIPv4": true,
+      "EnableIPv6": false,
+      "IPAM": {
+        "Driver": "default",
+        "Options": null,
+        "Config": [
+          {
+            "Subnet": "172.25.0.0/16",
+            "Gateway": "172.25.0.1"
+          }
+        ]
+      },
+      "Internal": true,
+      "Attachable": false,
+      "Ingress": false,
+      "ConfigFrom": {
+        "Network": ""
+      },
+      "ConfigOnly": false,
+      "Containers": {},
+      "Options": {
+        "com.docker.network.enable_ipv4": "true",
+        "com.docker.network.enable_ipv6": "false"
+      },
+      "Labels": {
+        "com.docker.compose.config-hash": "7d3e894599b83f289868cdde4924d653ea0fb4535a698f2832281565d5f12b77",
+        "com.docker.compose.network": "default",
+        "com.docker.compose.project": "tlcn-local-nine-cleanroom-20261016",
+        "com.docker.compose.version": "2.40.3"
+      }
+    },
+    {
+      "Name": "tlcn_lakehouse-net",
+      "Id": "b992ea680520273df6a08f2fd015d69ceb0ee90ebb8bc3ce932c117d524ca276",
+      "Created": "2026-10-17T01:18:05.336511702Z",
+      "Scope": "local",
+      "Driver": "bridge",
+      "EnableIPv4": true,
+      "EnableIPv6": false,
+      "IPAM": {
+        "Driver": "default",
+        "Options": null,
+        "Config": [
+          {
+            "Subnet": "172.18.0.0/16",
+            "Gateway": "172.18.0.1"
+          }
+        ]
+      },
+      "Internal": false,
+      "Attachable": false,
+      "Ingress": false,
+      "ConfigFrom": {
+        "Network": ""
+      },
+      "ConfigOnly": false,
+      "Containers": {
+        "513e89e55d90014d495c980f8beefc6823671cf5e007eb909bb0499c98e74ca6": {
+          "Name": "minio",
+          "EndpointID": "d3ca10049d7369e290f5ede67d3fe39f35322f7dd60da7c020748ba7bbad0982",
+          "MacAddress": "ca:57:86:00:d2:cd",
+          "IPv4Address": "172.18.0.2/16",
+          "IPv6Address": ""
+        },
+        "628a560441838fbaba19276bcc787f14a074c81a15656558a3ba67c2cc7b2f1c": {
+          "Name": "trino",
+          "EndpointID": "86f6663156c6c685a0627e46ccadc3f208d0557d8c01fcaa4f62c2910d961f2b",
+          "MacAddress": "fe:bc:7d:7c:a4:01",
+          "IPv4Address": "172.18.0.6/16",
+          "IPv6Address": ""
+        },
+        "ac65ab2849c9a9a6762c8bb86f0fd7f7df3c958089eb8e1d5650f83572ee39cd": {
+          "Name": "spark-iceberg",
+          "EndpointID": "dbc583706e8d52dd503602a9d2c23352486b36466e155468f72196352c33dc6a",
+          "MacAddress": "b2:7a:f7:99:54:73",
+          "IPv4Address": "172.18.0.7/16",
+          "IPv6Address": ""
+        },
+        "b76394eb3290814d7ebc91c868ee5a762855ec4c2692fd21acb35c68ca19d8e0": {
+          "Name": "airflow-scheduler",
+          "EndpointID": "d1dea7d37b172b6ab7945d3039a2be846387220de52af8021d98140eae851271",
+          "MacAddress": "82:ad:74:6a:ac:f3",
+          "IPv4Address": "172.18.0.8/16",
+          "IPv6Address": ""
+        },
+        "dd6aa1baf544cfe516b983cd00ac9988e234478546dd376960a3fb00f6fe6b4c": {
+          "Name": "postgres",
+          "EndpointID": "0f19f51acb960dc41f177208a46bdc8c745615f7c87cc790d75bb985f7b64eaf",
+          "MacAddress": "1e:e0:86:89:a8:25",
+          "IPv4Address": "172.18.0.3/16",
+          "IPv6Address": ""
+        },
+        "f9c08d4e677b677abef9d5ead6c5e98e648b166cc5de58cb4ad61ea796b65a0f": {
+          "Name": "iceberg-rest",
+          "EndpointID": "67a9c960e806cff8d2d70dd5cebdef33d84cd1f5bd3b7eddf2a30be60e0ddea6",
+          "MacAddress": "b2:79:76:2a:ea:9f",
+          "IPv4Address": "172.18.0.4/16",
+          "IPv6Address": ""
+        },
+        "fbd0b78ac6d1fc1cd7f783f9c4c2a44f9f4e6050a6faff448153c41bc144a549": {
+          "Name": "airflow-webserver",
+          "EndpointID": "75f9a91fe720c44bd056c4ceeda4ca5296351a22781fbc947d5c1b36e7864a74",
+          "MacAddress": "02:b0:35:50:13:93",
+          "IPv4Address": "172.18.0.5/16",
+          "IPv6Address": ""
+        }
+      },
+      "Options": {
+        "com.docker.network.enable_ipv4": "true",
+        "com.docker.network.enable_ipv6": "false"
+      },
+      "Labels": {
+        "com.docker.compose.config-hash": "cb0a95b39fffdd67a8f9e317b2fbd7be3ac338879b1f28f822fb31f763d626b1",
+        "com.docker.compose.network": "lakehouse-net",
+        "com.docker.compose.project": "tlcn",
+        "com.docker.compose.version": "2.40.3"
+      }
+    }
+  ],
+  "resources": {
+    "at": "2026-10-17T01:24:45.775105+00:00",
+    "windows_available_bytes": 829992960,
+    "windows_memory_load": 94,
+    "wsl_meminfo": "MemTotal:        8131792 kB\nMemFree:         2923676 kB\nMemAvailable:    5076616 kB\nBuffers:          252016 kB\nCached:          1962004 kB\nSwapCached:            0 kB\nActive:           709360 kB\nInactive:        3959144 kB\nActive(anon):      11292 kB\nInactive(anon):  2464468 kB\nActive(file):     698068 kB\nInactive(file):  1494676 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:                76 kB\nWriteback:             0 kB\nAnonPages:       2454796 kB\nMapped:           511476 kB\nShmem:             21312 kB\nKReclaimable:     156968 kB\nSlab:             251092 kB\nSReclaimable:     156968 kB\nSUnreclaim:        94124 kB\nKernelStack:       12348 kB\nPageTables:        37228 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:   30394864 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       37348 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       70656 kB\nDirectMap2M:     7268352 kB\nDirectMap1G:    10485760 kB\n",
+    "wsl_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.03 avg300=0.05 total=1935542\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.03 avg300=0.37 total=5162648\nfull avg10=0.00 avg60=0.03 avg300=0.35 total=4951302\n",
+    "docker_stats": "{\"BlockIO\":\"19.6MB / 36.9kB\",\"CPUPerc\":\"12.70%\",\"Container\":\"ac65ab2849c9a9a6762c8bb86f0fd7f7df3c958089eb8e1d5650f83572ee39cd\",\"ID\":\"ac65ab2849c9\",\"MemPerc\":\"0.31%\",\"MemUsage\":\"24.62MiB / 7.755GiB\",\"Name\":\"spark-iceberg\",\"NetIO\":\"1.54kB / 126B\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"188MB / 1.99MB\",\"CPUPerc\":\"7.96%\",\"Container\":\"628a560441838fbaba19276bcc787f14a074c81a15656558a3ba67c2cc7b2f1c\",\"ID\":\"628a56044183\",\"MemPerc\":\"11.62%\",\"MemUsage\":\"923MiB / 7.755GiB\",\"Name\":\"trino\",\"NetIO\":\"1.59kB / 126B\",\"PIDs\":\"160\"}\n{\"BlockIO\":\"111MB / 223MB\",\"CPUPerc\":\"0.17%\",\"Container\":\"fbd0b78ac6d1fc1cd7f783f9c4c2a44f9f4e6050a6faff448153c41bc144a549\",\"ID\":\"fbd0b78ac6d1\",\"MemPerc\":\"9.81%\",\"MemUsage\":\"778.7MiB / 7.755GiB\",\"Name\":\"airflow-webserver\",\"NetIO\":\"13.1MB / 628kB\",\"PIDs\":\"8\"}\n{\"BlockIO\":\"67MB / 133MB\",\"CPUPerc\":\"3.01%\",\"Container\":\"b76394eb3290814d7ebc91c868ee5a762855ec4c2692fd21acb35c68ca19d8e0\",\"ID\":\"b76394eb3290\",\"MemPerc\":\"7.07%\",\"MemUsage\":\"561.7MiB / 7.755GiB\",\"Name\":\"airflow-scheduler\",\"NetIO\":\"15.5MB / 4.45MB\",\"PIDs\":\"73\"}\n{\"BlockIO\":\"57MB / 1.22MB\",\"CPUPerc\":\"0.15%\",\"Container\":\"f9c08d4e677b677abef9d5ead6c5e98e648b166cc5de58cb4ad61ea796b65a0f\",\"ID\":\"f9c08d4e677b\",\"MemPerc\":\"1.05%\",\"MemUsage\":\"83.15MiB / 7.755GiB\",\"Name\":\"iceberg-rest\",\"NetIO\":\"1.67kB / 126B\",\"PIDs\":\"28\"}\n{\"BlockIO\":\"35.8MB / 5.6MB\",\"CPUPerc\":\"2.65%\",\"Container\":\"dd6aa1baf544cfe516b983cd00ac9988e234478546dd376960a3fb00f6fe6b4c\",\"ID\":\"dd6aa1baf544\",\"MemPerc\":\"0.60%\",\"MemUsage\":\"48.02MiB / 7.755GiB\",\"Name\":\"postgres\",\"NetIO\":\"4.52MB / 4.95MB\",\"PIDs\":\"10\"}\n{\"BlockIO\":\"116MB / 696kB\",\"CPUPerc\":\"0.00%\",\"Container\":\"513e89e55d90014d495c980f8beefc6823671cf5e007eb909bb0499c98e74ca6\",\"ID\":\"513e89e55d90\",\"MemPerc\":\"1.10%\",\"MemUsage\":\"87MiB / 7.755GiB\",\"Name\":\"minio\",\"NetIO\":\"7.22kB / 5.83kB\",\"PIDs\":\"17\"}\n"
+  },
+  "historical_inventory_keys": [
+    "status",
+    "new_containers",
+    "new_volume_names",
+    "new_network_names",
+    "old_volume_overlap",
+    "bind_mounts_readonly",
+    "phase2_frozen_containers",
+    "shared_frozen_containers"
+  ]
+}

@@ -1,0 +1,352 @@
+{
+  "container_id": "aca5ddca120c3ca24c8d45202fbec043c3661a03ee67958220ea4535023ba4e7",
+  "read_only": true,
+  "table_inventory": {
+    "tables": [
+      {
+        "schema": "public",
+        "table": "log"
+      },
+      {
+        "schema": "public",
+        "table": "dag_priority_parsing_request"
+      },
+      {
+        "schema": "public",
+        "table": "job"
+      },
+      {
+        "schema": "public",
+        "table": "slot_pool"
+      },
+      {
+        "schema": "public",
+        "table": "callback_request"
+      },
+      {
+        "schema": "public",
+        "table": "dag_code"
+      },
+      {
+        "schema": "public",
+        "table": "dag_pickle"
+      },
+      {
+        "schema": "public",
+        "table": "ab_user"
+      },
+      {
+        "schema": "public",
+        "table": "ab_register_user"
+      },
+      {
+        "schema": "public",
+        "table": "connection"
+      },
+      {
+        "schema": "public",
+        "table": "sla_miss"
+      },
+      {
+        "schema": "public",
+        "table": "variable"
+      },
+      {
+        "schema": "public",
+        "table": "import_error"
+      },
+      {
+        "schema": "public",
+        "table": "serialized_dag"
+      },
+      {
+        "schema": "public",
+        "table": "dataset_alias"
+      },
+      {
+        "schema": "public",
+        "table": "dataset_alias_dataset"
+      },
+      {
+        "schema": "public",
+        "table": "dataset"
+      },
+      {
+        "schema": "public",
+        "table": "dataset_alias_dataset_event"
+      },
+      {
+        "schema": "public",
+        "table": "dataset_event"
+      },
+      {
+        "schema": "public",
+        "table": "dag_schedule_dataset_alias_reference"
+      },
+      {
+        "schema": "public",
+        "table": "dag"
+      },
+      {
+        "schema": "public",
+        "table": "dag_schedule_dataset_reference"
+      },
+      {
+        "schema": "public",
+        "table": "task_outlet_dataset_reference"
+      },
+      {
+        "schema": "public",
+        "table": "dataset_dag_run_queue"
+      },
+      {
+        "schema": "public",
+        "table": "log_template"
+      },
+      {
+        "schema": "public",
+        "table": "dag_run"
+      },
+      {
+        "schema": "public",
+        "table": "dag_tag"
+      },
+      {
+        "schema": "public",
+        "table": "dag_owner_attributes"
+      },
+      {
+        "schema": "public",
+        "table": "ab_permission"
+      },
+      {
+        "schema": "public",
+        "table": "ab_permission_view"
+      },
+      {
+        "schema": "public",
+        "table": "ab_view_menu"
+      },
+      {
+        "schema": "public",
+        "table": "ab_user_role"
+      },
+      {
+        "schema": "public",
+        "table": "ab_role"
+      },
+      {
+        "schema": "public",
+        "table": "dag_warning"
+      },
+      {
+        "schema": "public",
+        "table": "dagrun_dataset_event"
+      },
+      {
+        "schema": "public",
+        "table": "trigger"
+      },
+      {
+        "schema": "public",
+        "table": "task_instance"
+      },
+      {
+        "schema": "public",
+        "table": "dag_run_note"
+      },
+      {
+        "schema": "public",
+        "table": "ab_permission_view_role"
+      },
+      {
+        "schema": "public",
+        "table": "rendered_task_instance_fields"
+      },
+      {
+        "schema": "public",
+        "table": "task_fail"
+      },
+      {
+        "schema": "public",
+        "table": "task_map"
+      },
+      {
+        "schema": "public",
+        "table": "task_reschedule"
+      },
+      {
+        "schema": "public",
+        "table": "xcom"
+      },
+      {
+        "schema": "public",
+        "table": "task_instance_note"
+      },
+      {
+        "schema": "public",
+        "table": "task_instance_history"
+      },
+      {
+        "schema": "public",
+        "table": "session"
+      },
+      {
+        "schema": "public",
+        "table": "alembic_version"
+      },
+      {
+        "schema": "ingestion",
+        "table": "ingestion_runs"
+      },
+      {
+        "schema": "ingestion",
+        "table": "source_snapshots"
+      },
+      {
+        "schema": "ingestion",
+        "table": "source_watermarks"
+      },
+      {
+        "schema": "ingestion",
+        "table": "ingestion_checkpoints"
+      },
+      {
+        "schema": "ingestion",
+        "table": "dead_letter_records"
+      }
+    ]
+  },
+  "results": [
+    {
+      "advisory_locks": 0
+    },
+    {
+      "active_runs": []
+    },
+    {
+      "dag_run_states": [
+        {
+          "state": "failed",
+          "count": 1
+        },
+        {
+          "state": "success",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "active_tasks": [
+        {
+          "dag_id": "rice_lakehouse_silver_pipeline",
+          "run_id": "manual__2026-10-15T14:02:14+00:00",
+          "task_id": "publish_silver_signal",
+          "state": "scheduled"
+        }
+      ]
+    },
+    {
+      "dags": [
+        {
+          "dag_id": "rice_lakehouse_silver_pipeline",
+          "paused": true,
+          "active": true,
+          "import_errors": false
+        },
+        {
+          "dag_id": "rice_lakehouse_ingestion",
+          "paused": true,
+          "active": true,
+          "import_errors": false
+        }
+      ]
+    },
+    {
+      "metadata_table": "ingestion_runs",
+      "rows": 29,
+      "row_checksum_md5": "a77f1104bde3a55372fd6617ea4c7df8"
+    },
+    {
+      "status_table": "ingestion_runs",
+      "statuses": [
+        {
+          "status": "FAILED",
+          "count": 3
+        },
+        {
+          "status": "SKIPPED",
+          "count": 16
+        },
+        {
+          "status": "SUCCESS",
+          "count": 10
+        }
+      ]
+    },
+    {
+      "metadata_table": "source_snapshots",
+      "rows": 10,
+      "row_checksum_md5": "43e466a9a40996aed0b248c7e73bf264"
+    },
+    {
+      "status_table": "source_snapshots",
+      "statuses": [
+        {
+          "status": "SUCCESS",
+          "count": 10
+        }
+      ]
+    },
+    {
+      "metadata_table": "ingestion_checkpoints",
+      "rows": 4,
+      "row_checksum_md5": "0cdd22ab32f4280b2b9567d478df89be"
+    },
+    {
+      "status_table": "ingestion_checkpoints",
+      "statuses": [
+        {
+          "status": "SUCCESS",
+          "count": 1
+        },
+        {
+          "status": "FAILED",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "metadata_table": "dead_letter_records",
+      "rows": 0,
+      "row_checksum_md5": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    {
+      "metadata_table": "source_watermarks",
+      "rows": 0,
+      "row_checksum_md5": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    {
+      "nonterminal_runs": 0
+    },
+    {
+      "failed_runs": [
+        {
+          "source_id": "nso_vietnam",
+          "run_id": "nso_vietnam_20261011153419_1b9d8b57",
+          "status": "FAILED"
+        },
+        {
+          "source_id": "nso_vietnam",
+          "run_id": "nso_vietnam_20261011153459_914e5d25",
+          "status": "FAILED"
+        },
+        {
+          "source_id": "nso_vietnam",
+          "run_id": "nso_vietnam_20261011153548_c525e62f",
+          "status": "FAILED"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3556 @@
+{
+  "at": "2026-10-17T06:39:39.681737+00:00",
+  "active_objects": 413,
+  "all_parquet_objects": 447,
+  "unreferenced_objects": [
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1990/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00001.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1991/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00002.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1992/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00001.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1993/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00002.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1994/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00003.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1995/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00004.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1996/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00003.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1997/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00005.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1998/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00004.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1999/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00005.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2000/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00006.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2001/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00007.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2002/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00008.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2003/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00006.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2004/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00007.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2005/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00009.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2006/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00010.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2007/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00011.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2008/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00012.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2009/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00008.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2010/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00009.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2011/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00013.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2012/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00014.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2013/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00015.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2014/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00016.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2015/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00017.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2016/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00010.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2017/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00011.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2018/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00018.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2019/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00019.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2020/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00012.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2021/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00020.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2022/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00021.parquet",
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2023/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00022.parquet"
+  ],
+  "historical_nso_staged_objects": 34,
+  "historical_nso_staged_preserved": true,
+  "new_or_unexplained_staged_objects": [],
+  "objects": {
+    "s3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b/data/00000-0-ac40b1d0-f7d5-4210-8333-201b48fec07d.parquet": [
+      {
+        "path": "2ff98237-5840-4a1c-85da-2a232f776652/part.1",
+        "bytes": 86146,
+        "mtime": 1792166349
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 399,
+        "mtime": 1792166349
+      }
+    ],
+    "s3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e/data/00000-0-b5ee35ce-d39a-4ed0-a162-da9b471838a0.parquet": [
+      {
+        "path": "54c93eb6-16a3-4e4e-966c-26c5ca775797/part.1",
+        "bytes": 126732,
+        "mtime": 1792166344
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166344
+      }
+    ],
+    "s3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908/data/00000-0-e02e83f0-ba84-412b-9ba8-56905dffaa0b.parquet": [
+      {
+        "path": "5a61e0dd-7ba6-4a9e-9348-675bdd3e8f62/part.1",
+        "bytes": 226528,
+        "mtime": 1792166356
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166356
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-0c14d2a0-405a-4734-bea5-6320747b2a65.parquet": [
+      {
+        "path": "df43d028-26ae-4f61-a782-b4d3f8454273/part.1",
+        "bytes": 342237,
+        "mtime": 1792166385
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166385
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-277c8734-6caf-4e1e-aeb7-3c295ef1f159.parquet": [
+      {
+        "path": "d66b0b64-d48f-4d2f-a705-3d014b47b845/part.1",
+        "bytes": 381680,
+        "mtime": 1792166371
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166371
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-28f50d6b-cb28-4ae7-94f5-ff735991560d.parquet": [
+      {
+        "path": "3f838c3b-4ead-4344-8577-d83ad1004d10/part.1",
+        "bytes": 371148,
+        "mtime": 1792166381
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166381
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-2f47a4e8-d4ba-43cc-a4f9-f141a0e2d4a5.parquet": [
+      {
+        "path": "3651cf80-9f33-4a1c-98b7-a8bb60633b61/part.1",
+        "bytes": 318464,
+        "mtime": 1792166387
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166387
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-30cc9690-45b0-480a-adef-e3d011cade60.parquet": [
+      {
+        "path": "379c7e96-b08d-4fff-81fb-019481cb6218/part.1",
+        "bytes": 353289,
+        "mtime": 1792166382
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166382
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-321b1005-b8d0-4442-830e-b20644ff83db.parquet": [
+      {
+        "path": "f80a97bb-2d5b-46c9-9700-f003a445bc94/part.1",
+        "bytes": 360763,
+        "mtime": 1792166374
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166374
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-3c7acba7-1347-4184-85df-694bccc1dfac.parquet": [
+      {
+        "path": "2abf403d-6d43-4b5c-ab5b-98d757674640/part.1",
+        "bytes": 278719,
+        "mtime": 1792166393
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166393
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-59aaa0c7-488d-4199-8054-b834a2ae8e38.parquet": [
+      {
+        "path": "5431055c-57d9-4ba1-b1bb-545ef4baa430/part.1",
+        "bytes": 398734,
+        "mtime": 1792166370
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166370
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-5ac2b3d7-2d2e-4bf6-b8c8-bece6c1bc869.parquet": [
+      {
+        "path": "0d50ebd9-c960-4511-ad60-e87bd9a5806e/part.1",
+        "bytes": 375629,
+        "mtime": 1792166380
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166380
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-60078809-30f6-45b9-918c-26fbdb60f6f4.parquet": [
+      {
+        "path": "3bbf3df6-27e7-4487-8104-79d2c029ba3e/part.1",
+        "bytes": 257153,
+        "mtime": 1792166396
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166396
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-630cbe2f-5ea4-4d24-9f89-bb1d7399f688.parquet": [
+      {
+        "path": "e3850587-6fba-4b2e-a994-fa8ca86708da/part.1",
+        "bytes": 117906,
+        "mtime": 1792166402
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166402
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-633d2e91-9dbc-4008-8714-7d243c8b8212.parquet": [
+      {
+        "path": "0c86611f-50d2-4f61-8772-e02835fc8b7f/part.1",
+        "bytes": 217301,
+        "mtime": 1792166401
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166401
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-75d44879-8103-41f5-ba80-1fa4fd537b5b.parquet": [
+      {
+        "path": "8e54234b-96d0-49b5-8da4-5bcd50a5b12a/part.1",
+        "bytes": 350074,
+        "mtime": 1792166375
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166375
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-786760c5-77d8-4f63-8b05-edf7ac88d969.parquet": [
+      {
+        "path": "23b46ed2-6ed7-4b23-bac8-b0b06e261c5c/part.1",
+        "bytes": 229082,
+        "mtime": 1792166399
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166399
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-9109bafe-527a-4855-b55b-48f96b719dd0.parquet": [
+      {
+        "path": "ae7a3bf4-27ad-4dec-8971-e30437d9bba0/part.1",
+        "bytes": 266353,
+        "mtime": 1792166394
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166394
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-9a6c5878-ebce-47f9-baaa-4c88cae33750.parquet": [
+      {
+        "path": "7a9b7397-b80a-4bd2-a9ce-784d9345fe85/part.1",
+        "bytes": 348982,
+        "mtime": 1792166384
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166384
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-aae3312e-667c-49a1-93f0-62ebab9b585f.parquet": [
+      {
+        "path": "60e5779d-3c79-4622-a13b-c7badb61a9ea/part.1",
+        "bytes": 280320,
+        "mtime": 1792166391
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166391
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-ae29cd54-1b77-4635-9204-ad0500461a2f.parquet": [
+      {
+        "path": "07121a5c-0a7a-425d-92b1-20bdbb3062f3/part.1",
+        "bytes": 299371,
+        "mtime": 1792166389
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166389
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-ae4a718d-be32-433b-87bc-abd59b2b29bc.parquet": [
+      {
+        "path": "1f6b5153-7232-429c-bc3d-a495e7b9763a/part.1",
+        "bytes": 342690,
+        "mtime": 1792166377
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166377
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-b0c6f3b2-3e9b-4262-ba49-f904bfe670b0.parquet": [
+      {
+        "path": "061c568f-604c-43ac-9189-95142a7e8b81/part.1",
+        "bytes": 327180,
+        "mtime": 1792166386
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166386
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-b2fadbd3-603f-4719-aae8-10bbba562c18.parquet": [
+      {
+        "path": "cb0263e9-01e1-4d5b-8934-83884ce35ff3/part.1",
+        "bytes": 376136,
+        "mtime": 1792166378
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166378
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-bc99d2c1-ecdb-4e9d-9568-b0483d149a36.parquet": [
+      {
+        "path": "600983ad-aa99-474f-827b-85dd308ebc78/part.1",
+        "bytes": 364597,
+        "mtime": 1792166373
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166373
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-c2b21d4c-49b4-44a0-b4a4-fbacc7ec1b12.parquet": [
+      {
+        "path": "5be0988f-64ad-4887-b773-899a73ffcb87/part.1",
+        "bytes": 243258,
+        "mtime": 1792166398
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166398
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-ca816930-4dae-4818-a1c1-afff47900a22.parquet": [
+      {
+        "path": "efd7d03f-b0c0-4a1c-841a-549c7712778e/part.1",
+        "bytes": 274390,
+        "mtime": 1792166395
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166395
+      }
+    ],
+    "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/data/00000-0-f3c2dd3c-03c2-4399-8d0a-6211872644f1.parquet": [
+      {
+        "path": "869872b5-bbec-44c8-8099-3d9b17d0749b/part.1",
+        "bytes": 286308,
+        "mtime": 1792166390
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166390
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-2b4c46d4-b720-44ca-b422-4a8d89371677.parquet": [
+      {
+        "path": "6df6b6b0-4612-4d98-afd1-545a2919e169/part.1",
+        "bytes": 26612,
+        "mtime": 1792166436
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166436
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-4c4df68a-f8ad-43f2-9bb5-61d12e79bb5b.parquet": [
+      {
+        "path": "282625f2-bbe6-4c51-9da6-5ac47a53d789/part.1",
+        "bytes": 31943,
+        "mtime": 1792166432
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166432
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-5344fc65-5af3-4ad1-917f-0da378ece871.parquet": [
+      {
+        "path": "e2b340e0-dce9-4994-8f6d-580551879248/part.1",
+        "bytes": 31205,
+        "mtime": 1792166434
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166434
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-59cb8a85-9efd-4ce0-8590-78e1fa803687.parquet": [
+      {
+        "path": "e8d558a8-5bb7-4cfb-814b-4259970e1f7c/part.1",
+        "bytes": 29651,
+        "mtime": 1792166435
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166435
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-76b1bd8b-9732-49cd-919e-2301fe859a28.parquet": [
+      {
+        "path": "b74acd51-040b-4fd0-9e5c-9dd9126f1e23/part.1",
+        "bytes": 27073,
+        "mtime": 1792166438
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166438
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-91c73a38-246e-4b67-8ee9-a34bdcfecd32.parquet": [
+      {
+        "path": "e694bf1e-76b7-42a4-ad51-d7ce3ef8c864/part.1",
+        "bytes": 29623,
+        "mtime": 1792166433
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166433
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-999ca870-9398-4c26-8339-1080e8e9e712.parquet": [
+      {
+        "path": "3f09bda5-186c-4878-88b6-18563a201a42/part.1",
+        "bytes": 32993,
+        "mtime": 1792166434
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 399,
+        "mtime": 1792166434
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-9f5214b4-4dc4-422f-bdac-25e3545f42ec.parquet": [
+      {
+        "path": "e60f6589-a9d6-4f2d-90a9-90f6847860d4/part.1",
+        "bytes": 31775,
+        "mtime": 1792166440
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166440
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-b849a429-37c6-4808-ba68-a1c39af49eaf.parquet": [
+      {
+        "path": "d47dda19-53f7-47c8-807d-1ef81650e433/part.1",
+        "bytes": 25946,
+        "mtime": 1792166437
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166437
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-d96b714a-72ff-4a43-8d68-6e22ddeb62bd.parquet": [
+      {
+        "path": "96f0d51d-ff85-4b78-8907-a2dfee60ffb2/part.1",
+        "bytes": 29586,
+        "mtime": 1792166439
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166439
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-dfdb3cb8-7121-46ee-b441-c4793d9799af.parquet": [
+      {
+        "path": "748e4829-e6ff-4b4a-813a-01996bd9de91/part.1",
+        "bytes": 30485,
+        "mtime": 1792166439
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166439
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-e3cf73a8-ca6a-4242-8288-6719e08c6399.parquet": [
+      {
+        "path": "109dd9a6-23ae-4721-a610-d79611bd66af/part.1",
+        "bytes": 32536,
+        "mtime": 1792166436
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166436
+      }
+    ],
+    "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/data/00000-0-e9612e41-594f-4ce8-b26e-ac99dc31789c.parquet": [
+      {
+        "path": "2dfd0ca0-75dd-43de-878e-2c2afff5a282/part.1",
+        "bytes": 23257,
+        "mtime": 1792166432
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166432
+      }
+    ],
+    "s3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763/data/00000-0-74397bab-9bc1-45aa-a19d-807ec502195d.parquet": [
+      {
+        "path": "5c3ecc83-0775-4926-aaf3-51b4baeff320/part.1",
+        "bytes": 46436,
+        "mtime": 1792166427
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 399,
+        "mtime": 1792166427
+      }
+    ],
+    "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/data/00000-0-2b89fb2d-f12e-4a66-8280-02416ccd9707.parquet": [
+      {
+        "path": "3eaf6fd1-ab7a-4761-8f6d-c73fa580ea89/part.1",
+        "bytes": 43613,
+        "mtime": 1792166412
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 399,
+        "mtime": 1792166412
+      }
+    ],
+    "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/data/00000-0-78c03454-61f7-4441-8030-ac84c6be298f.parquet": [
+      {
+        "path": "9ac43c94-df7a-4873-a256-f050eedda604/part.1",
+        "bytes": 30442,
+        "mtime": 1792166416
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 393,
+        "mtime": 1792166416
+      }
+    ],
+    "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/data/00000-0-27d2d150-2c39-4489-b848-f6693cd45432.parquet": [
+      {
+        "path": "c6d1c02b-4490-4bd6-b57b-0471b926235f/part.1",
+        "bytes": 301107,
+        "mtime": 1792166421
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 400,
+        "mtime": 1792166421
+      }
+    ],
+    "s3://warehouse/silver_local/dead_letters/data/source_dataset=nso_vietnam_v2_exclusions/detected_at_day=2026-10-16/00000-109-5937f666-a52b-4eb0-b152-73d398c41e55-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 7962,
+        "mtime": 1792167021
+      }
+    ],
+    "s3://warehouse/silver_local/dead_letters/data/source_dataset=thitruongnongsan/detected_at_day=2026-10-16/00000-14-0ac42c16-6d9a-48bf-ba50-9e4843435187-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9629,
+        "mtime": 1792166940
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=1991/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17156,
+        "mtime": 1792166667
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=1992/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17482,
+        "mtime": 1792166667
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=1993/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17657,
+        "mtime": 1792166667
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=1994/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17782,
+        "mtime": 1792166667
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=1995/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18026,
+        "mtime": 1792166667
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=1996/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18008,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=1997/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00007.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18022,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=1998/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00008.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18257,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=1999/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00009.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18095,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2000/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00010.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18225,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2001/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00011.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18294,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2002/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00012.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18361,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2003/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00013.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18012,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2004/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00014.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17877,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2005/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00015.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17906,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2006/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00016.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17928,
+        "mtime": 1792166668
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2007/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00017.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17986,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2008/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00018.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18034,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2009/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00019.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17896,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2010/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00020.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 22839,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2011/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00021.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 23509,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2012/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00022.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 23329,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2013/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00023.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 23057,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2014/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00024.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 22942,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2015/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00025.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 22895,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2016/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00026.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 24003,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2017/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00027.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 23523,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2018/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00028.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 23076,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2019/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00029.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 23601,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2020/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00030.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 23179,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2021/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00031.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 23750,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2022/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00032.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 24965,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2023/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00033.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 24084,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2024/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00034.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 23202,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_monthly_price/data/year=2025/00000-22-543b6b23-9b36-4baa-be2a-01582fd9697f-0-00035.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 15748,
+        "mtime": 1792166669
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1961/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16337,
+        "mtime": 1792166631
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1962/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16370,
+        "mtime": 1792166631
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1963/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16363,
+        "mtime": 1792166631
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1964/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16379,
+        "mtime": 1792166631
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1965/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16397,
+        "mtime": 1792166631
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1966/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16379,
+        "mtime": 1792166631
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1967/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00007.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16406,
+        "mtime": 1792166631
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1968/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00008.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16459,
+        "mtime": 1792166631
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1969/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00009.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16396,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1970/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00010.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16491,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1971/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00011.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16488,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1972/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00012.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16479,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1973/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00013.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16436,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1974/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00014.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16461,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1975/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00015.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16472,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1976/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00016.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16456,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1977/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00017.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16469,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1978/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00018.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16488,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1979/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00019.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16479,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1980/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00020.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16494,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1981/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00021.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16499,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1982/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00022.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16456,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1983/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00023.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16475,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1984/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00024.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16488,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1985/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00025.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16463,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1986/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00026.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16491,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1987/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00027.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16524,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1988/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00028.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16503,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1989/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00029.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16515,
+        "mtime": 1792166632
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1990/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00030.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16582,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1991/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00031.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 16768,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1992/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00032.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17190,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1993/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00033.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17128,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1994/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00034.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17184,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1995/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00035.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17191,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1996/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00036.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17219,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1997/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00037.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17146,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1998/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00038.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17094,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=1999/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00039.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17070,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2000/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00040.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17074,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2001/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00041.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17062,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2002/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00042.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17130,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2003/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00043.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17127,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2004/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00044.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17130,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2005/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00045.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17102,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2006/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00046.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17135,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2007/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00047.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17023,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2008/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00048.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17062,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2009/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00049.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17058,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2010/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00050.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17043,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2011/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00051.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17100,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2012/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00052.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17121,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2013/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00053.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17110,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2014/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00054.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17183,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2015/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00055.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17182,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2016/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00056.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17222,
+        "mtime": 1792166633
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2017/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00057.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17213,
+        "mtime": 1792166634
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2018/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00058.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17677,
+        "mtime": 1792166634
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2019/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00059.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17760,
+        "mtime": 1792166634
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2020/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00060.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17791,
+        "mtime": 1792166634
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2021/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00061.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17790,
+        "mtime": 1792166634
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2022/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00062.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17793,
+        "mtime": 1792166634
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2023/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00063.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17789,
+        "mtime": 1792166634
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_production/data/year=2024/00000-22-8f9e6bfb-0c0b-4ce5-bc62-c97a4b907075-0-00064.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17822,
+        "mtime": 1792166634
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2010/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 42950,
+        "mtime": 1792166708
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2011/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 43351,
+        "mtime": 1792166708
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2012/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 43136,
+        "mtime": 1792166708
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2013/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 43107,
+        "mtime": 1792166708
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2014/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 44785,
+        "mtime": 1792166708
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2015/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 44771,
+        "mtime": 1792166708
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2016/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00007.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 45071,
+        "mtime": 1792166708
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2017/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00008.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 45084,
+        "mtime": 1792166708
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2018/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00009.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 44581,
+        "mtime": 1792166708
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2019/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00010.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 45354,
+        "mtime": 1792166709
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2020/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00011.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 45186,
+        "mtime": 1792166709
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2021/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00012.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 45330,
+        "mtime": 1792166709
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2022/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00013.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 44875,
+        "mtime": 1792166709
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2023/00000-22-24ecb7c0-ad73-414b-bf9d-6b6e2e3133c1-0-00014.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 44985,
+        "mtime": 1792166709
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1986/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 87536,
+        "mtime": 1792166799
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1987/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 86853,
+        "mtime": 1792166799
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1988/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 90075,
+        "mtime": 1792166800
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1989/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 97035,
+        "mtime": 1792166798
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1990/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 97338,
+        "mtime": 1792166800
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1991/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 113805,
+        "mtime": 1792166800
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1992/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 124406,
+        "mtime": 1792166798
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1993/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 127542,
+        "mtime": 1792166799
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1994/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00006.parquet": [
+      {
+        "path": "f89970da-135d-4d30-a66e-eb70c2baccfc/part.1",
+        "bytes": 140535,
+        "mtime": 1792166800
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166800
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1995/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00007.parquet": [
+      {
+        "path": "8d89584d-aa98-4169-a7e2-20d676c387ec/part.1",
+        "bytes": 147042,
+        "mtime": 1792166800
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166800
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1996/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00004.parquet": [
+      {
+        "path": "3c2e8b64-1763-4133-8fbb-ae88710a95bf/part.1",
+        "bytes": 150876,
+        "mtime": 1792166799
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166799
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1997/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00008.parquet": [
+      {
+        "path": "777f226e-fe73-47ae-8a64-8ccb554e3005/part.1",
+        "bytes": 164399,
+        "mtime": 1792166801
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166801
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1998/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00005.parquet": [
+      {
+        "path": "2834da05-012d-43d3-b322-d6abceee1efe/part.1",
+        "bytes": 180171,
+        "mtime": 1792166799
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166799
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=1999/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00006.parquet": [
+      {
+        "path": "dfbfc6b7-3417-41fb-afea-0a596429d06d/part.1",
+        "bytes": 190480,
+        "mtime": 1792166800
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166800
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2000/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00009.parquet": [
+      {
+        "path": "f90e1b9d-4ecb-4114-b524-d5ae303afb94/part.1",
+        "bytes": 197573,
+        "mtime": 1792166801
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166801
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2001/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00010.parquet": [
+      {
+        "path": "04da8072-7563-458d-9f7e-d5b6c84b4266/part.1",
+        "bytes": 211247,
+        "mtime": 1792166801
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166801
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2002/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00011.parquet": [
+      {
+        "path": "404b9c66-98ba-4903-b3a5-f5cd5ba076c5/part.1",
+        "bytes": 236324,
+        "mtime": 1792166801
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166802
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2003/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00007.parquet": [
+      {
+        "path": "467747d7-c7b0-4f9e-ad9d-070dce906e54/part.1",
+        "bytes": 239103,
+        "mtime": 1792166800
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166800
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2004/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00008.parquet": [
+      {
+        "path": "6b1212c5-a878-438e-9fd1-75f6ad6afb37/part.1",
+        "bytes": 242836,
+        "mtime": 1792166800
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166800
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2005/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00012.parquet": [
+      {
+        "path": "b12475f3-e278-41c7-a737-a76f3e58238b/part.1",
+        "bytes": 249108,
+        "mtime": 1792166802
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166802
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2006/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00013.parquet": [
+      {
+        "path": "c3b5f835-ed2e-487e-b6db-c6134a575700/part.1",
+        "bytes": 254530,
+        "mtime": 1792166802
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166802
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2007/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00014.parquet": [
+      {
+        "path": "e2933d21-904b-45eb-9ea0-56123892a4f1/part.1",
+        "bytes": 267393,
+        "mtime": 1792166802
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166802
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2008/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00015.parquet": [
+      {
+        "path": "780e1d99-0c60-4209-b455-82871cd9e750/part.1",
+        "bytes": 272131,
+        "mtime": 1792166803
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166803
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2009/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00009.parquet": [
+      {
+        "path": "13351309-e86c-4fc7-b997-6b966bdca21c/part.1",
+        "bytes": 272758,
+        "mtime": 1792166801
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166801
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2010/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00010.parquet": [
+      {
+        "path": "400f6cd0-5484-427b-a51a-dc56894c22b5/part.1",
+        "bytes": 276385,
+        "mtime": 1792166801
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166801
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2011/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00016.parquet": [
+      {
+        "path": "27508be8-2995-4c88-9649-8c98875e6eae/part.1",
+        "bytes": 288939,
+        "mtime": 1792166803
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166803
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2012/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00017.parquet": [
+      {
+        "path": "fa07ee1e-52cb-46be-80a5-e4db79ac3b4f/part.1",
+        "bytes": 349460,
+        "mtime": 1792166803
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166803
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2013/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00018.parquet": [
+      {
+        "path": "202d4ce3-ee91-4fdd-b112-fc6c45fddf30/part.1",
+        "bytes": 356246,
+        "mtime": 1792166804
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166804
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2014/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00019.parquet": [
+      {
+        "path": "d0be9f96-50ef-4be9-b2f7-234f6f573027/part.1",
+        "bytes": 441967,
+        "mtime": 1792166804
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166804
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2015/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00020.parquet": [
+      {
+        "path": "b9b279ae-7ca8-4f96-9fff-216c5f61c556/part.1",
+        "bytes": 455611,
+        "mtime": 1792166804
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166804
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2016/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00011.parquet": [
+      {
+        "path": "591ea121-7ae5-42a0-a974-42bcc0c3b705/part.1",
+        "bytes": 475443,
+        "mtime": 1792166802
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166802
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2017/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00012.parquet": [
+      {
+        "path": "b6400d63-22e9-46d2-b45b-767e6f2f9403/part.1",
+        "bytes": 495652,
+        "mtime": 1792166802
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166802
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2018/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00021.parquet": [
+      {
+        "path": "e18c8b7a-2aa7-4836-82cc-33e292b135a1/part.1",
+        "bytes": 498250,
+        "mtime": 1792166805
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166805
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2019/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00022.parquet": [
+      {
+        "path": "84bd8334-3a13-4eb7-aa2c-a3a33c8db4d1/part.1",
+        "bytes": 513183,
+        "mtime": 1792166805
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166805
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2020/00000-44-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00013.parquet": [
+      {
+        "path": "1ecb732a-1dee-4aa7-96fb-3439f4145bbd/part.1",
+        "bytes": 517563,
+        "mtime": 1792166803
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166803
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2021/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00023.parquet": [
+      {
+        "path": "17f498e5-6d85-4a2f-9dd8-5dc01eeddda0/part.1",
+        "bytes": 527767,
+        "mtime": 1792166805
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166805
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2022/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00024.parquet": [
+      {
+        "path": "21395271-c0c0-4a08-9587-9a0931c5a162/part.1",
+        "bytes": 527040,
+        "mtime": 1792166806
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166806
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2023/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00025.parquet": [
+      {
+        "path": "6cc2121e-decc-467b-b291-cff9561f8c10/part.1",
+        "bytes": 523518,
+        "mtime": 1792166806
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166806
+      }
+    ],
+    "s3://warehouse/silver_local/faostat_trade/data/year=2024/00001-45-466aae3a-9329-4c6a-a54e-4cdb54a16ced-0-00026.parquet": [
+      {
+        "path": "821a9245-37ac-420f-8eeb-08866b6aa719/part.1",
+        "bytes": 469618,
+        "mtime": 1792166806
+      },
+      {
+        "path": "xl.meta",
+        "bytes": 361,
+        "mtime": 1792166806
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1990/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21153,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1990/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21153,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1991/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21138,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1991/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21138,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1992/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21137,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1992/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21137,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1993/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21131,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1993/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21131,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1994/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21134,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1994/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21134,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1995/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38206,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1995/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38206,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1996/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39818,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1996/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39818,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1997/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39969,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1997/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39969,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1998/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39906,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1998/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39906,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1999/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38558,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=1999/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38558,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2000/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38529,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2000/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38529,
+        "mtime": 1792167029
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2001/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00007.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38581,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2001/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00007.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38581,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2002/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00008.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38516,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2002/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00008.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38516,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2003/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38496,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2003/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38496,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2004/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00007.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38570,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2004/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00007.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38570,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2005/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00009.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38462,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2005/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00009.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38462,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2006/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00010.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38633,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2006/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00010.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38633,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2007/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00011.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 43973,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2007/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00011.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 43973,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2008/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00012.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 47263,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2008/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00012.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 47263,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2009/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00008.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38545,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2009/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00008.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38545,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2010/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00009.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38567,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2010/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00009.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38567,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2011/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00013.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38656,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2011/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00013.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38656,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2012/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00014.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38518,
+        "mtime": 1792203287
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2012/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00014.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38518,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2013/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00015.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38634,
+        "mtime": 1792203287
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2013/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00015.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38634,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2014/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00016.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38648,
+        "mtime": 1792203287
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2014/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00016.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38648,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2015/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00017.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38611,
+        "mtime": 1792203287
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2015/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00017.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38611,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2016/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00010.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38552,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2016/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00010.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38552,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2017/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00011.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38555,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2017/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00011.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 38555,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2018/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00018.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39689,
+        "mtime": 1792203287
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2018/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00018.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39689,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2019/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00019.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39640,
+        "mtime": 1792203287
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2019/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00019.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39640,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2020/00000-139-c6d60796-b333-4a79-aab8-386ffeab8253-0-00012.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39601,
+        "mtime": 1792203286
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2020/00000-140-cc7f3116-d31d-4369-9283-aa2588617cab-0-00012.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39601,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2021/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00020.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39836,
+        "mtime": 1792203287
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2021/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00020.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39836,
+        "mtime": 1792167030
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2022/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00021.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39525,
+        "mtime": 1792203287
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2022/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00021.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39525,
+        "mtime": 1792167031
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2023/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00022.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39553,
+        "mtime": 1792203287
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2023/00001-141-cc7f3116-d31d-4369-9283-aa2588617cab-0-00022.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39553,
+        "mtime": 1792167031
+      }
+    ],
+    "s3://warehouse/silver_local/nso_rice_statistics_v2/data/year=2024/00001-140-c6d60796-b333-4a79-aab8-386ffeab8253-0-00023.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 39626,
+        "mtime": 1792203287
+      }
+    ],
+    "s3://warehouse/silver_local/thitruongnongsan/data/year=2021/00000-30-883b09dd-a3e7-4dab-87e5-c4bd28971b38-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21063,
+        "mtime": 1792166946
+      }
+    ],
+    "s3://warehouse/silver_local/thitruongnongsan/data/year=2022/00000-30-883b09dd-a3e7-4dab-87e5-c4bd28971b38-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 15988,
+        "mtime": 1792166946
+      }
+    ],
+    "s3://warehouse/silver_local/thitruongnongsan/data/year=2023/00000-30-883b09dd-a3e7-4dab-87e5-c4bd28971b38-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 32440,
+        "mtime": 1792166946
+      }
+    ],
+    "s3://warehouse/silver_local/thitruongnongsan/data/year=2024/00000-30-883b09dd-a3e7-4dab-87e5-c4bd28971b38-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 28043,
+        "mtime": 1792166946
+      }
+    ],
+    "s3://warehouse/silver_local/thitruongnongsan/data/year=2025/00000-30-883b09dd-a3e7-4dab-87e5-c4bd28971b38-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21037,
+        "mtime": 1792166946
+      }
+    ],
+    "s3://warehouse/silver_local/thitruongnongsan/data/year=2026/00000-30-883b09dd-a3e7-4dab-87e5-c4bd28971b38-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17052,
+        "mtime": 1792166946
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1960/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9974,
+        "mtime": 1792166845
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1961/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9968,
+        "mtime": 1792166845
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1962/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9945,
+        "mtime": 1792166845
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1963/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9951,
+        "mtime": 1792166845
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1964/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9972,
+        "mtime": 1792166845
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1965/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9956,
+        "mtime": 1792166845
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1966/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00007.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9955,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1967/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00008.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9964,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1968/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00009.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9968,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1969/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00010.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9978,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1970/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00011.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9964,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1971/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00012.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9953,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1972/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00013.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9940,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1973/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00014.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9935,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1974/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00015.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9954,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1975/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00016.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9949,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1976/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00017.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9943,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1977/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00018.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9952,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1978/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00019.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9921,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1979/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00020.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9960,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1980/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00021.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9962,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1981/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00022.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9962,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1982/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00023.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9960,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1983/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00024.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9936,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1984/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00025.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9951,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1985/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00026.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9941,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1986/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00027.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9932,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1987/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00028.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9957,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1988/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00029.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9957,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1989/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00030.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9918,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1990/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00031.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9922,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1991/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00032.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9937,
+        "mtime": 1792166846
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1992/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00033.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9926,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1993/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00034.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9933,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1994/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00035.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9970,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1995/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00036.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9980,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1996/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00037.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9985,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1997/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00038.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9962,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1998/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00039.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9987,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1999/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00040.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9973,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2000/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00041.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9984,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2001/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00042.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9988,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2002/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00043.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9978,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2003/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00044.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9982,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2004/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00045.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9991,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2005/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00046.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9974,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2006/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00047.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9988,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2007/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00048.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9982,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2008/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00049.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9980,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2009/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00050.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9984,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2010/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00051.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9985,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2011/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00052.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9984,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2012/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00053.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9982,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2013/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00054.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9979,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2014/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00055.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9981,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2015/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00056.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9991,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2016/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00057.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9979,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2017/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00058.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9989,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2018/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00059.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9992,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2019/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00060.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9989,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2020/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00061.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9987,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2021/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00062.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9983,
+        "mtime": 1792166847
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2022/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00063.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9983,
+        "mtime": 1792166848
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2023/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00064.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9979,
+        "mtime": 1792166848
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2024/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00065.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9978,
+        "mtime": 1792166848
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2025/00000-22-b82fa98f-a349-4186-814d-1b43eff4917d-0-00066.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 9982,
+        "mtime": 1792166848
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1985/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 11961,
+        "mtime": 1792166875
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1986/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12081,
+        "mtime": 1792166875
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1987/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12087,
+        "mtime": 1792166875
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1988/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12080,
+        "mtime": 1792166875
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1989/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12113,
+        "mtime": 1792166875
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1990/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12123,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1991/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00007.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12098,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1992/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00008.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12101,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1993/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00009.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12129,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1994/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00010.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12083,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1995/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00011.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12090,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1996/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00012.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12112,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1997/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00013.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13363,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1998/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00014.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13383,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1999/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00015.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13573,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2000/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00016.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13501,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2001/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00017.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13390,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2002/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00018.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13379,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2003/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00019.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13300,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2004/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00020.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13107,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2005/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00021.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13125,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2006/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00022.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13069,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2007/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00023.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13357,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2008/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00024.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13444,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2009/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00025.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13300,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2010/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00026.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13374,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2011/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00027.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13619,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2012/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00028.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13657,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2013/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00029.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13438,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2014/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00030.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13546,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2015/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00031.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13514,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2016/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00032.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13446,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2017/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00033.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13410,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2018/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00034.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13480,
+        "mtime": 1792166876
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2019/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00035.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13718,
+        "mtime": 1792166877
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2020/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00036.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13701,
+        "mtime": 1792166877
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2021/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00037.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13597,
+        "mtime": 1792166877
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2022/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00038.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13679,
+        "mtime": 1792166877
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2023/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00039.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13488,
+        "mtime": 1792166877
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2024/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00040.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 13617,
+        "mtime": 1792166877
+      }
+    ],
+    "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2025/00000-22-811a21c5-8635-4d8b-855f-7dab79423f00-0-00041.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 12673,
+        "mtime": 1792166877
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1960/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00001.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17257,
+        "mtime": 1792166908
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1961/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00002.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17304,
+        "mtime": 1792166908
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1962/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00003.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17334,
+        "mtime": 1792166908
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1963/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00004.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17485,
+        "mtime": 1792166908
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1964/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00005.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17667,
+        "mtime": 1792166908
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1965/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00006.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17541,
+        "mtime": 1792166908
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1966/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00007.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17456,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1967/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00008.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17522,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1968/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00009.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17849,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1969/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00010.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17935,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1970/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00011.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 17890,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1971/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00012.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18179,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1972/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00013.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18436,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1973/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00014.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18654,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1974/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00015.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 19138,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1975/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00016.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18893,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1976/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00017.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 18991,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1977/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00018.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 19392,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1978/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00019.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 19572,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1979/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00020.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20059,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1980/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00021.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20094,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1981/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00022.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20081,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1982/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00023.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20169,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1983/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00024.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20266,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1984/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00025.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20312,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1985/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00026.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20046,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1986/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00027.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20439,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1987/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00028.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20240,
+        "mtime": 1792166909
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1988/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00029.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20331,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1989/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00030.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20262,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1990/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00031.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20531,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1991/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00032.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20437,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1992/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00033.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20577,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1993/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00034.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20403,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1994/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00035.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20522,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1995/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00036.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20743,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1996/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00037.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 19849,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1997/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00038.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 19925,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1998/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00039.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 19885,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1999/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00040.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 19956,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2000/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00041.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20062,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2001/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00042.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20184,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2002/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00043.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20476,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2003/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00044.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20823,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2004/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00045.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21401,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2005/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00046.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 21399,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2006/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00047.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20656,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2007/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00048.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20752,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2008/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00049.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20933,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2009/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00050.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20734,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2010/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00051.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20690,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2011/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00052.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20740,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2012/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00053.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20730,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2013/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00054.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20742,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2014/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00055.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20294,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2015/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00056.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20083,
+        "mtime": 1792166910
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2016/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00057.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20205,
+        "mtime": 1792166911
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2017/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00058.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20345,
+        "mtime": 1792166911
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2018/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00059.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20175,
+        "mtime": 1792166911
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2019/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00060.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20067,
+        "mtime": 1792166911
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2020/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00061.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20435,
+        "mtime": 1792166911
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2021/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00062.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20572,
+        "mtime": 1792166911
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2022/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00063.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20404,
+        "mtime": 1792166911
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2023/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00064.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20519,
+        "mtime": 1792166911
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2024/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00065.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20431,
+        "mtime": 1792166911
+      }
+    ],
+    "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2025/00000-24-fe339cb8-e418-422b-b010-250ec2a464ed-0-00066.parquet": [
+      {
+        "path": "xl.meta",
+        "bytes": 20566,
+        "mtime": 1792166911
+      }
+    ]
+  },
+  "method": "Read-only tar directory listing of stopped MinIO warehouse; no objects adopted/deleted"
+}

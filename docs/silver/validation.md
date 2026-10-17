@@ -1,220 +1,98 @@
-# Kiểm thử Silver và kết quả nghiệm thu
+# Validation ? local nine-source Silver
 
-Cập nhật **11/10/2026**, timezone `Asia/Bangkok`. **9/9 nguồn READY** đã chạy
-full, audit và replay trên catalog REST/MinIO, với **1.414.287 dòng Silver**.
-Nghiệm thu chín nguồn này diễn ra **trước khi reset stack**. Không dùng counts
-của snapshot cũ để kết luận DAG sau reset đã hoàn thành toàn bộ chín nguồn.
-Đợt phục hồi NSO sau reset được mô tả riêng dưới đây.
+Data acceptance: **PASS**. Full and incremental strict physical NOOP: **PASS**.
+Final cleanup regression: **206 PASS,1 opt-in SKIP**. Git secret/style review PASS; final local commit is discoverable from the report history.
+NSO production contract remains DRAFT. [Evidence index](evidence/index.md).
 
-## Bằng chứng
+## Actual Airflow history
 
-- [Spark full + audit + replay](evidence/live_validation.json): metrics,
-  schema thực tế, checksum rows, Bronze/Silver snapshot IDs và audit. Thời gian
-  UTC 14:24:01–14:28:37, tương ứng khoảng 21:24–21:28 Bangkok.
-- [Đối chiếu Trino](evidence/trino_validation.json): counts qua engine khác,
-  NSO missing/geography và USDA fraction/type.
-- [Migration legacy](evidence/legacy_schema_migrations.json): DDL đã chạy trên
-  bảng Production rỗng trước nghiệm thu; giữ bảng, cột cũ và lịch sử.
-- [NSO sau phục hồi tên](evidence/nso_geography_validation.json) và
-  [đối chiếu tên bằng Trino](evidence/nso_geography_trino.json): full/audit/replay
-  sau bổ sung bảng candidates. Đây là snapshot NSO mới hơn report chín nguồn
-  phía trên; business keys/counts giữ nguyên, tên/level và checksum được cập nhật.
+| Run | Actual ID | Persisted state |
+|---|---|---|
+| Initial Bronze | `local_nine_cleanroom_initial__20261016T155210Z` | SUCCESS |
+| Initial automatic Silver | `local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1` | SUCCESS |
+| Unchanged Bronze replay | `local_nine_cleanroom_noop_full__20261017T031611Z` | SUCCESS;9 ingestion outcomes SKIPPED |
+| Same automatic full replay child | `local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5` | SUCCESS |
 
-Evidence mô tả snapshot được nghiệm thu. Chạy lại các lệnh dưới đây sau khi
-input thay đổi để lấy kết quả mới.
+The initial clean-room had a known no-commit Bronze startup failure and targeted
+NSO job24?25 recovery. The full replay was later interrupted by Docker Desktop
+shutdown. Persisted Trade and six other transformers were already SUCCESS;
+Market job52 was stale RUNNING with no new commit. Independent19-table/file
+reconciliation preceded the owner-approved clear of only Market, preserving
+history, then execution of Market and never-run NSO/audit/terminal tasks.
+Child/parent terminal bookkeeping used supported Airflow computation and a
+previewed state-only parent trigger PATCH. No trigger operator rerun, duplicate
+child, snapshot rollback or initial pipeline rerun occurred. This is a recovered
+execution, not an uninterrupted zero-error/zero-retry claim.
 
-## Phục hồi NSO Bronze sau reset, 11/10/2026
+## Strict physical NOOP
 
-Log task `ingest_nso_vietnam`, attempt 3, báo
-`t_nh_th_nh_ph_: raw values do not fit double`. Chunk quốc gia đầu tiên có
-các cột ma trận toàn NULL bị Pandas suy luận float64; Bronze tạo 31 fields
-DOUBLE. Adapter nay giữ nullable string cho toàn bộ union cột nguồn.
+Both checks compare against the immutable
+[pre-replay baseline](evidence/nso_v2/phase3_final_20261017_024536/physical-before-replay.json):
 
-Đã thực hiện trên runtime scheduler đang chạy, dùng cùng
-`run_ingestion_task` với Airflow, sau đó gọi Spark qua HTTP và cập nhật
-`source_metadata.silver_status`. Đây là nghiệm thu application/runtime, không
-tự đổi trạng thái task FAILED của DAG run cũ trên giao diện Airflow.
+- All19 table UUIDs, snapshots, schema IDs/definitions and metadata locations.
+- Entire active-file inventory and SHA-256 of all413 files, including timestamps
+  and lineage stored in rows. No new file or unnecessary snapshot.
+- Dead-letter17 IDs/payloads/errors plus original pipeline_run_id/detected_at.
+  Both the data snapshot and audit content remain unchanged.
+- Full9-source counts1,414,527; NSO23,060 including946 missing and5 genuine zeros.
 
-- [Tạo Bronze mới](evidence/nso_bronze_cold_start.json): namespace riêng,
-  đủ 13 files / 833 rows, 41 source fields VARCHAR, 71 raw geography labels.
-- [Schema repair](evidence/nso_bronze_schema_repair.json): 31 DOUBLE toàn NULL
-  được đổi tên legacy, thêm STRING fields trong một transaction; giữ nguyên
-  71 rows và snapshot `4304966647243499185`.
-- [Bronze recovery](evidence/nso_bronze_recovery.json): run
-  `nso_vietnam_20261011155153_107a9a8f`, **SUCCESS**, đủ 13 chunks / 833 rows;
-  raw ZIP, manifest và batch audit đã được ghi.
-- [Silver incremental + HTTP audit](evidence/nso_silver_recovery.json): đọc
-  riêng 833 rows của run SUCCESS, **23.060 observations**, zero quarantine,
-  13 empty source records / 368 slots được loại có audit.
-- [Trino và PostgreSQL](evidence/nso_recovery_trino.json): Bronze giữ 71 rows
-  từ run FAILED và 833 rows mới, tổng 904; metadata Bronze/Silver đều SUCCESS.
-  Toàn bộ 23.060 tên chuẩn hóa không chứa `?`; 22.140 observations cần review
-  vẫn có geography code NULL.
-- [Full + audit + replay sau phục hồi](evidence/nso_recovery_e2e.json): đọc
-  tổng 904 rows lịch sử, 23.620 valid slots, dedup 560 duplicates về **23.060**
-  observations. Loại 14 empty records / 376 slots. Replay giữ nguyên schema,
-  checksum rows, Silver snapshot ID; Bronze snapshot không thay đổi.
+[Full proof](evidence/noop_restart_20261017_063554/physical-noop-after-full.json)
+and [incremental proof](evidence/noop_restart_20261017_063554/physical-noop-after-incremental.json).
+The34 historical unreferenced NSO objects were preserved, not adopted or deleted.
 
-Utility repair chạy lại trả `already_valid`, không commit. **34 regression
-tests** NSO union/force/repair/writer/recovery đạt trong **2,10 giây** trên host;
-**103 tests độc lập** đạt trong **187,33 giây**, không skip. Lệnh tái hiện và
-cách Clear task lỗi cũ có trong [rebuild](rebuild.md).
+Incremental execution ID: `local_nine_incremental_noop__20261017T070757Z`. There is no incremental DagRun: the
+existing Bronze DAG automatically creates full-mode children only. Nine explicit
+calls used the supported Spark API/common runner, mode incremental, each source's
+real proved_run_id and verified Bronze snapshot. Batch proof was revalidated;
+all source rows from that existing ingestion run were actually transformed and
+compared by MERGE. This is an incremental replay of existing data, not a claim
+of new-Raw ingestion or a newly inserted observation.
 
-```powershell
-python -m pytest tests/unit/test_nso_schema_repair.py tests/unit/test_nso_union_schema.py tests/unit/test_full_loader.py tests/unit/test_bronze_schema_preservation.py tests/unit/test_phase6_failure_recovery.py -q
-```
+PostgreSQL records19 ingestion attempts: original9 SUCCESS, one preserved startup
+FAILED, and9 legitimate checksum-SKIPPED attempts. Incremental does not ingest
+Bronze or create extra DagRuns. Source snapshots/checkpoints remain unchanged.
 
-## Môi trường và các kiểm tra
+## Independent readback
 
-| Thành phần | Runtime / kết quả |
-|---|---|
-| Spark image | `tabulario/spark-iceberg:latest`, image local tại thời điểm kiểm tra |
-| Spark / Scala / Java | 3.5.5 / 2.12 / 17 |
-| Python Spark container / pytest | 3.10.16 / 8.4.2 |
-| Iceberg runtime | 1.8.1 cho Spark 3.5 |
-| Contract validator | 9 executable READY contracts đạt |
-| Suite độc lập sau sửa NSO | **103 passed**, không skip, **187,33 giây** |
-| Regression NSO/force/repair/writer/recovery | **34 passed**, **2,10 giây** trên host |
-| Regression Bronze liên quan writer | **30 passed**, **14,53 giây** trên host |
-| Airflow DAG parse/dependencies | **1 passed**, **9,61 giây**, image `apache/airflow:2.10.4-python3.11` |
-| Live Spark | Full + replay + post-write audit 9 nguồn PASSED |
-| Live Trino | Counts khớp Spark; USDA decimal(18,4) đọc được |
-| Airflow → Spark HTTP | Scheduler gọi NSO audit, trả PASSED / 23.060 rows |
-| Spark API health | `healthy`; `/health` phản hồi trong lúc NSO audit đang chạy |
-| Bronze readiness sau cập nhật gate | Schema hợp lệ và có rows cho cả chín Bronze tables; PASSED |
+Initial validation checked Spark/PyIceberg/Trino schemas, business-key uniqueness,
+values/units/flags, missing reasons and eight Bronze lineage fields. Current
+independent PyArrow reads verified every active Parquet file. Final Trino queries
+rechecked all9 actual counts, canonical-unit value sums, NSO missing/zero/pin
+semantics and17 unique dead letters. Content invariance preserves initial key and
+lineage proof. [Final SQL evidence](evidence/noop_restart_20261017_063554/final-trino-readback.json).
 
-Suite độc lập dùng HadoopCatalog trong `/tmp`, repository read-only và
-`--network none`. Nó gồm Silver unit/integration, 13 tests Bronze schema
-preservation và union 13 CSV NSO. Regression Bronze 30 tests gồm identity,
-chunk idempotency, failure recovery và schema preservation; có tests trùng
-phạm vi suite độc lập nên không cộng các con số thành tổng test duy nhất.
-Nên pin digest image đã nghiệm thu khi triển khai môi trường khác.
+## Repeatable regression
 
-## Kết quả trên Bronze live trước reset
-
-| Dataset | Bronze rows | Prepared | Valid | Quarantine | Silver / dedup | Duplicates |
-|---|---:|---:|---:|---:|---:|---:|
-| FAOSTAT Monthly Price | 15.334 | 15.334 | 15.334 | 0 | 15.334 | 0 |
-| FAOSTAT Production | 22.738 | 22.738 | 22.738 | 0 | 22.738 | 0 |
-| FAOSTAT SUA | 36.380 | 36.380 | 36.144 | 236 | 36.144 | 0 |
-| FAOSTAT Trade | 1.226.470 | 1.226.470 | 1.226.470 | 0 | 1.226.470 | 0 |
-| NSO Vietnam | 833 | 23.060 | 23.060 | 0 | 23.060 | 0 |
-| IPSARD | 20.394 | 20.394 | 20.394 | 0 | 20.383 | 11 |
-| USDA PSD | 15 | 990 | 990 | 0 | 990 | 0 |
-| USDA Rice Yearbook | 13.131 | 13.131 | 13.131 | 0 | 12.936 | 195 |
-| World Bank Pink Sheet | 792 | 56.232 | 56.232 | 0 | 56.232 | 0 |
-
-Mỗi dataset đạt `prepared = valid + quarantine` và `valid = dedup + duplicates`.
-Replay giữ nguyên số dòng, checksum gồm `_silver_processed_at`, schema và
-**Silver snapshot ID**. Bronze snapshot trước/sau giữ nguyên. Quarantine retry
-có thể cập nhật run/detection timestamp và snapshot riêng.
-
-NSO có **23.428 candidate slots**, loại **368 slots** thuộc **13 record
-all-source-NULL** trước unpivot. Dead letters lưu 13 record dưới dataset
-`nso_vietnam_exclusions`; `23.428 = 23.060 + 368`. Giữ **946 missing
-observations** với value NULL và **22.140 observations** geography cần review
-với raw name/code NULL, theo quyết định người dùng. Trino xác nhận không có
-review code khác NULL hoặc missing value khác NULL. Xem [NSO](nso.md) trước
-khi join/aggregate theo địa lý.
-
-Exact candidates phục hồi tên ở trường riêng `geography_name` và phân loại
-province/region; raw names, NULL codes và warnings giữ nguyên. Trino kiểm tra
-**23.060/23.060 observations có tên chuẩn hóa**, zero tên chuẩn hóa chứa `?`.
-Tỉnh lịch sử Hà Tây vẫn riêng biệt; không áp modern province-code mapping.
-
-USDA có **66 Milling Rate observations**: nguồn 6250–6600 → 0.6250–0.6600,
-`unit=fraction`, factor 0.0001, giữ value/unit gốc. Trino xác nhận zero
-conversion errors và precision `DECIMAL(18,4)`.
-
-236 negative Residuals SUA vào quarantine theo contract; negative Stock
-Variation được phép. Đây là routing dữ liệu theo quy tắc.
-
-## Test cases quan trọng
-
-| Case | Hành vi đã kiểm tra |
-|---|---|
-| Missing/schema | Required column thiếu fail-fast; optional NULL đúng kiểu |
-| Casting | Malformed/overflow/fraction-to-integer quarantine, kể cả ANSI bật |
-| Raw negative | Phát hiện dấu âm trước rounding |
-| SQL UNKNOWN, LOG/KEEP | NULL predicate là fail; warning giữ row; cast error vẫn chặn |
-| FAOSTAT | M49/CPC padding; unit/element; annual month NULL; currency/index tách riêng |
-| NSO | Unit/season/index đúng; raw geography giữ nguyên, code NULL + warning |
-| NSO schema drift | Unknown file/period có dữ liệu fail; NULL padding không tạo observation |
-| NSO candidate names | Exact source/canonical aliases; tỉnh lịch sử giữ riêng; unknown không đoán; mapping mâu thuẫn gây fail |
-| NSO missing | All-source-NULL được audit; NULL measurement có identity vẫn giữ |
-| USDA milling | 6250 → 0.6250; malformed/out-of-range quarantine, missing NULL |
-| World Bank | Invalid period không bị filter mất; chỉ loại synthetic column toàn NULL |
-| Bronze preservation | Missing/extra/type mismatch và sanitizer collision không silent data loss |
-| Dedup/freshness | Latest timestamp, deterministic tie-break; batch cũ không overwrite |
-| MERGE replay | Giữ processing timestamp và snapshot; giữ extra legacy target columns |
-| Quarantine retry | ID không nhân bản payload; raw payload dùng điều tra |
-| Incremental | Đúng run/watermark; empty batch zero metrics |
-| Bronze reset | Gate từ chối bảng còn schema nhưng zero rows; chấp nhận sau ingest |
-| API/Airflow | Whitelist, structured result, watermark, chín task sau Bronze; health phản hồi trong lúc job chạy, job subprocess vẫn tuần tự |
-
-## Lệnh chạy lại
-
-Từ root repository:
+Build the local Spark image as in [runbook](local_runbook.md). Tests additionally
+need host Python/pip to download temporary test wheels; these are regenerated,
+not shipped or needed by runtime startup.
 
 ```powershell
-python scripts/validate_silver_contracts.py
 powershell -ExecutionPolicy Bypass -File scripts/test_silver_isolated.ps1
-# Đã có wheels thì dùng -SkipDownload để chạy offline.
+# Same downloaded test dependencies, network-disabled test container:
+powershell -ExecutionPolicy Bypass -File scripts/test_silver_isolated.ps1 -SkipDownload
 ```
 
-Kiểm tra live khi Bronze ổn định và không có job khác ghi cùng catalog:
+The test runner uses a read-only repository mount, network=none, fresh /tmp Hadoop
+warehouses and a3GiB cap/768MiB driver. It cannot reach accepted REST/MinIO data.
+Critical coverage includes quarantine physical NOOP/new/mixed/error/payload paths,
+MERGE freshness/dedup, eight CLOSED source outputs, NSO semantics and native pinned
+snapshot/concurrent Bronze append proofs. The older FAOSTAT test command remains
+a compatibility wrapper over the same maintained runner.
 
-```powershell
-docker compose up -d --no-deps spark-iceberg
-docker compose exec -T spark-iceberg /opt/spark/bin/spark-submit /home/iceberg/jobs/silver/validate_silver_e2e.py --output-json /home/iceberg/jobs/silver/validation_result.json
-docker compose exec -T spark-iceberg python3 /home/iceberg/jobs/silver/verify_silver_trino.py --spark-report /home/iceberg/jobs/silver/validation_result.json --output-json /home/iceberg/jobs/silver/trino_result.json
+Airflow parse/routing/gate/lock tests run separately in the Airflow environment;
+fixture flags explicitly test both base/eight-source compatibility and local9
+scope. They must never trigger the real DAGs. Final test results and smoke checks
+are recorded in the [current completion report](evidence/noop_restart_20261017_063554/report.json).
 
-# Chỉ audit bảng hiện có, không ghi Silver:
-docker compose exec -T spark-iceberg /opt/spark/bin/spark-submit /home/iceberg/jobs/silver/validate_silver_e2e.py --audit-only --output-json /home/iceberg/jobs/silver/audit_result.json
+## Final regression result
 
-# HTTP bridge từ Airflow:
-docker compose exec -T airflow-scheduler python -c "from silver.orchestration import trigger_spark_job; print(trigger_spark_job(dataset='nso_vietnam', action='audit'))"
-```
-
-Trino utility nhận report full/replay, không dùng report `--audit-only`.
-Report được bind về `jobs/silver/` trên host; có thể sao chép sang evidence
-để lưu vào Git. Không có password trong report.
-
-Chạy DAG test offline với wheels từ script trên:
-
-```powershell
-$repositoryRoot = (Get-Location).Path
-$mountArgument = "type=bind,source=$repositoryRoot,target=/workspace,readonly"
-$dagCommand = 'python -m pip install --no-index --find-links /workspace/.pytest_cache/silver_wheels --target /tmp/airflow_test_deps pytest==8.4.2 && python -m pytest tests/unit/test_dag_structure.py -q -p no:cacheprovider'
-docker run --rm --network none --mount $mountArgument --workdir /workspace -e PYTHONPATH=/tmp/airflow_test_deps:/workspace/src --entrypoint /bin/bash apache/airflow:2.10.4-python3.11 -c $dagCommand
-```
-
-Snapshot offline còn được hỗ trợ qua `scripts/validate_silver_local_snapshots.py`;
-cần openpyxl/lxml cho adapters. Trade offline dùng ZIP 2.000 rows vì CSV đầy đủ
-thiếu trong checkout; **live** ở trên dùng toàn bộ **1.226.470 rows hiện có
-trong Bronze**.
-
-## Migration, performance và phạm vi
-
-Production legacy ban đầu rỗng, có timestamp NTZ và obsolete required diagnostics.
-Utility `migrate_empty_silver_schema.py` giữ timestamp cũ dưới
-`_ingestion_timestamp_legacy_ntz`, thêm timestamp UTC và chuyển bảy diagnostic
-cũ thành nullable. Giữ bảng, history và extra fields; utility từ chối nonempty
-table. PSD cũ `value DECIMAL(18,2)` cần migration riêng tới `(18,4)`; writer
-chặn type mismatch.
-
-Đã kiểm tra Airflow parse/dependencies và HTTP bridge thật. Đợt này không
-trigger/unpause scheduled DAG hoặc cập nhật trạng thái PostgreSQL bằng test;
-lifecycle scheduled run đầy đủ chưa được trigger.
-Không nghiệm thu reset toàn bộ stack từ raw: Trade CSV local đang thiếu và
-metadata/checkpoint cũ có thể ảnh hưởng rebuild. Xem [runbook rebuild](rebuild.md).
-
-Regression toàn repository ở đợt trước: 206 passed/3 failed, do Trade CSV thiếu
-(hai tests) và USDA file-size assertion hardcoded. `test_readiness.py` trước
-đó thiếu `responses`. Đợt này chạy lại 30 Bronze tests liên quan và suite nêu
-trên; không tuyên bố toàn repository xanh.
-
-Performance dùng Spark expressions, `array + explode`, AQE, year partition,
-hash distribution, fanout=false, ZSTD và heap dev 1 GB. Pre-MERGE join tránh
-snapshot rỗng nhưng thêm lần đọc target. Chưa benchmark workload Trade hàng
-chục triệu rows; cần đo shuffle và partition pruning theo workload triển khai.
+139 native cases PASS and1 opt-in new-Raw/REST case SKIP, plus67 Airflow cases PASS.
+The initial broad run had127 PASS/12 failures/1 SKIP. Eleven obsolete audit-refresh
+expectations were strengthened to assert unchanged snapshot/full audit content.
+The discovery test now reads a real pinned native Bronze table; its spy captures
+three output columns within the cached merge stage, resolving a temporary test
+JVM heap error without increasing memory. Only affected cases were rerun.
+Accepted runtime cgroup OOM counters remain0; failed runs/logs are preserved.
+Final smoke:213 local documentation links, real nine-source DAG parsing/retries,
+Raw21+support hashes, Compose resolution and19 unchanged identities PASS.

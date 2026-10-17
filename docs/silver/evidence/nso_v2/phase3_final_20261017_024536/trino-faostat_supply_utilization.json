@@ -1,0 +1,457 @@
+{
+  "status": "PASS",
+  "rows": 36380,
+  "counts": {
+    "rows": 36380,
+    "unique_keys": 36380,
+    "required_nulls": 0,
+    "warnings": 236,
+    "invalid_missing": 0,
+    "processed_at_min": "2026-10-16 16:05:04.060126 UTC",
+    "processed_at_max": "2026-10-16 16:05:04.060126 UTC"
+  },
+  "schema": [
+    {
+      "Column": "domain_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "domain",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "country_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "country_name",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "element_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "element",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "commodity_code",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "commodity_name",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "year",
+      "Type": "integer",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value",
+      "Type": "decimal(18,2)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "flag",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "flag_description",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "note",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "missing_reason",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_run_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_batch_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_chunk_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_timestamp",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_file",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_checksum",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_dq_warnings",
+      "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_silver_processed_at",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    }
+  ],
+  "lineage_mismatch": 0,
+  "bronze_read_snapshot_id": "1149052647847510586",
+  "units": [
+    {
+      "unit": "tonne",
+      "rows": 36380,
+      "present": 36123,
+      "sum_value": "47011165710.25"
+    }
+  ],
+  "flags": {
+    "flag": [
+      {
+        "flag": "A",
+        "rows": 7943
+      },
+      {
+        "flag": "E",
+        "rows": 14279
+      },
+      {
+        "flag": "I",
+        "rows": 11485
+      },
+      {
+        "flag": "X",
+        "rows": 2416
+      },
+      {
+        "flag": "M",
+        "rows": 257
+      }
+    ]
+  },
+  "core_metrics": {},
+  "business_key_partitions": [],
+  "table_identity": {
+    "uuid": "952160ba-11d3-4c53-b60a-929dcca3b0e1",
+    "snapshot_id": "4289048808299983571",
+    "schema_id": 0,
+    "metadata_location": "s3://warehouse/silver_local/faostat_supply_utilization/metadata/00001-37b2d861-8b26-42fb-b171-208aa0279882.metadata.json",
+    "location": "s3://warehouse/silver_local/faostat_supply_utilization",
+    "schema": {
+      "type": "struct",
+      "fields": [
+        {
+          "id": 1,
+          "name": "domain_code",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 2,
+          "name": "domain",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 3,
+          "name": "country_code",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 4,
+          "name": "country_name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 5,
+          "name": "element_code",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 6,
+          "name": "element",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 7,
+          "name": "commodity_code",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 8,
+          "name": "commodity_name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 9,
+          "name": "year",
+          "type": "int",
+          "required": false
+        },
+        {
+          "id": 10,
+          "name": "unit",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 11,
+          "name": "value",
+          "type": "decimal(18, 2)",
+          "required": false
+        },
+        {
+          "id": 12,
+          "name": "flag",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 13,
+          "name": "flag_description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 14,
+          "name": "note",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 15,
+          "name": "value_raw",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 16,
+          "name": "unit_raw",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 17,
+          "name": "missing_reason",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 18,
+          "name": "_ingestion_run_id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 19,
+          "name": "_ingestion_batch_id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 20,
+          "name": "_ingestion_chunk_id",
+          "type": "long",
+          "required": false
+        },
+        {
+          "id": 21,
+          "name": "_ingestion_timestamp",
+          "type": "timestamptz",
+          "required": false
+        },
+        {
+          "id": 22,
+          "name": "_source_id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 23,
+          "name": "_source_file",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 24,
+          "name": "_source_checksum",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": 25,
+          "name": "_source_snapshot_id",
+          "type": "long",
+          "required": false
+        },
+        {
+          "id": 26,
+          "name": "_dq_warnings",
+          "type": {
+            "type": "list",
+            "element-id": 28,
+            "element": {
+              "type": "struct",
+              "fields": [
+                {
+                  "id": 29,
+                  "name": "rule_id",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 30,
+                  "name": "error_message",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "id": 31,
+                  "name": "failed_column",
+                  "type": "string",
+                  "required": false
+                }
+              ]
+            },
+            "element-required": false
+          },
+          "required": false
+        },
+        {
+          "id": 27,
+          "name": "_silver_processed_at",
+          "type": "timestamptz",
+          "required": false
+        }
+      ],
+      "schema-id": 0,
+      "identifier-field-ids": []
+    },
+    "snapshots": [
+      {
+        "snapshot_id": "2657218813951953842",
+        "parent_snapshot_id": null,
+        "summary": {
+          "spark.app.id": "local-1792166680336",
+          "changed-partition-count": "0",
+          "total-records": "0",
+          "total-files-size": "0",
+          "total-data-files": "0",
+          "total-delete-files": "0",
+          "total-position-deletes": "0",
+          "total-equality-deletes": "0",
+          "engine-version": "3.5.5",
+          "app-id": "local-1792166680336",
+          "engine-name": "spark",
+          "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+        }
+      },
+      {
+        "snapshot_id": "4289048808299983571",
+        "parent_snapshot_id": "2657218813951953842",
+        "summary": {
+          "spark.app.id": "local-1792166680336",
+          "added-data-files": "14",
+          "added-records": "36380",
+          "added-files-size": "616434",
+          "changed-partition-count": "14",
+          "total-records": "36380",
+          "total-files-size": "616434",
+          "total-data-files": "14",
+          "total-delete-files": "0",
+          "total-position-deletes": "0",
+          "total-equality-deletes": "0",
+          "engine-version": "3.5.5",
+          "app-id": "local-1792166680336",
+          "engine-name": "spark",
+          "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+        }
+      }
+    ]
+  }
+}

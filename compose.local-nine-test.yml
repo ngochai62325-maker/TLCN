@@ -64,6 +64,7 @@ services:
     volumes: [local_catalog_data:/data/catalog]
   trino-test:
     image: trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3
+    mem_limit: 1536m
     ports: [127.0.0.1:18080:8080]
     command:
       - |

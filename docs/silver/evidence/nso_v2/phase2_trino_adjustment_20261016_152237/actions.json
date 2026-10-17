@@ -1,0 +1,23 @@
+{
+  "folder": "docs\\silver\\evidence\\nso_v2\\phase2_trino_adjustment_20261016_152237",
+  "prior": "docs\\silver\\evidence\\nso_v2\\phase2_trino_readback_20261016_145432",
+  "actions": [
+    {
+      "at": "2026-10-16T15:23:33.972128+00:00",
+      "action": "memory_update_intent",
+      "id": "5fe24960fb14d5c4c11481998d8795fff9415aa3dac7459f0e772accce7622a8",
+      "before_bytes": 1073741824,
+      "after_bytes": 1610612736,
+      "command": "docker update --memory 1536m 5fe24960fb14d5c4c11481998d8795fff9415aa3dac7459f0e772accce7622a8"
+    },
+    {
+      "at": "2026-10-16T15:23:40.435555+00:00",
+      "action": "memory_update_verified",
+      "id": "5fe24960fb14d5c4c11481998d8795fff9415aa3dac7459f0e772accce7622a8",
+      "cgroup_memory_max": 1610612736,
+      "restart": false,
+      "recreate": false,
+      "host_config_only_change": "Memory"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "archive": "docs/silver/archive/manifest.json",
+  "live_documents": [
+    "README.md",
+    "architecture.md",
+    "data_catalog.md",
+    "nso_v2.md",
+    "local_runbook.md",
+    "validation.md"
+  ],
+  "historical_evidence_unchanged": true,
+  "active_overlay_preserved": true,
+  "no_accepted_reports_deleted": true
+}

@@ -1,0 +1,89 @@
+{
+  "at": "2026-10-17T07:18:18.595964+00:00",
+  "windows_available_bytes": 3968634880,
+  "windows_memory_load": 75,
+  "wsl_meminfo": "MemTotal:        8131796 kB\nMemFree:         3244432 kB\nMemAvailable:    5950436 kB\nBuffers:          225672 kB\nCached:          2524816 kB\nSwapCached:            0 kB\nActive:          1262596 kB\nInactive:        3100780 kB\nActive(anon):      13880 kB\nInactive(anon):  1621272 kB\nActive(file):    1248716 kB\nInactive(file):  1479508 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:               212 kB\nWriteback:            84 kB\nAnonPages:       1612940 kB\nMapped:           476608 kB\nShmem:             22264 kB\nKReclaimable:     174360 kB\nSlab:             261488 kB\nSReclaimable:     174360 kB\nSUnreclaim:        87128 kB\nKernelStack:       11412 kB\nPageTables:        14468 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:    7921024 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       36468 kB\nVmallocChunk:          0 kB\nPercpu:             6912 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       64512 kB\nDirectMap2M:     6225920 kB\nDirectMap1G:    11534336 kB\n",
+  "wsl_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=4891\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=4866\nsome avg10=0.06 avg60=1.21 avg300=3.77 total=66265005\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.00 avg300=0.00 total=8990817\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=8692449\n",
+  "docker_stats": "{\"BlockIO\":\"22.1MB / 3.79MB\",\"CPUPerc\":\"2.05%\",\"Container\":\"577262f9fc99d8c494814b4467cf991827ddf9653254f7c4803f72ca5c6bc3a4\",\"ID\":\"577262f9fc99\",\"MemPerc\":\"45.84%\",\"MemUsage\":\"704.1MiB / 1.5GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-trino-test-1\",\"NetIO\":\"19.2MB / 509kB\",\"PIDs\":\"221\"}\n{\"BlockIO\":\"68.2MB / 1.12MB\",\"CPUPerc\":\"1.54%\",\"Container\":\"311dd8666baed0be050cbc8d4620d8d43ba064113bf79546b7868f48525ec2e1\",\"ID\":\"311dd8666bae\",\"MemPerc\":\"22.13%\",\"MemUsage\":\"339.9MiB / 1.5GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-airflow-scheduler-1\",\"NetIO\":\"42MB / 17.1MB\",\"PIDs\":\"13\"}\n{\"BlockIO\":\"280MB / 201MB\",\"CPUPerc\":\"8.80%\",\"Container\":\"4136491a6d72e0cd2b915815e1fbe6890392a7ca5a2cf5e2951929866985bad7\",\"ID\":\"4136491a6d72\",\"MemPerc\":\"7.33%\",\"MemUsage\":\"225MiB / 3GiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-runner-1\",\"NetIO\":\"161MB / 11.3MB\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"688kB / 1.79MB\",\"CPUPerc\":\"0.12%\",\"Container\":\"46572a5cf4d7edf9eaeffae883735fb3f810ca2bd094004348e5c04e1c11817a\",\"ID\":\"46572a5cf4d7\",\"MemPerc\":\"30.26%\",\"MemUsage\":\"135.6MiB / 448MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-rest-test-1\",\"NetIO\":\"6.63MB / 1.92MB\",\"PIDs\":\"25\"}\n{\"BlockIO\":\"7.76MB / 19.3MB\",\"CPUPerc\":\"0.90%\",\"Container\":\"58722513ce15fde1f4cc22ba556ae021d547892d2c5ee912d2308930abdb10da\",\"ID\":\"58722513ce15\",\"MemPerc\":\"11.02%\",\"MemUsage\":\"28.21MiB / 256MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-postgres-test-1\",\"NetIO\":\"15.7MB / 26.3MB\",\"PIDs\":\"8\"}\n{\"BlockIO\":\"1.9MB / 2.45MB\",\"CPUPerc\":\"0.00%\",\"Container\":\"e67f2c2e36c65f972a405ab2d87cac8c243b6d47674665f49e662326a87c5281\",\"ID\":\"e67f2c2e36c6\",\"MemPerc\":\"32.42%\",\"MemUsage\":\"166MiB / 512MiB\",\"Name\":\"tlcn-local-nine-cleanroom-20261016-minio-test-1\",\"NetIO\":\"14.2MB / 212MB\",\"PIDs\":\"19\"}\n",
+  "wsl_available_bytes": 6093246464,
+  "cgroup": {
+    "runner": {
+      "current": 368037888,
+      "peak": 1862557696,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "cap": 3221225472
+    },
+    "airflow-scheduler": {
+      "current": 368971776,
+      "peak": 749699072,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "cap": 1610612736
+    },
+    "trino-test": {
+      "current": 752447488,
+      "peak": 854253568,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "cap": 1610612736
+    },
+    "rest-test": {
+      "current": 145129472,
+      "peak": 146886656,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "cap": 469762048
+    },
+    "minio-test": {
+      "current": 176013312,
+      "peak": 304410624,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "cap": 536870912
+    },
+    "postgres-test": {
+      "current": 39735296,
+      "peak": 49631232,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "cap": 268435456
+    }
+  }
+}

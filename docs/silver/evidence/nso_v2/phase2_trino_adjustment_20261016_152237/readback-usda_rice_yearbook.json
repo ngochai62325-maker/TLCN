@@ -1,0 +1,209 @@
+{
+  "status": "PASS",
+  "table": "iceberg.silver_local.usda_rice_yearbook",
+  "uuid": "9425fa9b-89d8-4c4f-9408-8be9540494ad",
+  "snapshot_id": "1608990784470048556",
+  "rows": 12936,
+  "unique_keys": 12936,
+  "partitions": [
+    {
+      "year": null,
+      "rows": 12936,
+      "unique_keys": 12936,
+      "native_sha256": "730b3ec129666e4005e0d6fefbcb5914b35b87a1cc466cbd53d233cbafc55bf2",
+      "trino_sha256": "730b3ec129666e4005e0d6fefbcb5914b35b87a1cc466cbd53d233cbafc55bf2",
+      "status": "PASS",
+      "sql": "SELECT \"table_name\",\"table_number\",\"commodity\",\"commodity_class\",\"year\",\"reference_period\",\"location\",\"statistic_type\",\"value\",\"unit\",\"value_raw\",\"unit_raw\",\"missing_reason\",\"_ingestion_run_id\",\"_ingestion_batch_id\",\"_ingestion_chunk_id\",\"_ingestion_timestamp\",\"_source_id\",\"_source_file\",\"_source_checksum\",\"_source_snapshot_id\",\"_dq_warnings\",\"_silver_processed_at\" FROM \"iceberg\".\"silver_local\".\"usda_rice_yearbook\" FOR VERSION AS OF 1608990784470048556"
+    }
+  ],
+  "schema": [
+    {
+      "Column": "table_name",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "table_number",
+      "Type": "integer",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "commodity",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "commodity_class",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "year",
+      "Type": "integer",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "reference_period",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "location",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "statistic_type",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value",
+      "Type": "decimal(18,2)",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "value_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "unit_raw",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "missing_reason",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_run_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_batch_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_chunk_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_ingestion_timestamp",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_id",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_file",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_checksum",
+      "Type": "varchar",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_source_snapshot_id",
+      "Type": "bigint",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_dq_warnings",
+      "Type": "array(row(rule_id varchar, error_message varchar, failed_column varchar))",
+      "Extra": "",
+      "Comment": ""
+    },
+    {
+      "Column": "_silver_processed_at",
+      "Type": "timestamp(6) with time zone",
+      "Extra": "",
+      "Comment": ""
+    }
+  ],
+  "aggregate": {
+    "warnings": 0,
+    "missing": 4523,
+    "nso": {},
+    "representative": [
+      {
+        "year": 2015,
+        "value": null,
+        "unit": "USD/tonne",
+        "value_raw": null,
+        "unit_raw": "DOLLARS PER METRIC TON",
+        "missing_reason": "source_null"
+      },
+      {
+        "year": 2004,
+        "value": null,
+        "unit": "USD/tonne",
+        "value_raw": null,
+        "unit_raw": "DOLLARS PER METRIC TON",
+        "missing_reason": "source_null"
+      },
+      {
+        "year": 1988,
+        "value": "297.50",
+        "unit": "USD/tonne",
+        "value_raw": "297.5",
+        "unit_raw": "DOLLARS PER METRIC TON",
+        "missing_reason": null
+      }
+    ],
+    "units": [
+      {
+        "unit": "USD/tonne",
+        "rows": 12936,
+        "present": 8413,
+        "sum_value": "3355270.21"
+      }
+    ],
+    "flags": {},
+    "dead_letter_categories": {},
+    "scope": "all_rows",
+    "executed_rows": 12936,
+    "reused_rows": 0
+  },
+  "lineage_unique_tuples": 1,
+  "full_content": "PASS_ALL_ROWS_ALL_COLUMNS",
+  "required_fields": "PASS",
+  "business_keys": "PASS",
+  "schema_compatibility": "PASS",
+  "units_flags_values": "PASS"
+}

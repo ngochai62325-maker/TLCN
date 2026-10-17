@@ -1,0 +1,5 @@
+services:
+  trino-test:
+    ports: !override [127.0.0.1:18081:8080]
+  airflow-webserver:
+    ports: !override [127.0.0.1:18086:8080]

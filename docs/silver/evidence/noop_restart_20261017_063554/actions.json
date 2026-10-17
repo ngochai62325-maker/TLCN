@@ -1,0 +1,1032 @@
+{
+  "folder": "docs\\silver\\evidence\\noop_restart_20261017_063554",
+  "actions": [
+    {
+      "at": "2026-10-17T06:37:54.584808+00:00",
+      "action": "start_existing_isolated_postgres_for_readonly_reconciliation",
+      "container_id": "58722513ce15fde1f4cc22ba556ae021d547892d2c5ee912d2308930abdb10da"
+    },
+    {
+      "at": "2026-10-17T06:44:43.217683+00:00",
+      "action": "signal_intent",
+      "service": "airflow-scheduler",
+      "container_id": "e2ba7f3b354a90922b234adaef8743f4c279bafcccfe41420cd32c40216c2662",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "at": "2026-10-17T06:44:45.461522+00:00",
+      "action": "shared_container_exited",
+      "service": "airflow-scheduler",
+      "container_id": "e2ba7f3b354a90922b234adaef8743f4c279bafcccfe41420cd32c40216c2662",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T06:44:45.106272602Z"
+    },
+    {
+      "at": "2026-10-17T06:44:45.521755+00:00",
+      "action": "signal_intent",
+      "service": "airflow-webserver",
+      "container_id": "089fe84c85cfcf6b1ef890423e67b2b63aaadf2e5d8097bf03e3c6d2598fa8a5",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "at": "2026-10-17T06:44:51.426292+00:00",
+      "action": "shared_container_exited",
+      "service": "airflow-webserver",
+      "container_id": "089fe84c85cfcf6b1ef890423e67b2b63aaadf2e5d8097bf03e3c6d2598fa8a5",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T06:44:50.966243063Z"
+    },
+    {
+      "at": "2026-10-17T06:44:51.483070+00:00",
+      "action": "signal_intent",
+      "service": "spark-iceberg",
+      "container_id": "c29f0a929a4243f9e4404ed953551e6639793434587a04447f31f76020989cff",
+      "signal": "SIGINT",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "at": "2026-10-17T06:44:52.658515+00:00",
+      "action": "shared_container_exited",
+      "service": "spark-iceberg",
+      "container_id": "c29f0a929a4243f9e4404ed953551e6639793434587a04447f31f76020989cff",
+      "exit_code": 130,
+      "finished_at": "2026-10-17T06:44:51.617541598Z"
+    },
+    {
+      "at": "2026-10-17T06:44:52.714885+00:00",
+      "action": "signal_intent",
+      "service": "trino",
+      "container_id": "4583d720af51252cd21eedb19c6900e0f494b2d6f47e315d03e93c51f73a9509",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "at": "2026-10-17T06:44:53.949525+00:00",
+      "action": "shared_container_exited",
+      "service": "trino",
+      "container_id": "4583d720af51252cd21eedb19c6900e0f494b2d6f47e315d03e93c51f73a9509",
+      "exit_code": 143,
+      "finished_at": "2026-10-17T06:44:53.229667414Z"
+    },
+    {
+      "at": "2026-10-17T06:44:53.998880+00:00",
+      "action": "signal_intent",
+      "service": "iceberg-rest",
+      "container_id": "786f477b8e01132643521a6ed7c4880f754acdab31a37a6e5849717727984632",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "at": "2026-10-17T06:44:55.255940+00:00",
+      "action": "shared_container_exited",
+      "service": "iceberg-rest",
+      "container_id": "786f477b8e01132643521a6ed7c4880f754acdab31a37a6e5849717727984632",
+      "exit_code": 143,
+      "finished_at": "2026-10-17T06:44:54.448761369Z"
+    },
+    {
+      "at": "2026-10-17T06:44:55.340594+00:00",
+      "action": "signal_intent",
+      "service": "minio",
+      "container_id": "35c6358ad3f2c63c3b4deec8bb089d13bcfd40ebf084f140be1f0d467d811b09",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "at": "2026-10-17T06:44:55.849010+00:00",
+      "action": "shared_container_exited",
+      "service": "minio",
+      "container_id": "35c6358ad3f2c63c3b4deec8bb089d13bcfd40ebf084f140be1f0d467d811b09",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T06:44:55.451886804Z"
+    },
+    {
+      "at": "2026-10-17T06:44:55.898706+00:00",
+      "action": "signal_intent",
+      "service": "postgres",
+      "container_id": "c5b4b341669e821a42e74bb615451587b6039ca2a22e282f0e445d6f55b65bd9",
+      "signal": "SIGTERM",
+      "maximum_deliveries": 1,
+      "timeout_seconds": 60,
+      "on_timeout": "STOP; no SIGKILL/retry/escalation"
+    },
+    {
+      "at": "2026-10-17T06:44:57.068064+00:00",
+      "action": "shared_container_exited",
+      "service": "postgres",
+      "container_id": "c5b4b341669e821a42e74bb615451587b6039ca2a22e282f0e445d6f55b65bd9",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T06:44:56.030208563Z"
+    },
+    {
+      "at": "2026-10-17T06:45:37.383225+00:00",
+      "action": "start_existing_intent",
+      "service": "minio-test",
+      "container_id": "e67f2c2e36c65f972a405ab2d87cac8c243b6d47674665f49e662326a87c5281"
+    },
+    {
+      "at": "2026-10-17T06:45:40.053716+00:00",
+      "action": "existing_service_health_pass",
+      "service": "minio-test",
+      "container": {
+        "id": "e67f2c2e36c65f972a405ab2d87cac8c243b6d47674665f49e662326a87c5281",
+        "name": "/tlcn-local-nine-cleanroom-20261016-minio-test-1",
+        "created": "2026-10-16T15:47:20.002152107Z",
+        "image": "sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+        "reference": "ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9",
+        "project": "tlcn-local-nine-cleanroom-20261016",
+        "service": "minio-test",
+        "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+        "compose_config_hash": "a17ded1345b5a7bbeadf2259c190a8e19e80889ee13e1aad96badfb5540caffe",
+        "state": {
+          "Status": "running",
+          "Running": true,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 14717,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-10-17T06:45:37.459516245Z",
+          "FinishedAt": "2026-10-17T03:23:47.414909114Z"
+        },
+        "health": "starting",
+        "restart_count": 0,
+        "restart_policy": {
+          "Name": "no",
+          "MaximumRetryCount": 0
+        },
+        "memory_limit": 536870912,
+        "memory_swap": 1073741824,
+        "mounts": [
+          {
+            "Type": "volume",
+            "Name": "tlcn-local-nine-cleanroom-20261016_local_minio_data",
+            "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_minio_data/_data",
+            "Destination": "/data",
+            "Driver": "local",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": ""
+          }
+        ],
+        "networks": [
+          "tlcn-local-nine-cleanroom-20261016_default"
+        ],
+        "flags": {
+          "SILVER_LOCAL_PROFILE": null,
+          "SILVER_LOCAL_ENABLED": null,
+          "SILVER_ACCEPTED_RELEASE": null,
+          "SILVER_PRODUCTION_ENABLED": null,
+          "SILVER_CANARY_ONLY": null,
+          "SILVER_BRONZE_SCHEDULE": null
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:45:40.100832+00:00",
+      "action": "start_existing_intent",
+      "service": "rest-test",
+      "container_id": "46572a5cf4d7edf9eaeffae883735fb3f810ca2bd094004348e5c04e1c11817a"
+    },
+    {
+      "at": "2026-10-17T06:45:42.870100+00:00",
+      "action": "existing_service_health_pass",
+      "service": "rest-test",
+      "container": {
+        "id": "46572a5cf4d7edf9eaeffae883735fb3f810ca2bd094004348e5c04e1c11817a",
+        "name": "/tlcn-local-nine-cleanroom-20261016-rest-test-1",
+        "created": "2026-10-16T15:47:33.337423303Z",
+        "image": "sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+        "reference": "tabulario/iceberg-rest@sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51",
+        "project": "tlcn-local-nine-cleanroom-20261016",
+        "service": "rest-test",
+        "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+        "compose_config_hash": "88d4ca8dd8d297bfacdea7f810d3694c9025d8c0e3b3412549d37e5682473d84",
+        "state": {
+          "Status": "running",
+          "Running": true,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 14824,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-10-17T06:45:40.175179725Z",
+          "FinishedAt": "2026-10-17T03:23:47.689003702Z"
+        },
+        "health": null,
+        "restart_count": 0,
+        "restart_policy": {
+          "Name": "no",
+          "MaximumRetryCount": 0
+        },
+        "memory_limit": 469762048,
+        "memory_swap": 939524096,
+        "mounts": [
+          {
+            "Type": "volume",
+            "Name": "tlcn-local-nine-cleanroom-20261016_local_catalog_data",
+            "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_catalog_data/_data",
+            "Destination": "/data/catalog",
+            "Driver": "local",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": ""
+          }
+        ],
+        "networks": [
+          "tlcn-local-nine-cleanroom-20261016_default"
+        ],
+        "flags": {
+          "SILVER_LOCAL_PROFILE": null,
+          "SILVER_LOCAL_ENABLED": null,
+          "SILVER_ACCEPTED_RELEASE": null,
+          "SILVER_PRODUCTION_ENABLED": null,
+          "SILVER_CANARY_ONLY": null,
+          "SILVER_BRONZE_SCHEDULE": null
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:45:42.918637+00:00",
+      "action": "start_existing_intent",
+      "service": "airflow-webserver",
+      "container_id": "0eed4b0b90f8ad5ece4d53fd4ff3a242f9001a99d89392e74e3c28a355027910"
+    },
+    {
+      "at": "2026-10-17T06:46:07.120277+00:00",
+      "action": "existing_service_health_pass",
+      "service": "airflow-webserver",
+      "container": {
+        "id": "0eed4b0b90f8ad5ece4d53fd4ff3a242f9001a99d89392e74e3c28a355027910",
+        "name": "/tlcn-local-nine-cleanroom-20261016-airflow-webserver-1",
+        "created": "2026-10-16T15:48:04.700520436Z",
+        "image": "sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+        "reference": "tlcn/silver-airflow@sha256:6748e6464ed7231f5ff35bf6fe10c6e0929dc2016b9687b28c5056b85ed4cb96",
+        "project": "tlcn-local-nine-cleanroom-20261016",
+        "service": "airflow-webserver",
+        "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+        "compose_config_hash": "69b13af6ab4aeeb00dbb1141fbc4b00a28ba0f2c54f9c3bbadf889f5a962ab23",
+        "state": {
+          "Status": "running",
+          "Running": true,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 14974,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-10-17T06:45:43.038779769Z",
+          "FinishedAt": "2026-10-17T03:14:01.805454727Z"
+        },
+        "health": null,
+        "restart_count": 0,
+        "restart_policy": {
+          "Name": "no",
+          "MaximumRetryCount": 0
+        },
+        "memory_limit": 1073741824,
+        "memory_swap": 2147483648,
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+            "Destination": "/workspace",
+            "Mode": "ro",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+            "Destination": "/workspace/data/raw",
+            "Mode": "ro",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "volume",
+            "Name": "tlcn-local-nine-cleanroom-20261016_local_airflow_logs",
+            "Source": "/var/lib/docker/volumes/tlcn-local-nine-cleanroom-20261016_local_airflow_logs/_data",
+            "Destination": "/opt/airflow/logs",
+            "Driver": "local",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": ""
+          }
+        ],
+        "networks": [
+          "tlcn-local-nine-cleanroom-20261016_default"
+        ],
+        "flags": {
+          "SILVER_LOCAL_PROFILE": "local_nine",
+          "SILVER_LOCAL_ENABLED": "1",
+          "SILVER_ACCEPTED_RELEASE": "",
+          "SILVER_PRODUCTION_ENABLED": "0",
+          "SILVER_CANARY_ONLY": "0",
+          "SILVER_BRONZE_SCHEDULE": ""
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:46:07.121587+00:00",
+      "action": "supported_pause_intent",
+      "dag_id": "rice_lakehouse_ingestion"
+    },
+    {
+      "at": "2026-10-17T06:46:13.601109+00:00",
+      "action": "supported_pause_intent",
+      "dag_id": "rice_lakehouse_silver_pipeline"
+    },
+    {
+      "at": "2026-10-17T06:46:22.176802+00:00",
+      "action": "start_existing_intent",
+      "service": "runner",
+      "container_id": "4136491a6d72e0cd2b915815e1fbe6890392a7ca5a2cf5e2951929866985bad7"
+    },
+    {
+      "at": "2026-10-17T06:46:25.193300+00:00",
+      "action": "existing_service_health_pass",
+      "service": "runner",
+      "container": {
+        "id": "4136491a6d72e0cd2b915815e1fbe6890392a7ca5a2cf5e2951929866985bad7",
+        "name": "/tlcn-local-nine-cleanroom-20261016-runner-1",
+        "created": "2026-10-16T15:47:33.395128822Z",
+        "image": "sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843",
+        "reference": "tlcn/silver-spark@sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843",
+        "project": "tlcn-local-nine-cleanroom-20261016",
+        "service": "runner",
+        "compose_config_files": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.silver-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\compose.local-nine-test.yml,C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\docs\\silver\\evidence\\nso_v2\\phase3_cleanroom_20261016_154548\\compose.cleanroom.yml",
+        "compose_config_hash": "3cb7ba7670a88644e76dd90135145410e3bb6bcde57d303e188d14bfcce57095",
+        "state": {
+          "Status": "running",
+          "Running": true,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 15639,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-10-17T06:46:22.26346336Z",
+          "FinishedAt": "2026-10-17T03:23:48.444633822Z"
+        },
+        "health": "starting",
+        "restart_count": 0,
+        "restart_policy": {
+          "Name": "no",
+          "MaximumRetryCount": 0
+        },
+        "memory_limit": 3221225472,
+        "memory_swap": 6442450944,
+        "mounts": [
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+            "Destination": "/workspace/data/raw",
+            "Mode": "ro",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+            "Destination": "/raw-inputs",
+            "Mode": "ro",
+            "RW": false,
+            "Propagation": "rprivate"
+          },
+          {
+            "Type": "bind",
+            "Source": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN",
+            "Destination": "/workspace",
+            "Mode": "ro",
+            "RW": false,
+            "Propagation": "rprivate"
+          }
+        ],
+        "networks": [
+          "tlcn-local-nine-cleanroom-20261016_default"
+        ],
+        "flags": {
+          "SILVER_LOCAL_PROFILE": "local_nine",
+          "SILVER_LOCAL_ENABLED": "1",
+          "SILVER_ACCEPTED_RELEASE": "",
+          "SILVER_PRODUCTION_ENABLED": "0",
+          "SILVER_CANARY_ONLY": "0",
+          "SILVER_BRONZE_SCHEDULE": ""
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:46:25.240781+00:00",
+      "action": "start_existing_intent",
+      "service": "trino-test",
+      "container_id": "577262f9fc99d8c494814b4467cf991827ddf9653254f7c4803f72ca5c6bc3a4"
+    },
+    {
+      "at": "2026-10-17T06:48:27.871006+00:00",
+      "action": "fresh_resource_admission_pass",
+      "label": "targeted"
+    },
+    {
+      "at": "2026-10-17T06:49:11.799164+00:00",
+      "action": "post_health_three_samples_admitted"
+    },
+    {
+      "at": "2026-10-17T06:49:30.150481+00:00",
+      "action": "fresh_targeted_gate_pass"
+    },
+    {
+      "at": "2026-10-17T06:49:37.428839+00:00",
+      "action": "market_clear_intent",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "transform_thitruongnongsan",
+      "dag_run_state": false
+    },
+    {
+      "at": "2026-10-17T06:49:42.950371+00:00",
+      "action": "market_supported_clear_completed"
+    },
+    {
+      "at": "2026-10-17T06:49:48.928199+00:00",
+      "action": "targeted_task_intent",
+      "task_id": "transform_thitruongnongsan",
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "before": {
+        "state": "restarting",
+        "job_id": 52,
+        "try_number": 1
+      }
+    },
+    {
+      "at": "2026-10-17T06:50:25.243932+00:00",
+      "action": "targeted_task_success",
+      "task_id": "transform_thitruongnongsan",
+      "result": {
+        "state": "success",
+        "job_id": 53,
+        "try_number": 1,
+        "start_date": "2026-10-17T06:49:56.24701+00:00",
+        "end_date": "2026-10-17T06:50:21.901774+00:00"
+      }
+    },
+    {
+      "at": "2026-10-17T06:51:08.695553+00:00",
+      "action": "targeted_task_intent",
+      "task_id": "transform_nso_vietnam_v2",
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "before": {
+        "state": "scheduled",
+        "job_id": null,
+        "try_number": 1
+      }
+    },
+    {
+      "at": "2026-10-17T06:52:21.153761+00:00",
+      "action": "targeted_task_success",
+      "task_id": "transform_nso_vietnam_v2",
+      "result": {
+        "state": "success",
+        "job_id": 54,
+        "try_number": 1,
+        "start_date": "2026-10-17T06:51:15.859932+00:00",
+        "end_date": "2026-10-17T06:52:06.584125+00:00"
+      }
+    },
+    {
+      "at": "2026-10-17T06:53:08.302849+00:00",
+      "action": "targeted_task_intent",
+      "task_id": "silver_data_quality_audit",
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "before": {
+        "state": "scheduled",
+        "job_id": null,
+        "try_number": 1
+      }
+    },
+    {
+      "at": "2026-10-17T06:55:43.151002+00:00",
+      "action": "targeted_task_success",
+      "task_id": "silver_data_quality_audit",
+      "result": {
+        "state": "success",
+        "job_id": 55,
+        "try_number": 1,
+        "start_date": "2026-10-17T06:53:15.512745+00:00",
+        "end_date": "2026-10-17T06:55:42.248087+00:00"
+      }
+    },
+    {
+      "at": "2026-10-17T06:55:56.126269+00:00",
+      "action": "targeted_task_intent",
+      "task_id": "publish_silver_signal",
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "before": {
+        "state": "scheduled",
+        "job_id": null,
+        "try_number": 1
+      }
+    },
+    {
+      "at": "2026-10-17T06:56:04.432844+00:00",
+      "action": "targeted_task_success",
+      "task_id": "publish_silver_signal",
+      "result": {
+        "state": "success",
+        "job_id": 56,
+        "try_number": 1,
+        "start_date": "2026-10-17T06:56:03.306336+00:00",
+        "end_date": "2026-10-17T06:56:03.572833+00:00"
+      }
+    },
+    {
+      "at": "2026-10-17T06:56:24.637468+00:00",
+      "action": "targeted_task_intent",
+      "task_id": "end",
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "before": {
+        "state": null,
+        "job_id": null,
+        "try_number": 0
+      }
+    },
+    {
+      "at": "2026-10-17T06:56:32.929947+00:00",
+      "action": "targeted_task_success",
+      "task_id": "end",
+      "result": {
+        "state": "success",
+        "job_id": 57,
+        "try_number": 0,
+        "start_date": "2026-10-17T06:56:31.753441+00:00",
+        "end_date": "2026-10-17T06:56:31.992895+00:00"
+      }
+    },
+    {
+      "at": "2026-10-17T06:56:57.519386+00:00",
+      "action": "computed_terminal_state_intent",
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5"
+    },
+    {
+      "at": "2026-10-17T06:57:11.811099+00:00",
+      "action": "parent_supported_patch_intent",
+      "dry_run": true,
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z"
+    },
+    {
+      "at": "2026-10-17T06:57:24.383111+00:00",
+      "action": "parent_supported_patch_intent",
+      "dry_run": false,
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z"
+    },
+    {
+      "at": "2026-10-17T06:57:50.956861+00:00",
+      "action": "targeted_task_intent",
+      "task_id": "end_lakehouse_ingestion",
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "before": {
+        "state": null,
+        "job_id": null,
+        "try_number": 0
+      }
+    },
+    {
+      "at": "2026-10-17T06:57:59.101598+00:00",
+      "action": "targeted_task_success",
+      "task_id": "end_lakehouse_ingestion",
+      "result": {
+        "state": "success",
+        "job_id": 58,
+        "try_number": 0,
+        "start_date": "2026-10-17T06:57:58.042947+00:00",
+        "end_date": "2026-10-17T06:57:58.26843+00:00"
+      }
+    },
+    {
+      "at": "2026-10-17T06:58:21.573545+00:00",
+      "action": "computed_terminal_state_intent",
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z"
+    },
+    {
+      "at": "2026-10-17T07:00:31.137096+00:00",
+      "action": "stop_recovery_webserver_sigterm_once",
+      "container_id": "0eed4b0b90f8ad5ece4d53fd4ff3a242f9001a99d89392e74e3c28a355027910"
+    },
+    {
+      "at": "2026-10-17T07:00:39.411437+00:00",
+      "action": "start_existing_scheduler_after_all_four_runs_success_paused",
+      "container_id": "311dd8666baed0be050cbc8d4620d8d43ba064113bf79546b7868f48525ec2e1"
+    },
+    {
+      "at": "2026-10-17T07:02:44.720100+00:00",
+      "action": "fresh_resource_admission_pass",
+      "label": "incremental-cli"
+    },
+    {
+      "at": "2026-10-17T07:08:07.195785+00:00",
+      "action": "incremental_source_intent",
+      "dataset": "faostat_production",
+      "proved_run_id": "faostat_production_20261016155856_6ba3a6e8",
+      "snapshot": "4843563875751184854"
+    },
+    {
+      "at": "2026-10-17T07:08:39.793971+00:00",
+      "action": "incremental_source_success_identity_unchanged",
+      "dataset": "faostat_production",
+      "result": {
+        "status": "SUCCESS",
+        "dataset": "faostat_production",
+        "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+        "target_table": "iceberg.silver_local.faostat_production",
+        "bronze_read_snapshot_id": 4843563875751184854,
+        "bronze_count": 22738,
+        "prepared_count": 22738,
+        "valid_count": 22738,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 22738,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "7fc0d9b6-9b00-40f8-8207-64e5f7678d93",
+          "location": "s3://warehouse/silver_local/faostat_production",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/faostat_production/metadata/00001-eba80a7d-cf27-4ece-8e05-d5a154021d47.metadata.json",
+          "snapshot_id": "3025742236916912946",
+          "rows": 22738
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:08:49.877704+00:00",
+      "action": "incremental_source_intent",
+      "dataset": "faostat_monthly_price",
+      "proved_run_id": "faostat_monthly_price_20261016155906_428dc755",
+      "snapshot": "3069013476710882292"
+    },
+    {
+      "at": "2026-10-17T07:09:22.047719+00:00",
+      "action": "incremental_source_success_identity_unchanged",
+      "dataset": "faostat_monthly_price",
+      "result": {
+        "status": "SUCCESS",
+        "dataset": "faostat_monthly_price",
+        "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+        "target_table": "iceberg.silver_local.faostat_monthly_price",
+        "bronze_read_snapshot_id": 3069013476710882292,
+        "bronze_count": 15334,
+        "prepared_count": 15334,
+        "valid_count": 15334,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 15334,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "63a487b2-703d-49df-8a6d-baf903509145",
+          "location": "s3://warehouse/silver_local/faostat_monthly_price",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/faostat_monthly_price/metadata/00001-06dac4f2-c909-4f3d-865c-55b056a11593.metadata.json",
+          "snapshot_id": "1591520480261276952",
+          "rows": 15334
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:09:31.933726+00:00",
+      "action": "incremental_source_intent",
+      "dataset": "faostat_supply_utilization",
+      "proved_run_id": "faostat_supply_utilization_20261016155912_7f1d590f",
+      "snapshot": "1149052647847510586"
+    },
+    {
+      "at": "2026-10-17T07:10:04.102105+00:00",
+      "action": "incremental_source_success_identity_unchanged",
+      "dataset": "faostat_supply_utilization",
+      "result": {
+        "status": "SUCCESS",
+        "dataset": "faostat_supply_utilization",
+        "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+        "target_table": "iceberg.silver_local.faostat_supply_utilization",
+        "bronze_read_snapshot_id": 1149052647847510586,
+        "bronze_count": 36380,
+        "prepared_count": 36380,
+        "valid_count": 36380,
+        "quarantine_count": 0,
+        "warning_count": 236,
+        "dedup_count": 36380,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "952160ba-11d3-4c53-b60a-929dcca3b0e1",
+          "location": "s3://warehouse/silver_local/faostat_supply_utilization",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/faostat_supply_utilization/metadata/00001-37b2d861-8b26-42fb-b171-208aa0279882.metadata.json",
+          "snapshot_id": "4289048808299983571",
+          "rows": 36380
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:10:13.938332+00:00",
+      "action": "incremental_source_intent",
+      "dataset": "faostat_trade",
+      "proved_run_id": "faostat_trade_20261016155919_cc04dc8d",
+      "snapshot": "2171934088797835179"
+    },
+    {
+      "at": "2026-10-17T07:11:27.138933+00:00",
+      "action": "incremental_source_success_identity_unchanged",
+      "dataset": "faostat_trade",
+      "result": {
+        "status": "SUCCESS",
+        "dataset": "faostat_trade",
+        "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+        "target_table": "iceberg.silver_local.faostat_trade",
+        "bronze_read_snapshot_id": 2171934088797835179,
+        "bronze_count": 1226470,
+        "prepared_count": 1226470,
+        "valid_count": 1226470,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 1226470,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "c1800fdd-6d37-4b05-a913-bc61fa922b00",
+          "location": "s3://warehouse/silver_local/faostat_trade",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/faostat_trade/metadata/00001-2de6cd57-8635-43a2-bdd3-5bdc12915958.metadata.json",
+          "snapshot_id": "4017675517054557099",
+          "rows": 1226470
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:11:37.011471+00:00",
+      "action": "incremental_source_intent",
+      "dataset": "usda_psd",
+      "proved_run_id": "usda_psd_20261016160010_51f6293c",
+      "snapshot": "6725163293089992461"
+    },
+    {
+      "at": "2026-10-17T07:12:09.430640+00:00",
+      "action": "incremental_source_success_identity_unchanged",
+      "dataset": "usda_psd",
+      "result": {
+        "status": "SUCCESS",
+        "dataset": "usda_psd",
+        "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+        "target_table": "iceberg.silver_local.usda_rice_psd",
+        "bronze_read_snapshot_id": 6725163293089992461,
+        "bronze_count": 15,
+        "prepared_count": 990,
+        "valid_count": 990,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 990,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "82e6f676-0e8b-4066-a6ef-eeb6284f54fe",
+          "location": "s3://warehouse/silver_local/usda_rice_psd",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00001-321556fe-ffcf-4d78-9a77-97a1136c8dc5.metadata.json",
+          "snapshot_id": "4876825965550487606",
+          "rows": 990
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:12:19.274535+00:00",
+      "action": "incremental_source_intent",
+      "dataset": "usda_rice_yearbook",
+      "proved_run_id": "usda_rice_yearbook_20261016160015_07a33116",
+      "snapshot": "4564470349869842851"
+    },
+    {
+      "at": "2026-10-17T07:12:50.956245+00:00",
+      "action": "incremental_source_success_identity_unchanged",
+      "dataset": "usda_rice_yearbook",
+      "result": {
+        "status": "SUCCESS",
+        "dataset": "usda_rice_yearbook",
+        "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+        "target_table": "iceberg.silver_local.usda_rice_yearbook",
+        "bronze_read_snapshot_id": 4564470349869842851,
+        "bronze_count": 13131,
+        "prepared_count": 13131,
+        "valid_count": 13131,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 12936,
+        "duplicate_count": 195,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "a92b8fdf-dbf5-4f0c-a5c5-3c66857ee93d",
+          "location": "s3://warehouse/silver_local/usda_rice_yearbook",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/00001-26791b3d-bf2c-4208-889e-2736e92790e9.metadata.json",
+          "snapshot_id": "4249957608382647425",
+          "rows": 12936
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:13:00.867238+00:00",
+      "action": "incremental_source_intent",
+      "dataset": "worldbank_pinksheet",
+      "proved_run_id": "worldbank_pinksheet_20261016160019_068e77d4",
+      "snapshot": "2608578091811865170"
+    },
+    {
+      "at": "2026-10-17T07:13:32.789375+00:00",
+      "action": "incremental_source_success_identity_unchanged",
+      "dataset": "worldbank_pinksheet",
+      "result": {
+        "status": "SUCCESS",
+        "dataset": "worldbank_pinksheet",
+        "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+        "target_table": "iceberg.silver_local.worldbank_commodity_monthly",
+        "bronze_read_snapshot_id": 2608578091811865170,
+        "bronze_count": 792,
+        "prepared_count": 56232,
+        "valid_count": 56232,
+        "quarantine_count": 0,
+        "warning_count": 0,
+        "dedup_count": 56232,
+        "duplicate_count": 0,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "be48b680-f86b-4a4d-b552-705cac58103b",
+          "location": "s3://warehouse/silver_local/worldbank_commodity_monthly",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00001-2be316fd-844b-4cb9-94fa-1ebba6f789b3.metadata.json",
+          "snapshot_id": "6762326735303774082",
+          "rows": 56232
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:13:42.693288+00:00",
+      "action": "incremental_source_intent",
+      "dataset": "thitruongnongsan",
+      "proved_run_id": "thitruongnongsan_20261016160024_6847418e",
+      "snapshot": "6284553868447052727"
+    },
+    {
+      "at": "2026-10-17T07:14:15.340825+00:00",
+      "action": "incremental_source_success_identity_unchanged",
+      "dataset": "thitruongnongsan",
+      "result": {
+        "status": "SUCCESS",
+        "dataset": "thitruongnongsan",
+        "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+        "target_table": "iceberg.silver_local.thitruongnongsan",
+        "bronze_read_snapshot_id": 6284553868447052727,
+        "bronze_count": 20394,
+        "prepared_count": 20394,
+        "valid_count": 20390,
+        "quarantine_count": 4,
+        "warning_count": 29,
+        "dedup_count": 20387,
+        "duplicate_count": 3,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "6950791c-cfd2-45b7-910d-ad88803b8904",
+          "location": "s3://warehouse/silver_local/thitruongnongsan",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/thitruongnongsan/metadata/00001-75752312-421c-4d2a-b86f-1698d664fe7a.metadata.json",
+          "snapshot_id": "4817852030779680459",
+          "rows": 20387
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:14:25.245104+00:00",
+      "action": "incremental_source_intent",
+      "dataset": "nso_vietnam_v2",
+      "proved_run_id": "nso_vietnam_20261016160030_2c409d8a",
+      "snapshot": "6239067651375331267"
+    },
+    {
+      "at": "2026-10-17T07:15:28.407908+00:00",
+      "action": "incremental_source_success_identity_unchanged",
+      "dataset": "nso_vietnam_v2",
+      "result": {
+        "status": "SUCCESS",
+        "dataset": "nso_vietnam_v2",
+        "pipeline_run_id": "local_nine_incremental_noop__20261017T070757Z",
+        "target_table": "iceberg.silver_local.nso_rice_statistics_v2",
+        "bronze_read_snapshot_id": 6239067651375331267,
+        "bronze_count": 833,
+        "prepared_count": 23060,
+        "valid_count": 23060,
+        "quarantine_count": 0,
+        "warning_count": 22534,
+        "dedup_count": 23060,
+        "duplicate_count": 0,
+        "observation_count": 23428,
+        "excluded_count": 368,
+        "excluded_record_count": 13,
+        "commit_verified": {
+          "exists": true,
+          "uuid": "585ec4d4-d44b-45ad-b6ff-dc55548ebdaf",
+          "location": "s3://warehouse/silver_local/nso_rice_statistics_v2",
+          "schema_id": 0,
+          "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00001-d570a8a9-4b88-4d18-8ca4-7f84de7b5b9e.metadata.json",
+          "snapshot_id": "833301860238618812",
+          "rows": 23060
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:19:08.660811+00:00",
+      "action": "post_cleanup_native_regression_intent",
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/test_silver_isolated.ps1",
+        "-SkipDownload",
+        "-Image",
+        "tlcn/silver-spark@sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843"
+      ],
+      "test_isolation": "Ephemeral3GiB network=none; readonly repo; /tmp Hadoop catalogs only; no accepted storage mounts"
+    },
+    {
+      "at": "2026-10-17T07:25:12.009876+00:00",
+      "action": "post_cleanup_native_regression_intent",
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "& 'scripts/test_silver_isolated.ps1' -SkipDownload -Image 'tlcn/silver-spark@sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843' -TestPaths @('tests/integration/test_faostat_nso_silver.py::test_existing_framework_discovers_production_adapter','tests/integration/test_faostat_nso_silver.py::test_isolated_actual_iceberg_rerun_and_quarantine','tests/integration/test_silver_pipeline_isolated.py::test_complete_pipeline_real_iceberg')"
+      ],
+      "test_isolation": "Ephemeral3GiB network=none; readonly repo; /tmp Hadoop catalogs only; no accepted storage mounts"
+    },
+    {
+      "at": "2026-10-17T07:30:25.357354+00:00",
+      "action": "post_cleanup_native_regression_intent",
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "& 'scripts/test_silver_isolated.ps1' -SkipDownload -Image 'tlcn/silver-spark@sha256:79723a677138a36a03d195d82564c5e9039abeb0a2e149b7dd89d8b289403843' -TestPaths @('tests/integration/test_faostat_nso_silver.py::test_existing_framework_discovers_production_adapter')"
+      ],
+      "test_isolation": "Ephemeral3GiB network=none; readonly repo; /tmp Hadoop catalogs only; no accepted storage mounts"
+    },
+    {
+      "at": "2026-10-17T07:31:20.823505+00:00",
+      "action": "airflow_unit_regression_intent",
+      "paths": [
+        "tests/unit/test_local_nine_profile.py",
+        "tests/unit/test_local_nine_dags.py",
+        "tests/unit/test_dag_structure.py",
+        "tests/unit/test_pipeline_tasks.py",
+        "tests/unit/test_advisory_lock.py",
+        "tests/unit/test_metadata_silver_recovery.py"
+      ],
+      "database_scope": "Child process only: temporary SQLite Airflow DB and intentionally unreachable ingestion URL; no accepted DB writes"
+    }
+  ],
+  "owner_approval": {
+    "controlled_stop": "APPROVED",
+    "targeted_recovery": "APPROVED",
+    "at": "2026-10-17T06:44:41.307259+00:00",
+    "proposal_sha256": "dee9ae3288abf2cb9623d7f1a187521cc207e9117adb76246c41414da90528ba"
+  }
+}

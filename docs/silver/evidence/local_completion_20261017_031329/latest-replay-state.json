@@ -1,0 +1,494 @@
+{
+  "runs": [
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "state": "running",
+      "start_date": "2026-10-17T03:16:27.656869+00:00",
+      "end_date": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "state": "running",
+      "start_date": "2026-10-17T03:17:10.716421+00:00",
+      "end_date": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "state": "success",
+      "start_date": "2026-10-16T16:00:47.759893+00:00",
+      "end_date": "2026-10-17T02:46:27.548314+00:00"
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "state": "success",
+      "start_date": "2026-10-16T15:58:54.568068+00:00",
+      "end_date": "2026-10-17T02:48:56.99186+00:00"
+    }
+  ],
+  "tasks": [
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "gate_check_bronze",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 15
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_production",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 16
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_monthly_price",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 17
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "end",
+      "state": "success",
+      "try_number": 0,
+      "job_id": 29
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "trigger_silver_release",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 14
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "end_lakehouse_ingestion",
+      "state": "success",
+      "try_number": 0,
+      "job_id": 30
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "end_lakehouse_ingestion",
+      "state": null,
+      "try_number": 0,
+      "job_id": null
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "initialize_metadata",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 2
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "start_lakehouse_ingestion",
+      "state": "success",
+      "try_number": 1,
+      "job_id": null
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "start_lakehouse_ingestion",
+      "state": "success",
+      "try_number": 1,
+      "job_id": null
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "initialize_metadata",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 32
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_production",
+      "state": "success",
+      "try_number": 2,
+      "job_id": 4
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_monthly_price",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 5
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_supply_utilization",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 6
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_faostat_trade",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 7
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_usda_psd",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 8
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_usda_rice_yearbook",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 9
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_thitruongnongsan",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 11
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_worldbank_pinksheet",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 10
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "start",
+      "state": "success",
+      "try_number": 1,
+      "job_id": null
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "verify_bronze_batch",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 13
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+      "task_id": "ingest_nso_vietnam",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 12
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_supply_utilization",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 18
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_usda_psd",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 20
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_faostat_trade",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 19
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_worldbank_pinksheet",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 22
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_usda_rice_yearbook",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 21
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_thitruongnongsan",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 23
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "transform_nso_vietnam_v2",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 25
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "publish_silver_signal",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 28
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "task_id": "silver_data_quality_audit",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 27
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "ingest_faostat_production",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 33
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "ingest_faostat_monthly_price",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 34
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "ingest_faostat_supply_utilization",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 35
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "ingest_faostat_trade",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 36
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "ingest_usda_psd",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 37
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "ingest_usda_rice_yearbook",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 38
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "ingest_worldbank_pinksheet",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 39
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "ingest_thitruongnongsan",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 40
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "ingest_nso_vietnam",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 41
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "verify_bronze_batch",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 42
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "run_id": "local_nine_cleanroom_noop_full__20261017T031611Z",
+      "task_id": "trigger_silver_release",
+      "state": "running",
+      "try_number": 1,
+      "job_id": 43
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "end",
+      "state": null,
+      "try_number": 0,
+      "job_id": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "gate_check_bronze",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 44
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "transform_thitruongnongsan",
+      "state": null,
+      "try_number": 0,
+      "job_id": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "transform_nso_vietnam_v2",
+      "state": null,
+      "try_number": 0,
+      "job_id": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "silver_data_quality_audit",
+      "state": null,
+      "try_number": 0,
+      "job_id": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "publish_silver_signal",
+      "state": null,
+      "try_number": 0,
+      "job_id": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "start",
+      "state": "success",
+      "try_number": 1,
+      "job_id": null
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "transform_faostat_supply_utilization",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 47
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "transform_faostat_monthly_price",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 46
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "transform_faostat_production",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 45
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "transform_usda_psd",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 49
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "transform_faostat_trade",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 48
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "transform_usda_rice_yearbook",
+      "state": "success",
+      "try_number": 1,
+      "job_id": 50
+    },
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "run_id": "local_nine_bronze__92c1b8621646e3e1613e9a365270df8ab60b33280d7dce5e1fc047a0c897a9e5",
+      "task_id": "transform_worldbank_pinksheet",
+      "state": "running",
+      "try_number": 1,
+      "job_id": 51
+    }
+  ],
+  "dags": [
+    {
+      "dag_id": "rice_lakehouse_silver_pipeline",
+      "paused": false
+    },
+    {
+      "dag_id": "rice_lakehouse_ingestion",
+      "paused": false
+    }
+  ],
+  "locks": 1,
+  "in_progress": 0
+}

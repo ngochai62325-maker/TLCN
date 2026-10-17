@@ -1,5 +1,6 @@
 # Environment variables
 .env
+.env.local
 
 # Large datasets
 data/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/Trade_DetailedTradeMatrix_E_All_Data.csv

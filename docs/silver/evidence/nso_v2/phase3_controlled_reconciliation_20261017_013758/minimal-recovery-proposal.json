@@ -1,0 +1,66 @@
+{
+  "status": "PROPOSED_NOT_EXECUTED_SEPARATE_OWNER_APPROVAL_REQUIRED",
+  "goal": "Complete only the existing initial clean-room DagRuns, preserve all published Bronze/eight Silver/dead-letter identities and existing audit records.",
+  "current_parent": "local_nine_cleanroom_initial__20261016T155210Z",
+  "current_child": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+  "steps": [
+    {
+      "step": 1,
+      "operation": "Approve a narrow idempotency correction in SilverQuarantineManager.route_quarantine, with focused tests; no transformer/contract changes.",
+      "reason": "Unconditional matched update refreshes detected_at even with the same child pipeline_run_id. Restricting WHEN MATCHED alone is insufficient because an empty Iceberg MERGE may still commit.",
+      "proposed_change": "Compare candidate quarantine IDs/payload/errors with stored records first; return without MERGE when no new/changed logical record exists; MERGE only the real delta. Preserve pipeline_run_id and detected_at of identical existing records. New records must still insert; genuine error changes need explicit update semantics.",
+      "files_if_approved": [
+        "src/silver/engine/quarantine.py",
+        "tests/unit/test_silver_quarantine.py",
+        "tests/integration/test_silver_framework.py"
+      ],
+      "tests_if_approved": [
+        "identical replay preserves UUID/snapshot/metadata/audit fields using native Iceberg readback",
+        "new quarantine record inserts once",
+        "changed errors are handled explicitly without losing records",
+        "existing Silver/NSO regression suites affected by the quarantine path"
+      ],
+      "restriction": "No code changed in this reconciliation. Current strict NOOP policy remains unchanged; no actual replay was run."
+    },
+    {
+      "step": 2,
+      "operation": "After an approved fresh memory/state gate, start only needed EXISTING clean-room webserver/runner/Trino for recovery; keep scheduler stopped. Protectively pause both DAGs via approved Airflow interface before any task-state recovery.",
+      "reason": "The two persisted DAGs are unpaused and there are stale RUNNING jobs/tasks. Starting scheduler now can mutate zombie states. Trino startup requires this new explicit approval."
+    },
+    {
+      "step": 3,
+      "operation": "Approve targeted recovery of transform_nso_vietnam_v2 only in the existing Silver DagRun. Preserve eight successful transform task instances and all nine successful Bronze tasks. Run the approved NSO task through existing Airflow task execution/common runner with scheduler stopped.",
+      "pin_bronze_snapshot_id": "6239067651375331267",
+      "same_pipeline_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+      "before_write": "Require the same pinned Bronze/Raw identity, matching 13 exclusion IDs/content, unchanged dead-letter audit hash and preserved eight target identities. No adoption/deletion of the 34 staged objects.",
+      "caveat": "Any clear/state adjustment needed for this one task and the existing child DagRun must be explicitly approved. Preserve failed/interrupted attempt history; do not fabricate a zero-retry run."
+    },
+    {
+      "step": 4,
+      "operation": "Run only the never-run silver_data_quality_audit, publish_silver_signal and end tasks in the same child, then use Airflow state computation to finalize the existing child after all tasks and readbacks pass.",
+      "acceptance": "Actual NSO rows/keys/units/geography/missing/zero/lineage, native/Trino readback and unchanged existing 17 dead letters. Expected 23060 observations/946 missing/5 zeros are baselines, not pre-filled PASS. No Gold signal."
+    },
+    {
+      "step": 5,
+      "operation": "After verified child success, approve state-only finalization of the stale parent trigger_silver_release wait task, then its end task and computed parent DagRun state. Do not rerun the trigger operator.",
+      "reason": "trigger_silver_release already created the correct child. Its pre_execute duplicate guard and reset_dag_run=False reject clearing/rerunning the trigger. A targeted audited state finalization must attest the existing child result; it is not a new trigger.",
+      "restriction": "Do not mark SUCCESS before actual child success. Keep scheduler stopped during this proposed recovery, unless a separately reviewed scheduler-safe plan is approved."
+    },
+    {
+      "step": 6,
+      "operation": "After initial acceptance, request/verify replay resource admission and perform the separately controlled NOOP acceptance.",
+      "policy": "Bronze, all nine Silver and dead_letters must retain UUID/snapshot/schema/metadata/content, including dead-letter audit metadata. Preserve before/after evidence; no hidden relaxation."
+    }
+  ],
+  "not_proposed": [
+    "Reset or drop any table",
+    "Rerun Bronze or the eight completed Silver sources",
+    "Force reprocess",
+    "Create a second Bronze/Silver DagRun",
+    "Adopt staged NSO files as a committed table",
+    "Delete staged objects",
+    "Refresh detected_at or pipeline_run_id to hide the partial run",
+    "Change NSO production DRAFT",
+    "Start scheduler now"
+  ]
+}

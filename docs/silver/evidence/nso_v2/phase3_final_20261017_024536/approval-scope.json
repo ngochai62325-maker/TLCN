@@ -1,0 +1,6 @@
+{
+  "approval_sha256": "7e723d36033d7a7333542cc06336b59e90542b0f89b0e2ed4a1e920b4be92927",
+  "git_head": "82bfec47988124cfcd73d53f14604714da6c2108",
+  "branch": "handoff/local-nine-phase2",
+  "status": " M compose.local-nine-test.yml\n M src/silver/engine/quarantine.py\n M tests/unit/test_silver_quarantine.py\n?? docs/silver/evidence/nso_v2/compat-regression.log\n?? docs/silver/evidence/nso_v2/hook-regression-initial.log\n?? docs/silver/evidence/nso_v2/phase1_rest_20261016/rest-startup-failure.log\n?? docs/silver/evidence/nso_v2/phase2_controlled_restore_20261016_140109/\n?? docs/silver/evidence/nso_v2/phase2_handoff_20261016_133648/\n?? docs/silver/evidence/nso_v2/phase2_sigint_resume_20261016_141546/\n?? docs/silver/evidence/nso_v2/phase2_trino_adjustment_20261016_152237/\n?? docs/silver/evidence/nso_v2/phase2_trino_readback_20261016_145432/\n?? docs/silver/evidence/nso_v2/phase3_cleanroom_20261016_154548/\n?? docs/silver/evidence/nso_v2/phase3_controlled_reconciliation_20261017_013758/\n?? docs/silver/evidence/nso_v2/phase3_final_20261017_024536/\n?? docs/silver/evidence/nso_v2/phase3_interruption_recovery_20261017_012443/\n?? docs/silver/evidence/nso_v2/phase3_nso_targeted_20261017_015603/\n"
+}

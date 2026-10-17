@@ -1,0 +1,683 @@
+{
+  "format-version": 2,
+  "table-uuid": "21b3353e-cda4-4c55-8523-ef355d215b65",
+  "location": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7",
+  "last-sequence-number": 2,
+  "last-updated-ms": 1792166421436,
+  "last-column-id": 97,
+  "current-schema-id": 0,
+  "schemas": [
+    {
+      "type": "struct",
+      "schema-id": 0,
+      "fields": [
+        {
+          "id": 1,
+          "name": "period",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 2,
+          "name": "crude_oil_average_bbl_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 3,
+          "name": "crude_oil_brent_bbl_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 4,
+          "name": "crude_oil_dubai_bbl_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 5,
+          "name": "crude_oil_wti_bbl_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 6,
+          "name": "coal_australian_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 7,
+          "name": "coal_south_african_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 8,
+          "name": "natural_gas_us_mmbtu_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 9,
+          "name": "natural_gas_europe_mmbtu_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 10,
+          "name": "liquefied_natural_gas_japan_mmbtu_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 11,
+          "name": "natural_gas_index_2010_100_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 12,
+          "name": "cocoa_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 13,
+          "name": "coffee_arabica_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 14,
+          "name": "coffee_robusta_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 15,
+          "name": "tea_avg_3_auctions_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 16,
+          "name": "tea_colombo_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 17,
+          "name": "tea_kolkata_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 18,
+          "name": "tea_mombasa_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 19,
+          "name": "coconut_oil_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 20,
+          "name": "groundnuts_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 21,
+          "name": "fish_meal_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 22,
+          "name": "groundnut_oil_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 23,
+          "name": "palm_oil_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 24,
+          "name": "palm_kernel_oil_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 25,
+          "name": "soybeans_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 26,
+          "name": "soybean_oil_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 27,
+          "name": "soybean_meal_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 28,
+          "name": "rapeseed_oil_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 29,
+          "name": "sunflower_oil_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 30,
+          "name": "barley_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 31,
+          "name": "maize_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 32,
+          "name": "sorghum_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 33,
+          "name": "rice_thai_5_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 34,
+          "name": "rice_thai_25_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 35,
+          "name": "rice_thai_a_1_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 36,
+          "name": "rice_viet_namese_5_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 37,
+          "name": "wheat_us_srw_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 38,
+          "name": "wheat_us_hrw_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 39,
+          "name": "banana_europe_kg_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 40,
+          "name": "banana_us_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 41,
+          "name": "orange_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 42,
+          "name": "beef_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 43,
+          "name": "chicken_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 44,
+          "name": "lamb_kg_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 45,
+          "name": "shrimps_mexican_kg_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 46,
+          "name": "sugar_eu_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 47,
+          "name": "sugar_us_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 48,
+          "name": "sugar_world_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 49,
+          "name": "tobacco_us_import_u_v_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 50,
+          "name": "logs_cameroon_cubic_meter_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 51,
+          "name": "logs_malaysian_cubic_meter_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 52,
+          "name": "sawnwood_cameroon_cubic_meter_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 53,
+          "name": "sawnwood_malaysian_cubic_meter_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 54,
+          "name": "plywood_cents_sheet_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 55,
+          "name": "cotton_a_index_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 56,
+          "name": "rubber_tsr20_kg_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 57,
+          "name": "rubber_rss3_kg_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 58,
+          "name": "phosphate_rock_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 59,
+          "name": "dap_mt_",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 60,
+          "name": "tsp_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 61,
+          "name": "urea_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 62,
+          "name": "potassium_chloride_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 63,
+          "name": "aluminum_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 64,
+          "name": "iron_ore_cfr_spot_dmtu_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 65,
+          "name": "copper_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 66,
+          "name": "lead_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 67,
+          "name": "tin_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 68,
+          "name": "nickel_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 69,
+          "name": "zinc_mt_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 70,
+          "name": "gold_troy_oz_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 71,
+          "name": "platinum_troy_oz_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 72,
+          "name": "silver_troy_oz_",
+          "required": false,
+          "type": "double"
+        },
+        {
+          "id": 73,
+          "name": "commodity_72",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 74,
+          "name": "commodity_73",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 75,
+          "name": "commodity_74",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 76,
+          "name": "commodity_75",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 77,
+          "name": "commodity_76",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 78,
+          "name": "commodity_77",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 79,
+          "name": "commodity_78",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 80,
+          "name": "commodity_79",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 81,
+          "name": "commodity_80",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 82,
+          "name": "commodity_81",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 83,
+          "name": "commodity_82",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 84,
+          "name": "commodity_83",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 85,
+          "name": "commodity_84",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 86,
+          "name": "commodity_85",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 87,
+          "name": "commodity_86",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 88,
+          "name": "commodity_87",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 89,
+          "name": "commodity_88",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 90,
+          "name": "_ingestion_run_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 91,
+          "name": "_ingestion_batch_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 92,
+          "name": "_ingestion_chunk_id",
+          "required": false,
+          "type": "long"
+        },
+        {
+          "id": 93,
+          "name": "_ingestion_timestamp",
+          "required": false,
+          "type": "timestamptz"
+        },
+        {
+          "id": 94,
+          "name": "_source_id",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 95,
+          "name": "_source_file",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 96,
+          "name": "_source_checksum",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 97,
+          "name": "_source_snapshot_id",
+          "required": false,
+          "type": "long"
+        }
+      ]
+    }
+  ],
+  "default-spec-id": 0,
+  "partition-specs": [
+    {
+      "spec-id": 0,
+      "fields": []
+    }
+  ],
+  "last-partition-id": 999,
+  "default-sort-order-id": 0,
+  "sort-orders": [
+    {
+      "order-id": 0,
+      "fields": []
+    }
+  ],
+  "properties": {
+    "created-at": "2026-10-16T16:00:20.264993047Z",
+    "write.format.default": "PARQUET",
+    "write.parquet.compression-codec": "zstd"
+  },
+  "current-snapshot-id": 2608578091811865170,
+  "refs": {
+    "main": {
+      "snapshot-id": 2608578091811865170,
+      "type": "branch"
+    }
+  },
+  "snapshots": [
+    {
+      "sequence-number": 1,
+      "snapshot-id": 4466614808173183922,
+      "timestamp-ms": 1792166420301,
+      "summary": {
+        "operation": "append",
+        "trino_query_id": "20261016_160020_00117_2enta",
+        "changed-partition-count": "0",
+        "total-records": "0",
+        "total-files-size": "0",
+        "total-data-files": "0",
+        "total-delete-files": "0",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0"
+      },
+      "manifest-list": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/snap-4466614808173183922-1-51b96475-f8e2-4221-b98e-9f1f84a3804e.avro",
+      "schema-id": 0
+    },
+    {
+      "sequence-number": 2,
+      "snapshot-id": 2608578091811865170,
+      "parent-snapshot-id": 4466614808173183922,
+      "timestamp-ms": 1792166421436,
+      "summary": {
+        "operation": "append",
+        "added-files-size": "301075",
+        "added-data-files": "1",
+        "added-records": "792",
+        "total-data-files": "1",
+        "total-delete-files": "0",
+        "total-records": "792",
+        "total-files-size": "301075",
+        "total-position-deletes": "0",
+        "total-equality-deletes": "0"
+      },
+      "manifest-list": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/snap-2608578091811865170-0-27d2d150-2c39-4489-b848-f6693cd45432.avro",
+      "schema-id": 0
+    }
+  ],
+  "statistics": [],
+  "snapshot-log": [
+    {
+      "timestamp-ms": 1792166420301,
+      "snapshot-id": 4466614808173183922
+    },
+    {
+      "timestamp-ms": 1792166421436,
+      "snapshot-id": 2608578091811865170
+    }
+  ],
+  "metadata-log": [
+    {
+      "timestamp-ms": 1792166420301,
+      "metadata-file": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/00000-3e714d1e-fea8-4d8a-a3fa-550f4850beea.metadata.json"
+    }
+  ]
+}

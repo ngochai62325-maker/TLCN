@@ -1,0 +1,322 @@
+{
+  "at": "2026-10-17T01:29:01.973133+00:00",
+  "status": "BLOCKED_RESOURCE_HEADROOM",
+  "additional_blocker": "NSO_PARTIAL_EXECUTION_REQUIRES_PERSISTED_PG_RECONCILIATION_AND_OWNER_APPROVAL_BEFORE_RECOVERY",
+  "read_only_runtime_inspection": true,
+  "runtime_mutations_performed": [],
+  "git_head": "82bfec47988124cfcd73d53f14604714da6c2108",
+  "git_branch": "handoff/local-nine-phase2",
+  "tracked_code_changes_this_recovery": [],
+  "existing_compose_change_preserved": "compose.local-nine-test.yml trino-test mem_limit=1536m",
+  "shared": {
+    "running_services": 7,
+    "replacement_containers_created_utc": "2026-10-17T01:18:05Z through 01:18:06Z",
+    "restart_policy": "no, restart count 0; this is new container creation, not evidence of restart-policy restarting old IDs",
+    "initiating_actor_or_client": "UNKNOWN; retained Docker events do not establish creation initiator",
+    "catalog_29_match": true,
+    "five_ingestion_metadata_hashes_match": true,
+    "active_runs": [],
+    "active_tasks": [],
+    "active_queries": [],
+    "locks": 0,
+    "in_progress": 0,
+    "dags": [
+      {
+        "dag": "rice_lakehouse_ingestion",
+        "paused": true
+      },
+      {
+        "dag": "rice_lakehouse_silver_pipeline",
+        "paused": true
+      }
+    ],
+    "historical_scheduled_task_unchanged": [
+      {
+        "task": "publish_silver_signal",
+        "state": "scheduled",
+        "parent_state": "failed"
+      }
+    ]
+  },
+  "phase2": {
+    "all_eight_containers_stopped": true,
+    "catalog_integrity": "ok",
+    "identities_19_match_fresh_phase3_preservation_preflight": true,
+    "volumes_preserved": true,
+    "postgres_metadata_requeried": false
+  },
+  "cleanroom": {
+    "all_eight_containers_stopped": true,
+    "container_images_mounts_caps_flags_unchanged": true,
+    "postgres_last_shutdown": "Clean shutdown per persisted PostgreSQL log; current SQL not queried because service is stopped and resource admission failed",
+    "catalog_integrity": "ok",
+    "catalog_entries": 19,
+    "bronze_run_id": "local_nine_cleanroom_initial__20261016T155210Z",
+    "silver_run_id": "local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1",
+    "run_id_evidence": "Persisted task logs and original intent, not a fresh PostgreSQL query",
+    "bronze_success_task_logs": 9,
+    "successful_silver_commit_proofs": [
+      {
+        "dataset": "faostat_monthly_price",
+        "target": "iceberg.silver_local.faostat_monthly_price",
+        "rows_from_snapshot_summary": 15334,
+        "uuid": "63a487b2-703d-49df-8a6d-baf903509145",
+        "snapshot_id": "1591520480261276952",
+        "schema_id": 0,
+        "bronze_read_snapshot_id": "3069013476710882292",
+        "task_log_success": true,
+        "framework_commit_verified_matches_offline_catalog_and_metadata": true
+      },
+      {
+        "dataset": "faostat_production",
+        "target": "iceberg.silver_local.faostat_production",
+        "rows_from_snapshot_summary": 22738,
+        "uuid": "7fc0d9b6-9b00-40f8-8207-64e5f7678d93",
+        "snapshot_id": "3025742236916912946",
+        "schema_id": 0,
+        "bronze_read_snapshot_id": "4843563875751184854",
+        "task_log_success": true,
+        "framework_commit_verified_matches_offline_catalog_and_metadata": true
+      },
+      {
+        "dataset": "faostat_supply_utilization",
+        "target": "iceberg.silver_local.faostat_supply_utilization",
+        "rows_from_snapshot_summary": 36380,
+        "uuid": "952160ba-11d3-4c53-b60a-929dcca3b0e1",
+        "snapshot_id": "4289048808299983571",
+        "schema_id": 0,
+        "bronze_read_snapshot_id": "1149052647847510586",
+        "task_log_success": true,
+        "framework_commit_verified_matches_offline_catalog_and_metadata": true
+      },
+      {
+        "dataset": "faostat_trade",
+        "target": "iceberg.silver_local.faostat_trade",
+        "rows_from_snapshot_summary": 1226470,
+        "uuid": "c1800fdd-6d37-4b05-a913-bc61fa922b00",
+        "snapshot_id": "4017675517054557099",
+        "schema_id": 0,
+        "bronze_read_snapshot_id": "2171934088797835179",
+        "task_log_success": true,
+        "framework_commit_verified_matches_offline_catalog_and_metadata": true
+      },
+      {
+        "dataset": "thitruongnongsan",
+        "target": "iceberg.silver_local.thitruongnongsan",
+        "rows_from_snapshot_summary": 20387,
+        "uuid": "6950791c-cfd2-45b7-910d-ad88803b8904",
+        "snapshot_id": "4817852030779680459",
+        "schema_id": 0,
+        "bronze_read_snapshot_id": "6284553868447052727",
+        "task_log_success": true,
+        "framework_commit_verified_matches_offline_catalog_and_metadata": true
+      },
+      {
+        "dataset": "usda_psd",
+        "target": "iceberg.silver_local.usda_rice_psd",
+        "rows_from_snapshot_summary": 990,
+        "uuid": "82e6f676-0e8b-4066-a6ef-eeb6284f54fe",
+        "snapshot_id": "4876825965550487606",
+        "schema_id": 0,
+        "bronze_read_snapshot_id": "6725163293089992461",
+        "task_log_success": true,
+        "framework_commit_verified_matches_offline_catalog_and_metadata": true
+      },
+      {
+        "dataset": "usda_rice_yearbook",
+        "target": "iceberg.silver_local.usda_rice_yearbook",
+        "rows_from_snapshot_summary": 12936,
+        "uuid": "a92b8fdf-dbf5-4f0c-a5c5-3c66857ee93d",
+        "snapshot_id": "4249957608382647425",
+        "schema_id": 0,
+        "bronze_read_snapshot_id": "4564470349869842851",
+        "task_log_success": true,
+        "framework_commit_verified_matches_offline_catalog_and_metadata": true
+      },
+      {
+        "dataset": "worldbank_pinksheet",
+        "target": "iceberg.silver_local.worldbank_commodity_monthly",
+        "rows_from_snapshot_summary": 56232,
+        "uuid": "be48b680-f86b-4a4d-b552-705cac58103b",
+        "snapshot_id": "6762326735303774082",
+        "schema_id": 0,
+        "bronze_read_snapshot_id": "2608578091811865170",
+        "task_log_success": true,
+        "framework_commit_verified_matches_offline_catalog_and_metadata": true
+      }
+    ],
+    "silver_rows_from_eight_committed_snapshot_summaries": 1391467,
+    "trade_classification": "CONFIRMED_COMMITTED_AND_AUDITED",
+    "trade_classification_scope": "Existing framework commit_verified task response, terminal SUCCESS/exit0 task log, copied current SQLite catalog pointer and matching MinIO Iceberg metadata. Current PostgreSQL/XCom and native Parquet/Trino readback remain unverified after restart.",
+    "nso_classification": "PARTIAL_OR_UNKNOWN_COMMIT_OUTCOME",
+    "nso": {
+      "table": "silver_local.nso_rice_statistics_v2",
+      "uuid": "585ec4d4-d44b-45ad-b6ff-dc55548ebdaf",
+      "snapshot_id": "6224708582587211745",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00000-f2bc1279-dc46-44f9-b5cb-c97ee208c04e.metadata.json",
+      "location": "s3://warehouse/silver_local/nso_rice_statistics_v2",
+      "snapshots": [
+        {
+          "sequence-number": 1,
+          "snapshot-id": 6224708582587211745,
+          "timestamp-ms": 1792167025676,
+          "summary": {
+            "operation": "append",
+            "spark.app.id": "local-1792166958709",
+            "changed-partition-count": "0",
+            "total-records": "0",
+            "total-files-size": "0",
+            "total-data-files": "0",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "engine-version": "3.5.5",
+            "app-id": "local-1792166958709",
+            "engine-name": "spark",
+            "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+          },
+          "manifest-list": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/snap-6224708582587211745-1-eed64c02-903b-4098-84c3-e2fc855d7c79.avro",
+          "schema-id": 0
+        }
+      ],
+      "snapshot_log": [
+        {
+          "timestamp-ms": 1792167025676,
+          "snapshot-id": 6224708582587211745
+        }
+      ],
+      "metadata_log": [],
+      "embedded_metadata_sha256": "cc01ba8dbbdbb5932ebbd25435325800f7494b4840b2b3589c749163d563ad1c",
+      "read_method": "read-only docker cp stopped MinIO object; JSON payload extracted from inline xl.meta, not native Parquet scan"
+    },
+    "dead_letters": {
+      "table": "silver_local.dead_letters",
+      "uuid": "7711cdc0-135f-491c-a153-09c5ff6c1689",
+      "snapshot_id": "3806092623472970273",
+      "schema_id": 0,
+      "metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00002-febb5d42-a466-43ba-9c82-acbe9f7dc02a.metadata.json",
+      "location": "s3://warehouse/silver_local/dead_letters",
+      "snapshots": [
+        {
+          "sequence-number": 1,
+          "snapshot-id": 7512195715552547853,
+          "timestamp-ms": 1792166940981,
+          "summary": {
+            "operation": "append",
+            "spark.app.id": "local-1792166920802",
+            "added-data-files": "1",
+            "added-records": "4",
+            "added-files-size": "9197",
+            "changed-partition-count": "1",
+            "total-records": "4",
+            "total-files-size": "9197",
+            "total-data-files": "1",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "engine-version": "3.5.5",
+            "app-id": "local-1792166920802",
+            "engine-name": "spark",
+            "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+          },
+          "manifest-list": "s3://warehouse/silver_local/dead_letters/metadata/snap-7512195715552547853-1-2319258c-2256-4714-84eb-1d0001ba0835.avro",
+          "schema-id": 0
+        },
+        {
+          "sequence-number": 2,
+          "snapshot-id": 3806092623472970273,
+          "parent-snapshot-id": 7512195715552547853,
+          "timestamp-ms": 1792167022021,
+          "summary": {
+            "operation": "append",
+            "spark.app.id": "local-1792166958709",
+            "added-data-files": "1",
+            "added-records": "13",
+            "added-files-size": "7530",
+            "changed-partition-count": "1",
+            "total-records": "17",
+            "total-files-size": "16727",
+            "total-data-files": "2",
+            "total-delete-files": "0",
+            "total-position-deletes": "0",
+            "total-equality-deletes": "0",
+            "engine-version": "3.5.5",
+            "app-id": "local-1792166958709",
+            "engine-name": "spark",
+            "iceberg-version": "Apache Iceberg 1.8.1 (commit 9ce0fcf0af7becf25ad9fc996c3bad2afdcfd33d)"
+          },
+          "manifest-list": "s3://warehouse/silver_local/dead_letters/metadata/snap-3806092623472970273-1-01f22fd1-0382-4a53-bd47-7be49c3c9300.avro",
+          "schema-id": 0
+        }
+      ],
+      "snapshot_log": [
+        {
+          "timestamp-ms": 1792166940981,
+          "snapshot-id": 7512195715552547853
+        },
+        {
+          "timestamp-ms": 1792167022021,
+          "snapshot-id": 3806092623472970273
+        }
+      ],
+      "metadata_log": [
+        {
+          "timestamp-ms": 1792166625253,
+          "metadata-file": "s3://warehouse/silver_local/dead_letters/metadata/00000-799b4220-1745-42f9-879c-73dfbe087c15.metadata.json"
+        },
+        {
+          "timestamp-ms": 1792166940981,
+          "metadata-file": "s3://warehouse/silver_local/dead_letters/metadata/00001-cd31d09e-e796-4f72-8667-d81e10594f9f.metadata.json"
+        }
+      ],
+      "embedded_metadata_sha256": "6af3586901e609c977983327d6d49bdb9b2cd550c5316b1fb1dd0506812c41f4",
+      "read_method": "read-only docker cp stopped MinIO object; JSON payload extracted from inline xl.meta, not native Parquet scan"
+    },
+    "nso_assessment": "An empty table snapshot is committed (0 records/0 data files), and dead_letters has a separate append of 13 NSO records (17 total including 4 market). No completed NSO response or terminal SUCCESS. NSO task log records SIGTERM and PostgreSQL DNS failure at shutdown. No writer retry authorized.",
+    "scheduler_start_safe": false,
+    "dag_pause_state": "Last live clean-room PG observation at 2026-10-16T16:09:45Z: both unpaused; current paused state NOT verified. Scheduler stopped, no live isolated writers. Must protectively pause after PG restore before scheduler.",
+    "current_ingestion_runs_and_task_states": "NOT_QUERIED_AFTER_RESTART",
+    "native_or_trino_acceptance_after_restart": "NOT_RUN",
+    "noop_replay": "NOT_RUN"
+  },
+  "resource_screening": {
+    "status": "FAIL",
+    "samples": [
+      {
+        "at": "2026-10-17T01:25:46.971165+00:00",
+        "windows_available_bytes": 1317371904,
+        "windows_memory_load": 92,
+        "wsl_meminfo": "MemTotal:        8131792 kB\nMemFree:         2806908 kB\nMemAvailable:    4982852 kB\nBuffers:          252948 kB\nCached:          1983812 kB\nSwapCached:            0 kB\nActive:           720112 kB\nInactive:        4064588 kB\nActive(anon):      11548 kB\nInactive(anon):  2558096 kB\nActive(file):     708564 kB\nInactive(file):  1506492 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:               308 kB\nWriteback:             0 kB\nAnonPages:       2548140 kB\nMapped:           512508 kB\nShmem:             21704 kB\nKReclaimable:     157660 kB\nSlab:             252012 kB\nSReclaimable:     157660 kB\nSUnreclaim:        94352 kB\nKernelStack:       12472 kB\nPageTables:        37584 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:   30367128 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       37572 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       70656 kB\nDirectMap2M:     7268352 kB\nDirectMap1G:    10485760 kB\n",
+        "wsl_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.02 avg300=0.04 total=2148379\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.08 avg300=0.32 total=5409777\nfull avg10=0.00 avg60=0.08 avg300=0.31 total=5194502\n",
+        "docker_stats": "{\"BlockIO\":\"19.6MB / 36.9kB\",\"CPUPerc\":\"0.01%\",\"Container\":\"ac65ab2849c9a9a6762c8bb86f0fd7f7df3c958089eb8e1d5650f83572ee39cd\",\"ID\":\"ac65ab2849c9\",\"MemPerc\":\"0.31%\",\"MemUsage\":\"24.64MiB / 7.755GiB\",\"Name\":\"spark-iceberg\",\"NetIO\":\"1.63kB / 126B\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"191MB / 2.07MB\",\"CPUPerc\":\"1.65%\",\"Container\":\"628a560441838fbaba19276bcc787f14a074c81a15656558a3ba67c2cc7b2f1c\",\"ID\":\"628a56044183\",\"MemPerc\":\"11.68%\",\"MemUsage\":\"927.3MiB / 7.755GiB\",\"Name\":\"trino\",\"NetIO\":\"218kB / 18kB\",\"PIDs\":\"160\"}\n{\"BlockIO\":\"111MB / 223MB\",\"CPUPerc\":\"0.16%\",\"Container\":\"fbd0b78ac6d1fc1cd7f783f9c4c2a44f9f4e6050a6faff448153c41bc144a549\",\"ID\":\"fbd0b78ac6d1\",\"MemPerc\":\"9.81%\",\"MemUsage\":\"778.7MiB / 7.755GiB\",\"Name\":\"airflow-webserver\",\"NetIO\":\"13.1MB / 628kB\",\"PIDs\":\"8\"}\n{\"BlockIO\":\"67MB / 133MB\",\"CPUPerc\":\"2.39%\",\"Container\":\"b76394eb3290814d7ebc91c868ee5a762855ec4c2692fd21acb35c68ca19d8e0\",\"ID\":\"b76394eb3290\",\"MemPerc\":\"7.07%\",\"MemUsage\":\"561.8MiB / 7.755GiB\",\"Name\":\"airflow-scheduler\",\"NetIO\":\"16.2MB / 5.21MB\",\"PIDs\":\"73\"}\n{\"BlockIO\":\"72.6MB / 1.26MB\",\"CPUPerc\":\"0.11%\",\"Container\":\"f9c08d4e677b677abef9d5ead6c5e98e648b166cc5de58cb4ad61ea796b65a0f\",\"ID\":\"f9c08d4e677b\",\"MemPerc\":\"2.14%\",\"MemUsage\":\"169.7MiB / 7.755GiB\",\"Name\":\"iceberg-rest\",\"NetIO\":\"308kB / 247kB\",\"PIDs\":\"44\"}\n{\"BlockIO\":\"37.2MB / 6.45MB\",\"CPUPerc\":\"1.59%\",\"Container\":\"dd6aa1baf544cfe516b983cd00ac9988e234478546dd376960a3fb00f6fe6b4c\",\"ID\":\"dd6aa1baf544\",\"MemPerc\":\"0.62%\",\"MemUsage\":\"49.2MiB / 7.755GiB\",\"Name\":\"postgres\",\"NetIO\":\"5.28MB / 5.64MB\",\"PIDs\":\"10\"}\n{\"BlockIO\":\"116MB / 811kB\",\"CPUPerc\":\"0.14%\",\"Container\":\"513e89e55d90014d495c980f8beefc6823671cf5e007eb909bb0499c98e74ca6\",\"ID\":\"513e89e55d90\",\"MemPerc\":\"1.10%\",\"MemUsage\":\"87.31MiB / 7.755GiB\",\"Name\":\"minio\",\"NetIO\":\"37.7kB / 294kB\",\"PIDs\":\"17\"}\n"
+      },
+      {
+        "at": "2026-10-17T01:26:22.837188+00:00",
+        "windows_available_bytes": 1424723968,
+        "windows_memory_load": 91,
+        "wsl_meminfo": "MemTotal:        8131792 kB\nMemFree:         2786680 kB\nMemAvailable:    4968440 kB\nBuffers:          253252 kB\nCached:          1989036 kB\nSwapCached:            0 kB\nActive:           720524 kB\nInactive:        4077472 kB\nActive(anon):      11584 kB\nInactive(anon):  2565808 kB\nActive(file):     708940 kB\nInactive(file):  1511664 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:                 0 kB\nWriteback:             0 kB\nAnonPages:       2555924 kB\nMapped:           512640 kB\nShmem:             21676 kB\nKReclaimable:     157928 kB\nSlab:             252256 kB\nSReclaimable:     157928 kB\nSUnreclaim:        94328 kB\nKernelStack:       12556 kB\nPageTables:        37528 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:   30371060 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       37588 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       70656 kB\nDirectMap2M:     7268352 kB\nDirectMap1G:    10485760 kB\n",
+        "wsl_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.00 avg300=0.03 total=2223841\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.05 avg60=0.06 avg300=0.29 total=5514340\nfull avg10=0.05 avg60=0.06 avg300=0.27 total=5297585\n",
+        "docker_stats": "{\"BlockIO\":\"19.6MB / 36.9kB\",\"CPUPerc\":\"0.01%\",\"Container\":\"ac65ab2849c9a9a6762c8bb86f0fd7f7df3c958089eb8e1d5650f83572ee39cd\",\"ID\":\"ac65ab2849c9\",\"MemPerc\":\"0.31%\",\"MemUsage\":\"24.63MiB / 7.755GiB\",\"Name\":\"spark-iceberg\",\"NetIO\":\"1.63kB / 126B\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"191MB / 2.1MB\",\"CPUPerc\":\"1.90%\",\"Container\":\"628a560441838fbaba19276bcc787f14a074c81a15656558a3ba67c2cc7b2f1c\",\"ID\":\"628a56044183\",\"MemPerc\":\"11.69%\",\"MemUsage\":\"928MiB / 7.755GiB\",\"Name\":\"trino\",\"NetIO\":\"218kB / 18kB\",\"PIDs\":\"160\"}\n{\"BlockIO\":\"111MB / 223MB\",\"CPUPerc\":\"0.11%\",\"Container\":\"fbd0b78ac6d1fc1cd7f783f9c4c2a44f9f4e6050a6faff448153c41bc144a549\",\"ID\":\"fbd0b78ac6d1\",\"MemPerc\":\"9.81%\",\"MemUsage\":\"779MiB / 7.755GiB\",\"Name\":\"airflow-webserver\",\"NetIO\":\"13.1MB / 628kB\",\"PIDs\":\"8\"}\n{\"BlockIO\":\"67MB / 133MB\",\"CPUPerc\":\"1.57%\",\"Container\":\"b76394eb3290814d7ebc91c868ee5a762855ec4c2692fd21acb35c68ca19d8e0\",\"ID\":\"b76394eb3290\",\"MemPerc\":\"7.12%\",\"MemUsage\":\"565.5MiB / 7.755GiB\",\"Name\":\"airflow-scheduler\",\"NetIO\":\"16.6MB / 5.65MB\",\"PIDs\":\"73\"}\n{\"BlockIO\":\"72.6MB / 1.28MB\",\"CPUPerc\":\"0.14%\",\"Container\":\"f9c08d4e677b677abef9d5ead6c5e98e648b166cc5de58cb4ad61ea796b65a0f\",\"ID\":\"f9c08d4e677b\",\"MemPerc\":\"2.14%\",\"MemUsage\":\"169.6MiB / 7.755GiB\",\"Name\":\"iceberg-rest\",\"NetIO\":\"308kB / 247kB\",\"PIDs\":\"43\"}\n{\"BlockIO\":\"37.2MB / 6.91MB\",\"CPUPerc\":\"0.96%\",\"Container\":\"dd6aa1baf544cfe516b983cd00ac9988e234478546dd376960a3fb00f6fe6b4c\",\"ID\":\"dd6aa1baf544\",\"MemPerc\":\"0.62%\",\"MemUsage\":\"49.11MiB / 7.755GiB\",\"Name\":\"postgres\",\"NetIO\":\"5.71MB / 6.04MB\",\"PIDs\":\"10\"}\n{\"BlockIO\":\"122MB / 922kB\",\"CPUPerc\":\"0.00%\",\"Container\":\"513e89e55d90014d495c980f8beefc6823671cf5e007eb909bb0499c98e74ca6\",\"ID\":\"513e89e55d90\",\"MemPerc\":\"1.11%\",\"MemUsage\":\"88.36MiB / 7.755GiB\",\"Name\":\"minio\",\"NetIO\":\"37.7kB / 294kB\",\"PIDs\":\"17\"}\n"
+      },
+      {
+        "at": "2026-10-17T01:26:58.671492+00:00",
+        "windows_available_bytes": 1416826880,
+        "windows_memory_load": 91,
+        "wsl_meminfo": "MemTotal:        8131792 kB\nMemFree:         2802360 kB\nMemAvailable:    4985440 kB\nBuffers:          253856 kB\nCached:          1989736 kB\nSwapCached:            0 kB\nActive:           721280 kB\nInactive:        4069972 kB\nActive(anon):      11628 kB\nInactive(anon):  2557932 kB\nActive(file):     709652 kB\nInactive(file):  1512040 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nDirty:                40 kB\nWriteback:             0 kB\nAnonPages:       2547920 kB\nMapped:           513276 kB\nShmem:             21704 kB\nKReclaimable:     158160 kB\nSlab:             252648 kB\nSReclaimable:     158160 kB\nSUnreclaim:        94488 kB\nKernelStack:       11840 kB\nPageTables:        37752 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     4065896 kB\nCommitted_AS:   30060424 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       36964 kB\nVmallocChunk:          0 kB\nPercpu:             6720 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nUnaccepted:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       70656 kB\nDirectMap2M:     7268352 kB\nDirectMap1G:    10485760 kB\n",
+        "wsl_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.00 avg300=0.02 total=2298668\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.01 avg60=0.05 avg300=0.26 total=5595913\nfull avg10=0.01 avg60=0.05 avg300=0.25 total=5377372\n",
+        "docker_stats": "{\"BlockIO\":\"19.6MB / 36.9kB\",\"CPUPerc\":\"0.01%\",\"Container\":\"ac65ab2849c9a9a6762c8bb86f0fd7f7df3c958089eb8e1d5650f83572ee39cd\",\"ID\":\"ac65ab2849c9\",\"MemPerc\":\"0.31%\",\"MemUsage\":\"24.64MiB / 7.755GiB\",\"Name\":\"spark-iceberg\",\"NetIO\":\"1.63kB / 126B\",\"PIDs\":\"1\"}\n{\"BlockIO\":\"191MB / 2.48MB\",\"CPUPerc\":\"2.43%\",\"Container\":\"628a560441838fbaba19276bcc787f14a074c81a15656558a3ba67c2cc7b2f1c\",\"ID\":\"628a56044183\",\"MemPerc\":\"11.69%\",\"MemUsage\":\"928.4MiB / 7.755GiB\",\"Name\":\"trino\",\"NetIO\":\"218kB / 18kB\",\"PIDs\":\"160\"}\n{\"BlockIO\":\"111MB / 223MB\",\"CPUPerc\":\"0.16%\",\"Container\":\"fbd0b78ac6d1fc1cd7f783f9c4c2a44f9f4e6050a6faff448153c41bc144a549\",\"ID\":\"fbd0b78ac6d1\",\"MemPerc\":\"9.81%\",\"MemUsage\":\"779MiB / 7.755GiB\",\"Name\":\"airflow-webserver\",\"NetIO\":\"13.1MB / 628kB\",\"PIDs\":\"8\"}\n{\"BlockIO\":\"67MB / 133MB\",\"CPUPerc\":\"1.61%\",\"Container\":\"b76394eb3290814d7ebc91c868ee5a762855ec4c2692fd21acb35c68ca19d8e0\",\"ID\":\"b76394eb3290\",\"MemPerc\":\"7.12%\",\"MemUsage\":\"565.5MiB / 7.755GiB\",\"Name\":\"airflow-scheduler\",\"NetIO\":\"17MB / 6.07MB\",\"PIDs\":\"73\"}\n{\"BlockIO\":\"72.6MB / 1.45MB\",\"CPUPerc\":\"0.14%\",\"Container\":\"f9c08d4e677b677abef9d5ead6c5e98e648b166cc5de58cb4ad61ea796b65a0f\",\"ID\":\"f9c08d4e677b\",\"MemPerc\":\"2.13%\",\"MemUsage\":\"169.5MiB / 7.755GiB\",\"Name\":\"iceberg-rest\",\"NetIO\":\"308kB / 247kB\",\"PIDs\":\"42\"}\n{\"BlockIO\":\"37.2MB / 7.37MB\",\"CPUPerc\":\"1.15%\",\"Container\":\"dd6aa1baf544cfe516b983cd00ac9988e234478546dd376960a3fb00f6fe6b4c\",\"ID\":\"dd6aa1baf544\",\"MemPerc\":\"0.62%\",\"MemUsage\":\"48.93MiB / 7.755GiB\",\"Name\":\"postgres\",\"NetIO\":\"6.13MB / 6.42MB\",\"PIDs\":\"10\"}\n{\"BlockIO\":\"122MB / 930kB\",\"CPUPerc\":\"0.00%\",\"Container\":\"513e89e55d90014d495c980f8beefc6823671cf5e007eb909bb0499c98e74ca6\",\"ID\":\"513e89e55d90\",\"MemPerc\":\"1.11%\",\"MemUsage\":\"88.36MiB / 7.755GiB\",\"Name\":\"minio\",\"NetIO\":\"37.9kB / 295kB\",\"PIDs\":\"17\"}\n"
+      }
+    ],
+    "restored_full_runtime_admission": false,
+    "reason": "All 3 Windows samples below approximately 2 GiB; no isolated startup or scheduling attempted",
+    "oom_observation": "Phase3 stopped runner/scheduler/web exit137 but OOMKilled=false; nonzero exit is not treated as proof of OOM or lost commit. Stopped cgroup counters unavailable. Current shared cgroup oom/oom_kill=0."
+  },
+  "raw_21_files_sha256_match": true,
+  "artifact_pins_match": true,
+  "next_action_proposal": "controlled-stop-proposal.json",
+  "initial_cleanroom_acceptance": "NOT_COMPLETE",
+  "strict_dead_letters_noop_policy": "Unchanged; no replay or quarantine code edit.",
+  "prior_startup_failure_preserved": true,
+  "limits": "No start/stop/recreate, task-state mutation, trigger, writer, shared data write, reset/delete, Phase4/5, business rule/contract change, or commit/push."
+}

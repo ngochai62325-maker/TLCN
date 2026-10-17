@@ -1,0 +1,69 @@
+{
+  "default": {
+    "data": [
+      [
+        "2026-10-16 14:24:14.625 UTC",
+        "2026-10-16 14:24:14.624672 UTC"
+      ]
+    ],
+    "columns": [
+      {
+        "name": "_ingestion_timestamp",
+        "type": "timestamp with time zone",
+        "typeSignature": {
+          "rawType": "timestamp with time zone",
+          "arguments": []
+        }
+      },
+      {
+        "name": "exact_text",
+        "type": "varchar",
+        "typeSignature": {
+          "rawType": "varchar",
+          "arguments": [
+            {
+              "kind": "LONG",
+              "value": 2147483647
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "PARAMETRIC_DATETIME": {
+    "data": [
+      [
+        "2026-10-16 14:24:14.624672 UTC",
+        "2026-10-16 14:24:14.624672 UTC"
+      ]
+    ],
+    "columns": [
+      {
+        "name": "_ingestion_timestamp",
+        "type": "timestamp(6) with time zone",
+        "typeSignature": {
+          "rawType": "timestamp with time zone",
+          "arguments": [
+            {
+              "kind": "LONG",
+              "value": 6
+            }
+          ]
+        }
+      },
+      {
+        "name": "exact_text",
+        "type": "varchar",
+        "typeSignature": {
+          "rawType": "varchar",
+          "arguments": [
+            {
+              "kind": "LONG",
+              "value": 2147483647
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

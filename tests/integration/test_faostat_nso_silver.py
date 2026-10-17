@@ -6,9 +6,11 @@ They use a fresh Hadoop catalog/warehouse in pytest's temporary directory.
 """
 
 from unittest.mock import MagicMock
+import copy
 import os
 
 import pytest
+import yaml
 from pyspark.sql import SparkSession
 
 from silver.framework import SilverTransformationFramework
@@ -29,19 +31,38 @@ def spark():
     session.stop()
 
 
-def test_existing_framework_discovers_production_adapter(spark, monkeypatch):
+def test_existing_framework_discovers_production_adapter(isolated_iceberg, tmp_path, monkeypatch):
+    spark = isolated_iceberg
     raw = observations(spark, {"unit": "kg", "value": "2500"}, {"value": "-1"})
-    framework = SilverTransformationFramework(spark)
-    monkeypatch.setattr(spark, "table", lambda table: raw)
+    # Exercise the real pinned reader, including Iceberg .refs; the old
+    # spark.table mock did not cover the runner's snapshot-bound read API.
+    from silver.contract.loader import SilverContractLoader
+    data = copy.deepcopy(SilverContractLoader().load_contract("faostat_production")._data)
+    data["dataset"]["bronze_input"] = "hoang_test.fixtures.adapter_bronze"
+    data["dataset"]["silver_output"] = "hoang_test.fixtures.adapter_silver"
+    (tmp_path / "faostat_production.yaml").write_text(
+        yaml.safe_dump(data, allow_unicode=True), encoding="utf-8")
+    raw.writeTo(data["dataset"]["bronze_input"]).using("iceberg").create()
+    pinned = spark.sql(
+        f"SELECT snapshot_id FROM {data['dataset']['bronze_input']}.refs WHERE name='main'").first()[0]
+    framework = SilverTransformationFramework(spark, str(tmp_path))
     # Replace only external writes; use actual dispatch, normalization, DQ and dedup.
     framework.quarantine_manager = MagicMock()
     captured = {}
-    monkeypatch.setattr(framework.merge_engine, "merge", lambda df, **kw: captured.update(df=df, **kw))
+
+    def capture_merge(df, **kwargs):
+        # Observe the output inside the write stage, before framework.run()
+        # releases its cached frames. Keeping the lazy plan past that boundary
+        # needlessly reconstructs the full normalization plan on a small driver.
+        captured.update(row=df.select("commodity_code", "unit", "value").first(), **kwargs)
+
+    monkeypatch.setattr(framework.merge_engine, "merge", capture_merge)
     result = framework.run("faostat_production", "read-only-fixture-run")
+    assert result["bronze_read_snapshot_id"] == pinned
     assert result["bronze_count"] == 2
     assert result["quarantine_count"] == 1
     assert result["valid_count"] == result["dedup_count"] == 1
-    row = captured["df"].first()
+    row = captured["row"]
     assert row.commodity_code == "0113" and row.unit == "tonne"
     assert float(row.value) == 2.5
     framework.quarantine_manager.route_quarantine.assert_called_once()
@@ -82,9 +103,18 @@ def test_isolated_actual_iceberg_rerun_and_quarantine(isolated_iceberg, cls, sou
     dead_letters = SilverQuarantineManager(spark)
     # Existing constructor ignores target_table; explicitly scope the instance.
     dead_letters.target_table = f"hoang_test.fixtures.dead_letters_{transformer.dataset_id}"
+    audit_before = snapshot_before = None
     for run in ("first", "rerun"):
         engine.merge(engine.deduplicate(valid, transformer.contract.business_key), target, transformer.contract.business_key)
         dead_letters.route_quarantine(quarantine, transformer.dataset_id, run, transformer.contract.business_key)
         assert spark.table(target).count() == 1
         assert spark.table(dead_letters.target_table).count() == 1
-    assert spark.table(dead_letters.target_table).first().pipeline_run_id == "rerun"
+        audit = spark.table(dead_letters.target_table).orderBy("quarantine_record_id").collect()
+        snapshot = spark.sql(
+            f"SELECT snapshot_id FROM {dead_letters.target_table}.refs WHERE name='main'").first()[0]
+        if run == "first":
+            audit_before, snapshot_before = audit, snapshot
+        else:
+            assert audit == audit_before  # Includes payload, errors, run ID and detected_at.
+            assert snapshot == snapshot_before
+    assert audit_before[0].pipeline_run_id == "first"
