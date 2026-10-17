@@ -23,7 +23,7 @@ def local_env(monkeypatch):
 def test_exact_scope_and_approved_overlay(local_env):
     loader = SilverContractLoader()
     assert len(local.BRONZE_SOURCES) == len(set(local.BRONZE_SOURCES)) == 9
-    assert local.mapping("nso_vietnam_v2") == ("nso_vietnam", "nso_rice_statistics_v2")
+    assert local.mapping("nso") == ("nso", "nso_rice_statistics")
     assert "nso_vietnam_v2" not in local.BRONZE_SOURCES
     assert {c.source_id for c in local.validate_registry()} == set(local.BRONZE_SOURCES)
     for source, dataset, target in local.MAPPINGS:
@@ -33,9 +33,7 @@ def test_exact_scope_and_approved_overlay(local_env):
         assert approved.silver_output == f"iceberg.silver_local.{target}"
         expected = copy.deepcopy(original._data)
         expected["dataset"]["silver_output"] = approved.silver_output
-        if dataset == "nso_vietnam_v2":
-            expected["contract_status"] = "READY"
-            assert loader.load_contract(dataset).status == "DRAFT"
+        assert loader.load_contract(dataset).status == "READY"
         assert approved._data == expected
     with pytest.raises(ValueError, match="outside"):
         local.mapping("nso_vietnam")
@@ -53,31 +51,31 @@ def test_ambiguous_activation_fails_closed(local_env, monkeypatch, name, value):
 
 def test_nso_overlay_refuses_contract_drift(local_env, tmp_path):
     from pathlib import Path
-    original = Path(SilverContractLoader().contract_dir) / "nso_vietnam_v2.yaml"
+    original = Path(SilverContractLoader().contract_dir) / "nso.yaml"
     (tmp_path / original.name).write_bytes(original.read_bytes() + b"\n# unreviewed\n")
-    with pytest.raises(ValueError, match="exact Phase 1"):
-        local.local_contract(SilverContractLoader(str(tmp_path)), "nso_vietnam_v2")
+    with pytest.raises(ValueError, match="exact approved READY"):
+        local.local_contract(SilverContractLoader(str(tmp_path)), "nso")
 
 
 @pytest.mark.parametrize("status", ["FAILED", "NOT_READY", "NO_NEW_DATA", "UNKNOWN"])
 def test_local_ingestion_failure_cannot_skip_batch(local_env, monkeypatch, status):
-    record = dict(source_id="nso_vietnam", run_id="run", status=status, checksum="a"*64)
+    record = dict(source_id="nso", run_id="run", status=status, checksum="a"*64)
     engine = MagicMock()
     engine.run_with_readiness_check.return_value.to_dict.return_value = record
     monkeypatch.setattr(tasks.IngestionEngine, "create_default", lambda: engine)
     with pytest.raises(tasks.AirflowException, match="did not complete"):
-        tasks.run_ingestion_task("nso_vietnam", profile=local.PROFILE)
+        tasks.run_ingestion_task("nso", profile=local.PROFILE)
 
 
 def test_skip_needs_prior_success_and_physical_proof(local_env, monkeypatch):
-    record = dict(source_id="nso_vietnam", run_id="skip", status="SKIPPED", checksum="a"*64,
+    record = dict(source_id="nso", run_id="skip", status="SKIPPED", checksum="a"*64,
                   source_metadata={"skipped_reason":"unchanged_snapshot"})
     repo = MagicMock()
     repo.get_run.side_effect = lambda run: record if run == "skip" else None
     repo.find_snapshot_by_checksum.return_value = {"run_id":"original"}
     with pytest.raises(tasks.AirflowException, match="successful ingestion evidence"):
         tasks.verify_release_result(record, repo, profile=local.PROFILE)
-    success = dict(source_id="nso_vietnam", status="SUCCESS", checksum="a"*64, records_extracted=833)
+    success = dict(source_id="nso", status="SUCCESS", checksum="a"*64, records_extracted=833)
     repo.get_run.side_effect = lambda run: record if run == "skip" else success
     assert tasks.verify_release_result(record, repo, profile=local.PROFILE) == record
     proof = dict(snapshot_id="123", proved_run_id="original")
@@ -85,7 +83,7 @@ def test_skip_needs_prior_success_and_physical_proof(local_env, monkeypatch):
     engine.run_with_readiness_check.return_value.to_dict.return_value = record
     monkeypatch.setattr(tasks.IngestionEngine, "create_default", lambda: engine)
     monkeypatch.setattr(tasks, "local_bronze_proof", lambda *a: proof)
-    result = tasks.run_ingestion_task("nso_vietnam", profile=local.PROFILE)
+    result = tasks.run_ingestion_task("nso", profile=local.PROFILE)
     assert result["status"] == "SKIPPED" and result["bronze_identity"] == proof
 
 

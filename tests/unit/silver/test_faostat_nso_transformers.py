@@ -10,7 +10,7 @@ from silver.engine.merge import IcebergMergeEngine
 from silver.transformers.faostat_production import FaostatProductionTransformer
 from silver.transformers.faostat_monthly_price import FaostatMonthlyPriceTransformer
 from silver.transformers.faostat_supply_utilization import FaostatSupplyUtilizationTransformer
-from silver.transformers.nso_vietnam import NsoVietnamTransformer, NATIONAL_MEASURES
+from silver.transformers.nso import NsoTransformer, NATIONAL_MEASURES
 from tests.unit.silver.faostat_nso_fixtures import observations, sql_rows
 
 
@@ -160,42 +160,55 @@ def test_missing_input_schema_fails_before_silent_null_projection(spark):
 
 
 def test_nso_lost_bronze_matrix_columns_fail_explicitly(spark):
-    with pytest.raises(ValueError, match="repair Bronze schema"):
-        NsoVietnamTransformer().preprocess(sql_rows(spark, [{"_source_file": "V06.13.csv", "nam": None}]))
+    base_audit = {
+        "_ingestion_run_id": "r1", "_ingestion_batch_id": "b1", "_ingestion_chunk_id": "1",
+        "_ingestion_timestamp": "2026-10-01 00:00:00", "_source_id": "nso",
+        "_source_file": "V06.13.csv", "_source_checksum": "sha", "_source_snapshot_id": "1",
+    }
+    with pytest.raises(ValueError, match="missing source columns"):
+        NsoTransformer()._preprocess(sql_rows(spark, [{**base_audit, "nam": None}]))
 
 
 def test_nso_national_quantities_indices_season_and_nulls(spark):
-    row = {"_source_file": "V06.12.csv", "nam": "So b? 2024", "gi_tr_v_ch_s_ph_t_tri_n": "Giá tr?",
+    transformer = NsoTransformer()
+    spec = transformer.inventory["V06.12.csv"]
+    base_audit = {
+        "_ingestion_run_id": "r1", "_ingestion_batch_id": "b1", "_ingestion_chunk_id": "1",
+        "_ingestion_timestamp": "2026-10-01 00:00:00", "_source_id": "nso",
+        "_source_file": "V06.12.csv", "_source_checksum": spec["sha256"], "_source_snapshot_id": "1",
+    }
+    row = {**base_audit, "nam": "So b? 2024", "gi_tr_v_ch_s_ph_t_tri_n": "Giá tr?",
            **{c: "2.5" for c in NATIONAL_MEASURES}}
     row["di_n_t_ch_l_a_m_a_ngh_n_ha_"] = ".."
     index = dict(row, gi_tr_v_ch_s_ph_t_tri_n="Ch? s? phát tri?n (Nam tru?c =100) - %")
-    transformer = NsoVietnamTransformer()
-    result = transformer.preprocess(sql_rows(spark, [row, index]))
-    valid, quarantine = transformer.validate(result)
-    assert valid.count() == 16 and quarantine.count() == 0
-    quantities = valid.filter(F.col("statistic_kind") == "quantity").collect()
-    assert all(r.geography_level == "national" and r.province_code is None for r in quantities)
-    assert all(r.year == 2024 and r.is_provisional for r in quantities)
-    assert {r.season for r in quantities} == {"annual", "winter_spring", "summer_autumn", "mua"}
+    result = transformer._preprocess(sql_rows(spark, [row, index]))
+    assert result.count() == 16
+    quantities = result.filter(F.col("statistic_kind") == "quantity").collect()
+    assert all(r.geography_level == "national" and r.geography_code is None for r in quantities)
+    assert all(r.year == 2024 and r.release_status == "provisional" for r in quantities)
+    assert {r.season for r in quantities} == {"annual", "winter_spring", "summer_autumn", "main_season"}
     assert {r.value for r in quantities} == {Decimal("2500"), None}
-    assert valid.filter(F.col("statistic_kind") == "development_index").first().value == Decimal("2.5")
+    assert result.filter(F.col("statistic_kind") == "development_index").first().value == Decimal("2.5")
 
 
 def test_nso_matrix_candidate_province_is_retained_with_warning(spark):
-    df = sql_rows(spark, [{"_source_file": "V06.18.csv", "t_nh_th_nh_ph_": "C? NU?C", "so_b_2024": "15"},
-                         {"_source_file": "V06.18.csv", "t_nh_th_nh_ph_": "Hà N?i", "so_b_2024": "10"}])
-    inventory = NsoVietnamTransformer().inventory
-    inventory = {"V06.18.csv": dict(inventory["V06.18.csv"], source_columns=["t_nh_th_nh_ph_", "so_b_2024"], measure_columns=["so_b_2024"])}
-    transformer = NsoVietnamTransformer(source_inventory=inventory)
-    result = transformer.preprocess(df)
+    transformer = NsoTransformer()
+    spec = transformer.inventory["V06.18.csv"]
+    base_audit = {
+        "_ingestion_run_id": "r1", "_ingestion_batch_id": "b1", "_ingestion_chunk_id": "1",
+        "_ingestion_timestamp": "2026-10-01 00:00:00", "_source_id": "nso",
+        "_source_file": "V06.18.csv", "_source_checksum": spec["sha256"], "_source_snapshot_id": "1",
+        **{c: ".." for c in spec["measure_columns"]},
+    }
+    df = sql_rows(spark, [{**base_audit, "t_nh_th_nh_ph_": "C? NU?C", "so_b_2024": "15"},
+                          {**base_audit, "t_nh_th_nh_ph_": "Hà N?i", "so_b_2024": "10"}])
+    result = transformer._preprocess(df).filter(F.col("source_column") == "so_b_2024")
     assert result.count() == 2
     assert result.filter(F.col("geography_level") == "national").first().season == "winter_spring"
     unknown = result.filter(F.col("geography_level") == "province").first()
-    assert unknown.geography_name_raw == "Hà N?i"
-    assert unknown.geography_name == "Hà Nội"
-    assert unknown.province_code is None and unknown.mapping_status == "needs_review"
-    assert unknown.year == 2024 and unknown.is_provisional
-    valid, quarantine = transformer.validate(result)
-    assert valid.count() == 2 and quarantine.count() == 0
+    assert unknown.geography_raw == "Hà N?i"
+    assert unknown.geography_name_candidate == "Hà Nội"
+    assert unknown.geography_code is None and unknown.geography_status == "candidate_review"
+    assert unknown.year == 2024 and unknown.release_status == "provisional"
     assert unknown.unit == "tonne" and unknown.value == Decimal("10000")
-    assert valid.filter(F.col("geography_level") == "province").first()._dq_warnings[0].rule_id == "NSO_GEOGRAPHY_REVIEW"
+    assert unknown.review_reason == "historical_geography_unmapped"

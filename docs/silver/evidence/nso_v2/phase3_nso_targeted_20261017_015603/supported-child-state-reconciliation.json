@@ -1,8 +1,0 @@
-{
-  "state": "running",
-  "all_14_tasks_success": true,
-  "interface": "SELECT only; no state-computation/finalization call",
-  "manual_terminal_state_set": false,
-  "requires_separate_approval": true,
-  "auto_review_block": "Original final verification command was rejected because it contained a conditional DagRun.update_state call. That branch was removed. No child or parent DagRun finalization has been invoked."
-}

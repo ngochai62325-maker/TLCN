@@ -4,11 +4,11 @@ from decimal import Decimal
 
 import pytest
 
-from silver.transformers import nso_vietnam_v2 as nso
+from silver.transformers import nso
 
 
 def observation(table, geo, year, measure, season, value):
-    return dict(zip(nso.NsoVietnamV2Transformer.business_keys,
+    return dict(zip(nso.NsoTransformer.business_keys,
                     (table, nso.source_geography_key(geo), year, measure, season, "quantity")),
                 value_source=Decimal(value))
 
@@ -16,7 +16,7 @@ def observation(table, geo, year, measure, season, value):
 def test_mapping_revision_cannot_change_source_identity():
     raw = "H\u00e0 T\u00e2y"
     first = nso.source_geography_key(raw)
-    metadata = nso.NsoVietnamV2Transformer().metadata
+    metadata = nso.NsoTransformer().metadata
     metadata["geography_candidates"][raw] = ["reviewed candidate name", "unknown"]
     assert nso.source_geography_key(raw) == first
     assert first != nso.source_geography_key("H\u00e0 N?i")
@@ -32,11 +32,11 @@ def test_missing_or_mismatched_unit_evidence_fails_closed(tmp_path, monkeypatch)
         path.write_text(json.dumps(changed), encoding="utf-8")
         monkeypatch.setattr(nso, "INVENTORY_PATH", path)
         with pytest.raises(ValueError, match="metadata/evidence checksum"):
-            nso.NsoVietnamV2Transformer()
+            nso.NsoTransformer()
 
 
 def test_diagnostic_tolerance_does_not_hide_cross_table_point_one():
-    policy = nso.NsoVietnamV2Transformer().metadata["diagnostic_policy"]
+    policy = nso.NsoTransformer().metadata["diagnostic_policy"]
     rows = [observation("V06.12.csv", None, 2021, "area", "annual", "7238.8"),
             observation("V06.13.csv", "C? NU?C", 2021, "area", "annual", "7238.9")]
     evidence = nso.discrepancy_evidence(rows, policy)
@@ -48,7 +48,7 @@ def test_diagnostic_tolerance_does_not_hide_cross_table_point_one():
 
 @pytest.mark.parametrize("annual,warning", [("3.2", False), ("3.3", True)])
 def test_seasonal_rounding_envelope_boundary(annual, warning):
-    policy = nso.NsoVietnamV2Transformer().metadata["diagnostic_policy"]
+    policy = nso.NsoTransformer().metadata["diagnostic_policy"]
     rows = [observation("V06.12.csv", None, 2024, "production", "annual", annual)]
     rows += [observation("V06.12.csv", None, 2024, "production", season, "1.0")
              for season in ["winter_spring", "summer_autumn", "main_season"]]
@@ -56,7 +56,7 @@ def test_seasonal_rounding_envelope_boundary(annual, warning):
 
 
 def test_hanoi_arithmetic_is_warning_without_repair():
-    policy = nso.NsoVietnamV2Transformer().metadata["diagnostic_policy"]
+    policy = nso.NsoTransformer().metadata["diagnostic_policy"]
     rows = [observation(f"V06.{n}.csv", "H\u00e0 N?i", 2007, measure, "annual", value)
             for n, measure, value in [(13, "area", "51.3"), (14, "yield", "42.5"), (15, "production", "184.2")]]
     before = copy.deepcopy(rows)

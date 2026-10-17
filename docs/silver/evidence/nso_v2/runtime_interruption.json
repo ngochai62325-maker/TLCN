@@ -1,6 +1,0 @@
-{
-  "checked_at": "2026-10-15T15:26:54.045855+00:00",
-  "operation": "docker version (read-only)",
-  "status": "UNAVAILABLE",
-  "error": "Docker server version did not respond within 15 seconds; no writer retried"
-}

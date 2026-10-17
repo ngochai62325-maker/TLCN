@@ -3,13 +3,11 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $script:DemoRoot = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $script:DemoProject = 'tlcn-local'
-$script:DemoEnv = '.env.local.example'
-if (Test-Path -LiteralPath (Join-Path $script:DemoRoot '.env.local')) { $script:DemoEnv = '.env.local' }
+$script:DemoEnv = '.env.example'
+if (Test-Path -LiteralPath (Join-Path $script:DemoRoot '.env')) { $script:DemoEnv = '.env' }
 $script:DemoCompose = @('compose', '--project-directory', $script:DemoRoot,
     '--env-file', (Join-Path $script:DemoRoot $script:DemoEnv), '-p', $script:DemoProject,
-    '-f', (Join-Path $script:DemoRoot 'compose.silver-test.yml'),
-    '-f', (Join-Path $script:DemoRoot 'compose.local-nine-test.yml'),
-    '-f', (Join-Path $script:DemoRoot 'compose.local.yml'))
+    '-f', (Join-Path $script:DemoRoot 'compose.yaml'))
 
 function Invoke-DemoDocker {
     param([string[]]$Arguments, [switch]$Capture)
@@ -31,7 +29,11 @@ function Invoke-DemoPython {
 function Get-DemoConfig {
     $config = Invoke-DemoDocker -Arguments ($script:DemoCompose + @('config', '--format', 'json')) -Capture | ConvertFrom-Json
     $web = $config.services.'airflow-webserver'
-    if ($web.ports[0].host_ip -ne '127.0.0.1' -or [int]$web.ports[0].published -ne 8085) { throw 'Demo UI must publish 127.0.0.1:8085.' }
+    if ($web.ports[0].host_ip -ne '127.0.0.1' -or [int]$web.ports[0].published -ne 8085) { throw 'Airflow UI must publish 127.0.0.1:8085.' }
+    $minio = $config.services.'minio'
+    if ($minio.ports[0].host_ip -ne '127.0.0.1' -or [int]$minio.ports[0].published -ne 9001) { throw 'MinIO Console must publish 127.0.0.1:9001.' }
+    $trino = $config.services.'trino'
+    if ($trino.ports[0].host_ip -ne '127.0.0.1' -or [int]$trino.ports[0].published -ne 18080) { throw 'Trino must publish 127.0.0.1:18080.' }
     if ($config.networks.default.PSObject.Properties['internal'] -and $config.networks.default.internal) {
         throw 'Internal-only bridge prevents the verified localhost publication.'
     }
@@ -157,7 +159,7 @@ with psycopg2.connect(url) as db:
   in_progress=0
   if exists:
    c.execute("SELECT count(*) FROM ingestion.ingestion_runs WHERE status='IN_PROGRESS'"); in_progress=c.fetchone()[0]
-with urllib.request.urlopen(urllib.request.Request('http://trino-test:8080/v1/query',headers={'X-Trino-User':'local-demo-readonly'}),timeout=10) as r:
+with urllib.request.urlopen(urllib.request.Request('http://trino:8080/v1/query',headers={'X-Trino-User':'local-demo-readonly'}),timeout=10) as r:
  active=[q for q in json.load(r) if q['state'] not in ('FINISHED','FAILED')]
 out={'active_dag_runs':runs,'active_tasks':tasks,'advisory_locks':locks,'ingestion_in_progress':in_progress,'active_trino_queries':len(active)}
 print(json.dumps(out));assert not any(out.values()),'Not idle; inspect commit/catalog state before stopping or resetting'
@@ -175,9 +177,19 @@ function Assert-DemoReady {
     $containers = @(Get-DemoContainers)
     $web = @($containers | Where-Object { $_.Config.Labels.'com.docker.compose.service' -eq 'airflow-webserver' })[0]
     $ports = Invoke-DemoDocker -Arguments @('port', $web.Id, '8080/tcp') -Capture
-    if ($ports.Trim() -ne '127.0.0.1:8085') { throw "Actual port is missing/wrong: $ports" }
+    if ($ports.Trim() -ne '127.0.0.1:8085') { throw "Actual Airflow port is missing/wrong: $ports" }
+    $minio = @($containers | Where-Object { $_.Config.Labels.'com.docker.compose.service' -eq 'minio' })[0]
+    $minioPorts = Invoke-DemoDocker -Arguments @('port', $minio.Id, '9001/tcp') -Capture
+    if ($minioPorts.Trim() -ne '127.0.0.1:9001') { throw "Actual MinIO Console port is missing/wrong: $minioPorts" }
+    $trino = @($containers | Where-Object { $_.Config.Labels.'com.docker.compose.service' -eq 'trino' })[0]
+    $trinoPorts = Invoke-DemoDocker -Arguments @('port', $trino.Id, '8080/tcp') -Capture
+    if ($trinoPorts.Trim() -ne '127.0.0.1:18080') { throw "Actual Trino port is missing/wrong: $trinoPorts" }
     $health = Invoke-RestMethod 'http://127.0.0.1:8085/health' -TimeoutSec 10
     if ($health.metadatabase.status -ne 'healthy' -or $health.scheduler.status -ne 'healthy') { throw 'Airflow DB/scheduler is unhealthy.' }
+    $minioResp = Invoke-WebRequest -UseBasicParsing 'http://127.0.0.1:9001' -TimeoutSec 10
+    if ($minioResp.StatusCode -ne 200) { throw 'MinIO Console is unreachable on 127.0.0.1:9001.' }
+    $trinoInfo = Invoke-RestMethod 'http://127.0.0.1:18080/v1/info' -TimeoutSec 10
+    if ($trinoInfo.starting) { throw 'Trino coordinator is still starting.' }
     $scheduler = @($containers | Where-Object { $_.Config.Labels.'com.docker.compose.service' -eq 'airflow-scheduler' })[0]
     $webDb = @($web.Config.Env | Where-Object { $_.StartsWith('AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=') })
     $schedulerDb = @($scheduler.Config.Env | Where-Object { $_.StartsWith('AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=') })
@@ -203,19 +215,19 @@ assert set(bag.dags)=={'rice_lakehouse_ingestion','rice_lakehouse_silver_pipelin
 b=bag.dags['rice_lakehouse_ingestion'];s=bag.dags['rice_lakehouse_silver_pipeline']
 assert {t.task_id[7:] for t in b.tasks if t.task_id.startswith('ingest_')}==set(BRONZE_SOURCES)
 assert {t.task_id[10:] for t in s.tasks if t.task_id.startswith('transform_')}==set(DATASETS)
-assert len(s.tasks)==14 and 'transform_nso_vietnam_v2' in s.task_ids
+assert len(s.tasks)==14 and 'transform_nso' in s.task_ids
 assert all(d.schedule_interval is None and not d.catchup and d.max_active_runs==1 and all(t.retries==0 for t in d.tasks) for d in [b,s])
 assert all(local_contract(SilverContractLoader(),d).silver_output.startswith('iceberg.silver_local.') for d in DATASETS)
 assert hashlib.sha256(Path('config/ingestion/source_registry.yaml').read_bytes()).hexdigest()==REGISTRY_SHA256
-assert SilverContractLoader().load_contract('nso_vietnam_v2').status=='DRAFT'
+assert SilverContractLoader().load_contract('nso').status=='READY'
 with settings.Session() as session:
  dags=session.query(DagModel).filter(DagModel.dag_id.in_([b.dag_id,s.dag_id])).all()
  assert len(dags)==2 and all(d.is_paused for d in dags),'Pause both DAGs before readiness check'
  runs=session.query(DagRun).count()
  if os.environ.get('DEMO_EXPECT_EMPTY')=='1':assert runs==0,'Unexpected automatic DagRun'
-for url in ['http://runner:5005/health','http://rest-test:8181/v1/config','http://trino-test:8080/v1/info']:
+for url in ['http://runner:5005/health','http://iceberg-rest:8181/v1/config','http://trino:8080/v1/info']:
  with urllib.request.urlopen(url,timeout=10) as r:assert r.status==200
-print(json.dumps({'dag_parse':'PASS','bronze_sources':9,'silver_tasks':14,'silver_sources':9,'paused':True,'schedule':None,'dag_runs':runs,'services_http':'PASS','nso_contract':'DRAFT'}))
+print(json.dumps({'dag_parse':'PASS','bronze_sources':9,'silver_tasks':14,'silver_sources':9,'paused':True,'schedule':None,'dag_runs':runs,'services_http':'PASS','nso_contract':'READY'}))
 '@
     $empty = '0'; if ($Fresh) { $empty = '1' }
     Invoke-DemoPython -ContainerId $scheduler.Id -Code $probe -Environment @("DEMO_EXPECT_EMPTY=$empty")

@@ -16,12 +16,12 @@ MAPPINGS = (
     ("usda_rice_yearbook", "usda_rice_yearbook", "usda_rice_yearbook"),
     ("worldbank_pinksheet", "worldbank_pinksheet", "worldbank_commodity_monthly"),
     ("thitruongnongsan", "thitruongnongsan", "thitruongnongsan"),
-    ("nso_vietnam", "nso_vietnam_v2", "nso_rice_statistics_v2"),
+    ("nso", "nso", "nso_rice_statistics"),
 )
 BRONZE_SOURCES = tuple(m[0] for m in MAPPINGS)
 DATASETS = tuple(m[1] for m in MAPPINGS)
-REGISTRY_SHA256 = "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6"
-NSO_CONTRACT_SHA256 = "4a11b6f31183ee2828d0fef2f9ad94475628982fe7c701eab77b0c7b57dc8b05"
+REGISTRY_SHA256 = "c8ae17ad7e5a538ef9a6e44427bc5ec2c443dc285788c34fb2275bd8acb7b1f3"
+NSO_CONTRACT_SHA256 = "9246124b891138c18d851356a95d62b2fe177adb2c73df7968fb6d7e5ee0eb8b"
 
 
 def active_profile():
@@ -72,13 +72,11 @@ def local_contract(loader, dataset):
     if original.bronze_input != f"iceberg.bronze.{source}" or original.silver_output != f"iceberg.silver.{target}":
         raise ValueError(f"local_nine source/target contract routing mismatch: {dataset}")
     data = copy.deepcopy(original._data)
-    if dataset == "nso_vietnam_v2":
+    if dataset == "nso":
         path = Path(loader.contract_dir) / (dataset + ".yaml")
-        if original.status != "DRAFT" or hashlib.sha256(path.read_bytes()).hexdigest() != NSO_CONTRACT_SHA256:
-            raise ValueError("local_nine NSO overlay requires the exact Phase 1 DRAFT contract")
-        data["contract_status"] = "READY"  # In-memory, local-only approval; never write the production YAML.
-    else:
-        original.validate_executable()
+        if original.status != "READY" or hashlib.sha256(path.read_bytes()).hexdigest() != NSO_CONTRACT_SHA256:
+            raise ValueError("local_nine NSO contract requires the exact approved READY contract")
+    original.validate_executable()
     data["dataset"]["silver_output"] = f"iceberg.{NAMESPACE}.{target}"
     contract = SilverContract(data)
     contract.validate_executable()

@@ -1,8 +1,0 @@
-{
-  "at": "2026-10-17T07:01:08.787474+00:00",
-  "prior_screen": "resource-incremental.json",
-  "status": "INVALIDATED_BY_INTENTIONAL_ROLE_CHANGE_NOT_A_PASS",
-  "reason": "UI-based telemetry was still collecting when the deliberately approved webserver stop completed; its assertion correctly detected the service role change. No incremental writer had started. New admission uses the actual scheduler-based CLI runtime.",
-  "no_oom_observed_before_change": true,
-  "required_new_gate": "resource-incremental-cli.json"
-}

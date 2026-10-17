@@ -53,79 +53,79 @@
       "sha256": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.12.csv",
       "bytes": 6281,
       "sha256": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.13.csv",
       "bytes": 12726,
       "sha256": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.14.csv",
       "bytes": 11766,
       "sha256": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.15.csv",
       "bytes": 14205,
       "sha256": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.16.csv",
       "bytes": 11726,
       "sha256": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.17.csv",
       "bytes": 11738,
       "sha256": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.18.csv",
       "bytes": 13393,
       "sha256": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.19.csv",
       "bytes": 6462,
       "sha256": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.20.csv",
       "bytes": 6203,
       "sha256": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.21.csv",
       "bytes": 7127,
       "sha256": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.22.csv",
       "bytes": 11467,
       "sha256": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.23.csv",
       "bytes": 11505,
       "sha256": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76"
     },
     {
-      "source": "nso_vietnam",
+      "source": "nso",
       "path": "nso/V06.24.csv",
       "bytes": 12702,
       "sha256": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b"

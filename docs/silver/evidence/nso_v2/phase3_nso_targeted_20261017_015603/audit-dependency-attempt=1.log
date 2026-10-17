@@ -1,3 +1,0 @@
-[2026-10-17T02:19:22.981+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
-[2026-10-17T02:19:22.999+0000] {taskinstance.py:2603} INFO - Dependencies not met for <TaskInstance: rice_lakehouse_silver_pipeline.silver_data_quality_audit local_nine_bronze__6d5240a929c5e113bad77a1305cf2efa1051a613ebf3a436b328dfe88601dcc1 [scheduled]>, dependency 'Task Instance State' FAILED: Task is in the 'scheduled' state.
-[2026-10-17T02:19:23.015+0000] {local_task_job_runner.py:166} INFO - Task is not able to be run

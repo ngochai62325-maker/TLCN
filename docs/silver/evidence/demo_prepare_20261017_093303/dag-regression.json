@@ -1,6 +1,0 @@
-{
-  "exit_code": 0,
-  "suite": "tests/unit/test_local_nine_dags.py",
-  "output": "============================= test session starts ==============================\nplatform linux -- Python 3.11.11, pytest-8.4.2, pluggy-1.6.0\nrootdir: /workspace\nconfigfile: pyproject.toml\nplugins: time-machine-2.16.0, anyio-4.7.0\ncollected 2 items\n\ntests/unit/test_local_nine_dags.py ..                                    [100%]\n\n============================== 2 passed in 3.38s ===============================\n",
-  "scope": "Isolated test child process with temporary SQLite/unreachable ingestion DB; no actual metadata writes"
-}

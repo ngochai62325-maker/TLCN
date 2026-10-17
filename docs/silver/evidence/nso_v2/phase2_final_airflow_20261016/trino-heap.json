@@ -1,6 +1,0 @@
-{
-  "jcmd_available": true,
-  "configured_heap_mib": 512,
-  "exit": 0,
-  "heap_info": "1:\n garbage-first heap   total reserved 524288K, committed 227328K, used 190318K [0x00000000e0000000, 0x0000000100000000)\n  region size 1024K, 61 young (62464K), 3 survivors (3072K)\n Metaspace       used 144276K, committed 146560K, reserved 1179648K\n  class space    used 18849K, committed 19904K, reserved 1048576K\n"
-}

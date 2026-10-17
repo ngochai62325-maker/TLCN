@@ -7,7 +7,7 @@ foreach ($dag in @('rice_lakehouse_silver_pipeline', 'rice_lakehouse_ingestion')
     Invoke-DemoDocker -Arguments @('exec', $scheduler.Id, 'airflow', 'dags', 'pause', $dag)
 }
 Assert-DemoIdle $containers
-foreach ($service in @('airflow-scheduler', 'airflow-webserver', 'runner', 'trino-test', 'rest-test', 'minio-test', 'postgres-test')) {
+foreach ($service in @('airflow-scheduler', 'airflow-webserver', 'runner', 'trino', 'iceberg-rest', 'minio', 'postgres')) {
     $c = @($containers | Where-Object { $_.Config.Labels.'com.docker.compose.service' -eq $service })[0]
     if (-not $c.State.Running) { continue }
     $signal = 'SIGTERM'; if ($service -eq 'runner') { $signal = 'SIGINT' }

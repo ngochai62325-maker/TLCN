@@ -23,11 +23,11 @@ from silver.audit import audit_tables
 from silver.contract.loader import SilverContract, SilverContractLoader
 from silver.engine.quality import SilverQualityEngine
 from silver.framework import AUDIT_COLUMNS, SilverTransformationFramework
-from silver.transformers.nso_vietnam_v2 import NsoVietnamV2Transformer
+from silver.transformers.nso import NsoTransformer
 
 ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data/raw/nso"
-DATASET = "nso_vietnam_v2"
+DATASET = "nso"
 
 
 @pytest.fixture(scope="module")
@@ -82,7 +82,7 @@ def raw_input():
             values = dict(zip(columns, row + [None] * (len(header) - len(row))))
             values.update(_ingestion_run_id="national-run" if national else "matrix-run",
                           _ingestion_batch_id=f"batch-{number}", _ingestion_chunk_id=0,
-                          _ingestion_timestamp=datetime(2026, 10, 11), _source_id="nso_vietnam",
+                          _ingestion_timestamp=datetime(2026, 10, 11), _source_id="nso",
                           _source_file=f"raw/nso/{path.name}", _source_checksum=checksum, _source_snapshot_id=0)
             records.append(values)
             if footer or empty:
@@ -124,8 +124,7 @@ def dataframe(spark, records):
 
 def isolated_framework(spark, tmp_path, suffix):
     data = copy.deepcopy(SilverContractLoader().load_contract(DATASET)._data)
-    assert data["contract_status"] == "DRAFT"
-    data["contract_status"] = "READY"  # Execution gate only in this disposable catalog.
+    assert data["contract_status"] == "READY"
     data["dataset"]["bronze_input"] = f"nso_v2_test.bronze.{suffix}"
     data["dataset"]["silver_output"] = f"nso_v2_test.silver.{suffix}"
     (tmp_path / f"{DATASET}.yaml").write_text(yaml.safe_dump(data, allow_unicode=True), encoding="utf-8")
@@ -268,7 +267,7 @@ def test_numeric_missing_quarantine_and_exclusion_payloads(spark, tmp_path, raw_
 
 
 def test_duplicate_conflict_drift_and_lineage_guards(spark, raw_input):
-    transformer = NsoVietnamV2Transformer()
+    transformer = NsoTransformer()
     row = national_row(raw_input)
     duplicate = dict(row, _ingestion_batch_id="retry", _ingestion_timestamp=datetime(2026, 10, 12))
     prepared = native_prepare(spark, transformer, dataframe(spark, [row, duplicate]))
@@ -318,10 +317,13 @@ def test_native_duplicate_replay_and_conflict_fail_before_write(spark, tmp_path,
     assert spark.table(framework.quarantine_manager.target_table).count() == 0
 
 
-def test_draft_contract_refuses_execution_before_any_write(spark):
+def test_draft_contract_refuses_execution_before_any_write(spark, tmp_path):
     contract = SilverContractLoader().load_contract(DATASET)
-    assert contract.status == "DRAFT"
+    assert contract.status == "READY"
+    draft = copy.deepcopy(contract._data)
+    draft["contract_status"] = "DRAFT"
+    (tmp_path / f"{DATASET}.yaml").write_text(yaml.safe_dump(draft, allow_unicode=True), encoding="utf-8")
     before = spark.sql("SHOW TABLES IN nso_v2_test.silver").collect()
     with pytest.raises(ValueError, match="contract is DRAFT"):
-        SilverTransformationFramework(spark).run(DATASET, "must-not-write")
+        SilverTransformationFramework(spark, str(tmp_path)).run(DATASET, "must-not-write")
     assert spark.sql("SHOW TABLES IN nso_v2_test.silver").collect() == before

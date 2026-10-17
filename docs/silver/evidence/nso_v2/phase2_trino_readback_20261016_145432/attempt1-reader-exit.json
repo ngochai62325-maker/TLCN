@@ -1,6 +1,0 @@
-{
-  "exit_code": 1,
-  "resource_guard": null,
-  "stderr": "Traceback (most recent call last):\n  File \"<stdin>\", line 166, in <module>\n  File \"<stdin>\", line 101, in observe\nAssertionError: ('faostat_production', 'BRONZE_LINEAGE_MISMATCH')\n",
-  "job": "local-nine-readonly-20261016T150255Z"
-}

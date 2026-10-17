@@ -25,7 +25,7 @@ from tests.integration.test_nso_v2_isolated import RAW, DATASET, raw_input, tabl
 
 def _catalog_identity(writer, namespace):
     """Physical identity plus all row bytes, including original audit timestamps."""
-    table = writer.get_iceberg_catalog().load_table(f"{namespace}.nso_vietnam")
+    table = writer.get_iceberg_catalog().load_table(f"{namespace}.nso")
     rows = table.scan().to_arrow().to_pylist()
     return dict(uuid=str(table.metadata.table_uuid), snapshot=table.current_snapshot().snapshot_id,
                 metadata_location=table.metadata_location, rows=len(rows),
@@ -51,21 +51,21 @@ def _stage_unapproved_revision(engine, raw, namespace):
     writer = BronzeIcebergWriter(catalog="rebuild_test", schema=namespace)
     try:
         engine.bronze_writer = writer
-        result = engine.run_with_readiness_check("nso_vietnam")
+        result = engine.run_with_readiness_check("nso")
     finally:
         engine.bronze_writer = accepted_writer
     assert result.status.value == "SUCCESS" and result.records_extracted == 833
-    rows = writer.get_iceberg_catalog().load_table(f"{namespace}.nso_vietnam").scan().to_arrow().to_pylist()
+    rows = writer.get_iceberg_catalog().load_table(f"{namespace}.nso").scan().to_arrow().to_pylist()
     changed = [r for r in rows if Path(r["_source_file"]).name == path.name]
     checksum = hashlib.sha256(revised).hexdigest()
     assert changed and {r["_source_checksum"] for r in changed} == {checksum}
     assert any(str(v) == "7192.6" for r in changed for v in r.values())
-    assert {r["_source_id"] for r in rows} == {"nso_vietnam"}
+    assert {r["_source_id"] for r in rows} == {"nso"}
     assert {r["_ingestion_run_id"] for r in rows} == {result.run_id}
     assert preserved.read_bytes() == original and (RAW / path.name).read_bytes() == original
     return result, writer, dict(original_sha256=hashlib.sha256(original).hexdigest(),
                                revised_sha256=checksum, preserved_original=True,
-                               revised_rows=len(changed), table=f"rebuild_test.{namespace}.nso_vietnam")
+                               revised_rows=len(changed), table=f"rebuild_test.{namespace}.nso")
 
 
 @pytest.mark.skipif(os.getenv("TLCN_ISOLATED_REBUILD") != "1", reason="Independent NSO test services required")
@@ -85,8 +85,8 @@ def test_revision_staging_same_filename_separate_bronze(tmp_path, monkeypatch):
     shutil.copytree(RAW, raw)
     registry = SourceRegistry()
     registry.load()
-    config = replace(registry.get_source("nso_vietnam"), local_path=str(raw), local_fallback=str(raw))
-    _, engine, _ = configure_rebuild(SparkSession.builder, tmp_path, {"nso_vietnam": config})
+    config = replace(registry.get_source("nso"), local_path=str(raw), local_fallback=str(raw))
+    _, engine, _ = configure_rebuild(SparkSession.builder, tmp_path, {"nso": config})
     dsn = urlsplit(os.environ["INGESTION_DB_URL"])
     assert dsn.hostname == "postgres-test" and dsn.path == "/silver_rebuild_test"
     database = "nso_staging_" + uuid.uuid4().hex[:12]
@@ -103,7 +103,7 @@ def test_revision_staging_same_filename_separate_bronze(tmp_path, monkeypatch):
     engine = IngestionEngine(registry=engine.registry, metadata_repo=metadata,
                              minio_storage=engine.minio_storage,
                              bronze_writer=BronzeIcebergWriter(catalog="rebuild_test", schema="nso_staging_accepted"))
-    first = engine.run_with_readiness_check("nso_vietnam")
+    first = engine.run_with_readiness_check("nso")
     assert first.status.value == "SUCCESS" and first.records_extracted == 833
     before = _catalog_identity(engine.bronze_writer, "nso_staging_accepted")
     revision, writer, proof = _stage_unapproved_revision(engine, raw, "nso_revision_staging")
@@ -124,32 +124,31 @@ def test_raw_bronze_silver_trino_and_blocked_revision(tmp_path, raw_input):
     shutil.copytree(RAW, raw)
     registry = SourceRegistry()
     registry.load()
-    config = replace(registry.get_source("nso_vietnam"), local_path=str(raw), local_fallback=str(raw))
+    config = replace(registry.get_source("nso"), local_path=str(raw), local_fallback=str(raw))
     builder = (SparkSession.builder.master("local[2]").appName("NsoV2RestE2E")
                .config("spark.ui.enabled", "false").config("spark.sql.defaultCatalog", "spark_catalog")
                .config("spark.sql.shuffle.partitions", "2").config("spark.sql.session.timeZone", "UTC")
                .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions"))
-    builder, engine, query = configure_rebuild(builder, tmp_path, {"nso_vietnam": config})
+    builder, engine, query = configure_rebuild(builder, tmp_path, {"nso": config})
     spark = builder.getOrCreate()
     spark.sparkContext.setLogLevel("ERROR")
     try:
-        ingestion = engine.run_with_readiness_check("nso_vietnam")
+        ingestion = engine.run_with_readiness_check("nso")
         assert ingestion.status.value == "SUCCESS" and ingestion.records_extracted == 833
-        bronze = "rebuild_test.bronze.nso_vietnam"
+        bronze = "rebuild_test.bronze.nso"
         bronze_before = table_identity(spark, bronze)
         accepted_bronze = _catalog_identity(engine.bronze_writer, "bronze")
         assert spark.table(bronze).count() == 833
         data = copy.deepcopy(SilverContractLoader().load_contract(DATASET)._data)
-        assert data["contract_status"] == "DRAFT"
-        data["contract_status"] = "READY"
-        target = "rebuild_test.silver.nso_rice_statistics_v2"
+        assert data["contract_status"] == "READY"
+        target = "rebuild_test.silver.nso_rice_statistics"
         data["dataset"].update(bronze_input=bronze, silver_output=target)
         contracts = tmp_path / "contracts"
         contracts.mkdir()
         (contracts / f"{DATASET}.yaml").write_text(yaml.safe_dump(data, allow_unicode=True), encoding="utf-8")
         framework = SilverTransformationFramework(spark, str(contracts))
         framework.quarantine_manager.target_table = "rebuild_test.silver.dead_letters"
-        with engine.metadata_repo.source_lock("nso_vietnam"):
+        with engine.metadata_repo.source_lock("nso"):
             metrics = framework.run(DATASET, "nso-isolated-first", bronze_snapshot_id=bronze_before[0])
         assert {k: metrics[k] for k in ["bronze_count", "excluded_record_count", "prepared_count", "valid_count", "quarantine_count", "dedup_count", "duplicate_count"]} == dict(
             bronze_count=833, excluded_record_count=13, prepared_count=23060, valid_count=23060,
@@ -168,7 +167,7 @@ def test_raw_bronze_silver_trino_and_blocked_revision(tmp_path, raw_input):
         for row in spark.table(bronze).collect():
             d = row.asDict()
             file = Path(d["_source_file"]).name
-            assert d["_source_checksum"] == raw_hashes[file] and d["_source_id"] == "nso_vietnam"
+            assert d["_source_checksum"] == raw_hashes[file] and d["_source_id"] == "nso"
             identity = (file, d.get("gi_tr_v_ch_s_ph_t_tri_n"), d.get("nam")) if file == "V06.12.csv" else (file, d.get("t_nh_th_nh_ph_"))
             bronze_rows[identity] = d
         for key, d in observed.items():
@@ -205,7 +204,7 @@ def test_raw_bronze_silver_trino_and_blocked_revision(tmp_path, raw_input):
         assert len(exclusions) == 13
         assert all(r.source_dataset == DATASET + "_exclusions" and any(e.rule_id == "NSO_V2_STRUCTURAL" for e in r.errors) for r in exclusions)
         cat = engine.bronze_writer.get_iceberg_catalog()
-        iceberg = cat.load_table("silver.nso_rice_statistics_v2")
+        iceberg = cat.load_table("silver.nso_rice_statistics")
         arrow = iceberg.scan().to_arrow()
         assert arrow.num_rows == len(observed)
         assert str(iceberg.schema().find_field("bronze_read_snapshot_id").field_type) == "long"
@@ -236,14 +235,14 @@ def test_raw_bronze_silver_trino_and_blocked_revision(tmp_path, raw_input):
         accepted_target_uuid = str(iceberg.metadata.table_uuid)
         replays = []
         for mode in ["full", "incremental"]:
-            with engine.metadata_repo.source_lock("nso_vietnam"):
+            with engine.metadata_repo.source_lock("nso"):
                 result = framework.run(DATASET, "nso-" + mode + "-replay", mode=mode,
                                        run_id=ingestion.run_id if mode == "incremental" else None,
                                        bronze_snapshot_id=bronze_before[0])
             assert table_identity(spark, target) == before
             assert result["bronze_read_snapshot_id"] == bronze_before[0]
             replays.append({"mode": mode, "status": "NOOP", "real_run_id": ingestion.run_id})
-        assert engine.run_with_readiness_check("nso_vietnam").status.value == "SKIPPED"
+        assert engine.run_with_readiness_check("nso").status.value == "SKIPPED"
         assert table_identity(spark, bronze) == bronze_before
         # A new publication is deliberately unapproved: ingest test Raw only,
         # then block before any Silver/dead-letter commit. Keep accepted state.
@@ -260,14 +259,14 @@ def test_raw_bronze_silver_trino_and_blocked_revision(tmp_path, raw_input):
         revision_framework = SilverTransformationFramework(spark, str(contracts))
         revision_framework.quarantine_manager.target_table = framework.quarantine_manager.target_table
         with pytest.raises(ValueError, match="source checksum/schema changed") as failure:
-            with engine.metadata_repo.source_lock("nso_vietnam"):
+            with engine.metadata_repo.source_lock("nso"):
                 revision_framework.run(DATASET, "blocked-unapproved-publication", mode="incremental", run_id=revision.run_id,
                                        bronze_snapshot_id=changed_snapshot)
         assert failure.value.silver_failure["stage"] == "transformation"
         assert not failure.value.silver_failure["quarantine_committed"]
         assert not failure.value.silver_failure["exclusions_committed"]
         assert table_identity(spark, target) == before
-        assert str(cat.load_table("silver.nso_rice_statistics_v2").metadata.table_uuid) == accepted_target_uuid
+        assert str(cat.load_table("silver.nso_rice_statistics").metadata.table_uuid) == accepted_target_uuid
         assert table_identity(spark, bronze) == bronze_before
         assert table_identity(spark, framework.quarantine_manager.target_table) == dead_before
         assert spark.table(framework.quarantine_manager.target_table).count() == 13

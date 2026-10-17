@@ -1,98 +1,74 @@
-# Trình diễn TLCN: Fresh Bronze → Silver trên Windows
+# Hướng dẫn vận hành & trình diễn Local Stack (`tlcn-local`)
 
-Chỉ dùng project **`tlcn-local`** với profile `local_nine`. Runtime demo đã
-**smoke PASS**: Airflow/Trino hoạt động, chín sources, 14 Silver tasks, hai DAG
-paused/manual-only, **0 DagRuns** tại nghiệm thu. Xem [Phase B evidence](evidence/demo_phase_b_20261017_131025/README.md).
-Owner đã duyệt xóa runtime cũ và miễn backup volumes; Raw Windows và Git evidence
-được giữ nguyên. Fresh Bronze/Silver E2E **chưa chạy**: bạn tự trigger bên dưới.
-Canonical startup dùng các Compose local, không dùng base `docker-compose.yml`.
+Tài liệu này hướng dẫn chi tiết cách khởi động, kiểm tra giao diện, kích hoạt luồng dữ liệu **Raw → Bronze → Silver** từ trạng thái sạch (`0 DagRuns`), truy vấn kết quả bằng **Trino SQL**, cũng như cách dừng/mở lại hoặc reset stack an toàn trên Windows.
 
-## A. Khởi động
+---
 
-Mở Docker Desktop ở chế độ Linux containers/WSL2. Từ PowerShell tại repository:
+## A. Chuẩn bị & Khởi động Stack
+
+1. Mở **Docker Desktop** (chế độ Linux containers / WSL2).
+2. Kiểm tra file `.env` tại thư mục gốc repository (nếu chưa có, sao chép từ [`.env.example`](../../.env.example)).
+3. Mở PowerShell tại thư mục gốc repository và chạy:
 
 ```powershell
+# Bước 1 (tùy chọn): Kiểm tra cấu hình compose.yaml và 21 file Raw + nso/metadata.txt
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/start.ps1 -CheckOnly
-# Start lần đầu hoặc mở lại project hiện hữu:
+
+# Bước 2: Khởi động stack (hoặc mở lại stack đã dừng trước đó)
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/start.ps1
 ```
 
-Lần đầu script build hai execution images từ Dockerfiles/lockfiles, tạo storage,
-chạy initializer một lần rồi start execution services. Những lần sau start các
-container hiện hữu theo dependency, kiểm tra persisted paused/idle state trước
-scheduler; không rerun initializer hoặc tự recreate project chưa hoàn chỉnh.
-Script không trigger/unpause DAG. Nếu gặp lỗi, dừng và xem trạng thái thực tế;
-không dùng reset để xử lý unknown commit.
+- **Lần chạy đầu tiên**: Script tự động build 2 local images (`tlcn/silver-spark:local`, `tlcn/silver-airflow:local`), khởi tạo các volumes của project `tlcn-local`, chạy `airflow-init` đúng 1 lần (migrate DB, tạo bucket `warehouse` trên MinIO, tạo user admin từ `.env`), sau đó bật đầy đủ các dịch vụ.
+- **Các lần mở lại sau khi `stop.ps1`**: Script **không** chạy lại `airflow-init` và **không** xóa hay tạo lại container/volume; toàn bộ dữ liệu Bronze/Silver và lịch sử chạy trên Airflow UI được giữ nguyên.
+- Script **không bao giờ tự động unpause hoặc trigger DAG**. Khi mới khởi tạo, cả 2 DAG đều ở trạng thái paused với **`0 DagRuns`**.
 
-Raw phải được cung cấp riêng: 21 files và `nso/metadata.txt` đúng
-[manifest](../../config/local_raw_manifest.json). `.env.local` chỉ cần nếu muốn đổi
-`SILVER_TEST_RAW_ROOT`, local image tags hoặc Trino port; lấy mẫu từ `.env.local.example`.
-Không ghi đè `.env.local` đã có. Airflow demo cố định **127.0.0.1:8085**;
-biến `TLCN_AIRFLOW_PORT` cũ không còn điều khiển canonical overlay.
+---
 
-Laptop tham chiếu: Windows 16 GB, WSL khoảng 8 GB. Trước workload, đo ba mẫu cách
-30–60 giây: Windows available khoảng ≥2 GiB, WSL có headroom cho runner tăng tới
-3 GiB, reserve ≥1 GiB và infrastructure growth. Không cộng memory caps để suy ra
-usage; dùng `status.ps1` xem actual usage, kiểm tra OOM nếu có lỗi. Không chạy
-đồng thời shared/clean-room. Spark giữ driver 768 MiB, `local[2]`, sources tuần tự.
+## B. Truy cập các giao diện Localhost
 
-## B. Airflow UI
+Sau khi `start.ps1` báo `READINESS PASS`, mở trình duyệt tại:
 
-Mở **http://localhost:8085**. Tài khoản **demo local công khai**, không dùng trên
-mạng công cộng: username `local_nine`, password `local-nine-test-only`.
-PostgreSQL/MinIO/REST/Spark không publish host ports; Trino ở localhost:18080.
+1. **Airflow UI**: `http://localhost:8085`
+   - Đăng nhập bằng `AIRFLOW_ADMIN_USER` / `AIRFLOW_ADMIN_PASSWORD` trong `.env` (mặc định: `admin` / `admin`).
+   - Quan sát 2 DAG: `rice_lakehouse_ingestion` và `rice_lakehouse_silver_pipeline` (cả hai đều `Paused`, `Schedule: None`, `0 Runs`).
+2. **MinIO Console**: `http://localhost:9001`
+   - Đăng nhập bằng `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD` trong `.env` (mặc định: `minioadmin` / `minioadmin123`).
+   - Kiểm tra bucket `warehouse` (nơi lưu trữ dữ liệu Bronze raw archive và các bảng Apache Iceberg).
+3. **Trino Coordinator Info**: `http://localhost:18080/v1/info`
+   - Trả về JSON trạng thái coordinator (`"starting": false`).
+
+Bạn có thể kiểm tra nhanh sức khỏe toàn bộ stack bất cứ lúc nào bằng lệnh:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/status.ps1 -Smoke
 ```
 
-Smoke phải PASS actual `docker port`, Windows HTTP, metadata DB/scheduler health,
-DAG parse, chín sources, 14 Silver tasks, NSO DRAFT overlay và registry checksum.
-Smoke không phải bằng chứng Bronze/Silver E2E trong project mới.
+---
 
-## C. Unpause đúng thứ tự
+## C. Kích hoạt Pipeline End-to-End (Bronze → Silver)
 
-Trong UI, unpause `rice_lakehouse_silver_pipeline` trước, sau đó
-`rice_lakehouse_ingestion`. Cả hai có `schedule=None`, `catchup=False`, retries=0.
-Unpause không tạo lịch định kỳ. Không trigger Silver thủ công.
+Khi bạn muốn tự tay chạy luồng dữ liệu từ đầu trên Airflow UI (`http://localhost:8085`):
 
-## D. Trigger Bronze
+1. **Unpause theo thứ tự**:
+   - Bật (Unpause) DAG **`rice_lakehouse_silver_pipeline`** trước.
+   - Bật (Unpause) DAG **`rice_lakehouse_ingestion`** sau.
+   - *(Vì cả hai DAG đều có `schedule=None` và `catchup=False`, thao tác unpause sẽ không tự động chạy bất kỳ job nào).*
+2. **Trigger DAG Bronze**:
+   - Nhấn nút **Trigger DAG** trên `rice_lakehouse_ingestion` với cấu hình mặc định:
+     ```json
+     {"force_reprocess": false}
+     ```
+3. **Theo dõi tiến trình tự động**:
+   - **Tầng Bronze (`rice_lakehouse_ingestion`)**: 9 task `ingest_*` (bao gồm `ingest_nso`) đọc 21 file Raw từ `/workspace/data/raw`, lưu raw objects lên MinIO, ghi bảng Iceberg `iceberg.bronze.*` và lưu metadata vào PostgreSQL. Sau đó `verify_bronze_batch` kiểm tra tính toàn vẹn của cả 9 nguồn rồi `trigger_silver_release` tự động gọi **đúng 1 child run** bên DAG Silver.
+   - **Tầng Silver (`rice_lakehouse_silver_pipeline`)**: Gồm 14 tasks chạy tuần tự qua Spark API (`start` → `check_bronze_Readiness` → 9 task `transform_*` gồm cả `transform_nso` → `silver_data_quality_audit` → `publish_silver_signal` → `end`).
 
-Chọn DAG `rice_lakehouse_ingestion` → Trigger DAG, nhập:
+---
 
-```json
-{"force_reprocess": false}
-```
+## D. Kiểm tra dữ liệu bằng Trino SQL
 
-Chỉ trigger một lần. Chín source tasks ingest các Raw thật vào Bronze; namespace
-đích Silver là `iceberg.silver_local`. Không NSO legacy, Trade fixture hay Gold.
-
-## E. Bronze → một Silver child
-
-Theo dõi chín ingestion tasks rồi `verify_bronze_batch` và `trigger_silver_release`.
-Trigger operator tạo child ID xác định từ Bronze run, chờ Silver hoàn tất rồi
-Bronze mới kết thúc. Kiểm tra đúng một child trong Silver DAG Runs.
-Airflow ingestion task SUCCESS có thể chứa source outcome checksum-SKIPPED khi
-Raw không đổi; đây chỉ hợp lệ nếu commit/snapshot proof được batch gate xác minh.
-
-## F. Silver và audit
-
-Silver DAG có 14 tasks: start, Bronze gate, chín transformers tuần tự,
-`silver_data_quality_audit`, `publish_silver_signal`, end. Chú ý
-`transform_nso_vietnam_v2`: production YAML vẫn DRAFT, local-only READY overlay
-chỉ tồn tại trong bộ nhớ. Publish signal là `DQ_PASSED`, không `READY_FOR_GOLD`.
-Nếu một writer FAIL/timeout, không clear/retry ngay: đọc catalog, snapshots và
-metadata trước; giữ history, không DROP/reset/rollback snapshots để che lỗi.
-
-## G. Trino SQL
-
-Trong PowerShell, tạo cùng Compose arguments (chỉ cần một lần mỗi shell):
+Sau khi cả 2 DAG hoàn tất (`success`), chạy lệnh dưới đây trong PowerShell để truy vấn trực tiếp các bảng qua Trino:
 
 ```powershell
-$envFile = '.env.local.example'
-if (Test-Path .env.local) { $envFile = '.env.local' }
-$dc = @('compose', '--env-file', $envFile, '-p', 'tlcn-local',
-    '-f', 'compose.silver-test.yml', '-f', 'compose.local-nine-test.yml', '-f', 'compose.local.yml')
 $sql = @'
 SELECT 'faostat_production' AS target, count(*) AS rows FROM iceberg.silver_local.faostat_production
 UNION ALL SELECT 'faostat_monthly_price', count(*) FROM iceberg.silver_local.faostat_monthly_price
@@ -102,42 +78,42 @@ UNION ALL SELECT 'usda_rice_psd', count(*) FROM iceberg.silver_local.usda_rice_p
 UNION ALL SELECT 'usda_rice_yearbook', count(*) FROM iceberg.silver_local.usda_rice_yearbook
 UNION ALL SELECT 'worldbank_commodity_monthly', count(*) FROM iceberg.silver_local.worldbank_commodity_monthly
 UNION ALL SELECT 'thitruongnongsan', count(*) FROM iceberg.silver_local.thitruongnongsan
-UNION ALL SELECT 'nso_rice_statistics_v2', count(*) FROM iceberg.silver_local.nso_rice_statistics_v2
+UNION ALL SELECT 'nso_rice_statistics', count(*) FROM iceberg.silver_local.nso_rice_statistics
 ORDER BY target
 '@
-docker @dc exec -T trino-test trino --server http://localhost:8080 --user local --execute $sql
-docker @dc exec -T trino-test trino --server http://localhost:8080 --user local --execute 'SELECT source_dataset, count(*) FROM iceberg.silver_local.dead_letters GROUP BY source_dataset'
+docker compose -p tlcn-local -f compose.yaml exec -T trino trino --server http://localhost:8080 --user local --execute $sql
+docker compose -p tlcn-local -f compose.yaml exec -T trino trino --server http://localhost:8080 --user local --execute "SELECT source_dataset, count(*) AS rows FROM iceberg.silver_local.dead_letters GROUP BY source_dataset ORDER BY source_dataset"
 ```
 
-Với bundle pin, kết quả tham chiếu: tổng **1.414.527** observations, NSO **23.060**,
-dead letters **17** = 4 market conflicts + 13 NSO structural exclusions. Đối chiếu
-từng nguồn với [data catalog](data_catalog.md), units, keys và lineage; không ép
-counts vào pipeline. Chỉ tuyên bố E2E PASS sau khi run thực tế và SQL đã hoàn tất.
+Kết quả chuẩn đối với bộ 21 file Raw đã pin:
+- Tổng cộng **1.414.527** dòng trên 9 bảng Silver (trong đó `nso_rice_statistics` có **23.060** dòng).
+- Bảng `iceberg.silver_local.dead_letters` có **17** dòng: `4` dòng xung đột giá từ `thitruongnongsan` và `13` dòng loại trừ cấu trúc từ `nso_exclusions`.
 
-## H. Dừng an toàn, giữ dữ liệu
+---
 
-Chờ cả Bronze/Silver terminal, không có writer/query/lock active rồi chạy:
+## E. Dừng Stack An Toàn (Giữ nguyên dữ liệu)
+
+Khi kết thúc phiên làm việc và không có task/query nào đang chạy dở:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/stop.ps1
 ```
 
-Script kiểm tra idle, pause hai DAG và gửi một graceful signal/service, chờ tối
-đa 60 giây. Idle Spark API dùng SIGINT; các service còn lại SIGTERM. Timeout thì
-dừng, không forced kill. Containers, volumes, Airflow history và Raw được giữ.
-Không tắt Docker Desktop trong lúc writer đang chạy.
+- Script kiểm tra trạng thái idle của PostgreSQL, Trino và Spark JVM, tự động pause cả 2 DAG, rồi gửi tín hiệu dừng êm (`SIGINT` cho `runner`, `SIGTERM` cho các service còn lại).
+- Toàn bộ containers và 4 volumes (`tlcn-local_local_postgres_data`, `tlcn-local_local_minio_data`, `tlcn-local_local_catalog_data`, `tlcn-local_local_airflow_logs`) được giữ nguyên để mở lại nhanh bằng `start.ps1`.
 
-## I. Reset demo — cần xác nhận riêng
+---
+
+## F. Reset Toàn Bộ Dữ Liệu Local (Khi muốn chạy lại từ đầu)
+
+Nếu muốn xóa sạch dữ liệu đã chạy của `tlcn-local` để trở về trạng thái `0 DagRuns` ban đầu:
 
 ```powershell
-# Chỉ xem danh sách, không xóa:
+# 1. Xem danh sách containers và volumes sẽ bị xóa (không xóa thật):
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/reset.ps1
-# Chỉ khi thực sự muốn mất vĩnh viễn dữ liệu/lịch sử demo và stack đang healthy/idle:
+
+# 2. Thực hiện xóa (yêu cầu stack đang chạy ở trạng thái idle và gõ chính xác: DELETE tlcn-local):
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/reset.ps1 -DeleteData
 ```
 
-Lệnh thứ hai yêu cầu gõ chính xác `DELETE tlcn-local`, kiểm tra idle, graceful stop
-và chỉ xóa resources mang project label `tlcn-local`, không force. Raw Windows,
-Git evidence và images không bị xóa. Muốn giữ lịch sử phải backup volumes trước.
-Script này không phải công cụ xóa shared/Phase2/clean-room cũ. Nếu stack đã stopped
-hoặc recovery chưa rõ, reset từ chối khi không lấy được idle proof; kiểm tra riêng.
+Sau khi `reset.ps1 -DeleteData` hoàn tất, chạy lại `scripts/local_demo/start.ps1` để dựng lại stack sạch từ đầu.

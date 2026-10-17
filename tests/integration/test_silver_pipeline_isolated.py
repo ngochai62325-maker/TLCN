@@ -353,11 +353,11 @@ def test_incremental_requires_filter_and_draft_refused(spark, tmp_path):
     framework = SilverTransformationFramework(spark)
     with pytest.raises(ValueError, match="requires run_id or watermark"):
         framework.run("usda_psd", "test", mode="incremental")
-    draft = copy.deepcopy(SilverContractLoader().load_contract("nso_vietnam")._data)
+    draft = copy.deepcopy(SilverContractLoader().load_contract("nso")._data)
     draft["contract_status"] = "NEEDS_PROFILING"
-    (tmp_path / "nso_vietnam.yaml").write_text(yaml.safe_dump(draft), encoding="utf-8")
+    (tmp_path / "nso.yaml").write_text(yaml.safe_dump(draft), encoding="utf-8")
     with pytest.raises(ValueError, match="NEEDS_PROFILING"):
-        SilverTransformationFramework(spark, str(tmp_path)).run("nso_vietnam", "test")
+        SilverTransformationFramework(spark, str(tmp_path)).run("nso", "test")
 
 
 def test_incremental_read_selects_requested_bronze_run(spark, tmp_path):
@@ -405,30 +405,33 @@ def test_integral_cast_rejects_numeric_truncation(spark):
 
 
 def test_nso_real_pipeline_replay_exclusions_and_empty_incremental(spark, tmp_path):
-    from silver.transformers.nso_vietnam import NATIONAL_MEASURES
-    contract = copy.deepcopy(SilverContractLoader().load_contract("nso_vietnam")._data)
-    contract["dataset"]["bronze_input"] = "silver_test.bronze.nso_vietnam"
+    from silver.transformers.nso import NATIONAL_MEASURES, NsoTransformer
+    contract = copy.deepcopy(SilverContractLoader().load_contract("nso")._data)
+    contract["dataset"]["bronze_input"] = "silver_test.bronze.nso"
     contract["dataset"]["silver_output"] = "silver_test.silver.nso_rice_statistics"
-    (tmp_path / "nso_vietnam.yaml").write_text(yaml.safe_dump(contract, allow_unicode=True), encoding="utf-8")
-    fields = {"_source_file": "V06.12.csv", "_ingestion_run_id": "nso-run", "_ingestion_timestamp": "2026-10-01 00:00:00",
+    (tmp_path / "nso.yaml").write_text(yaml.safe_dump(contract, allow_unicode=True), encoding="utf-8")
+    spec = NsoTransformer().inventory["V06.12.csv"]
+    fields = {"_source_file": "V06.12.csv", "_source_id": "nso", "_source_checksum": spec["sha256"],
+              "_ingestion_run_id": "nso-run", "_ingestion_batch_id": "b1", "_ingestion_chunk_id": "1",
+              "_source_snapshot_id": "1", "_ingestion_timestamp": "2026-10-01 00:00:00",
               "nam": "2020", "gi_tr_v_ch_s_ph_t_tri_n": "Giá tr?", **{c: "2.5" for c in NATIONAL_MEASURES}}
     empty = dict(fields, nam=None, gi_tr_v_ch_s_ph_t_tri_n=None, **{c: None for c in NATIONAL_MEASURES})
     bad = dict(fields, nam="2021", **{list(NATIONAL_MEASURES)[0]: "bad"})
     sql_rows(spark, [fields, empty, bad]).writeTo(contract["dataset"]["bronze_input"]).using("iceberg").create()
     framework = SilverTransformationFramework(spark, str(tmp_path))
     framework.quarantine_manager.target_table = "silver_test.silver.dead_letters"
-    first = framework.run("nso_vietnam", "nso-first")
+    first = framework.run("nso", "nso-first")
     assert first["bronze_count"] == 3 and first["observation_count"] == 24
     assert first["prepared_count"] == 16 and first["excluded_count"] == 8
     assert first["excluded_record_count"] == 1
     assert first["quarantine_count"] == 1 and first["dedup_count"] == 15
     original = spark.table(contract["dataset"]["silver_output"]).collect()
-    framework.run("nso_vietnam", "nso-replay", mode="incremental", run_id="nso-run")
+    framework.run("nso", "nso-replay", mode="incremental", run_id="nso-run")
     assert original == spark.table(contract["dataset"]["silver_output"]).collect()
     dead = spark.table("silver_test.silver.dead_letters")
-    assert dead.filter(F.col("source_dataset") == "nso_vietnam_exclusions").count() == 1
-    assert dead.filter(F.col("source_dataset") == "nso_vietnam").count() == 1
-    result = framework.run("nso_vietnam", "nso-empty", mode="incremental", run_id="absent")
+    assert dead.filter(F.col("source_dataset") == "nso_exclusions").count() == 1
+    assert dead.filter(F.col("source_dataset") == "nso").count() == 1
+    result = framework.run("nso", "nso-empty", mode="incremental", run_id="absent")
     assert result["prepared_count"] == result["excluded_count"] == result["observation_count"] == 0
     assert audit_tables(spark, [SilverContract(contract)])["status"] == "PASSED"
 

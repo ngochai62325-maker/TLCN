@@ -1,37 +1,34 @@
-# Silver — TLCN Rice Lakehouse chạy local
+# Tầng Silver — TLCN Rice Lakehouse (`tlcn-local`)
 
-Profile hiện tại: **9 nguồn** dưới `iceberg.silver_local`. Bộ Raw đã pin từng
-được nghiệm thu **1.414.527 observations** trong clean-room; initial
-Airflow/PyIceberg/Trino và full/incremental physical NOOP PASS trên đủ19 bảng.
-Runtime demo mới `tlcn-local` đã smoke PASS nhưng **chưa chạy pipeline**.
-Xem bằng chứng lịch sử và kết quả runtime riêng biệt tại
-[evidence index](evidence/index.md). Không coi equality row count là NOOP.
+Hệ thống tích hợp **9 nguồn dữ liệu lúa gạo thực tế** từ tầng Bronze (`iceberg.bronze.*`) sang tầng Silver (`iceberg.silver_local.*`) trên một Docker Compose stack duy nhất ([`compose.yaml`](../../compose.yaml), project `tlcn-local`).
 
-Tám nguồn V2 giữ release CLOSED_MANUAL_ONLY. NSO production contract vẫn **DRAFT**;
-profile `local_nine` chỉ dùng READY overlay trong bộ nhớ. Không Gold, cron hay
-production cutover. Initial và replay đã có interruption/targeted recovery được
-lưu minh bạch; đây không phải một lần chạy liên tục không lỗi/retry.
+## 1. Phạm vi 9 nguồn dữ liệu chuẩn (Canonical Sources)
 
-## Đọc và chạy project
+1. `faostat_production` → `iceberg.silver_local.faostat_production`
+2. `faostat_monthly_price` → `iceberg.silver_local.faostat_monthly_price`
+3. `faostat_supply_utilization` → `iceberg.silver_local.faostat_supply_utilization`
+4. `faostat_trade` → `iceberg.silver_local.faostat_trade`
+5. `usda_psd` → `iceberg.silver_local.usda_rice_psd`
+6. `usda_rice_yearbook` → `iceberg.silver_local.usda_rice_yearbook`
+7. `worldbank_pinksheet` → `iceberg.silver_local.worldbank_commodity_monthly`
+8. `thitruongnongsan` → `iceberg.silver_local.thitruongnongsan`
+9. `nso` → `iceberg.silver_local.nso_rice_statistics` (loại trừ cấu trúc lưu tại `dead_letters` với `source_dataset = 'nso_exclusions'`)
 
-Trình diễn với một local stack: [Demo guide](demo_guide.md), Airflow tại
-`http://localhost:8085`. Runtime cũ đã cleanup theo approval; demo mới giữ hai DAG
-paused/manual-only để owner tự trigger. Chạy `scripts/local_demo/start.ps1 -CheckOnly` để
-kiểm tra cấu hình/Raw mà không thay runtime.
+Trên bộ 21 file Raw chuẩn trong [`config/local_raw_manifest.json`](../../config/local_raw_manifest.json) (kèm `data/raw/nso/metadata.txt`), tổng số quan sát chuẩn tại tầng Silver là **1.414.527 dòng** (trong đó `nso` gồm **23.060 quan sát**, 946 missing markers, 5 giá trị 0 thực sự và 13 bản ghi loại trừ cấu trúc).
 
-1. [Local runbook](local_runbook.md): laptop mới, Raw bundle, build images, Compose,
-   Airflow UI/CLI, Trino, RAM và shutdown/recovery an toàn.
-2. [Kiến trúc](architecture.md): orchestration, catalog/storage, Spark, DQ và lineage.
-3. [Data catalog](data_catalog.md): chín source/targets, counts, keys, units và schema.
-4. [NSO V2](nso_v2.md): matrix normalization, geography, seasons, missing và exclusions.
-5. [Validation](validation.md): actual run IDs, full/incremental NOOP và tests.
-6. [Evidence index](evidence/index.md): các bằng chứng cần để đối chiếu nghiệm thu.
+## 2. Đặc điểm vận hành Local Stack
 
-Bộ21 Raw files được cung cấp riêng theo
-[manifest](../../config/local_raw_manifest.json), kèm `nso/metadata.txt`.
-Không giả định Git chứa full Trade CSV. Dockerfiles và dependency locks phục vụ
-build local; không cần cloud, published private images hoặc volumes của máy cũ.
+- **Một stack duy nhất (`compose.yaml`)**: Không còn các file Compose chồng chéo. Toàn bộ dữ liệu PostgreSQL, MinIO, Iceberg REST SQLite catalog và Airflow logs được lưu bền vững trong 4 named volumes thuộc project `tlcn-local`.
+- **Chế độ Persistent mặc định**: Dùng `scripts/local_demo/stop.ps1` và `scripts/local_demo/start.ps1` để đóng/mở lại stack mà không mất dữ liệu hay lịch sử chạy DAG.
+- **Hai DAG điều phối manual-only**:
+  - `rice_lakehouse_ingestion`: Ingest 9 nguồn Raw → Bronze, kiểm tra tính toàn vẹn batch (`verify_bronze_batch`), và tự động kích hoạt đúng 1 child run của DAG Silver (`trigger_silver_release`).
+  - `rice_lakehouse_silver_pipeline`: Kiểm tra Bronze gate, chạy tuần tự 9 Spark jobs (`transform_*` bao gồm `transform_nso`), thực thi `silver_data_quality_audit` và phát tín hiệu `DQ_PASSED`.
+- **Cấu hình linh hoạt qua `.env`**: Tài khoản Airflow (`http://localhost:8085`), MinIO Console (`http://localhost:9001`), PostgreSQL và cổng Trino (`http://localhost:18080`) được quản lý tập trung qua `.env` / [`.env.example`](../../.env.example).
 
-Các tài liệu lịch sử được giữ ngoài navigation chính; bản trước consolidation
-được lưu trong [archive](archive/manifest.json). Không dùng lệnh reset/repair
-legacy làm quy trình mặc định của fresh laptop.
+## 3. Danh mục tài liệu Silver
+
+1. [Hướng dẫn trình diễn & vận hành (`demo_guide.md`)](demo_guide.md): Các bước khởi động, đăng nhập UI, chạy pipeline E2E, truy vấn Trino, dừng và reset stack.
+2. [Kiến trúc (`architecture.md`)](architecture.md): Luồng điều phối Airflow → Spark API → Iceberg REST / MinIO → Trino, cơ chế khóa tư vấn (advisory lock) và kiểm tra idempotent NOOP.
+3. [Data Catalog (`data_catalog.md`)](data_catalog.md): Thống kê số dòng Bronze/Silver, khóa nghiệp vụ (business keys), đơn vị đo lường và quy tắc NSO.
+4. [Quy tắc làm sạch (`cleaning_rules.md`)](cleaning_rules.md): Chi tiết chuẩn hóa kiểu dữ liệu, đơn vị, mùa vụ, địa lý và xử lý ngoại lệ cho từng nguồn.
+5. [Đặc tả Schema (`schemas.md`)](schemas.md): Cấu trúc bảng Silver của cả 9 nguồn, các cột lineage Bronze và bảng `dead_letters`.

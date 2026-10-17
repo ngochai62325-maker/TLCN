@@ -1,4 +1,4 @@
-> Historical/legacy reference. Current local nine-source routing, NSO V2 and acceptance are documented in [README](README.md), [data catalog](data_catalog.md) and [validation](validation.md). Original bytes are preserved in [archive](archive/manifest.json).
+> Tài liệu quy tắc làm sạch và chuẩn hóa dữ liệu cho 9 nguồn Silver (`iceberg.silver_local.*`). Xem thêm [Tổng quan Silver](README.md), [Data Catalog](data_catalog.md) và [Đặc tả Schema](schemas.md).
 
 # Data Cleaning & Transformation rules
 
@@ -122,16 +122,13 @@ số, ví dụ `12,500.25`; `12,5` không được đổi thành 125. Giữ sour
 commodity/variety và price type; không tự sửa tên tỉnh. Future date hiện
 `KEEP` và được lưu warning. Negative/malformed price đi quarantine.
 
-## NSO Vietnam
+## NSO (`nso` → `nso_rice_statistics`)
 
-Xem [NSO](nso.md) cho inventory 13 CSV, đơn vị, grain và reconciliation.
-Unpivot theo từng file, tách quantity/index và mùa vụ; giữ raw value và raw
-geography. Địa lý chưa xác minh giữ mã NULL, warning LOG, không chặn observation
-hợp lệ theo quyết định của người dùng. Record all-source-NULL được audit trước
-unpivot; NULL measurement trong record có identity vẫn được giữ.
-Tên chuẩn hóa lấy từ exact candidate lookup, giữ riêng với raw name. Nhận
-`Hà N?i` → `Hà Nội`, phân loại province/region nhưng vẫn needs_review về mã;
-không fuzzy matching và không gộp tỉnh lịch sử. Alias xung đột gây fail-fast.
+Chuẩn hóa 13 bảng CSV thống kê lúa gạo Việt Nam theo metadata [`config/silver/nso_v2_metadata.json`](../../config/silver/nso_v2_metadata.json) và contract [`contracts/silver/nso.yaml`](../../contracts/silver/nso.yaml):
+- Unpivot ma trận rộng theo từng bảng (`source_table`), chuẩn hóa năm (`year`), trạng thái sơ bộ (`is_preliminary`), mùa vụ (`season`), chỉ tiêu (`measure`), và loại thống kê (`statistic_kind`: `QUANTITY` hoặc `PERCENT_PREVIOUS_YEAR_100`).
+- Quy đổi đơn vị gốc sang đơn vị chuẩn: `Nghìn ha` → `hectare` ($\times 1000$), `Nghìn tấn` → `tonne` ($\times 1000$), `Tạ/ha` → `kg/hectare` ($\times 100$), `%` → `percent` ($\times 1$).
+- Phân biệt rõ các ký hiệu khuyết dữ liệu (`..`, `...`) thành `value = NULL` kèm `missing_reason` (`NOT_APPLICABLE_OR_UNAVAILABLE`, `INCOMPLETE_OBSERVATION`, `EMPTY_CELL`) và giữ nguyên các giá trị `0` thực sự (5 quan sát).
+- Bảo toàn định danh địa lý gốc (`geography_name_raw`, `source_geography_key`), tên tiếng Việt khôi phục dấu (`geography_name_vi`) và cấp địa lý (`COUNTRY`, `REGION`, `PROVINCE_CITY`). Các bản ghi cấu trúc không phải quan sát số liệu (13 dòng) được tách riêng vào `dead_letters` với `source_dataset = 'nso_exclusions'`.
 
 ## Deduplication, missing keys và lỗi
 

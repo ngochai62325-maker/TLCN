@@ -66,13 +66,13 @@ def test_release_scope_and_routing_are_opt_in():
         assert expected == original._data["dataset"]
         for key in original._data.keys() - {"dataset"}:
             assert original._data[key] == routed._data[key]
-    for selection in ("all", "nso_vietnam", "nso_vietnam_v2", "faostat_trade_validation", "usda_psd,usda_psd"):
+    for selection in ("all", "nso", "nso_vietnam", "nso_vietnam_v2", "faostat_trade_validation", "usda_psd,usda_psd"):
         with pytest.raises(ValueError):
             selected_sources(selection, contracts, RELEASE_NAMESPACE)
     with pytest.raises(ValueError):
-        release.contract("nso_vietnam")
+        release.contract("nso")
     with pytest.raises(ValueError):
-        release.contract("nso_vietnam_v2")
+        release.contract("nso_vietnam")
 
 
 def test_release_lock_fails_closed_and_covers_outcome(monkeypatch):
@@ -181,7 +181,7 @@ def test_trino_partitioned_key_check_is_exact(monkeypatch, partition_rows, uniqu
 
 
 def test_api_forwards_incremental_watermark():
-    instance = handler({"dataset": "nso_vietnam", "mode": "incremental", "watermark": "2026-10-01T00:00:00+00:00"})
+    instance = handler({"dataset": "nso", "mode": "incremental", "watermark": "2026-10-01T00:00:00+00:00"})
     with patch("jobs.silver.spark_api_server.subprocess.run", return_value=MagicMock(returncode=0, stdout='SILVER_RESULT={}\n')) as run:
         instance.do_POST()
     assert "--watermark" in run.call_args.args[0]
@@ -253,7 +253,7 @@ def test_health_responds_during_job_and_jobs_remain_serial():
     url = f'http://127.0.0.1:{server.server_port}'
 
     def post():
-        request = Request(url + '/run', data=b'{"dataset":"nso_vietnam"}',
+        request = Request(url + '/run', data=b'{"dataset":"nso"}',
                           headers={'Content-Type': 'application/json'})
         with urlopen(request, timeout=10) as response:
             return json.loads(response.read())
@@ -291,11 +291,11 @@ def local_profile_env(monkeypatch):
     monkeypatch.setenv("INGESTION_DB_URL", "postgresql://test/isolated")
 
 
-@pytest.mark.parametrize("payload", [{"dataset":"nso_vietnam_v2"},
+@pytest.mark.parametrize("payload", [{"dataset":"nso"},
     {"profile":"local_nine", "dataset":"nso_vietnam"},
-    {"profile":"local_nine", "dataset":"nso_vietnam_v2"},
-    {"profile":"local_nine", "dataset":"nso_vietnam_v2", "bronze_snapshot_id":True},
-    {"profile":"local_nine", "dataset":"nso_vietnam_v2", "bronze_snapshot_id":2**63}])
+    {"profile":"local_nine", "dataset":"nso"},
+    {"profile":"local_nine", "dataset":"nso", "bronze_snapshot_id":True},
+    {"profile":"local_nine", "dataset":"nso", "bronze_snapshot_id":2**63}])
 def test_local_api_refuses_fallback_unknown_dataset_and_unpinned_write(local_profile_env, payload):
     instance = handler(payload)
     with patch("jobs.silver.spark_api_server.subprocess.run") as run:
@@ -306,7 +306,7 @@ def test_local_api_refuses_fallback_unknown_dataset_and_unpinned_write(local_pro
 
 def test_local_api_preserves_integer_snapshot_and_profile(local_profile_env):
     snapshot = 8786414080148355674
-    instance = handler({"dataset":"nso_vietnam_v2", "profile":"local_nine", "bronze_snapshot_id":str(snapshot)})
+    instance = handler({"dataset":"nso", "profile":"local_nine", "bronze_snapshot_id":str(snapshot)})
     with patch("jobs.silver.spark_api_server.subprocess.run", return_value=MagicMock(returncode=0, stdout='SILVER_RESULT={}\n')) as run:
         instance.do_POST()
     command = run.call_args.args[0]
@@ -323,8 +323,8 @@ def test_local_runner_overlay_and_no_implicit_selection(local_profile_env):
     with pytest.raises(ValueError, match="no default fallback"):
         selected_sources("usda_psd", contracts)
     local = SilverTransformationFramework(MagicMock(), profile="local_nine")
-    assert local.contract("nso_vietnam_v2").silver_output == "iceberg.silver_local.nso_rice_statistics_v2"
-    assert contracts["nso_vietnam_v2"].status == "DRAFT"
+    assert local.contract("nso").silver_output == "iceberg.silver_local.nso_rice_statistics"
+    assert contracts["nso"].status == "READY"
 
 
 def test_local_runner_holds_bronze_source_lock_through_commit_readback(local_profile_env):
@@ -334,7 +334,7 @@ def test_local_runner_holds_bronze_source_lock_through_commit_readback(local_pro
     events = []
     @contextmanager
     def lock(source):
-        assert source == "nso_vietnam"  # Not the Silver dataset ID.
+        assert source == "nso"
         events.append("lock")
         try:
             yield
@@ -349,6 +349,6 @@ def test_local_runner_holds_bronze_source_lock_through_commit_readback(local_pro
          patch("validate_silver_e2e.table_identity", side_effect=identity):
         repo.return_value.source_lock.side_effect = lock
         factory.return_value.run.return_value = {"status":"SUCCESS"}
-        run_pipeline("nso_vietnam_v2", spark=MagicMock(), profile="local_nine", bronze_snapshot_id=snapshot)
+        run_pipeline("nso", spark=MagicMock(), profile="local_nine", bronze_snapshot_id=snapshot)
         assert factory.return_value.run.call_args.kwargs["bronze_snapshot_id"] == snapshot
     assert events == ["lock", "catalog", "catalog", "catalog", "unlock"]

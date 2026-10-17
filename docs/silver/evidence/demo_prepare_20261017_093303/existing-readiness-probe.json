@@ -1,5 +1,0 @@
-{
-  "exit_code": 0,
-  "output": "[2026-10-17T09:43:53.392+0000] {dagbag.py:588} INFO - Filling up the DagBag from dags/\n{\"dag_parse\": \"PASS\", \"bronze_sources\": 9, \"silver_tasks\": 14, \"silver_sources\": 9, \"paused\": true, \"schedule\": null, \"dag_runs\": 4, \"services_http\": \"PASS\", \"nso_contract\": \"DRAFT\"}\n",
-  "scope": "Read-only validation-probe execution on EXISTING clean-room, not acceptance of fresh demo or host-port fix"
-}

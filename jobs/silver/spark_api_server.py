@@ -15,7 +15,7 @@ JOBS_DIR = Path(__file__).resolve().parent
 ALLOWED_JOBS = {"run_all_silver.py", "job_faostat_trade.py", "job_usda_psd.py",
                 "job_usda_export_price.py", "job_worldbank.py", "job_faostat_production.py",
                 "job_faostat_monthly_price.py", "job_faostat_supply_utilization.py", "job_thitruongnongsan.py",
-                "job_nso_vietnam.py"}
+                "job_nso.py"}
 logger = logging.getLogger("spark_api_server")
 JOB_LOCK = Lock()
 

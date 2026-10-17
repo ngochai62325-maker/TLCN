@@ -9,7 +9,7 @@ from ingestion.storage.bronze_writer import BronzeIcebergWriter, sanitize_column
 def test_national_first_chunk_contains_matrix_columns_and_preserves_footer(tmp_path):
     registry = SourceRegistry('config/ingestion/source_registry.yaml')
     registry.load()
-    config = replace(registry.get_source('nso_vietnam'), local_path='data/raw/nso')
+    config = replace(registry.get_source('nso'), local_path='data/raw/nso')
     chunks = list(NsoVietnamAdapter().extract_full(config, str(tmp_path)))
     assert len(chunks) == 13
     assert sum(c.record_count for c in chunks) == 833

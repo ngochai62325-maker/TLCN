@@ -1,5 +1,0 @@
-{
-  "exit_code": 0,
-  "stderr": "",
-  "bounds": "one query at a time, task_concurrency=1,1MB/512-row Parquet blocks,8MiB maximum HTTP page; disk-backed key/hash reconciliation"
-}

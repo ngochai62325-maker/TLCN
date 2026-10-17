@@ -206,10 +206,12 @@ sources:
       source_reference_url: "https://fenixservices.fao.org/faostat/static/bulkdownloads/SUA_Crops_Livestock_E_All_Data_(Normalized).zip"
       note: "Primary Bronze input is local raw snapshot file; endpoint retained strictly for lineage/reference."
 
-  nso_vietnam:
+  nso:
     source_name: "NSO Vietnam - General Statistics Office V06 Rice Statistics"
     provider: GSO_Vietnam
     dataset: V06_Rice_Statistics
+    aliases:
+      - "nso_vietnam"
     source_type: LOCAL_FILE
     load_strategy: FULL
     format: CSV
@@ -227,7 +229,7 @@ sources:
     extra:
       file_pattern: "V06.*.csv"
       metadata_file: "metadata.txt"
-      note: "13 annual files (V06.12.csv to V06.24.csv), union schema profiled in config/silver/nso_source_tables.json. Preserve per-file lineage and structural NULL padding."
+      note: "13 annual files (V06.12.csv to V06.24.csv), metadata profiled in config/silver/nso_v2_metadata.json. Preserve per-file lineage and structural NULL padding."
 
   usda_rice_yearbook:
     source_name: "USDA ERS - Rice Yearbook (Export Price Quotes)"

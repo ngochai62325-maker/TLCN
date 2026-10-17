@@ -1,10 +1,8 @@
-> Historical/legacy reference. Current local nine-source routing, NSO V2 and acceptance are documented in [README](README.md), [data catalog](data_catalog.md) and [validation](validation.md). Original bytes are preserved in [archive](archive/manifest.json).
+# Đặc tả Schema Bronze / Silver
 
-# Bronze / Silver schemas
+Được tổng hợp từ 9 file YAML contract thực thi trong [`contracts/silver/`](../../contracts/silver/). Trong môi trường local (`tlcn-local`), các bảng Silver được định tuyến về namespace `iceberg.silver_local.*`.
 
-Generated from 9 executable YAML contracts; updated 2026-10-11.
-
-Bronze columns use the ingestion sanitizer. Derived sources are produced by source preprocessing.
+Các cột Bronze sử dụng bộ chuẩn hóa tên cột (sanitizer) của tầng Ingestion. Các cột dẫn xuất được sinh bởi bước tiền xử lý (preprocess) của từng nguồn.
 
 ## faostat_monthly_price
 
@@ -116,45 +114,52 @@ Bronze: `iceberg.bronze.faostat_trade`; Silver: `iceberg.silver.faostat_trade`.
 | `value` | `Value` | `decimal(18,2)` | true | Trade quantity or value |
 | `flag` | `Flag` | `string` | true | Observation status flag |
 
-## nso_vietnam
+## nso
 
 Status: **READY**.
 
-Bronze: `iceberg.bronze.nso_vietnam`; Silver: `iceberg.silver.nso_rice_statistics`.
+Bronze: `iceberg.bronze.nso`; Silver: `iceberg.silver.nso_rice_statistics` (local: `iceberg.silver_local.nso_rice_statistics`).
 
-**Business key:** `source_table`, `geography_name_raw`, `year`, `season`, `measure`, `statistic_kind`.
+**Business key:** `source_table`, `source_geography_key`, `year`, `measure`, `season`, `statistic_kind`.
 
 **Partition columns:** `year`.
 
 | Output column | Bronze / derived source | Spark type | Nullable | Meaning |
 |---|---|---|---|---|
-| `source_table` | `source_table` | `string` | false | Derived NSO source observation |
-| `source_column` | `source_column` | `string` | false | Derived NSO source observation |
-| `geography_name_raw` | `geography_name_raw` | `string` | false | Derived NSO source observation |
-| `geography_level` | `geography_level` | `string` | false | Derived NSO source observation |
-| `geography_name` | `geography_name` | `string` | true | Exact candidate name with restored accents; historical code mapping still needs review |
-| `geography_code` | `geography_code` | `string` | true | Derived NSO source observation |
-| `mapping_status` | `mapping_status` | `string` | false | Derived NSO source observation |
-| `country_code` | `country_code` | `string` | false | Derived NSO source observation |
-| `province_code` | `province_code` | `string` | true | Derived NSO source observation |
-| `commodity_name` | `commodity_name` | `string` | false | Derived NSO source observation |
-| `period_raw` | `period_raw` | `string` | false | Derived NSO source observation |
-| `year` | `year` | `integer` | false | Derived NSO source observation |
-| `period_valid` | `period_valid` | `boolean` | false | Derived NSO source observation |
-| `is_provisional` | `is_provisional` | `boolean` | false | Derived NSO source observation |
-| `season` | `season` | `string` | false | Derived NSO source observation |
-| `measure` | `measure` | `string` | false | Derived NSO source observation |
-| `statistic_raw` | `statistic_raw` | `string` | false | Derived NSO source observation |
-| `statistic_kind` | `statistic_kind` | `string` | false | Derived NSO source observation |
-| `source_unit` | `source_unit` | `string` | false | Derived NSO source observation |
-| `unit` | `unit` | `string` | false | Derived NSO source observation |
-| `conversion_factor` | `conversion_factor` | `decimal(18,6)` | false | Derived NSO source observation |
-| `unit_source_reference` | `unit_source_reference` | `string` | false | Derived NSO source observation |
-| `value_raw` | `value_raw` | `string` | true | Derived NSO source observation |
-| `value_source` | `value_source` | `decimal(28,8)` | true | Derived NSO source observation |
-| `value` | `value` | `decimal(28,8)` | true | Derived NSO source observation |
-| `is_missing` | `is_missing` | `boolean` | false | Derived NSO source observation |
-| `missing_kind` | `missing_kind` | `string` | false | Derived NSO source observation |
+| `source_table` | `source_table` | `string` | false | NSO file code (`V06.12`..`V06.24`) |
+| `source_table_title` | `source_table_title` | `string` | false | Vietnamese statistical table title |
+| `source_url` | `source_url` | `string` | false | PX-Web source URL from `nso/metadata.txt` |
+| `source_column` | `source_column` | `string` | false | Sanitized Bronze wide column name |
+| `source_row_code` | `source_row_code` | `string` | true | Raw row code when present (`V06.12` year cell) |
+| `source_row_label_raw` | `source_row_label_raw` | `string` | false | Exact Bronze dimension cell before normalization |
+| `source_geography_key` | `source_geography_key` | `string` | false | Deterministic geography identity preserving distinct source rows |
+| `geography_name_raw` | `geography_name_raw` | `string` | false | Raw geography label or national default for `V06.12` |
+| `geography_name_vi` | `geography_name_vi` | `string` | false | Deterministic Vietnamese display label |
+| `geography_level` | `geography_level` | `string` | false | `COUNTRY`, `REGION`, or `PROVINCE_CITY` |
+| `parent_region_vi` | `parent_region_vi` | `string` | true | Vietnamese statistical region containing the province/region |
+| `geography_code` | `geography_code` | `string` | true | Official code if pinned by authoritative crosswalk; currently NULL |
+| `admin_boundary_version` | `admin_boundary_version` | `string` | true | Boundary version if pinned; currently NULL |
+| `country_code` | `country_code` | `string` | false | ISO-3 country code (`VNM`) |
+| `commodity` | `commodity` | `string` | false | Commodity scope (`Rice, paddy`) |
+| `season` | `season` | `string` | false | `annual`, `winter_spring`, `summer_autumn_fall`, `summer_autumn`, `autumn_winter`, `main_rainy` |
+| `season_label_raw` | `season_label_raw` | `string` | false | Source season label or table scope |
+| `measure` | `measure` | `string` | false | `area`, `yield`, or `production` |
+| `measure_detail` | `measure_detail` | `string` | false | `planted_area`, `planted_yield`, `harvested_production` |
+| `statistic_kind` | `statistic_kind` | `string` | false | `QUANTITY` or `PERCENT_PREVIOUS_YEAR_100` |
+| `statistic_label_raw` | `statistic_label_raw` | `string` | false | Source statistic header or table scope |
+| `period_raw` | `period_raw` | `string` | false | Raw year/header token |
+| `year` | `year` | `integer` | false | Four-digit reference year |
+| `is_preliminary` | `is_preliminary` | `boolean` | false | True when source period token carries `Sơ bộ` |
+| `value_raw` | `value_raw` | `string` | true | Trimmed raw cell string before numeric conversion |
+| `value_source` | `value_source` | `decimal(28,8)` | true | Parsed numeric value in source unit |
+| `value` | `value` | `decimal(28,8)` | true | Normalized value in target unit |
+| `source_unit` | `source_unit` | `string` | false | `Nghin_ha`, `Ta_ha`, `Nghin_tan`, or `percent_previous_year_100` |
+| `unit` | `unit` | `string` | false | `hectare`, `kg/hectare`, `tonne`, or `percent` |
+| `conversion_factor` | `conversion_factor` | `decimal(18,6)` | false | Multiplier from `value_source` to `value` |
+| `missing_reason` | `missing_reason` | `string` | true | `NOT_APPLICABLE_OR_UNAVAILABLE`, `INCOMPLETE_OBSERVATION`, `EMPTY_CELL`, or NULL |
+| `metadata_version` | `metadata_version` | `string` | false | Version of `config/silver/nso_v2_metadata.json` (`nso-v2-20261015.1`) |
+| `unit_mapping_version` | `unit_mapping_version` | `string` | false | Version of NSO unit mapping rules (`nso-units-20261015.1`) |
+| `bronze_read_snapshot_id` | `bronze_read_snapshot_id` | `long` | false | Exact Iceberg snapshot ID read from `iceberg.bronze.nso` |
 
 ## thitruongnongsan
 
@@ -281,4 +286,4 @@ Table: `iceberg.silver.dead_letters`.
 
 Quarantine is idempotent for an identical dataset and payload. A re-ingested row with different Bronze audit metadata is a distinct payload and may create a distinct dead letter; replaying the same Bronze snapshot updates the existing record.
 
-Legacy precreated tables can retain additional nullable columns; the acceptance evidence includes their full physical schemas. NSO exclusions use the shared quarantine table with `source_dataset=nso_vietnam_exclusions`.
+Legacy precreated tables can retain additional nullable columns. NSO structural exclusions use the shared quarantine table with `source_dataset=nso_exclusions`.

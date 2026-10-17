@@ -1,20 +1,48 @@
-# TLCN Rice Lakehouse — local Silver
+# TLCN Rice Lakehouse — Local Development Stack (`tlcn-local`)
 
-Đồ án Data Engineering chạy local với Docker, Airflow, Spark, Apache Iceberg,
-MinIO, PostgreSQL và Trino. Profile `local_nine` tích hợp9 nguồn Bronze → Silver;
-namespace local là `iceberg.silver_local`.
+Đồ án Data Engineering chạy local trên một Docker Compose duy nhất ([`compose.yaml`](compose.yaml)) với **Airflow**, **Apache Spark**, **Apache Iceberg (REST Catalog)**, **MinIO**, **PostgreSQL** và **Trino**.
+Profile `local_nine` tích hợp **9 nguồn dữ liệu thực tế** từ Raw → Bronze (`iceberg.bronze.*`) → Silver (`iceberg.silver_local.*`).
 
-- [Quickstart và handoff laptop mới](docs/silver/local_runbook.md)
-- [Trình diễn: một local stack, Airflow localhost:8085](docs/silver/demo_guide.md)
-- [Kiến trúc và tài liệu Silver](docs/silver/README.md)
-- [Chín nguồn / schema / units / lineage](docs/silver/data_catalog.md)
-- [Validation và evidence](docs/silver/validation.md)
+## 1. Dịch vụ & Cổng Localhost
 
-Cần repository cùng bộ21 Raw files riêng biệt, thêm NSO metadata theo
-[manifest](config/local_raw_manifest.json). Full Trade CSV không đưa vào Git.
-Dùng đúng Compose local trong runbook; `docker-compose.yml` là cấu hình shared
-legacy, không phải lệnh startup mặc định cho laptop mới.
+| Dịch vụ | URL / Endpoint | Tài khoản mặc định (`.env.example`) | Ghi chú |
+|---|---|---|---|
+| **Airflow UI** | `http://localhost:8085` | `AIRFLOW_ADMIN_USER=admin` / `AIRFLOW_ADMIN_PASSWORD=admin` | Quản lý 2 DAG (`rice_lakehouse_ingestion`, `rice_lakehouse_silver_pipeline`) |
+| **MinIO Console** | `http://localhost:9001` | `MINIO_ROOT_USER=minioadmin` / `MINIO_ROOT_PASSWORD=minioadmin123` | Quản lý bucket `warehouse` (Bronze raw archive & Iceberg Parquet/metadata) |
+| **Trino Coordinator** | `http://localhost:18080` | Không mật khẩu (local header `X-Trino-User`) | Truy vấn SQL trực tiếp catalog `iceberg` |
+| **PostgreSQL / Iceberg REST / Spark API** | Internal Docker network (`postgres:5432`, `iceberg-rest:8181`, `runner:5005`) | Cấu hình trong `.env` | Chỉ giao tiếp nội bộ trong bridge network của project `tlcn-local` |
 
-Hai DAG manual-only; không Gold, production scheduling hay cloud deployment.
-NSO production contract giữ DRAFT; local profile có overlay riêng. Không xóa
-volumes/snapshots hoặc force reprocess để xử lý một writer chưa rõ outcome.
+> Sao chép [`.env.example`](.env.example) sang `.env` nếu muốn tùy chỉnh tài khoản hoặc cổng. File `.env` đã được `.gitignore` bảo vệ để không commit API keys cá nhân.
+
+## 2. Vòng đời vận hành (Persistent Mode & Controlled Reset)
+
+Tất cả thao tác vận hành đi qua bộ script PowerShell tại [`scripts/local_demo/`](scripts/local_demo/):
+
+```powershell
+# Kiểm tra cấu hình compose.yaml và 21 file Raw + nso/metadata.txt (không bật container):
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/start.ps1 -CheckOnly
+
+# Khởi động stack lần đầu hoặc mở lại stack hiện hữu (giữ nguyên dữ liệu & lịch sử):
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/start.ps1
+
+# Kiểm tra trạng thái container, RAM và readiness smoke check:
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/status.ps1 -Smoke
+
+# Dừng stack an toàn (kiểm tra idle, pause DAGs, gửi tín hiệu dừng êm, giữ nguyên volumes):
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/stop.ps1
+
+# Xem kế hoạch reset (không xóa dữ liệu):
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/reset.ps1
+
+# Xóa toàn bộ dữ liệu local của project tlcn-local để chạy lại từ đầu (yêu cầu gõ DELETE tlcn-local):
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/reset.ps1 -DeleteData
+```
+
+## 3. Tài liệu chi tiết
+
+- [Hướng dẫn trình diễn & chạy E2E từ đầu](docs/silver/demo_guide.md)
+- [Tổng quan tầng Silver & 9 nguồn dữ liệu](docs/silver/README.md)
+- [Kiến trúc hệ thống & cơ chế bảo toàn dữ liệu](docs/silver/architecture.md)
+- [Data Catalog: 9 nguồn, số dòng chuẩn, business keys & đơn vị](docs/silver/data_catalog.md)
+- [Quy tắc làm sạch & chuẩn hóa dữ liệu (Cleaning Rules)](docs/silver/cleaning_rules.md)
+- [Đặc tả Schema Bronze → Silver & Quarantine](docs/silver/schemas.md)

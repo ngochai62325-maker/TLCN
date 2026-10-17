@@ -1,25 +1,7 @@
-# Health probe reads properties with grep/cut: preserve LF on every checkout.
-config/trino/etc/config.properties text eol=lf
-docker/*.Dockerfile text eol=lf
-requirements/silver-*.lock text eol=lf
-.gitattributes text eol=lf
-.dockerignore text eol=lf
-compose.silver-production.yml text eol=lf
-dags/dag_ingestion_pipeline.py text eol=lf
-dags/dag_silver_pipeline.py text eol=lf
-src/ingestion/orchestration/pipeline_tasks.py text eol=lf
-tests/unit/test_dag_structure.py text eol=lf
-tests/unit/test_pipeline_tasks.py text eol=lf
-tests/unit/test_silver_orchestration.py text eol=lf
-tests/integration/test_release_orchestration.py text eol=lf
-# Release registry raw-byte checksum was accepted with CRLF; keep it reproducible.
-config/ingestion/source_registry.yaml text eol=crlf
-# Historical evidence hashes cover exact bytes, including mixed original EOLs.
-docs/silver/evidence/release_20261013/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
-# This validator was accepted with LF; do not rewrite it on Windows checkout.
-jobs/silver/verify_silver_trino.py text eol=lf
-
-# Audit evidence is byte-addressed: never normalize captured line endings.
-docs/silver/evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
-# Sanitized logs preserve original diagnostic formatting, including blank lines.
-docs/silver/evidence/**/*.log -whitespace
+compose.yaml text eol=lf
+contracts/silver/*.yaml text eol=lf
+config/ingestion/source_registry.yaml text eol=crlf -whitespace
+data/raw/faostat/*.csv text eol=crlf -whitespace
+data/raw/usda/usda.xls text eol=crlf -whitespace
+data/raw/usda/*.csv text eol=crlf -whitespace
+data/raw/nso/metadata.txt text eol=crlf -whitespace

@@ -1,9 +1,0 @@
-{
-  "failure": "REST startup SQLite Permission denied",
-  "writer_started": false,
-  "ingestion_tables": 0,
-  "catalog_files": [],
-  "warehouse_bucket_exists": false,
-  "commit_outcome": "NO_WRITER_OR_TABLE_COMMIT",
-  "fix": "test REST service user=root for newly created project volume only"
-}

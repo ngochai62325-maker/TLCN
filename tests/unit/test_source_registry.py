@@ -86,7 +86,7 @@ class TestSourceRegistryHardening:
             "faostat_monthly_price",
             "faostat_trade",
             "faostat_supply_utilization",
-            "nso_vietnam",
+            "nso",
             "usda_rice_yearbook",
             "worldbank_pinksheet",
             "thitruongnongsan",
@@ -101,6 +101,7 @@ class TestSourceRegistryHardening:
         assert registry.get_source("faostat_price").source_id == "faostat_monthly_price"
         assert registry.get_source("faostat_sua").source_id == "faostat_supply_utilization"
         assert registry.get_source("usda_export_prices").source_id == "usda_rice_yearbook"
+        assert registry.get_source("nso_vietnam").source_id == "nso"
 
     def test_02_all_source_ids_unique(self, registry):
         """Test 2: All registered source_ids are strictly unique."""
@@ -126,7 +127,7 @@ class TestSourceRegistryHardening:
             "faostat_monthly_price",
             "faostat_trade",
             "faostat_supply_utilization",
-            "nso_vietnam",
+            "nso",
             "usda_rice_yearbook",
             "worldbank_pinksheet",
             "thitruongnongsan",

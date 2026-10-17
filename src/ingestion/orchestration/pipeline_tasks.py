@@ -20,7 +20,7 @@ from ingestion.storage.metadata_repository import MetadataRepository
 SILVER_RELEASE = "silver_v2_release_20261013"
 RELEASE_SOURCES = ("faostat_production", "faostat_monthly_price", "faostat_supply_utilization",
                    "faostat_trade", "usda_psd", "usda_rice_yearbook", "worldbank_pinksheet", "thitruongnongsan")
-REGISTRY_SHA256 = "9f37db79754fd9669d0d8e1b621b4c7b2cbbe7371eb51c7ec55102bf79bacda6"
+REGISTRY_SHA256 = "c8ae17ad7e5a538ef9a6e44427bc5ec2c443dc285788c34fb2275bd8acb7b1f3"
 
 try:
     from airflow.exceptions import AirflowException, AirflowSkipException

@@ -1,3 +1,0 @@
-{
-  "output": "dag_id                         | is_paused\n===============================+==========\nrice_lakehouse_silver_pipeline | True     \n                                          \n"
-}

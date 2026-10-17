@@ -102,7 +102,7 @@ with DAG(
             raise ValueError("Silver audit did not pass")
         return {"silver_status": "DQ_PASSED", "acceptance": "CLI_AND_OWNER_REQUIRED",
                 "release": RELEASE, "datasets": DATASETS, "pending_datasets": PENDING_DATASETS,
-                **({"profile": LOCAL_PROFILE, "production_nso_contract": "DRAFT"} if LOCAL_PROFILE else {})}
+                **({"profile": LOCAL_PROFILE} if LOCAL_PROFILE else {})}
 
     gate = check_bronze_readiness()
     transformations = [transform_dataset.override(task_id=f"transform_{dataset}")(dataset) for dataset in DATASETS]

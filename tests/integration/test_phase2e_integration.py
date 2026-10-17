@@ -295,7 +295,7 @@ class TestPhase2EEndToEndIntegration:
     # ──────────────────────────────────────────────────────────────────
     def test_05_multi_file_directory_and_schema_evolution(self, infra):
         """NSO Vietnam ingestion: 13 CSVs, 833 rows, dynamic schema evolution."""
-        source_id = "nso_vietnam"
+        source_id = "nso"
         repo: MetadataRepository = infra["repo"]
         storage: MinioStorage = infra["storage"]
         writer: BronzeIcebergWriter = infra["writer"]
@@ -344,7 +344,7 @@ class TestPhase2EEndToEndIntegration:
     # ──────────────────────────────────────────────────────────────────
     def test_06_directory_incremental_file_arrival(self, infra):
         """When a 14th file is added to a directory source, only the 14th file is ingested."""
-        source_id = "nso_vietnam"
+        source_id = "nso"
         repo: MetadataRepository = infra["repo"]
         storage: MinioStorage = infra["storage"]
         writer: BronzeIcebergWriter = infra["writer"]
@@ -526,7 +526,7 @@ class TestPhase2EEndToEndIntegration:
             ("faostat_production", 22738),
             ("faostat_monthly_price", 15334),
             ("faostat_supply_utilization", 36380),
-            ("nso_vietnam", 833),
+            ("nso", 833),
             ("usda_rice_yearbook", 13131),
             ("usda_psd", 15),
             ("worldbank_pinksheet", 792),
@@ -588,7 +588,7 @@ class TestPhase2EEndToEndIntegration:
             "faostat_trade",
             "faostat_trade_validation",
             "faostat_supply_utilization",
-            "nso_vietnam",
+            "nso",
             "usda_rice_yearbook",
             "usda_psd",
             "worldbank_pinksheet",

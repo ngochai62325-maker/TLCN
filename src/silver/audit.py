@@ -1,6 +1,6 @@
 """Read-only readiness and reconciliation checks used by CLI and Airflow."""
 from pyspark.sql import functions as F, types as T
-from silver.framework import SilverTransformationFramework
+from silver.framework import SilverTransformationFramework, ReadContextTransformer, BronzeReadContext
 from silver.engine.quality import SilverQualityEngine
 
 
@@ -15,9 +15,7 @@ def check_bronze(spark, contracts, profile=None):
         transformer = framework.transformer(source_id)
         if transformer and hasattr(transformer, "validate_bronze_schema"):
             transformer.validate_bronze_schema(source)
-        if profile:
-            from silver.framework import ReadContextTransformer, BronzeReadContext
-        if profile and isinstance(transformer, ReadContextTransformer):
+        if isinstance(transformer, ReadContextTransformer):
             # A readiness read has its own real pin; never fabricate NSO context
             # from source lineage or bypass its approved revision/schema guard.
             snapshot = spark.sql(f"SELECT snapshot_id FROM {contract.bronze_input}.refs WHERE name = 'main'").first()[0]

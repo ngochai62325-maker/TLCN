@@ -116,19 +116,18 @@ def main():
             expected = evidence["datasets"][row["dataset"]]["silver"]["rows"]
             if row["rows"] != expected:
                 raise ValueError(f"Spark/Trino row mismatch: {row['dataset']}: {row['rows']} != {expected}")
-        if "nso_vietnam" in evidence["datasets"]:
-            table = identifier(evidence["datasets"]["nso_vietnam"]["metrics"]["target_table"])
+        if "nso" in evidence["datasets"]:
+            table = identifier(evidence["datasets"]["nso"]["metrics"]["target_table"])
             report["nso"] = query(args.url, f"""SELECT count(*) AS rows,
-                count_if(is_missing) AS missing_observations,
-                count_if(mapping_status = 'needs_review') AS geography_review,
-                count_if(geography_name IS NOT NULL) AS named_observations,
-                count_if(strpos(geography_name, '?') > 0) AS damaged_candidate_names,
-                count_if(mapping_status = 'needs_review' AND geography_code IS NOT NULL) AS invalid_review_code,
-                count_if(is_missing AND value IS NOT NULL) AS invalid_missing_value
+                count_if(missing_reason IS NOT NULL) AS missing_observations,
+                count_if(geography_level = 'UNMAPPED') AS geography_unmapped,
+                count_if(geography_name_vi IS NOT NULL) AS named_observations,
+                count_if(strpos(geography_name_vi, '?') > 0) AS damaged_candidate_names,
+                count_if(missing_reason IS NOT NULL AND value IS NOT NULL) AS invalid_missing_value
                 FROM {table}""")[0]
-            if (report["nso"]["invalid_review_code"] or report["nso"]["invalid_missing_value"]
+            if (report["nso"]["geography_unmapped"] or report["nso"]["invalid_missing_value"]
                     or report["nso"]["damaged_candidate_names"]):
-                raise ValueError("NSO nullable geography/missing policy violated through Trino")
+                raise ValueError("NSO geography/missing policy violated through Trino")
         if "usda_psd" in evidence["datasets"]:
             table = identifier(evidence["datasets"]["usda_psd"]["metrics"]["target_table"])
             report["usda_milling_rate"] = query(args.url, f"""SELECT count(*) AS rows,

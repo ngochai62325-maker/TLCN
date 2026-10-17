@@ -15,23 +15,22 @@ class LocalDemoConfigTests(unittest.TestCase):
     def setUpClass(cls):
         if not shutil.which("docker"):
             raise unittest.SkipTest("Docker Compose CLI required for config resolution")
-        args = ["docker", "compose", "--env-file", ".env.local.example", "-p", "tlcn-local"]
-        for name in ("compose.silver-test.yml", "compose.local-nine-test.yml", "compose.local.yml"):
-            args += ["-f", name]
+        args = ["docker", "compose", "--env-file", ".env.example", "-p", "tlcn-local", "-f", "compose.yaml"]
         cls.config = json.loads(subprocess.check_output(args + ["config", "--format", "json"], cwd=ROOT))
 
     def test_published_ports_have_ordinary_bridge(self):
         c = self.config
+        self.assertEqual(c["name"], "tlcn-local")
         self.assertFalse(c["networks"]["default"].get("internal", False))
         self.assertEqual(c["networks"]["default"]["driver"], "bridge")
-        for service, port in [("airflow-webserver", 8085), ("trino-test", 18080)]:
+        for service, port in [("airflow-webserver", 8085), ("minio", 9001), ("trino", 18080)]:
             bindings = c["services"][service]["ports"]
             self.assertEqual(len(bindings), 1)
             self.assertEqual((bindings[0]["host_ip"], int(bindings[0]["published"])), ("127.0.0.1", port))
         for name, service in c["services"].items():
             self.assertNotIn("network_mode", service)
             self.assertNotIn("container_name", service)
-            if name not in ("airflow-webserver", "trino-test"):
+            if name not in ("airflow-webserver", "minio", "trino"):
                 self.assertFalse(service.get("ports"))
 
     def test_local_routing_and_persistence(self):
@@ -55,20 +54,21 @@ class LocalDemoConfigTests(unittest.TestCase):
                 self.assertEqual(env["AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION"], "True")
                 self.assertFalse(env["_PIP_ADDITIONAL_REQUIREMENTS"])
         self.assertEqual(len(set(urls)), 1)
-        for name in ("postgres-test", "minio-test", "rest-test"):
+        for name in ("postgres", "minio", "iceberg-rest"):
             self.assertFalse(c["services"][name].get("tmpfs"))
             self.assertTrue(any(m["type"] == "volume" for m in c["services"][name]["volumes"]))
         self.assertTrue(all(v["name"].startswith("tlcn-local_") and not v.get("external") for v in c["volumes"].values()))
 
     def test_memory_and_startup_commands(self):
         s = self.config["services"]
-        for name, mib in [("runner", 3072), ("airflow-webserver", 1024), ("airflow-scheduler", 1536), ("trino-test", 1536)]:
+        for name, mib in [("runner", 3072), ("airflow-webserver", 1024), ("airflow-scheduler", 1536), ("trino", 1536)]:
             self.assertEqual(int(s[name]["mem_limit"]), mib * 1024 * 1024)
         self.assertEqual(s["airflow-webserver"]["environment"]["AIRFLOW__WEBSERVER__WORKERS"], "1")
         self.assertTrue(s["airflow-scheduler"]["healthcheck"]["test"])
         self.assertEqual(s["runner"]["command"], ["/workspace/jobs/silver/spark_api_server.py"])
         self.assertNotIn("pip install", " ".join(s["runner"]["command"]))
         self.assertEqual(s["airflow-init"]["image"], s["airflow-webserver"]["image"])
+        self.assertIn("--console-address", " ".join(s["minio"]["command"]))
 
 
 @unittest.skipUnless(shutil.which("powershell"), "Windows PowerShell required")

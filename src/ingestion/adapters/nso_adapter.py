@@ -130,6 +130,8 @@ class NsoVietnamAdapter(BaseSourceAdapter):
                     break
                 except UnicodeDecodeError:
                     continue
+                except pd.errors.ParserError as pe:
+                    raise DataQualityError(f"Malformed CSV in '{os.path.basename(file_path)}': {pe}")
             else:
                 raise DataQualityError(f"Cannot decode NSO header: {file_path}")
             for header in headers:

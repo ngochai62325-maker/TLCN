@@ -12,13 +12,13 @@ def test_local_nso_readiness_and_noop_use_actual_pinned_context(spark, tmp_path,
     spark.conf.set("spark.sql.catalog.iceberg.type", "hadoop")
     spark.conf.set("spark.sql.catalog.iceberg.warehouse", (tmp_path / "warehouse").as_uri())
     spark.sql("CREATE NAMESPACE iceberg.bronze")
-    bronze = "iceberg.bronze.nso_vietnam"
+    bronze = "iceberg.bronze.nso"
     dataframe(spark, [national_row(raw_input, value="..")]).writeTo(bronze).using("iceberg").create()
     pinned = table_identity(spark, bronze)[0]
     framework = SilverTransformationFramework(spark, profile="local_nine")
-    contract = framework.contract("nso_vietnam_v2")
+    contract = framework.contract("nso")
     assert check_bronze(spark, [contract], profile="local_nine")["status"] == "PASSED"
-    first = framework.run("nso_vietnam_v2", "local-native", bronze_snapshot_id=pinned)
+    first = framework.run("nso", "local-native", bronze_snapshot_id=pinned)
     assert first["dedup_count"] == 8 and first["quarantine_count"] == 0
     assert first["bronze_read_snapshot_id"] == pinned
     assert framework.quarantine_manager.target_table == "iceberg.silver_local.dead_letters"
@@ -28,6 +28,6 @@ def test_local_nso_readiness_and_noop_use_actual_pinned_context(spark, tmp_path,
     assert {r.bronze_read_snapshot_id for r in output.collect()} == {pinned}
     before = table_identity(spark, contract.silver_output)
     for mode in ["full", "incremental"]:
-        framework.run("nso_vietnam_v2", "local-"+mode, mode=mode,
+        framework.run("nso", "local-"+mode, mode=mode,
                       run_id="national-run" if mode=="incremental" else None, bronze_snapshot_id=pinned)
         assert table_identity(spark, contract.silver_output) == before

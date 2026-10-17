@@ -1,0 +1,225 @@
+# Canonical local development stack for TLCN Rice Lakehouse (project: tlcn-local).
+name: tlcn-local
+
+x-local-env: &local-env
+  SILVER_LOCAL_PROFILE: local_nine
+  SILVER_LOCAL_ENABLED: "1"
+  SILVER_ACCEPTED_RELEASE: ""
+  SILVER_PRODUCTION_ENABLED: "0"
+  SILVER_CANARY_ONLY: "0"
+  SILVER_BRONZE_SCHEDULE: ""
+  PYTHONPATH: /workspace/src:/workspace/jobs/silver:/workspace
+  INGESTION_DB_URL: postgresql://${POSTGRES_USER:-lakehouse}:${POSTGRES_PASSWORD:-lakehouse123}@postgres:5432/${POSTGRES_DB:-lakehouse_meta}
+  MINIO_ENDPOINT: minio:9000
+  MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+  MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+  AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-minioadmin}
+  AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+  AWS_REGION: us-east-1
+  ICEBERG_REST_URI: http://iceberg-rest:8181
+  TRINO_HOST: trino
+  TRINO_PORT: "8080"
+  SPARK_API_URL: http://runner:5005/run
+
+x-airflow: &airflow
+  image: ${TLCN_AIRFLOW_IMAGE:-tlcn/silver-airflow:local}
+  build:
+    context: .
+    dockerfile: docker/silver-airflow.Dockerfile
+  working_dir: /workspace
+  environment: &airflow-env
+    <<: *local-env
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER:-lakehouse}:${POSTGRES_PASSWORD:-lakehouse123}@postgres:5432/${POSTGRES_DB:-lakehouse_meta}
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__DAGS_FOLDER: /workspace/dags
+    AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "True"
+    AIRFLOW__CORE__PARALLELISM: "2"
+    AIRFLOW__CORE__MAX_ACTIVE_TASKS_PER_DAG: "1"
+    AIRFLOW__SCHEDULER__PARSING_PROCESSES: "1"
+    AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "10"
+    AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: "10"
+    AIRFLOW__WEBSERVER__WORKERS: "1"
+    AIRFLOW__WEBSERVER__SECRET_KEY: isolated-local-nine-test-only
+    AIRFLOW__OPENLINEAGE__DISABLED: "True"
+    _PIP_ADDITIONAL_REQUIREMENTS: ""
+  volumes:
+    - .:/workspace:ro
+    - ${SILVER_TEST_RAW_ROOT:?Set complete Raw path}:/workspace/data/raw:ro
+    - local_airflow_logs:/opt/airflow/logs
+
+services:
+  minio:
+    image: ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+    command: server /data --console-address ":9001"
+    ports:
+      - 127.0.0.1:${MINIO_CONSOLE_PORT:-9001}:9001
+    volumes:
+      - local_minio_data:/data
+    mem_limit: 512m
+    healthcheck:
+      test: [CMD-SHELL, "bash -c 'echo > /dev/tcp/127.0.0.1/9000 && echo > /dev/tcp/127.0.0.1/9001'"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  postgres:
+    image: postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-lakehouse}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-lakehouse123}
+      POSTGRES_DB: ${POSTGRES_DB:-lakehouse_meta}
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+    mem_limit: 256m
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U ${POSTGRES_USER:-lakehouse} -d ${POSTGRES_DB:-lakehouse_meta}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  iceberg-rest:
+    image: tabulario/iceberg-rest@sha256:312ec6f6d3cbb7e610c1c918eee1e642d20bd8694f285823ae423025b65d4e51
+    user: root
+    environment:
+      JAVA_TOOL_OPTIONS: -Xmx256m -XX:ActiveProcessorCount=2
+      CATALOG_WAREHOUSE: s3://warehouse/
+      CATALOG_URI: jdbc:sqlite:/data/catalog/local-nine.db
+      CATALOG_IO__IMPL: org.apache.iceberg.aws.s3.S3FileIO
+      CATALOG_S3_ENDPOINT: http://minio:9000
+      CATALOG_S3_PATH__STYLE__ACCESS: "true"
+      CATALOG_S3_ACCESS__KEY__ID: ${MINIO_ROOT_USER:-minioadmin}
+      CATALOG_S3_SECRET__ACCESS__KEY: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+      AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-minioadmin}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+      AWS_REGION: us-east-1
+    volumes:
+      - local_catalog_data:/data/catalog
+    mem_limit: 448m
+    depends_on:
+      minio: {condition: service_healthy}
+
+  trino:
+    image: trinodb/trino@sha256:94703aecb56dd0ee138aa45e49efa9a9f23e4af54134c83a6631aa629fea16f3
+    user: root
+    mem_limit: 1536m
+    cpus: 2
+    ports:
+      - 127.0.0.1:${TRINO_HOST_PORT:-18080}:8080
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+    entrypoint: [/bin/bash, -c]
+    command:
+      - |
+        printf '%s\n' 'connector.name=iceberg' 'iceberg.catalog.type=rest' 'iceberg.rest-catalog.uri=http://iceberg-rest:8181' 'iceberg.rest-catalog.warehouse=s3://warehouse' 'fs.native-s3.enabled=true' 's3.endpoint=http://minio:9000' 's3.region=us-east-1' "s3.aws-access-key=$${MINIO_ROOT_USER}" "s3.aws-secret-key=$${MINIO_ROOT_PASSWORD}" 's3.path-style-access=true' > /etc/trino/catalog/iceberg.properties
+        printf '%s\n' 'coordinator=true' 'node-scheduler.include-coordinator=true' 'http-server.http.port=8080' 'query.max-memory=128MB' 'query.max-total-memory=256MB' 'memory.heap-headroom-per-node=256MB' 'task.concurrency=2' 'task.max-worker-threads=4' 'task.min-drivers=4' 'discovery.uri=http://localhost:8080' > /etc/trino/config.properties
+        printf '%s\n' '-server' '-Xmx512M' '-XX:ActiveProcessorCount=2' '-XX:+UseG1GC' '-XX:+ExitOnOutOfMemoryError' '-Djdk.attach.allowAttachSelf=true' > /etc/trino/jvm.config
+        exec /usr/lib/trino/bin/run-trino
+    depends_on:
+      iceberg-rest: {condition: service_started}
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8080/v1/info', timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  runner:
+    image: ${TLCN_SPARK_IMAGE:-tlcn/silver-spark:local}
+    build:
+      context: .
+      dockerfile: docker/silver-spark.Dockerfile
+    user: root
+    working_dir: /workspace
+    mem_limit: 3072m
+    cpus: 2
+    volumes:
+      - .:/workspace:ro
+      - ${SILVER_TEST_RAW_ROOT:?Set complete Raw path}:/workspace/data/raw:ro
+    environment:
+      <<: *local-env
+      TLCN_ISOLATED_REBUILD: "1"
+      JAVA_TOOL_OPTIONS: -XX:ActiveProcessorCount=2
+      SILVER_SHUFFLE_PARTITIONS: "2"
+      PYSPARK_SUBMIT_ARGS: --driver-memory 768m --conf spark.sql.defaultCatalog=spark_catalog --conf spark.sql.catalog.iceberg.type=hadoop --conf spark.sql.catalog.iceberg.warehouse=/tmp/unused-warehouse pyspark-shell
+      SPARK_LOCAL_IP: 127.0.0.1
+      SPARK_LOCAL_HOSTNAME: localhost
+    entrypoint: [python3]
+    command: [/workspace/jobs/silver/spark_api_server.py]
+    depends_on:
+      postgres: {condition: service_healthy}
+      trino: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://localhost:5005/health', timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  airflow-init:
+    <<: *airflow
+    mem_limit: 768m
+    cpus: 1
+    environment:
+      <<: *airflow-env
+      AIRFLOW_ADMIN_USER: ${AIRFLOW_ADMIN_USER:-admin}
+      AIRFLOW_ADMIN_PASSWORD: ${AIRFLOW_ADMIN_PASSWORD:-admin}
+      AIRFLOW_ADMIN_FIRSTNAME: ${AIRFLOW_ADMIN_FIRSTNAME:-Local}
+      AIRFLOW_ADMIN_LASTNAME: ${AIRFLOW_ADMIN_LASTNAME:-Admin}
+      AIRFLOW_ADMIN_EMAIL: ${AIRFLOW_ADMIN_EMAIL:-admin@example.local}
+    depends_on:
+      postgres: {condition: service_healthy}
+      minio: {condition: service_healthy}
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        airflow db migrate
+        python -c "from ingestion.storage.minio_storage import MinioStorage; MinioStorage().ensure_bucket('warehouse')"
+        airflow users create --username "$${AIRFLOW_ADMIN_USER}" --password "$${AIRFLOW_ADMIN_PASSWORD}" --firstname "$${AIRFLOW_ADMIN_FIRSTNAME}" --lastname "$${AIRFLOW_ADMIN_LASTNAME}" --role Admin --email "$${AIRFLOW_ADMIN_EMAIL}"
+
+  airflow-scheduler:
+    <<: *airflow
+    mem_limit: 1536m
+    cpus: 2
+    hostname: airflow-scheduler
+    command: scheduler
+    depends_on:
+      airflow-init: {condition: service_completed_successfully}
+      runner: {condition: service_healthy}
+    healthcheck:
+      test: [CMD-SHELL, 'airflow jobs check --job-type SchedulerJob --hostname "$${HOSTNAME}"']
+      interval: 15s
+      timeout: 10s
+      retries: 12
+      start_period: 30s
+
+  airflow-webserver:
+    <<: *airflow
+    mem_limit: 1024m
+    cpus: 1
+    ports:
+      - 127.0.0.1:${AIRFLOW_PORT:-8085}:8080
+    command: webserver
+    depends_on:
+      airflow-init: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, python, -c, "import json,urllib.request; d=json.load(urllib.request.urlopen('http://localhost:8080/health',timeout=5)); assert d['metadatabase']['status']=='healthy' and d['scheduler']['status']=='healthy'"]
+      interval: 10s
+      timeout: 8s
+      retries: 18
+      start_period: 30s
+
+volumes:
+  local_minio_data:
+  local_postgres_data:
+  local_catalog_data:
+  local_airflow_logs:
+
+networks:
+  default:
+    driver: bridge
+    internal: false

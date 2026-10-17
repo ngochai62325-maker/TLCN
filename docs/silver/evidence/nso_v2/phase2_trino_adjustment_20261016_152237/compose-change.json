@@ -1,7 +1,0 @@
-{
-  "only_change": "services.trino-test.mem_limit",
-  "before_bytes": 1073741824,
-  "after_bytes": 1610612736,
-  "other_services_unchanged": true,
-  "compose_up_executed": false
-}

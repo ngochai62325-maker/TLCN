@@ -1,85 +1,57 @@
-# Nine-source Silver data catalog
+# Danh mục dữ liệu tầng Silver (Nine-Source Data Catalog)
 
-Counts below are the **historical accepted pinned-bundle baseline**, not live
-counts in the fresh `tlcn-local` demo. The new runtime is smoke-validated with
-zero DagRuns and no Bronze/Silver tables loaded; the owner runs the first
-pipeline. See [demo guide](demo_guide.md) and [Phase B](evidence/demo_phase_b_20261017_131025/README.md).
+Số liệu dưới đây là **chuẩn tham chiếu đã được kiểm chứng** trên bộ 21 file Raw đã pin trong [`config/local_raw_manifest.json`](../../config/local_raw_manifest.json) (cùng `data/raw/nso/metadata.txt`).
+Trên một stack `tlcn-local` mới khởi tạo (`0 DagRuns`), các bảng Bronze và Silver chỉ được tạo và nạp dữ liệu sau khi người dùng kích hoạt DAG trên Airflow UI theo [Hướng dẫn trình diễn (`demo_guide.md`)](demo_guide.md).
 
-Initial clean-room native/Trino acceptance passed; after the Docker shutdown,
-read-only Parquet scans and SHA-256 verified every active file of all19 tables
-unchanged. **Full and incremental physical NOOP PASS; see actual run/mode proofs below.**
-See [current evidence](evidence/index.md); this catalog does not promote NSO DRAFT.
+Tất cả các bảng đích trong môi trường local nằm dưới namespace `iceberg.silver_local.`. Đặc tả schema và khóa nghiệp vụ được định nghĩa tại [`contracts/silver/`](../../contracts/silver/).
 
-All targets below have prefix `iceberg.silver_local.`. Schemas and business keys
-are authoritative in [contracts/silver](../../contracts/silver/).
-
-| Bronze source / Silver dataset | Target | Bronze rows | Silver rows | Units |
+| Nguồn Bronze / Dataset Silver | Bảng đích Silver (`iceberg.silver_local.*`) | Số dòng Bronze | Số dòng Silver | Đơn vị chuẩn hóa (`unit`) |
 |---|---|---:|---:|---|
-| `faostat_production` / `faostat_production` | `faostat_production` | 22738 | 22738 | hectare, kg/hectare, tonne |
-| `faostat_monthly_price` / `faostat_monthly_price` | `faostat_monthly_price` | 15334 | 15334 | None, LCU, SLC, USD |
-| `faostat_supply_utilization` / `faostat_supply_utilization` | `faostat_supply_utilization` | 36380 | 36380 | tonne |
-| `faostat_trade` / `faostat_trade` | `faostat_trade` | 1226470 | 1226470 | 1000 USD, tonne |
-| `usda_psd` / `usda_psd` | `usda_rice_psd` | 15 | 990 | 1000 MT, fraction, MT/HA, 1000 HA |
-| `usda_rice_yearbook` / `usda_rice_yearbook` | `usda_rice_yearbook` | 13131 | 12936 | USD/tonne |
-| `worldbank_pinksheet` / `worldbank_pinksheet` | `worldbank_commodity_monthly` | 792 | 56232 | USD/tonne, USD/kg, USD/barrel, USD/troy_oz, USD/dmtu, USD/MMBtu, USD/cubic_meter, index(2010=100), cents/sheet |
-| `thitruongnongsan` / `thitruongnongsan` | `thitruongnongsan` | 20394 | 20387 | VND/kg |
-| `nso_vietnam` / `nso_vietnam_v2` | `nso_rice_statistics_v2` | 833 | 23060 | hectare, tonne, percent, kg/hectare |
+| `faostat_production` / `faostat_production` | `faostat_production` | 22.738 | 22.738 | `hectare`, `kg/hectare`, `tonne` |
+| `faostat_monthly_price` / `faostat_monthly_price` | `faostat_monthly_price` | 15.334 | 15.334 | `None`, `LCU`, `SLC`, `USD` |
+| `faostat_supply_utilization` / `faostat_supply_utilization` | `faostat_supply_utilization` | 36.380 | 36.380 | `tonne` |
+| `faostat_trade` / `faostat_trade` | `faostat_trade` | 1.226.470 | 1.226.470 | `1000 USD`, `tonne` |
+| `usda_psd` / `usda_psd` | `usda_rice_psd` | 15 | 990 | `1000 MT`, `fraction`, `MT/HA`, `1000 HA` |
+| `usda_rice_yearbook` / `usda_rice_yearbook` | `usda_rice_yearbook` | 13.131 | 12.936 | `USD/tonne` |
+| `worldbank_pinksheet` / `worldbank_pinksheet` | `worldbank_commodity_monthly` | 792 | 56.232 | `USD/tonne`, `USD/kg`, `USD/barrel`, `USD/troy_oz`, `USD/dmtu`, `USD/MMBtu`, `USD/cubic_meter`, `index(2010=100)`, `cents/sheet` |
+| `thitruongnongsan` / `thitruongnongsan` | `thitruongnongsan` | 20.394 | 20.387 | `VND/kg` |
+| `nso` / `nso` | `nso_rice_statistics` | 833 | 23.060 | `hectare`, `tonne`, `percent`, `kg/hectare` |
 
-Total Silver: **1414527 observations**.
-USDA PSD Bronze is wide; its15 source records expand to990 Silver observations.
-Yearbook removes195 duplicates. World Bank excludes13,464 synthetic empty
-observations. Market prices retain20,387 rows after4 quarantined conflicts and
-3 duplicates. NSO13 structural source records are recorded separately as exclusions.
+- **Tổng số quan sát tại tầng Silver**: **1.414.527 quan sát**.
+- `usda_psd` ở tầng Bronze có dạng bảng rộng (15 dòng), sau khi unpivot tạo thành 990 quan sát Silver.
+- `usda_rice_yearbook` loại bỏ 195 bản ghi trùng lặp.
+- `worldbank_pinksheet` loại bỏ 13.464 ô trống thuộc 17 cột trailing rỗng không có tên hàng hóa.
+- `thitruongnongsan` giữ lại 20.387 dòng hợp lệ sau khi cách ly 4 dòng xung đột giá vào `dead_letters` và khử 3 dòng trùng lặp.
+- `nso` chuẩn hóa 13 bảng CSV (833 dòng Bronze) thành **23.060 quan sát** và ghi nhận **13 bản ghi loại trừ cấu trúc** vào `dead_letters` (`source_dataset = 'nso_exclusions'`).
 
-## Grain and business keys
+## 1. Độ mịn dữ liệu (Grain) & Khóa nghiệp vụ (Business Keys)
 
-- **faostat_production**: `country_code, commodity_code, year, element_code`.
-- **faostat_monthly_price**: `country_code, commodity_code, year, month_code, element_code`.
-- **faostat_supply_utilization**: `country_code, commodity_code, year, element_code`.
-- **faostat_trade**: `reporter_country_code, partner_country_code, commodity_code, year, element_code`.
-- **usda_psd**: `country, commodity, attribute, market_year`.
-- **usda_rice_yearbook**: `location, commodity_class, year, reference_period, statistic_type`.
-- **worldbank_pinksheet**: `commodity_code, period_date`.
-- **thitruongnongsan**: `market, commodity, price_type, unit, currency, source, date`.
-- **nso_vietnam_v2**: `source_table, source_geography_key, year, measure, season, statistic_kind`.
+- **`faostat_production`**: `country_code, commodity_code, year, element_code`
+- **`faostat_monthly_price`**: `country_code, commodity_code, year, month_code, element_code`
+- **`faostat_supply_utilization`**: `country_code, commodity_code, year, element_code`
+- **`faostat_trade`**: `reporter_country_code, partner_country_code, commodity_code, year, element_code`
+- **`usda_psd`**: `country, commodity, attribute, market_year`
+- **`usda_rice_yearbook`**: `location, commodity_class, year, reference_period, statistic_type`
+- **`worldbank_pinksheet`**: `commodity_code, period_date`
+- **`thitruongnongsan`**: `market, commodity, price_type, unit, currency, source, date`
+- **`nso`**: `source_table, source_geography_key, year, measure, season, statistic_kind`
 
-Business keys are unique in the initial independent Trino validation. Current
-unchanged active-file hashes preserve that accepted content. Keep year/season,
-measure, geography level, price source and currency distinctions present in the
-contracts; do not sum overlapping geographic levels, yields, indices or prices.
+## 2. Chất lượng dữ liệu & Bảng `dead_letters`
 
-## Schema and quality
+- Các quy tắc kiểm tra chất lượng (DQ rules) được định nghĩa trong từng file YAML tại [`contracts/silver/`](../../contracts/silver/).
+- Bản ghi vi phạm quy tắc có `action: QUARANTINE` sẽ bị chặn không ghi vào bảng Silver và được đưa vào `iceberg.silver_local.dead_letters`.
+- Bản ghi vi phạm quy tắc `LOG` / `KEEP` vẫn được giữ trong bảng Silver kèm mảng cảnh báo `_dq_warnings` (ví dụ: 236 dòng `Residuals` âm trong `faostat_supply_utilization`, 29 dòng cảnh báo trong `thitruongnongsan`).
+- Bảng `iceberg.silver_local.dead_letters` có tổng cộng **17 bản ghi**:
+  - `4` bản ghi từ `thitruongnongsan` (xung đột giá cho cùng khóa nghiệp vụ).
+  - `13` bản ghi từ `nso_exclusions` (các dòng cấu trúc không phải quan sát số liệu trong 13 bảng CSV của NSO).
 
-Contracts declare nullable fields, DECIMAL/date/timestamp types, required keys,
-source mappings, DQ rules and partitions. Existing target incompatibility fails
-closed; it does not trigger automatic schema migration. Invalid observations go
-to quarantine; warnings retain valid observations. The SUA negative Residuals
-policy retains236 warnings. Market price warnings number29.
+## 3. Ngữ nghĩa chuẩn hóa nguồn `nso` (`nso_rice_statistics`)
 
-`dead_letters` has17 distinct quarantine IDs:4 `thitruongnongsan` conflict
-records and13 `nso_vietnam_v2_exclusions` structural records. Structural exclusions
-are not counted as invalid numeric NSO observations. Its original pipeline_run_id
-and detected_at are unchanged; the strict replay check must preserve them.
-
-## NSO normalization
-
-NSO contains23,060 observations:22,114 numeric,946 explicit missing and5 genuine
-zeros. Area is hectare (factor1000), production tonne (factor1000), yield
-kg/hectare (factor100), development index percent (factor1). Annual and four
-season labels remain distinct. Quantity and base-100 index are separate statistics.
-
-Raw geography labels and candidate names remain traceable; candidate names do
-not define keys. Unverified geography codes and historical boundary versions are
-NULL. V06.12 has explicit national-scope metadata. No province is invented or
-historically remapped. See [NSO semantics](nso_v2.md).
-
-## Lineage and evidence
-
-All targets retain the eight Bronze audit fields. NSO also stores the pinned
-Bronze read snapshot as BIGINT. `bronze_read_snapshot_id` is not inferred from
-`_source_snapshot_id`; it comes from the reader context. Physical snapshot/UUID
-and per-source metrics are in the [initial acceptance report](evidence/nso_v2/phase3_final_20261017_024536/report.json).
-After-shutdown file hashes and persisted task states are in the
-[restart evidence](evidence/noop_restart_20261017_063554/).
-
-Runbook: [local startup](local_runbook.md). Architecture: [components and flow](architecture.md).
+- **Tổng số quan sát**: **23.060 dòng**, bao gồm **22.114** quan sát có giá trị số (`value IS NOT NULL`), **946** quan sát khuyết dữ liệu tường minh (`missing_reason IS NOT NULL`, `value IS NULL`), và **5** quan sát có giá trị `0` thực sự.
+- **Đơn vị & Hệ số quy đổi**:
+  - Diện tích (`area`): `Nghìn ha` → `hectare` (`conversion_factor = 1000`).
+  - Sản lượng (`production`): `Nghìn tấn` → `tonne` (`conversion_factor = 1000`).
+  - Năng suất (`yield`): `Tạ/ha` → `kg/hectare` (`conversion_factor = 100`).
+  - Chỉ số phát triển (`index` / `PERCENT_PREVIOUS_YEAR_100`): `%` → `percent` (`conversion_factor = 1`).
+- **Mùa vụ (`season`)**: Phân biệt rõ `annual`, `winter_spring` (Đông Xuân), `summer_autumn_fall` (Hè Thu - Mùa), `summer_autumn` (Hè Thu), `autumn_winter` (Thu Đông), `main_rainy` (Mùa).
+- **Địa lý & Truy vết**: Giữ nguyên `geography_name_raw`, `source_geography_key`, và phân cấp `geography_level` (`COUNTRY`, `REGION`, `PROVINCE_CITY`). Mọi dòng đều lưu thêm `bronze_read_snapshot_id` (`BIGINT`), `metadata_version = "nso-v2-20261015.1"` và `unit_mapping_version = "nso-units-20261015.1"`.

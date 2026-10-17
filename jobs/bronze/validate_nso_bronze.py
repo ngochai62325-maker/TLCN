@@ -22,8 +22,8 @@ def main():
     args = parser.parse_args()
     registry = SourceRegistry()
     registry.load()
-    config = registry.get_source("nso_vietnam")
-    inventory = json.loads((ROOT / "config/silver/nso_source_tables.json").read_text(encoding="utf-8"))
+    config = registry.get_source("nso")
+    inventory = json.loads((ROOT / "config/silver/nso_v2_metadata.json").read_text(encoding="utf-8"))["tables"]
     expected_columns = {name for source in inventory.values() for name in source["source_columns"]}
     namespace = f"bronze_nso_validation_{uuid.uuid4().hex[:12]}"
     run_id = f"nso_cold_start_{uuid.uuid4().hex[:12]}"
@@ -37,11 +37,11 @@ def main():
             filename = files[0]
             expected_counts[filename] = chunk.record_count
             writer.write_chunk(
-                "nso_vietnam", chunk.data, run_id, run_id,
+                "nso", chunk.data, run_id, run_id,
                 source_checksum=chunk.checksum or "validation",
                 chunk_id=chunk.chunk_id, source_snapshot_id=0, source_file=filename,
             )
-    table_name = f'iceberg."{namespace}"."nso_vietnam"'
+    table_name = f'iceberg."{namespace}"."nso"'
     _, schema_rows = writer.execute_query(f"DESCRIBE {table_name}")
     types = {row[0]: row[1] for row in schema_rows}
     if any(types.get(name) != "varchar" for name in expected_columns):
@@ -56,7 +56,7 @@ def main():
     if not names:
         raise AssertionError("Province source labels were lost during Bronze casting")
     report = {
-        "status": "SUCCESS", "table": f"iceberg.{namespace}.nso_vietnam",
+        "status": "SUCCESS", "table": f"iceberg.{namespace}.nso",
         "run_id": run_id, "source_files": actual_counts,
         "records": sum(actual_counts.values()), "source_fields": len(expected_columns),
         "all_source_fields_varchar": True, "distinct_raw_geography_labels": len(names),

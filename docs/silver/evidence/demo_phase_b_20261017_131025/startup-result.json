@@ -1,7 +1,0 @@
-{
-  "exit_code": 1,
-  "script": "scripts/local_demo/start.ps1",
-  "private_log": "Ignored .pytest_cache/demo_phase_b/startup.private.log",
-  "pipeline_triggered": false,
-  "resource_admission": "PASS3samples"
-}
