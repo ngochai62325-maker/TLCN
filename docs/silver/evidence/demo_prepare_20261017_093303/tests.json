@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "new_demo_config_and_safety_tests": {
+    "command": "python -m unittest discover -s tests/unit -p test_local_demo.py -v",
+    "passed": 8,
+    "skipped": 0
+  },
+  "existing_local_nine_dag_tests": {
+    "passed": 2,
+    "evidence": "dag-regression.json"
+  },
+  "readonly_existing_helpers": "PASS: native PowerShell stdin quoting, persisted paused SQL gate, no canonical containers, competing-stack guard",
+  "check_only": "PASS after correcting omitted false network.internal in Compose JSON",
+  "readonly_existing_readiness": "PASS:9 sources,14 Silver tasks, paused, scheduleNone,4 existing runs; not a fresh demo smoke",
+  "not_run": [
+    "image build",
+    "new project startup",
+    "actual fixed8085 publication",
+    "fresh demo service smoke",
+    "Bronze/Silver pipeline",
+    "reset/delete/stop scripts in mutation mode",
+    "full historical206-test suite"
+  ],
+  "business_logic_changed": false
+}

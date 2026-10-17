@@ -5,6 +5,7 @@ MinIO, PostgreSQL và Trino. Profile `local_nine` tích hợp9 nguồn Bronze �
 namespace local là `iceberg.silver_local`.
 
 - [Quickstart và handoff laptop mới](docs/silver/local_runbook.md)
+- [Trình diễn: một local stack, Airflow localhost:8085](docs/silver/demo_guide.md)
 - [Kiến trúc và tài liệu Silver](docs/silver/README.md)
 - [Chín nguồn / schema / units / lineage](docs/silver/data_catalog.md)
 - [Validation và evidence](docs/silver/validation.md)

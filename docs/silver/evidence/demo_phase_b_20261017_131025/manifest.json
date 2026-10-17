@@ -1,0 +1,136 @@
+{
+  "status": "LOCAL_DEMO_RUNTIME_READY_PENDING_OWNER_PIPELINE",
+  "files": [
+    {
+      "path": "actions.json",
+      "bytes": 41028,
+      "sha256": "43a4147dcbf90f8131230f790521428df9d9af8ffeef5567e2e82bbf158f075f"
+    },
+    {
+      "path": "airflow-readback.json",
+      "bytes": 3227,
+      "sha256": "7b7168c54ea298fdf7e1033cdce2866a871f7586c66cb6e45693748535552342"
+    },
+    {
+      "path": "cleanup-result.json",
+      "bytes": 31484,
+      "sha256": "7c2c639cdeec4c0eb89f6d50f155e3d0f8b127a03f69e5b7a08d20b0614a785d"
+    },
+    {
+      "path": "controlled-stop.json",
+      "bytes": 2029,
+      "sha256": "0faca93f850e98a17c9ab1597443d7a4c216bc4e940a3f4e38c50fc37d8d71d4"
+    },
+    {
+      "path": "documentation-links.json",
+      "bytes": 68,
+      "sha256": "43e6a874dc832e0586f1ed0a4ec74952b81a425ce54b077794f354c6ca22a9b4"
+    },
+    {
+      "path": "effective-delete-plan.json",
+      "bytes": 26461,
+      "sha256": "c36cc4b53ace94f2b4c08eb9437101c13eef25564847a42942b581f2e0cefb37"
+    },
+    {
+      "path": "final-memory.json",
+      "bytes": 2303,
+      "sha256": "a01d0b11bce5fcb41493078e7516a287f0e770e45b400987b75f0695821d8e7f"
+    },
+    {
+      "path": "final-runtime-readback.json",
+      "bytes": 12771,
+      "sha256": "904a9aa721b38b6f997efedbfb94d416e7f3a1a6021e5e6f7d86cdb1efdb5cf6"
+    },
+    {
+      "path": "helper-corrections.json",
+      "bytes": 720,
+      "sha256": "448a511e3b4bc65f57c12af7f4923192e4c640d48b4a222c76a957fd57f3abed"
+    },
+    {
+      "path": "identity-preflight.json",
+      "bytes": 13185,
+      "sha256": "19064ced6cfbc86938c3b1f6a0129c9fde1d26e78b2c3e593592af546a1cbee6"
+    },
+    {
+      "path": "lifecycle-start.json",
+      "bytes": 1130,
+      "sha256": "d44d237eda5e5ad9e9c1923a4065d5be93bc117cffe38f86fb006edbb5a27a55"
+    },
+    {
+      "path": "lifecycle-stop-initial.json",
+      "bytes": 1130,
+      "sha256": "f2a73194624a6e4d0079676a357360a29601c3cb781d6b38aa80bc160925e6bc"
+    },
+    {
+      "path": "lifecycle-stop.json",
+      "bytes": 1130,
+      "sha256": "d44d237eda5e5ad9e9c1923a4065d5be93bc117cffe38f86fb006edbb5a27a55"
+    },
+    {
+      "path": "postgres-fresh-gate.json",
+      "bytes": 517,
+      "sha256": "ddee54c47aed2c239cf6415589e6fb78efad3bb9eeaa608044edd706eacd55e3"
+    },
+    {
+      "path": "postgres-preflight-sample.json",
+      "bytes": 374,
+      "sha256": "fd66284c2696b38966c353d9802fe84e2258c867e42c3fe472dcdb93badd4dde"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2147,
+      "sha256": "171d955ef5d72d959d541c729887d295b7a77b3a73c3cb832d3a753055c29d8d"
+    },
+    {
+      "path": "report.json",
+      "bytes": 11837,
+      "sha256": "fbc81d57becf395a4168e1d91c66f45a0770eb8b4573445284b5b073cd1fa531"
+    },
+    {
+      "path": "repository-cleanup-plan.md",
+      "bytes": 2639,
+      "sha256": "4eb05f92a4bba4dc38123a3bf668de12eb550aa70f2dfb36a7c1fd6cd6f2acf1"
+    },
+    {
+      "path": "reset-plan-only.json",
+      "bytes": 1445,
+      "sha256": "9743739c793225d51c64edb0b3cd85fceaf5ec5303893bedb0274747079f656a"
+    },
+    {
+      "path": "resources.json",
+      "bytes": 857,
+      "sha256": "c468e213cc493e145f7fcb02535b533029a56feba7d86743ce8b761ab3c8ce54"
+    },
+    {
+      "path": "safety-preflight.json",
+      "bytes": 24464,
+      "sha256": "f404c4eba83a6a3da731605e468903a3d75a4ad3a7f842896d2a675ecce6558a"
+    },
+    {
+      "path": "secret-scan.json",
+      "bytes": 12755,
+      "sha256": "643f7b004643030603fb27667d260c648ecd4bd05f74c8b4cc705e7bf0525797"
+    },
+    {
+      "path": "start-existing.json",
+      "bytes": 1445,
+      "sha256": "fb8596b83b3a6d7efa45880d0ae04209ba707d6e432469668d50d2f4784a8a8f"
+    },
+    {
+      "path": "startup-result.json",
+      "bytes": 218,
+      "sha256": "62d0ff08dee5365884dbe724a458de40a6151fb3f60478207db00ceaf14ed91c"
+    },
+    {
+      "path": "stop-checker-correction.json",
+      "bytes": 431,
+      "sha256": "b909babcffd831c52ee1ac1341958103488da0d244bff9d1c62dfd3b93297fcb"
+    },
+    {
+      "path": "tests.json",
+      "bytes": 1070,
+      "sha256": "22f48b4b48146deaae6b7970050545a2dee58fc249508574ff8b042ad54b9d6f"
+    }
+  ],
+  "self_excluded": true
+}

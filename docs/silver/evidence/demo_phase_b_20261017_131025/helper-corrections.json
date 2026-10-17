@@ -1,0 +1,7 @@
+{
+  "startup_smoke_initial": "All7services healthy but helper root JSON array was not enumerated by Windows PowerShell5. Fixed explicit foreach, no recreate; start-existing/status smoke passed. Original startup exit1 retained.",
+  "lifecycle_stop_initial": "Docker top without PID column failed inside pre-signal idle guard; no signal or pause executed.8container IDs and4volumes retained.",
+  "fix": "Request pid,stat,comm; reject live Java processes using PID-aware regex",
+  "regression": "10focused config/safety tests PASS; includes actual JSON root array and live-JVM guards",
+  "retry_scope": "Only utility stop/start test after proving no previous signal; no writer retry, reset or pipeline execution."
+}

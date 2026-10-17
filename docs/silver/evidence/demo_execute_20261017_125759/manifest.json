@@ -1,0 +1,21 @@
+{
+  "status": "BLOCKED_MANIFEST_DRIFT",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "81d439cb388e3b29c817dcda6db581a27accce4c6672f64b4867b576796ab8d9",
+      "bytes": 335
+    },
+    {
+      "path": "report.json",
+      "sha256": "65650cc0f5931ecc48379735313496840d9143daecf234d6468e2560784a5953",
+      "bytes": 8871
+    },
+    {
+      "path": "revised-deletion-proposal.json",
+      "sha256": "e521ed7ec95bc95f4eae95ff061530681629baffd233e529d1382d8943539ef3",
+      "bytes": 32208
+    }
+  ],
+  "self_excluded": true
+}

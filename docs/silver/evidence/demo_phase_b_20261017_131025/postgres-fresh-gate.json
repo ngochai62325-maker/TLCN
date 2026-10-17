@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-17T13:13:36.659011+00:00",
+  "postgres_id": "5059f13b8d69b9d9cdf6148fcb4089b176ff4f12a991164b31b23a2c642fd65d",
+  "counts": {
+    "active_runs": 0,
+    "active_tasks": 0,
+    "source_locks": 0,
+    "ingestion_in_progress": 0,
+    "dags": [
+      {
+        "id": "rice_lakehouse_ingestion",
+        "paused": true
+      },
+      {
+        "id": "rice_lakehouse_silver_pipeline",
+        "paused": true
+      }
+    ],
+    "run_states": null
+  },
+  "runtime_actions_taken": []
+}

@@ -1,0 +1,6 @@
+{
+  "issue": "Docker inspect returns Mounts in varying order. Initial checker compared raw array order and stopped after scheduler exit0.",
+  "read_only_proof": "Two successive webserver inspections: Running true, same image, raw order differed, normalized mounts identical.",
+  "correction": "Compare sorted Mounts; resume only unsignaled services using journal; do not repeat scheduler signal.",
+  "runtime_drift": false
+}

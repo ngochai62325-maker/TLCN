@@ -1,0 +1,252 @@
+{
+  "status": "LOCAL_DEMO_RUNTIME_READY_PENDING_OWNER_PIPELINE",
+  "at": "2026-10-17T13:37:36.954265+00:00",
+  "approval_manifest": "../demo_execute_20261017_125759/revised-deletion-proposal.json",
+  "approval_manifest_sha256": "e521ed7ec95bc95f4eae95ff061530681629baffd233e529d1382d8943539ef3",
+  "volume_exports_backup": "EXPLICITLY_WAIVED_BY_OWNER_NOT_RUN",
+  "cleanup": {
+    "status": "PASS",
+    "removed_counts": {
+      "containers": 64,
+      "networks": 7,
+      "volumes": 15
+    },
+    "detail": "cleanup-result.json",
+    "images_deleted": 0,
+    "windows_bind_directories_deleted": 0,
+    "forced_kills": 0,
+    "retained_containers": 5,
+    "retained_volumes": 19,
+    "retained_dependency_network": "tlcn-silver-release-prep-20261013_default",
+    "unknown_anonymous_volume_retained": "62df2c0d38a4481c2ab07cfcc1549ef7cb726b36f54a230ccd8e42b9c2fb99ef"
+  },
+  "resource_admission": [
+    {
+      "at": "2026-10-17T13:17:49.193135+00:00",
+      "windows_available_gib": 5.542,
+      "wsl_available_gib": 6.849,
+      "wsl_swap_free_kib": 0
+    },
+    {
+      "at": "2026-10-17T13:18:20.188425+00:00",
+      "windows_available_gib": 5.621,
+      "wsl_available_gib": 6.84,
+      "wsl_swap_free_kib": 0
+    },
+    {
+      "at": "2026-10-17T13:18:51.199332+00:00",
+      "windows_available_gib": 5.597,
+      "wsl_available_gib": 6.841,
+      "wsl_swap_free_kib": 0
+    }
+  ],
+  "canonical_project": "tlcn-local",
+  "airflow_ui": "http://localhost:8085",
+  "login": "local_nine; public local-demo credential documented in demo guide",
+  "services_running": 7,
+  "initializer": "exit0; never rerun on reopening",
+  "bronze_source_ids": [
+    "faostat_production",
+    "faostat_monthly_price",
+    "faostat_supply_utilization",
+    "faostat_trade",
+    "usda_psd",
+    "usda_rice_yearbook",
+    "worldbank_pinksheet",
+    "thitruongnongsan",
+    "nso_vietnam"
+  ],
+  "silver_targets": {
+    "faostat_production": "iceberg.silver_local.faostat_production",
+    "faostat_monthly_price": "iceberg.silver_local.faostat_monthly_price",
+    "faostat_supply_utilization": "iceberg.silver_local.faostat_supply_utilization",
+    "faostat_trade": "iceberg.silver_local.faostat_trade",
+    "usda_psd": "iceberg.silver_local.usda_rice_psd",
+    "usda_rice_yearbook": "iceberg.silver_local.usda_rice_yearbook",
+    "worldbank_pinksheet": "iceberg.silver_local.worldbank_commodity_monthly",
+    "thitruongnongsan": "iceberg.silver_local.thitruongnongsan",
+    "nso_vietnam_v2": "iceberg.silver_local.nso_rice_statistics_v2"
+  },
+  "silver_tasks": [
+    "start",
+    "end",
+    "gate_check_bronze",
+    "transform_faostat_production",
+    "transform_faostat_monthly_price",
+    "transform_faostat_supply_utilization",
+    "transform_faostat_trade",
+    "transform_usda_psd",
+    "transform_usda_rice_yearbook",
+    "transform_worldbank_pinksheet",
+    "transform_thitruongnongsan",
+    "transform_nso_vietnam_v2",
+    "silver_data_quality_audit",
+    "publish_silver_signal"
+  ],
+  "dag_states": {
+    "paused": true,
+    "schedule": null,
+    "catchup": false,
+    "retries": 0,
+    "dag_runs": 0,
+    "task_instances": 0
+  },
+  "actual_localhost_http": "PASS",
+  "trino_rest_pyiceberg_readback": "PASS; SELECT1/SHOW SCHEMAS, no lakehouse tables loaded",
+  "raw21_plus_support": "PASS sizes/SHA256 external Windows bind",
+  "nso_production_contract": "DRAFT_LOCAL_ONLY_OVERLAY",
+  "source_contract_business_logic": "UNCHANGED",
+  "images": {
+    "runner": {
+      "id": "sha256:0486052e332a967a4143a6a8e1be108197a8a8b3f935992e2c292b3da1feb3c6",
+      "configured_reference": "tlcn/silver-spark:local",
+      "repo_tags": [
+        "tlcn/silver-spark:local"
+      ],
+      "repo_digests": [
+        "tlcn/silver-spark@sha256:0486052e332a967a4143a6a8e1be108197a8a8b3f935992e2c292b3da1feb3c6"
+      ],
+      "dockerfile": "docker/silver-spark.Dockerfile"
+    },
+    "airflow-scheduler": {
+      "id": "sha256:38745b2e218a3686db291b0f77e93ed81dc23e8f9f348f7767f2a523aa5c9dcf",
+      "configured_reference": "tlcn/silver-airflow:local",
+      "repo_tags": [
+        "tlcn/silver-airflow:local"
+      ],
+      "repo_digests": [
+        "tlcn/silver-airflow@sha256:38745b2e218a3686db291b0f77e93ed81dc23e8f9f348f7767f2a523aa5c9dcf"
+      ],
+      "dockerfile": "docker/silver-airflow.Dockerfile"
+    },
+    "airflow-webserver": {
+      "id": "sha256:38745b2e218a3686db291b0f77e93ed81dc23e8f9f348f7767f2a523aa5c9dcf",
+      "configured_reference": "tlcn/silver-airflow:local",
+      "repo_tags": [
+        "tlcn/silver-airflow:local"
+      ],
+      "repo_digests": [
+        "tlcn/silver-airflow@sha256:38745b2e218a3686db291b0f77e93ed81dc23e8f9f348f7767f2a523aa5c9dcf"
+      ],
+      "dockerfile": "docker/silver-airflow.Dockerfile"
+    }
+  },
+  "utility_tests": {
+    "status": "PASS",
+    "command": "python -m unittest discover -s tests/unit -p test_local_demo.py -v",
+    "focused_tests_passed": 10,
+    "scope": [
+      "resolved Compose networking/routing/persistence/caps",
+      "Windows PowerShell syntax",
+      "root JSON array enumeration",
+      "Docker top PID/live-JVM guard",
+      "stop refuses active writer",
+      "reset defaults to plan-only and requires exact confirmation",
+      "check-only never starts/builds"
+    ],
+    "actual_utility_smoke": {
+      "status": "PASS",
+      "start_existing": "8IDs unchanged; no initializer rerun",
+      "stop_start": "8IDs and4volume names/CreatedAt unchanged",
+      "reset": "PLAN_ONLY; DeleteData never called",
+      "status_smoke": "14tasks/9sources,paused,0runs,HTTP/services PASS"
+    },
+    "historical_206_suite": "NOT_RERUN; core sources/contracts/locks unchanged, historical evidence retained",
+    "fresh_pipeline_e2e": "NOT_RUN_OWNER_TRIGGER_REQUIRED",
+    "corrections": "helper-corrections.json preserves initial startup/stop failures and fixes; no hidden recreate/reset"
+  },
+  "readback_detail": "final-runtime-readback.json",
+  "repository_cleanup": "PLAN_ONLY_repository-cleanup-plan.md",
+  "old_shared_metadata_drift": "Owner accepted loss; not investigated or restored",
+  "fresh_bronze_silver_e2e": "NOT_RUN_OWNER_WILL_TRIGGER",
+  "pipeline_triggered": false,
+  "gold_production_cron_consumer": "NOT_ENABLED",
+  "git": {
+    "head": "e4cd47db6654a8aa0494b03e6f0a09e845a7b58d",
+    "committed": false,
+    "pushed": false,
+    "phase_a_changes_preserved": true,
+    "uncommitted_paths": [
+      ".env.local.example",
+      "README.md",
+      "compose.cleanroom-ui-8085.yml",
+      "compose.local.yml",
+      "docs/silver/README.md",
+      "docs/silver/data_catalog.md",
+      "docs/silver/demo_guide.md",
+      "docs/silver/evidence/demo_execute_20261017_125759/README.md",
+      "docs/silver/evidence/demo_execute_20261017_125759/manifest.json",
+      "docs/silver/evidence/demo_execute_20261017_125759/report.json",
+      "docs/silver/evidence/demo_execute_20261017_125759/revised-deletion-proposal.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/README.md",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/actions.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/airflow-readback.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/cleanup-result.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/controlled-stop.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/effective-delete-plan.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/final-memory.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/final-runtime-readback.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/helper-corrections.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/identity-preflight.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/lifecycle-start.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/lifecycle-stop-initial.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/lifecycle-stop.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/postgres-fresh-gate.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/postgres-preflight-sample.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/report.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/repository-cleanup-plan.md",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/reset-plan-only.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/resources.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/safety-preflight.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/secret-scan.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/start-existing.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/startup-result.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/stop-checker-correction.json",
+      "docs/silver/evidence/demo_phase_b_20261017_131025/tests.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/README.md",
+      "docs/silver/evidence/demo_prepare_20261017_093303/backup-plan.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/catalog-baseline-comparison.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/catalog-comparison-initial-screening.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/dag-regression.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/deletion-manifest.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/docker-inventory.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/existing-readiness-probe.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/git-and-backup.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/manifest.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/port-investigation.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/raw-verification.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/report.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/resources.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/runtime-readonly.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/secret-scan.json",
+      "docs/silver/evidence/demo_prepare_20261017_093303/tests.json",
+      "docs/silver/evidence/index.md",
+      "docs/silver/local_runbook.md",
+      "docs/silver/validation.md",
+      "scripts/local_demo/_common.ps1",
+      "scripts/local_demo/reset.ps1",
+      "scripts/local_demo/start.ps1",
+      "scripts/local_demo/status.ps1",
+      "scripts/local_demo/stop.ps1",
+      "tests/unit/test_local_demo.py"
+    ]
+  },
+  "recovery_disclosure": "Initial startup smoke failed on PowerShell5 JSON enumeration; status/start-existing passed after minimal helper fix. First utility stop failed on Docker top missing PID before any signal; corrected and actual stop/start passed without recreate or changed volume IDs. Original failures retained. Private execution checker ordering/journal-name errors occurred before pending actions and were corrected after state reconciliation.",
+  "final_checks": {
+    "all_silver_local_md_links": 249,
+    "broken_links": 0,
+    "git_diff_check": "PASS",
+    "protected_source_contract_history_diff": "EMPTY",
+    "original_images_retained": true,
+    "container_cgroup_oom_events": "0 for every running demo service",
+    "no_git_index_change": true,
+    "second_laptop": "NOT_TESTED",
+    "private_secret_scan": "PASS",
+    "final_metadata_readonly": {
+      "dag_runs": 0,
+      "task_instances": 0,
+      "paused": true
+    },
+    "at": "2026-10-17T13:41:32.619505+00:00"
+  }
+}

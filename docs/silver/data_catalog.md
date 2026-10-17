@@ -1,5 +1,10 @@
 # Nine-source Silver data catalog
 
+Counts below are the **historical accepted pinned-bundle baseline**, not live
+counts in the fresh `tlcn-local` demo. The new runtime is smoke-validated with
+zero DagRuns and no Bronze/Silver tables loaded; the owner runs the first
+pipeline. See [demo guide](demo_guide.md) and [Phase B](evidence/demo_phase_b_20261017_131025/README.md).
+
 Initial clean-room native/Trino acceptance passed; after the Docker shutdown,
 read-only Parquet scans and SHA-256 verified every active file of all19 tables
 unchanged. **Full and incremental physical NOOP PASS; see actual run/mode proofs below.**

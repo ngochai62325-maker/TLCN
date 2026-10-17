@@ -1,4 +1,11 @@
-# Validation ? local nine-source Silver
+# Validation — local nine-source Silver
+
+Current fresh demo: **runtime smoke PASS**,10 config/safety tests PASS and actual
+stop/start retained8 container IDs/4 volumes. Both DAGs paused,0 DagRuns; its
+Bronze/Silver E2E is **NOT_RUN** until owner trigger. See
+[Phase B](evidence/demo_phase_b_20261017_131025/README.md).
+The acceptance and206-test results below describe the retired clean-room run;
+its runtime data was subsequently deleted under explicit owner approval.
 
 Data acceptance: **PASS**. Full and incremental strict physical NOOP: **PASS**.
 Final cleanup regression: **206 PASS,1 opt-in SKIP**. Git secret/style review PASS; final local commit is discoverable from the report history.

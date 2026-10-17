@@ -1,0 +1,442 @@
+{
+  "at": "2026-10-17T09:38:41.668637+00:00",
+  "postgres": {
+    "shared": {
+      "database": "airflow",
+      "dags": [
+        {
+          "id": "rice_lakehouse_silver_pipeline",
+          "paused": true
+        },
+        {
+          "id": "rice_lakehouse_ingestion",
+          "paused": true
+        }
+      ],
+      "active_runs": 0,
+      "active_tasks": 0,
+      "historical_scheduled_tasks": 0,
+      "dag_run_count": 0,
+      "ingestion_runs": 0,
+      "ingestion_in_progress": 0,
+      "advisory_locks": 0
+    },
+    "cleanroom": {
+      "database": "silver_rebuild_test",
+      "dags": [
+        {
+          "id": "rice_lakehouse_silver_pipeline",
+          "paused": true
+        },
+        {
+          "id": "rice_lakehouse_ingestion",
+          "paused": true
+        }
+      ],
+      "active_runs": 0,
+      "active_tasks": 0,
+      "historical_scheduled_tasks": 0,
+      "dag_run_count": 4,
+      "ingestion_runs": 19,
+      "ingestion_in_progress": 0,
+      "advisory_locks": 0
+    }
+  },
+  "catalog_identities": {
+    "shared": {
+      "bronze.faostat_monthly_price": {
+        "uuid": "b1e0ce92-d051-4dc2-9a51-c6b23d5d1fc4",
+        "snapshot_id": "877963138019843324",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_monthly_price-55f381253156443cbf75a547cc641ca5/metadata/00002-712d578b-8e62-4b50-a3b0-1c2b1f4db138.metadata.json",
+        "location": "s3://warehouse/bronze/faostat_monthly_price-55f381253156443cbf75a547cc641ca5",
+        "rows": 30668
+      },
+      "bronze.faostat_production": {
+        "uuid": "1d69250d-41d0-4dd5-9302-0646d8d05e9c",
+        "snapshot_id": "5738568925250335257",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_production-2d1bbfd0aff64473aaa992aa3cf80653/metadata/00002-2ad83a93-f9f1-4898-9f7a-e40c0677f328.metadata.json",
+        "location": "s3://warehouse/bronze/faostat_production-2d1bbfd0aff64473aaa992aa3cf80653",
+        "rows": 45476
+      },
+      "bronze.faostat_supply_utilization": {
+        "uuid": "de0ed46e-bd3d-43d3-98f1-2df6d5bb50f9",
+        "snapshot_id": "1395497460288388451",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-c7c08cb0ec894928aa400c84a87faaed/metadata/00002-1e6adedb-1c08-4bc8-a1c4-a9d470da31d7.metadata.json",
+        "location": "s3://warehouse/bronze/faostat_supply_utilization-c7c08cb0ec894928aa400c84a87faaed",
+        "rows": 72760
+      },
+      "bronze.faostat_trade": {
+        "uuid": "943d69c1-1d8d-4be0-bfec-d3cae26f24f1",
+        "snapshot_id": "577541508301910390",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_trade-64a40a18114a4f1686ca5d6808dd24e4/metadata/00050-50cd2b8c-d2e9-479c-8551-7f6b97f09b5b.metadata.json",
+        "location": "s3://warehouse/bronze/faostat_trade-64a40a18114a4f1686ca5d6808dd24e4",
+        "rows": 2452940
+      },
+      "bronze.faostat_trade_validation": {
+        "uuid": "b25e77ec-5466-4140-9624-eeefd8bfefdd",
+        "snapshot_id": "7379680539103381839",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_trade_validation-05332bea18384fa18b6014d3ca403ae9/metadata/00005-e27b6b7f-68ed-46d1-aef2-bbc471f3a58a.metadata.json",
+        "location": "s3://warehouse/bronze/faostat_trade_validation-05332bea18384fa18b6014d3ca403ae9",
+        "rows": 4000
+      },
+      "bronze.nso_vietnam": {
+        "uuid": "fc98bbb3-a552-4d90-9267-35f761d8b740",
+        "snapshot_id": "5022590202118908059",
+        "schema_id": 2,
+        "metadata_location": "s3://warehouse/bronze/nso_vietnam-9b9aa17ebe71465182fbc6c89012960b/metadata/00015-b4d74d08-13e7-4b4b-8f09-5a32a4c5c6cd.metadata.json",
+        "location": "s3://warehouse/bronze/nso_vietnam-9b9aa17ebe71465182fbc6c89012960b",
+        "rows": 904
+      },
+      "bronze.thitruongnongsan": {
+        "uuid": "11bffdc2-1c58-476f-a515-594829135a5f",
+        "snapshot_id": "7501198324700066346",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/thitruongnongsan-8db6faef6e0e404bbb03f328ac717eec/metadata/00001-390a1293-c46e-4766-a2cb-eae88990f13f.metadata.json",
+        "location": "s3://warehouse/bronze/thitruongnongsan-8db6faef6e0e404bbb03f328ac717eec",
+        "rows": 20394
+      },
+      "bronze.usda_psd": {
+        "uuid": "afadf906-5dd8-4b15-8bd4-ed3426eb853c",
+        "snapshot_id": "8466254684668503650",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/usda_psd-2a76a5bd25c249c5a7f8797133eea654/metadata/00001-4e7345ad-d00a-4c69-9de2-81c2f56fa82e.metadata.json",
+        "location": "s3://warehouse/bronze/usda_psd-2a76a5bd25c249c5a7f8797133eea654",
+        "rows": 15
+      },
+      "bronze.usda_rice_yearbook": {
+        "uuid": "f4d924c2-5bfb-46a3-80e8-819cd6b1f0d0",
+        "snapshot_id": "1548408886735471323",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-c3628226538b4145b9c483e61fab67ee/metadata/00001-7adef126-a2d1-4059-b332-a5d49541a324.metadata.json",
+        "location": "s3://warehouse/bronze/usda_rice_yearbook-c3628226538b4145b9c483e61fab67ee",
+        "rows": 13131
+      },
+      "bronze.worldbank_pinksheet": {
+        "uuid": "ce5505f7-845e-4dfd-ad21-416d858155ca",
+        "snapshot_id": "2882972560001480195",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-9424ab811c364d98b35e50a5963a2a61/metadata/00001-96c50ca4-550b-4937-96a5-3b08accd0368.metadata.json",
+        "location": "s3://warehouse/bronze/worldbank_pinksheet-9424ab811c364d98b35e50a5963a2a61",
+        "rows": 792
+      },
+      "bronze_nso_validation_57480ca6119f.nso_vietnam": {
+        "uuid": "bf03f096-61b1-498d-a97b-cd66233e27cd",
+        "snapshot_id": "3539176882066695752",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze_nso_validation_57480ca6119f/nso_vietnam-7e8baeace3674ed686560554b4640079/metadata/00013-4aa22c2d-dd6a-4af7-b81e-6ea5691fb10e.metadata.json",
+        "location": "s3://warehouse/bronze_nso_validation_57480ca6119f/nso_vietnam-7e8baeace3674ed686560554b4640079",
+        "rows": 833
+      },
+      "silver.dead_letters": {
+        "uuid": "861eab9d-776f-4b6d-9cd0-18d5cded8367",
+        "snapshot_id": "9171566836248980057",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver/dead_letters/metadata/00005-5e81fc32-42e4-4b09-a1a6-d34843e5a4cd.metadata.json",
+        "location": "s3://warehouse/silver/dead_letters",
+        "rows": 254
+      },
+      "silver.faostat_monthly_price": {
+        "uuid": "9bc5e429-2923-432d-ab0b-7bb0f09c5fb3",
+        "snapshot_id": "2075583285248269032",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver/faostat_monthly_price/metadata/00001-1f099ee7-eacf-4e13-8886-27760fbaa563.metadata.json",
+        "location": "s3://warehouse/silver/faostat_monthly_price",
+        "rows": 15334
+      },
+      "silver.faostat_production": {
+        "uuid": "35e4e7c7-b884-475b-9211-ca00ea8865c2",
+        "snapshot_id": "7227024684691913203",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver/faostat_production/metadata/00001-54e4309c-47a1-4a53-8b16-b2d830cf3c3a.metadata.json",
+        "location": "s3://warehouse/silver/faostat_production",
+        "rows": 22738
+      },
+      "silver.faostat_supply_utilization": {
+        "uuid": "f03c99f2-c378-4c13-ac32-a1ca848407c9",
+        "snapshot_id": "7439932791361130001",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver/faostat_supply_utilization/metadata/00001-249d0b98-2a04-497a-aa81-12f1583510bb.metadata.json",
+        "location": "s3://warehouse/silver/faostat_supply_utilization",
+        "rows": 36144
+      },
+      "silver.nso_rice_statistics": {
+        "uuid": "7be5e00a-6ee8-411d-aec3-712a99a2c528",
+        "snapshot_id": "3726932899638218821",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver/nso_rice_statistics/metadata/00001-fe35de40-cd76-4adf-bdbb-52aafab6eb7f.metadata.json",
+        "location": "s3://warehouse/silver/nso_rice_statistics",
+        "rows": 23060
+      },
+      "silver.thitruongnongsan": {
+        "uuid": "5c742809-0cb8-46c3-8159-928b3a256404",
+        "snapshot_id": "5930674096009641878",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver/thitruongnongsan/metadata/00001-04e5857b-ddab-4658-aacd-79fff6451727.metadata.json",
+        "location": "s3://warehouse/silver/thitruongnongsan",
+        "rows": 20383
+      },
+      "silver.usda_rice_psd": {
+        "uuid": "596e6236-fc40-4a95-9d60-e62058e3d1fc",
+        "snapshot_id": "5389899573651062951",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver/usda_rice_psd/metadata/00001-796c4208-82d8-4fb6-a224-945d689aa16b.metadata.json",
+        "location": "s3://warehouse/silver/usda_rice_psd",
+        "rows": 990
+      },
+      "silver.usda_rice_yearbook": {
+        "uuid": "f414fec2-1045-4d74-8f7a-109c7ae44320",
+        "snapshot_id": "1929858703617072610",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver/usda_rice_yearbook/metadata/00001-074aa995-ecfa-4f2c-8fe8-30e324edff27.metadata.json",
+        "location": "s3://warehouse/silver/usda_rice_yearbook",
+        "rows": 12936
+      },
+      "silver.worldbank_commodity_monthly": {
+        "uuid": "52c29a93-f8c5-458a-a76c-7d4813e6d308",
+        "snapshot_id": "1348144200730115257",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver/worldbank_commodity_monthly/metadata/00001-40fca192-094c-475d-9ff1-c83fb7f43c4c.metadata.json",
+        "location": "s3://warehouse/silver/worldbank_commodity_monthly",
+        "rows": 56232
+      },
+      "silver_v2_release_20261013.dead_letters": {
+        "uuid": "5adc1ff5-c9a9-4aa3-b649-5c6d358111d6",
+        "snapshot_id": "7788475764751255879",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/dead_letters/metadata/00006-65441f2c-60c1-43cb-92c7-b7e83512f73e.metadata.json",
+        "location": "s3://warehouse/silver_v2_release_20261013/dead_letters",
+        "rows": 4
+      },
+      "silver_v2_release_20261013.faostat_monthly_price": {
+        "uuid": "99f6b25e-14e2-4cea-a181-0bbea2357526",
+        "snapshot_id": "8339508013034672563",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/faostat_monthly_price/metadata/00001-5722a6e0-9058-45a9-ae89-e586ceb64e97.metadata.json",
+        "location": "s3://warehouse/silver_v2_release_20261013/faostat_monthly_price",
+        "rows": 15334
+      },
+      "silver_v2_release_20261013.faostat_production": {
+        "uuid": "10c64549-dcee-47c2-919e-a58cff5f091e",
+        "snapshot_id": "7833012846717654768",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/faostat_production/metadata/00001-f4da9fd8-e005-4c97-9929-636d42bb4bd5.metadata.json",
+        "location": "s3://warehouse/silver_v2_release_20261013/faostat_production",
+        "rows": 22738
+      },
+      "silver_v2_release_20261013.faostat_supply_utilization": {
+        "uuid": "5990fc5f-ef32-4dc8-a232-565387336bfd",
+        "snapshot_id": "6996323947372016333",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/faostat_supply_utilization/metadata/00001-a177bf96-8d81-4d34-a6be-405f474d99c5.metadata.json",
+        "location": "s3://warehouse/silver_v2_release_20261013/faostat_supply_utilization",
+        "rows": 36380
+      },
+      "silver_v2_release_20261013.faostat_trade": {
+        "uuid": "61823cf7-5c7f-4c85-9028-32157be45573",
+        "snapshot_id": "1757023266116193085",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/faostat_trade/metadata/00001-e0463e10-f962-4f5a-88a3-50ee47fb1910.metadata.json",
+        "location": "s3://warehouse/silver_v2_release_20261013/faostat_trade",
+        "rows": 1226470
+      },
+      "silver_v2_release_20261013.thitruongnongsan": {
+        "uuid": "53c2d07b-34ee-4f83-aa91-f76c5fcfa10b",
+        "snapshot_id": "2921921961555442382",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/thitruongnongsan/metadata/00001-93d3262b-0365-4856-acaf-fbe0d2bcf1e1.metadata.json",
+        "location": "s3://warehouse/silver_v2_release_20261013/thitruongnongsan",
+        "rows": 20387
+      },
+      "silver_v2_release_20261013.usda_rice_psd": {
+        "uuid": "f2417e03-5f86-43c6-b6b1-063cf0b4604f",
+        "snapshot_id": "2364532576229946037",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/usda_rice_psd/metadata/00001-fe493fc7-7ba9-4fb2-9dd0-e3f1af96b15b.metadata.json",
+        "location": "s3://warehouse/silver_v2_release_20261013/usda_rice_psd",
+        "rows": 990
+      },
+      "silver_v2_release_20261013.usda_rice_yearbook": {
+        "uuid": "cb41cc38-d110-4f53-8fd7-dc837472ca13",
+        "snapshot_id": "2178026287867944899",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/usda_rice_yearbook/metadata/00001-94c3181b-32e0-46c2-a07b-0e0803481400.metadata.json",
+        "location": "s3://warehouse/silver_v2_release_20261013/usda_rice_yearbook",
+        "rows": 12936
+      },
+      "silver_v2_release_20261013.worldbank_commodity_monthly": {
+        "uuid": "32b55281-d428-4298-82af-84f38f17f55c",
+        "snapshot_id": "6867808954567920629",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_v2_release_20261013/worldbank_commodity_monthly/metadata/00001-6c4f893a-ec46-4eca-bdcf-a9afffd4d037.metadata.json",
+        "location": "s3://warehouse/silver_v2_release_20261013/worldbank_commodity_monthly",
+        "rows": 56232
+      }
+    },
+    "cleanroom": {
+      "bronze.faostat_monthly_price": {
+        "uuid": "fa3e9fd5-e1f1-45f9-8bcb-44fcad7400b8",
+        "snapshot_id": "3069013476710882292",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b/metadata/00001-34d97089-b982-4d03-a2b6-f4b725a11ce3.metadata.json",
+        "location": "s3://warehouse/bronze/faostat_monthly_price-96c9a1a332244c97b9faf9bb3901e27b",
+        "rows": 15334
+      },
+      "bronze.faostat_production": {
+        "uuid": "d1d1158c-2a38-44a2-8131-1e6ee2530ccd",
+        "snapshot_id": "4843563875751184854",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e/metadata/00001-76469731-7647-43c7-8ec4-41a20401eaad.metadata.json",
+        "location": "s3://warehouse/bronze/faostat_production-fceccdeb661b41e1a77fbc73d0b2af9e",
+        "rows": 22738
+      },
+      "bronze.faostat_supply_utilization": {
+        "uuid": "20a87b98-5ce9-4230-9d13-42c9e13218f8",
+        "snapshot_id": "1149052647847510586",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908/metadata/00001-2be57582-59f4-47b2-bf61-3e1369cbcc17.metadata.json",
+        "location": "s3://warehouse/bronze/faostat_supply_utilization-aece76dd17d84768b87d5a44a8919908",
+        "rows": 36380
+      },
+      "bronze.faostat_trade": {
+        "uuid": "f8f3cec9-23ce-4bfc-8cfc-0625658201df",
+        "snapshot_id": "2171934088797835179",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152/metadata/00025-36aa5ba3-208f-4b55-9ed5-4d7d93310303.metadata.json",
+        "location": "s3://warehouse/bronze/faostat_trade-a8e26c615062492c8437b61173548152",
+        "rows": 1226470
+      },
+      "bronze.nso_vietnam": {
+        "uuid": "9df24331-6337-4567-8a6e-2515b752478d",
+        "snapshot_id": "6239067651375331267",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711/metadata/00013-dd5a23f4-fe5a-4518-8933-569fcecae43e.metadata.json",
+        "location": "s3://warehouse/bronze/nso_vietnam-1ca4b2b603c14340a279da7fe8dc6711",
+        "rows": 833
+      },
+      "bronze.thitruongnongsan": {
+        "uuid": "bda1e592-2601-4b61-b16a-b31a63bced74",
+        "snapshot_id": "6284553868447052727",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763/metadata/00001-af20e5d6-67bf-4166-8972-fd0d5f9fd9a9.metadata.json",
+        "location": "s3://warehouse/bronze/thitruongnongsan-cbb9ff53a4e144a9844d79f860b23763",
+        "rows": 20394
+      },
+      "bronze.usda_psd": {
+        "uuid": "f3504ceb-5188-44a2-aae8-cf5f92dbfec4",
+        "snapshot_id": "6725163293089992461",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561/metadata/00001-301c4642-5c3b-47bd-9de7-36836dadd68a.metadata.json",
+        "location": "s3://warehouse/bronze/usda_psd-7581567b85cc4959afff75401a4bb561",
+        "rows": 15
+      },
+      "bronze.usda_rice_yearbook": {
+        "uuid": "26f68bd7-d87a-4d31-a153-b46403622233",
+        "snapshot_id": "4564470349869842851",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e/metadata/00001-a30b4462-a338-4165-9ae0-3690cfcfb47c.metadata.json",
+        "location": "s3://warehouse/bronze/usda_rice_yearbook-8d78d08825a74e78b13de8e8a2af383e",
+        "rows": 13131
+      },
+      "bronze.worldbank_pinksheet": {
+        "uuid": "21b3353e-cda4-4c55-8523-ef355d215b65",
+        "snapshot_id": "2608578091811865170",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7/metadata/00001-bdb46047-949d-4cff-9094-429b044e7c3b.metadata.json",
+        "location": "s3://warehouse/bronze/worldbank_pinksheet-4a525f4e46434a04b4983c437d97fba7",
+        "rows": 792
+      },
+      "silver_local.dead_letters": {
+        "uuid": "7711cdc0-135f-491c-a153-09c5ff6c1689",
+        "snapshot_id": "3806092623472970273",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00002-febb5d42-a466-43ba-9c82-acbe9f7dc02a.metadata.json",
+        "location": "s3://warehouse/silver_local/dead_letters",
+        "rows": 17
+      },
+      "silver_local.faostat_monthly_price": {
+        "uuid": "63a487b2-703d-49df-8a6d-baf903509145",
+        "snapshot_id": "1591520480261276952",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/faostat_monthly_price/metadata/00001-06dac4f2-c909-4f3d-865c-55b056a11593.metadata.json",
+        "location": "s3://warehouse/silver_local/faostat_monthly_price",
+        "rows": 15334
+      },
+      "silver_local.faostat_production": {
+        "uuid": "7fc0d9b6-9b00-40f8-8207-64e5f7678d93",
+        "snapshot_id": "3025742236916912946",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/faostat_production/metadata/00001-eba80a7d-cf27-4ece-8e05-d5a154021d47.metadata.json",
+        "location": "s3://warehouse/silver_local/faostat_production",
+        "rows": 22738
+      },
+      "silver_local.faostat_supply_utilization": {
+        "uuid": "952160ba-11d3-4c53-b60a-929dcca3b0e1",
+        "snapshot_id": "4289048808299983571",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/faostat_supply_utilization/metadata/00001-37b2d861-8b26-42fb-b171-208aa0279882.metadata.json",
+        "location": "s3://warehouse/silver_local/faostat_supply_utilization",
+        "rows": 36380
+      },
+      "silver_local.faostat_trade": {
+        "uuid": "c1800fdd-6d37-4b05-a913-bc61fa922b00",
+        "snapshot_id": "4017675517054557099",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/faostat_trade/metadata/00001-2de6cd57-8635-43a2-bdd3-5bdc12915958.metadata.json",
+        "location": "s3://warehouse/silver_local/faostat_trade",
+        "rows": 1226470
+      },
+      "silver_local.nso_rice_statistics_v2": {
+        "uuid": "585ec4d4-d44b-45ad-b6ff-dc55548ebdaf",
+        "snapshot_id": "833301860238618812",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics_v2/metadata/00001-d570a8a9-4b88-4d18-8ca4-7f84de7b5b9e.metadata.json",
+        "location": "s3://warehouse/silver_local/nso_rice_statistics_v2",
+        "rows": 23060
+      },
+      "silver_local.thitruongnongsan": {
+        "uuid": "6950791c-cfd2-45b7-910d-ad88803b8904",
+        "snapshot_id": "4817852030779680459",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/thitruongnongsan/metadata/00001-75752312-421c-4d2a-b86f-1698d664fe7a.metadata.json",
+        "location": "s3://warehouse/silver_local/thitruongnongsan",
+        "rows": 20387
+      },
+      "silver_local.usda_rice_psd": {
+        "uuid": "82e6f676-0e8b-4066-a6ef-eeb6284f54fe",
+        "snapshot_id": "4876825965550487606",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00001-321556fe-ffcf-4d78-9a77-97a1136c8dc5.metadata.json",
+        "location": "s3://warehouse/silver_local/usda_rice_psd",
+        "rows": 990
+      },
+      "silver_local.usda_rice_yearbook": {
+        "uuid": "a92b8fdf-dbf5-4f0c-a5c5-3c66857ee93d",
+        "snapshot_id": "4249957608382647425",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/00001-26791b3d-bf2c-4208-889e-2736e92790e9.metadata.json",
+        "location": "s3://warehouse/silver_local/usda_rice_yearbook",
+        "rows": 12936
+      },
+      "silver_local.worldbank_commodity_monthly": {
+        "uuid": "be48b680-f86b-4a4d-b552-705cac58103b",
+        "snapshot_id": "6762326735303774082",
+        "schema_id": 0,
+        "metadata_location": "s3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00001-2be316fd-844b-4cb9-94fa-1ebba6f789b3.metadata.json",
+        "location": "s3://warehouse/silver_local/worldbank_commodity_monthly",
+        "rows": 56232
+      }
+    }
+  },
+  "active_trino_queries": {
+    "shared": [],
+    "cleanroom": []
+  },
+  "no_pipeline_triggered": true,
+  "no_runtime_change": true,
+  "safety": "Read-only observation, not approval to delete. Recheck just before any signals/export/deletion."
+}

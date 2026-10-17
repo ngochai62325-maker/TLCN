@@ -1,0 +1,14 @@
+{
+  "head": "e4cd47db6654a8aa0494b03e6f0a09e845a7b58d",
+  "branch": "handoff/local-nine-phase2",
+  "initial_untracked_user_file": "compose.cleanroom-ui-8085.yml; preserved unchanged",
+  "backup": {
+    "path": ".pytest_cache\\demo_prepare\\accepted-silver-docs-HEAD.zip",
+    "sha256": "0584b52cd4a2565d6941dc9c0b2cbc4a9449fbcd8631332e5423a4c241c8939c",
+    "bytes": 2649547,
+    "members": 611,
+    "status": "VERIFIED_GIT_ARCHIVE_LOCAL_DISK_ONLY",
+    "limitation": "Not an off-machine backup; does not contain Raw or any Docker volume/writable-layer data."
+  },
+  "accepted_evidence_in_git": "Preserved at HEAD; existing historical files not modified"
+}

@@ -1,0 +1,94 @@
+{
+  "status": "PREPARE_COMPLETE_EXECUTION_NOT_APPROVED",
+  "head": "e4cd47db6654a8aa0494b03e6f0a09e845a7b58d",
+  "canonical_project": "tlcn-local",
+  "airflow_url": "http://localhost:8085",
+  "phase_a_only": true,
+  "raw": "PASS21+support",
+  "compose_config": "PASS; ordinary bridge, localhost8085 and Trino only",
+  "tests": "8 demo guards/config tests +2 existing DAG tests PASS; existing read-only readiness/helper probes PASS",
+  "documentation_links_checked": 25,
+  "git_diff_check": "PASS",
+  "protected_business_contract_runtime_sources": "UNCHANGED",
+  "accepted_evidence": "UNCHANGED; verified local Git archive in ignored private directory",
+  "deletion_counts": {
+    "containers": 64,
+    "networks": 8,
+    "volumes": 15,
+    "images": 0
+  },
+  "retained_ownership_unknown": {
+    "containers": 5,
+    "volumes": 18
+  },
+  "shared_baseline": "6 committed snapshot/metadata differences,0 current ingestion runs; cause not established, approval must acknowledge current state",
+  "cleanroom_baseline": "19 identities unchanged;4 existing SUCCESS DagRuns,19 ingestion attempts; both paused",
+  "resource_samples": [
+    {
+      "at": "2026-10-17T09:45:35.908072+00:00",
+      "windows_available_gib": 2.641,
+      "wsl_available_gib": 3.189,
+      "wsl_swap_free_kib": 0
+    },
+    {
+      "at": "2026-10-17T09:46:09.116026+00:00",
+      "windows_available_gib": 2.164,
+      "wsl_available_gib": 3.2,
+      "wsl_swap_free_kib": 0
+    },
+    {
+      "at": "2026-10-17T09:46:42.241243+00:00",
+      "windows_available_gib": 1.898,
+      "wsl_available_gib": 3.184,
+      "wsl_swap_free_kib": 0
+    }
+  ],
+  "resource_admission": "BLOCKED before build/start: last Windows sample<2GiB, WSL<4GiB; remeasure after approved controlled stop",
+  "runtime_actions_taken": [],
+  "not_run": [
+    "volume/container deletion",
+    "runtime stop/start/recreate",
+    "volume exports",
+    "image builds",
+    "fresh8085 HTTP/publication smoke",
+    "fresh demo E2E",
+    "Git commit/push"
+  ],
+  "user_owned_file_preserved": {
+    "path": "compose.cleanroom-ui-8085.yml",
+    "sha256": "1b9898f6faa7fbdaea8de15cb2de84dae815891879250daa74fec6ed6ca85473"
+  },
+  "files_prepared": [
+    ".env.local.example",
+    "README.md",
+    "compose.local.yml",
+    "docs/silver/README.md",
+    "docs/silver/demo_guide.md",
+    "docs/silver/evidence/demo_prepare_20261017_093303/README.md",
+    "docs/silver/evidence/demo_prepare_20261017_093303/backup-plan.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/catalog-baseline-comparison.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/catalog-comparison-initial-screening.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/dag-regression.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/deletion-manifest.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/docker-inventory.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/existing-readiness-probe.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/git-and-backup.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/manifest.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/port-investigation.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/raw-verification.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/report.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/resources.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/runtime-readonly.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/secret-scan.json",
+    "docs/silver/evidence/demo_prepare_20261017_093303/tests.json",
+    "docs/silver/local_runbook.md",
+    "scripts/local_demo/_common.ps1",
+    "scripts/local_demo/reset.ps1",
+    "scripts/local_demo/start.ps1",
+    "scripts/local_demo/status.ps1",
+    "scripts/local_demo/stop.ps1",
+    "tests/unit/test_local_demo.py"
+  ],
+  "next_approval": "Approve exact deletion-manifest.json with backup-plan.json, known shared drift and exclusions; after verified backups/cleanup and fresh resource gate, create fresh demo and run read-only smoke only. Owner triggers pipeline.",
+  "secret_scan": "PASS; actual private-runtime/.env secret literals plus token/key patterns; public test/demo defaults distinguished. No Git staging/commit."
+}

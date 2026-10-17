@@ -1,8 +1,10 @@
 # Silver — TLCN Rice Lakehouse chạy local
 
-Phạm vi hiện tại: **9 nguồn** dưới `iceberg.silver_local`, **1.414.527 observations**
-với bộ Raw đã pin. Initial Airflow/PyIceberg/Trino PASS; full và incremental
-physical NOOP đã đối soát đủ19 bảng. Xem kết quả thực tế và regression cuối tại
+Profile hiện tại: **9 nguồn** dưới `iceberg.silver_local`. Bộ Raw đã pin từng
+được nghiệm thu **1.414.527 observations** trong clean-room; initial
+Airflow/PyIceberg/Trino và full/incremental physical NOOP PASS trên đủ19 bảng.
+Runtime demo mới `tlcn-local` đã smoke PASS nhưng **chưa chạy pipeline**.
+Xem bằng chứng lịch sử và kết quả runtime riêng biệt tại
 [evidence index](evidence/index.md). Không coi equality row count là NOOP.
 
 Tám nguồn V2 giữ release CLOSED_MANUAL_ONLY. NSO production contract vẫn **DRAFT**;
@@ -11,6 +13,11 @@ production cutover. Initial và replay đã có interruption/targeted recovery �
 lưu minh bạch; đây không phải một lần chạy liên tục không lỗi/retry.
 
 ## Đọc và chạy project
+
+Trình diễn với một local stack: [Demo guide](demo_guide.md), Airflow tại
+`http://localhost:8085`. Runtime cũ đã cleanup theo approval; demo mới giữ hai DAG
+paused/manual-only để owner tự trigger. Chạy `scripts/local_demo/start.ps1 -CheckOnly` để
+kiểm tra cấu hình/Raw mà không thay runtime.
 
 1. [Local runbook](local_runbook.md): laptop mới, Raw bundle, build images, Compose,
    Airflow UI/CLI, Trino, RAM và shutdown/recovery an toàn.

@@ -1,0 +1,491 @@
+{
+  "at": "2026-10-17T13:14:26.108840+00:00",
+  "status": "PASS",
+  "head": "e4cd47db6654a8aa0494b03e6f0a09e845a7b58d",
+  "raw_root_windows": "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN\\data\\raw",
+  "raw21_plus_support": [
+    {
+      "path": "faostat/production_world.csv",
+      "bytes": 3292244,
+      "sha256": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+    },
+    {
+      "path": "faostat/price.csv",
+      "bytes": 2509272,
+      "sha256": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af"
+    },
+    {
+      "path": "faostat/supply_utilization.csv",
+      "bytes": 6096569,
+      "sha256": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c"
+    },
+    {
+      "path": "faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv",
+      "bytes": 167990400,
+      "sha256": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168"
+    },
+    {
+      "path": "usda/usda.xls",
+      "bytes": 45549,
+      "sha256": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf"
+    },
+    {
+      "path": "usda/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+      "bytes": 2122534,
+      "sha256": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba"
+    },
+    {
+      "path": "world_bank/CMO-Historical-Data-Monthly.xlsx",
+      "bytes": 778415,
+      "sha256": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290"
+    },
+    {
+      "path": "thitruongnongsan/price_luagao.xlsx",
+      "bytes": 756440,
+      "sha256": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063"
+    },
+    {
+      "path": "nso/V06.12.csv",
+      "bytes": 6281,
+      "sha256": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb"
+    },
+    {
+      "path": "nso/V06.13.csv",
+      "bytes": 12726,
+      "sha256": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110"
+    },
+    {
+      "path": "nso/V06.14.csv",
+      "bytes": 11766,
+      "sha256": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc"
+    },
+    {
+      "path": "nso/V06.15.csv",
+      "bytes": 14205,
+      "sha256": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7"
+    },
+    {
+      "path": "nso/V06.16.csv",
+      "bytes": 11726,
+      "sha256": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5"
+    },
+    {
+      "path": "nso/V06.17.csv",
+      "bytes": 11738,
+      "sha256": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be"
+    },
+    {
+      "path": "nso/V06.18.csv",
+      "bytes": 13393,
+      "sha256": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84"
+    },
+    {
+      "path": "nso/V06.19.csv",
+      "bytes": 6462,
+      "sha256": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6"
+    },
+    {
+      "path": "nso/V06.20.csv",
+      "bytes": 6203,
+      "sha256": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8"
+    },
+    {
+      "path": "nso/V06.21.csv",
+      "bytes": 7127,
+      "sha256": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab"
+    },
+    {
+      "path": "nso/V06.22.csv",
+      "bytes": 11467,
+      "sha256": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7"
+    },
+    {
+      "path": "nso/V06.23.csv",
+      "bytes": 11505,
+      "sha256": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76"
+    },
+    {
+      "path": "nso/V06.24.csv",
+      "bytes": 12702,
+      "sha256": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b"
+    },
+    {
+      "path": "nso/metadata.txt",
+      "bytes": 923,
+      "sha256": "f17faf04e163da55e949593797bc60a8240d2137fea55a43342225d50d810555"
+    }
+  ],
+  "required_files_sha256": {
+    "compose.silver-test.yml": "1febe82f65dd7b7d1144f302286081c96546f52865979f70d544b1d816a4655e",
+    "compose.local-nine-test.yml": "049f46184cced719a1aeafebc32c1348e86253a35caadb0d6c184dca8d3ef3c7",
+    "compose.local.yml": "573a7fa7476c766bcc150bf481ba6d02dd05f0f61c54e604af5273f558ed05f5",
+    "scripts/local_demo/_common.ps1": "5b65648ed919ca36a3665d12e60cb2c012d90c5e5b89a6364beb279f231280e1",
+    "scripts/local_demo/start.ps1": "eea1de9e30c481ec8a26cb2f920475a997a50c20f8404abce501ec47acff6753",
+    "scripts/local_demo/status.ps1": "6c638e95522fe35236eaf8348cd7898a87861e56b5b7fd6e73234c7bf3bfd3a1",
+    "scripts/local_demo/stop.ps1": "26d15c584b494325b5818cee0e0c8d18fa71f2325fb1d2535bb2f3d81c74481d",
+    "scripts/local_demo/reset.ps1": "1adc2745363c606ed579818e0b091ac9a06ab53e17a1fd2884560c85f75ea47a",
+    "docker/silver-spark.Dockerfile": "8e55165a5211826e2036258e3f22a3dcccecde54040f06f554137457c43d5d40",
+    "docker/silver-airflow.Dockerfile": "c843fedca47f6ec6e0f6a13bbf5fbb96007f10495493f1a0d1de4608504ff800",
+    "requirements/silver-spark.lock": "f775aa369de4d8d53dc4b779ba3d7faf7fa7984b44e768244b19fd75150129ef",
+    "requirements/silver-airflow.lock": "26a6eb32e32a6dab2a1edeed63a661c4109e93120b1948c9f6f6640e1d49be2d",
+    "config/local_raw_manifest.json": "7218cd6f00f79a597412269cfbcb47db88ae23c34af3f2cc977c72289ed8f206",
+    "contracts/silver/nso_vietnam_v2.yaml": "4a11b6f31183ee2828d0fef2f9ad94475628982fe7c701eab77b0c7b57dc8b05",
+    "docs/silver/demo_guide.md": "3d3737eb7cfa029f328261dc5953b645d46967c8451175da3bc791ac93246239"
+  },
+  "independent_container_ownership": [
+    {
+      "id": "510cc220d09e96cefd2caf0724bcb7a18b42f5b2b3caadd7864c51845e454dee",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\TLCN"
+      ],
+      "command_sha256": "ebb35df28cd60c36760ea60d14be3675fe6a1af20b6f0db35ebc0f799a0bc8c3"
+    },
+    {
+      "id": "d6bfe7e581f09c45ba89f003403e71fa4b413c03e8826727a18fabfd0ecc3cb6",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "72b8945566b0adde5aefabaaf475fcfda738269f2cc7cdc0ccb4b18ab7785bdd",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "997c4845b2d2fce93e95b14230e078aaf85c65740a329fe5c72d82dd1fc59c78",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN"
+      ],
+      "command_sha256": "063244f82635efe7aedf2efe9211106d1a226c9992849313731eb474c73d290b"
+    },
+    {
+      "id": "fe3fda9fadb59c51f074d411bbfca7b556a515b28b3f67b4550dd934683c280e",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "9909770f97b03edb19bc1b8dc08d23fbac5add21206509adeb6e95454eb7dc04",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "d63ce6d0625c6d718a020a0a621665e57c41a9199dfc8ab617004a5fa298ccb7",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "1f5ab4e37c1d7f116f569f6511f2135d7904cba55b8c4fa5ac4a014bad44d9d6",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN"
+      ],
+      "command_sha256": "9df9eab0bd8adf636b2096d90ca047679eb822012e04f7abb5a59de48c12cb6e"
+    },
+    {
+      "id": "53ce7fdf7e6c7f4f61242919a3d3a368dcf2b0c45f9949f217f4d48db1e08f25",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "f42feb8efea58e67ce4cf3b22906a903c083f13b0a75439d86fe11f2d7d750cc",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "e3230e41f14a9bf21d4596ff9f88bee41c8c22303135f05de45be2d6ea7cc45e",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "dd9ae7faf5ba577c9c1dc3698bafdac5d5fc22e5df0dbfdad809b5c6369371eb",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\TLCN"
+      ],
+      "command_sha256": "915ae98bd9c1bdf8e526efd46bf3cbed0177a404dc4f2ea820de367e70661c40"
+    },
+    {
+      "id": "f9a95c5ec897ac1ebe966692e40affc2103430eee909b18b4d4199eeca6d6daf",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\TLCN"
+      ],
+      "command_sha256": "cc4243c2874f7c020edcc4137d08351d49c3a5762be270b74bcb6c4a37cf159f"
+    },
+    {
+      "id": "b1a583508f10fde619739b06170d8dac3033ab6e24afbd3a6149b77c91c02db8",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "95979d81eb4bf60aaaf6d3fb1004a6b15c045a4a4085fbfdd08cc67b777d1439",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "5380b2924421dfb5c1017ea6ffc6133b58f8eba8815e67609628591c8e75c326",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "4136491a6d72e0cd2b915815e1fbe6890392a7ca5a2cf5e2951929866985bad7",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "ab125221fab9edef399a617968cd03ddf450b022adade2084ed11bfcafc610b8",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "42973028afa854ff98ec50eee27d4daafeaed74637cd546dae2c7819d98c84da",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "569467fdebebcf4e6cd63b4ce0a121f22ef5a103c31fd88d486abe8ee1793ff7",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "f0d5a63969f9fa6d1e83b898004620eb032a72f4131e217f3af3cd895e755712",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "6f8761ee322c18047ba7c337a76bea562b77254c8c0f1a158ecb2a050bc5c3b2",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "58722513ce15fde1f4cc22ba556ae021d547892d2c5ee912d2308930abdb10da",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "bf23e7724ed0821ec309512f4877b685a3827408023978f392877f1e5aa96407",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\TLCN"
+      ],
+      "command_sha256": "2b618dd0acd8cdb036751f840966341c59e0aabac88feb92d0c99c450c59a804"
+    },
+    {
+      "id": "e5744fa5ff2da875801259eb271754006cd5c4fc69cd046515d17357e375bb6f",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN"
+      ],
+      "command_sha256": "a07386508d720b58aa6803fb8510b488b9421fc5889761be73f90429d706400e"
+    },
+    {
+      "id": "bb6c55bf7ac138648b31ea78c8da9e4b8d67f46c1bcad176afd02fb2c637a1b2",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "95736198e85ed0e490aaf6eac0d094f0e405e634313e7d072e73dfe43d152381",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "ec4a130e41ac11fcad8dc5f68d2e9de682d5b7adf8f677c6d414083a7599535b",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\TLCN"
+      ],
+      "command_sha256": "7c66ff71888d1081fdc95b4bc4071a713271fcee49baadf8faba7c9eeafc1c2f"
+    },
+    {
+      "id": "d1c610a8f7bf2efc501d0d56bbd6dcaf17ebec088f30480e4980c9a2e6076962",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN"
+      ],
+      "command_sha256": "0179a439791cd77d02f82add368c7385edc7f9ee7196ad1b1c7691387efbfdcf"
+    },
+    {
+      "id": "3cf4041d5a16ad6b8e8a04f8aa6b78427526d14df9c7ca2ec6db4eb1af557018",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "67270839878a2957e2da5484603102cd7df190984dc61f568e52d6a557967b27",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "59b74ee82f92c6a399a67e7a943949497c015aa349c7d915098d1079868b483a",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "4606ce0c2520d54730e47f60af2b7651763e8b02ab6a78005a5bbaa2712cdce7",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "577262f9fc99d8c494814b4467cf991827ddf9653254f7c4803f72ca5c6bc3a4",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "46572a5cf4d7edf9eaeffae883735fb3f810ca2bd094004348e5c04e1c11817a",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "04d88afd722deddfb7bfc46b4b73a5a36c4b3d6a9045a6319fe7b07afb937fe3",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "7c921fe93537bdfac38b198bdd41d35442c505975d9441d8c27e42a29dd5040c",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\TLCN"
+      ],
+      "command_sha256": "43c14ec8d042fe7944dcc1fbd3c86254a53fe36291353c76c417c49e56efe94c"
+    },
+    {
+      "id": "311dd8666baed0be050cbc8d4620d8d43ba064113bf79546b7868f48525ec2e1",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "e67f2c2e36c65f972a405ab2d87cac8c243b6d47674665f49e662326a87c5281",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "de2b0f35f41c773ab0829671748ea7bc7ad75f9c22a2c68c767738e64fa4cbac",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN"
+      ],
+      "command_sha256": "223dd1b526e8bc2e6925f6dccc973827ef1d84e478fb7d01130532dacd58b98e"
+    },
+    {
+      "id": "2834bdd8e8182a73614df2294a1b9f3a493a4f3dd9e814a40a319c345aa2685f",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN"
+      ],
+      "command_sha256": "0808aec1bbbafad7e58b0c3888fb4ce46a36c4762d51ab0ba4b957780c1686b0"
+    },
+    {
+      "id": "5fe24960fb14d5c4c11481998d8795fff9415aa3dac7459f0e772accce7622a8",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "4ca90539494482112a1869096bf9d78d7cdeb64be460b95faf48ae88b563d4cf",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "f35127033c1ca669861e14d7829c20528640ed3ecb1e164954d8b7600daa39a1",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "60211c86f108db8cba41ab13182df8a01234f51eead285fb8c351c9f986b2986",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "290839e0a32d42ff090e50a4f2e0c5f9a715e9ff6793c7059c46ac7d9c732815",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "2618d130c1b9b34bf0d92c4eee04c823e1f5b0ee48d50f35956336367fe7d9f1",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\TLCN"
+      ],
+      "command_sha256": "915ae98bd9c1bdf8e526efd46bf3cbed0177a404dc4f2ea820de367e70661c40"
+    },
+    {
+      "id": "ddd8d2a59ce5dc7eac7593380e1e5a04b1f436bf259080a6e7708dcb9a196d48",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "9e85f0e5cd40e42de33f31e754dd38a66f3a52bf638da223fbc71a9ced2e8336",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "a9b6bafaa93ca35ac3a921c0777be37974f602e8f4438910f7622181c631d3b8",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "dcf8f356629d1ce8070881cc70147332372552a94caf92b2f21130f8eb9ef360",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN"
+      ],
+      "command_sha256": "c95a6d7a2f648bafa5304e9d56838bb5eaa7c7efbacde32c61e76ad3a54ce985"
+    },
+    {
+      "id": "7504017d1421112dde2d075bc7186e0e875f9274dc0cde061e4a4e8adc829bda",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "1eba5989b29f087f93b224be2cf6bf7dc54520b71850286c95208e6843042d5d",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "882a044ae1a899efef818c5f00dd601b937b62f303c55a10c563306e868a6b8a",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "2154802e0c7f48c4afc28101a4053e56b068b7696f31abfb6689157a589b7c94",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "6e083ecd520e89127dfbae154a26560638776ea4a9dbacbba246ed28f56ec031",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN"
+      ],
+      "command_sha256": "97a671f749c758a181742114ad8f9826e21de36faaf154a900c9836cb13ec04a"
+    },
+    {
+      "id": "650148e2aa942533c9d664aecbe84adbd4b32ccbec355a477725ac9da7e34a7a",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "c5c63cbb5002b4725532de1e5703583dbec488ba8800c7b34e0243fe4ada6409",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "3bc86ca436e95194d15f668ef8d04c9efebef0a3e3e9db90a1d68284dabf0c5f",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "0b64dad27bc8473ea5ef084f29acbdba023c7105eeb10792d2596017230029f5",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "0594d2f36e74e595bae38905e42530571f5285f9407ee849d13c1554a7518737",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "7829c5f4431397ab5eaeea51689294599c99134889a9cb5b69e049b6ab80e96e",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    },
+    {
+      "id": "06c02eb380e1f296a2d953c27ab3770ff1b3ce12c0e9a0fb5b990f9a7234fbde",
+      "proof": "Independent actual Docker repo binds to checkout with matching Git origin + command runs TLCN tests or API code, not container-name inference",
+      "repo_roots": [
+        "C:\\Users\\hoang\\source\\repos\\final term\\tieu luan chuyen nganh\\source\\nhanh2\\TLCN"
+      ],
+      "command_sha256": "4d6766e5956be72ef30e2e7e2c6b1b09c6bdf421fd21f8656b8c4152a498d0aa"
+    },
+    {
+      "id": "5059f13b8d69b9d9cdf6148fcb4089b176ff4f12a991164b31b23a2c642fd65d",
+      "proof": "Exact approved ID, Compose project/service labels, actual config files under this repository"
+    }
+  ],
+  "running_shared_postgres_readonly": {
+    "active_runs": 0,
+    "active_tasks": 0,
+    "source_locks": 0,
+    "ingestion_in_progress": 0,
+    "dags": [
+      {
+        "id": "rice_lakehouse_ingestion",
+        "paused": true
+      },
+      {
+        "id": "rice_lakehouse_silver_pipeline",
+        "paused": true
+      }
+    ]
+  },
+  "spark_processes": "PID                 PPID                STAT                COMMAND\n1139                1105                Ss                  python3\n",
+  "active_trino_queries": [],
+  "stopped_older_stacks": "No executing processes; not started merely to inspect disposable historical DB state. Runtime history explicitly waived.",
+  "retained_ownership_exceptions": [
+    {
+      "volume": "62df2c0d38a4481c2ab07cfcc1549ef7cb726b36f54a230ccd8e42b9c2fb99ef",
+      "reason": "Unreferenced anonymous volume; no independently verifiable current origin after original mc-init removal. Retained under owner condition4."
+    },
+    {
+      "network": "tlcn-silver-release-prep-20261013_default",
+      "reason": "Two explicitly excluded standalone containers retain stopped-network references; preserve their dependency."
+    }
+  ],
+  "approved_effective_counts": {
+    "containers": 64,
+    "networks": 7,
+    "volumes": 15
+  }
+}

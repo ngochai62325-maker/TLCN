@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-17T13:14:25.708787+00:00",
+  "counts": {
+    "active_runs": 0,
+    "active_tasks": 0,
+    "source_locks": 0,
+    "ingestion_in_progress": 0,
+    "dags": [
+      {
+        "id": "rice_lakehouse_ingestion",
+        "paused": true
+      },
+      {
+        "id": "rice_lakehouse_silver_pipeline",
+        "paused": true
+      }
+    ]
+  }
+}

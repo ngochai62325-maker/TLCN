@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "results": [
+    {
+      "at": "2026-10-17T13:14:52.298364+00:00",
+      "action": "signal_outcome",
+      "service": "airflow-scheduler",
+      "id": "b1a583508f10fde619739b06170d8dac3033ab6e24afbd3a6149b77c91c02db8",
+      "signal": "SIGTERM",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T13:14:50.322234524Z",
+      "oom_killed": false
+    },
+    {
+      "service": "airflow-webserver",
+      "id": "ddd8d2a59ce5dc7eac7593380e1e5a04b1f436bf259080a6e7708dcb9a196d48",
+      "signal": "SIGTERM",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T13:15:54.559450196Z",
+      "oom_killed": false
+    },
+    {
+      "service": "spark-iceberg",
+      "id": "4606ce0c2520d54730e47f60af2b7651763e8b02ab6a78005a5bbaa2712cdce7",
+      "signal": "SIGINT",
+      "exit_code": 130,
+      "finished_at": "2026-10-17T13:15:56.443403093Z",
+      "oom_killed": false
+    },
+    {
+      "service": "trino",
+      "id": "5380b2924421dfb5c1017ea6ffc6133b58f8eba8815e67609628591c8e75c326",
+      "signal": "SIGTERM",
+      "exit_code": 143,
+      "finished_at": "2026-10-17T13:15:58.896475831Z",
+      "oom_killed": false
+    },
+    {
+      "service": "iceberg-rest",
+      "id": "bb6c55bf7ac138648b31ea78c8da9e4b8d67f46c1bcad176afd02fb2c637a1b2",
+      "signal": "SIGTERM",
+      "exit_code": 143,
+      "finished_at": "2026-10-17T13:16:01.246771771Z",
+      "oom_killed": false
+    },
+    {
+      "service": "minio",
+      "id": "c5c63cbb5002b4725532de1e5703583dbec488ba8800c7b34e0243fe4ada6409",
+      "signal": "SIGTERM",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T13:16:03.13727412Z",
+      "oom_killed": false
+    },
+    {
+      "service": "postgres",
+      "id": "5059f13b8d69b9d9cdf6148fcb4089b176ff4f12a991164b31b23a2c642fd65d",
+      "signal": "SIGTERM",
+      "exit_code": 0,
+      "finished_at": "2026-10-17T13:16:03.833361572Z",
+      "oom_killed": false
+    }
+  ],
+  "force_kill": false,
+  "repeated_signal": false
+}

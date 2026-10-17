@@ -1,5 +1,13 @@
 # Local startup and handoff
 
+For the thesis demo use the [demo guide](demo_guide.md) and one command:
+`powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/start.ps1`.
+Canonical project: `tlcn-local`, Airflow `http://localhost:8085`.
+Fresh demo runtime smoke and stop/start persistence PASS; see
+[Phase B evidence](evidence/demo_phase_b_20261017_131025/README.md).
+The owner waived old-volume backups and approved the targeted cleanup.
+The fresh project has zero DagRuns; the owner will trigger its first pipeline.
+
 This is a **fresh-laptop workflow**, not a recovery command for an existing
 clean-room project. Do not run it against an existing project whose
 writer outcome is unresolved. Current evidence is indexed [here](evidence/index.md).
@@ -81,15 +89,22 @@ docker @dc ps -a
 docker @dc exec -T airflow-scheduler airflow dags list-import-errors
 ```
 
-Both DAGs start paused and manual-only. Airflow is at `http://localhost:18085`
-and Trino at `http://localhost:18080` by default; override ports in `.env.local`.
+Both DAGs start paused and manual-only. Airflow is fixed at `http://localhost:8085`
+and Trino at `http://localhost:18080` by default; override Trino in `.env.local`.
 The isolated demo user's creation command is in `compose.local-nine-test.yml`.
 The Trino web UI monitors queries; use its CLI below to execute SQL.
 
-The currently accepted clean-room project instead uses its preserved
+The historical, retired clean-room acceptance used its preserved
 [port overlay](evidence/nso_v2/phase3_cleanroom_20261016_154548/compose.cleanroom.yml)
-and original immutable image references. **Do not replace that overlay or apply
-the fresh-laptop Compose configuration to existing accepted containers.**
+and original immutable image references. Those runtime resources were retired
+under owner approval; the overlay remains audit evidence. The active demo uses
+the three root Compose files shown above, with locally built execution images.
+
+The canonical last overlay sets the project bridge to `internal: false`. The
+test base's `internal: true` left requested port bindings unpublished on the
+observed Docker Desktop runtime, even while container-local HTTP was healthy.
+There is no host/shared-container network namespace. Verify actual `docker port`
+and Windows HTTP after fresh startup, not just `docker compose config`.
 
 ## One manual Bronze → automatic Silver
 

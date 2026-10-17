@@ -1,6 +1,12 @@
 # Evidence index
 
-Current status: **LOCAL_NINE_SILVER_COMPLETE_CLEANROOM_NOOP_PASS** for the pinned
+Current demo runtime: [Phase B](demo_phase_b_20261017_131025/README.md),
+**LOCAL_DEMO_RUNTIME_READY_PENDING_OWNER_PIPELINE**. Fresh `tlcn-local` has
+smoke PASS, zero DagRuns and no loaded lakehouse tables at verification.
+Older runtime data was retired/deleted with owner approval; the data acceptance
+and physical NOOP proofs below remain historical Git evidence.
+
+Historical data acceptance: **LOCAL_NINE_SILVER_COMPLETE_CLEANROOM_NOOP_PASS** for the pinned
 local bundle. Final regression206 PASS/1 opt-in SKIP, cleanup and Git secret/style review PASS.
 NSO production remains DRAFT. No Gold, production scheduling or consumer cutover.
 

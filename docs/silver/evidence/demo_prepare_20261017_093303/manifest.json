@@ -1,0 +1,87 @@
+{
+  "status": "PREPARE_ONLY",
+  "files": [
+    {
+      "path": "backup-plan.json",
+      "bytes": 11315,
+      "sha256": "b046a28c05764676f1404cb74b4084adcaed3c9b1a2e58207dae5b3ca81422e2"
+    },
+    {
+      "path": "catalog-baseline-comparison.json",
+      "bytes": 3898,
+      "sha256": "b988fd5ee4c8057d2d134c6d7f6a5d95ac7312abe328257f4a76ea39af093194"
+    },
+    {
+      "path": "catalog-comparison-initial-screening.json",
+      "bytes": 7016,
+      "sha256": "f8eb893d4fd8c093eef0c346aa32d28934a0826f98efb43114fd72a46a7972e6"
+    },
+    {
+      "path": "dag-regression.json",
+      "bytes": 630,
+      "sha256": "e7a4be9bc6f04d13ec806df12d4c6701fb9cb7ec731527c503e31c025d7bec27"
+    },
+    {
+      "path": "deletion-manifest.json",
+      "bytes": 23398,
+      "sha256": "c636ab5faadb4dce90e68a9a411bcbf8e1ebfa95eb26e6bc6961e78493a4bf07"
+    },
+    {
+      "path": "docker-inventory.json",
+      "bytes": 143188,
+      "sha256": "c6a15e68b4a2cf10f5294e6cd27b8c418f05959a09cfea37f389e3f5d771e4bd"
+    },
+    {
+      "path": "existing-readiness-probe.json",
+      "bytes": 459,
+      "sha256": "70b5df23d53e3a60e4a59363d28480c80b963840fbdcd3bfa3166700dbfc842b"
+    },
+    {
+      "path": "git-and-backup.json",
+      "bytes": 671,
+      "sha256": "a758976cb580fbd0e9bd8c05b9b313a90164443ef2173311f2281de9bb7ec714"
+    },
+    {
+      "path": "port-investigation.json",
+      "bytes": 1388,
+      "sha256": "15c946af239644b6215dc12ea68a070b8009ff54f235b031bd1c661fb202d457"
+    },
+    {
+      "path": "raw-verification.json",
+      "bytes": 10436,
+      "sha256": "c2b0fbdd12f1047ad8012f15aae32fe91774e18648cba681dd4928f4e9629c52"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2726,
+      "sha256": "6fc60f608450651f2850cff626b753b9f69e9a0e0df41c4bddffa1ddeaaf7584"
+    },
+    {
+      "path": "report.json",
+      "bytes": 4390,
+      "sha256": "42d84d20fd5c45db0ff391ccda548ee125a5d5f0eea95a2d7dc6b8f84e151cf4"
+    },
+    {
+      "path": "resources.json",
+      "bytes": 16895,
+      "sha256": "37a4c1e64302e4b7a5be3cfe3b18247e3d0fb776bc0a6c68b275a8af33d14995"
+    },
+    {
+      "path": "runtime-readonly.json",
+      "bytes": 22898,
+      "sha256": "8092e1a26118181b737405ec8835e0a861364b01bcdafe496a1ea15b191c9afb"
+    },
+    {
+      "path": "secret-scan.json",
+      "bytes": 5765,
+      "sha256": "696ac9357cd9b77ad521d12982d97f7df675533ebb78129d31733076f55c3767"
+    },
+    {
+      "path": "tests.json",
+      "bytes": 958,
+      "sha256": "4ed48517c2d13a17174d3e110d4fb260dbd0bab0bf316dcee4df7d311ff45fd3"
+    }
+  ],
+  "self_excluded": true,
+  "docs_links_checked": 37
+}
