@@ -4,17 +4,17 @@ Lifecycle::
 
     adapter.extract_full(config)
       → iterate DataChunks with checkpoint
-      → persist chunk to Bronze Iceberg table (s3://warehouse/bronze/*)
+      → persist chunk to Bronze Iceberg (if Bronze writer configured)
       → compute artifact checksum
       → check idempotency (same snapshot already ingested?)
-      → build manifest (in-memory) and record snapshot in PostgreSQL
+      → upload raw artifact to MinIO raw landing
+      → build & upload manifest
+      → record snapshot in PostgreSQL metadata
       → return IngestionResult
 
-Architecture (Phase 2):
-- Bronze Iceberg: Append-only queryable Iceberg tables in iceberg.bronze.*
-  backed by s3://warehouse/bronze/* (single MinIO bucket `warehouse`).
-- Raw file upload to a separate MinIO `bronze` bucket is removed.
-  Idempotency is guaranteed by PostgreSQL source_snapshots + SHA-256 checksum.
+Architecture Separation:
+1. Raw Landing: Immutable raw artifact (ZIP/CSV) + manifest.json in s3://bronze/raw/
+2. Bronze Iceberg: Append-only queryable Iceberg tables in iceberg.bronze with technical metadata.
 """
 
 from __future__ import annotations
@@ -34,9 +34,14 @@ from ingestion.manifest.manifest import IngestionManifest
 from ingestion.reliability.bronze_quality_validator import BronzeQualityValidator
 from ingestion.reliability.idempotency_controller import IdempotencyController
 from ingestion.reliability.quarantine_manager import QuarantineManager
-from ingestion.storage.bronze_storage_layout import BronzeStorageLayout
+from ingestion.storage.bronze_storage_layout import BronzeStorageLayout, resolve_source_group
 from ingestion.storage.bronze_writer import BronzeIcebergWriter
 from ingestion.storage.metadata_repository import MetadataRepository
+from ingestion.storage.metadata_schemas import (
+    AuditLogEntry,
+    BatchMetadata,
+    BatchStatus,
+)
 from ingestion.storage.minio_storage import MinioStorage
 from ingestion.utils.error_classifier import classify_error
 from ingestion.utils.hashing import compute_directory_checksum, compute_file_checksum
@@ -374,18 +379,79 @@ class FullLoader(BaseLoader):
                     source_metadata={"skipped_reason": "unchanged_snapshot"},
                 )
 
-            # ── 5. Compute artifact URI (no MinIO upload – Phase 2) ─────
-            # Raw files stay on disk; idempotency is owned by PostgreSQL snapshots.
-            # artifact_uri is recorded as a local path reference for traceability.
-            artifact_uri = f"local://{artifact_path}" if artifact_path else "no-artifact"
+            # ── 5. Upload raw artifact to MinIO raw landing ─────────
+            ingestion_date = started_at.strftime("%Y-%m-%d")
+            artifact_filename = os.path.basename(artifact_path) if artifact_path else f"data.{config.format.value.lower()}"
+            artifact_key = self.minio_storage.build_raw_landing_key(
+                config.source_id,
+                ingestion_date,
+                run_id,
+                artifact_filename,
+            )
 
-            # ── 6. Build manifest (in-memory only) ──────────────────────
+            artifact_uri = "no-artifact"
+            if artifact_path and os.path.exists(artifact_path):
+                artifact_uri = self.minio_storage.upload_file(artifact_path, "bronze", artifact_key)
+                logger.info("Raw artifact uploaded", artifact_uri=artifact_uri, size=artifact_size)
+
+                # Archive into Bronze 5-folder storage layout: {source_group}/raw/{batch_id}/{filename}
+                try:
+                    self.bronze_layout.archive_raw_artifact(config.source_id, batch_id, artifact_path)
+                except Exception as layout_err:
+                    logger.warning(f"Could not archive to bronze raw layout: {layout_err}")
+
+            # ── 6. Build & upload manifest ──────────────────────────
             completed_at = datetime.now(timezone.utc)
             manifest.set_artifact_info(artifact_uri, config.format.value, artifact_size, artifact_checksum)
             manifest.set_metrics(total_records, chunks_processed)
             manifest.set_timing(started_at.isoformat(), completed_at.isoformat())
             manifest.set_status(IngestionStatus.SUCCESS)
-            manifest_uri = f"local://manifest/{config.source_id}/{run_id}"
+
+            manifest_key = self.minio_storage.build_manifest_key(config.source_id, ingestion_date, run_id)
+            manifest_uri = manifest.save_to_storage(self.minio_storage, "bronze", manifest_key)
+
+            # Save manifest into Bronze 5-folder layout: {source_group}/manifest/run_{run_id}.json
+            try:
+                self.bronze_layout.save_manifest(config.source_id, run_id, manifest.to_dict())
+            except Exception as m_err:
+                logger.warning(f"Could not save manifest to bronze layout: {m_err}")
+
+            # ── 6b. Persist Batch Metadata & Audit Entry ─────────────
+            batch_meta = BatchMetadata(
+                batch_id=batch_id,
+                source_name=config.source_id,
+                source_group=resolve_source_group(config.source_id),
+                extracted_at=started_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                record_count=total_records,
+                checksum=artifact_checksum,
+                file_size_bytes=artifact_size,
+                status=BatchStatus.COMMITTED,
+                committed_at=completed_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                target_table=f"iceberg.bronze.{config.source_id}",
+            )
+            try:
+                self.bronze_layout.save_batch_metadata(batch_meta)
+                self.idempotency_controller.register_committed_batch(batch_meta)
+            except Exception as meta_err:
+                logger.warning(f"Could not save batch metadata: {meta_err}")
+
+            audit_entry = AuditLogEntry(
+                run_id=run_id,
+                batch_id=batch_id,
+                source_id=config.source_id,
+                source_group=resolve_source_group(config.source_id),
+                started_at=started_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                ended_at=completed_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                status=BatchStatus.COMMITTED,
+                records_processed=total_records,
+                records_quarantined=0,
+                checksum=artifact_checksum,
+                duration_seconds=(completed_at - started_at).total_seconds(),
+            )
+            try:
+                self.bronze_layout.save_audit_entry(audit_entry)
+            except Exception as audit_err:
+                logger.warning(f"Could not save audit entry: {audit_err}")
 
             # ── 7. Record snapshot in PostgreSQL ────────────────────
             snapshot_id = self._record_snapshot(

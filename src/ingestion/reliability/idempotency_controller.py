@@ -48,15 +48,7 @@ class IdempotencyController:
     ) -> IdempotencyDecision:
         """Evaluate if the batch should be processed or skipped as a duplicate."""
         # 1. Check MinIO metadata directory for existing committed batch
-        # NOTE: bucket 'bronze' may not exist (Phase 2 cleanup) – fail gracefully.
-        existing_meta = None
-        try:
-            existing_meta = self.layout.load_batch_metadata(source_id, batch_id)
-        except Exception as e:
-            self.logger.debug(
-                f"Could not load batch metadata from bronze layout for {batch_id} "
-                f"(bucket may not exist): {e}"
-            )
+        existing_meta = self.layout.load_batch_metadata(source_id, batch_id)
 
         if existing_meta:
             if existing_meta.status == BatchStatus.COMMITTED and not force_reprocess:

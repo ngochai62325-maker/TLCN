@@ -105,23 +105,12 @@ class QuarantineManager:
         )
 
         # Upload quarantined file + .error.json
-        # NOTE: bucket 'bronze' may not exist (Phase 2 cleanup) – fail gracefully.
-        try:
-            upload_info = self.layout.quarantine_file(
-                source_id=source_id,
-                local_path=file_path,
-                diagnostic=diagnostic,
-                timestamp_str=ts_str,
-            )
-        except Exception as e:
-            self.logger.warning(
-                f"Could not upload to quarantine storage (bucket may not exist): {e}. "
-                f"Quarantine recorded locally only."
-            )
-            upload_info = {
-                "quarantined_uri": f"local://quarantine/{source_group}/{ts_str}_{os.path.basename(file_path)}",
-                "diagnostic_uri": f"local://quarantine/{source_group}/{ts_str}_{os.path.basename(file_path)}.error.json",
-            }
+        upload_info = self.layout.quarantine_file(
+            source_id=source_id,
+            local_path=file_path,
+            diagnostic=diagnostic,
+            timestamp_str=ts_str,
+        )
 
         # Persist audit record with status QUARANTINED
         if run_id:
