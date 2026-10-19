@@ -212,10 +212,6 @@ class TestFaostatProductionAdapter:
         cs = MagicMock()
         cs.get_last_successful.return_value = None
         ms = MagicMock()
-        ms.build_raw_landing_key.return_value = "raw/faostat_production/test.csv"
-        ms.build_manifest_key.return_value = "raw/faostat_production/manifest.json"
-        ms.upload_file.return_value = "s3://bronze/raw/faostat_production/test.csv"
-        ms.upload_json.return_value = "s3://bronze/raw/faostat_production/manifest.json"
         mr = MagicMock()
         mr.get_latest_run.return_value = None
         mr.find_snapshot_by_checksum.return_value = None

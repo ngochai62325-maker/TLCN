@@ -45,7 +45,7 @@ def infra():
     repo.initialize()
 
     storage = MinioStorage()
-    for bucket in ["bronze", "silver", "gold", "warehouse"]:
+    for bucket in ["warehouse"]:
         storage.ensure_bucket(bucket)
 
     writer = BronzeIcebergWriter()
@@ -116,10 +116,10 @@ class TestPhase2EEndToEndIntegration:
         assert result.manifest_uri is not None
 
         # MinIO raw landing validation
-        artifact_key = result.artifact_uri.replace("s3://bronze/", "")
-        manifest_key = result.manifest_uri.replace("s3://bronze/", "")
-        assert storage.file_exists("bronze", artifact_key) is True
-        assert storage.file_exists("bronze", manifest_key) is True
+        artifact_key = result.artifact_uri.replace("s3://warehouse/", "")
+        manifest_key = result.manifest_uri.replace("s3://warehouse/", "")
+        assert storage.file_exists("warehouse", artifact_key) is True
+        assert storage.file_exists("warehouse", manifest_key) is True
 
         # PostgreSQL metadata validation
         run_record = repo.get_run(result.run_id)
@@ -335,8 +335,8 @@ class TestPhase2EEndToEndIntegration:
         assert "_source_file" in col_names
 
         # Raw landing zip artifact verification
-        artifact_key = result.artifact_uri.replace("s3://bronze/", "")
-        assert storage.file_exists("bronze", artifact_key) is True
+        artifact_key = result.artifact_uri.replace("s3://warehouse/", "")
+        assert storage.file_exists("warehouse", artifact_key) is True
         assert artifact_key.endswith(".zip")
 
     # ──────────────────────────────────────────────────────────────────

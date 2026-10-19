@@ -114,7 +114,6 @@ def _setup_full_loader(fail_on_chunk=None):
         minio_storage=MagicMock(),
         metadata_repo=repo,
         bronze_writer=writer,
-        bronze_layout=MagicMock(),
         quality_validator=MagicMock(),
         idempotency_controller=MagicMock(),
         quarantine_manager=MagicMock()
@@ -173,14 +172,14 @@ def test_scenario_b_and_e_chunk_write_failure_and_recovery():
 def test_scenario_c_failure_after_write_orphan_cleanup():
     """Scenario C: Failure after write triggers cleanup."""
     loader, ckpt, writer, adapter = _setup_full_loader(fail_on_chunk=None)
-    # Simulate failure in manifest upload which is not swallowed
-    loader.minio_storage.upload_json.side_effect = RuntimeError("Network error saving manifest")
+    # Simulate failure in post-write step which is not swallowed
+    ckpt.clear = MagicMock(side_effect=RuntimeError("Storage failure clearing checkpoint"))
     
     config = _make_dummy_config(source_id="test_c", load_strategy=LoadStrategy.FULL)
     result = loader.execute(config, "run_c", "batch_c")
     
     assert result.status == IngestionStatus.FAILED
-    assert "Network error saving manifest" in result.error_message
+    assert "Storage failure clearing checkpoint" in result.error_message
     
     # Airflow layer receives FAILED, orchestrates retry.
     # Meanwhile, IdempotencyController can cleanup the run

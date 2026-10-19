@@ -46,10 +46,6 @@ def _make_loader(adapter, checkpoint_store=None, minio_storage=None, metadata_re
     cs = checkpoint_store or MagicMock()
     cs.get_last_successful.return_value = None
     ms = minio_storage or MagicMock()
-    ms.upload_file.return_value = "s3://bronze/raw/test/data.csv"
-    ms.upload_json.return_value = "s3://bronze/raw/test/manifest.json"
-    ms.build_raw_landing_key.return_value = "raw/test/data.csv"
-    ms.build_manifest_key.return_value = "raw/test/manifest.json"
     mr = metadata_repo or MagicMock()
     mr.find_snapshot_by_checksum.return_value = None
     return FullLoader(adapter=adapter, checkpoint_store=cs, minio_storage=ms, metadata_repo=mr)
@@ -118,10 +114,6 @@ class TestFullLoaderIdempotency:
         cs = MagicMock()
         cs.get_last_successful.return_value = None
         ms = MagicMock()
-        ms.upload_file.return_value = "s3://bronze/raw/test/data.csv"
-        ms.upload_json.return_value = "s3://bronze/raw/test/manifest.json"
-        ms.build_raw_landing_key.return_value = "raw/test/data.csv"
-        ms.build_manifest_key.return_value = "raw/test/manifest.json"
 
         loader = FullLoader(adapter=adapter, checkpoint_store=cs, minio_storage=ms, metadata_repo=mr)
         config = _make_config()
