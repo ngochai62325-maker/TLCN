@@ -1,0 +1,4762 @@
+{
+  "audit_date": "2026-10-22",
+  "evidence_scope": "Raw files and checked-in code/contracts; no running Silver catalog inspected",
+  "runtime": {
+    "docker_engine": "unavailable: dockerDesktopLinuxEngine pipe missing",
+    "trino_18080": "HTTP timeout",
+    "rest_8181": "HTTP timeout"
+  },
+  "contracts": {
+    "faostat_monthly_price": {
+      "sha256": "b5e60b55d19c5b02b249cedbf6dcb57c5d54df7ce57bd28d94eeb32498bc771e",
+      "dataset": {
+        "name": "FAOSTAT Monthly Producer Prices (Silver)",
+        "source_id": "faostat_monthly_price",
+        "source_system": "FAOSTAT",
+        "bronze_input": "iceberg.bronze.faostat_monthly_price",
+        "silver_output": "iceberg.silver.faostat_monthly_price"
+      },
+      "business_key": [
+        "country_code",
+        "commodity_code",
+        "year",
+        "month_code",
+        "element_code"
+      ],
+      "partition_columns": [
+        "year"
+      ],
+      "columns": [
+        {
+          "name": "domain_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "country_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "country_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "element_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "element",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "month_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "month_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value",
+          "type": "decimal(18,4)",
+          "nullable": true
+        },
+        {
+          "name": "flag",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "flag_description",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "time_grain",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "month",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "price_kind",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "value_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "unit_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "missing_reason",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    },
+    "faostat_production": {
+      "sha256": "4bc45bb34fc7ac0cb91913d9a547cc8b749a2c6be83b2396fe84c22dcb01394f",
+      "dataset": {
+        "name": "FAOSTAT Production (Silver)",
+        "source_id": "faostat_production",
+        "source_system": "FAOSTAT",
+        "bronze_input": "iceberg.bronze.faostat_production",
+        "silver_output": "iceberg.silver.faostat_production"
+      },
+      "business_key": [
+        "country_code",
+        "commodity_code",
+        "year",
+        "element_code"
+      ],
+      "partition_columns": [
+        "year"
+      ],
+      "columns": [
+        {
+          "name": "domain_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "country_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "country_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "element_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "element",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value",
+          "type": "decimal(18,2)",
+          "nullable": true
+        },
+        {
+          "name": "flag",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "flag_description",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "unit_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "missing_reason",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    },
+    "faostat_supply_utilization": {
+      "sha256": "8d7782b86634d0116189959f7e7b92501912dbf75eda38581f931c946627f3c7",
+      "dataset": {
+        "name": "FAOSTAT Supply Utilization Accounts (Silver)",
+        "source_id": "faostat_supply_utilization",
+        "source_system": "FAOSTAT",
+        "bronze_input": "iceberg.bronze.faostat_supply_utilization",
+        "silver_output": "iceberg.silver.faostat_supply_utilization"
+      },
+      "business_key": [
+        "country_code",
+        "commodity_code",
+        "year",
+        "element_code"
+      ],
+      "partition_columns": [
+        "year"
+      ],
+      "columns": [
+        {
+          "name": "domain_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "country_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "country_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "element_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "element",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value",
+          "type": "decimal(18,2)",
+          "nullable": true
+        },
+        {
+          "name": "flag",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "flag_description",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "note",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "unit_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "missing_reason",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    },
+    "faostat_trade": {
+      "sha256": "29d219bae9abf7cf529511a9940aa8772d6889464248ff304d8c73725f89e584",
+      "dataset": {
+        "name": "FAOSTAT Detailed Trade Matrix (Silver)",
+        "source_id": "faostat_trade",
+        "source_system": "FAOSTAT",
+        "bronze_input": "iceberg.bronze.faostat_trade",
+        "silver_output": "iceberg.silver.faostat_trade"
+      },
+      "business_key": [
+        "reporter_country_code",
+        "partner_country_code",
+        "commodity_code",
+        "year",
+        "element_code"
+      ],
+      "partition_columns": [
+        "year"
+      ],
+      "columns": [
+        {
+          "name": "reporter_country_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "reporter_country_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "partner_country_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "partner_country_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "element_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "element_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value",
+          "type": "decimal(18,2)",
+          "nullable": true
+        },
+        {
+          "name": "flag",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "unit_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "missing_reason",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    },
+    "nso": {
+      "sha256": "9246124b891138c18d851356a95d62b2fe177adb2c73df7968fb6d7e5ee0eb8b",
+      "dataset": {
+        "name": "nso",
+        "source_system": "NSO",
+        "source_id": "nso",
+        "bronze_input": "iceberg.bronze.nso",
+        "silver_output": "iceberg.silver.nso_rice_statistics"
+      },
+      "business_key": [
+        "source_table",
+        "source_geography_key",
+        "year",
+        "measure",
+        "season",
+        "statistic_kind"
+      ],
+      "partition_columns": [
+        "year"
+      ],
+      "columns": [
+        {
+          "name": "bronze_read_snapshot_id",
+          "type": "long",
+          "nullable": false
+        },
+        {
+          "name": "source_table",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "source_column",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "source_geography_key",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "geography_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "geography_name_candidate",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "geography_level",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "geography_status",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "geography_code",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "boundary_version",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "geography_mapping_version",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "geography_evidence",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "period_raw",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "measure",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "season",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "statistic_kind",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "release_status",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "value_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value_source",
+          "type": "decimal(28,8)",
+          "nullable": true
+        },
+        {
+          "name": "unit_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "unit_source_reference",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "conversion_factor",
+          "type": "decimal(8,0)",
+          "nullable": false
+        },
+        {
+          "name": "value",
+          "type": "decimal(28,8)",
+          "nullable": true
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit_status",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit_reference",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit_evidence",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit_mapping_version",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "metadata_version",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "quality_status",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "missing_reason",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "review_reason",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "diagnostic_evidence",
+          "type": "string",
+          "nullable": false
+        }
+      ]
+    },
+    "thitruongnongsan": {
+      "sha256": "1269d585bf1d2173962941c2d4e3ac075cb78069574a2da840fe0c91db690a04",
+      "dataset": {
+        "name": "IPSARD Daily Rice Market Prices (Silver)",
+        "source_id": "thitruongnongsan",
+        "source_system": "IPSARD",
+        "bronze_input": "iceberg.bronze.thitruongnongsan",
+        "silver_output": "iceberg.silver.thitruongnongsan"
+      },
+      "business_key": [
+        "market",
+        "commodity",
+        "price_type",
+        "unit",
+        "currency",
+        "source",
+        "date"
+      ],
+      "partition_columns": [
+        "year"
+      ],
+      "columns": [
+        {
+          "name": "commodity",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "market",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "price_type",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "date",
+          "type": "date",
+          "nullable": false
+        },
+        {
+          "name": "price_value",
+          "type": "decimal(18,2)",
+          "nullable": true
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "value_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "unit_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "missing_reason",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    },
+    "usda_psd": {
+      "sha256": "8ba769aed0719064d7fbf31245c404684bc9e0b89799cca0b5364e78881315b5",
+      "dataset": {
+        "name": "USDA FAS - Production, Supply and Distribution (PSD) (Silver)",
+        "source_id": "usda_psd",
+        "source_system": "USDA",
+        "bronze_input": "iceberg.bronze.usda_psd",
+        "silver_output": "iceberg.silver.usda_rice_psd"
+      },
+      "business_key": [
+        "country",
+        "commodity",
+        "attribute",
+        "market_year"
+      ],
+      "partition_columns": [
+        "market_year"
+      ],
+      "columns": [
+        {
+          "name": "country",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "attribute",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "market_year",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "crop_year",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value",
+          "type": "decimal(18,4)",
+          "nullable": true
+        },
+        {
+          "name": "value_source",
+          "type": "decimal(28,8)",
+          "nullable": true
+        },
+        {
+          "name": "source_unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "conversion_factor",
+          "type": "decimal(18,6)",
+          "nullable": false
+        },
+        {
+          "name": "value_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "missing_reason",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    },
+    "usda_rice_yearbook": {
+      "sha256": "cefb32c244ea7b2ddf0e5ba2563da315fd0f948e10aaf38aa8785bd7a4a43450",
+      "dataset": {
+        "name": "USDA Rice Yearbook Export Prices (Silver)",
+        "source_id": "usda_rice_yearbook",
+        "source_system": "USDA",
+        "bronze_input": "iceberg.bronze.usda_rice_yearbook",
+        "silver_output": "iceberg.silver.usda_rice_yearbook"
+      },
+      "business_key": [
+        "location",
+        "commodity_class",
+        "year",
+        "reference_period",
+        "statistic_type"
+      ],
+      "partition_columns": [
+        "year"
+      ],
+      "columns": [
+        {
+          "name": "table_name",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "table_number",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "commodity",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity_class",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "reference_period",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "statistic_type",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "value",
+          "type": "decimal(18,2)",
+          "nullable": true
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "unit_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "missing_reason",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    },
+    "worldbank_pinksheet": {
+      "sha256": "f8a0af42b85bee335551648e6992847db6e6eadd7f2fac369c094ce5a4a27f3f",
+      "dataset": {
+        "name": "World Bank - Commodity Markets Pink Sheet (Silver)",
+        "source_id": "worldbank_pinksheet",
+        "source_system": "WorldBank",
+        "bronze_input": "iceberg.bronze.worldbank_pinksheet",
+        "silver_output": "iceberg.silver.worldbank_commodity_monthly"
+      },
+      "business_key": [
+        "commodity_code",
+        "period_date"
+      ],
+      "partition_columns": [
+        "year"
+      ],
+      "columns": [
+        {
+          "name": "commodity_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "commodity_name",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "period_code",
+          "type": "string",
+          "nullable": false
+        },
+        {
+          "name": "period_date",
+          "type": "date",
+          "nullable": false
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "month",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "price",
+          "type": "decimal(18,2)",
+          "nullable": true
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "series_name",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "value_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "unit_raw",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "missing_reason",
+          "type": "string",
+          "nullable": true
+        }
+      ]
+    }
+  },
+  "raw_profiles": {
+    "production_world": {
+      "file": "data\\raw\\faostat\\production_world.csv",
+      "sha256": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc",
+      "rows": 22738,
+      "year_min": "1961",
+      "year_max": "2024",
+      "countries": 146,
+      "products": [
+        {
+          "Item Code (CPC)": "0113",
+          "Item": "Rice"
+        }
+      ],
+      "elements": [
+        {
+          "Element Code": "5312",
+          "Element": "Area harvested",
+          "Unit": "ha"
+        },
+        {
+          "Element Code": "5412",
+          "Element": "Yield",
+          "Unit": "kg/ha"
+        },
+        {
+          "Element Code": "5510",
+          "Element": "Production",
+          "Unit": "t"
+        }
+      ],
+      "missing_values": 229,
+      "zero_values": 572,
+      "negative_values": 0,
+      "country_identity_examples": [
+        {
+          "Area Code (M49)": "159",
+          "Area": "China"
+        },
+        {
+          "Area Code (M49)": "344",
+          "Area": "China, Hong Kong SAR"
+        },
+        {
+          "Area Code (M49)": "156",
+          "Area": "China, mainland"
+        },
+        {
+          "Area Code (M49)": "158",
+          "Area": "China, Taiwan Province of"
+        },
+        {
+          "Area Code (M49)": "736",
+          "Area": "Sudan (former)"
+        },
+        {
+          "Area Code (M49)": "810",
+          "Area": "USSR"
+        },
+        {
+          "Area Code (M49)": "890",
+          "Area": "Yugoslav SFR"
+        }
+      ]
+    },
+    "price": {
+      "file": "data\\raw\\faostat\\price.csv",
+      "sha256": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af",
+      "rows": 15334,
+      "year_min": "1991",
+      "year_max": "2025",
+      "countries": 104,
+      "products": [
+        {
+          "Item Code (CPC)": "0113",
+          "Item": "Rice"
+        }
+      ],
+      "elements": [
+        {
+          "Element Code": "5530",
+          "Element": "Producer Price (LCU/tonne)",
+          "Unit": "LCU"
+        },
+        {
+          "Element Code": "5531",
+          "Element": "Producer Price (SLC/tonne)",
+          "Unit": "SLC"
+        },
+        {
+          "Element Code": "5539",
+          "Element": "Producer Price Index (2014-2016 = 100)",
+          "Unit": ""
+        },
+        {
+          "Element Code": "5532",
+          "Element": "Producer Price (USD/tonne)",
+          "Unit": "USD"
+        }
+      ],
+      "missing_values": 0,
+      "zero_values": 2,
+      "negative_values": 0,
+      "country_identity_examples": [
+        {
+          "Area Code (M49)": "156",
+          "Area": "China, mainland"
+        },
+        {
+          "Area Code (M49)": "736",
+          "Area": "Sudan (former)"
+        }
+      ],
+      "period_counts": {
+        "7001": 522,
+        "7002": 444,
+        "7003": 448,
+        "7004": 438,
+        "7005": 438,
+        "7006": 432,
+        "7007": 422,
+        "7008": 423,
+        "7009": 423,
+        "7010": 444,
+        "7011": 451,
+        "7012": 456,
+        "7021": 9993
+      }
+    },
+    "supply_utilization": {
+      "file": "data\\raw\\faostat\\supply_utilization.csv",
+      "sha256": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c",
+      "rows": 36380,
+      "year_min": "2010",
+      "year_max": "2023",
+      "countries": 179,
+      "products": [
+        {
+          "Item Code (CPC)": "0113",
+          "Item": "Rice"
+        },
+        {
+          "Item Code (CPC)": "23161.02",
+          "Item": "Rice, milled"
+        }
+      ],
+      "elements": [
+        {
+          "Element Code": "5113",
+          "Element": "Opening stocks",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5510",
+          "Element": "Production",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5071",
+          "Element": "Stock Variation",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5520",
+          "Element": "Feed",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5525",
+          "Element": "Seed",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5016",
+          "Element": "Loss",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5023",
+          "Element": "Processed",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5166",
+          "Element": "Residuals",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5610",
+          "Element": "Import quantity",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5910",
+          "Element": "Export quantity",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5141",
+          "Element": "Food supply quantity (tonnes)",
+          "Unit": "t"
+        },
+        {
+          "Element Code": "5165",
+          "Element": "Other uses (non-food)",
+          "Unit": "t"
+        }
+      ],
+      "missing_values": 257,
+      "zero_values": 8660,
+      "negative_values": 1516,
+      "country_identity_examples": [
+        {
+          "Area Code (M49)": "159",
+          "Area": "China"
+        },
+        {
+          "Area Code (M49)": "344",
+          "Area": "China, Hong Kong SAR"
+        },
+        {
+          "Area Code (M49)": "446",
+          "Area": "China, Macao SAR"
+        },
+        {
+          "Area Code (M49)": "156",
+          "Area": "China, mainland"
+        },
+        {
+          "Area Code (M49)": "158",
+          "Area": "China, Taiwan Province of"
+        }
+      ],
+      "negative_by_element": {
+        "5071": 1280,
+        "5166": 236
+      }
+    },
+    "trade": {
+      "file": "data\\raw\\faostat\\Trade_DetailedTradeMatrix_E_All_Data_(Normalized)\\rice_trade_data.csv",
+      "sha256": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168",
+      "rows": 1226470,
+      "year_min": 1986,
+      "year_max": 2024,
+      "products": [
+        [
+          "'0113",
+          "Rice"
+        ],
+        [
+          "'21691.01",
+          "Oil of rice bran"
+        ],
+        [
+          "'21910.01",
+          "Cake of rice bran"
+        ],
+        [
+          "'23120.01",
+          "Flour of rice"
+        ],
+        [
+          "'23161.01",
+          "Rice, milled (husked)"
+        ],
+        [
+          "'23161.02",
+          "Rice, milled"
+        ],
+        [
+          "'23161.03",
+          "Rice, broken"
+        ],
+        [
+          "'23162",
+          "Husked rice"
+        ],
+        [
+          "'23490.01",
+          "Communion wafers, empty cachets of a kind suitable for pharmaceutical use, sealing wafers, rice paper and similar products."
+        ],
+        [
+          "'24230.02",
+          "Rice-fermented beverages"
+        ],
+        [
+          "'39120.02",
+          "Bran of rice"
+        ],
+        [
+          "'F0030",
+          "Rice, paddy (rice milled equivalent)"
+        ]
+      ],
+      "elements": [
+        [
+          "5610",
+          "Import quantity",
+          "t"
+        ],
+        [
+          "5622",
+          "Import value",
+          "1000 USD"
+        ],
+        [
+          "5910",
+          "Export quantity",
+          "t"
+        ],
+        [
+          "5922",
+          "Export value",
+          "1000 USD"
+        ]
+      ],
+      "reporter_count": 195,
+      "partner_count": 211,
+      "area_examples": [
+        [
+          "'156",
+          "China, mainland"
+        ],
+        [
+          "'158",
+          "China, Taiwan Province of"
+        ],
+        [
+          "'344",
+          "China, Hong Kong SAR"
+        ],
+        [
+          "'446",
+          "China, Macao SAR"
+        ],
+        [
+          "'736",
+          "Sudan (former)"
+        ],
+        [
+          "'810",
+          "USSR"
+        ],
+        [
+          "'890",
+          "Yugoslav SFR"
+        ]
+      ],
+      "value_counts": {
+        "missing": 0,
+        "zero": 133948,
+        "negative": 0
+      }
+    },
+    "yearbook": {
+      "file": "data\\raw\\usda\\Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+      "sha256": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba",
+      "rows": 13131,
+      "key_unique_rows": 12936,
+      "duplicate_rows": 195,
+      "locations": [
+        "INDIA",
+        "PAKISTAN",
+        "THAILAND",
+        "VIETNAM"
+      ],
+      "classes": [
+        "10-PERCENT BROKEN",
+        "100-PERCENT BROKEN",
+        "100-PERCENT GRADE B",
+        "15-PERCENT BROKEN",
+        "20-PERCENT BROKEN",
+        "25-PERCENT BROKEN",
+        "35-PERCENT BROKEN",
+        "5-PERCENT BROKEN",
+        "5-PERCENT DOUBLE WATER POLISHED",
+        "5-PERCENT PARBOILED",
+        "A.1 SPECIAL",
+        "A.1 SUPER",
+        "FRAGRANT WHITE RICE",
+        "JASMINE (AROMATIC)",
+        "PUSA BASMATI",
+        "SUPER KERNAL BASMATI"
+      ],
+      "reference_periods": [
+        "April",
+        "August",
+        "December",
+        "February",
+        "January",
+        "July",
+        "June",
+        "MARKETING",
+        "March",
+        "May",
+        "November",
+        "October",
+        "September"
+      ],
+      "year_min": "1985",
+      "year_max": "2025",
+      "missing_raw": 4594,
+      "monthly_rows": 11929,
+      "summary_rows": 1007,
+      "vnm_5pct": {
+        "monthly_rows": 343,
+        "numeric_rows": 327,
+        "null_rows": 16,
+        "calendar_mapping_status": "hypothesis pending source workbook confirmation",
+        "hypothesized_start": "1997-08-01",
+        "hypothesized_end": "2026-02-01",
+        "missing_period_rows": 0,
+        "missing_value_periods": [
+          "1998-05-01",
+          "2005-11-01",
+          "2005-12-01",
+          "2006-12-01",
+          "2007-01-01",
+          "2007-02-01",
+          "2007-04-01",
+          "2007-05-01",
+          "2007-06-01",
+          "2007-07-01",
+          "2007-08-01",
+          "2007-09-01",
+          "2007-10-01",
+          "2007-11-01",
+          "2007-12-01",
+          "2009-12-01"
+        ],
+        "samples": [
+          {
+            "YEAR": "2024",
+            "REFERENCE_PERIOD_DESCRIPTION": "July",
+            "VALUE": "385"
+          },
+          {
+            "YEAR": "2025",
+            "REFERENCE_PERIOD_DESCRIPTION": "August",
+            "VALUE": "396"
+          },
+          {
+            "YEAR": "2025",
+            "REFERENCE_PERIOD_DESCRIPTION": "September",
+            "VALUE": "383"
+          },
+          {
+            "YEAR": "2025",
+            "REFERENCE_PERIOD_DESCRIPTION": "October",
+            "VALUE": "377"
+          },
+          {
+            "YEAR": "2025",
+            "REFERENCE_PERIOD_DESCRIPTION": "November",
+            "VALUE": "365"
+          },
+          {
+            "YEAR": "2025",
+            "REFERENCE_PERIOD_DESCRIPTION": "December",
+            "VALUE": "365"
+          },
+          {
+            "YEAR": "2025",
+            "REFERENCE_PERIOD_DESCRIPTION": "January",
+            "VALUE": "368"
+          },
+          {
+            "YEAR": "2025",
+            "REFERENCE_PERIOD_DESCRIPTION": "February",
+            "VALUE": "368"
+          }
+        ]
+      }
+    },
+    "psd": {
+      "file": "data\\raw\\usda\\usda.xls",
+      "sha256": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf",
+      "rows": 15,
+      "observations": 990,
+      "crop_year_start": "1960/1961",
+      "crop_year_end": "2025/2026",
+      "countries": [
+        "Vietnam"
+      ],
+      "attributes_units": [
+        {
+          "Attribute": "Area Harvested",
+          "Unit Description": "(1000 HA)"
+        },
+        {
+          "Attribute": "Beginning Stocks",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "Production",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "Rough Production",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "Milling Rate (.9999)",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "Imports",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "TY Imports",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "TY Imp. from U.S.",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "Total Supply",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "Exports",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "TY Exports",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "Domestic Consumption",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "Ending Stocks",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "Total Distribution",
+          "Unit Description": "(1000 MT)"
+        },
+        {
+          "Attribute": "Yield",
+          "Unit Description": "(MT/HA)"
+        }
+      ],
+      "missing": 0
+    },
+    "domestic_price": {
+      "file": "data\\raw\\thitruongnongsan\\price_luagao.xlsx",
+      "sha256": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063",
+      "rows": 20394,
+      "quote_conflict_rows": 4,
+      "deduplicated_rows": 20387,
+      "duplicate_rows": 3,
+      "date_min": "2021-01-04",
+      "date_max": "2026-08-03",
+      "market_labels": [
+        "An Giang",
+        "Bạc Liêu",
+        "Bến Tre",
+        "Cà Mau",
+        "Cần Thơ",
+        "Hà Nội",
+        "Hậu GIang",
+        "Hậu Giang",
+        "Kiên Giang",
+        "Long An",
+        "Sóc Trăng",
+        "Thái Bình",
+        "Tiền Giang",
+        "Trà Vinh",
+        "Tây Ninh",
+        "Vĩnh Long",
+        "Đồng Tháp"
+      ],
+      "commodity_count": 195,
+      "price_types": [
+        "Bán lẻ",
+        "Bán ra",
+        "Khác",
+        "Thu mua",
+        "Thương lái thu mua",
+        "Tại chợ",
+        "Xuất khẩu",
+        "Đại lý thu mua"
+      ],
+      "information_sources": [
+        "Bán lẻ",
+        "CTV địa phương",
+        "Cao Lãnh",
+        "Cờ Đỏ",
+        "Giồng Riềng",
+        "Long Xuyên",
+        "Thành phố Thái Bình",
+        "Tri Tôn",
+        "Tỉnh An Giang",
+        "huyện Kiến Xương",
+        "huyện Quỳnh Phụ",
+        "huyện Thái Thụy",
+        "huyện Đông Hưng"
+      ],
+      "zero_quotes": 29,
+      "source_omission_collision_groups": 6,
+      "source_omission_collision_rows": 12,
+      "market_casefold_collision_groups": 6,
+      "collision_examples": [
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-09T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Long Xuyên",
+          "price": 7450.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-09T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Tỉnh An Giang",
+          "price": 7900.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-10T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Long Xuyên",
+          "price": 7450.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-10T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Tỉnh An Giang",
+          "price": 7900.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-12T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Long Xuyên",
+          "price": 7500.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-12T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Tỉnh An Giang",
+          "price": 7900.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-16T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Long Xuyên",
+          "price": 7500.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-16T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Tỉnh An Giang",
+          "price": 7900.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-17T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Long Xuyên",
+          "price": 7500.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-17T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Tỉnh An Giang",
+          "price": 7900.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-19T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Long Xuyên",
+          "price": 7500.0
+        },
+        {
+          "market": "An Giang",
+          "commodity": "OM 5451",
+          "price_type": "Thu mua",
+          "date": "2024-12-19T00:00:00.000",
+          "unit": "VND/kg",
+          "currency": "VND",
+          "source": "Tỉnh An Giang",
+          "price": 7900.0
+        }
+      ]
+    },
+    "worldbank": {
+      "file": "data\\raw\\world_bank\\CMO-Historical-Data-Monthly.xlsx",
+      "sha256": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290",
+      "update_header": "Updated on January 06, 2025",
+      "period_min": "1960M01",
+      "period_max": "2025M12",
+      "monthly_rows": 792,
+      "named_series": 71,
+      "named_observations": 56232,
+      "series": [
+        {
+          "name": "Crude oil, average",
+          "unit": "($/bbl)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Crude oil, Brent",
+          "unit": "($/bbl)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Crude oil, Dubai",
+          "unit": "($/bbl)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Crude oil, WTI",
+          "unit": "($/bbl)",
+          "rows": 792,
+          "numeric_rows": 528,
+          "first_numeric": "1982M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Coal, Australian",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 672,
+          "first_numeric": "1970M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Coal, South African **",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 504,
+          "first_numeric": "1984M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Natural gas, US",
+          "unit": "($/mmbtu)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Natural gas, Europe",
+          "unit": "($/mmbtu)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Liquefied natural gas, Japan",
+          "unit": "($/mmbtu)",
+          "rows": 792,
+          "numeric_rows": 588,
+          "first_numeric": "1977M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Natural gas index",
+          "unit": "(2010=100)",
+          "rows": 792,
+          "numeric_rows": 588,
+          "first_numeric": "1977M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Cocoa",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Coffee, Arabica",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Coffee, Robusta",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Tea, avg 3 auctions",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Tea, Colombo",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Tea, Kolkata",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Tea, Mombasa",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Coconut oil",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Groundnuts",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 552,
+          "first_numeric": "1980M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Fish meal",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 564,
+          "first_numeric": "1979M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Groundnut oil **",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Palm oil",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Palm kernel oil",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 360,
+          "first_numeric": "1996M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Soybeans",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Soybean oil",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Soybean meal",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Rapeseed oil",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 287,
+          "first_numeric": "2002M02",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Sunflower oil",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 282,
+          "first_numeric": "2002M02",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Barley",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 728,
+          "first_numeric": "1960M01",
+          "last_numeric": "2020M08",
+          "zero": 0
+        },
+        {
+          "name": "Maize",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Sorghum",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 728,
+          "first_numeric": "1960M01",
+          "last_numeric": "2020M08",
+          "zero": 0
+        },
+        {
+          "name": "Rice, Thai 5%",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Rice, Thai 25%",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 472,
+          "first_numeric": "1986M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Rice, Thai A.1",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 480,
+          "first_numeric": "1986M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Rice, Viet Namese 5%",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 254,
+          "first_numeric": "2003M12",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Wheat, US SRW",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 557,
+          "first_numeric": "1979M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Wheat, US HRW",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Banana, Europe",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 348,
+          "first_numeric": "1997M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Banana, US",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Orange",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Beef **",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Chicken **",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Lamb **",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 660,
+          "first_numeric": "1971M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Shrimps, Mexican",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 766,
+          "first_numeric": "1960M01",
+          "last_numeric": "2023M10",
+          "zero": 0
+        },
+        {
+          "name": "Sugar, EU",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Sugar, US",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Sugar, world",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Tobacco, US import u.v.",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 790,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M10",
+          "zero": 0
+        },
+        {
+          "name": "Logs, Cameroon",
+          "unit": "($/cubic meter)",
+          "rows": 792,
+          "numeric_rows": 672,
+          "first_numeric": "1970M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Logs, Malaysian",
+          "unit": "($/cubic meter)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Sawnwood, Cameroon",
+          "unit": "($/cubic meter)",
+          "rows": 792,
+          "numeric_rows": 420,
+          "first_numeric": "1970M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Sawnwood, Malaysian",
+          "unit": "($/cubic meter)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Plywood",
+          "unit": "(cents/sheet)",
+          "rows": 792,
+          "numeric_rows": 564,
+          "first_numeric": "1979M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Cotton, A Index",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Rubber, TSR20 **",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 324,
+          "first_numeric": "1999M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Rubber, RSS3",
+          "unit": "($/kg)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Phosphate rock",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 791,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "DAP",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 708,
+          "first_numeric": "1967M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "TSP",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Urea",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Potassium chloride **",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Aluminum",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Iron ore, cfr spot",
+          "unit": "($/dmtu)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Copper",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Lead",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Tin",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Nickel",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Zinc",
+          "unit": "($/mt)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Gold",
+          "unit": "($/troy oz)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Platinum",
+          "unit": "($/troy oz)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        },
+        {
+          "name": "Silver",
+          "unit": "($/troy oz)",
+          "rows": 792,
+          "numeric_rows": 792,
+          "first_numeric": "1960M01",
+          "last_numeric": "2025M12",
+          "zero": 0
+        }
+      ],
+      "vnm5_missing_inside_coverage": [
+        "2005M12",
+        "2006M11",
+        "2006M12",
+        "2007M01",
+        "2007M12",
+        "2008M01",
+        "2008M02",
+        "2008M03",
+        "2008M04",
+        "2008M05",
+        "2009M03"
+      ],
+      "vnm5_total_missing": 538
+    },
+    "nso": {
+      "raw_rows": 833,
+      "structural_rows": 13,
+      "observation_count": 23060,
+      "missing_values": 946,
+      "zero_values": 5,
+      "year_min": 1990,
+      "year_max": 2024,
+      "geography_levels": {
+        "national": 920,
+        "region": 1980,
+        "province": 20160
+      },
+      "seasons": [
+        "annual",
+        "main_season",
+        "summer_autumn",
+        "summer_autumn_autumn_winter",
+        "winter_spring"
+      ],
+      "tables": [
+        {
+          "file": "V06.12.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 71,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 560,
+            "missing": 0,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 560
+          }
+        },
+        {
+          "file": "V06.13.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 72,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 2130,
+            "missing": 44,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 180,
+            "province": 1920
+          }
+        },
+        {
+          "file": "V06.14.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 72,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 2130,
+            "missing": 44,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 180,
+            "province": 1920
+          }
+        },
+        {
+          "file": "V06.15.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 72,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 2130,
+            "missing": 44,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 180,
+            "province": 1920
+          }
+        },
+        {
+          "file": "V06.16.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 72,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 2130,
+            "missing": 57,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 180,
+            "province": 1920
+          }
+        },
+        {
+          "file": "V06.17.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 72,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 2130,
+            "missing": 57,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 180,
+            "province": 1920
+          }
+        },
+        {
+          "file": "V06.18.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 72,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 2130,
+            "missing": 57,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 180,
+            "province": 1920
+          }
+        },
+        {
+          "file": "V06.19.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 38,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 1110,
+            "missing": 51,
+            "zero": 3
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 120,
+            "province": 960
+          }
+        },
+        {
+          "file": "V06.20.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 38,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 1110,
+            "missing": 54,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 120,
+            "province": 960
+          }
+        },
+        {
+          "file": "V06.21.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 38,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 1110,
+            "missing": 52,
+            "zero": 2
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 120,
+            "province": 960
+          }
+        },
+        {
+          "file": "V06.22.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 72,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 2130,
+            "missing": 162,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 180,
+            "province": 1920
+          }
+        },
+        {
+          "file": "V06.23.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 72,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 2130,
+            "missing": 162,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 180,
+            "province": 1920
+          }
+        },
+        {
+          "file": "V06.24.csv",
+          "sha256_matches_metadata": true,
+          "raw_rows": 72,
+          "encoding": "latin-1",
+          "counts": {
+            "observations": 2130,
+            "missing": 162,
+            "zero": 0
+          },
+          "geography_levels": {
+            "national": 30,
+            "region": 180,
+            "province": 1920
+          }
+        }
+      ],
+      "national_proposed_gold_measure_collision_groups": 180,
+      "conflicting_national_measure_groups": 6,
+      "national_discrepancy_examples": [
+        [
+          {
+            "table": "V06.12.csv",
+            "geo": "__national_table_scope__",
+            "level": "national",
+            "year": 1996,
+            "measure": "production",
+            "season": "annual",
+            "kind": "quantity",
+            "value": "26396.7"
+          },
+          {
+            "table": "V06.15.csv",
+            "geo": "C? NU?C",
+            "level": "national",
+            "year": 1996,
+            "measure": "production",
+            "season": "annual",
+            "kind": "quantity",
+            "value": "26192.0"
+          }
+        ],
+        [
+          {
+            "table": "V06.12.csv",
+            "geo": "__national_table_scope__",
+            "level": "national",
+            "year": 1997,
+            "measure": "production",
+            "season": "annual",
+            "kind": "quantity",
+            "value": "27523.9"
+          },
+          {
+            "table": "V06.15.csv",
+            "geo": "C? NU?C",
+            "level": "national",
+            "year": 1997,
+            "measure": "production",
+            "season": "annual",
+            "kind": "quantity",
+            "value": "27288.7"
+          }
+        ],
+        [
+          {
+            "table": "V06.12.csv",
+            "geo": "__national_table_scope__",
+            "level": "national",
+            "year": 1998,
+            "measure": "production",
+            "season": "annual",
+            "kind": "quantity",
+            "value": "29145.5"
+          },
+          {
+            "table": "V06.15.csv",
+            "geo": "C? NU?C",
+            "level": "national",
+            "year": 1998,
+            "measure": "production",
+            "season": "annual",
+            "kind": "quantity",
+            "value": "28919.3"
+          }
+        ]
+      ]
+    }
+  },
+  "manifest_structure": {
+    "manifest_version": 1,
+    "raw_root": "data/raw",
+    "input_file_count": 21,
+    "input_bytes": 183728724,
+    "files": [
+      {
+        "source": "faostat_production",
+        "path": "faostat/production_world.csv",
+        "bytes": 3292244,
+        "sha256": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+      },
+      {
+        "source": "faostat_monthly_price",
+        "path": "faostat/price.csv",
+        "bytes": 2509272,
+        "sha256": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af"
+      },
+      {
+        "source": "faostat_supply_utilization",
+        "path": "faostat/supply_utilization.csv",
+        "bytes": 6096569,
+        "sha256": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c"
+      },
+      {
+        "source": "faostat_trade",
+        "path": "faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv",
+        "bytes": 167990400,
+        "sha256": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168"
+      },
+      {
+        "source": "usda_psd",
+        "path": "usda/usda.xls",
+        "bytes": 45549,
+        "sha256": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf"
+      },
+      {
+        "source": "usda_rice_yearbook",
+        "path": "usda/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+        "bytes": 2122534,
+        "sha256": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba"
+      },
+      {
+        "source": "worldbank_pinksheet",
+        "path": "world_bank/CMO-Historical-Data-Monthly.xlsx",
+        "bytes": 778415,
+        "sha256": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290"
+      },
+      {
+        "source": "thitruongnongsan",
+        "path": "thitruongnongsan/price_luagao.xlsx",
+        "bytes": 756440,
+        "sha256": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.12.csv",
+        "bytes": 6281,
+        "sha256": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.13.csv",
+        "bytes": 12726,
+        "sha256": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.14.csv",
+        "bytes": 11766,
+        "sha256": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.15.csv",
+        "bytes": 14205,
+        "sha256": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.16.csv",
+        "bytes": 11726,
+        "sha256": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.17.csv",
+        "bytes": 11738,
+        "sha256": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.18.csv",
+        "bytes": 13393,
+        "sha256": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.19.csv",
+        "bytes": 6462,
+        "sha256": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.20.csv",
+        "bytes": 6203,
+        "sha256": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.21.csv",
+        "bytes": 7127,
+        "sha256": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.22.csv",
+        "bytes": 11467,
+        "sha256": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.23.csv",
+        "bytes": 11505,
+        "sha256": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76"
+      },
+      {
+        "source": "nso",
+        "path": "nso/V06.24.csv",
+        "bytes": 12702,
+        "sha256": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b"
+      }
+    ],
+    "support_files": [
+      {
+        "path": "nso/metadata.txt",
+        "bytes": 923,
+        "sha256": "f17faf04e163da55e949593797bc60a8240d2137fea55a43342225d50d810555"
+      }
+    ],
+    "note": "These21 pinned observation files plus NSO support metadata are transferred separately. Never substitute the Trade fixture or rely on existing volumes."
+  },
+  "checks": {
+    "contract_validator": "9/9 PASS",
+    "selected_unit_tests": {
+      "passed": 34,
+      "setup_errors_due_to_windows_temp_permissions": 6,
+      "total": 40,
+      "second_attempt_inside_workspace": "same 34 pass / 6 temp PermissionError"
+    }
+  },
+  "manifest_checks": [
+    {
+      "path": "data\\raw\\faostat\\production_world.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\faostat\\price.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\faostat\\supply_utilization.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\faostat\\Trade_DetailedTradeMatrix_E_All_Data_(Normalized)\\rice_trade_data.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\usda\\usda.xls",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\usda\\Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\world_bank\\CMO-Historical-Data-Monthly.xlsx",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\thitruongnongsan\\price_luagao.xlsx",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.12.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.13.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.14.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.15.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.16.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.17.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.18.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.19.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.20.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.21.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.22.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.23.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    },
+    {
+      "path": "data\\raw\\nso\\V06.24.csv",
+      "exists": true,
+      "size_matches": true,
+      "sha256_matches": true
+    }
+  ],
+  "gold_dbml_inventory": [
+    {
+      "table": "Dim_Year",
+      "line": 35,
+      "columns": [
+        {
+          "name": "year_key",
+          "type": "int",
+          "line": 36,
+          "settings": "[pk, note: 'YYYY (e.g., 2024). Use -1 for Unknown.']"
+        },
+        {
+          "name": "decade",
+          "type": "int",
+          "line": 37,
+          "settings": "[not null, note: 'e.g., 2020']"
+        },
+        {
+          "name": "is_leap_year",
+          "type": "boolean",
+          "line": 38,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Month",
+      "line": 43,
+      "columns": [
+        {
+          "name": "month_key",
+          "type": "int",
+          "line": 44,
+          "settings": "[pk, note: 'YYYYMM (e.g., 202408). Use -1 for Unknown.']"
+        },
+        {
+          "name": "year_key",
+          "type": "int",
+          "line": 45,
+          "settings": "[not null, ref: > Dim_Year.year_key, note: 'Rollup FK to Dim_Year (YYYY)']"
+        },
+        {
+          "name": "month",
+          "type": "int",
+          "line": 46,
+          "settings": "[not null, note: '1..12']"
+        },
+        {
+          "name": "quarter",
+          "type": "int",
+          "line": 47,
+          "settings": "[not null, note: '1..4']"
+        },
+        {
+          "name": "month_name",
+          "type": "varchar(20)",
+          "line": 48,
+          "settings": "[not null, note: 'January..December']"
+        },
+        {
+          "name": "harvest_season_code",
+          "type": "varchar(30)",
+          "line": 49,
+          "settings": "[not null, note: 'VNM harvest calendar: WINTER_SPRING_PEAK (Feb-Apr), SUMMER_AUTUMN_PEAK (Jun-Aug), AUTUMN_WINTER_MAIN (Sep-Nov), OFF_SEASON (Jan, May, Dec)']"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Date",
+      "line": 54,
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "int",
+          "line": 55,
+          "settings": "[pk, note: 'YYYYMMDD (e.g., 20240815). Use -1 for Unknown.']"
+        },
+        {
+          "name": "full_date",
+          "type": "date",
+          "line": 56,
+          "settings": "[not null, unique]"
+        },
+        {
+          "name": "month_key",
+          "type": "int",
+          "line": 57,
+          "settings": "[not null, ref: > Dim_Month.month_key, note: 'Rollup FK to Dim_Month (YYYYMM)']"
+        },
+        {
+          "name": "day_of_month",
+          "type": "int",
+          "line": 58,
+          "settings": "[not null, note: '1..31']"
+        },
+        {
+          "name": "day_of_week",
+          "type": "int",
+          "line": 59,
+          "settings": "[not null, note: '1 (Mon)..7 (Sun)']"
+        },
+        {
+          "name": "day_name",
+          "type": "varchar(20)",
+          "line": 60,
+          "settings": "[not null]"
+        },
+        {
+          "name": "is_weekend",
+          "type": "boolean",
+          "line": 61,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Crop_Year",
+      "line": 66,
+      "columns": [
+        {
+          "name": "crop_year_key",
+          "type": "int",
+          "line": 67,
+          "settings": "[pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']"
+        },
+        {
+          "name": "crop_year_label",
+          "type": "varchar(20)",
+          "line": 68,
+          "settings": "[not null, unique, note: 'Preserved from USDA PSD crop_year (e.g., 2023/2024)']"
+        },
+        {
+          "name": "start_year",
+          "type": "int",
+          "line": 69,
+          "settings": "[not null, ref: > Dim_Year.year_key, note: 'Marketing year beginning year (market_year in Silver)']"
+        },
+        {
+          "name": "end_year",
+          "type": "int",
+          "line": 70,
+          "settings": "[not null, note: 'Ending year of the crop cycle']"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Crop_Season",
+      "line": 75,
+      "columns": [
+        {
+          "name": "season_key",
+          "type": "int",
+          "line": 76,
+          "settings": "[pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']"
+        },
+        {
+          "name": "season_code",
+          "type": "varchar(50)",
+          "line": 77,
+          "settings": "[not null, unique, note: 'From silver.nso_rice_statistics: winter_spring, summer_autumn, summer_autumn_fall, autumn_winter, main_rainy, annual']"
+        },
+        {
+          "name": "season_name_vi",
+          "type": "varchar(100)",
+          "line": 78,
+          "settings": "[not null, note: 'Lua Dong Xuan, Lua He Thu, Lua Thu Dong, Lua Mua, Ca nam']"
+        },
+        {
+          "name": "season_name_en",
+          "type": "varchar(100)",
+          "line": 79,
+          "settings": "[not null]"
+        },
+        {
+          "name": "is_annual_summary",
+          "type": "boolean",
+          "line": 80,
+          "settings": "[not null, note: 'True if season_code == annual (prevents double counting when summing seasons)']"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Source_System",
+      "line": 89,
+      "columns": [
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 90,
+          "settings": "[pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']"
+        },
+        {
+          "name": "source_code",
+          "type": "varchar(50)",
+          "line": 91,
+          "settings": "[not null, unique, note: 'FAOSTAT_QCL, FAOSTAT_TM, FAOSTAT_SUA, FAOSTAT_PP, USDA_PSD, USDA_YEARBOOK, WORLDBANK_PINKSHEET, VN_NSO, VN_TTNS']"
+        },
+        {
+          "name": "source_name",
+          "type": "varchar(150)",
+          "line": 92,
+          "settings": "[not null]"
+        },
+        {
+          "name": "publishing_org",
+          "type": "varchar(100)",
+          "line": 93,
+          "settings": "[not null, note: 'FAO, USDA FAS, USDA ERS, World Bank, GSO/NSO Vietnam, ThiTruongNongSan']"
+        },
+        {
+          "name": "default_cadence",
+          "type": "varchar(30)",
+          "line": 94,
+          "settings": "[not null, note: 'DAILY, MONTHLY, ANNUAL']"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Country",
+      "line": 99,
+      "columns": [
+        {
+          "name": "country_key",
+          "type": "int",
+          "line": 100,
+          "settings": "[pk, increment, note: 'Surrogate PK. Use -1 for Unknown / Unspecified Partner.']"
+        },
+        {
+          "name": "iso3_code",
+          "type": "varchar(3)",
+          "line": 101,
+          "settings": "[unique, note: 'ISO 3166-1 alpha-3 (e.g., VNM, THA, IND). Nullable for regional aggregates.']"
+        },
+        {
+          "name": "m49_code",
+          "type": "varchar(10)",
+          "line": 102,
+          "settings": "[unique, note: 'UN M49 code from FAOSTAT (e.g., 704 for Vietnam)']"
+        },
+        {
+          "name": "country_name_en",
+          "type": "varchar(150)",
+          "line": 103,
+          "settings": "[not null]"
+        },
+        {
+          "name": "region_un",
+          "type": "varchar(100)",
+          "line": 104,
+          "settings": "[note: 'UN Continent / Macro-region (Asia, Europe, Africa, Americas, Oceania)']"
+        },
+        {
+          "name": "sub_region_un",
+          "type": "varchar(100)",
+          "line": 105,
+          "settings": "[note: 'e.g., South-Eastern Asia']"
+        },
+        {
+          "name": "is_aggregate",
+          "type": "boolean",
+          "line": 106,
+          "settings": "[not null, default: false, note: 'CRITICAL: True for World, Asia, European Union, All countries, etc. Filter is_aggregate = false when summing across countries!']"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Vietnam_Region",
+      "line": 111,
+      "columns": [
+        {
+          "name": "region_key",
+          "type": "int",
+          "line": 112,
+          "settings": "[pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']"
+        },
+        {
+          "name": "region_code",
+          "type": "varchar(30)",
+          "line": 113,
+          "settings": "[not null, unique, note: 'e.g., DBSH, TDMNPB, BTB_DHMT, TAY_NGUYEN, DNB, DBSCL']"
+        },
+        {
+          "name": "region_name_vi",
+          "type": "varchar(150)",
+          "line": 114,
+          "settings": "[not null, unique, note: 'Matches parent_region_vi in silver.nso_rice_statistics (e.g., Dong bang song Cuu Long)']"
+        },
+        {
+          "name": "region_name_en",
+          "type": "varchar(150)",
+          "line": 115,
+          "settings": "[not null, note: 'e.g., Mekong River Delta']"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Vietnam_Province",
+      "line": 120,
+      "columns": [
+        {
+          "name": "province_key",
+          "type": "int",
+          "line": 121,
+          "settings": "[pk, increment, note: 'SCD Type 2 Surrogate PK. Use -1 for Unknown. NOTE: Do NOT include Ca Nuoc (National Total) here.']"
+        },
+        {
+          "name": "province_code",
+          "type": "varchar(20)",
+          "line": 122,
+          "settings": "[not null, note: 'Official GSO / administrative code']"
+        },
+        {
+          "name": "province_name_vi",
+          "type": "varchar(150)",
+          "line": 123,
+          "settings": "[not null, note: 'Normalized Vietnamese name from silver.nso_rice_statistics']"
+        },
+        {
+          "name": "province_name_en",
+          "type": "varchar(150)",
+          "line": 124,
+          "settings": "[not null]"
+        },
+        {
+          "name": "region_key",
+          "type": "int",
+          "line": 125,
+          "settings": "[not null, ref: > Dim_Vietnam_Region.region_key]"
+        },
+        {
+          "name": "admin_boundary_version",
+          "type": "varchar(30)",
+          "line": 126,
+          "settings": "[not null, note: 'PRE_2025_63_PROVINCES or POST_2025_34_PROVINCES']"
+        },
+        {
+          "name": "valid_from",
+          "type": "date",
+          "line": 127,
+          "settings": "[not null, note: 'SCD2 effective start date']"
+        },
+        {
+          "name": "valid_to",
+          "type": "date",
+          "line": 128,
+          "settings": "[not null, default: '9999-12-31', note: 'SCD2 effective end date']"
+        },
+        {
+          "name": "is_current",
+          "type": "boolean",
+          "line": 129,
+          "settings": "[not null, default: true]"
+        }
+      ]
+    },
+    {
+      "table": "Xref_Vietnam_Province_Transition",
+      "line": 134,
+      "columns": [
+        {
+          "name": "transition_id",
+          "type": "int",
+          "line": 135,
+          "settings": "[pk, increment]"
+        },
+        {
+          "name": "legacy_province_key",
+          "type": "int",
+          "line": 136,
+          "settings": "[not null, ref: > Dim_Vietnam_Province.province_key, note: '63-province boundary member']"
+        },
+        {
+          "name": "merged_province_key",
+          "type": "int",
+          "line": 137,
+          "settings": "[not null, ref: > Dim_Vietnam_Province.province_key, note: '34-province boundary member (2025 reform)']"
+        },
+        {
+          "name": "reform_effective_date",
+          "type": "date",
+          "line": 138,
+          "settings": "[not null, note: '2025-07-01']"
+        },
+        {
+          "name": "area_allocation_ratio",
+          "type": "decimal(8,6)",
+          "line": 139,
+          "settings": "[not null, default: 1.000000, note: '1.0 for full province merge; fractional if split']"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Rice_Product",
+      "line": 144,
+      "columns": [
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 145,
+          "settings": "[pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']"
+        },
+        {
+          "name": "product_code",
+          "type": "varchar(50)",
+          "line": 146,
+          "settings": "[not null, unique, note: 'Canonical code: RICE_PADDY, RICE_MILLED, RICE_MILLED_5PCT, RICE_BROKEN, RICE_HUSKED, RICE_FRAGRANT, UREA, BRENT_OIL, WHEAT, MAIZE']"
+        },
+        {
+          "name": "cpc_code",
+          "type": "varchar(20)",
+          "line": 147,
+          "settings": "[note: 'UN CPC code from FAOSTAT (e.g., 0113 for Rice paddy, 23161.02 for Rice milled)']"
+        },
+        {
+          "name": "product_name_en",
+          "type": "varchar(150)",
+          "line": 148,
+          "settings": "[not null]"
+        },
+        {
+          "name": "product_category",
+          "type": "varchar(50)",
+          "line": 149,
+          "settings": "[not null, note: 'RICE_PRIMARY, RICE_PROCESSED, MACRO_FERTILIZER, MACRO_ENERGY, SUBSTITUTE_GRAIN']"
+        },
+        {
+          "name": "processing_stage",
+          "type": "varchar(30)",
+          "line": 150,
+          "settings": "[not null, note: 'PADDY, HUSKED_BROWN, MILLED_WHITE, BROKEN, BYPRODUCT, NON_RICE']"
+        },
+        {
+          "name": "standard_paddy_to_milled_factor",
+          "type": "decimal(8,4)",
+          "line": 151,
+          "settings": "[note: 'Default reference conversion factor (e.g., 0.6500-0.6700) when country-specific PSD milling rate is unavailable']"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Rice_Variety",
+      "line": 156,
+      "columns": [
+        {
+          "name": "variety_key",
+          "type": "int",
+          "line": 157,
+          "settings": "[pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']"
+        },
+        {
+          "name": "variety_code",
+          "type": "varchar(50)",
+          "line": 158,
+          "settings": "[not null, unique]"
+        },
+        {
+          "name": "variety_name_vi",
+          "type": "varchar(150)",
+          "line": 159,
+          "settings": "[not null, note: 'From silver.thitruongnongsan commodity (e.g., Lua IR50404, Lua OM5451, Gao ST25, Gao 5% tam)']"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 160,
+          "settings": "[not null, ref: > Dim_Rice_Product.product_key, note: 'Links domestic variety/grade to international Dim_Rice_Product for domestic-vs-FOB comparison']"
+        },
+        {
+          "name": "grain_length_class",
+          "type": "varchar(30)",
+          "line": 161,
+          "settings": "[note: 'LONG_GRAIN, MEDIUM_GRAIN, SHORT_GRAIN, FRAGRANT, GLUTINOUS']"
+        },
+        {
+          "name": "broken_pct_standard",
+          "type": "decimal(5,2)",
+          "line": 162,
+          "settings": "[note: 'e.g., 5.00, 15.00, 25.00, 100.00, or NULL for raw paddy']"
+        }
+      ]
+    },
+    {
+      "table": "Dim_Price_Type",
+      "line": 167,
+      "columns": [
+        {
+          "name": "price_type_key",
+          "type": "int",
+          "line": 168,
+          "settings": "[pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']"
+        },
+        {
+          "name": "price_type_code",
+          "type": "varchar(60)",
+          "line": 169,
+          "settings": "[not null, unique, note: 'e.g., FAO_PRODUCER_USD, FAO_PRODUCER_LCU, FAO_PRODUCER_SLC, FAO_PRODUCER_INDEX, USDA_FOB_EXPORT, WB_FOB_BENCHMARK, VN_DOMESTIC_WHOLESALE, VN_DOMESTIC_RETAIL']"
+        },
+        {
+          "name": "element_code",
+          "type": "varchar(30)",
+          "line": 170,
+          "settings": "[note: 'FAOSTAT element_code (5530, 5531, 5532, 5539) or source statistic code']"
+        },
+        {
+          "name": "price_stage",
+          "type": "varchar(30)",
+          "line": 171,
+          "settings": "[not null, note: 'FARMGATE_PRODUCER, DOMESTIC_WHOLESALE, DOMESTIC_RETAIL, EXPORT_FOB']"
+        },
+        {
+          "name": "unit_standard",
+          "type": "varchar(30)",
+          "line": 172,
+          "settings": "[not null, note: 'USD/tonne, LCU/tonne, VND/kg, INDEX_2014_2016_100']"
+        },
+        {
+          "name": "currency",
+          "type": "varchar(10)",
+          "line": 173,
+          "settings": "[note: 'USD, VND, LCU, SLC, or NULL for dimensionless price index']"
+        },
+        {
+          "name": "is_index",
+          "type": "boolean",
+          "line": 174,
+          "settings": "[not null, default: false, note: 'CRITICAL: True for price indices (e.g., FAO 5539). Never mix or average with currency prices!']"
+        }
+      ]
+    },
+    {
+      "table": "Xref_Product_SourceAlias",
+      "line": 183,
+      "columns": [
+        {
+          "name": "xref_product_id",
+          "type": "int",
+          "line": 184,
+          "settings": "[pk, increment]"
+        },
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 185,
+          "settings": "[not null, ref: > Dim_Source_System.source_system_key]"
+        },
+        {
+          "name": "source_commodity_code",
+          "type": "varchar(100)",
+          "line": 186,
+          "settings": "[not null, note: 'Raw code from Silver (e.g., 0113, rice_thai_5, 0422110)']"
+        },
+        {
+          "name": "source_commodity_name",
+          "type": "varchar(255)",
+          "line": 187,
+          "settings": "[not null, note: 'Raw label from Silver (e.g., Rice, paddy; 5-PERCENT BROKEN)']"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 188,
+          "settings": "[not null, ref: > Dim_Rice_Product.product_key]"
+        }
+      ]
+    },
+    {
+      "table": "Xref_Country_SourceAlias",
+      "line": 196,
+      "columns": [
+        {
+          "name": "xref_country_id",
+          "type": "int",
+          "line": 197,
+          "settings": "[pk, increment]"
+        },
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 198,
+          "settings": "[not null, ref: > Dim_Source_System.source_system_key]"
+        },
+        {
+          "name": "source_country_code",
+          "type": "varchar(50)",
+          "line": 199,
+          "settings": "[note: 'M49 code, USDA country code, or ISO code in Silver']"
+        },
+        {
+          "name": "source_country_name",
+          "type": "varchar(200)",
+          "line": 200,
+          "settings": "[not null, note: 'Exact country/location string in Silver (e.g., Viet Nam, VIETNAM, Thailand, Unspecified)']"
+        },
+        {
+          "name": "country_key",
+          "type": "int",
+          "line": 201,
+          "settings": "[not null, ref: > Dim_Country.country_key]"
+        }
+      ]
+    },
+    {
+      "table": "Fact_Vietnam_Provincial_Prod",
+      "line": 213,
+      "columns": [
+        {
+          "name": "year_key",
+          "type": "int",
+          "line": 214,
+          "settings": "[pk, ref: > Dim_Year.year_key, note: 'Calendar year YYYY']"
+        },
+        {
+          "name": "province_key",
+          "type": "int",
+          "line": 215,
+          "settings": "[pk, ref: > Dim_Vietnam_Province.province_key, note: 'Atomic province only (geography_level = PROVINCE_CITY)']"
+        },
+        {
+          "name": "season_key",
+          "type": "int",
+          "line": 216,
+          "settings": "[pk, ref: > Dim_Crop_Season.season_key, note: 'Specific crop season (is_annual_summary = false for seasonal additive grain)']"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 217,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key, note: 'Points to RICE_PADDY']"
+        },
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 218,
+          "settings": "[not null, ref: > Dim_Source_System.source_system_key, note: 'VN_NSO (silver.nso_rice_statistics)']"
+        },
+        {
+          "name": "area_planted_ha",
+          "type": "decimal(18,2)",
+          "line": 221,
+          "settings": "[note: 'Normalized from Nghin_ha (* 1000) where measure = area and statistic_kind = QUANTITY']"
+        },
+        {
+          "name": "production_harvested_t",
+          "type": "decimal(18,2)",
+          "line": 222,
+          "settings": "[note: 'Normalized from Nghin_tan (* 1000) where measure = production and statistic_kind = QUANTITY']"
+        },
+        {
+          "name": "is_preliminary",
+          "type": "boolean",
+          "line": 225,
+          "settings": "[not null, default: false, note: 'True if period_raw marked So bo in NSO']"
+        },
+        {
+          "name": "_source_file",
+          "type": "varchar(255)",
+          "line": 226,
+          "settings": "[not null, note: 'e.g., V06.15.csv..V06.24.csv']"
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 227,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 228,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Fact_Vietnam_National_Prod_Reported",
+      "line": 238,
+      "columns": [
+        {
+          "name": "year_key",
+          "type": "int",
+          "line": 239,
+          "settings": "[pk, ref: > Dim_Year.year_key]"
+        },
+        {
+          "name": "region_key",
+          "type": "int",
+          "line": 240,
+          "settings": "[pk, ref: > Dim_Vietnam_Region.region_key, note: 'Use -1 for National (COUNTRY) rows; actual region_key for REGION rows']"
+        },
+        {
+          "name": "season_key",
+          "type": "int",
+          "line": 241,
+          "settings": "[pk, ref: > Dim_Crop_Season.season_key, note: 'Includes both seasonal and annual summary rows as published by GSO']"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 242,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key]"
+        },
+        {
+          "name": "geography_level",
+          "type": "varchar(20)",
+          "line": 243,
+          "settings": "[pk, note: 'COUNTRY (Ca nuoc) or REGION (6 socio-economic regions)']"
+        },
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 244,
+          "settings": "[not null, ref: > Dim_Source_System.source_system_key, note: 'VN_NSO (silver.nso_rice_statistics)']"
+        },
+        {
+          "name": "reported_area_planted_ha",
+          "type": "decimal(18,2)",
+          "line": 247,
+          "settings": "[note: 'Official published area in hectares']"
+        },
+        {
+          "name": "reported_production_t",
+          "type": "decimal(18,2)",
+          "line": 248,
+          "settings": "[note: 'Official published production in tonnes']"
+        },
+        {
+          "name": "reported_yield_kg_ha",
+          "type": "decimal(18,2)",
+          "line": 249,
+          "settings": "[note: 'NON-ADDITIVE: Official published yield in kg/ha (from Ta_ha * 100)']"
+        },
+        {
+          "name": "yoy_area_index_pct",
+          "type": "decimal(10,2)",
+          "line": 250,
+          "settings": "[note: 'NON-ADDITIVE: PERCENT_PREVIOUS_YEAR_100 for area']"
+        },
+        {
+          "name": "yoy_production_index_pct",
+          "type": "decimal(10,2)",
+          "line": 251,
+          "settings": "[note: 'NON-ADDITIVE: PERCENT_PREVIOUS_YEAR_100 for production']"
+        },
+        {
+          "name": "is_national_total",
+          "type": "boolean",
+          "line": 252,
+          "settings": "[not null, note: 'True when geography_level == COUNTRY']"
+        },
+        {
+          "name": "is_annual_total",
+          "type": "boolean",
+          "line": 253,
+          "settings": "[not null, note: 'True when season_code == annual']"
+        },
+        {
+          "name": "is_preliminary",
+          "type": "boolean",
+          "line": 254,
+          "settings": "[not null, default: false]"
+        },
+        {
+          "name": "_source_file",
+          "type": "varchar(255)",
+          "line": 257,
+          "settings": "[not null, note: 'e.g., V06.12.csv, V06.13.csv, V06.14.csv']"
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 258,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 259,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Fact_Global_Crop_Production",
+      "line": 273,
+      "columns": [
+        {
+          "name": "year_key",
+          "type": "int",
+          "line": 274,
+          "settings": "[pk, ref: > Dim_Year.year_key]"
+        },
+        {
+          "name": "country_key",
+          "type": "int",
+          "line": 275,
+          "settings": "[pk, ref: > Dim_Country.country_key]"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 276,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key, note: 'RICE_PADDY (CPC 0113)']"
+        },
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 277,
+          "settings": "[not null, ref: > Dim_Source_System.source_system_key, note: 'FAOSTAT_QCL (silver.faostat_production)']"
+        },
+        {
+          "name": "area_harvested_ha",
+          "type": "decimal(18,2)",
+          "line": 280,
+          "settings": "[note: 'Element 5312 (ha)']"
+        },
+        {
+          "name": "production_paddy_t",
+          "type": "decimal(18,2)",
+          "line": 281,
+          "settings": "[note: 'Element 5510 (tonnes)']"
+        },
+        {
+          "name": "producing_animals_or_seed_t",
+          "type": "decimal(18,2)",
+          "line": 282,
+          "settings": "[note: 'Optional auxiliary additive element if present']"
+        },
+        {
+          "name": "fao_flag",
+          "type": "varchar(10)",
+          "line": 285,
+          "settings": "[note: 'A (Official), E (Estimated), I (Imputed)']"
+        },
+        {
+          "name": "_source_file",
+          "type": "varchar(255)",
+          "line": 286,
+          "settings": "[not null]"
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 287,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 288,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Fact_Global_Rice_PSD",
+      "line": 298,
+      "columns": [
+        {
+          "name": "crop_year_key",
+          "type": "int",
+          "line": 299,
+          "settings": "[pk, ref: > Dim_Crop_Year.crop_year_key, note: 'Marketing year (e.g., 2023/2024)']"
+        },
+        {
+          "name": "country_key",
+          "type": "int",
+          "line": 300,
+          "settings": "[pk, ref: > Dim_Country.country_key]"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 301,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key, note: 'Explicitly linked to RICE_MILLED (with rough production tracked in dedicated column)']"
+        },
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 302,
+          "settings": "[not null, ref: > Dim_Source_System.source_system_key, note: 'USDA_PSD (silver.usda_rice_psd)']"
+        },
+        {
+          "name": "area_harvested_ha",
+          "type": "decimal(18,2)",
+          "line": 305,
+          "settings": "[note: 'Attribute: Area Harvested (* 1000 -> ha)']"
+        },
+        {
+          "name": "rough_production_t",
+          "type": "decimal(18,2)",
+          "line": 306,
+          "settings": "[note: 'Attribute: Rough Production (* 1000 -> tonnes paddy basis)']"
+        },
+        {
+          "name": "milled_production_t",
+          "type": "decimal(18,2)",
+          "line": 307,
+          "settings": "[note: 'Attribute: Production (* 1000 -> tonnes milled basis)']"
+        },
+        {
+          "name": "beginning_stocks_t",
+          "type": "decimal(18,2)",
+          "line": 308,
+          "settings": "[note: 'Attribute: Beginning Stocks (* 1000 -> tonnes milled basis)']"
+        },
+        {
+          "name": "ty_imports_t",
+          "type": "decimal(18,2)",
+          "line": 309,
+          "settings": "[note: 'Attribute: TY Imports (* 1000 -> tonnes)']"
+        },
+        {
+          "name": "my_imports_t",
+          "type": "decimal(18,2)",
+          "line": 310,
+          "settings": "[note: 'Attribute: Imports (* 1000 -> tonnes)']"
+        },
+        {
+          "name": "total_supply_t",
+          "type": "decimal(18,2)",
+          "line": 311,
+          "settings": "[note: 'Attribute: Total Supply (* 1000 -> tonnes)']"
+        },
+        {
+          "name": "ty_exports_t",
+          "type": "decimal(18,2)",
+          "line": 312,
+          "settings": "[note: 'Attribute: TY Exports (* 1000 -> tonnes)']"
+        },
+        {
+          "name": "my_exports_t",
+          "type": "decimal(18,2)",
+          "line": 313,
+          "settings": "[note: 'Attribute: Exports (* 1000 -> tonnes)']"
+        },
+        {
+          "name": "domestic_consumption_t",
+          "type": "decimal(18,2)",
+          "line": 314,
+          "settings": "[note: 'Attribute: Domestic Consumption and Residual (* 1000 -> tonnes)']"
+        },
+        {
+          "name": "ending_stocks_t",
+          "type": "decimal(18,2)",
+          "line": 315,
+          "settings": "[note: 'Attribute: Ending Stocks (* 1000 -> tonnes)']"
+        },
+        {
+          "name": "milling_rate_factor",
+          "type": "decimal(18,4)",
+          "line": 318,
+          "settings": "[note: 'NON-ADDITIVE: Dimensionless milling fraction (e.g., 0.6700) from Silver conversion']"
+        },
+        {
+          "name": "_source_file",
+          "type": "varchar(255)",
+          "line": 321,
+          "settings": "[not null]"
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 322,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 323,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Fact_Global_Supply_Utilization",
+      "line": 333,
+      "columns": [
+        {
+          "name": "year_key",
+          "type": "int",
+          "line": 334,
+          "settings": "[pk, ref: > Dim_Year.year_key, note: 'Calendar year YYYY (fixes missing date_key in v2)']"
+        },
+        {
+          "name": "country_key",
+          "type": "int",
+          "line": 335,
+          "settings": "[pk, ref: > Dim_Country.country_key]"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 336,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key]"
+        },
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 337,
+          "settings": "[not null, ref: > Dim_Source_System.source_system_key, note: 'FAOSTAT_SUA (silver.faostat_supply_utilization)']"
+        },
+        {
+          "name": "opening_stocks_t",
+          "type": "decimal(18,2)",
+          "line": 340,
+          "settings": "[note: 'Element 5113: Opening stocks (tonnes)']"
+        },
+        {
+          "name": "production_t",
+          "type": "decimal(18,2)",
+          "line": 341,
+          "settings": "[note: 'Element 5510: Production (tonnes)']"
+        },
+        {
+          "name": "import_quantity_t",
+          "type": "decimal(18,2)",
+          "line": 342,
+          "settings": "[note: 'Element 5610: Import quantity (tonnes)']"
+        },
+        {
+          "name": "export_quantity_t",
+          "type": "decimal(18,2)",
+          "line": 343,
+          "settings": "[note: 'Element 5910: Export quantity (tonnes)']"
+        },
+        {
+          "name": "stock_variation_t",
+          "type": "decimal(18,2)",
+          "line": 344,
+          "settings": "[note: 'Element 5071: Stock Variation (tonnes; CAN BE NEGATIVE)']"
+        },
+        {
+          "name": "domestic_supply_t",
+          "type": "decimal(18,2)",
+          "line": 345,
+          "settings": "[note: 'Element 5301: Domestic supply quantity (tonnes)']"
+        },
+        {
+          "name": "feed_t",
+          "type": "decimal(18,2)",
+          "line": 346,
+          "settings": "[note: 'Element 5520: Feed (tonnes)']"
+        },
+        {
+          "name": "seed_t",
+          "type": "decimal(18,2)",
+          "line": 347,
+          "settings": "[note: 'Element 5525: Seed (tonnes)']"
+        },
+        {
+          "name": "waste_loss_t",
+          "type": "decimal(18,2)",
+          "line": 348,
+          "settings": "[note: 'Element 5123: Loss / Waste (tonnes)']"
+        },
+        {
+          "name": "processing_t",
+          "type": "decimal(18,2)",
+          "line": 349,
+          "settings": "[note: 'Element 5131: Processing (tonnes)']"
+        },
+        {
+          "name": "food_supply_quantity_t",
+          "type": "decimal(18,2)",
+          "line": 350,
+          "settings": "[note: 'Element 5141: Food supply quantity (tonnes)']"
+        },
+        {
+          "name": "other_uses_t",
+          "type": "decimal(18,2)",
+          "line": 351,
+          "settings": "[note: 'Element 5153: Other uses (non-food) (tonnes)']"
+        },
+        {
+          "name": "closing_stocks_t",
+          "type": "decimal(18,2)",
+          "line": 352,
+          "settings": "[note: 'Element 5114 / derived closing stocks (tonnes)']"
+        },
+        {
+          "name": "residuals_t",
+          "type": "decimal(18,2)",
+          "line": 353,
+          "settings": "[note: 'Element 5170: Residuals (tonnes; can be negative)']"
+        },
+        {
+          "name": "food_supply_kg_per_capita_yr",
+          "type": "decimal(12,4)",
+          "line": 356,
+          "settings": "[note: 'NON-ADDITIVE: Element 645 (kg/capita/year). Do NOT sum across countries!']"
+        },
+        {
+          "name": "calories_kcal_per_capita_day",
+          "type": "decimal(12,4)",
+          "line": 357,
+          "settings": "[note: 'NON-ADDITIVE: Element 664 (kcal/capita/day).']"
+        },
+        {
+          "name": "_source_file",
+          "type": "varchar(255)",
+          "line": 360,
+          "settings": "[not null]"
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 361,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 362,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Fact_Global_Bilateral_Trade",
+      "line": 372,
+      "columns": [
+        {
+          "name": "year_key",
+          "type": "int",
+          "line": 373,
+          "settings": "[pk, ref: > Dim_Year.year_key]"
+        },
+        {
+          "name": "reporter_country_key",
+          "type": "int",
+          "line": 374,
+          "settings": "[pk, ref: > Dim_Country.country_key, note: 'Reporting country']"
+        },
+        {
+          "name": "partner_country_key",
+          "type": "int",
+          "line": 375,
+          "settings": "[pk, ref: > Dim_Country.country_key, note: 'Partner country (maps Unspecified to -1)']"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 376,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key, note: 'Distinguishes Paddy, Husked, Milled, Broken rice']"
+        },
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 377,
+          "settings": "[not null, ref: > Dim_Source_System.source_system_key, note: 'FAOSTAT_TM (silver.faostat_trade)']"
+        },
+        {
+          "name": "import_quantity_t",
+          "type": "decimal(18,2)",
+          "line": 380,
+          "settings": "[note: 'Element 5610: Import quantity (tonnes)']"
+        },
+        {
+          "name": "import_value_usd",
+          "type": "decimal(18,2)",
+          "line": 381,
+          "settings": "[note: 'Element 5622: Import value (scaled from 1000 USD * 1000 -> exact USD)']"
+        },
+        {
+          "name": "export_quantity_t",
+          "type": "decimal(18,2)",
+          "line": 382,
+          "settings": "[note: 'Element 5910: Export quantity (tonnes)']"
+        },
+        {
+          "name": "export_value_usd",
+          "type": "decimal(18,2)",
+          "line": 383,
+          "settings": "[note: 'Element 5922: Export value (scaled from 1000 USD * 1000 -> exact USD)']"
+        },
+        {
+          "name": "_source_file",
+          "type": "varchar(255)",
+          "line": 386,
+          "settings": "[not null]"
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 387,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 388,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Fact_Country_Price",
+      "line": 402,
+      "columns": [
+        {
+          "name": "month_key",
+          "type": "int",
+          "line": 403,
+          "settings": "[pk, ref: > Dim_Month.month_key, note: 'STRICTLY MONTHLY GRAIN (YYYYMM). Annual rows (7021) are excluded!']"
+        },
+        {
+          "name": "country_key",
+          "type": "int",
+          "line": 404,
+          "settings": "[pk, ref: > Dim_Country.country_key, note: 'Use -1 for global/non-country World Bank benchmarks (e.g., Brent Oil, Urea)']"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 405,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key]"
+        },
+        {
+          "name": "price_type_key",
+          "type": "int",
+          "line": 406,
+          "settings": "[pk, ref: > Dim_Price_Type.price_type_key, note: 'Encapsulates element, currency, unit, and is_index']"
+        },
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 407,
+          "settings": "[pk, ref: > Dim_Source_System.source_system_key, note: 'FAOSTAT_PP, USDA_YEARBOOK, or WORLDBANK_PINKSHEET']"
+        },
+        {
+          "name": "price_value",
+          "type": "decimal(18,4)",
+          "line": 410,
+          "settings": "[not null, note: 'Monthly price or price index value. Filter by Dim_Price_Type.is_index and currency before aggregating!']"
+        },
+        {
+          "name": "observation_flag",
+          "type": "varchar(10)",
+          "line": 413,
+          "settings": "[note: 'Source quality flag if present']"
+        },
+        {
+          "name": "_source_file",
+          "type": "varchar(255)",
+          "line": 414,
+          "settings": "[not null]"
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 415,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 416,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Fact_Vietnam_Daily_Market_Price",
+      "line": 429,
+      "columns": [
+        {
+          "name": "date_key",
+          "type": "int",
+          "line": 430,
+          "settings": "[pk, ref: > Dim_Date.date_key, note: 'Daily observation date YYYYMMDD']"
+        },
+        {
+          "name": "province_key",
+          "type": "int",
+          "line": 431,
+          "settings": "[pk, ref: > Dim_Vietnam_Province.province_key, note: 'Mapped from silver.thitruongnongsan market column; -1 if regional/unspecified']"
+        },
+        {
+          "name": "variety_key",
+          "type": "int",
+          "line": 432,
+          "settings": "[pk, ref: > Dim_Rice_Variety.variety_key, note: 'Mapped from silver.thitruongnongsan commodity column']"
+        },
+        {
+          "name": "price_type_key",
+          "type": "int",
+          "line": 433,
+          "settings": "[pk, ref: > Dim_Price_Type.price_type_key, note: 'Mapped from silver.thitruongnongsan price_type (Wholesale/Retail)']"
+        },
+        {
+          "name": "source_system_key",
+          "type": "int",
+          "line": 434,
+          "settings": "[not null, ref: > Dim_Source_System.source_system_key, note: 'VN_TTNS (silver.thitruongnongsan)']"
+        },
+        {
+          "name": "market_label_raw",
+          "type": "varchar(150)",
+          "line": 437,
+          "settings": "[not null, note: 'Preserved sub-province market name from Silver']"
+        },
+        {
+          "name": "price_vnd_kg",
+          "type": "decimal(18,2)",
+          "line": 438,
+          "settings": "[not null, note: 'Observed daily price in VND/kg']"
+        },
+        {
+          "name": "price_vnd_tonne",
+          "type": "decimal(18,2)",
+          "line": 439,
+          "settings": "[not null, note: 'Normalized price in VND/tonne (price_vnd_kg * 1000)']"
+        },
+        {
+          "name": "_source_file",
+          "type": "varchar(255)",
+          "line": 442,
+          "settings": "[not null]"
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 443,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 444,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Agg_Vietnam_Regional_Performance_Yearly",
+      "line": 457,
+      "columns": [
+        {
+          "name": "year_key",
+          "type": "int",
+          "line": 458,
+          "settings": "[pk, ref: > Dim_Year.year_key]"
+        },
+        {
+          "name": "region_key",
+          "type": "int",
+          "line": 459,
+          "settings": "[pk, ref: > Dim_Vietnam_Region.region_key, note: 'Fixes [B5]: FK to Dim_Vietnam_Region instead of raw varchar']"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 460,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key, note: 'RICE_PADDY']"
+        },
+        {
+          "name": "total_area_planted_ha",
+          "type": "decimal(18,2)",
+          "line": 463,
+          "settings": "[not null, note: 'SUM(area_planted_ha) of atomic provinces in region']"
+        },
+        {
+          "name": "total_production_t",
+          "type": "decimal(18,2)",
+          "line": 464,
+          "settings": "[not null, note: 'SUM(production_harvested_t) of atomic provinces in region']"
+        },
+        {
+          "name": "weighted_yield_tonnes_ha",
+          "type": "decimal(18,4)",
+          "line": 465,
+          "settings": "[note: 'Fixes [B5]: Strictly SUM(total_production_t) / NULLIF(SUM(total_area_planted_ha), 0). NEVER AVG(province_yield)!']"
+        },
+        {
+          "name": "weighted_yield_quintals_ha",
+          "type": "decimal(18,4)",
+          "line": 466,
+          "settings": "[note: 'weighted_yield_tonnes_ha * 10 (ta/ha)']"
+        },
+        {
+          "name": "national_sum_of_provinces_prod_t",
+          "type": "decimal(18,2)",
+          "line": 469,
+          "settings": "[not null, note: 'Denominator 1: SUM(production_harvested_t) across all atomic provinces nationwide']"
+        },
+        {
+          "name": "regional_share_of_provincial_sum_pct",
+          "type": "decimal(8,4)",
+          "line": 470,
+          "settings": "[note: '100.0 * total_production_t / NULLIF(national_sum_of_provinces_prod_t, 0)']"
+        },
+        {
+          "name": "reported_national_prod_t",
+          "type": "decimal(18,2)",
+          "line": 471,
+          "settings": "[note: 'Denominator 2: Official COUNTRY total from Fact_Vietnam_National_Prod_Reported']"
+        },
+        {
+          "name": "regional_share_of_reported_national_pct",
+          "type": "decimal(8,4)",
+          "line": 472,
+          "settings": "[note: '100.0 * total_production_t / NULLIF(reported_national_prod_t, 0)']"
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 475,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 476,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Agg_Country_Market_Position_Yearly",
+      "line": 485,
+      "columns": [
+        {
+          "name": "year_key",
+          "type": "int",
+          "line": 486,
+          "settings": "[pk, ref: > Dim_Year.year_key]"
+        },
+        {
+          "name": "country_key",
+          "type": "int",
+          "line": 487,
+          "settings": "[pk, ref: > Dim_Country.country_key, note: 'Strictly Dim_Country.is_aggregate = false']"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 488,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key, note: 'Fixes [B5]: Explicit product_key so Paddy production vs Milled trade are never conflated']"
+        },
+        {
+          "name": "production_t",
+          "type": "decimal(18,2)",
+          "line": 491,
+          "settings": "[note: 'From Fact_Global_Crop_Production (for RICE_PADDY) or Fact_Global_Rice_PSD (for RICE_MILLED)']"
+        },
+        {
+          "name": "export_quantity_t",
+          "type": "decimal(18,2)",
+          "line": 492,
+          "settings": "[note: 'SUM(export_quantity_t) from Fact_Global_Bilateral_Trade for matching product_key']"
+        },
+        {
+          "name": "export_value_usd",
+          "type": "decimal(18,2)",
+          "line": 493,
+          "settings": "[note: 'SUM(export_value_usd) from Fact_Global_Bilateral_Trade for matching product_key']"
+        },
+        {
+          "name": "import_quantity_t",
+          "type": "decimal(18,2)",
+          "line": 494,
+          "settings": "[note: 'SUM(import_quantity_t) from Fact_Global_Bilateral_Trade for matching product_key']"
+        },
+        {
+          "name": "import_value_usd",
+          "type": "decimal(18,2)",
+          "line": 495,
+          "settings": "[note: 'SUM(import_value_usd) from Fact_Global_Bilateral_Trade for matching product_key']"
+        },
+        {
+          "name": "global_production_share_pct",
+          "type": "decimal(8,4)",
+          "line": 498,
+          "settings": ""
+        },
+        {
+          "name": "global_export_qty_share_pct",
+          "type": "decimal(8,4)",
+          "line": 499,
+          "settings": ""
+        },
+        {
+          "name": "global_export_val_share_pct",
+          "type": "decimal(8,4)",
+          "line": 500,
+          "settings": ""
+        },
+        {
+          "name": "global_export_rank",
+          "type": "int",
+          "line": 501,
+          "settings": ""
+        },
+        {
+          "name": "global_production_rank",
+          "type": "int",
+          "line": 502,
+          "settings": ""
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 505,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 506,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Agg_Bilateral_Trade_Share_Yearly",
+      "line": 515,
+      "columns": [
+        {
+          "name": "year_key",
+          "type": "int",
+          "line": 516,
+          "settings": "[pk, ref: > Dim_Year.year_key]"
+        },
+        {
+          "name": "reporter_country_key",
+          "type": "int",
+          "line": 517,
+          "settings": "[pk, ref: > Dim_Country.country_key]"
+        },
+        {
+          "name": "partner_country_key",
+          "type": "int",
+          "line": 518,
+          "settings": "[pk, ref: > Dim_Country.country_key]"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 519,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key, note: 'Fixes [B5]: Explicit product_key required for accurate commodity share']"
+        },
+        {
+          "name": "export_quantity_t",
+          "type": "decimal(18,2)",
+          "line": 521,
+          "settings": ""
+        },
+        {
+          "name": "export_value_usd",
+          "type": "decimal(18,2)",
+          "line": 522,
+          "settings": ""
+        },
+        {
+          "name": "import_quantity_t",
+          "type": "decimal(18,2)",
+          "line": 523,
+          "settings": ""
+        },
+        {
+          "name": "import_value_usd",
+          "type": "decimal(18,2)",
+          "line": 524,
+          "settings": ""
+        },
+        {
+          "name": "weighted_export_unit_price_usd_t",
+          "type": "decimal(18,4)",
+          "line": 525,
+          "settings": "[note: 'export_value_usd / NULLIF(export_quantity_t, 0)']"
+        },
+        {
+          "name": "weighted_import_unit_price_usd_t",
+          "type": "decimal(18,4)",
+          "line": 526,
+          "settings": "[note: 'import_value_usd / NULLIF(import_quantity_t, 0)']"
+        },
+        {
+          "name": "partner_share_of_reporter_exports_pct",
+          "type": "decimal(8,4)",
+          "line": 527,
+          "settings": "[note: '100.0 * export_quantity_t / NULLIF(SUM(export_quantity_t) OVER (PARTITION BY year_key, reporter_country_key, product_key), 0)']"
+        },
+        {
+          "name": "partner_share_of_reporter_imports_pct",
+          "type": "decimal(8,4)",
+          "line": 528,
+          "settings": ""
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 531,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 532,
+          "settings": "[not null]"
+        }
+      ]
+    },
+    {
+      "table": "Forecasting_Data_Mart_Monthly",
+      "line": 541,
+      "columns": [
+        {
+          "name": "as_of_month_key",
+          "type": "int",
+          "line": 542,
+          "settings": "[pk, ref: > Dim_Month.month_key, note: 'Observation cutoff month (t). All features strictly use data available at or before end of month t!']"
+        },
+        {
+          "name": "country_key",
+          "type": "int",
+          "line": 543,
+          "settings": "[pk, ref: > Dim_Country.country_key, note: 'Target country (VNM)']"
+        },
+        {
+          "name": "product_key",
+          "type": "int",
+          "line": 544,
+          "settings": "[pk, ref: > Dim_Rice_Product.product_key, note: 'Target commodity: RICE_MILLED_5PCT']"
+        },
+        {
+          "name": "target_price_vnm_5pct_t_plus_1",
+          "type": "decimal(18,4)",
+          "line": 549,
+          "settings": "[note: 'LEAD(price_vnm_5pct, 1) OVER (ORDER BY as_of_month_key): 1-month-ahead forecast target (USD/t)']"
+        },
+        {
+          "name": "target_price_vnm_5pct_t_plus_3",
+          "type": "decimal(18,4)",
+          "line": 550,
+          "settings": "[note: 'LEAD(price_vnm_5pct, 3) OVER (ORDER BY as_of_month_key): 3-month-ahead forecast target (USD/t)']"
+        },
+        {
+          "name": "price_vnm_5pct_t",
+          "type": "decimal(18,4)",
+          "line": 555,
+          "settings": "[note: 'Current month (t) VNM 5% broken price (USD/t) - feature for t+1/t+3']"
+        },
+        {
+          "name": "price_vnm_5pct_lag1",
+          "type": "decimal(18,4)",
+          "line": 556,
+          "settings": "[note: 'Month t-1 VNM 5% broken price (USD/t)']"
+        },
+        {
+          "name": "price_vnm_5pct_lag3",
+          "type": "decimal(18,4)",
+          "line": 557,
+          "settings": "[note: 'Month t-3 VNM 5% broken price (USD/t)']"
+        },
+        {
+          "name": "price_vnm_5pct_sma_3m_at_t",
+          "type": "decimal(18,4)",
+          "line": 558,
+          "settings": "[note: '3-month Simple Moving Average over window [t-2, t] (strictly <= t)']"
+        },
+        {
+          "name": "price_vnm_5pct_volatility_3m_at_t",
+          "type": "decimal(18,4)",
+          "line": 559,
+          "settings": "[note: '3-month rolling std dev over window [t-2, t] (strictly <= t)']"
+        },
+        {
+          "name": "price_thai_5pct_t",
+          "type": "decimal(18,4)",
+          "line": 564,
+          "settings": "[note: 'Month t Thailand 5% broken benchmark price (USD/t) from Pink Sheet']"
+        },
+        {
+          "name": "price_spread_vnm_thai_at_t",
+          "type": "decimal(18,4)",
+          "line": 565,
+          "settings": "[note: 'Fixes [A4]: price_vnm_5pct_t - price_thai_5pct_t at month t (never at t+1/t+3!)']"
+        },
+        {
+          "name": "urea_price_usd_t",
+          "type": "decimal(18,4)",
+          "line": 566,
+          "settings": "[note: 'Month t Urea fertilizer price (USD/mt) from Pink Sheet']"
+        },
+        {
+          "name": "brent_oil_price_usd_t",
+          "type": "decimal(18,4)",
+          "line": 567,
+          "settings": "[note: 'Month t Brent crude oil price (USD/bbl) from Pink Sheet']"
+        },
+        {
+          "name": "wheat_price_usd_t",
+          "type": "decimal(18,4)",
+          "line": 568,
+          "settings": "[note: 'Month t Wheat benchmark price (USD/mt) from Pink Sheet']"
+        },
+        {
+          "name": "harvest_season_code",
+          "type": "varchar(30)",
+          "line": 573,
+          "settings": "[not null, note: 'From Dim_Month: WINTER_SPRING_PEAK, SUMMER_AUTUMN_PEAK, AUTUMN_WINTER_MAIN, OFF_SEASON (Fixes [B8])']"
+        },
+        {
+          "name": "prior_year_vnm_paddy_prod_t",
+          "type": "decimal(18,2)",
+          "line": 574,
+          "settings": "[note: 'Lagged annual production from year(t) - 1 (prevents look-ahead bias from current unfinished year)']"
+        },
+        {
+          "name": "prior_crop_year_vnm_ending_stocks_t",
+          "type": "decimal(18,2)",
+          "line": 575,
+          "settings": "[note: 'Lagged ending stocks from completed PSD crop year prior to month t']"
+        },
+        {
+          "name": "_ingest_ts",
+          "type": "timestamp",
+          "line": 578,
+          "settings": "[not null]"
+        },
+        {
+          "name": "etl_batch_id",
+          "type": "varchar(100)",
+          "line": 579,
+          "settings": "[not null]"
+        }
+      ]
+    }
+  ],
+  "gold_dbml_sha256": "b1518da3eec7d2d8d8b789ec062a42b9179ee58e8ba612445d806217e0a60459",
+  "gold_readme_sha256": "4fcfe560b7d2f85a9a35e342044cc116428ab7af7c2ccec16a14fdf0551be546",
+  "python_ast_check": {
+    "file_count": 144,
+    "errors": []
+  },
+  "field_mapping_checks": {
+    "tables": 27,
+    "columns": 261,
+    "unmapped": 0,
+    "duplicates": 0,
+    "classification_counts": {
+      "DIRECT": 30,
+      "DERIVED": 121,
+      "AMBIGUOUS": 23,
+      "LOOKUP": 69,
+      "EXTERNAL": 14,
+      "UNSUPPORTED": 4
+    }
+  },
+  "local_fao_codebooks": {
+    "ItemCodes": {
+      "path": "data\\raw\\faostat\\Trade_DetailedTradeMatrix_E_All_Data_(Normalized)\\Trade_DetailedTradeMatrix_E_ItemCodes.csv",
+      "rows": 572,
+      "columns": [
+        "Item Code",
+        "CPC Code",
+        "Item"
+      ],
+      "sha256": "1f6a7675ff0eb0fbd394ac498e6d4cdf4472cf0348549a9209bea62498986355"
+    },
+    "ReporterCountries": {
+      "path": "data\\raw\\faostat\\Trade_DetailedTradeMatrix_E_All_Data_(Normalized)\\Trade_DetailedTradeMatrix_E_ReporterCountries.csv",
+      "rows": 232,
+      "columns": [
+        "Reporter Country Code",
+        "M49 Code",
+        "Reporter Countries"
+      ],
+      "sha256": "51371f9bab34b21286bb56bd16156166f34c8bd8691fb12220cd4f3bd79f2497"
+    },
+    "PartnerCountries": {
+      "path": "data\\raw\\faostat\\Trade_DetailedTradeMatrix_E_All_Data_(Normalized)\\Trade_DetailedTradeMatrix_E_PartnerCountries.csv",
+      "rows": 255,
+      "columns": [
+        "Partner Country Code",
+        "M49 Code",
+        "Partner Countries"
+      ],
+      "sha256": "1d40434b1bfbdfce056887190474cbad517ecf5bd3fd969e064fae0025c74301"
+    },
+    "Elements": {
+      "path": "data\\raw\\faostat\\Trade_DetailedTradeMatrix_E_All_Data_(Normalized)\\Trade_DetailedTradeMatrix_E_Elements.csv",
+      "rows": 10,
+      "columns": [
+        "Element Code",
+        "Element"
+      ],
+      "sha256": "21ea21944193371c33feaff5e9bddda4a0308517b47307178d1316c0c29bf4f6"
+    },
+    "Flags": {
+      "path": "data\\raw\\faostat\\Trade_DetailedTradeMatrix_E_All_Data_(Normalized)\\Trade_DetailedTradeMatrix_E_Flags.csv",
+      "rows": 4,
+      "columns": [
+        "Flag",
+        " Description"
+      ],
+      "sha256": "85e924f38861df798974e5f04d51997c4d0dc00a7ed09a7824af74a5af1d7c60"
+    }
+  },
+  "gold_dbml_lf_text_sha256": "8f239daadd51d03cb7a7a313dacef2005013d90f5b003cb7ef084d9cfa96cd0e",
+  "dbml_reference_check": {
+    "inline_refs": 61,
+    "missing_targets": 0,
+    "official_parser_available": false,
+    "compound_pk_compilation": "not_run"
+  },
+  "artifact_validation": {
+    "all_261_gold_fields_mapped_exactly_once": true,
+    "all_27_gold_tables_covered": true,
+    "original_gold_dbml_unchanged": true,
+    "original_gold_readme_unchanged": true,
+    "silver_contracts_unchanged": true,
+    "tracked_files_git_diff_empty": true,
+    "all_report_sections_A_to_I": true,
+    "20_findings_have_ids": true,
+    "local_document_links_and_fences_valid": true
+  }
+}
