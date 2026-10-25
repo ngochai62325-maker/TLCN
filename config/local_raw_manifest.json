@@ -1,0 +1,142 @@
+{
+  "manifest_version": 1,
+  "raw_root": "data/raw",
+  "input_file_count": 21,
+  "input_bytes": 183728724,
+  "files": [
+    {
+      "source": "faostat_production",
+      "path": "faostat/production_world.csv",
+      "bytes": 3292244,
+      "sha256": "6a23d820d61e990d1c108ffe3468e7f39a5beb57e376d5174e332dfc9e1200cc"
+    },
+    {
+      "source": "faostat_monthly_price",
+      "path": "faostat/price.csv",
+      "bytes": 2509272,
+      "sha256": "c6d49e6a1430866c358a84cc960448f5c6ec5be7ef0c8faaac2277eaa74ad2af"
+    },
+    {
+      "source": "faostat_supply_utilization",
+      "path": "faostat/supply_utilization.csv",
+      "bytes": 6096569,
+      "sha256": "3a0fa590b9fd8c3a408b3583e66fdec55db98d353993a009821688f8428e5b3c"
+    },
+    {
+      "source": "faostat_trade",
+      "path": "faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv",
+      "bytes": 167990400,
+      "sha256": "697bdc393bc0283b93a3fd90c51e7801c5363a089ea71fc1a7c6aed29a260168"
+    },
+    {
+      "source": "usda_psd",
+      "path": "usda/usda.xls",
+      "bytes": 45549,
+      "sha256": "64a282114fcc6ddca3228a7af2a1db924200068de1e55d42c627043f6283f4cf"
+    },
+    {
+      "source": "usda_rice_yearbook",
+      "path": "usda/Export-prices-Thailand-Vietnam-India-and-Pakistan.csv",
+      "bytes": 2122534,
+      "sha256": "7d3a0d77cf5fe5e6ad243cd9ed58983bff10f672c8b92aa9bd0b8e0c9ab261ba"
+    },
+    {
+      "source": "worldbank_pinksheet",
+      "path": "world_bank/CMO-Historical-Data-Monthly.xlsx",
+      "bytes": 778415,
+      "sha256": "83a320affafc83512d4af4c7198af6ce086326c8b6923d9f64dd905172f86290"
+    },
+    {
+      "source": "thitruongnongsan",
+      "path": "thitruongnongsan/price_luagao.xlsx",
+      "bytes": 756440,
+      "sha256": "8ce4fbbb188d65c2327b73d06f07265ae889c18421095eb157c7f5e46a5a9063"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.12.csv",
+      "bytes": 6281,
+      "sha256": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.13.csv",
+      "bytes": 12726,
+      "sha256": "4aeba037c50f5ff2ff091f4b8804e3a39753ef008da9b83da52036c5e0ea7110"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.14.csv",
+      "bytes": 11766,
+      "sha256": "8009fef207bec209d55e6cae1ef266916132d8055894a28bf792a8bafdaf52dc"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.15.csv",
+      "bytes": 14205,
+      "sha256": "a3c8dc9ab522550ff21c3d9da551cfd549bd1b438ea40150c11573e4ca268af7"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.16.csv",
+      "bytes": 11726,
+      "sha256": "57aeb150faa8b93b96db737c615001e76f14d62ed58553bb96ea69252b93f9a5"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.17.csv",
+      "bytes": 11738,
+      "sha256": "fbbb470e19ba52959bc81274d07f46d2517bf111cc5a979aa54e17e5e38585be"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.18.csv",
+      "bytes": 13393,
+      "sha256": "07fdf3300a30e648fc07a66afbafa3381558c9fe75c229388136c79394096d84"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.19.csv",
+      "bytes": 6462,
+      "sha256": "b22d8125db87de5934a723e5f23baf07d4f59358836368200dccfb2282a4f5e6"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.20.csv",
+      "bytes": 6203,
+      "sha256": "b88d9b821c7c894bbf822b09ca3682b670e3a31a82d39a1e9cd3be1e5f8014c8"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.21.csv",
+      "bytes": 7127,
+      "sha256": "0eeb6628eb6cf986a34225b333ba53567b998fcd05e49bfb21c82eca6944fcab"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.22.csv",
+      "bytes": 11467,
+      "sha256": "fc2d3eb16b634c3bf81872c42a883cbc6c5a6bc8dbd1e3d239c0586238ec34b7"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.23.csv",
+      "bytes": 11505,
+      "sha256": "6340d6d096530b871117179cabf2e3acc6c9a102b03a83b2783ad14f8a385f76"
+    },
+    {
+      "source": "nso",
+      "path": "nso/V06.24.csv",
+      "bytes": 12702,
+      "sha256": "4d5cd0da34b5278a6452f577b4eb22fbf031f59a209a2f660a9db9a75d95de9b"
+    }
+  ],
+  "support_files": [
+    {
+      "path": "nso/metadata.txt",
+      "bytes": 923,
+      "sha256": "f17faf04e163da55e949593797bc60a8240d2137fea55a43342225d50d810555"
+    }
+  ],
+  "note": "These21 pinned observation files plus NSO support metadata are transferred separately. Never substitute the Trade fixture or rely on existing volumes."
+}

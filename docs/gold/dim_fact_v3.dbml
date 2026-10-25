@@ -1,0 +1,586 @@
+// =============================================================================
+// PROJECT: RICE LAKEHOUSE - GOLD LAYER DIMENSIONAL MODEL (v3)
+// =============================================================================
+// Changelog v2 -> v3:
+// [A1] Split Dim_Date into Rollup Time Hierarchy: Dim_Date -> Dim_Month -> Dim_Year,
+//      plus standalone Dim_Crop_Year for USDA PSD marketing years (prevents PK collision
+//      and silent 3x fan-out join multiplication on Iceberg).
+// [A2] Fixed Fact_Country_Price mixed grain & units: restricted to monthly grain only
+//      (month_key), added Dim_Price_Type & Dim_Source_System, removed varchar from PK.
+// [A3] Refactored Fact_Global_Supply_Utilization from EAV to wide pivoted additive
+//      columns (in tonnes) with year_key + product_key.
+// [A4] Eliminated Target Leakage in Forecasting_Data_Mart_Monthly: defined explicit
+//      as_of_month_key (t) vs target horizons (t+1, t+3); all features strictly use <= t.
+// [B5] Added product_key to Agg_Country_Market_Position_Yearly & Agg_Bilateral_Trade_Share_Yearly;
+//      added Dim_Vietnam_Region for Agg_Vietnam_Regional_Performance_Yearly; enforced weighted yield.
+// [B6] Standardized Gold units (tonnes, hectares, USD) and added product_key to Fact_Global_Rice_PSD.
+// [B7] Added SCD2 + province_code to Dim_Vietnam_Province (removed 'Ca nuoc' row) +
+//      Xref_Vietnam_Province_Transition (63 -> 34 provinces); added is_aggregate to Dim_Country +
+//      Xref_Country_SourceAlias; linked Dim_Rice_Variety -> Dim_Rice_Product; renamed
+//      Bridge_Product_SourceAlias -> Xref_Product_SourceAlias.
+// [B8] Replaced partial boolean is_harvest_season_vnm with harvest_season_code on Dim_Month.
+// [C]  Removed non-additive ratios (calculated_unit_price, yield) from atomic facts (computed in views);
+//      standardized decimal(18,2) / decimal(18,4); added lineage columns & Unknown (-1) member rule.
+// =============================================================================
+
+Project rice_lakehouse_gold_v3 {
+  database_type: 'Apache Iceberg (Trino / Spark SQL)'
+  Note: 'Gold Layer Galaxy Schema (Conformed Dimensions, Atomic Facts, Aggregations, and ML Feature Marts)'
+}
+
+// =============================================================================
+// 1. CONFORMED TIME DIMENSIONS (ROLLUP HIERARCHY)
+// =============================================================================
+
+Table Dim_Year {
+  year_key int [pk, note: 'YYYY (e.g., 2024). Use -1 for Unknown.']
+  decade int [not null, note: 'e.g., 2020']
+  is_leap_year boolean [not null]
+
+  Note: 'Top-level calendar year dimension. Referenced directly by annual grain facts.'
+}
+
+Table Dim_Month {
+  month_key int [pk, note: 'YYYYMM (e.g., 202408). Use -1 for Unknown.']
+  year_key int [not null, ref: > Dim_Year.year_key, note: 'Rollup FK to Dim_Year (YYYY)']
+  month int [not null, note: '1..12']
+  quarter int [not null, note: '1..4']
+  month_name varchar(20) [not null, note: 'January..December']
+  harvest_season_code varchar(30) [not null, note: 'VNM harvest calendar: WINTER_SPRING_PEAK (Feb-Apr), SUMMER_AUTUMN_PEAK (Jun-Aug), AUTUMN_WINTER_MAIN (Sep-Nov), OFF_SEASON (Jan, May, Dec)']
+
+  Note: 'Monthly rollup dimension. Referenced directly by monthly grain facts and ML marts.'
+}
+
+Table Dim_Date {
+  date_key int [pk, note: 'YYYYMMDD (e.g., 20240815). Use -1 for Unknown.']
+  full_date date [not null, unique]
+  month_key int [not null, ref: > Dim_Month.month_key, note: 'Rollup FK to Dim_Month (YYYYMM)']
+  day_of_month int [not null, note: '1..31']
+  day_of_week int [not null, note: '1 (Mon)..7 (Sun)']
+  day_name varchar(20) [not null]
+  is_weekend boolean [not null]
+
+  Note: 'Daily calendar dimension. Referenced only by daily grain facts (e.g., Fact_Vietnam_Daily_Market_Price).'
+}
+
+Table Dim_Crop_Year {
+  crop_year_key int [pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']
+  crop_year_label varchar(20) [not null, unique, note: 'Preserved from USDA PSD crop_year (e.g., 2023/2024)']
+  start_year int [not null, ref: > Dim_Year.year_key, note: 'Marketing year beginning year (market_year in Silver)']
+  end_year int [not null, note: 'Ending year of the crop cycle']
+
+  Note: 'Marketing / Crop Year dimension for USDA PSD balance sheets. Kept separate from calendar Dim_Year because local marketing years vary by country.'
+}
+
+Table Dim_Crop_Season {
+  season_key int [pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']
+  season_code varchar(50) [not null, unique, note: 'From silver.nso_rice_statistics: winter_spring, summer_autumn, summer_autumn_fall, autumn_winter, main_rainy, annual']
+  season_name_vi varchar(100) [not null, note: 'Lua Dong Xuan, Lua He Thu, Lua Thu Dong, Lua Mua, Ca nam']
+  season_name_en varchar(100) [not null]
+  is_annual_summary boolean [not null, note: 'True if season_code == annual (prevents double counting when summing seasons)']
+
+  Note: 'Vietnamese agricultural crop seasons from NSO statistics.'
+}
+
+// =============================================================================
+// 2. CONFORMED GEOGRAPHY, PRODUCT & METADATA DIMENSIONS
+// =============================================================================
+
+Table Dim_Source_System {
+  source_system_key int [pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']
+  source_code varchar(50) [not null, unique, note: 'FAOSTAT_QCL, FAOSTAT_TM, FAOSTAT_SUA, FAOSTAT_PP, USDA_PSD, USDA_YEARBOOK, WORLDBANK_PINKSHEET, VN_NSO, VN_TTNS']
+  source_name varchar(150) [not null]
+  publishing_org varchar(100) [not null, note: 'FAO, USDA FAS, USDA ERS, World Bank, GSO/NSO Vietnam, ThiTruongNongSan']
+  default_cadence varchar(30) [not null, note: 'DAILY, MONTHLY, ANNUAL']
+
+  Note: 'Standardized source system registry used for lineage, System-of-Record filtering, and crosswalk scoping.'
+}
+
+Table Dim_Country {
+  country_key int [pk, increment, note: 'Surrogate PK. Use -1 for Unknown / Unspecified Partner.']
+  iso3_code varchar(3) [unique, note: 'ISO 3166-1 alpha-3 (e.g., VNM, THA, IND). Nullable for regional aggregates.']
+  m49_code varchar(10) [unique, note: 'UN M49 code from FAOSTAT (e.g., 704 for Vietnam)']
+  country_name_en varchar(150) [not null]
+  region_un varchar(100) [note: 'UN Continent / Macro-region (Asia, Europe, Africa, Americas, Oceania)']
+  sub_region_un varchar(100) [note: 'e.g., South-Eastern Asia']
+  is_aggregate boolean [not null, default: false, note: 'CRITICAL: True for World, Asia, European Union, All countries, etc. Filter is_aggregate = false when summing across countries!']
+
+  Note: 'Conformed global country/area dimension. Includes Unknown member (country_key = -1) for Unspecified trade partners.'
+}
+
+Table Dim_Vietnam_Region {
+  region_key int [pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']
+  region_code varchar(30) [not null, unique, note: 'e.g., DBSH, TDMNPB, BTB_DHMT, TAY_NGUYEN, DNB, DBSCL']
+  region_name_vi varchar(150) [not null, unique, note: 'Matches parent_region_vi in silver.nso_rice_statistics (e.g., Dong bang song Cuu Long)']
+  region_name_en varchar(150) [not null, note: 'e.g., Mekong River Delta']
+
+  Note: '6 socio-economic statistical regions of Vietnam (NSO standard).'
+}
+
+Table Dim_Vietnam_Province {
+  province_key int [pk, increment, note: 'SCD Type 2 Surrogate PK. Use -1 for Unknown. NOTE: Do NOT include Ca Nuoc (National Total) here.']
+  province_code varchar(20) [not null, note: 'Official GSO / administrative code']
+  province_name_vi varchar(150) [not null, note: 'Normalized Vietnamese name from silver.nso_rice_statistics']
+  province_name_en varchar(150) [not null]
+  region_key int [not null, ref: > Dim_Vietnam_Region.region_key]
+  admin_boundary_version varchar(30) [not null, note: 'PRE_2025_63_PROVINCES or POST_2025_34_PROVINCES']
+  valid_from date [not null, note: 'SCD2 effective start date']
+  valid_to date [not null, default: '9999-12-31', note: 'SCD2 effective end date']
+  is_current boolean [not null, default: true]
+
+  Note: 'SCD Type 2 dimension for Vietnamese provinces. Excludes National and Regional total rows to enforce strict atomic provincial grain.'
+}
+
+Table Xref_Vietnam_Province_Transition {
+  transition_id int [pk, increment]
+  legacy_province_key int [not null, ref: > Dim_Vietnam_Province.province_key, note: '63-province boundary member']
+  merged_province_key int [not null, ref: > Dim_Vietnam_Province.province_key, note: '34-province boundary member (2025 reform)']
+  reform_effective_date date [not null, note: '2025-07-01']
+  area_allocation_ratio decimal(8,6) [not null, default: 1.000000, note: '1.0 for full province merge; fractional if split']
+
+  Note: 'Crosswalk mapping 63 pre-2025 provinces to 34 post-2025 merged provinces for continuous historical time-series rollup.'
+}
+
+Table Dim_Rice_Product {
+  product_key int [pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']
+  product_code varchar(50) [not null, unique, note: 'Canonical code: RICE_PADDY, RICE_MILLED, RICE_MILLED_5PCT, RICE_BROKEN, RICE_HUSKED, RICE_FRAGRANT, UREA, BRENT_OIL, WHEAT, MAIZE']
+  cpc_code varchar(20) [note: 'UN CPC code from FAOSTAT (e.g., 0113 for Rice paddy, 23161.02 for Rice milled)']
+  product_name_en varchar(150) [not null]
+  product_category varchar(50) [not null, note: 'RICE_PRIMARY, RICE_PROCESSED, MACRO_FERTILIZER, MACRO_ENERGY, SUBSTITUTE_GRAIN']
+  processing_stage varchar(30) [not null, note: 'PADDY, HUSKED_BROWN, MILLED_WHITE, BROKEN, BYPRODUCT, NON_RICE']
+  standard_paddy_to_milled_factor decimal(8,4) [note: 'Default reference conversion factor (e.g., 0.6500-0.6700) when country-specific PSD milling rate is unavailable']
+
+  Note: 'Conformed international product/commodity dimension across FAOSTAT, USDA, World Bank, and NSO.'
+}
+
+Table Dim_Rice_Variety {
+  variety_key int [pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']
+  variety_code varchar(50) [not null, unique]
+  variety_name_vi varchar(150) [not null, note: 'From silver.thitruongnongsan commodity (e.g., Lua IR50404, Lua OM5451, Gao ST25, Gao 5% tam)']
+  product_key int [not null, ref: > Dim_Rice_Product.product_key, note: 'Links domestic variety/grade to international Dim_Rice_Product for domestic-vs-FOB comparison']
+  grain_length_class varchar(30) [note: 'LONG_GRAIN, MEDIUM_GRAIN, SHORT_GRAIN, FRAGRANT, GLUTINOUS']
+  broken_pct_standard decimal(5,2) [note: 'e.g., 5.00, 15.00, 25.00, 100.00, or NULL for raw paddy']
+
+  Note: 'Domestic Vietnamese rice variety & commercial grade dimension linked to Dim_Rice_Product.'
+}
+
+Table Dim_Price_Type {
+  price_type_key int [pk, increment, note: 'Surrogate PK. Use -1 for Unknown.']
+  price_type_code varchar(60) [not null, unique, note: 'e.g., FAO_PRODUCER_USD, FAO_PRODUCER_LCU, FAO_PRODUCER_SLC, FAO_PRODUCER_INDEX, USDA_FOB_EXPORT, WB_FOB_BENCHMARK, VN_DOMESTIC_WHOLESALE, VN_DOMESTIC_RETAIL']
+  element_code varchar(30) [note: 'FAOSTAT element_code (5530, 5531, 5532, 5539) or source statistic code']
+  price_stage varchar(30) [not null, note: 'FARMGATE_PRODUCER, DOMESTIC_WHOLESALE, DOMESTIC_RETAIL, EXPORT_FOB']
+  unit_standard varchar(30) [not null, note: 'USD/tonne, LCU/tonne, VND/kg, INDEX_2014_2016_100']
+  currency varchar(10) [note: 'USD, VND, LCU, SLC, or NULL for dimensionless price index']
+  is_index boolean [not null, default: false, note: 'CRITICAL: True for price indices (e.g., FAO 5539). Never mix or average with currency prices!']
+
+  Note: 'Separates price currencies, stages, and dimensionless indices so Fact_Country_Price never mixes units silently.'
+}
+
+// =============================================================================
+// 3. ETL CROSSWALK TABLES (SILVER -> GOLD CONFORMANCE)
+// =============================================================================
+
+Table Xref_Product_SourceAlias {
+  xref_product_id int [pk, increment]
+  source_system_key int [not null, ref: > Dim_Source_System.source_system_key]
+  source_commodity_code varchar(100) [not null, note: 'Raw code from Silver (e.g., 0113, rice_thai_5, 0422110)']
+  source_commodity_name varchar(255) [not null, note: 'Raw label from Silver (e.g., Rice, paddy; 5-PERCENT BROKEN)']
+  product_key int [not null, ref: > Dim_Rice_Product.product_key]
+
+  indexes {
+    (source_system_key, source_commodity_code, source_commodity_name) [unique]
+  }
+  Note: 'ETL Crosswalk (renamed from Bridge_Product_SourceAlias) mapping source-specific commodity strings/codes to conformed Dim_Rice_Product.'
+}
+
+Table Xref_Country_SourceAlias {
+  xref_country_id int [pk, increment]
+  source_system_key int [not null, ref: > Dim_Source_System.source_system_key]
+  source_country_code varchar(50) [note: 'M49 code, USDA country code, or ISO code in Silver']
+  source_country_name varchar(200) [not null, note: 'Exact country/location string in Silver (e.g., Viet Nam, VIETNAM, Thailand, Unspecified)']
+  country_key int [not null, ref: > Dim_Country.country_key]
+
+  indexes {
+    (source_system_key, source_country_name) [unique]
+  }
+  Note: 'ETL Crosswalk mapping heterogeneous country names/codes across FAOSTAT, USDA PSD, and USDA Yearbook to conformed Dim_Country.'
+}
+
+// =============================================================================
+// 4. ATOMIC FACT TABLES (SUBJECT AREA 1: VIETNAM PRODUCTION)
+// =============================================================================
+
+Table Fact_Vietnam_Provincial_Prod {
+  year_key int [pk, ref: > Dim_Year.year_key, note: 'Calendar year YYYY']
+  province_key int [pk, ref: > Dim_Vietnam_Province.province_key, note: 'Atomic province only (geography_level = PROVINCE_CITY)']
+  season_key int [pk, ref: > Dim_Crop_Season.season_key, note: 'Specific crop season (is_annual_summary = false for seasonal additive grain)']
+  product_key int [pk, ref: > Dim_Rice_Product.product_key, note: 'Points to RICE_PADDY']
+  source_system_key int [not null, ref: > Dim_Source_System.source_system_key, note: 'VN_NSO (silver.nso_rice_statistics)']
+
+  // Additive measures (normalized to standard Gold units: hectares & tonnes)
+  area_planted_ha decimal(18,2) [note: 'Normalized from Nghin_ha (* 1000) where measure = area and statistic_kind = QUANTITY']
+  production_harvested_t decimal(18,2) [note: 'Normalized from Nghin_tan (* 1000) where measure = production and statistic_kind = QUANTITY']
+
+  // Flags & Lineage
+  is_preliminary boolean [not null, default: false, note: 'True if period_raw marked So bo in NSO']
+  _source_file varchar(255) [not null, note: 'e.g., V06.15.csv..V06.24.csv']
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Year, Atomic Province, Crop Season, Paddy Rice).
+  FACT TYPE: Periodic Snapshot (Additive across provinces and non-annual seasons).
+  SOURCE: iceberg.silver.nso_rice_statistics WHERE geography_level = 'PROVINCE_CITY' AND statistic_kind = 'QUANTITY'.
+  RULE: Yield (t/ha or quintals/ha) is NOT stored here to avoid non-additive averaging; compute in semantic view as SUM(production_harvested_t) / NULLIF(SUM(area_planted_ha), 0).
+  '''
+}
+
+Table Fact_Vietnam_National_Prod_Reported {
+  year_key int [pk, ref: > Dim_Year.year_key]
+  region_key int [pk, ref: > Dim_Vietnam_Region.region_key, note: 'Use -1 for National (COUNTRY) rows; actual region_key for REGION rows']
+  season_key int [pk, ref: > Dim_Crop_Season.season_key, note: 'Includes both seasonal and annual summary rows as published by GSO']
+  product_key int [pk, ref: > Dim_Rice_Product.product_key]
+  geography_level varchar(20) [pk, note: 'COUNTRY (Ca nuoc) or REGION (6 socio-economic regions)']
+  source_system_key int [not null, ref: > Dim_Source_System.source_system_key, note: 'VN_NSO (silver.nso_rice_statistics)']
+
+  // Official Reported Measures (isolated from atomic provincial sums)
+  reported_area_planted_ha decimal(18,2) [note: 'Official published area in hectares']
+  reported_production_t decimal(18,2) [note: 'Official published production in tonnes']
+  reported_yield_kg_ha decimal(18,2) [note: 'NON-ADDITIVE: Official published yield in kg/ha (from Ta_ha * 100)']
+  yoy_area_index_pct decimal(10,2) [note: 'NON-ADDITIVE: PERCENT_PREVIOUS_YEAR_100 for area']
+  yoy_production_index_pct decimal(10,2) [note: 'NON-ADDITIVE: PERCENT_PREVIOUS_YEAR_100 for production']
+  is_national_total boolean [not null, note: 'True when geography_level == COUNTRY']
+  is_annual_total boolean [not null, note: 'True when season_code == annual']
+  is_preliminary boolean [not null, default: false]
+
+  // Lineage
+  _source_file varchar(255) [not null, note: 'e.g., V06.12.csv, V06.13.csv, V06.14.csv']
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Year, Geography Level [Country/Region], Region, Season, Product) as officially published by GSO/NSO.
+  FACT TYPE: Periodic Snapshot (Published Aggregate Reference).
+  SOURCE: iceberg.silver.nso_rice_statistics WHERE geography_level IN ('COUNTRY', 'REGION').
+  RULE: Separated from Fact_Vietnam_Provincial_Prod to prevent 2x/3x double counting while preserving official national/regional published figures and official YoY indices for reconciliation.
+  '''
+}
+
+// =============================================================================
+// 5. ATOMIC FACT TABLES (SUBJECT AREA 2: GLOBAL PRODUCTION, SUPPLY & TRADE)
+// =============================================================================
+
+Table Fact_Global_Crop_Production {
+  year_key int [pk, ref: > Dim_Year.year_key]
+  country_key int [pk, ref: > Dim_Country.country_key]
+  product_key int [pk, ref: > Dim_Rice_Product.product_key, note: 'RICE_PADDY (CPC 0113)']
+  source_system_key int [not null, ref: > Dim_Source_System.source_system_key, note: 'FAOSTAT_QCL (silver.faostat_production)']
+
+  // Additive measures (Paddy basis, standard units)
+  area_harvested_ha decimal(18,2) [note: 'Element 5312 (ha)']
+  production_paddy_t decimal(18,2) [note: 'Element 5510 (tonnes)']
+  producing_animals_or_seed_t decimal(18,2) [note: 'Optional auxiliary additive element if present']
+
+  // Quality & Lineage
+  fao_flag varchar(10) [note: 'A (Official), E (Estimated), I (Imputed)']
+  _source_file varchar(255) [not null]
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Calendar Year, Country, Product [Rice Paddy]) from FAOSTAT QCL.
+  FACT TYPE: Periodic Snapshot.
+  SOURCE: iceberg.silver.faostat_production (pivoted from element_code 5312 & 5510).
+  RULE: System of Record for global PADDY production and harvested area. Element 5412 (Yield kg/ha) is excluded from atomic table and computed in views as SUM(production_paddy_t)*1000 / NULLIF(SUM(area_harvested_ha), 0).
+  '''
+}
+
+Table Fact_Global_Rice_PSD {
+  crop_year_key int [pk, ref: > Dim_Crop_Year.crop_year_key, note: 'Marketing year (e.g., 2023/2024)']
+  country_key int [pk, ref: > Dim_Country.country_key]
+  product_key int [pk, ref: > Dim_Rice_Product.product_key, note: 'Explicitly linked to RICE_MILLED (with rough production tracked in dedicated column)']
+  source_system_key int [not null, ref: > Dim_Source_System.source_system_key, note: 'USDA_PSD (silver.usda_rice_psd)']
+
+  // Standardized Additive Measures (Converted from 1000 HA -> ha and 1000 MT -> tonnes)
+  area_harvested_ha decimal(18,2) [note: 'Attribute: Area Harvested (* 1000 -> ha)']
+  rough_production_t decimal(18,2) [note: 'Attribute: Rough Production (* 1000 -> tonnes paddy basis)']
+  milled_production_t decimal(18,2) [note: 'Attribute: Production (* 1000 -> tonnes milled basis)']
+  beginning_stocks_t decimal(18,2) [note: 'Attribute: Beginning Stocks (* 1000 -> tonnes milled basis)']
+  ty_imports_t decimal(18,2) [note: 'Attribute: TY Imports (* 1000 -> tonnes)']
+  my_imports_t decimal(18,2) [note: 'Attribute: Imports (* 1000 -> tonnes)']
+  total_supply_t decimal(18,2) [note: 'Attribute: Total Supply (* 1000 -> tonnes)']
+  ty_exports_t decimal(18,2) [note: 'Attribute: TY Exports (* 1000 -> tonnes)']
+  my_exports_t decimal(18,2) [note: 'Attribute: Exports (* 1000 -> tonnes)']
+  domestic_consumption_t decimal(18,2) [note: 'Attribute: Domestic Consumption and Residual (* 1000 -> tonnes)']
+  ending_stocks_t decimal(18,2) [note: 'Attribute: Ending Stocks (* 1000 -> tonnes)']
+
+  // Non-additive reference factor
+  milling_rate_factor decimal(18,4) [note: 'NON-ADDITIVE: Dimensionless milling fraction (e.g., 0.6700) from Silver conversion']
+
+  // Lineage
+  _source_file varchar(255) [not null]
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Crop Year, Country, Product [Rice Milled]) from USDA PSD.
+  FACT TYPE: Periodic Snapshot (Marketing Year Balance Sheet).
+  SOURCE: iceberg.silver.usda_rice_psd (pivoted by attribute, scaled from 1000 MT/1000 HA to exact tonnes and hectares).
+  RULE: System of Record for MILLED rice supply/demand balance and ending stocks.
+  '''
+}
+
+Table Fact_Global_Supply_Utilization {
+  year_key int [pk, ref: > Dim_Year.year_key, note: 'Calendar year YYYY (fixes missing date_key in v2)']
+  country_key int [pk, ref: > Dim_Country.country_key]
+  product_key int [pk, ref: > Dim_Rice_Product.product_key]
+  source_system_key int [not null, ref: > Dim_Source_System.source_system_key, note: 'FAOSTAT_SUA (silver.faostat_supply_utilization)']
+
+  // Pivoted Additive Quantity Columns (all standardized to Tonnes)
+  opening_stocks_t decimal(18,2) [note: 'Element 5113: Opening stocks (tonnes)']
+  production_t decimal(18,2) [note: 'Element 5510: Production (tonnes)']
+  import_quantity_t decimal(18,2) [note: 'Element 5610: Import quantity (tonnes)']
+  export_quantity_t decimal(18,2) [note: 'Element 5910: Export quantity (tonnes)']
+  stock_variation_t decimal(18,2) [note: 'Element 5071: Stock Variation (tonnes; CAN BE NEGATIVE)']
+  domestic_supply_t decimal(18,2) [note: 'Element 5301: Domestic supply quantity (tonnes)']
+  feed_t decimal(18,2) [note: 'Element 5520: Feed (tonnes)']
+  seed_t decimal(18,2) [note: 'Element 5525: Seed (tonnes)']
+  waste_loss_t decimal(18,2) [note: 'Element 5123: Loss / Waste (tonnes)']
+  processing_t decimal(18,2) [note: 'Element 5131: Processing (tonnes)']
+  food_supply_quantity_t decimal(18,2) [note: 'Element 5141: Food supply quantity (tonnes)']
+  other_uses_t decimal(18,2) [note: 'Element 5153: Other uses (non-food) (tonnes)']
+  closing_stocks_t decimal(18,2) [note: 'Element 5114 / derived closing stocks (tonnes)']
+  residuals_t decimal(18,2) [note: 'Element 5170: Residuals (tonnes; can be negative)']
+
+  // Non-additive Per-Capita Nutritional Indicators (separated from additive tonnage)
+  food_supply_kg_per_capita_yr decimal(12,4) [note: 'NON-ADDITIVE: Element 645 (kg/capita/year). Do NOT sum across countries!']
+  calories_kcal_per_capita_day decimal(12,4) [note: 'NON-ADDITIVE: Element 664 (kcal/capita/day).']
+
+  // Lineage
+  _source_file varchar(255) [not null]
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Calendar Year, Country, Product) from FAOSTAT SUA.
+  FACT TYPE: Periodic Snapshot.
+  SOURCE: iceberg.silver.faostat_supply_utilization (pivoted from EAV to wide schema).
+  RULE: Fixes [A3] by eliminating EAV mixed-measure value column and attaching year_key.
+  '''
+}
+
+Table Fact_Global_Bilateral_Trade {
+  year_key int [pk, ref: > Dim_Year.year_key]
+  reporter_country_key int [pk, ref: > Dim_Country.country_key, note: 'Reporting country']
+  partner_country_key int [pk, ref: > Dim_Country.country_key, note: 'Partner country (maps Unspecified to -1)']
+  product_key int [pk, ref: > Dim_Rice_Product.product_key, note: 'Distinguishes Paddy, Husked, Milled, Broken rice']
+  source_system_key int [not null, ref: > Dim_Source_System.source_system_key, note: 'FAOSTAT_TM (silver.faostat_trade)']
+
+  // Additive Trade Flows (standardized to exact Tonnes and exact USD)
+  import_quantity_t decimal(18,2) [note: 'Element 5610: Import quantity (tonnes)']
+  import_value_usd decimal(18,2) [note: 'Element 5622: Import value (scaled from 1000 USD * 1000 -> exact USD)']
+  export_quantity_t decimal(18,2) [note: 'Element 5910: Export quantity (tonnes)']
+  export_value_usd decimal(18,2) [note: 'Element 5922: Export value (scaled from 1000 USD * 1000 -> exact USD)']
+
+  // Lineage
+  _source_file varchar(255) [not null]
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Calendar Year, Reporter Country, Partner Country, Product).
+  FACT TYPE: Periodic Snapshot / Cumulative Annual Flow.
+  SOURCE: iceberg.silver.faostat_trade.
+  RULE: Unit prices (export FOB USD/t and import CIF USD/t) are NOT stored here ([C]); compute in views as SUM(export_value_usd)/NULLIF(SUM(export_quantity_t),0) and SUM(import_value_usd)/NULLIF(SUM(import_quantity_t),0).
+  '''
+}
+
+// =============================================================================
+// 6. ATOMIC FACT TABLES (SUBJECT AREA 3: GLOBAL & DOMESTIC PRICES)
+// =============================================================================
+
+Table Fact_Country_Price {
+  month_key int [pk, ref: > Dim_Month.month_key, note: 'STRICTLY MONTHLY GRAIN (YYYYMM). Annual rows (7021) are excluded!']
+  country_key int [pk, ref: > Dim_Country.country_key, note: 'Use -1 for global/non-country World Bank benchmarks (e.g., Brent Oil, Urea)']
+  product_key int [pk, ref: > Dim_Rice_Product.product_key]
+  price_type_key int [pk, ref: > Dim_Price_Type.price_type_key, note: 'Encapsulates element, currency, unit, and is_index']
+  source_system_key int [pk, ref: > Dim_Source_System.source_system_key, note: 'FAOSTAT_PP, USDA_YEARBOOK, or WORLDBANK_PINKSHEET']
+
+  // Semi-additive / Non-additive Measure
+  price_value decimal(18,4) [not null, note: 'Monthly price or price index value. Filter by Dim_Price_Type.is_index and currency before aggregating!']
+
+  // Quality & Lineage
+  observation_flag varchar(10) [note: 'Source quality flag if present']
+  _source_file varchar(255) [not null]
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Month, Country, Product, Price Type, Source System).
+  FACT TYPE: Periodic Snapshot (Monthly).
+  SOURCES:
+    1. iceberg.silver.faostat_monthly_price WHERE time_grain = 'monthly' (excludes month_code = '7021' Annual value)
+    2. iceberg.silver.usda_rice_yearbook (monthly export quotes)
+    3. iceberg.silver.worldbank_commodity_monthly (monthly global benchmarks)
+  RULE: Fixes [A2] by enforcing strict monthly grain, surrogate integer PKs, and Dim_Price_Type isolation of currencies vs indices. Annual average prices are derived from monthly rows in views/marts.
+  '''
+}
+
+Table Fact_Vietnam_Daily_Market_Price {
+  date_key int [pk, ref: > Dim_Date.date_key, note: 'Daily observation date YYYYMMDD']
+  province_key int [pk, ref: > Dim_Vietnam_Province.province_key, note: 'Mapped from silver.thitruongnongsan market column; -1 if regional/unspecified']
+  variety_key int [pk, ref: > Dim_Rice_Variety.variety_key, note: 'Mapped from silver.thitruongnongsan commodity column']
+  price_type_key int [pk, ref: > Dim_Price_Type.price_type_key, note: 'Mapped from silver.thitruongnongsan price_type (Wholesale/Retail)']
+  source_system_key int [not null, ref: > Dim_Source_System.source_system_key, note: 'VN_TTNS (silver.thitruongnongsan)']
+
+  // Price Measures
+  market_label_raw varchar(150) [not null, note: 'Preserved sub-province market name from Silver']
+  price_vnd_kg decimal(18,2) [not null, note: 'Observed daily price in VND/kg']
+  price_vnd_tonne decimal(18,2) [not null, note: 'Normalized price in VND/tonne (price_vnd_kg * 1000)']
+
+  // Lineage
+  _source_file varchar(255) [not null]
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Date, Market/Province, Rice Variety, Price Type).
+  FACT TYPE: Transaction / Daily Periodic Snapshot.
+  SOURCE: iceberg.silver.thitruongnongsan.
+  '''
+}
+
+// =============================================================================
+// 7. AGGREGATE TABLES & ML FEATURE MARTS (SUBJECT AREA 4: ANALYTICS & AI)
+// =============================================================================
+
+Table Agg_Vietnam_Regional_Performance_Yearly {
+  year_key int [pk, ref: > Dim_Year.year_key]
+  region_key int [pk, ref: > Dim_Vietnam_Region.region_key, note: 'Fixes [B5]: FK to Dim_Vietnam_Region instead of raw varchar']
+  product_key int [pk, ref: > Dim_Rice_Product.product_key, note: 'RICE_PADDY']
+
+  // Aggregated from Atomic Provincial Fact (where Dim_Crop_Season.is_annual_summary = false)
+  total_area_planted_ha decimal(18,2) [not null, note: 'SUM(area_planted_ha) of atomic provinces in region']
+  total_production_t decimal(18,2) [not null, note: 'SUM(production_harvested_t) of atomic provinces in region']
+  weighted_yield_tonnes_ha decimal(18,4) [note: 'Fixes [B5]: Strictly SUM(total_production_t) / NULLIF(SUM(total_area_planted_ha), 0). NEVER AVG(province_yield)!']
+  weighted_yield_quintals_ha decimal(18,4) [note: 'weighted_yield_tonnes_ha * 10 (ta/ha)']
+
+  // Share denominators explicitly documented ([B5])
+  national_sum_of_provinces_prod_t decimal(18,2) [not null, note: 'Denominator 1: SUM(production_harvested_t) across all atomic provinces nationwide']
+  regional_share_of_provincial_sum_pct decimal(8,4) [note: '100.0 * total_production_t / NULLIF(national_sum_of_provinces_prod_t, 0)']
+  reported_national_prod_t decimal(18,2) [note: 'Denominator 2: Official COUNTRY total from Fact_Vietnam_National_Prod_Reported']
+  regional_share_of_reported_national_pct decimal(8,4) [note: '100.0 * total_production_t / NULLIF(reported_national_prod_t, 0)']
+
+  // Lineage
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Calendar Year, Vietnam Region, Product).
+  FACT TYPE: Derived Aggregate Table.
+  SOURCE: Derived from Fact_Vietnam_Provincial_Prod (atomic roll-up) and reconciled with Fact_Vietnam_National_Prod_Reported.
+  '''
+}
+
+Table Agg_Country_Market_Position_Yearly {
+  year_key int [pk, ref: > Dim_Year.year_key]
+  country_key int [pk, ref: > Dim_Country.country_key, note: 'Strictly Dim_Country.is_aggregate = false']
+  product_key int [pk, ref: > Dim_Rice_Product.product_key, note: 'Fixes [B5]: Explicit product_key so Paddy production vs Milled trade are never conflated']
+
+  // Measures aligned by product_key (or explicitly bridged via standard_paddy_to_milled_factor)
+  production_t decimal(18,2) [note: 'From Fact_Global_Crop_Production (for RICE_PADDY) or Fact_Global_Rice_PSD (for RICE_MILLED)']
+  export_quantity_t decimal(18,2) [note: 'SUM(export_quantity_t) from Fact_Global_Bilateral_Trade for matching product_key']
+  export_value_usd decimal(18,2) [note: 'SUM(export_value_usd) from Fact_Global_Bilateral_Trade for matching product_key']
+  import_quantity_t decimal(18,2) [note: 'SUM(import_quantity_t) from Fact_Global_Bilateral_Trade for matching product_key']
+  import_value_usd decimal(18,2) [note: 'SUM(import_value_usd) from Fact_Global_Bilateral_Trade for matching product_key']
+
+  // Market Shares & Ranks (computed over non-aggregate countries only)
+  global_production_share_pct decimal(8,4)
+  global_export_qty_share_pct decimal(8,4)
+  global_export_val_share_pct decimal(8,4)
+  global_export_rank int
+  global_production_rank int
+
+  // Lineage
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Calendar Year, Non-Aggregate Country, Product).
+  FACT TYPE: Derived Aggregate Table.
+  SOURCE: Fact_Global_Crop_Production, Fact_Global_Rice_PSD, Fact_Global_Bilateral_Trade (filtered by Dim_Country.is_aggregate = false).
+  '''
+}
+
+Table Agg_Bilateral_Trade_Share_Yearly {
+  year_key int [pk, ref: > Dim_Year.year_key]
+  reporter_country_key int [pk, ref: > Dim_Country.country_key]
+  partner_country_key int [pk, ref: > Dim_Country.country_key]
+  product_key int [pk, ref: > Dim_Rice_Product.product_key, note: 'Fixes [B5]: Explicit product_key required for accurate commodity share']
+
+  export_quantity_t decimal(18,2)
+  export_value_usd decimal(18,2)
+  import_quantity_t decimal(18,2)
+  import_value_usd decimal(18,2)
+  weighted_export_unit_price_usd_t decimal(18,4) [note: 'export_value_usd / NULLIF(export_quantity_t, 0)']
+  weighted_import_unit_price_usd_t decimal(18,4) [note: 'import_value_usd / NULLIF(import_quantity_t, 0)']
+  partner_share_of_reporter_exports_pct decimal(8,4) [note: '100.0 * export_quantity_t / NULLIF(SUM(export_quantity_t) OVER (PARTITION BY year_key, reporter_country_key, product_key), 0)']
+  partner_share_of_reporter_imports_pct decimal(8,4)
+
+  // Lineage
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (Calendar Year, Reporter Country, Partner Country, Product).
+  FACT TYPE: Derived Aggregate Table.
+  SOURCE: Fact_Global_Bilateral_Trade (excluding Partner = World/All countries when computing partner share).
+  '''
+}
+
+Table Forecasting_Data_Mart_Monthly {
+  as_of_month_key int [pk, ref: > Dim_Month.month_key, note: 'Observation cutoff month (t). All features strictly use data available at or before end of month t!']
+  country_key int [pk, ref: > Dim_Country.country_key, note: 'Target country (VNM)']
+  product_key int [pk, ref: > Dim_Rice_Product.product_key, note: 'Target commodity: RICE_MILLED_5PCT']
+
+  // ---------------------------------------------------------------------------
+  // TARGET VARIABLES (Future Horizons t+1 and t+3 - Strictly Separated from t)
+  // ---------------------------------------------------------------------------
+  target_price_vnm_5pct_t_plus_1 decimal(18,4) [note: 'LEAD(price_vnm_5pct, 1) OVER (ORDER BY as_of_month_key): 1-month-ahead forecast target (USD/t)']
+  target_price_vnm_5pct_t_plus_3 decimal(18,4) [note: 'LEAD(price_vnm_5pct, 3) OVER (ORDER BY as_of_month_key): 3-month-ahead forecast target (USD/t)']
+
+  // ---------------------------------------------------------------------------
+  // LAGGED ENDOGENOUS RICE PRICE FEATURES (Observed at <= t, zero target leakage)
+  // ---------------------------------------------------------------------------
+  price_vnm_5pct_t decimal(18,4) [note: 'Current month (t) VNM 5% broken price (USD/t) - feature for t+1/t+3']
+  price_vnm_5pct_lag1 decimal(18,4) [note: 'Month t-1 VNM 5% broken price (USD/t)']
+  price_vnm_5pct_lag3 decimal(18,4) [note: 'Month t-3 VNM 5% broken price (USD/t)']
+  price_vnm_5pct_sma_3m_at_t decimal(18,4) [note: '3-month Simple Moving Average over window [t-2, t] (strictly <= t)']
+  price_vnm_5pct_volatility_3m_at_t decimal(18,4) [note: '3-month rolling std dev over window [t-2, t] (strictly <= t)']
+
+  // ---------------------------------------------------------------------------
+  // COMPETITOR & MACRO EXOGENOUS FEATURES (Strictly observed at <= t)
+  // ---------------------------------------------------------------------------
+  price_thai_5pct_t decimal(18,4) [note: 'Month t Thailand 5% broken benchmark price (USD/t) from Pink Sheet']
+  price_spread_vnm_thai_at_t decimal(18,4) [note: 'Fixes [A4]: price_vnm_5pct_t - price_thai_5pct_t at month t (never at t+1/t+3!)']
+  urea_price_usd_t decimal(18,4) [note: 'Month t Urea fertilizer price (USD/mt) from Pink Sheet']
+  brent_oil_price_usd_t decimal(18,4) [note: 'Month t Brent crude oil price (USD/bbl) from Pink Sheet']
+  wheat_price_usd_t decimal(18,4) [note: 'Month t Wheat benchmark price (USD/mt) from Pink Sheet']
+
+  // ---------------------------------------------------------------------------
+  // SUPPLY & SEASONAL CONTEXT FEATURES (Known as of month t)
+  // ---------------------------------------------------------------------------
+  harvest_season_code varchar(30) [not null, note: 'From Dim_Month: WINTER_SPRING_PEAK, SUMMER_AUTUMN_PEAK, AUTUMN_WINTER_MAIN, OFF_SEASON (Fixes [B8])']
+  prior_year_vnm_paddy_prod_t decimal(18,2) [note: 'Lagged annual production from year(t) - 1 (prevents look-ahead bias from current unfinished year)']
+  prior_crop_year_vnm_ending_stocks_t decimal(18,2) [note: 'Lagged ending stocks from completed PSD crop year prior to month t']
+
+  // Lineage
+  _ingest_ts timestamp [not null]
+  etl_batch_id varchar(100) [not null]
+
+  Note: '''
+  GRAIN: 1 row per (As-Of Month t, Target Country [VNM], Target Product [RICE_MILLED_5PCT]).
+  FACT TYPE: ML Feature & Target Mart (Point-in-Time Correct / Leakage-Free).
+  RULE [A4]: Every feature on row `as_of_month_key = t` uses only observations up to month `t` (window `<= t`). Targets are future months `t+1` and `t+3` via `LEAD()`. If predicting contemporaneous `t` before Pink Sheet publication, use `_lag1` features (`<= t-1`).
+  '''
+}

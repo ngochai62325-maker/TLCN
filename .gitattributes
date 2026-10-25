@@ -1,0 +1,7 @@
+compose.yaml text eol=lf
+contracts/silver/*.yaml text eol=lf
+config/ingestion/source_registry.yaml text eol=crlf -whitespace
+data/raw/faostat/*.csv text eol=crlf -whitespace
+data/raw/usda/usda.xls text eol=crlf -whitespace
+data/raw/usda/*.csv text eol=crlf -whitespace
+data/raw/nso/metadata.txt text eol=crlf -whitespace

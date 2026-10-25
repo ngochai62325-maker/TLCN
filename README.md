@@ -1,69 +1,48 @@
-# Open-Source Data Lakehouse (Medallion Architecture)
+# TLCN Rice Lakehouse — Local Development Stack (`tlcn-local`)
 
-Hệ sinh thái Data Lakehouse mã nguồn mở chạy hoàn chỉnh trên Docker Compose với kiến trúc Medallion (Bronze, Silver, Gold).
+Đồ án Data Engineering chạy local trên một Docker Compose duy nhất ([`compose.yaml`](compose.yaml)) với **Airflow**, **Apache Spark**, **Apache Iceberg (REST Catalog)**, **MinIO**, **PostgreSQL** và **Trino**.
+Profile `local_nine` tích hợp **9 nguồn dữ liệu thực tế** từ Raw → Bronze (`iceberg.bronze.*`) → Silver (`iceberg.silver_local.*`).
 
-## 1. Tech Stack
-- **Lưu trữ Đối tượng (S3 Storage)**: [MinIO](https://min.io/) với các layers `bronze`, `silver`, `gold`, `warehouse`.
-- **Định dạng Bảng & Metadata (Table Format & Catalog)**: [Apache Iceberg](https://iceberg.apache.org/) cùng Iceberg REST Catalog.
-- **Engine Xử lý & Biến đổi (Processing Engine)**: [Apache Spark 3.5](https://spark.apache.org/) (hỗ trợ PySpark & Jupyter Lab).
-- **Engine Truy vấn Phân tích (Query Engine)**: [Trino](https://trino.io/) kết nối trực tiếp catalog Iceberg.
-- **Điều phối Luồng công việc (Orchestration)**: [Apache Airflow 2.10](https://airflow.apache.org/) cùng cơ sở dữ liệu PostgreSQL.
+## 1. Dịch vụ & Cổng Localhost
 
----
+| Dịch vụ | URL / Endpoint | Tài khoản mặc định (`.env.example`) | Ghi chú |
+|---|---|---|---|
+| **Airflow UI** | `http://localhost:8085` | `AIRFLOW_ADMIN_USER=admin` / `AIRFLOW_ADMIN_PASSWORD=admin` | Quản lý 2 DAG (`rice_lakehouse_ingestion`, `rice_lakehouse_silver_pipeline`) |
+| **MinIO Console** | `http://localhost:9001` | `MINIO_ROOT_USER=minioadmin` / `MINIO_ROOT_PASSWORD=minioadmin123` | Quản lý bucket `warehouse` (Bronze raw archive & Iceberg Parquet/metadata) |
+| **Trino Coordinator** | `http://localhost:18080` | Không mật khẩu (local header `X-Trino-User`) | Truy vấn SQL trực tiếp catalog `iceberg` |
+| **PostgreSQL / Iceberg REST / Spark API** | Internal Docker network (`postgres:5432`, `iceberg-rest:8181`, `runner:5005`) | Cấu hình trong `.env` | Chỉ giao tiếp nội bộ trong bridge network của project `tlcn-local` |
 
-## 2. Cổng truy cập Web & Thông tin Đăng nhập
+> Sao chép [`.env.example`](.env.example) sang `.env` nếu muốn tùy chỉnh tài khoản hoặc cổng. File `.env` đã được `.gitignore` bảo vệ để không commit API keys cá nhân.
 
-| Dịch vụ | URL | Thông tin đăng nhập |
-| :--- | :--- | :--- |
-| **MinIO Console** | [http://localhost:9001](http://localhost:9001) | `admin` / `password123` |
-| **Trino Web UI** | [http://localhost:8080](http://localhost:8080) | Username: `trino` (không cần mật khẩu) |
-| **Airflow Web UI** | [http://localhost:8085](http://localhost:8085) | `airflow` / `airflow` |
-| **Spark Master UI** | [http://localhost:8081](http://localhost:8081) | Không yêu cầu |
-| **Jupyter Lab (Spark)** | [http://localhost:8888](http://localhost:8888) | Không yêu cầu |
-| **Iceberg REST API** | [http://localhost:8181/v1/config](http://localhost:8181/v1/config) | REST endpoint cho Spark & Trino |
+## 2. Vòng đời vận hành (Persistent Mode & Controlled Reset)
 
----
-
-## 3. Lệnh Quản lý Hệ thống (PowerShell)
-
-Sử dụng script `lakehouse.ps1` để quản lý nhanh:
+Tất cả thao tác vận hành đi qua bộ script PowerShell tại [`scripts/local_demo/`](scripts/local_demo/):
 
 ```powershell
-# Kiểm tra trạng thái toàn bộ containers
-powershell -ExecutionPolicy Bypass -File .\lakehouse.ps1 status
+# Kiểm tra cấu hình compose.yaml và 21 file Raw + nso/metadata.txt (không bật container):
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/start.ps1 -CheckOnly
 
-# Chạy test kiểm tra toàn diện tất cả các kết nối
-powershell -ExecutionPolicy Bypass -File .\lakehouse.ps1 test-all
+# Khởi động stack lần đầu hoặc mở lại stack hiện hữu (giữ nguyên dữ liệu & lịch sử):
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/start.ps1
 
-# Dừng tất cả containers
-powershell -ExecutionPolicy Bypass -File .\lakehouse.ps1 stop
+# Kiểm tra trạng thái container, RAM và readiness smoke check:
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/status.ps1 -Smoke
 
-# Khởi động lại toàn bộ containers
-powershell -ExecutionPolicy Bypass -File .\lakehouse.ps1 start
+# Dừng stack an toàn (kiểm tra idle, pause DAGs, gửi tín hiệu dừng êm, giữ nguyên volumes):
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/stop.ps1
 
-# Xem log các dịch vụ
-powershell -ExecutionPolicy Bypass -File .\lakehouse.ps1 logs
+# Xem kế hoạch reset (không xóa dữ liệu):
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/reset.ps1
+
+# Xóa toàn bộ dữ liệu local của project tlcn-local để chạy lại từ đầu (yêu cầu gõ DELETE tlcn-local):
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local_demo/reset.ps1 -DeleteData
 ```
 
----
+## 3. Tài liệu chi tiết
 
-## 4. Cấu trúc Thư mục Dự án
-
-```
-TLCN/
-├── .env                                # Biến môi trường hệ thống
-├── docker-compose.yml                  # Cấu hình toàn bộ containers
-├── lakehouse.ps1                       # Script tiện ích quản lý và test
-├── README.md                           # Tài liệu hướng dẫn sử dụng
-├── config/
-│   ├── trino/                          # Cấu hình Trino và Catalog Iceberg
-│   │   └── etc/catalog/iceberg.properties
-│   └── spark/                          # Cấu hình Spark Iceberg & S3A
-│       └── spark-defaults.conf
-├── dags/                               # Nơi đặt các file DAG của Airflow
-├── data/                               # Dữ liệu nguồn (CSV)
-├── jobs/                               # Thư mục mã nguồn Spark jobs (.py)
-├── notebooks/                          # Thư mục lưu Jupyter notebooks
-├── plugins/                            # Plugins cho Airflow
-└── logs/                               # Logs của Airflow
-```
+- [Hướng dẫn trình diễn & chạy E2E từ đầu](docs/silver/demo_guide.md)
+- [Tổng quan tầng Silver & 9 nguồn dữ liệu](docs/silver/README.md)
+- [Kiến trúc hệ thống & cơ chế bảo toàn dữ liệu](docs/silver/architecture.md)
+- [Data Catalog: 9 nguồn, số dòng chuẩn, business keys & đơn vị](docs/silver/data_catalog.md)
+- [Quy tắc làm sạch & chuẩn hóa dữ liệu (Cleaning Rules)](docs/silver/cleaning_rules.md)
+- [Đặc tả Schema Bronze → Silver & Quarantine](docs/silver/schemas.md)

@@ -30,10 +30,6 @@ class TestIngestionEngine:
         cs.get_last_successful.return_value = None
         ws = MagicMock()
         ms = MagicMock()
-        ms.upload_file.return_value = "s3://bronze/raw/test/data.csv"
-        ms.upload_json.return_value = "s3://bronze/raw/test/manifest.json"
-        ms.build_raw_landing_key.return_value = "raw/test/data.csv"
-        ms.build_manifest_key.return_value = "raw/test/manifest.json"
         mr.find_snapshot_by_checksum.return_value = None
         return IngestionEngine(
             registry=registry,

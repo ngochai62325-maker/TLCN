@@ -30,6 +30,7 @@ from ingestion.utils.error_classifier import (
 )
 from ingestion.utils.hashing import compute_file_checksum
 from ingestion.utils.logging_config import create_ingestion_logger
+from ingestion.storage.bronze_writer import sanitize_column_name
 
 
 class NsoVietnamAdapter(BaseSourceAdapter):
@@ -115,6 +116,32 @@ class NsoVietnamAdapter(BaseSourceAdapter):
             candidate_encodings.append(configured_enc)
         candidate_encodings.extend(["utf-8-sig", "utf-8", "latin-1", "cp1252"])
 
+        # Discover the complete union before the first table-creation chunk.
+        # Later files have province/year columns absent from V06.12. Nullable
+        # padding is structural, never a fabricated source observation.
+        union_columns = []
+        sanitized_headers = {}
+        for file_path in files:
+            if os.path.getsize(file_path) == 0:
+                continue
+            for enc in candidate_encodings:
+                try:
+                    headers = list(pd.read_csv(file_path, encoding=enc, nrows=0).columns)
+                    break
+                except UnicodeDecodeError:
+                    continue
+                except pd.errors.ParserError as pe:
+                    raise DataQualityError(f"Malformed CSV in '{os.path.basename(file_path)}': {pe}")
+            else:
+                raise DataQualityError(f"Cannot decode NSO header: {file_path}")
+            for header in headers:
+                clean = sanitize_column_name(header)
+                if not clean or (clean in sanitized_headers and sanitized_headers[clean] != header):
+                    raise SchemaError(f"NSO header sanitization collision: {header}")
+                sanitized_headers[clean] = header
+                if header not in union_columns:
+                    union_columns.append(header)
+
         first_schema: Optional[List[str]] = None
         require_uniform = config.extra.get("require_uniform_schema", False) if config.extra else False
 
@@ -174,6 +201,10 @@ class NsoVietnamAdapter(BaseSourceAdapter):
             file_checksum = compute_file_checksum(file_path)
 
             # 6. Attach source traceability column without altering data semantics
+            # reindex alone infers all-NULL union padding as float64. The
+            # first national file would then create DOUBLE province/year
+            # fields and reject strings from subsequent matrix files.
+            df = df.reindex(columns=union_columns).astype("string")
             df["_source_file"] = filename
 
             record_count = len(df)

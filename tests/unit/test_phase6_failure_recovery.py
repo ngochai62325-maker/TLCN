@@ -114,7 +114,6 @@ def _setup_full_loader(fail_on_chunk=None):
         minio_storage=MagicMock(),
         metadata_repo=repo,
         bronze_writer=writer,
-        bronze_layout=MagicMock(),
         quality_validator=MagicMock(),
         idempotency_controller=MagicMock(),
         quarantine_manager=MagicMock()
@@ -173,14 +172,14 @@ def test_scenario_b_and_e_chunk_write_failure_and_recovery():
 def test_scenario_c_failure_after_write_orphan_cleanup():
     """Scenario C: Failure after write triggers cleanup."""
     loader, ckpt, writer, adapter = _setup_full_loader(fail_on_chunk=None)
-    # Simulate failure in manifest upload which is not swallowed
-    loader.minio_storage.upload_json.side_effect = RuntimeError("Network error saving manifest")
+    # Simulate failure in post-write step which is not swallowed
+    ckpt.clear = MagicMock(side_effect=RuntimeError("Storage failure clearing checkpoint"))
     
     config = _make_dummy_config(source_id="test_c", load_strategy=LoadStrategy.FULL)
     result = loader.execute(config, "run_c", "batch_c")
     
     assert result.status == IngestionStatus.FAILED
-    assert "Network error saving manifest" in result.error_message
+    assert "Storage failure clearing checkpoint" in result.error_message
     
     # Airflow layer receives FAILED, orchestrates retry.
     # Meanwhile, IdempotencyController can cleanup the run
@@ -242,17 +241,18 @@ def test_scenario_f_idempotent_retry_logic():
     """Scenario F: Bronze writer idempotent logical retry."""
     # Test that write_chunk calls DELETE before APPEND.
     # Phase 2 implementation handles this inside BronzeIcebergWriter.
-    from ingestion.storage.bronze_writer import BronzeIcebergWriter
+    from ingestion.storage.bronze_writer import BronzeIcebergWriter, TECHNICAL_METADATA_COLUMNS
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
-    writer.execute_query = MagicMock() # mock Trino execution
+    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["col", *TECHNICAL_METADATA_COLUMNS]]))
+    writer.get_iceberg_catalog = MagicMock(return_value=None)
     writer._load_table = MagicMock() 
     
     df = pd.DataFrame({"col": [1]})
     writer.write_chunk("test_f", df, "run_f", "batch_f", "chk", 1, source_file="a.csv")
     
     # Assert execute_query was called with DELETE
-    delete_call = writer.execute_query.call_args_list[0][0][0]
+    delete_call = next(c.args[0] for c in writer.execute_query.call_args_list if c.args[0].startswith("DELETE"))
     assert "DELETE FROM" in delete_call
     assert "_ingestion_run_id = 'run_f'" in delete_call
     assert "_ingestion_chunk_id = 1" in delete_call

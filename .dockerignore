@@ -1,0 +1,7 @@
+**
+!docker/
+!docker/silver-spark.Dockerfile
+!docker/silver-airflow.Dockerfile
+!requirements/
+!requirements/silver-spark.lock
+!requirements/silver-airflow.lock

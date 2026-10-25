@@ -2,7 +2,7 @@
 
 Executes real end-to-end vertical slice on the live Docker infrastructure:
 - PostgreSQL metadata repository (5 tables in schema ingestion)
-- MinIO object storage (Raw Landing in s3://bronze/raw/)
+- MinIO object storage (Raw Landing in s3://warehouse/bronze/raw/)
 - Apache Iceberg REST Catalog + Trino query engine (queryable Bronze table)
 - Checkpoint recovery on multi-chunk extraction
 - Idempotency verification (unchanged snapshot skip)
@@ -32,7 +32,7 @@ def setup_infrastructure():
     repo.initialize()
 
     storage = MinioStorage()
-    for bucket in ["bronze", "silver", "gold", "warehouse"]:
+    for bucket in ["warehouse"]:
         storage.ensure_bucket(bucket)
 
     writer = BronzeIcebergWriter()
@@ -96,17 +96,17 @@ class TestPhase2LiveValidation:
         assert result.records_extracted == 2000
         assert result.chunks_processed == 2
         assert result.artifact_uri is not None
-        assert result.artifact_uri.startswith("s3://bronze/raw/faostat_trade_validation/")
+        assert result.artifact_uri.startswith("s3://warehouse/bronze/raw/faostat_trade_validation/")
         assert result.manifest_uri is not None
         assert result.checksum is not None
 
         # 2. Verify MinIO Raw Landing immutability
         storage = setup_infrastructure["storage"]
-        # Parse s3 uri: s3://bronze/raw/...
-        artifact_key = result.artifact_uri.replace("s3://bronze/", "")
-        manifest_key = result.manifest_uri.replace("s3://bronze/", "")
-        assert storage.file_exists("bronze", artifact_key) is True
-        assert storage.file_exists("bronze", manifest_key) is True
+        # Parse s3 uri: s3://warehouse/bronze/raw/...
+        artifact_key = result.artifact_uri.replace("s3://warehouse/", "")
+        manifest_key = result.manifest_uri.replace("s3://warehouse/", "")
+        assert storage.file_exists("warehouse", artifact_key) is True
+        assert storage.file_exists("warehouse", manifest_key) is True
 
         # 3. Verify PostgreSQL metadata tables
         repo = setup_infrastructure["repo"]

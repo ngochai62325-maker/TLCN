@@ -212,10 +212,6 @@ class TestFaostatProductionAdapter:
         cs = MagicMock()
         cs.get_last_successful.return_value = None
         ms = MagicMock()
-        ms.build_raw_landing_key.return_value = "raw/faostat_production/test.csv"
-        ms.build_manifest_key.return_value = "raw/faostat_production/manifest.json"
-        ms.upload_file.return_value = "s3://bronze/raw/faostat_production/test.csv"
-        ms.upload_json.return_value = "s3://bronze/raw/faostat_production/manifest.json"
         mr = MagicMock()
         mr.get_latest_run.return_value = None
         mr.find_snapshot_by_checksum.return_value = None
@@ -488,7 +484,7 @@ class TestNsoAdapterPhase2B:
 
     @pytest.fixture
     def nso_config(self, registry):
-        return registry.get_source("nso_vietnam")
+        return registry.get_source("nso")
 
     @pytest.fixture
     def adapter(self):
@@ -496,7 +492,7 @@ class TestNsoAdapterPhase2B:
 
     def test_01_initialization(self, nso_config, adapter):
         """1. Adapter initialization & configuration contract."""
-        assert nso_config.source_id == "nso_vietnam"
+        assert nso_config.source_id == "nso"
         assert nso_config.source_type == SourceType.LOCAL_FILE
         assert nso_config.load_strategy == LoadStrategy.FULL
         assert nso_config.local_path == "data/raw/nso"
@@ -709,14 +705,14 @@ class TestNsoAdapterPhase2B:
             assert len(chunks) == 13
 
     def test_16_real_data_profiling_and_extraction(self, nso_config, adapter, tmp_path):
-        """16. Profile real dataset: V06.12 is 10 cols, V06.13..24 are 31 cols, all parsed cleanly."""
+        """16. Profile real dataset: all 13 CSVs are aligned to the 42-column union schema."""
         chunks = list(adapter.extract_full(nso_config, download_dir=str(tmp_path)))
-        assert len(chunks[0].data.columns) == 11
+        assert len(chunks[0].data.columns) == 42
         assert chunks[0].record_count == 71
         assert "Nam" in chunks[0].data.columns
 
         for c in chunks[1:]:
-            assert len(c.data.columns) == 32
+            assert len(c.data.columns) == 42
             assert "1995" in c.data.columns
             assert "2023" in c.data.columns
             assert c.record_count in (38, 72)
@@ -1036,7 +1032,7 @@ class TestUsdaAdaptersPhase2D:
         assert res_psd.ready is True
         assert res_psd.source_metadata["detected_format"] == "HTML"
         assert res_psd.source_metadata["tables_count"] == 1
-        assert res_psd.source_metadata["size_bytes"] == 45542
+        assert res_psd.source_metadata["size_bytes"] == 45549
 
     def test_03_missing_file_handling(self, yb_adapter, psd_adapter, tmp_path):
         """3. Missing source file returns ready=False in readiness and raises FileNotFoundError in extract."""

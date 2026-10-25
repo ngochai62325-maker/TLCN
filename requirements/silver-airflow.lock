@@ -1,0 +1,8 @@
+# Linux amd64; base digest pins unchanged packages. Exact additions from accepted runtime.
+et_xmlfile==2.0.0 --hash=sha256:7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa
+mmh3==5.3.1 --hash=sha256:cee9fc91b4e9a8991fc1c7a67324a15a51b861f483d41a1d4eb58146b78ad53a
+openpyxl==3.1.5 --hash=sha256:5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2
+pyiceberg==0.12.0 --hash=sha256:2dec70218c8e81f1630b9d7184b760cd161eff936127745355ba94100a4e7380
+pyroaring==1.2.0 --hash=sha256:c33f50c644a19ab32d13f257828b402f03415c19acae3e8fdfeb94877f693947
+strictyaml==1.7.3 --hash=sha256:fb5c8a4edb43bebb765959e420f9b3978d7f1af88c80606c03fb420888f5d1c7
+zstandard==0.25.0 --hash=sha256:9300d02ea7c6506f00e627e287e0492a5eb0371ec1670ae852fefffa6164b072
