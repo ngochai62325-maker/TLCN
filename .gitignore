@@ -40,5 +40,6 @@ docs/*
 !docs/bronze/
 !docs/silver/
 !docs/gold/
+!docs/handoff/
 
 data/raw/faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv
