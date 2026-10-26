@@ -1,5 +1,7 @@
 # TLCN Rice Lakehouse — Project Status
 
+> **Final G12 26/10/2026: GOLD_MVP_COMPLETE.** 17 physical tables / 1.414.527 fact observations, 9-source exact reconciliation, DQ01–18, 4 full-scope semantic SQL queries, immutable publication/readback và consumers PASS. `manual__gold_g12_20261026_01` và `manual__gold_g12_noop_20261026_01` đều 16/16 SUCCESS; formal replay 36,07 phút giữ nguyên 17 UUID/snapshot/metadata/file sets và manifest hash. Full Trade 156 partitions / 1.226.470 observations / 526.986 groups, zero differences, Trino 448/512 MiB. Historical failed runs giữ FAILED; external Docker interruption được recover bằng standard Airflow task resume sau actual metadata/RAM checks. Không upgrade/reset/migrate hoặc sửa/trigger Bronze–Silver. [VALIDATION](../gold/VALIDATION.md), [evidence](../gold/runtime_acceptance.json), [demo/recovery](../gold/IMPLEMENTATION.md). Body 23/10 là lịch sử; H01–H05/official geo/FX/ML ngoài MVP không tự đóng.
+
 Audit ngày **2026-10-23**, timezone **Asia/Bangkok (UTC+07)**; mốc ghi nhận baseline **19:42 +07**. Branch `main`, HEAD `1bb662c49cac2f82af14ce4b5c9a5d909c2a0e05`. Phạm vi: Git, static source/config, lightweight tests và read-only probes. Không start/build/reset Docker, trigger DAG hay ghi Iceberg/MinIO/PostgreSQL. [Kiến trúc và vận hành](PROJECT_CONTEXT.md) · [Backlog](NEXT_STEPS.md).
 
 ## Mục lục

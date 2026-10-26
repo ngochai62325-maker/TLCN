@@ -3,12 +3,16 @@
 Đồ án Data Engineering chạy local trên một Docker Compose duy nhất ([`compose.yaml`](compose.yaml)) với **Airflow**, **Apache Spark**, **Apache Iceberg (REST Catalog)**, **MinIO**, **PostgreSQL** và **Trino**.
 Profile `local_nine` tích hợp **9 nguồn dữ liệu thực tế** từ Raw → Bronze (`iceberg.bronze.*`) → Silver (`iceberg.silver_local.*`).
 
+Gold MVP gồm **8 physical dimensions, 9 physical facts và 4 version-controlled semantic SQL queries**, DAG manual `rice_lakehouse_gold_pipeline`. Giữ Trino 448/REST hiện hữu, không tạo catalog views. Xem [hướng dẫn chạy/demo](docs/gold/IMPLEMENTATION.md) và [trạng thái nghiệm thu thực tế](docs/gold/VALIDATION.md).
+
+**Gold G12: GOLD_MVP_COMPLETE.** Hai Gold DagRuns SUCCESS; đủ 17 tables, 9-source reconciliation, DQ01–18, bốn semantic queries, publication/consumer và formal physical NOOP 17/17 tables PASS. Giữ Trino 448/512 MiB. Chi tiết và giới hạn vận hành tại [Gold validation](docs/gold/VALIDATION.md).
+
 ## 1. Dịch vụ & Cổng Localhost
 
 | Dịch vụ | URL / Endpoint | Tài khoản mặc định (`.env.example`) | Ghi chú |
 |---|---|---|---|
-| **Airflow UI** | `http://localhost:8085` | `AIRFLOW_ADMIN_USER=admin` / `AIRFLOW_ADMIN_PASSWORD=admin` | Quản lý 2 DAG (`rice_lakehouse_ingestion`, `rice_lakehouse_silver_pipeline`) |
-| **MinIO Console** | `http://localhost:9001` | `MINIO_ROOT_USER=minioadmin` / `MINIO_ROOT_PASSWORD=minioadmin123` | Quản lý bucket `warehouse` (Bronze raw archive & Iceberg Parquet/metadata) |
+| **Airflow UI** | `http://localhost:8085` | `AIRFLOW_ADMIN_USER=admin` / `AIRFLOW_ADMIN_PASSWORD=admin` | Bronze, Silver và Gold DAG; Gold manual và có admission gate |
+| **MinIO Console** | `http://localhost:9001` | `MINIO_ROOT_USER=minioadmin` / `MINIO_ROOT_PASSWORD=minioadmin123` | Bucket `warehouse`: Iceberg và Gold publication metadata; Raw giữ local |
 | **Trino Coordinator** | `http://localhost:18080` | Không mật khẩu (local header `X-Trino-User`) | Truy vấn SQL trực tiếp catalog `iceberg` |
 | **PostgreSQL / Iceberg REST / Spark API** | Internal Docker network (`postgres:5432`, `iceberg-rest:8181`, `runner:5005`) | Cấu hình trong `.env` | Chỉ giao tiếp nội bộ trong bridge network của project `tlcn-local` |
 

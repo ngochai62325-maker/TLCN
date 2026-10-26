@@ -2,7 +2,11 @@
 
 **Thiết kế `gold-20261025.1` · 25/10/2026 · Asia/Bangkok · baseline `main@1bb662c49cac2f82af14ce4b5c9a5d909c2a0e05`.**
 
-**Schema design: READY WITH BLOCKERS để owner review. ETL/runtime Gold: NOT IMPLEMENTED.** DBML là đề xuất canonical cho phạm vi khả thi; chưa được owner phê duyệt, chưa có Gold tables/jobs/DAG. Silver physical schema được kiểm tra mới không đồng nghĩa đã nghiệm thu toàn bộ Bronze/Silver hoặc Gold.
+**Semantic delivery đã được owner duyệt thay đổi ngày 26/10/2026:** MVP là **17 physical Iceberg tables + 4 version-controlled Semantic SQL Query Definitions**, không phải persisted catalog views. Trino 448 và REST catalog giữ nguyên. Snapshot/DQ/reconciliation/publication gates vẫn bắt buộc; trạng thái/kết quả physical acceptance cuối tại [VALIDATION.md](VALIDATION.md).
+
+**G12 final runtime status: GOLD_MVP_COMPLETE — 26/10/2026.** 17 physical tables / 1.414.527 fact observations, 9-source exact reconciliation, DQ01–18, bốn full-scope semantic queries, immutable publication/readback và consumers PASS. Hai Gold DagRuns SUCCESS; formal post-publication replay giữ nguyên đủ 17 UUIDs/snapshots/metadata/files và manifest hash. Full Trade phủ 156 partitions (1986–2024) / 1.226.470 observations / 526.986 groups, zero differences. Trino 448/512 MiB và REST catalog giữ nguyên. [Evidence](runtime_acceptance.json), [runtime validation](VALIDATION.md); các failed runs trước được giữ như lịch sử.
+
+Đọc [IMPLEMENTATION.md](IMPLEMENTATION.md) để chạy/vận hành và [VALIDATION.md](VALIDATION.md) để xem commands/evidence. G12 regression: **138 unit tests, 7 Spark fixtures, 9 Trino fixtures**, gồm exact multiset/partition/NULL/zero/precision, checkpoint provenance, schema và consumer gates. Fixtures không thay thế physical E2E. Các đoạn ghi ngày 25/10 bên dưới là evidence của giai đoạn thiết kế.
 
 ## Mục lục
 
@@ -30,7 +34,7 @@
 | [design_audit_2026-10-22.md](design_audit_2026-10-22.md) | Historical audit của thiết kế 27 bảng tại commit `1bb662c`; findings và kết quả đo giữ nguyên. Đề xuất MVP 14 bảng bên trong đã được thay bằng thiết kế này, chưa từng là approval. |
 | [design_audit_2026-10-22_schema_and_mapping.md](design_audit_2026-10-22_schema_and_mapping.md) | Historical appendix, 261 fields của DBML cũ; không dùng để implement schema hiện tại. |
 | [design_audit_2026-10-22_field_mapping.csv](design_audit_2026-10-22_field_mapping.csv), [audit_2026-10-22_evidence.json](audit_2026-10-22_evidence.json) | Immutable historical evidence: không overwrite hay đổi số liệu thành kết quả 25/10. |
-| [PROJECT_CONTEXT](../handoff/PROJECT_CONTEXT.md), [PROJECT_STATUS](../handoff/PROJECT_STATUS.md), [NEXT_STEPS](../handoff/NEXT_STEPS.md) | Handoff 23/10, đã đối chiếu lại; không chỉnh sửa trong nhiệm vụ này. H01–H05 vẫn là foundation backlog, H06 là schema work hiện tại, H08 là implementation sau approval. |
+| [PROJECT_CONTEXT](../handoff/PROJECT_CONTEXT.md), [PROJECT_STATUS](../handoff/PROJECT_STATUS.md), [NEXT_STEPS](../handoff/NEXT_STEPS.md) | Handoff body 23/10 giữ lịch sử; banner mới 26/10 ghi status implementation. H01–H05 vẫn foundation backlog; H06 MVP design đã được duyệt; H08 runtime acceptance đang blocked. |
 
 Đầu nhiệm vụ: local `main` vẫn ở `1bb662c`; user có thay đổi `.gitignore` để allowlist handoff và ba handoff files chưa track. Do đó câu “handoff đang bị ignore” trong handoff đã cũ đối với working tree này. Giữ nguyên toàn bộ các thay đổi đó. Không pull/checkout/merge/commit/push.
 
@@ -42,7 +46,7 @@ Chưa kiểm tra full-table counts, toàn bộ NULL/duplicate distributions, his
 
 ## 2. Silver inventory
 
-Input profile cố định là **`local_nine`**, prefix **`iceberg.silver_local`**. YAML gốc còn ghi `iceberg.silver`; overlay trong local_profile mới quyết định physical local target. Proposed Gold output là **`iceberg.gold_local`**, namespace chưa được tạo. Không fallback sang `silver`/release/production khi thiếu bảng.
+Input profile cố định là **`local_nine`**, prefix **`iceberg.silver_local`**. YAML gốc còn ghi `iceberg.silver`; overlay trong local_profile mới quyết định physical local target. Gold output đã duyệt là **`iceberg.gold_local`**; inventory/snapshots thực tế ở VALIDATION.md. Không fallback sang `silver`/release/production khi thiếu bảng.
 
 Registry có thêm fixture enabled `faostat_trade_validation`; whitelist thực vẫn 9 nguồn. NSO ID canonical `nso`, không đổi thành `nso_vietnam_v2`.
 
@@ -264,7 +268,7 @@ Silver đã preprocess → try_cast → required/source/contract DQ → quaranti
 
 ## 3. Architecture
 
-Mục tiêu: phân tích sản xuất, cung cầu/tồn kho, thương mại và giá trên laptop 16 GB; giữ grain có thể kiểm chứng trước khi thêm conformance hoặc aggregate. Giảm từ 27 tables cũ xuống 17 specifications; không thêm dịch vụ. Tất cả bảng dưới đây mới là thiết kế.
+Mục tiêu: phân tích sản xuất, cung cầu/tồn kho, thương mại và giá trên laptop 16 GB; giữ grain có thể kiểm chứng trước khi thêm conformance hoặc aggregate. Model có 17 physical tables, không thêm dịch vụ. [src/gold](../../src/gold/) là implementation; bằng chứng physical E2E được ghi riêng tại VALIDATION.md.
 
 ```mermaid
 flowchart LR
@@ -530,7 +534,7 @@ Historical validity chỉ thêm khi có authority xác nhận; convention interv
 
 ## 8. Semantic views
 
-**4 view specifications, chưa tạo view.** DBML chỉ có 17 physical-table specifications; views không giả thành Iceberg tables. SQL phía dưới là design/query examples, chưa chạy trên Gold.
+**4 version-controlled Semantic SQL Query Definitions** nằm ở [queries/gold](../../queries/gold/), được load/bind/validate bởi [views.py](../../src/gold/views.py). Tên `vw_*` là query identifier, không phải catalog object. Không gọi CREATE VIEW hoặc REST view endpoints, không dùng temporary views hoặc physical aggregates. SELECT logic dưới đây giữ nguyên; exact candidate snapshots, output types, grain/coverage/cells/ratios phải PASS trước publish. Manifest lưu version/definition hash/bound SQL hash, UUID/snapshot bindings và validation results; consumer xác minh tất cả trước chạy trên published snapshots.
 
 | View | Inputs / grouping key | Measures / formulas / guards |
 |---|---|---|
@@ -558,7 +562,7 @@ Ví dụ weighted yield: area 10/30 ha, production 20/30 t → 50/40=1,25 t/ha (
 
 ## 9. Design DQ gates
 
-Các gates là **acceptance design cho ETL tương lai**, không phải Gold tests/runtime đã PASS. FAIL nghĩa không publish batch; không silently filter/drop source observations để làm gates xanh.
+Các gates được triển khai ở [quality.py](../../src/gold/quality.py), [catalog.py](../../src/gold/catalog.py), [pipeline.py](../../src/gold/pipeline.py) và [views.py](../../src/gold/views.py). **Chưa có full-data Gold DQ PASS.** FAIL nghĩa không publish batch; không silently filter/drop source observations để làm gates xanh. DQ19 vẫn DEFER; official geography rollup/weighted regional totals không nằm trong MVP. Kết quả fixture được phân biệt trong [VALIDATION.md](VALIDATION.md).
 
 | ID | Invariant và test strategy | Expected outcome |
 |---|---|---|
@@ -620,8 +624,8 @@ Exact source-key anti-joins, per-unit reconciliation và pivot-unpivot checks ph
 - DBML `varchar`/JSON strings → Spark string; `timestamptz` biểu diễn upstream UTC instants (Trino timestamp with time zone), không dùng datetime nguồn giả. Integers/bigints/Decimals giữ đúng miền; fields NULL theo mapping.
 - Không sequence/auto-increment, không hidden key allocator. Calendar/source references nhỏ; seed source identities từ distinct admitted tuples. Versioned external refs chỉ thêm khi được review.
 - Dimensions và facts nhỏ mặc định unpartitioned; trade có thể partition coarse year_key sau khi đo file/query metrics, không partition source×country×CPC/ngày. Không tạo 17 writer jobs song song; đọc/ghi tuần tự, không cache full provenance JSON, không tăng Compose RAM caps.
-- Mỗi table commit riêng. Sau approval, batch publication manifest cần ghi stable input table UUID/snapshots, code/model/reference fingerprints, output snapshots và outcomes. Chỉ publish pointer khi readback/gates của toàn scope thành công; consumers đọc published snapshot set, không “latest” của một batch đang ghi dở.
-- Manifest là metadata của **Gold publication tương lai**, không phục hồi Raw archive. Đề xuất dùng MinIO hiện hữu: immutable object `s3://warehouse/gold_publications/<scope>/<batch_fingerprint>.json`; fingerprint từ sorted input UUID/snapshots + model/code/reference versions + declared scope. Chỉ ghi published pointer sau readback, một writer có lock; không đặt attempt timestamps vào fingerprint/content comparison. Demo chỉ đọc sau publish thành công; readers muốn đọc xuyên lúc build phải pin đủ output snapshot set theo manifest, không dùng unversioned latest views. Đây là storage/consumer policy cần owner duyệt, chưa tạo object/table và không hứa cross-table atomicity.
+- Mỗi table commit riêng. Publication code ghi stable input table UUID/snapshots, code/model/reference fingerprints, output snapshots và outcomes. Chỉ publish pointer khi readback/gates của toàn scope thành công; consumer read window kiểm active/publication state và output snapshots, không đọc batch đang ghi dở như đã complete.
+- Manifest là metadata của **Gold publication**, không phục hồi Raw archive. Owner đã duyệt MinIO hiện hữu: immutable object `s3://warehouse/gold_publications/local_nine/<batch_fingerprint>.json`; fingerprint từ sorted input UUID/snapshots + model/code/reference versions + declared scope. Chỉ ghi published pointer sau readback, một writer có lock; không đặt attempt timestamps vào fingerprint/content comparison. Demo dùng consumer gate, chỉ đọc sau publish thành công; views pin đủ fact/dimension snapshots. Policy có implementation nhưng chưa tạo runtime object/table và chưa kiểm physical acceptance; không hứa cross-table atomicity hoặc SQL access-control isolation.
 - Gold full rebuild phải phản ánh pinned Silver key set và xử lý withdrawals có policy rõ; không suy full Silver MERGE đã xóa source-withdrawn rows. Không auto-delete dataset runtime trong thiết kế này.
 
 
@@ -686,13 +690,13 @@ Bảng này thay thế proposal 14-table trong audit cũ. Purpose/input/grain/me
 | CIF/FOB, trade partner denominator và equivalent/core analysis allowlist | AMBIGUOUS | Không gắn valuation chắc chắn, không publish global share; giữ source codes, direction và reported values |
 | Historical FX / replacement missing prices | EXTERNAL/UNSUPPORTED | Không có conversion/imputation trong MVP |
 | Forecasting feature availability/vintage | EXTERNAL | ML mart DEFER. Latest revised history/ingestion timestamp không chứng minh historical availability |
-| Gold publication manifest location/read window/reference version policy | REVIEW_REQUIRED | Đề xuất MinIO prefix mục9, single writer/published snapshots; cần owner duyệt trước code |
+| Gold publication manifest location/read window/reference version policy | APPROVED | MinIO prefix mục9, single writer/published read window và semantic SQL definition hashes; kết quả physical acceptance tại VALIDATION.md |
 
 Forecasting chỉ mở lại khi có target series được chọn, dense calendar, exact self-join month+h (không next non-null row), publication/available_at/vintage ledger, rolling windows đủ calendar coverage, temporal splits/embargo theo horizon và train-only fitted preprocessing. Không có cột available_at giả hoặc leakage-free claim trong model hiện tại.
 
 ## 12. Implementation roadmap
 
-Mọi bước dưới đây **chỉ triển khai sau schema approval**; hiện chưa viết ETL hay tạo tables. G01–G10 là các task nhỏ có thể giao riêng, không yêu cầu làm toàn bộ một lượt.
+Owner đã duyệt schema và giao toàn bộ G01–G11 ngày 26/10, đồng thời đổi semantic delivery sang version-controlled SQL. Code G01–G10 giữ nguyên model; G11 validate SQL trên real candidate snapshots rồi publish. Các acceptance/risk dưới đây vẫn áp dụng; không coi có code là đã hoàn tất milestone vật lý.
 
 | Task | Scope / Silver input → proposed Gold outputs | Dependencies / transformation | DQ và acceptance | Operational risk |
 |---|---|---|---|---|
@@ -706,10 +710,10 @@ Mọi bước dưới đây **chỉ triển khai sau schema approval**; hiện c
 | G08 | VN quotes → full source series + fact_vn_market_quote_daily | G01/G02 series pattern; market label not official province, no arbitrary alias/AVG | Different information sources remain distinct; quote FK/key sets exact; zero retained warnings | Source quote != transaction or provincial representative price |
 | G09 | FAO prices → monthly branch plus fact_fao_price_annual | G01/G02; disjoint 7001–7012 vs7021, same exact source series identity | Monthly+annual source sets union=input, intersection0; index currency NULL and base retained | No monthly fill from annual, no LCU/SLC/USD/index blending |
 | G10 | Yearbook → source series + fact_usda_price_reference | G01/G02; preserve location/class/statistic/year/period; no calendar join | All reference periods preserved, USD/tonne direct, no source-key collision; period FD tests | YEAR calendar interpretation unresolved; MARKETING and monthly-labelled data not averaged together |
-| G11 | Finish semantic layer + batch publication/readback | All declared slice dependencies; implement4 reviewed views, immutable publication manifest and explicit scope | DQ01–18, physical NOOP, partial-commit/recovery, same-source reconciliation and read-window tests | Separate table commits; no unversioned mixed-batch reads |
-| G12 | Conditional official conformance/ML expansion | Approved external refs and availability/vintage policies, separate design review | Geographic 0..1/time mapping, scope membership, DQ19 anti-leakage/temporal fixtures | Not in required Gold MVP; no auto extension after G11 |
+| G11 | Finish semantic layer + batch publication/readback | All declared slice dependencies; execute4 reviewed semantic SQL queries, immutable publication manifest and explicit scope | DQ01–18, physical NOOP, partial-commit/recovery, same-source reconciliation and read-window tests | Separate table commits; no unversioned mixed-batch reads |
+| Deferred beyond MVP | Conditional official conformance/ML expansion | Approved external refs and availability/vintage policies, separate design review | Geographic 0..1/time mapping, scope membership, DQ19 anti-leakage/temporal fixtures | Separate future approval; phase G12 ngày 26/10 là Trade memory optimization + final physical acceptance, không phải ML expansion |
 
-**Recommended first Gold task: G01 duy nhất.** Input là canonical registry/source whitelist và calendar fields có semantics đã chứng minh; outputs là bốn dimensions source/year/month/date ở proposed gold_local. Không phụ thuộc country/province crosswalk, không cần sửa Silver. Acceptance cụ thể ở hàng G01; phải có tests key stability, actual calendar validity, unknown policy và FK integrity. First fact sau G01 là **G02 WorldBank**, vì exact benchmark/month grain và units đã rõ.
+**Execution path đã duyệt:** giữ runtime hiện hữu, serial physical acceptance G01→G11 rồi replay physical NOOP. G01 là bước đầu runtime build, G02 WorldBank là first fact. Semantic SQL validation thay native-view capability gate; các DQ/snapshot/publication gates không được bỏ qua.
 
 H01–H05 là prerequisites cho confidence/operational acceptance, không phải lý do tự sửa foundation trong task này. Có thể viết static design fixtures/seed specifications sau approval, nhưng runtime reads/writes/replay phải nằm trong task owner giao rõ.
 
@@ -727,15 +731,15 @@ H01–H05 là prerequisites cho confidence/operational acceptance, không phải
 - Technical schema metadata mới cũng xác nhận trên cả9 targets: chunk/snapshot lineage IDs là bigint, ingestion/processing timestamps là timestamp(6) with time zone, warnings là array(row(rule_id,error_message,failed_column)); Gold type/JSON projection được thiết kế tương ứng.
 - Handoff, user edit .gitignore và source/contracts/config không thay đổi; historical report bodies, original dated CSV và evidence JSON không bị viết lại.
 
-### Chưa thực hiện
+### Chưa thực hiện tại thời điểm thiết kế 25/10 (historical)
 
 Chưa có Gold ETL/tables/DAG/jobs, chưa chạy Gold SQL examples/views, chưa kiểm runtime Gold DQ/NOOP/commit recovery, chưa full H05, chưa profile toàn trade/raw hay official crosswalk/Yearbook calendar/vintage. Không claim schema approval hoặc runtime readiness từ parser PASS.
 
 ## 14. Approval gate
 
-Owner cần review và phê duyệt trước khi viết Silver → Gold ETL:
+Các quyết định dưới đây đã được owner phê duyệt trong yêu cầu implementation ngày 26/10; giữ danh sách để truy vết scope:
 
-1. **MVP 17 physical tables (8 dims/9 facts), 4 view specifications**, không bắt buộc 27-table Galaxy; observation facts và presentation pivots tách nhau.
+1. **MVP 17 physical tables (8 dims/9 facts), 4 version-controlled semantic SQL queries**, không bắt buộc 27-table Galaxy; observation facts và presentation pivots tách nhau.
 2. **Source identity strategy:** exact FAO code-family conformance; NSO/USDA/VN/WB source scopes riêng; zero-hash chỉ cho WB non-geographic member, không catch-all Unknown.
 3. **Fact grains:** full NSO publication key; full VN quote series; FAO annual/monthly tách; Yearbook source periods và PSD marketing years không calendar-aligned.
 4. **Unit/sign/precision policies U1/U2/A1:** không double-scale NSO/milling rate; giữ signed residual/stock variation; monthly decimal(20,4); no FX/imputation/default milling conversion.
@@ -743,4 +747,4 @@ Owner cần review và phê duyệt trước khi viết Silver → Gold ETL:
 6. **Lineage/operational policy:** pinned Silver UUID/snapshot, source-key/context/flags retained, deterministic K1, no multi-table transaction promise, reviewed publication-manifest/read-window proposal.
 7. **First implementation task G01**, rồi G02; source/runtime prerequisites H01–H05 được giải quyết bằng tasks riêng, không tự sửa trong Gold task.
 
-**Dừng tại thiết kế.** Sau khi owner duyệt canonical DBML, README, mappings, grains và policies mới được tạo Gold modules/jobs/tables. Không có implementation nào được bắt đầu trong nhiệm vụ này.
+**Owner decision hiện hành:** không nâng Trino/REST, không migrate catalog; semantic delivery dùng SQL files có hash và snapshot-bound publication/consumer protocol. Gold writes chỉ trong `iceberg.gold_local`, giữ Bronze/Silver. [Implementation/recovery](IMPLEMENTATION.md) quy định workflow/read window; [Validation](VALIDATION.md) ghi bằng chứng và giới hạn thực tế.

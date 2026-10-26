@@ -1,5 +1,7 @@
 # TLCN Rice Lakehouse — Next Steps
 
+> **Sau G12 26/10/2026: GOLD_MVP_COMPLETE.** Trade OOM blocker đã được loại khỏi actual acceptance workload: 156 exact partitions PASS trên 448/512 MiB; hai Gold runs SUCCESS, publication/consumers và formal NOOP 17/17 PASS. Không cần tiếp tục retry nghiệm thu. Next work khi owner giao: analytics/demo qua published consumer, operational hardening cho stop/start và resource admission, hoặc thiết kế reference/conformance/availability datasets cho expansion. Uncached full Trade validation ~51 phút; full Gold replay ~36 phút, runner chạm3 GiB có reclaim nhưng không OOM. Không tự tăng heap, nâng catalog, triển khai FX/geo/ML hay đóng H01–H05. Failed evidence và snapshots giữ nguyên. [VALIDATION](../gold/VALIDATION.md), [JSON](../gold/runtime_acceptance.json), [workflow](../gold/IMPLEMENTATION.md). Body backlog 23/10 là lịch sử, không phải current Gold readiness.
+
 Audit **2026-10-23, Asia/Bangkok**, baseline `main` / `1bb662c49cac2f82af14ce4b5c9a5d909c2a0e05`. Đọc [PROJECT_CONTEXT](PROJECT_CONTEXT.md) và [PROJECT_STATUS](PROJECT_STATUS.md) trước khi nhận việc. Backlog dưới đây là đề xuất triển khai sau audit; audit hiện tại chỉ tạo ba tài liệu, không sửa code/config/dữ liệu.
 
 ## Mục lục

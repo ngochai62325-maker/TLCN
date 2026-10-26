@@ -1,6 +1,7 @@
 // Canonical Gold schema: gold-20261025.1
 // Design date: 2026-10-25 Asia/Bangkok; baseline main@1bb662c49cac2f82af14ce4b5c9a5d909c2a0e05
-// Design only. Proposed target iceberg.gold_local; no tables or ETL created.
+// Owner approved MVP for implementation on 2026-10-26. Target iceberg.gold_local.
+// Semantic delivery: four version-controlled SQL query definitions, owner approved 2026-10-26.
 // Input iceberg.silver_local (local_nine); see README.md for G1/P1/S1/U1/U2/A1/K1.
 // Source-to-field mapping was prepared first in source_to_gold_mapping.csv.
 // This file keeps its historical filename for stable references; the old 27-table v3 is superseded.
@@ -8,7 +9,7 @@
 
 Project rice_lakehouse_gold_20261025 {
   database_type: 'Apache Iceberg'
-  Note: 'READY WITH BLOCKERS for review; ETL/runtime NOT IMPLEMENTED. 8 dimensions, 9 facts; no physical crosswalk, aggregate or forecasting mart. Four semantic-view specifications live in README.md.'
+  Note: 'Owner approved gold-20261025.1: 8 dimensions and 9 facts. Semantic delivery uses four version-controlled read-only SQL queries over published snapshots, without catalog views. No crosswalk, aggregate or forecasting mart. Runtime acceptance is recorded in VALIDATION.md.'
 }
 
 // DIMENSION: One canonical local_nine dataset.

@@ -1,5 +1,7 @@
 # TLCN Rice Lakehouse — Project Context
 
+> **Cập nhật G12 26/10/2026: GOLD_MVP_COMPLETE — đọc trước audit lịch sử.** Gold `gold-20261025.1` có 8 physical dimensions/9 facts, 1.414.527 observations, 4 version-controlled semantic SQL queries. Hai manual Gold DagRuns SUCCESS; DQ01–18, 9-source exact reconciliation, publication/readback/consumers và formal NOOP 17/17 PASS. Full Trade 1986–2024: 156 partitions, zero exact differences. Giữ Trino 448/512 MiB/REST catalog; không native views, nâng/migrate/reset hoặc Bronze/Silver writes/triggers. Runtime evidence/giới hạn RAM/timeline external interruption tại [VALIDATION](../gold/VALIDATION.md), [JSON](../gold/runtime_acceptance.json), workflow tại [IMPLEMENTATION](../gold/IMPLEMENTATION.md). [Mapping](../gold/source_to_gold_mapping.csv) giữ 488 branches; 17 schemas/262 columns/40 logical FKs không đổi. Body 23/10 là lịch sử; H01–H05/official conformance/FX/ML không tự đóng.
+
 Audit: **2026-10-23, Asia/Bangkok (UTC+07)**. Baseline: `main`, HEAD `1bb662c49cac2f82af14ce4b5c9a5d909c2a0e05`. Tài liệu mô tả code tại HEAD này; không chứng nhận dữ liệu runtime. Đọc tiếp [trạng thái và bằng chứng](PROJECT_STATUS.md), rồi [backlog và prompt bàn giao](NEXT_STEPS.md).
 
 ## Mục lục

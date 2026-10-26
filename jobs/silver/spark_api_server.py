@@ -10,6 +10,10 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 from silver.local_profile import active_profile, require_profile, DATASETS
+from gold.admission import code_fingerprint
+from gold.views import SEMANTIC_VERSION
+
+GOLD_CODE_FINGERPRINT = code_fingerprint()
 
 JOBS_DIR = Path(__file__).resolve().parent
 ALLOWED_JOBS = {"run_all_silver.py", "job_faostat_trade.py", "job_usda_psd.py",
@@ -31,6 +35,9 @@ class SparkApiHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         health = {"status": "ok", "silver_release": "silver_v2_release_20261013"}
+        health["gold_model"] = "gold-20261025.1"
+        health["gold_semantic_version"] = SEMANTIC_VERSION
+        health["gold_code_fingerprint"] = GOLD_CODE_FINGERPRINT
         if active_profile():
             health.update(local_profile=active_profile())
         self._send_json(200, health) if self.path == "/health" else self._send_json(404, {"error": "Not found"})
@@ -44,6 +51,9 @@ class SparkApiHandler(BaseHTTPRequestHandler):
             if not 0 < length <= 65536:
                 raise ValueError("Invalid request size")
             request = json.loads(self.rfile.read(length))
+            if request.get("job") == "run_gold.py":
+                self._run_gold(request)
+                return
             job = request.get("job", "run_all_silver.py")
             mode = request.get("mode", "full")
             action = request.get("action", "run")
@@ -88,6 +98,23 @@ class SparkApiHandler(BaseHTTPRequestHandler):
         except Exception as exc:
             logger.exception("Spark job failed")
             self._send_json(500, {"error": str(exc)})
+
+    def _run_gold(self, request):
+        from gold.api import command
+        require_profile(request.get("profile"))
+        args = command(request, JOBS_DIR.parents[1])
+        # Same lock as Silver; a queue cannot launch overlapping Spark writers.
+        with JOB_LOCK:
+            proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                  text=True, timeout=3300)
+        result = None
+        for line in proc.stdout.splitlines():
+            if line.startswith("GOLD_RESULT="):
+                result = json.loads(line.split("=", 1)[1])
+        success = proc.returncode == 0 and result is not None
+        self._send_json(200 if success else 500,
+                        {"status": "SUCCESS" if success else "FAILED", "exit_code": proc.returncode,
+                         "result": result, "output": proc.stdout[-6000:]})
 
 
 def main():
