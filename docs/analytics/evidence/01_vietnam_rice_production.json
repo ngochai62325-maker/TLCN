@@ -1,0 +1,216 @@
+{
+  "notebook": "01_vietnam_rice_production",
+  "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+  "queries": [
+    {
+      "query_id": null,
+      "http_bytes": 0,
+      "query_seconds": 0,
+      "query": "publication",
+      "parameters": {},
+      "version": "eda-20261027.1",
+      "definition_sha256": "9137591a6cc57b9c6db1e4f9fb7b226e1e604c2cf01243362d8fa8808391f1f9",
+      "compiled_sql_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T04:14:38.304941+00:00",
+      "windows_available_bytes": 3284496384,
+      "cache": "DISABLED",
+      "row_count": 17,
+      "response_bytes": 4333,
+      "client_seconds": 2.405453800000032
+    },
+    {
+      "query_id": "20261027_041441_00132_r3abu",
+      "http_bytes": 230652,
+      "query_seconds": 0.39963303200056544,
+      "stats": {
+        "elapsedTimeMillis": 380,
+        "processedBytes": 2034365,
+        "peakMemoryBytes": 104039,
+        "spilledBytes": 0
+      },
+      "query": "nso_observations",
+      "parameters": {
+        "source_table": "V06.12.csv",
+        "start_year": 1990,
+        "end_year": 2024,
+        "level": "national"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "e89503292ea0e69b4c8cf1aaa16d9ac5c696313505694fc5a836594ef8ecaf46",
+      "compiled_sql_sha256": "c5192c8ef096de43eb827a9e32c6960120c31337bad2ebe11f092e73ea16d4ae",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T04:14:41.410319+00:00",
+      "windows_available_bytes": 3335364608,
+      "cache": "DISABLED",
+      "row_count": 560,
+      "response_bytes": 216176,
+      "client_seconds": 3.1563380000006873
+    },
+    {
+      "query_id": "20261027_041444_00133_r3abu",
+      "http_bytes": 48595,
+      "query_seconds": 0.29454647099919384,
+      "stats": {
+        "elapsedTimeMillis": 287,
+        "processedBytes": 2034365,
+        "peakMemoryBytes": 105881,
+        "spilledBytes": 0
+      },
+      "query": "nso_observations",
+      "parameters": {
+        "source_table": "V06.14.csv",
+        "start_year": 1995,
+        "end_year": 2024,
+        "level": "national"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "e89503292ea0e69b4c8cf1aaa16d9ac5c696313505694fc5a836594ef8ecaf46",
+      "compiled_sql_sha256": "0827e6d8a8135d91cf073605b12573eb2bf8f21c79e1549a9c048fd299accbf2",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T04:14:44.505916+00:00",
+      "windows_available_bytes": 3244756992,
+      "cache": "DISABLED",
+      "row_count": 30,
+      "response_bytes": 29037,
+      "client_seconds": 3.113187900000412
+    },
+    {
+      "query_id": "20261027_041448_00134_r3abu",
+      "http_bytes": 146321,
+      "query_seconds": 0.19907392900040577,
+      "stats": {
+        "elapsedTimeMillis": 190,
+        "processedBytes": 2045013,
+        "peakMemoryBytes": 119978,
+        "spilledBytes": 0
+      },
+      "query": "nso_observations",
+      "parameters": {
+        "source_table": "V06.15.csv",
+        "start_year": 1995,
+        "end_year": 2024,
+        "level": "region"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "e89503292ea0e69b4c8cf1aaa16d9ac5c696313505694fc5a836594ef8ecaf46",
+      "compiled_sql_sha256": "44beb72aa860bcf0e2c1b0a77ba2f4a528ce7447ad351a8bd53046d8ff1e329c",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T04:14:48.119848+00:00",
+      "windows_available_bytes": 3280420864,
+      "cache": "DISABLED",
+      "row_count": 180,
+      "response_bytes": 129434,
+      "client_seconds": 2.6778764000009687
+    }
+  ],
+  "findings": [
+    {
+      "id": "VN01",
+      "title": "Thay đổi annual production_t",
+      "observation": "V06.12: 19,225,100.00 năm 1990 → 43,451,600.00 năm 2024 (+126.01%).",
+      "scope": "NSO V06.12.csv, national, annual, quantity; unit in metric",
+      "interpretation": "So sánh endpoints trong đúng publication; không suy causal attribution hoặc release vintage.",
+      "query": "nso_observations",
+      "cell": "Câu hỏi 1",
+      "numbers": {
+        "measure": "production_t",
+        "first_year": 1990,
+        "last_year": 2024,
+        "first_value": 19225100.0,
+        "last_value": 43451600.0,
+        "change_pct": 126.01494920702625,
+        "cagr_pct": 2.427317496996051,
+        "numeric_periods": 35,
+        "calendar_span": 35
+      }
+    },
+    {
+      "id": "VN02",
+      "title": "Thay đổi annual area_ha",
+      "observation": "V06.12: 6,042,800.00 năm 1990 → 7,127,100.00 năm 2024 (+17.94%).",
+      "scope": "NSO V06.12.csv, national, annual, quantity; unit in metric",
+      "interpretation": "So sánh endpoints trong đúng publication; không suy causal attribution hoặc release vintage.",
+      "query": "nso_observations",
+      "cell": "Câu hỏi 1",
+      "numbers": {
+        "measure": "area_ha",
+        "first_year": 1990,
+        "last_year": 2024,
+        "first_value": 6042800.0,
+        "last_value": 7127100.0,
+        "change_pct": 17.943668498047273,
+        "cagr_pct": 0.4865827490829755,
+        "numeric_periods": 35,
+        "calendar_span": 35
+      }
+    },
+    {
+      "id": "VN05",
+      "title": "Xu hướng dài hạn che giai đoạn sau observed peak",
+      "observation": "Annual production đạt observed peak 45,091,000.00 tonnes năm 2015; tới 2024 còn 43,451,600.00 tonnes (-3.64%). Diện tích cùng interval thay đổi -8.95%.",
+      "scope": "NSO V06.12.csv, national annual quantity; peak selected from observed 1990–2024 series",
+      "interpretation": "Descriptive peak-to-latest comparison; không phải formal structural-break test hoặc chứng minh area gây thay đổi production.",
+      "query": "nso_observations",
+      "cell": "Câu hỏi 1",
+      "numbers": {
+        "production": {
+          "first_year": 2015,
+          "last_year": 2024,
+          "first_value": 45091000.0,
+          "last_value": 43451600.0,
+          "change_pct": -3.6357587988733897,
+          "cagr_pct": -0.4106544445018012,
+          "numeric_periods": 10,
+          "calendar_span": 10
+        },
+        "area": {
+          "first_year": 2015,
+          "last_year": 2024,
+          "first_value": 7828000.0,
+          "last_value": 7127100.0,
+          "change_pct": -8.953755748594784,
+          "cagr_pct": -1.0368388243645166,
+          "numeric_periods": 10,
+          "calendar_span": 10
+        }
+      }
+    },
+    {
+      "id": "VN03",
+      "title": "Reported yield trong V06.14",
+      "observation": "3,690.00 → 6,100.00 kg/ha, 1995–2024 (+65.31%).",
+      "scope": "V06.14.csv; national annual quantity",
+      "interpretation": "Yield tăng/giảm là descriptive source observation; không đồng nhất với derived yield của V06.12.",
+      "query": "nso_observations",
+      "cell": "Câu hỏi 3",
+      "numbers": {
+        "first_year": 1995,
+        "last_year": 2024,
+        "first_value": 3690.0,
+        "last_value": 6100.0,
+        "change_pct": 65.31165311653115,
+        "cagr_pct": 1.7484274533518418,
+        "numeric_periods": 30,
+        "calendar_span": 30
+      }
+    },
+    {
+      "id": "VN04",
+      "title": "Season có reported production lớn nhất trong selected table",
+      "observation": "Năm 2024, winter_spring: 20,333,900.00 tonnes, trong 3 seasonal observations của V06.12.",
+      "scope": "V06.12.csv; national seasonal quantity, no annual summation",
+      "interpretation": "Đây là so sánh các season do nguồn định nghĩa, không xác nhận coverage của mọi lịch mùa vụ.",
+      "query": "nso_observations",
+      "cell": "Câu hỏi 3"
+    }
+  ]
+}

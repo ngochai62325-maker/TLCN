@@ -1,0 +1,895 @@
+{
+  "notebook": "00_gold_data_overview",
+  "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+  "queries": [
+    {
+      "query_id": null,
+      "http_bytes": 0,
+      "query_seconds": 0,
+      "query": "publication",
+      "parameters": {},
+      "version": "eda-20261027.1",
+      "definition_sha256": "9137591a6cc57b9c6db1e4f9fb7b226e1e604c2cf01243362d8fa8808391f1f9",
+      "compiled_sql_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:25.348386+00:00",
+      "windows_available_bytes": 3095289856,
+      "cache": "DISABLED",
+      "row_count": 17,
+      "response_bytes": 4333,
+      "client_seconds": 2.4975753999997323
+    },
+    {
+      "query_id": "20261027_035728_00085_r3abu",
+      "http_bytes": 11167,
+      "query_seconds": 0.2752616370007672,
+      "stats": {
+        "elapsedTimeMillis": 261,
+        "processedBytes": 1985955,
+        "peakMemoryBytes": 233320,
+        "spilledBytes": 0
+      },
+      "query": "fact_overview",
+      "parameters": {
+        "fact": "fact_nso_observation"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "a63240d662f76669feffbad5d8eb4d5985ab5660861be9c1d3a4e0f3469886da",
+      "compiled_sql_sha256": "e5e57c0ae90b197b4e4c48c07dd65a3929dd440d8a192679e6105a51017f0a4f",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:28.265981+00:00",
+      "windows_available_bytes": 3144028160,
+      "cache": "DISABLED",
+      "row_count": 1,
+      "response_bytes": 3716,
+      "client_seconds": 2.9395184999993944
+    },
+    {
+      "query_id": "20261027_035731_00086_r3abu",
+      "http_bytes": 11199,
+      "query_seconds": 0.21777905599992664,
+      "stats": {
+        "elapsedTimeMillis": 207,
+        "processedBytes": 1539970,
+        "peakMemoryBytes": 546159,
+        "spilledBytes": 0
+      },
+      "query": "fact_overview",
+      "parameters": {
+        "fact": "fact_fao_production_observation"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "a63240d662f76669feffbad5d8eb4d5985ab5660861be9c1d3a4e0f3469886da",
+      "compiled_sql_sha256": "fb91af120cf9beab21317f4164ae763d18e891a5ca2532e19244d7ce966e356a",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:31.183950+00:00",
+      "windows_available_bytes": 3164532736,
+      "cache": "DISABLED",
+      "row_count": 1,
+      "response_bytes": 3726,
+      "client_seconds": 2.9207845000000816
+    },
+    {
+      "query_id": "20261027_035734_00087_r3abu",
+      "http_bytes": 8851,
+      "query_seconds": 0.20722011199995904,
+      "stats": {
+        "elapsedTimeMillis": 200,
+        "processedBytes": 2164745,
+        "peakMemoryBytes": 746759,
+        "spilledBytes": 0
+      },
+      "query": "fact_overview",
+      "parameters": {
+        "fact": "fact_fao_sua_observation"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "a63240d662f76669feffbad5d8eb4d5985ab5660861be9c1d3a4e0f3469886da",
+      "compiled_sql_sha256": "098ad5e632478c55146651b1e32fa984ed8ef2f57c026b6c590d1fd5c75d0267",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:34.156043+00:00",
+      "windows_available_bytes": 3010818048,
+      "cache": "DISABLED",
+      "row_count": 1,
+      "response_bytes": 3721,
+      "client_seconds": 2.946959899999456
+    },
+    {
+      "query_id": "20261027_035736_00088_r3abu",
+      "http_bytes": 8891,
+      "query_seconds": 0.7681888939996497,
+      "stats": {
+        "elapsedTimeMillis": 759,
+        "processedBytes": 11990182,
+        "peakMemoryBytes": 2928245,
+        "spilledBytes": 0
+      },
+      "query": "fact_overview",
+      "parameters": {
+        "fact": "fact_fao_trade_observation"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "a63240d662f76669feffbad5d8eb4d5985ab5660861be9c1d3a4e0f3469886da",
+      "compiled_sql_sha256": "8b6ebc34dcd01da508bf2ff8e6b83b6fe3f4af64092c1899e080e0f5634bc34c",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:37.371886+00:00",
+      "windows_available_bytes": 3298275328,
+      "cache": "DISABLED",
+      "row_count": 1,
+      "response_bytes": 3726,
+      "client_seconds": 3.201097699999991
+    },
+    {
+      "query_id": "20261027_035740_00089_r3abu",
+      "http_bytes": 11140,
+      "query_seconds": 0.19576789700022346,
+      "stats": {
+        "elapsedTimeMillis": 186,
+        "processedBytes": 257261,
+        "peakMemoryBytes": 17274,
+        "spilledBytes": 0
+      },
+      "query": "fact_overview",
+      "parameters": {
+        "fact": "fact_usda_psd_observation"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "a63240d662f76669feffbad5d8eb4d5985ab5660861be9c1d3a4e0f3469886da",
+      "compiled_sql_sha256": "90f2aa88ae081a89d6a13188ce19449ac07596c25250b074fa4ccafab5882a88",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:40.175090+00:00",
+      "windows_available_bytes": 3331031040,
+      "cache": "DISABLED",
+      "row_count": 1,
+      "response_bytes": 3712,
+      "client_seconds": 2.7784163999995144
+    },
+    {
+      "query_id": "20261027_035742_00090_r3abu",
+      "http_bytes": 11188,
+      "query_seconds": 0.21064362700053607,
+      "stats": {
+        "elapsedTimeMillis": 202,
+        "processedBytes": 3458317,
+        "peakMemoryBytes": 572613,
+        "spilledBytes": 0
+      },
+      "query": "fact_overview",
+      "parameters": {
+        "fact": "fact_price_monthly"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "a63240d662f76669feffbad5d8eb4d5985ab5660861be9c1d3a4e0f3469886da",
+      "compiled_sql_sha256": "2a9e065394b3b8d3dbf8a9b69a6ed8638d613a7205eb540bea3c58c0101e1c3f",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:42.860960+00:00",
+      "windows_available_bytes": 3300532224,
+      "cache": "DISABLED",
+      "row_count": 1,
+      "response_bytes": 3717,
+      "client_seconds": 2.7278610000003027
+    },
+    {
+      "query_id": "20261027_035745_00091_r3abu",
+      "http_bytes": 11127,
+      "query_seconds": 0.1309514879994822,
+      "stats": {
+        "elapsedTimeMillis": 121,
+        "processedBytes": 733256,
+        "peakMemoryBytes": 240279,
+        "spilledBytes": 0
+      },
+      "query": "fact_overview",
+      "parameters": {
+        "fact": "fact_fao_price_annual"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "a63240d662f76669feffbad5d8eb4d5985ab5660861be9c1d3a4e0f3469886da",
+      "compiled_sql_sha256": "1c3a560ec9671a6fd510f2a9b4ec387ebe2eb20b8dccafa5a60fc116f218591e",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:45.663529+00:00",
+      "windows_available_bytes": 3300937728,
+      "cache": "DISABLED",
+      "row_count": 1,
+      "response_bytes": 3708,
+      "client_seconds": 2.7864661000003252
+    },
+    {
+      "query_id": "20261027_035748_00092_r3abu",
+      "http_bytes": 11170,
+      "query_seconds": 0.14540300400039996,
+      "stats": {
+        "elapsedTimeMillis": 136,
+        "processedBytes": 728702,
+        "peakMemoryBytes": 260807,
+        "spilledBytes": 0
+      },
+      "query": "fact_overview",
+      "parameters": {
+        "fact": "fact_usda_price_reference"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "a63240d662f76669feffbad5d8eb4d5985ab5660861be9c1d3a4e0f3469886da",
+      "compiled_sql_sha256": "fa52045e5bdee3fe37538391e630b7d97f57eda7eeaf30d6999ff1cb5c57644c",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:48.464238+00:00",
+      "windows_available_bytes": 3192320000,
+      "cache": "DISABLED",
+      "row_count": 1,
+      "response_bytes": 3717,
+      "client_seconds": 2.805440600000111
+    },
+    {
+      "query_id": "20261027_035751_00093_r3abu",
+      "http_bytes": 11165,
+      "query_seconds": 0.09641249800006335,
+      "stats": {
+        "elapsedTimeMillis": 87,
+        "processedBytes": 925099,
+        "peakMemoryBytes": 393429,
+        "spilledBytes": 0
+      },
+      "query": "fact_overview",
+      "parameters": {
+        "fact": "fact_vn_market_quote_daily"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "a63240d662f76669feffbad5d8eb4d5985ab5660861be9c1d3a4e0f3469886da",
+      "compiled_sql_sha256": "8e4a147515aa834ddb72687bc9641049cd920ff289521fb61b35000cf14bbb49",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:51.269827+00:00",
+      "windows_available_bytes": 3218255872,
+      "cache": "DISABLED",
+      "row_count": 1,
+      "response_bytes": 3727,
+      "client_seconds": 2.790883799999392
+    },
+    {
+      "query_id": "20261027_035754_00094_r3abu",
+      "http_bytes": 10084,
+      "query_seconds": 0.15564269199967384,
+      "stats": {
+        "elapsedTimeMillis": 146,
+        "processedBytes": 1985955,
+        "peakMemoryBytes": 2544,
+        "spilledBytes": 0
+      },
+      "query": "period_coverage",
+      "parameters": {
+        "fact": "fact_nso_observation"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "3bb57f48649a104933f0deec938bef897194730c99e6d775c770e1ec8f7ee9d1",
+      "compiled_sql_sha256": "af12ac3488ad53a9d6214efeda4d37940aa6257b82efb36752bcf01898769d24",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:54.456123+00:00",
+      "windows_available_bytes": 3197214720,
+      "cache": "DISABLED",
+      "row_count": 35,
+      "response_bytes": 3765,
+      "client_seconds": 2.79921800000011
+    },
+    {
+      "query_id": "20261027_035757_00095_r3abu",
+      "http_bytes": 10752,
+      "query_seconds": 0.15560613099933107,
+      "stats": {
+        "elapsedTimeMillis": 147,
+        "processedBytes": 1539970,
+        "peakMemoryBytes": 2016,
+        "spilledBytes": 0
+      },
+      "query": "period_coverage",
+      "parameters": {
+        "fact": "fact_fao_production_observation"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "3bb57f48649a104933f0deec938bef897194730c99e6d775c770e1ec8f7ee9d1",
+      "compiled_sql_sha256": "84500c04f8a02051c68b88f491bb11e475f89db078c8499b0b117fb21f68b7f5",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:57:57.493252+00:00",
+      "windows_available_bytes": 3243171840,
+      "cache": "DISABLED",
+      "row_count": 64,
+      "response_bytes": 4308,
+      "client_seconds": 3.03319029999966
+    },
+    {
+      "query_id": "20261027_035800_00096_r3abu",
+      "http_bytes": 12071,
+      "query_seconds": 0.12402900899996894,
+      "stats": {
+        "elapsedTimeMillis": 115,
+        "processedBytes": 2164745,
+        "peakMemoryBytes": 2016,
+        "spilledBytes": 0
+      },
+      "query": "period_coverage",
+      "parameters": {
+        "fact": "fact_fao_sua_observation"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "3bb57f48649a104933f0deec938bef897194730c99e6d775c770e1ec8f7ee9d1",
+      "compiled_sql_sha256": "3076df53d8f848c9bed7c069abe0d059a61457d270f61456eb97a5ef25f16b2f",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:00.257718+00:00",
+      "windows_available_bytes": 3181678592,
+      "cache": "DISABLED",
+      "row_count": 14,
+      "response_bytes": 3429,
+      "client_seconds": 2.6855561000002126
+    },
+    {
+      "query_id": "20261027_035802_00097_r3abu",
+      "http_bytes": 10501,
+      "query_seconds": 0.23227251000025717,
+      "stats": {
+        "elapsedTimeMillis": 226,
+        "processedBytes": 11011834,
+        "peakMemoryBytes": 2016,
+        "spilledBytes": 0
+      },
+      "query": "period_coverage",
+      "parameters": {
+        "fact": "fact_fao_trade_observation"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "3bb57f48649a104933f0deec938bef897194730c99e6d775c770e1ec8f7ee9d1",
+      "compiled_sql_sha256": "fe5bdfa9f1303f8cd09f6d372bff316753fe2f9a4dcd20be66b17eb263551e27",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:02.883786+00:00",
+      "windows_available_bytes": 3176681472,
+      "cache": "DISABLED",
+      "row_count": 39,
+      "response_bytes": 4000,
+      "client_seconds": 2.6494026999998823
+    },
+    {
+      "query_id": "20261027_035805_00098_r3abu",
+      "http_bytes": 10616,
+      "query_seconds": 0.08502562800003943,
+      "stats": {
+        "elapsedTimeMillis": 77,
+        "processedBytes": 257261,
+        "peakMemoryBytes": 2192,
+        "spilledBytes": 0
+      },
+      "query": "period_coverage",
+      "parameters": {
+        "fact": "fact_usda_psd_observation"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "3bb57f48649a104933f0deec938bef897194730c99e6d775c770e1ec8f7ee9d1",
+      "compiled_sql_sha256": "264c268be513ca3f64ca08d684ebfbe693210ed61798aefbc03fe9940afc8f3b",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:05.376291+00:00",
+      "windows_available_bytes": 3174166528,
+      "cache": "DISABLED",
+      "row_count": 66,
+      "response_bytes": 4204,
+      "client_seconds": 2.4663394999997763
+    },
+    {
+      "query_id": "20261027_035808_00099_r3abu",
+      "http_bytes": 23931,
+      "query_seconds": 0.18955618100062566,
+      "stats": {
+        "elapsedTimeMillis": 181,
+        "processedBytes": 3458317,
+        "peakMemoryBytes": 27302,
+        "spilledBytes": 0
+      },
+      "query": "period_coverage",
+      "parameters": {
+        "fact": "fact_price_monthly"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "3bb57f48649a104933f0deec938bef897194730c99e6d775c770e1ec8f7ee9d1",
+      "compiled_sql_sha256": "9735295bdcfa2985c38950b92381d6d9e5d760af18139634f29ae981d6634fd1",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:08.156695+00:00",
+      "windows_available_bytes": 3168608256,
+      "cache": "DISABLED",
+      "row_count": 792,
+      "response_bytes": 17580,
+      "client_seconds": 2.8379884000005404
+    },
+    {
+      "query_id": "20261027_035811_00100_r3abu",
+      "http_bytes": 10225,
+      "query_seconds": 0.0989995749996524,
+      "stats": {
+        "elapsedTimeMillis": 90,
+        "processedBytes": 733256,
+        "peakMemoryBytes": 2192,
+        "spilledBytes": 0
+      },
+      "query": "period_coverage",
+      "parameters": {
+        "fact": "fact_fao_price_annual"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "3bb57f48649a104933f0deec938bef897194730c99e6d775c770e1ec8f7ee9d1",
+      "compiled_sql_sha256": "cdb48be526151721ae3fe27fcad57450358195feff0ba2e0df02576e9f06cf60",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:10.972418+00:00",
+      "windows_available_bytes": 3088867328,
+      "cache": "DISABLED",
+      "row_count": 35,
+      "response_bytes": 3771,
+      "client_seconds": 2.7798173000001043
+    },
+    {
+      "query_id": "20261027_035813_00101_r3abu",
+      "http_bytes": 12289,
+      "query_seconds": 0.08989040399956139,
+      "stats": {
+        "elapsedTimeMillis": 80,
+        "processedBytes": 728702,
+        "peakMemoryBytes": 2016,
+        "spilledBytes": 0
+      },
+      "query": "period_coverage",
+      "parameters": {
+        "fact": "fact_usda_price_reference"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "3bb57f48649a104933f0deec938bef897194730c99e6d775c770e1ec8f7ee9d1",
+      "compiled_sql_sha256": "375f1f7baba5b1171388fe88bb5241d0ee655d973f030a3020492e4661cc4187",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:13.499026+00:00",
+      "windows_available_bytes": 3058274304,
+      "cache": "DISABLED",
+      "row_count": 41,
+      "response_bytes": 3874,
+      "client_seconds": 2.5537202999994406
+    },
+    {
+      "query_id": "20261027_035816_00102_r3abu",
+      "http_bytes": 29309,
+      "query_seconds": 0.08856964499955211,
+      "stats": {
+        "elapsedTimeMillis": 79,
+        "processedBytes": 925099,
+        "peakMemoryBytes": 33801,
+        "spilledBytes": 0
+      },
+      "query": "period_coverage",
+      "parameters": {
+        "fact": "fact_vn_market_quote_daily"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "3bb57f48649a104933f0deec938bef897194730c99e6d775c770e1ec8f7ee9d1",
+      "compiled_sql_sha256": "a066c21a3acc9444177cb489b5c9a2d3b876f992e04bdfad684a9de010f5dcbd",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:15.961691+00:00",
+      "windows_available_bytes": 3101167616,
+      "cache": "DISABLED",
+      "row_count": 1211,
+      "response_bytes": 26467,
+      "client_seconds": 2.4369565999995757
+    },
+    {
+      "query_id": "20261027_035818_00103_r3abu",
+      "http_bytes": 280689,
+      "query_seconds": 0.0677073159995416,
+      "stats": {
+        "elapsedTimeMillis": 60,
+        "processedBytes": 49486,
+        "peakMemoryBytes": 322617,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "geographies"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "5c688c00db4fa7e0f68d9a7b2d2122b3d2cf8a08b6815e7e03856d95ef9080fe",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:18.523757+00:00",
+      "windows_available_bytes": 3096334336,
+      "cache": "DISABLED",
+      "row_count": 987,
+      "response_bytes": 280733,
+      "client_seconds": 2.389504599999782
+    },
+    {
+      "query_id": "20261027_035821_00104_r3abu",
+      "http_bytes": 53703,
+      "query_seconds": 0.050967948000106844,
+      "stats": {
+        "elapsedTimeMillis": 44,
+        "processedBytes": 17172,
+        "peakMemoryBytes": 45975,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "products"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "5f870d6f694d6226c66b92134f6871f26ba92335d6847f5aa96b8d2b90ff0c71",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:21.143179+00:00",
+      "windows_available_bytes": 3094728704,
+      "cache": "DISABLED",
+      "row_count": 295,
+      "response_bytes": 49097,
+      "client_seconds": 2.6014559000004738
+    },
+    {
+      "query_id": "20261027_035824_00105_r3abu",
+      "http_bytes": 18718,
+      "query_seconds": 0.05134747699958098,
+      "stats": {
+        "elapsedTimeMillis": 42,
+        "processedBytes": 9072,
+        "peakMemoryBytes": 14039,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "metrics"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "72309f7cfb5b94aeea127db68676bf19af8e0929c7abfedc71778ffde88c8da6",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:24.011954+00:00",
+      "windows_available_bytes": 3096371200,
+      "cache": "DISABLED",
+      "row_count": 34,
+      "response_bytes": 11671,
+      "client_seconds": 2.9314800000001924
+    },
+    {
+      "query_id": "20261027_035827_00106_r3abu",
+      "http_bytes": 441186,
+      "query_seconds": 0.07514599699970859,
+      "stats": {
+        "elapsedTimeMillis": 60,
+        "processedBytes": 78619,
+        "peakMemoryBytes": 290489,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "series"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "b17b098470680738c04a05832e9576521ff0f8b6a4c0ce8c1cc0dcf21fa4c5c7",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:27.185961+00:00",
+      "windows_available_bytes": 3031449600,
+      "cache": "DISABLED",
+      "row_count": 1042,
+      "response_bytes": 440912,
+      "client_seconds": 3.1879797999999937
+    },
+    {
+      "query_id": "20261027_035830_00107_r3abu",
+      "http_bytes": 20736,
+      "query_seconds": 0.3867173669996191,
+      "stats": {
+        "elapsedTimeMillis": 376,
+        "processedBytes": 2107803,
+        "peakMemoryBytes": 1537341,
+        "spilledBytes": 0
+      },
+      "query": "nso_catalogue",
+      "parameters": {},
+      "version": "eda-20261027.1",
+      "definition_sha256": "de8c865378d28d7e89350e0786ab438990881ef55b8bc46116086e9666a9dcf8",
+      "compiled_sql_sha256": "848343e5bdc4b2a460206d30933fe50c007592df5c9a575292d399933be75fd8",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:30.471896+00:00",
+      "windows_available_bytes": 3049377792,
+      "cache": "DISABLED",
+      "row_count": 52,
+      "response_bytes": 9561,
+      "client_seconds": 3.2449008999992657
+    },
+    {
+      "query_id": "20261027_035833_00108_r3abu",
+      "http_bytes": 12179,
+      "query_seconds": 0.3950395159999971,
+      "stats": {
+        "elapsedTimeMillis": 387,
+        "processedBytes": 1545378,
+        "peakMemoryBytes": 97378,
+        "spilledBytes": 0
+      },
+      "query": "context_profile",
+      "parameters": {
+        "fact": "fact_fao_production_observation",
+        "field": "flag"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "81b0ad8f66763e7d80931ca8e5fc5a83e1bebe662adfb90e4dbe4968f7f13f0c",
+      "compiled_sql_sha256": "645aaf6298cfd8fe380c19053888eb13fd69ea7f57e2121c02834052a0908c17",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:33.452307+00:00",
+      "windows_available_bytes": 2963660800,
+      "cache": "DISABLED",
+      "row_count": 5,
+      "response_bytes": 3897,
+      "client_seconds": 2.9464664999995875
+    },
+    {
+      "query_id": "20261027_035836_00109_r3abu",
+      "http_bytes": 11777,
+      "query_seconds": 0.19490541799950734,
+      "stats": {
+        "elapsedTimeMillis": 184,
+        "processedBytes": 1991363,
+        "peakMemoryBytes": 99586,
+        "spilledBytes": 0
+      },
+      "query": "context_profile",
+      "parameters": {
+        "fact": "fact_nso_observation",
+        "field": "release_status"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "81b0ad8f66763e7d80931ca8e5fc5a83e1bebe662adfb90e4dbe4968f7f13f0c",
+      "compiled_sql_sha256": "c8368e5047575f58c31f06e448192a8e47809aa85720ba9464348bb7edef045a",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:36.277519+00:00",
+      "windows_available_bytes": 2971254784,
+      "cache": "DISABLED",
+      "row_count": 2,
+      "response_bytes": 3580,
+      "client_seconds": 2.8179044000007707
+    }
+  ],
+  "findings": [
+    {
+      "id": "OV01",
+      "title": "Numeric coverage khác nhau giữa các subject areas",
+      "observation": "9 facts có 1,414,527 observations. fact_usda_price_reference có 4,523/12,936 present-NULL (34.96%).",
+      "scope": "All nine published facts; count(value)/count(*)",
+      "interpretation": "NULL cần được giữ trong diagnostics; không thay bằng zero hoặc so missing rates như source quality scores.",
+      "query": "fact_overview",
+      "cell": "Câu hỏi 1",
+      "numbers": [
+        {
+          "fact": "fact_nso_observation",
+          "rows": 23060,
+          "numeric_observations": 22114,
+          "missing_observations": 946,
+          "genuine_zero": 5,
+          "warned_observations": 22534,
+          "first_period": 1990,
+          "last_period": 2024,
+          "represented_periods": 35,
+          "missing_rate_pct": 4.102341717259323
+        },
+        {
+          "fact": "fact_fao_production_observation",
+          "rows": 22738,
+          "numeric_observations": 22509,
+          "missing_observations": 229,
+          "genuine_zero": 572,
+          "warned_observations": 0,
+          "first_period": 1961,
+          "last_period": 2024,
+          "represented_periods": 64,
+          "missing_rate_pct": 1.0071246371712552
+        },
+        {
+          "fact": "fact_fao_sua_observation",
+          "rows": 36380,
+          "numeric_observations": 36123,
+          "missing_observations": 257,
+          "genuine_zero": 8660,
+          "warned_observations": 236,
+          "first_period": 2010,
+          "last_period": 2023,
+          "represented_periods": 14,
+          "missing_rate_pct": 0.7064321055525014
+        },
+        {
+          "fact": "fact_fao_trade_observation",
+          "rows": 1226470,
+          "numeric_observations": 1226470,
+          "missing_observations": 0,
+          "genuine_zero": 133948,
+          "warned_observations": 0,
+          "first_period": 1986,
+          "last_period": 2024,
+          "represented_periods": 39,
+          "missing_rate_pct": 0.0
+        },
+        {
+          "fact": "fact_usda_psd_observation",
+          "rows": 990,
+          "numeric_observations": 990,
+          "missing_observations": 0,
+          "genuine_zero": 140,
+          "warned_observations": 0,
+          "first_period": 1960,
+          "last_period": 2025,
+          "represented_periods": 66,
+          "missing_rate_pct": 0.0
+        },
+        {
+          "fact": "fact_price_monthly",
+          "rows": 61573,
+          "numeric_observations": 55168,
+          "missing_observations": 6405,
+          "genuine_zero": 0,
+          "warned_observations": 0,
+          "first_period": 196001,
+          "last_period": 202512,
+          "represented_periods": 792,
+          "missing_rate_pct": 10.402286716580319
+        },
+        {
+          "fact": "fact_fao_price_annual",
+          "rows": 9993,
+          "numeric_observations": 9993,
+          "missing_observations": 0,
+          "genuine_zero": 2,
+          "warned_observations": 0,
+          "first_period": 1991,
+          "last_period": 2025,
+          "represented_periods": 35,
+          "missing_rate_pct": 0.0
+        },
+        {
+          "fact": "fact_usda_price_reference",
+          "rows": 12936,
+          "numeric_observations": 8413,
+          "missing_observations": 4523,
+          "genuine_zero": 0,
+          "warned_observations": 0,
+          "first_period": 1985,
+          "last_period": 2025,
+          "represented_periods": 41,
+          "missing_rate_pct": 34.964440321583176
+        },
+        {
+          "fact": "fact_vn_market_quote_daily",
+          "rows": 20387,
+          "numeric_observations": 20387,
+          "missing_observations": 0,
+          "genuine_zero": 29,
+          "warned_observations": 29,
+          "first_period": 20210104,
+          "last_period": 20260803,
+          "represented_periods": 1211,
+          "missing_rate_pct": 0.0
+        }
+      ]
+    },
+    {
+      "id": "OV02",
+      "title": "Coverage được đếm bằng represented periods",
+      "observation": "Các khoảng trống calendar đã được tính trực tiếp từ distinct periods; xem bảng số dưới đây.",
+      "scope": "Global fact period domain, not individual series",
+      "interpretation": "Trend metrics cần kiểm tra calendar gaps ở đúng series; không suy continuity từ min/max.",
+      "query": "period_coverage",
+      "cell": "Câu hỏi 2",
+      "numbers": [
+        {
+          "fact": "fact_nso_observation",
+          "represented": 35,
+          "calendar_span": 35,
+          "absent_periods": 0
+        },
+        {
+          "fact": "fact_fao_production_observation",
+          "represented": 64,
+          "calendar_span": 64,
+          "absent_periods": 0
+        },
+        {
+          "fact": "fact_fao_sua_observation",
+          "represented": 14,
+          "calendar_span": 14,
+          "absent_periods": 0
+        },
+        {
+          "fact": "fact_fao_trade_observation",
+          "represented": 39,
+          "calendar_span": 39,
+          "absent_periods": 0
+        },
+        {
+          "fact": "fact_usda_psd_observation",
+          "represented": 66,
+          "calendar_span": 66,
+          "absent_periods": 0
+        },
+        {
+          "fact": "fact_price_monthly",
+          "represented": 792,
+          "calendar_span": 792,
+          "absent_periods": 0
+        },
+        {
+          "fact": "fact_fao_price_annual",
+          "represented": 35,
+          "calendar_span": 35,
+          "absent_periods": 0
+        },
+        {
+          "fact": "fact_usda_price_reference",
+          "represented": 41,
+          "calendar_span": 41,
+          "absent_periods": 0
+        },
+        {
+          "fact": "fact_vn_market_quote_daily",
+          "represented": 1211,
+          "calendar_span": 2038,
+          "absent_periods": 827
+        }
+      ]
+    },
+    {
+      "id": "OV03",
+      "title": "Units và identities chưa universally conformed",
+      "observation": "Có 34 metric definitions, 1042 price series và 6 geography namespaces trong inventory.",
+      "scope": "Published dimensions",
+      "interpretation": "NSO/FAO/USDA/price benchmarks cần filters riêng; ưu tiên production và từng price series có đủ numeric/calendar coverage.",
+      "query": "catalogue",
+      "cell": "Câu hỏi 3"
+    }
+  ]
+}

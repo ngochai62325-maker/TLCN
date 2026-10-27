@@ -1,0 +1,10 @@
+{
+  "notebook": "01_vietnam_rice_production.ipynb",
+  "status": "PASS",
+  "seconds": 15.746809799999028,
+  "error": null,
+  "windows_available_min_bytes": 3213553664,
+  "child_rss_peak_bytes": 189394944,
+  "code_cells": 15,
+  "charts": 7
+}

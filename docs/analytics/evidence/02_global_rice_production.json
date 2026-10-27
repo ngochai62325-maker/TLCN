@@ -1,0 +1,251 @@
+{
+  "notebook": "02_global_rice_production",
+  "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+  "queries": [
+    {
+      "query_id": null,
+      "http_bytes": 0,
+      "query_seconds": 0,
+      "query": "publication",
+      "parameters": {},
+      "version": "eda-20261027.1",
+      "definition_sha256": "9137591a6cc57b9c6db1e4f9fb7b226e1e604c2cf01243362d8fa8808391f1f9",
+      "compiled_sql_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:56.829603+00:00",
+      "windows_available_bytes": 2958606336,
+      "cache": "DISABLED",
+      "row_count": 17,
+      "response_bytes": 4333,
+      "client_seconds": 2.413797700000032
+    },
+    {
+      "query_id": "20261027_035859_00113_r3abu",
+      "http_bytes": 282864,
+      "query_seconds": 0.12252367099972616,
+      "stats": {
+        "elapsedTimeMillis": 103,
+        "processedBytes": 49486,
+        "peakMemoryBytes": 323059,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "geographies"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "5c688c00db4fa7e0f68d9a7b2d2122b3d2cf8a08b6815e7e03856d95ef9080fe",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:58:59.653332+00:00",
+      "windows_available_bytes": 3079036928,
+      "cache": "DISABLED",
+      "row_count": 987,
+      "response_bytes": 280735,
+      "client_seconds": 2.846587400000317
+    },
+    {
+      "query_id": "20261027_035902_00114_r3abu",
+      "http_bytes": 53704,
+      "query_seconds": 0.06782617199951346,
+      "stats": {
+        "elapsedTimeMillis": 59,
+        "processedBytes": 17172,
+        "peakMemoryBytes": 45975,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "products"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "5f870d6f694d6226c66b92134f6871f26ba92335d6847f5aa96b8d2b90ff0c71",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:02.638754+00:00",
+      "windows_available_bytes": 2978643968,
+      "cache": "DISABLED",
+      "row_count": 295,
+      "response_bytes": 49096,
+      "client_seconds": 2.9797199000004184
+    },
+    {
+      "query_id": "20261027_035905_00115_r3abu",
+      "http_bytes": 143599,
+      "query_seconds": 1.0348585130004722,
+      "stats": {
+        "elapsedTimeMillis": 1026,
+        "processedBytes": 6235927,
+        "peakMemoryBytes": 797294,
+        "spilledBytes": 0
+      },
+      "query": "fao_production",
+      "parameters": {
+        "geographies": [
+          "c087e1348e72dc9aff782ecac286c3a18c9414ca280dc9e1189d1979030bcc61",
+          "256f554cdf117a037270266ee412d64bdcf4ebdc09e03cf0236761ada916ee25",
+          "454338b3e9b9203015ec55fa27305ffba31eac866ae49718ed492e03c8dbc550",
+          "ce6594c944ef396e24e94273836ab71fd44d722d431a7f16b8b7b26c8f4cc0cc"
+        ],
+        "product": "47b4dde0c6083d0e2ee5a313603df027c7c03d6ef2f46f8e94e1bc76abcbb769",
+        "start_year": 1961,
+        "end_year": 2024
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "babf2eede9688e003795bed218660783efcc857d8448fbdfd4d307b17db32dc5",
+      "compiled_sql_sha256": "11e75a07078c970a7cf6db83611c5406d75b5d94a589a196bd512fa3fa8ecaa3",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:06.477595+00:00",
+      "windows_available_bytes": 3041239040,
+      "cache": "DISABLED",
+      "row_count": 256,
+      "response_bytes": 134832,
+      "client_seconds": 3.8077737000003253
+    }
+  ],
+  "findings": [
+    {
+      "id": "FAO01",
+      "title": "Production, area và computed yield của Viet Nam",
+      "observation": "1961–2024: production +382.92%, harvested area +48.89%, computed paired yield +224.35%.",
+      "scope": "FAOSTAT M49 704 / CPC 0113; source quantity metrics",
+      "interpretation": "Accounting association của production/area; derived yield không là independent causal explanation.",
+      "query": "fao_production",
+      "cell": "Câu hỏi 1",
+      "numbers": {
+        "production": {
+          "first_year": 1961,
+          "last_year": 2024,
+          "first_value": 8997400.0,
+          "last_value": 43450449.0,
+          "change_pct": 382.9222775468469,
+          "cagr_pct": 2.531000272827133,
+          "numeric_periods": 64,
+          "calendar_span": 64
+        },
+        "area": {
+          "first_year": 1961,
+          "last_year": 2024,
+          "first_value": 4744000.0,
+          "last_value": 7063212.0,
+          "change_pct": 48.887268128161885,
+          "cagr_pct": 0.633776495219518,
+          "numeric_periods": 64,
+          "calendar_span": 64
+        },
+        "yield_change": {
+          "first_year": 1961,
+          "last_year": 2024,
+          "first_value": 1896.585,
+          "last_value": 6151.656,
+          "change_pct": 224.35435269181184,
+          "cagr_pct": 1.885275537253417,
+          "numeric_periods": 64,
+          "calendar_span": 64
+        }
+      }
+    },
+    {
+      "id": "FAO02",
+      "title": "Thay đổi computed yield trong selected universe",
+      "observation": "Viet Nam: 1,896.59 → 6,151.66 kg/ha (+224.35%, 1961–2024).",
+      "scope": "Four explicitly selected FAOSTAT source areas; CPC 0113, paired measures",
+      "interpretation": "Largest proportional change among selected endpoints, not global best performance.",
+      "query": "fao_production",
+      "cell": "Câu hỏi 1",
+      "numbers": [
+        {
+          "source_area": "India",
+          "first_year": 1961,
+          "last_year": 2024,
+          "first_value": 1541.895,
+          "last_value": 4313.196,
+          "change_pct": 179.7334448843793,
+          "cagr_pct": 1.6462078380143907,
+          "numeric_periods": 64,
+          "calendar_span": 64
+        },
+        {
+          "source_area": "Indonesia",
+          "first_year": 1961,
+          "last_year": 2024,
+          "first_value": 1762.287,
+          "last_value": 5289.868,
+          "change_pct": 200.17063054996154,
+          "cagr_pct": 1.7600409276316231,
+          "numeric_periods": 64,
+          "calendar_span": 64
+        },
+        {
+          "source_area": "Thailand",
+          "first_year": 1961,
+          "last_year": 2024,
+          "first_value": 1658.497,
+          "last_value": 2982.723,
+          "change_pct": 79.84494394623565,
+          "cagr_pct": 0.9359799297445903,
+          "numeric_periods": 64,
+          "calendar_span": 64
+        },
+        {
+          "source_area": "Viet Nam",
+          "first_year": 1961,
+          "last_year": 2024,
+          "first_value": 1896.585,
+          "last_value": 6151.656,
+          "change_pct": 224.35435269181184,
+          "cagr_pct": 1.885275537253417,
+          "numeric_periods": 64,
+          "calendar_span": 64
+        }
+      ]
+    },
+    {
+      "id": "FAO03",
+      "title": "Common-year ranking trong bốn source areas",
+      "observation": "Năm 2024, India có 217,867,864 tonnes, cao nhất trong bốn source areas được chọn.",
+      "scope": "Exact four-area comparator universe, common numeric year, CPC 0113",
+      "interpretation": "Không phải world ranking và không chứng minh verified global total.",
+      "query": "fao_production",
+      "cell": "Câu hỏi 2",
+      "numbers": [
+        {
+          "source_area": "India",
+          "year_key": 2024,
+          "production_t": 217867864.16,
+          "area_ha": 50511930.0,
+          "computed_yield_kg_ha": 4313.196
+        },
+        {
+          "source_area": "Indonesia",
+          "year_key": 2024,
+          "production_t": 53142727.0,
+          "area_ha": 10046135.0,
+          "computed_yield_kg_ha": 5289.868
+        },
+        {
+          "source_area": "Viet Nam",
+          "year_key": 2024,
+          "production_t": 43450449.0,
+          "area_ha": 7063212.0,
+          "computed_yield_kg_ha": 6151.656
+        },
+        {
+          "source_area": "Thailand",
+          "year_key": 2024,
+          "production_t": 33551336.65,
+          "area_ha": 11248558.0,
+          "computed_yield_kg_ha": 2982.723
+        }
+      ]
+    }
+  ]
+}

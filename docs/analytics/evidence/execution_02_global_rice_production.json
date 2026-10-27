@@ -1,0 +1,10 @@
+{
+  "notebook": "02_global_rice_production.ipynb",
+  "status": "PASS",
+  "seconds": 15.588397199999235,
+  "error": null,
+  "windows_available_min_bytes": 2948091904,
+  "child_rss_peak_bytes": 173711360,
+  "code_cells": 10,
+  "charts": 3
+}

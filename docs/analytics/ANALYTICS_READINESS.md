@@ -1,5 +1,10 @@
 # Analytics Readiness — 27/10/2026
 
+> **Analytics Phase 01 đã có executed EDA.** Đọc [EDA_FINDINGS](EDA_FINDINGS.md),
+> [execution evidence](EDA_ACCEPTANCE.json) và [reproduction/read protocol](README.md).
+> Query foundation và sáu notebooks đã được triển khai; chưa có Dashboard. Phần
+> readiness dưới đây là baseline planning trước EDA, không thay các findings mới.
+
 **READY_FOR_ANALYTICS_QUERY_DESIGN**, với giới hạn source-scoped bên dưới.
 Foundation acceptance: [H01–H05](../foundation/ACCEPTANCE.md). Chưa có Dashboard hay
 dependency/service mới. Runtime work tiếp theo phải qua resource admission:

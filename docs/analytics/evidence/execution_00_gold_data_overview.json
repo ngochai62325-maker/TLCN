@@ -1,0 +1,10 @@
+{
+  "notebook": "00_gold_data_overview.ipynb",
+  "status": "PASS",
+  "seconds": 77.38888850000058,
+  "error": null,
+  "windows_available_min_bytes": 2943827968,
+  "child_rss_peak_bytes": 191795200,
+  "code_cells": 16,
+  "charts": 3
+}
