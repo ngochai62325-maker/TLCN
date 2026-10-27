@@ -7,6 +7,16 @@ Gold MVP gồm **8 physical dimensions, 9 physical facts và 4 version-controlle
 
 **Gold G12: GOLD_MVP_COMPLETE.** Hai Gold DagRuns SUCCESS; đủ 17 tables, 9-source reconciliation, DQ01–18, bốn semantic queries, publication/consumer và formal physical NOOP 17/17 tables PASS. Giữ Trino 448/512 MiB. Chi tiết và giới hạn vận hành tại [Gold validation](docs/gold/VALIDATION.md).
 
+## Analytics và báo cáo local — 27/10/2026
+
+**Streamlit Dashboard đã ngừng vĩnh viễn. Power BI Desktop Free là công cụ reporting hiện hành.** Bronze/Silver/Gold và sáu notebooks EDA được giữ; Python chỉ xuất CSV từ một published Gold batch qua Analytics allowlist/read gate. Không cần Power BI Pro hoặc cloud publication để tự dựng/lưu report local.
+
+```powershell
+python -m jobs.analytics.export_powerbi
+```
+
+Lấy đường dẫn bundle được CLI báo thành công dưới `exports/powerbi/`, import bốn CSV cùng bundle vào Desktop. Report `.pbix` do owner tạo thủ công; dữ liệu là extract, không tự live refresh với Gold. [Exporter/schema](docs/powerbi/README.md) · [Hướng dẫn kéo thả + DAX](docs/powerbi/POWER_BI_DESKTOP_GUIDE.md) · [EDA findings lịch sử](docs/analytics/EDA_FINDINGS.md) · [Archive UI đã ngừng](docs/dashboard/archive/README.md).
+
 ## 1. Dịch vụ & Cổng Localhost
 
 | Dịch vụ | URL / Endpoint | Tài khoản mặc định (`.env.example`) | Ghi chú |

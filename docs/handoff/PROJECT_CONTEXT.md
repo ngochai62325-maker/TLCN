@@ -1,5 +1,13 @@
 # TLCN Rice Lakehouse — Project Context
 
+## Current reporting decision — 27/10/2026
+
+**Streamlit discontinued; Power BI Desktop Free chosen.** Source/tests/requirements/validator riêng UI đã xóa; historical acceptance ở [archive](../dashboard/archive/README.md). Gold 17 tables, publication/semantic SQL, Bronze/Silver và six executed EDA notebooks không đổi. Tái dùng `src/analytics/`, 14 fixed SQL templates + publication metadata operation; các bổ sung NSO scope/geography và publication metadata trước đây được giữ vì exporter sử dụng.
+
+`python -m jobs.analytics.export_powerbi` xuất bốn CSV + manifest vào immutable bundle dưới `exports/powerbi/`, qua published read gate/typed filters/snapshot bindings/final read fence; không Spark, DAG hoặc Iceberg writes. [Exporter](../powerbi/README.md), [Power BI guide](../powerbi/POWER_BI_DESKTOP_GUIDE.md). `.pbix` do owner dựng thủ công; Desktop local không cần Pro/cloud publication. Report sử dụng extract, không live automatic refresh. Baseline migration `feat(gold)@712d00ffdce5c5a4689b8506e08d0fa8f261a43d`; các sections foundation/G12/audit phía dưới là kết quả theo thời điểm cũ, không phải chỉ dẫn khôi phục UI. Teammate vẫn giữ portability scope.
+
+Physical CSV export/readback và 557 current unit tests PASS; rows 9 overview, 35 annual, 105 seasonal, 30 reported yield. [Power BI acceptance](../powerbi/acceptance.json) ghi preservation 36/36, current bundle/checksums và bounded consumer regression. Gold/EDA vẫn là verified baseline; Desktop report authoring/visual/DAX acceptance là bước owner tiếp theo.
+
 ## Current foundation — 27/10/2026
 
 **FOUNDATION_READY_WITH_LIMITATIONS.** Baseline `feat(gold)@4bccf05ef1ba91f58d94df141cbbe6b97a28a6f4`, working tree sạch lúc bắt đầu. H01–H05 đã triển khai trong working tree, chưa commit/push. Báo cáo chính: [foundation acceptance](../foundation/ACCEPTANCE.md), [recovery/retention](../foundation/RECOVERY.md), [test environments](../foundation/TESTING.md).

@@ -88,7 +88,7 @@ def main():
        '| 5 | WB monthly rice benchmark + 12M volatility | price_observations; exact rice_thai_5 series | USD/tonne, calendar windows, no filling |',
        '| 6 | Domestic quote series trend + gaps | price_coverage then price_observations; exact selected quote identity | VND/kg; do not blend markets/sources |',
        '| 7 | Reported bilateral quantity / unit-value comparison | trade; reporter 704, CPC 23161.02, export, 2019–2023, selected partners | 397 groups in tested scope; not market price or global share |',
-       'SUA/PSD stocks/flows là trang mở rộng, tách source/time semantics. Chưa code Streamlit/Dash. '
+       'SUA/PSD stocks/flows là report mở rộng, tách source/time semantics. Reporting hiện hành dùng Power BI Desktop và verified CSV exports. '
        'Next smallest task: một local read-only Dashboard với publication/coverage + NSO annual page, dùng chính allowlisted CLI và source-filter contracts đã kiểm chứng; sau đó thêm FAO/price pages. '
        'Không đổi Gold semantic hashes/publication; serialize requests và benchmark lại sau khi thêm UI.']
     # Adjacent Markdown table rows must not be separated by blank paragraphs.

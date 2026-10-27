@@ -16,7 +16,8 @@ PERIODS = {
 DIMENSIONS = {"sources": "dim_source_system", "geographies": "dim_source_geography",
               "products": "dim_source_product", "metrics": "dim_observation_type", "series": "dim_price_series"}
 NAMES = ("publication", "catalogue", "fact_overview", "period_coverage", "nso_catalogue", "nso_observations",
-         "fao_production", "sua", "psd", "price_observations", "price_coverage", "trade", "context_profile", "subject_products")
+         "fao_production", "sua", "psd", "price_observations", "price_coverage", "trade", "context_profile", "subject_products",
+         "nso_scope_catalogue")
 
 
 def integer(value, lo, hi):
@@ -48,6 +49,7 @@ def validate(name, params):
     required = {
         "publication": set(), "catalogue": {"kind"}, "fact_overview": {"fact"}, "period_coverage": {"fact"},
         "nso_catalogue": set(), "nso_observations": {"source_table", "start_year", "end_year", "level"},
+        "nso_scope_catalogue": {"source_table", "level"},
         "fao_production": {"geographies", "product", "start_year", "end_year"},
         "sua": {"geography", "product", "start_year", "end_year"}, "psd": {"geography", "product", "start_year", "end_year"},
         "price_observations": {"fact", "series", "start_period", "end_period"},
@@ -56,7 +58,8 @@ def validate(name, params):
         "context_profile": {"fact", "field"},
         "subject_products": {"fact", "geography"},
     }[name]
-    if set(params) != required:
+    optional = {"geography_key"} if name == "nso_observations" else set()
+    if not required <= set(params) or set(params) - required - optional:
         raise ValueError(f"Expected exactly parameters {sorted(required)}")
     p = dict(params)
     if "fact" in p:
@@ -69,7 +72,7 @@ def validate(name, params):
         a, b = integer(p["start_year"], 1900, 2100), integer(p["end_year"], 1900, 2100)
         if a > b or b-a > (9 if name == "trade" else 70):
             raise ValueError("Year interval too wide/reversed")
-    for k in ("geography", "product", "reporter", "series"):
+    for k in ("geography", "geography_key", "product", "reporter", "series"):
         if k in p:
             key(p[k])
     if "geographies" in p:
@@ -78,7 +81,7 @@ def validate(name, params):
             raise ValueError("Choose 1–8 distinct source geography keys")
         for v in p["geographies"]:
             key(v)
-    if name == "nso_observations":
+    if name in ("nso_observations", "nso_scope_catalogue"):
         literal(p["source_table"], r"V[0-9]{2}\.[0-9]{2}\.csv")
         choice(p["level"], ("national", "region", "province", "unknown"))
     if name in ("price_observations", "price_coverage"):
@@ -132,6 +135,10 @@ def compile_query(name, params, manifest):
     if name == "nso_observations":
         tokens["filters"] = (f"f.source_table={literal(p['source_table'])} AND f.year_key BETWEEN {p['start_year']} AND {p['end_year']} "
                              f"AND g.source_level={literal(p['level'])}")
+        if "geography_key" in p:
+            tokens["filters"] += " AND f.geography_key=" + key(p["geography_key"])
+    if name == "nso_scope_catalogue":
+        tokens["filters"] = f"f.source_table={literal(p['source_table'])} AND g.source_level={literal(p['level'])}"
     if name in ("fao_production", "sua", "trade"):
         from gold.views import load_definitions
         view, fact = {"fao_production": ("vw_fao_production_yield", "fact_fao_production_observation"),

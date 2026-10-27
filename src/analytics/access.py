@@ -67,6 +67,13 @@ def run_query(name, params, ticket, expected_batch=None):
             result = {"columns": [{"name": k} for k in ("table", "rows", "uuid", "snapshot_id")],
                       "rows": [[n, v["rows"], v["uuid"], v["snapshot_id"]] for n,v in sorted(manifest["outputs"].items())],
                       "query_id": None, "http_bytes": 0, "query_seconds": 0}
+            # Descriptive metadata from the verified manifest, never a second
+            # publication pointer or an invented publication timestamp.
+            result["publication_info"] = {
+                "status": manifest.get("publication_status"), "model": manifest.get("model"),
+                "source_count": len(manifest["context"].get("inputs", {})),
+                "dq": manifest.get("dq"),
+            }
         else:
             result = execute(sql)
         result.update(query=name, parameters=params, version=VERSION, definition_sha256=definition_hash,

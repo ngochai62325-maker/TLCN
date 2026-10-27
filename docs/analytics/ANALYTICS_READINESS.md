@@ -1,5 +1,7 @@
 # Analytics Readiness — 27/10/2026
 
+> **Owner decision mới: Power BI Desktop Free.** Streamlit đã ngừng; dùng [CSV exporter](../powerbi/README.md) và [hướng dẫn dựng hai report pages](../powerbi/POWER_BI_DESKTOP_GUIDE.md). EDA Phase 01 đã COMPLETE, six notebooks và historical evidence giữ nguyên. Không tạo web Dashboard mới.
+
 > **Analytics Phase 01 đã có executed EDA.** Đọc [EDA_FINDINGS](EDA_FINDINGS.md),
 > [execution evidence](EDA_ACCEPTANCE.json) và [reproduction/read protocol](README.md).
 > Query foundation và sáu notebooks đã được triển khai; chưa có Dashboard. Phần
@@ -60,51 +62,45 @@ definition/version hashes, 17 schema/UUID/snapshot identities và shared read lo
 query đúng published snapshot set. API này trả **tối đa 20 sample rows**. Nó không
 phải Analytics aggregate API và không được dùng sample để tính dashboard totals.
 
-Task Analytics đầu tiên phải thêm **allowlist riêng đã review** cho fixed analytical
-SELECTs, dùng `gold.consumer.read_window()` và manifest snapshot bindings. Không
-nhận SQL/free-form table names từ UI, không sửa bốn approved Gold definitions hoặc
-Gold code fingerprint chỉ để thêm Dashboard. Reporter/product/year/date/series
+Analytics hiện có **allowlist riêng** cho fixed analytical SELECTs, dùng
+`gold.consumer.read_window()` và manifest snapshot bindings. Exporter tái sử dụng
+client/CLI này; không nhận SQL/free-form table names, không sửa bốn approved Gold definitions hoặc
+Gold code fingerprint để thêm reporting. Reporter/product/year/date/series
 parameters phải typed, bounded và lọc trước pivot/join; Trino DDL/DML bị từ chối.
 
-Mỗi response phải có batch, query-definition hash/version, normalized parameters,
-snapshot identity và coverage. Cache key phải gồm chúng; mỗi request/cache hit vẫn
-qua live publication/read gate. TTL không thay publication validation. Không giữ
-DB lock/resource trong UI session; chỉ giữ trong read/query operation.
+Mỗi response có batch, query-definition hash/version, normalized parameters,
+snapshot identity và coverage. Không result cache. CSV là immutable extract được
+verify và finalize dưới publication read fence, không phải live UI session; mở
+PBIX offline không tự gọi Gold gate hoặc tự cập nhật dữ liệu.
 
 Actual bounded samples sau foundation: NSO ~5,41 s, production ~2,10 s,
 SUA ~1,58 s, Trade ~2,31 s (20 rows/latest validated year). Không suy thành SLA
 cho chart aggregates. Trade interactive query phải profile một reporter/product/year
 trước khi mở rộng; full-history semantic validation vẫn là offline acceptance.
 
-**Đề xuất budget, chưa benchmark:** một query tại một thời điểm; <=5.000 output rows,
+**Budget Analytics/export hiện hành:** một query tại một thời điểm; <=5.000 output rows,
 <=5 MiB result; 64 MiB Trino query memory; 15 s interactive timeout và cancel-on-failure.
 Nếu query chưa đạt budget, thu hẹp filters hoặc defer chart, không thêm aggregate tables
-để vượt gate. Cache giới hạn ~32 entries/300 s, chỉ dữ liệu nhỏ; đo RSS trên máy 16 GiB.
+để vượt gate. Không dùng cache để bỏ qua publication/resource verification.
 
-## Dashboard MVP được đề xuất
+## Reporting MVP — Power BI Desktop
 
-Một local Python **Streamlit process trên host**, gọi fixed Analytics CLI trong
-runner hiện có bằng argument list (`shell=False`), nhận JSON nhỏ. CLI giữ credentials
-và publication gate trong runtime hiện hữu, query qua Trino; Dashboard không khởi
-động Spark, trigger Airflow hoặc đọc Raw/Silver. Không thêm Docker service/API/database.
-Chưa cài Streamlit trong nhiệm vụ foundation.
+Python exporter trên host gọi fixed Analytics CLI trong runner bằng argument list.
+Credentials và Gold publication gate ở runtime hiện hữu. Xuất một bundle CSV đầy đủ
+vào `exports/powerbi/`, rồi owner Import và kéo thả trong Desktop Free. Không
+Spark/DAG trigger, không Raw/Silver reads, không Docker service/API/database mới.
 
-Streamlit phù hợp đề xuất này vì có data cache với TTL/entry limits; Dash dùng
-callbacks rõ ràng và phù hợp nếu cần tương tác phức tạp hơn. Chọn Streamlit cho MVP
-là **quyết định thiết kế đề xuất**, không phải kết quả benchmark. Tham chiếu chính thức:
-[Streamlit caching](https://docs.streamlit.io/develop/concepts/architecture/caching),
-[Dash callbacks](https://dash.plotly.com/basic-callbacks).
-
-MVP đầu: (1) publication/coverage, (2) NSO quantity trends theo source table/season,
-(3) FAO production/area/computed yield, (4) một domestic quote hoặc WB benchmark
-price series. SUA/PSD là trang tiếp theo; Trade chỉ mở sau bounded-query benchmark.
+Hai report pages đầu: **Tổng quan chín facts** và **Sản xuất lúa Việt Nam** (V06.12
+annual/seasonal, V06.14 reported yield riêng). Source-scoped NSO identity, units,
+NULL/zero/presence và calendar-aware metrics phải giữ nguyên. Các exports FAO,
+prices, Trade, SUA, PSD chỉ là [roadmap](../powerbi/README.md#roadmap-sau-hai-trang-đầu).
 
 Chưa hỗ trợ: official provincial choropleth/63→34 transitions, universal geographic
 hoặc product conformance, USDA-name→FAO-M49 joins, automatic paddy/milled conversion,
 FX conversion/price-level comparison khác tiền, global trade totals từ mirrored flows,
 monthly interpolation, causal conclusions, release-vintage/PIT forecasting.
 
-**Next task cụ thể:** implement 3–4 allowlisted Analytics queries và CLI read gate,
-tests unpublished/writer-active/tampered hash/invalid parameters/snapshot mismatch,
-full-data aggregate correctness và bounded-cost profile. Chỉ sau acceptance đó mới
-thêm Streamlit UI. Portability/second-laptop acceptance vẫn do teammate phụ trách.
+**Next task cụ thể:** owner dựng/lưu/Refresh hai trang PBIX từ cùng verified bundle,
+đối chiếu DAX/KPI với manifest/EDA reference; không khôi phục Streamlit. Python CSV
+acceptance không thay thế Desktop report acceptance. Portability/second-laptop
+acceptance vẫn do teammate phụ trách.

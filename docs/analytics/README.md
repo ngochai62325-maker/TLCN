@@ -1,5 +1,7 @@
 # Jupyter EDA — Analytics Phase 01
 
+> Reporting hiện hành (27/10/2026): **Power BI Desktop Free + published-Gold CSV Import**; Streamlit đã ngừng. [Exporter/schema](../powerbi/README.md), [hướng dẫn Desktop](../powerbi/POWER_BI_DESKTOP_GUIDE.md). Các EDA notebooks/findings/acceptance dưới đây được giữ nguyên làm evidence; không phải report PBIX đã được tạo.
+
 Đọc [EDA_FINDINGS](EDA_FINDINGS.md) để xem measured insights và Dashboard plan;
 [EDA_ACCEPTANCE](EDA_ACCEPTANCE.json) ghi execution/performance. Sáu notebooks tại
 [notebooks/analytics](../../notebooks/analytics/) độc lập; các notebooks cũ trong

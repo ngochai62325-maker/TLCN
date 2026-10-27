@@ -1,5 +1,13 @@
 # TLCN Rice Lakehouse — Project Status
 
+## Reporting migration — 27/10/2026
+
+Owner chọn **Power BI Desktop Free**, Streamlit đã ngừng. UI source/tests/dependencies/validator riêng đã gỡ; [archive](../dashboard/archive/README.md) không phải hệ thống active. Gold và EDA giữ nguyên; [CSV exporter](../powerbi/README.md) có fixed schema, presence flags, exact reconciliation và final publication fence. Current migration acceptance được cập nhật trong Power BI README; `.pbix` chưa được tạo hoặc kiểm thử trong Desktop.
+
+**Current result: POWERBI_EXPORT_VERIFIED / REPORT_AUTHORING_PENDING.** Bốn CSV thực có 9 / 35 / 105 / 30 rows, offline verifier và final fence PASS. Unit suite **557 PASS**, không failures/skips; 51 UI tests gỡ theo scope và 35 exporter tests mới, không phải mất 51 regressions. Đủ 36 physical identities/files, publication/semantic hashes, mọi pipeline DagRuns và protected source hashes giữ nguyên; bốn bounded published consumers PASS. Source/code Gold và historical EDA evidence không đổi. [Acceptance](../powerbi/acceptance.json).
+
+Git baseline `feat(gold)@712d00ffdce5c5a4689b8506e08d0fa8f261a43d`; working tree Dashboard và bản proposal Power BI của owner được kiểm tra trước cleanup, root proposal giữ nguyên. Test count UI cũ không còn là yêu cầu regression: 51 Streamlit-only tests đã xóa; tests Analytics/Gold và exporter thay thế được báo riêng trong acceptance. Không commit/push/pull/merge/rebase. Các sections dưới là lịch sử foundation/G12/audit, giới hạn correctness/withdrawal của foundation vẫn có hiệu lực.
+
 ## Current foundation status — 27/10/2026
 
 **FOUNDATION_READY_WITH_LIMITATIONS**, baseline `feat(gold)@4bccf05ef1ba91f58d94df141cbbe6b97a28a6f4`. Xem [acceptance/evidence](../foundation/ACCEPTANCE.md).
