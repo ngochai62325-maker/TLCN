@@ -21,7 +21,7 @@ class MetadataRepository:
         with open(sql_path, 'r') as f:
             sql = f.read()
             
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor() as cur:
                 cur.execute(sql)
             conn.commit()
@@ -73,10 +73,10 @@ class MetadataRepository:
 
     def create_run(self, run_id: str, source_id: str, load_type: str, started_at: Any) -> None:
         query = """
-            INSERT INTO ingestion.ingestion_runs (run_id, source_id, load_type, started_at)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO ingestion.ingestion_runs (run_id, source_id, load_type, started_at, source_metadata)
+            VALUES (%s, %s, %s, %s, '{"protocol":"foundation-20261026.1","physical_write_started":false}'::jsonb)
         """
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor() as cur:
                 cur.execute(query, (run_id, source_id, load_type, started_at))
             conn.commit()
@@ -92,17 +92,20 @@ class MetadataRepository:
             SET status = %s, records_extracted = %s, records_quarantined = %s,
                 chunks_processed = %s, chunks_total = %s, completed_at = %s,
                 artifact_uri = %s, manifest_uri = %s, checksum = %s,
-                error_message = %s, error_type = %s, source_metadata = %s
+                error_message = %s, error_type = %s,
+                source_metadata = coalesce(source_metadata,'{}'::jsonb) || coalesce(%s::jsonb,'{}'::jsonb)
             WHERE run_id = %s
         """
         meta_json = json.dumps(source_metadata) if source_metadata else None
         
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor() as cur:
                 cur.execute(query, (status, records_extracted, records_quarantined,
                                   chunks_processed, chunks_total, completed_at,
                                   artifact_uri, manifest_uri, checksum,
                                   error_message, error_type, meta_json, run_id))
+                if cur.rowcount != 1:
+                    raise RuntimeError("Run completion did not update exactly one persisted run")
             conn.commit()
 
     def get_pending_silver_run(self, source_id: str) -> Optional[Dict[str, Any]]:
@@ -118,7 +121,7 @@ class MetadataRepository:
             ORDER BY started_at ASC
             LIMIT 1
         """
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute(query, (source_id,))
                 row = cur.fetchone()
@@ -131,26 +134,59 @@ class MetadataRepository:
             SET source_metadata = COALESCE(source_metadata, '{}'::jsonb) || jsonb_build_object('silver_status', %s)
             WHERE run_id = %s
         """
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor() as cur:
                 cur.execute(query, (status, run_id))
             conn.commit()
 
     def get_run(self, run_id: str) -> Optional[Dict[str, Any]]:
         query = "SELECT * FROM ingestion.ingestion_runs WHERE run_id = %s"
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute(query, (run_id,))
                 row = cur.fetchone()
                 return dict(row) if row else None
 
-    def get_latest_run(self, source_id: str) -> Optional[Dict[str, Any]]:
-        query = "SELECT * FROM ingestion.ingestion_runs WHERE source_id = %s ORDER BY started_at DESC LIMIT 1"
-        with self._get_connection() as conn:
+    def get_latest_run(self, source_id: str, exclude_run_id: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        query = "SELECT * FROM ingestion.ingestion_runs WHERE source_id = %s AND (%s IS NULL OR run_id <> %s) ORDER BY started_at DESC LIMIT 1"
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute(query, (source_id,))
+                cur.execute(query, (source_id, exclude_run_id, exclude_run_id))
                 row = cur.fetchone()
                 return dict(row) if row else None
+
+    def save_batch_commit(self, run_id: str, metadata: Dict[str, Any]) -> None:
+        with contextlib.closing(self._get_connection()) as conn:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute("""UPDATE ingestion.ingestion_runs
+                        SET source_metadata=coalesce(source_metadata,'{}'::jsonb) || jsonb_build_object('batch_commit',%s::jsonb)
+                        WHERE run_id=%s AND status='IN_PROGRESS'""", (json.dumps(metadata), run_id))
+                    if cur.rowcount != 1:
+                        raise RuntimeError("No IN_PROGRESS run for durable batch commit evidence")
+
+    def save_input_context(self, run_id: str, context: Dict[str, Any]) -> None:
+        """Durably bind source bytes/layout to physical identity BEFORE any chunk write."""
+        with contextlib.closing(self._get_connection()) as conn:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute("""UPDATE ingestion.ingestion_runs
+                        SET source_metadata=coalesce(source_metadata,'{}'::jsonb) || jsonb_build_object('input_context',%s::jsonb)
+                        WHERE run_id=%s AND status='IN_PROGRESS'
+                        AND (source_metadata->'input_context' IS NULL OR source_metadata->'input_context'=%s::jsonb)""",
+                        (json.dumps(context), run_id, json.dumps(context)))
+                    if cur.rowcount != 1:
+                        raise RuntimeError("Missing run or conflicting immutable input context")
+
+    def mark_physical_write_started(self, run_id: str) -> None:
+        with contextlib.closing(self._get_connection()) as conn:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute("""UPDATE ingestion.ingestion_runs SET source_metadata=jsonb_set(
+                        source_metadata,'{physical_write_started}','true'::jsonb)
+                        WHERE run_id=%s AND status='IN_PROGRESS' AND source_metadata->'input_context' IS NOT NULL""", (run_id,))
+                    if cur.rowcount != 1:
+                        raise RuntimeError("No durable input context; physical write forbidden")
 
     def save_snapshot(self, source_id: str, checksum: str, size_bytes: int, 
                      retrieved_at: Any, run_id: str, status: str, 
@@ -161,7 +197,7 @@ class MetadataRepository:
             (source_id, checksum, size_bytes, retrieved_at, run_id, status, source_uri, etag, last_modified)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id
         """
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor() as cur:
                 cur.execute(query, (source_id, checksum, size_bytes, retrieved_at, run_id, status, source_uri, etag, last_modified))
                 snap_id = cur.fetchone()[0]
@@ -170,15 +206,15 @@ class MetadataRepository:
 
     def get_latest_snapshot(self, source_id: str, status: str = 'SUCCESS') -> Optional[Dict[str, Any]]:
         query = "SELECT * FROM ingestion.source_snapshots WHERE source_id = %s AND status = %s ORDER BY retrieved_at DESC LIMIT 1"
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute(query, (source_id, status))
                 row = cur.fetchone()
                 return dict(row) if row else None
                 
     def find_snapshot_by_checksum(self, source_id: str, checksum: str) -> Optional[Dict[str, Any]]:
-        query = "SELECT * FROM ingestion.source_snapshots WHERE source_id = %s AND checksum = %s LIMIT 1"
-        with self._get_connection() as conn:
+        query = "SELECT * FROM ingestion.source_snapshots WHERE source_id = %s AND checksum = %s AND status = 'SUCCESS' ORDER BY retrieved_at DESC LIMIT 1"
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute(query, (source_id, checksum))
                 row = cur.fetchone()
@@ -196,21 +232,21 @@ class MetadataRepository:
             DO UPDATE SET status = EXCLUDED.status, checksum = EXCLUDED.checksum, 
                           error_message = EXCLUDED.error_message, updated_at = NOW()
         """
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor() as cur:
                 cur.execute(query, (source_id, run_id, batch_id, chunk_id, chunk_key, row_start, row_end, status, checksum, error_message))
             conn.commit()
 
     def get_checkpoints(self, source_id: str, run_id: str) -> List[Dict[str, Any]]:
         query = "SELECT * FROM ingestion.ingestion_checkpoints WHERE source_id = %s AND run_id = %s ORDER BY chunk_id ASC"
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute(query, (source_id, run_id))
                 return [dict(row) for row in cur.fetchall()]
 
     def get_last_successful_checkpoint(self, source_id: str, run_id: str) -> Optional[Dict[str, Any]]:
         query = "SELECT * FROM ingestion.ingestion_checkpoints WHERE source_id = %s AND run_id = %s AND status = 'SUCCESS' ORDER BY chunk_id DESC LIMIT 1"
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute(query, (source_id, run_id))
                 row = cur.fetchone()
@@ -218,14 +254,14 @@ class MetadataRepository:
 
     def clear_checkpoints(self, source_id: str, run_id: str) -> None:
         query = "DELETE FROM ingestion.ingestion_checkpoints WHERE source_id = %s AND run_id = %s"
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor() as cur:
                 cur.execute(query, (source_id, run_id))
             conn.commit()
 
     def get_watermark(self, source_id: str) -> Optional[Dict[str, Any]]:
         query = "SELECT * FROM ingestion.source_watermarks WHERE source_id = %s"
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute(query, (source_id,))
                 row = cur.fetchone()
@@ -239,7 +275,7 @@ class MetadataRepository:
             DO UPDATE SET watermark_value = EXCLUDED.watermark_value, last_run_id = EXCLUDED.last_run_id,
                           last_batch_id = EXCLUDED.last_batch_id, status = EXCLUDED.status, updated_at = NOW()
         """
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor() as cur:
                 cur.execute(query, (source_id, watermark_value, run_id, batch_id, status))
             conn.commit()
@@ -256,10 +292,37 @@ class MetadataRepository:
         """
         r_data = json.dumps(record_data) if record_data else None
         
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor() as cur:
                 cur.execute(query, (run_id, batch_id, source_id, chunk_id, error_type, error_code, error_message, stage, r_data, quarantine_uri, retryable))
             conn.commit()
+
+    def persist_quarantine_diagnostic(self, diagnostic: Dict[str, Any]) -> int:
+        """Commit/read back one diagnostic, serializing identical retries without DDL."""
+        identity = diagnostic["diagnostic_id"]
+        with contextlib.closing(self._get_connection()) as conn:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT pg_advisory_xact_lock(%s)", (self._derive_lock_key("diagnostic:" + identity),))
+                    cur.execute("SELECT id FROM ingestion.dead_letter_records WHERE record_data->>'diagnostic_id'=%s", (identity,))
+                    rows = cur.fetchall()
+                    if len(rows) > 1:
+                        raise RuntimeError("Duplicate diagnostic identities in dead-letter store")
+                    if rows:
+                        record_id = rows[0][0]
+                    else:
+                        cur.execute("""INSERT INTO ingestion.dead_letter_records
+                            (run_id,batch_id,source_id,error_type,error_code,error_message,stage,record_data,retryable)
+                            VALUES (%s,%s,%s,%s,%s,%s,'BRONZE_VALIDATION',%s,FALSE) RETURNING id""",
+                            (diagnostic["run_id"], diagnostic["batch_id"], diagnostic["source_id"],
+                             diagnostic["error_type"], diagnostic["error_type"], diagnostic["error_message"], json.dumps(diagnostic)))
+                        record_id = cur.fetchone()[0]
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT record_data->>'diagnostic_id' FROM ingestion.dead_letter_records WHERE id=%s", (record_id,))
+                    if cur.fetchone() != (identity,):
+                        raise RuntimeError("Diagnostic commit readback failed")
+            return record_id
 
     def get_dead_letters(self, source_id: Optional[str] = None, run_id: Optional[str] = None) -> List[Dict[str, Any]]:
         conditions = []
@@ -274,7 +337,7 @@ class MetadataRepository:
         where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
         query = f"SELECT * FROM ingestion.dead_letter_records {where_clause}"
         
-        with self._get_connection() as conn:
+        with contextlib.closing(self._get_connection()) as connection, connection as conn:
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 cur.execute(query, tuple(params))
                 return [dict(row) for row in cur.fetchall()]

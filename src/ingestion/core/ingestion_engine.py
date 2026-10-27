@@ -96,7 +96,7 @@ class IngestionEngine:
             with self.metadata_repo.source_lock(source_id):
                 config = self.registry.get_source(source_id)
 
-                # Record run start in metadata DB (best-effort)
+                # Durable run start is required before any ingestion side effect.
                 self._record_run_start(run_id, source_id, config.load_strategy.value, now)
 
                 adapter = self._resolve_adapter(config)
@@ -147,7 +147,10 @@ class IngestionEngine:
                 error_message=str(exc),
                 error_type=error_type.value,
             )
-            self._record_run_end(run_id, failed_result)
+            try:
+                self._record_run_end(run_id, failed_result)
+            except Exception:
+                logger.error("Failed to persist FAILED outcome; no successful proof may be issued")
             return failed_result
 
     def run_with_readiness_check(self, source_id: str, **kwargs: Any) -> IngestionResult:
@@ -207,14 +210,10 @@ class IngestionEngine:
         raise ValueError(f"Unsupported load strategy: {config.load_strategy}")
 
     def _record_run_start(self, run_id: str, source_id: str, load_type: str, started_at: datetime) -> None:
-        try:
-            self.metadata_repo.create_run(run_id, source_id, load_type, started_at.isoformat())
-        except Exception:
-            pass  # metadata recording is best-effort; do not block ingestion
+        self.metadata_repo.create_run(run_id, source_id, load_type, started_at.isoformat())
 
     def _record_run_end(self, run_id: str, result: IngestionResult) -> None:
-        try:
-            self.metadata_repo.complete_run(
+        self.metadata_repo.complete_run(
                 run_id=run_id,
                 status=result.status.value if isinstance(result.status, IngestionStatus) else str(result.status),
                 records_extracted=result.records_extracted,
@@ -228,6 +227,4 @@ class IngestionEngine:
                 error_message=result.error_message,
                 error_type=result.error_type,
                 source_metadata=result.source_metadata,
-            )
-        except Exception:
-            pass  # best-effort
+        )

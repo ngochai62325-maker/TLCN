@@ -1,5 +1,22 @@
 # TLCN Rice Lakehouse — Project Status
 
+## Current foundation status — 27/10/2026
+
+**FOUNDATION_READY_WITH_LIMITATIONS**, baseline `feat(gold)@4bccf05ef1ba91f58d94df141cbbe6b97a28a6f4`. Xem [acceptance/evidence](../foundation/ACCEPTANCE.md).
+
+| Phase | Current result | Acceptance scope |
+|---|---|---|
+| H01 | COMPLETE_VERIFIED | Durable honest PG diagnostics; invalid input không ghi Bronze; retry dedup và physical readback |
+| H02 | COMPLETE_VERIFIED | NSO current contract verifier + 23.060 retained rows read-only; warnings/unknown policy bảo toàn |
+| H03 | COMPLETE_VERIFIED_WITH_LIMITATIONS | 490 unit PASS, cả Spark 3.5.5 Python API overlay; runtime collection opt-in; CLI imports PASS; chưa chạy fresh-venv install |
+| H04 | COMPLETE_VERIFIED_WITH_LIMITATIONS | Exact immutable chunks, durable context/metadata, safe known-commit recovery; selected physical fixtures + failure-injection mocks, không mọi process-kill scenario |
+| H05 | COMPLETE_VERIFIED_WITH_LIMITATIONS | 9 contracts/Raw manifest/pinned Silver audit PASS; owned integration PASS; không FULL replay chín real targets trên code mới |
+| H09-PREP | COMPLETE | [Readiness](../analytics/ANALYTICS_READINESS.md), chưa code Dashboard |
+
+17 Gold tables/manifest/code+refs/semantic hashes không đổi; 4 consumers PASS; hai Gold DagRuns SUCCESS cũ giữ nguyên. Không chạy Gold lại hoặc dùng fixture tests thay Gold E2E. 36 existing table metadata/file identities được so trước/sau, gồm fixture Bronze cũ. Tests: 490 unit; 28 Spark/Iceberg; 9 Trino; 12 Airflow imports; 6 owned REST/PG tests, không unresolved failures trong selected final suites.
+
+Remaining limits: atomicity per chunk; unsupported external writers; legacy/incompatible recovery context và unresolved UNKNOWN_COMMIT cần operator readback; withdrawals/cross-provider conformance chưa được duyệt. Resource gate hiện không đủ (Windows 0,62 GiB, yêu cầu >=2 GiB), đã dừng workload runtime. Không có correctness blocker đang tái hiện trong accepted scope. Portability do teammate phụ trách. Phần audit 23/10 bên dưới giữ nguyên như evidence lịch sử.
+
 > **Final G12 26/10/2026: GOLD_MVP_COMPLETE.** 17 physical tables / 1.414.527 fact observations, 9-source exact reconciliation, DQ01–18, 4 full-scope semantic SQL queries, immutable publication/readback và consumers PASS. `manual__gold_g12_20261026_01` và `manual__gold_g12_noop_20261026_01` đều 16/16 SUCCESS; formal replay 36,07 phút giữ nguyên 17 UUID/snapshot/metadata/file sets và manifest hash. Full Trade 156 partitions / 1.226.470 observations / 526.986 groups, zero differences, Trino 448/512 MiB. Historical failed runs giữ FAILED; external Docker interruption được recover bằng standard Airflow task resume sau actual metadata/RAM checks. Không upgrade/reset/migrate hoặc sửa/trigger Bronze–Silver. [VALIDATION](../gold/VALIDATION.md), [evidence](../gold/runtime_acceptance.json), [demo/recovery](../gold/IMPLEMENTATION.md). Body 23/10 là lịch sử; H01–H05/official geo/FX/ML ngoài MVP không tự đóng.
 
 Audit ngày **2026-10-23**, timezone **Asia/Bangkok (UTC+07)**; mốc ghi nhận baseline **19:42 +07**. Branch `main`, HEAD `1bb662c49cac2f82af14ce4b5c9a5d909c2a0e05`. Phạm vi: Git, static source/config, lightweight tests và read-only probes. Không start/build/reset Docker, trigger DAG hay ghi Iceberg/MinIO/PostgreSQL. [Kiến trúc và vận hành](PROJECT_CONTEXT.md) · [Backlog](NEXT_STEPS.md).

@@ -1,162 +1,107 @@
-import pytest
-import pandas as pd
+"""Stateful exact readback tests: no live catalog or JVM, no SQL fallback."""
+from types import SimpleNamespace
+from decimal import Decimal
 from unittest.mock import MagicMock
-from ingestion.storage.bronze_writer import BronzeIcebergWriter, TECHNICAL_METADATA_COLUMNS
+
+import pandas as pd
+import pyarrow as pa
+import pytest
+
+from ingestion.storage.bronze_writer import BronzeIcebergWriter
+
+
+class Catalog:
+    def __init__(self, expected, fail=None):
+        self.expected = expected
+        self.rows = expected.slice(0, 0)
+        self.fail = fail
+        self.commits = 0
+        self.reads = 0
+
+    def load_table(self, name):
+        self.reads += 1
+        if self.fail == "readback" and self.commits:
+            raise OSError("catalog down")
+        return self
+
+    def current_snapshot(self):
+        return SimpleNamespace(snapshot_id=self.commits or None)
+
+    def scan(self, **kwargs):
+        return SimpleNamespace(to_arrow=lambda: self.rows)
+
+    def append(self, rows):
+        self.commits += 1
+        if self.fail == "before":
+            raise OSError("before commit")
+        self.rows = rows if self.fail != "partial" else rows.slice(0, 1)
+        if self.fail == "lost_response":
+            raise TimeoutError("response lost after commit")
+
 
 @pytest.fixture
-def chunk_df():
-    return pd.DataFrame({
-        "business_key": [1, 2, 3],
-        "data_value": ["A", "B", "C"]
-    })
+def proposed():
+    return pa.table({"_ingestion_run_id": ["r"] * 3, "_ingestion_chunk_id": [0] * 3,
+                     "_source_checksum": ["checksum"] * 3,
+                     "value": pa.array([Decimal("-0.0123"), None, Decimal("0")], type=pa.decimal128(18, 4)),
+                     "_ingestion_timestamp": ["old"] * 3})
 
-@pytest.fixture
-def chunk_df_alt():
-    return pd.DataFrame({
-        "business_key": [1, 2, 3],
-        "data_value": ["X", "Y", "Z"]
-    })
 
-def test_first_write_empty_delete(chunk_df):
-    """Test 1 & 6: First write executes an empty delete."""
+def test_one_append_then_exact_physical_noop(proposed):
+    catalog = Catalog(proposed)
     writer = BronzeIcebergWriter()
-    writer.ensure_table = MagicMock(return_value="iceberg.bronze.test_src")
-    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
-    writer._dataframe_to_arrow = MagicMock()
-    
-    catalog_mock = MagicMock()
-    table_mock = MagicMock()
-    catalog_mock.load_table.return_value = table_mock
-    writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)
-    
-    rows = writer.write_chunk(
-        source_id="test_src",
-        chunk_df=chunk_df,
-        run_id="run_1",
-        batch_id="batch_1",
-        source_checksum="chk",
-        chunk_id=0
-    )
-    
-    assert rows == 3
-    # Check that DELETE was executed
-    writer.execute_query.assert_any_call(
-        "DELETE FROM iceberg.bronze.test_src WHERE _ingestion_run_id = 'run_1' AND _ingestion_chunk_id = 0"
-    )
-    # Check that append was executed
-    table_mock.append.assert_called_once()
+    assert writer._commit_chunk(catalog, "owned.table", proposed, "r", 0) == 3
+    changed_time = proposed.set_column(4, "_ingestion_timestamp", pa.array(["new"] * 3))
+    assert writer._commit_chunk(catalog, "owned.table", changed_time, "r", 0) == 3
+    assert catalog.commits == 1
 
-def test_retry_same_chunk(chunk_df):
-    """Test 2 & 5: Retry same chunk (same run, same chunk_id, different data)."""
-    writer = BronzeIcebergWriter()
-    writer.ensure_table = MagicMock(return_value="iceberg.bronze.test_src")
-    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
-    writer._dataframe_to_arrow = MagicMock()
-    
-    catalog_mock = MagicMock()
-    table_mock = MagicMock()
-    catalog_mock.load_table.return_value = table_mock
-    writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)
-    
-    # Write A
-    writer.write_chunk(
-        source_id="test_src",
-        chunk_df=chunk_df,
-        run_id="run_1",
-        batch_id="batch_1",
-        source_checksum="chk",
-        chunk_id=3
-    )
-    
-    # Write B
-    chunk_df_alt = pd.DataFrame({"business_key": [4], "data_value": ["D"]})
-    writer.write_chunk(
-        source_id="test_src",
-        chunk_df=chunk_df_alt,
-        run_id="run_1",
-        batch_id="batch_1",
-        source_checksum="chk",
-        chunk_id=3
-    )
-    
-    # DELETE should be called twice with the same predicate
-    delete_sql = "DELETE FROM iceberg.bronze.test_src WHERE _ingestion_run_id = 'run_1' AND _ingestion_chunk_id = 3"
-    assert [c.args[0] for c in writer.execute_query.call_args_list if c.args[0].startswith("DELETE")] == [delete_sql, delete_sql]
-    
-    # Append should be called twice
-    assert table_mock.append.call_count == 2
-    
-def test_different_chunks(chunk_df):
-    """Test 3: Different chunks have distinct predicates."""
-    writer = BronzeIcebergWriter()
-    writer.ensure_table = MagicMock(return_value="iceberg.bronze.test_src")
-    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
-    writer._dataframe_to_arrow = MagicMock()
-    
-    catalog_mock = MagicMock()
-    table_mock = MagicMock()
-    catalog_mock.load_table.return_value = table_mock
-    writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)
-    
-    writer.write_chunk(source_id="test_src", chunk_df=chunk_df, run_id="run_1", batch_id="batch_1", source_checksum="chk", chunk_id=1)
-    writer.write_chunk(source_id="test_src", chunk_df=chunk_df, run_id="run_1", batch_id="batch_1", source_checksum="chk", chunk_id=2)
-    
-    delete_1 = "DELETE FROM iceberg.bronze.test_src WHERE _ingestion_run_id = 'run_1' AND _ingestion_chunk_id = 1"
-    delete_2 = "DELETE FROM iceberg.bronze.test_src WHERE _ingestion_run_id = 'run_1' AND _ingestion_chunk_id = 2"
-    
-    writer.execute_query.assert_any_call(delete_1)
-    writer.execute_query.assert_any_call(delete_2)
 
-def test_different_runs(chunk_df):
-    """Test 4: Different runs have distinct predicates."""
-    writer = BronzeIcebergWriter()
-    writer.ensure_table = MagicMock(return_value="iceberg.bronze.test_src")
-    writer.execute_query = MagicMock(return_value=([], [[c, "VARCHAR"] for c in ["business_key", "data_value", "id", *TECHNICAL_METADATA_COLUMNS]]))
-    writer._dataframe_to_arrow = MagicMock()
-    
-    catalog_mock = MagicMock()
-    table_mock = MagicMock()
-    catalog_mock.load_table.return_value = table_mock
-    writer.get_iceberg_catalog = MagicMock(return_value=catalog_mock)
-    
-    writer.write_chunk(source_id="test_src", chunk_df=chunk_df, run_id="run_A", batch_id="batch_1", source_checksum="chk", chunk_id=0)
-    writer.write_chunk(source_id="test_src", chunk_df=chunk_df, run_id="run_B", batch_id="batch_1", source_checksum="chk", chunk_id=0)
-    
-    delete_A = "DELETE FROM iceberg.bronze.test_src WHERE _ingestion_run_id = 'run_A' AND _ingestion_chunk_id = 0"
-    delete_B = "DELETE FROM iceberg.bronze.test_src WHERE _ingestion_run_id = 'run_B' AND _ingestion_chunk_id = 0"
-    
-    writer.execute_query.assert_any_call(delete_A)
-    writer.execute_query.assert_any_call(delete_B)
+def test_lost_response_is_recovered_only_by_fresh_exact_readback(proposed):
+    catalog = Catalog(proposed, "lost_response")
+    assert BronzeIcebergWriter()._commit_chunk(catalog, "owned.table", proposed, "r", 0) == 3
+    assert catalog.commits == 1 and catalog.reads == 2
 
-def test_invalid_identity(chunk_df):
-    """Test 7: Fail fast on invalid identities."""
-    writer = BronzeIcebergWriter()
-    
-    with pytest.raises(ValueError, match="is missing or empty"):
-        writer.write_chunk(source_id="test_src", chunk_df=chunk_df, run_id="", batch_id="batch_1", source_checksum="chk", chunk_id=0)
-        
-    with pytest.raises(TypeError, match="must be an integer"):
-        writer.write_chunk(source_id="test_src", chunk_df=chunk_df, run_id="r1", batch_id="b1", source_checksum="chk", chunk_id="abc")
-        
-    with pytest.raises(ValueError, match="cannot be negative"):
-        writer.write_chunk(source_id="test_src", chunk_df=chunk_df, run_id="r1", batch_id="b1", source_checksum="chk", chunk_id=-1)
 
-def test_writer_failure_delete_rollback(chunk_df):
-    """Test 8: Writer failure injects a RuntimeError if DELETE fails."""
+@pytest.mark.parametrize("failure", ["before", "partial", "readback"])
+def test_unknown_outcome_never_falls_back_or_reports_success(proposed, failure):
+    catalog = Catalog(proposed, failure)
+    with pytest.raises(RuntimeError, match="UNKNOWN_COMMIT"):
+        BronzeIcebergWriter()._commit_chunk(catalog, "owned.table", proposed, "r", 0)
+    assert catalog.commits == 1
+
+
+@pytest.mark.parametrize("change", ["checksum", "value", "missing", "duplicate"])
+def test_conflicting_or_partial_chunk_preserved_without_delete(proposed, change):
+    catalog = Catalog(proposed)
+    if change == "checksum":
+        catalog.rows = proposed.set_column(2, "_source_checksum", pa.array(["changed"] * 3))
+    elif change == "value":
+        catalog.rows = proposed.set_column(3, "value", pa.array([Decimal("1"), None, Decimal("0")], type=pa.decimal128(18, 4)))
+    elif change == "missing":
+        catalog.rows = proposed.slice(0, 1)
+    else:
+        catalog.rows = pa.concat_tables([proposed, proposed.slice(0, 1)])
+    original = catalog.rows
+    with pytest.raises(RuntimeError, match="RECOVERY_REQUIRED"):
+        BronzeIcebergWriter()._commit_chunk(catalog, "owned.table", proposed, "r", 0)
+    assert catalog.commits == 0 and catalog.rows.equals(original)
+
+
+def test_invalid_identity_before_catalog_or_mutation():
     writer = BronzeIcebergWriter()
-    writer.ensure_table = MagicMock(return_value="iceberg.bronze.test_src")
-    def query(sql):
-        if sql.startswith("DESCRIBE"):
-            return [], [[c, "VARCHAR"] for c in ["business_key", "data_value", *TECHNICAL_METADATA_COLUMNS]]
-        raise RuntimeError("Trino network error")
-    writer.execute_query = MagicMock(side_effect=query)
-    
-    with pytest.raises(RuntimeError, match="Idempotency failure: could not delete existing chunk"):
-        writer.write_chunk(
-            source_id="test_src",
-            chunk_df=chunk_df,
-            run_id="run_1",
-            batch_id="batch_1",
-            source_checksum="chk",
-            chunk_id=0
-        )
+    frame = pd.DataFrame({"value": [1]})
+    for run, chunk, error in [("", 0, ValueError), ("r", -1, ValueError), ("r", "abc", TypeError)]:
+        with pytest.raises(error):
+            writer.write_chunk("test", frame, run, "batch", "checksum", chunk)
+
+
+def test_no_native_catalog_fails_before_any_delete_or_insert():
+    writer = BronzeIcebergWriter()
+    writer.ensure_table = MagicMock(return_value="iceberg.owned.table")
+    writer.execute_query = MagicMock(return_value=([], [[c, "varchar"] for c in [
+        "value", "_ingestion_run_id", "_ingestion_batch_id", "_ingestion_chunk_id", "_ingestion_timestamp",
+        "_source_id", "_source_file", "_source_checksum", "_source_snapshot_id"]]))
+    writer.get_iceberg_catalog = lambda: None
+    with pytest.raises(RuntimeError, match="unsafe"):
+        writer.write_chunk("test", pd.DataFrame({"value": ["raw"]}), "r", "b", "sha", 0)
+    assert all(c.args[0].startswith("DESCRIBE") for c in writer.execute_query.call_args_list)

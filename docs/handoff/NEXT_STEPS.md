@@ -1,5 +1,17 @@
 # TLCN Rice Lakehouse — Next Steps
 
+## Current next steps — 27/10/2026
+
+Baseline `feat(gold)@4bccf05ef1ba91f58d94df141cbbe6b97a28a6f4`; H01–H05 đã triển khai và nghiệm thu theo [scope/limitations](../foundation/ACCEPTANCE.md). Không reimplement các findings lịch sử bên dưới nếu chưa đối chiếu code mới.
+
+1. Giải phóng RAM trước workload mới: sample cuối Windows 0,62 GiB < gate 2 GiB. Không tăng heap/reset stack để vượt gate.
+2. Review diff foundation, recovery policy và [Analytics Readiness](../analytics/ANALYTICS_READINESS.md). Legacy interrupted runs thiếu context/UNKNOWN_COMMIT cần explicit catalog/content recovery; không đổi status hoặc xóa rows để ép PASS. Source withdrawal policy vẫn giữ lịch sử/upsert, chưa duyệt broad deletes.
+3. Task Analytics đầu tiên: 3–4 fixed query definitions + CLI trong runner, allowlist/typed bounded parameters, `gold.consumer.read_window`, exact published snapshot bindings, batch/query hash/cache identity, query budgets và tests fail-closed. Consumer Gold hiện chỉ trả 20 sample rows; không dùng samples tính dashboard aggregates. Giữ bốn Gold SQL definitions và Gold fingerprint đã publish.
+4. Sau query acceptance mới thêm local Streamlit UI cho publication/coverage, NSO, FAO production/yield và một price series. Trade đợi benchmark theo reporter/product/year. Chưa thêm service/dependency/UI trong foundation task.
+5. Teammate tiếp tục second-laptop portability acceptance. Không tự takeover H07, không tự commit/push/pull/merge/rebase.
+
+Commands/môi trường test: [TESTING](../foundation/TESTING.md). Chín nguồn thật không bị FULL replay; selected owned integration/mocks không thay thế toàn bộ nine-source failure-recovery E2E. Các H01–H05/H06/H08 trạng thái cũ bên dưới thuộc baseline audit 23/10 và Gold history, được giữ để truy vết.
+
 > **Sau G12 26/10/2026: GOLD_MVP_COMPLETE.** Trade OOM blocker đã được loại khỏi actual acceptance workload: 156 exact partitions PASS trên 448/512 MiB; hai Gold runs SUCCESS, publication/consumers và formal NOOP 17/17 PASS. Không cần tiếp tục retry nghiệm thu. Next work khi owner giao: analytics/demo qua published consumer, operational hardening cho stop/start và resource admission, hoặc thiết kế reference/conformance/availability datasets cho expansion. Uncached full Trade validation ~51 phút; full Gold replay ~36 phút, runner chạm3 GiB có reclaim nhưng không OOM. Không tự tăng heap, nâng catalog, triển khai FX/geo/ML hay đóng H01–H05. Failed evidence và snapshots giữ nguyên. [VALIDATION](../gold/VALIDATION.md), [JSON](../gold/runtime_acceptance.json), [workflow](../gold/IMPLEMENTATION.md). Body backlog 23/10 là lịch sử, không phải current Gold readiness.
 
 Audit **2026-10-23, Asia/Bangkok**, baseline `main` / `1bb662c49cac2f82af14ce4b5c9a5d909c2a0e05`. Đọc [PROJECT_CONTEXT](PROJECT_CONTEXT.md) và [PROJECT_STATUS](PROJECT_STATUS.md) trước khi nhận việc. Backlog dưới đây là đề xuất triển khai sau audit; audit hiện tại chỉ tạo ba tài liệu, không sửa code/config/dữ liệu.

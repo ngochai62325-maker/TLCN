@@ -3,6 +3,13 @@ import pandas as pd
 from unittest.mock import MagicMock
 from ingestion.storage.bronze_writer import BronzeIcebergWriter, TECHNICAL_METADATA_COLUMNS
 
+
+@pytest.fixture(autouse=True)
+def isolate_commit_protocol(monkeypatch):
+    # This file tests metadata construction. Exact persistence/retry is exercised
+    # separately by stateful failure-injection and physical disposable fixtures.
+    monkeypatch.setattr(BronzeIcebergWriter, "_commit_chunk", lambda *args: 3)
+
 @pytest.fixture
 def chunk_df():
     return pd.DataFrame({

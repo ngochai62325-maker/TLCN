@@ -12,7 +12,10 @@ import re
 from pathlib import Path
 from datetime import datetime, timezone
 
-from run_all_silver import ROOT, datasets, selected_sources, source_lock
+if __package__:
+    from .run_all_silver import ROOT, datasets, selected_sources, source_lock
+else:
+    from run_all_silver import ROOT, datasets, selected_sources, source_lock
 from silver.audit import audit_tables, check_bronze
 from silver.core.spark_session import get_spark_session
 from silver.framework import SilverTransformationFramework, RELEASE_NAMESPACE, AUDIT_COLUMNS

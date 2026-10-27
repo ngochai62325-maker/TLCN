@@ -77,7 +77,7 @@ class FailingAdapter(BaseSourceAdapter):
             self.chunks_yielded += 1
             yield DataChunk(
                 chunk_id=i,
-                data=pd.DataFrame({"col": [i]}),
+                data=pd.DataFrame({"col": [i] * 10}),
                 row_start=i*10,
                 row_end=i*10+9,
                 record_count=10,
@@ -157,12 +157,19 @@ def test_scenario_b_and_e_chunk_write_failure_and_recovery():
     ckpt2.store = ckpt.store
     
     result2 = loader2.execute(config, "run_retry", "batch_retry", resume_from_run_id="run_fail")
+    assert result2.status == IngestionStatus.FAILED
+    assert "RECOVERY_REQUIRED" in result2.error_message
+    writer2.write_chunk.assert_not_called()
+
+    # An explicit retry of the SAME immutable run re-extracts every chunk and
+    # asks the writer to verify physical content; checkpoints alone cannot skip.
+    result2 = loader2.execute(config, "run_fail", "batch_b", resume_from_run_id="run_fail")
     assert result2.status == IngestionStatus.SUCCESS
     
     # Assert writer calls on retry
     # Should only process chunks 3 and 4!
     called_chunks = [call.kwargs['chunk_id'] for call in writer2.write_chunk.mock_calls]
-    assert called_chunks == [3, 4]
+    assert called_chunks == [1, 2, 3, 4]
     
     # Total records should be 40 (10*4) across the logical ingestion
     # Wait, the result.records_extracted will add the prior checkpoints
@@ -239,8 +246,7 @@ def test_scenario_d_watermark_safety_on_incremental_failure():
 
 def test_scenario_f_idempotent_retry_logic():
     """Scenario F: Bronze writer idempotent logical retry."""
-    # Test that write_chunk calls DELETE before APPEND.
-    # Phase 2 implementation handles this inside BronzeIcebergWriter.
+    # Unavailable native writer must not fall back to DELETE / SQL INSERT.
     from ingestion.storage.bronze_writer import BronzeIcebergWriter, TECHNICAL_METADATA_COLUMNS
     writer = BronzeIcebergWriter()
     writer.ensure_table = MagicMock()
@@ -249,13 +255,9 @@ def test_scenario_f_idempotent_retry_logic():
     writer._load_table = MagicMock() 
     
     df = pd.DataFrame({"col": [1]})
-    writer.write_chunk("test_f", df, "run_f", "batch_f", "chk", 1, source_file="a.csv")
-    
-    # Assert execute_query was called with DELETE
-    delete_call = next(c.args[0] for c in writer.execute_query.call_args_list if c.args[0].startswith("DELETE"))
-    assert "DELETE FROM" in delete_call
-    assert "_ingestion_run_id = 'run_f'" in delete_call
-    assert "_ingestion_chunk_id = 1" in delete_call
+    with pytest.raises(RuntimeError, match="unsafe"):
+        writer.write_chunk("test_f", df, "run_f", "batch_f", "chk", 1, source_file="a.csv")
+    assert all(c.args[0].startswith("DESCRIBE") for c in writer.execute_query.call_args_list)
 
 def test_scenario_i_exception_propagation():
     """Scenario I & J: Airflow orchestration propagates exceptions correctly."""

@@ -1,5 +1,17 @@
 # TLCN Rice Lakehouse — Project Context
 
+## Current foundation — 27/10/2026
+
+**FOUNDATION_READY_WITH_LIMITATIONS.** Baseline `feat(gold)@4bccf05ef1ba91f58d94df141cbbe6b97a28a6f4`, working tree sạch lúc bắt đầu. H01–H05 đã triển khai trong working tree, chưa commit/push. Báo cáo chính: [foundation acceptance](../foundation/ACCEPTANCE.md), [recovery/retention](../foundation/RECOVERY.md), [test environments](../foundation/TESTING.md).
+
+Quarantine diagnostics lưu/đọc lại PostgreSQL dead-letter ID; Raw không archive. Bronze dùng immutable chunk append + exact readback, durable input context, physical identity reuse khi recovery và fail-closed metadata/unknown commits. `_source_snapshot_id` mới NULL khi chưa biết PostgreSQL identity; Iceberg UUID/snapshot là proof riêng. FULL extraction vẫn là history/upsert, không xóa keys biến mất. Silver MERGE logic/contracts và Gold code/schema/SQL không đổi.
+
+490 unit tests PASS trên host và lặp lại với Spark 3.5.5 Python APIs; 28 Spark/Iceberg fixtures, 9 Trino fixtures, 12 Airflow DAG import tests và 6 owned REST/PG integration tests PASS. Chín Silver inputs: 1.414.527 rows, schema/key/DQ/lineage audit PASS. 36 bảng hiện hữu giữ UUID/snapshot/metadata/files; published Gold và bốn consumers PASS, không trigger DAG hoặc replay chín targets thật. Đây không phải physical crash acceptance cho mọi adapter.
+
+Python declaration hiện là 3.10–3.13 cho host unit; approved Spark JVM vẫn Python 3.10/Spark 3.5.5, Airflow image Python 3.11. Fresh-venv install chưa thực thi; host baseline có Spark 4.1.2 nên đã kiểm tra thêm bằng Python archives 3.5.5 mà không đổi global packages. Runtime resource sample cuối Windows available 0,62 GiB: chưa đủ gate 2 GiB để chạy workload mới.
+
+[Analytics Readiness](../analytics/ANALYTICS_READINESS.md) đã có; bước tiếp theo là allowlisted, snapshot-bound Analytics query CLI trước UI. Không có Dashboard/dependency/service mới. Teammate tiếp tục phụ trách portability/second-laptop. Các sections G12/23-10 bên dưới là lịch sử, không dùng để phủ nhận kết quả foundation mới.
+
 > **Cập nhật G12 26/10/2026: GOLD_MVP_COMPLETE — đọc trước audit lịch sử.** Gold `gold-20261025.1` có 8 physical dimensions/9 facts, 1.414.527 observations, 4 version-controlled semantic SQL queries. Hai manual Gold DagRuns SUCCESS; DQ01–18, 9-source exact reconciliation, publication/readback/consumers và formal NOOP 17/17 PASS. Full Trade 1986–2024: 156 partitions, zero exact differences. Giữ Trino 448/512 MiB/REST catalog; không native views, nâng/migrate/reset hoặc Bronze/Silver writes/triggers. Runtime evidence/giới hạn RAM/timeline external interruption tại [VALIDATION](../gold/VALIDATION.md), [JSON](../gold/runtime_acceptance.json), workflow tại [IMPLEMENTATION](../gold/IMPLEMENTATION.md). [Mapping](../gold/source_to_gold_mapping.csv) giữ 488 branches; 17 schemas/262 columns/40 logical FKs không đổi. Body 23/10 là lịch sử; H01–H05/official conformance/FX/ML không tự đóng.
 
 Audit: **2026-10-23, Asia/Bangkok (UTC+07)**. Baseline: `main`, HEAD `1bb662c49cac2f82af14ce4b5c9a5d909c2a0e05`. Tài liệu mô tả code tại HEAD này; không chứng nhận dữ liệu runtime. Đọc tiếp [trạng thái và bằng chứng](PROJECT_STATUS.md), rồi [backlog và prompt bàn giao](NEXT_STEPS.md).

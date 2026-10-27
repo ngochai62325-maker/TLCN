@@ -1,0 +1,1251 @@
+﻿{
+  "captured_at": "2026-10-27T02:41:41.185660+00:00",
+  "context": {
+    "code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+    "inputs": {
+      "faostat_monthly_price": {
+        "snapshot_id": "4111066513304943577",
+        "table": "iceberg.silver_local.faostat_monthly_price",
+        "uuid": "fdb60dcf-42d4-4d5d-845f-7d316be7b8d6"
+      },
+      "faostat_production": {
+        "snapshot_id": "4148714342754332207",
+        "table": "iceberg.silver_local.faostat_production",
+        "uuid": "1a77df77-5818-447e-8013-cc0b8373f7f1"
+      },
+      "faostat_supply_utilization": {
+        "snapshot_id": "8123855978320232066",
+        "table": "iceberg.silver_local.faostat_supply_utilization",
+        "uuid": "fba03ec7-0b17-4264-a5ba-37932eba3b7b"
+      },
+      "faostat_trade": {
+        "snapshot_id": "8505324700177525410",
+        "table": "iceberg.silver_local.faostat_trade",
+        "uuid": "875dab2c-6eaa-4e0a-91e1-82ed6a43ad75"
+      },
+      "nso": {
+        "snapshot_id": "139672476149787931",
+        "table": "iceberg.silver_local.nso_rice_statistics",
+        "uuid": "3fa9ef1e-24dc-4803-9ca9-7b123a7453b4"
+      },
+      "thitruongnongsan": {
+        "snapshot_id": "6096019421881505089",
+        "table": "iceberg.silver_local.thitruongnongsan",
+        "uuid": "231603f2-5d5a-493f-8bff-8c479ed52174"
+      },
+      "usda_psd": {
+        "snapshot_id": "7561675754441800451",
+        "table": "iceberg.silver_local.usda_rice_psd",
+        "uuid": "afd22c11-134e-4f9e-bb84-8695aaf2f82c"
+      },
+      "usda_rice_yearbook": {
+        "snapshot_id": "2558498974942784461",
+        "table": "iceberg.silver_local.usda_rice_yearbook",
+        "uuid": "12f9f1a7-030b-4b4f-99cf-6eb4a4b0357f"
+      },
+      "worldbank_pinksheet": {
+        "snapshot_id": "4338448473297469539",
+        "table": "iceberg.silver_local.worldbank_commodity_monthly",
+        "uuid": "f9a342d8-f3ee-4287-9966-f57b0672e2ab"
+      }
+    },
+    "model": "gold-20261025.1",
+    "reference_fingerprints": {
+      "config/ingestion/source_registry.yaml": "c8ae17ad7e5a538ef9a6e44427bc5ec2c443dc285788c34fb2275bd8acb7b1f3",
+      "contracts/silver/faostat_monthly_price.yaml": "3ea124204428f0b8168d9013e53ecca77c368f8e3b2262043c000c0d21ca781b",
+      "contracts/silver/faostat_production.yaml": "f36722ee085ee2af800e3ad7a80ddef76d47f0a0cd2e13d21b475f4ed04e96e1",
+      "contracts/silver/faostat_supply_utilization.yaml": "835fb126bb41ea966219b18a6f4295aa104851c6bbdd224ea31c5db70dd8fdff",
+      "contracts/silver/faostat_trade.yaml": "80d858386ab9d81ab50c5ac004189f2a2a5e49bed5b6daeb03c2edd398aa7e8b",
+      "contracts/silver/nso.yaml": "9246124b891138c18d851356a95d62b2fe177adb2c73df7968fb6d7e5ee0eb8b",
+      "contracts/silver/thitruongnongsan.yaml": "fddafa3e94a53dcc08986b647885a66a083e7c846f8c6559030684b365e46a25",
+      "contracts/silver/usda_psd.yaml": "2e92234590772f4aed1c9c22fad45e7ab485b26eb7e37eb0ccae1795c89ffb3c",
+      "contracts/silver/usda_rice_yearbook.yaml": "d7ce91e44a2872005d4f56a80abbaff01038f7d0dcaf6470d325ac0df57c9173",
+      "contracts/silver/worldbank_pinksheet.yaml": "9adcb9d88fd3afc61efd78d0673ae734f47a81bbffe86241152446e1e305ff6a",
+      "docs/gold/dim_fact_v3.dbml": "caf16d2dde18a74b073a3eec2eed308c054848b650182fbf3dcf1bf28ef5cf50",
+      "docs/gold/source_to_gold_mapping.csv": "8dfe97be00f54003a222f26a55e1045fc44a495b8b8a3c9207c426dbf84e8711"
+    },
+    "source_scope": [
+      "faostat_production",
+      "faostat_monthly_price",
+      "faostat_supply_utilization",
+      "faostat_trade",
+      "usda_psd",
+      "usda_rice_yearbook",
+      "worldbank_pinksheet",
+      "thitruongnongsan",
+      "nso"
+    ]
+  },
+  "coverage": {
+    "fact_fao_price_annual": {
+      "max_period": 2025,
+      "min_period": 1991,
+      "numeric_observations": 9993,
+      "rows": 9993
+    },
+    "fact_fao_production_observation": {
+      "max_period": 2024,
+      "min_period": 1961,
+      "numeric_observations": 22509,
+      "rows": 22738
+    },
+    "fact_fao_sua_observation": {
+      "max_period": 2023,
+      "min_period": 2010,
+      "numeric_observations": 36123,
+      "rows": 36380
+    },
+    "fact_fao_trade_observation": {
+      "max_period": 2024,
+      "min_period": 1986,
+      "numeric_observations": 1226470,
+      "rows": 1226470
+    },
+    "fact_nso_observation": {
+      "max_period": 2024,
+      "min_period": 1990,
+      "numeric_observations": 22114,
+      "rows": 23060
+    },
+    "fact_price_monthly": {
+      "max_period": 202512,
+      "min_period": 196001,
+      "numeric_observations": 55168,
+      "rows": 61573
+    },
+    "fact_usda_price_reference": {
+      "max_period": 2025,
+      "min_period": 1985,
+      "numeric_observations": 8413,
+      "rows": 12936
+    },
+    "fact_usda_psd_observation": {
+      "max_period": 2025,
+      "min_period": 1960,
+      "numeric_observations": 990,
+      "rows": 990
+    },
+    "fact_vn_market_quote_daily": {
+      "max_period": 20260803,
+      "min_period": 20210104,
+      "numeric_observations": 20387,
+      "rows": 20387
+    }
+  },
+  "gold_dagruns": [
+    {
+      "run_id": "manual__gold_sql_e2e_20261026_01",
+      "state": "failed"
+    },
+    {
+      "run_id": "manual__gold_sql_e2e_20261026_02",
+      "state": "failed"
+    },
+    {
+      "run_id": "manual__gold_g12_20261026_01",
+      "state": "success"
+    },
+    {
+      "run_id": "manual__gold_g12_noop_20261026_01",
+      "state": "success"
+    }
+  ],
+  "manifest_hash": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+  "metric_inventory": [
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "hectare",
+      "silver_unit": "hectare",
+      "source_id": "faostat_production",
+      "source_metric_id": "5312"
+    },
+    {
+      "aggregation_rule": "NEVER_SUM",
+      "gold_unit": "kg/hectare",
+      "silver_unit": "kg/hectare",
+      "source_id": "faostat_production",
+      "source_metric_id": "5412"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_production",
+      "source_metric_id": "5510"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5016"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5023"
+    },
+    {
+      "aggregation_rule": "SIGNED_FLOW",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5071"
+    },
+    {
+      "aggregation_rule": "NO_SUM_OVER_TIME",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5113"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5141"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5165"
+    },
+    {
+      "aggregation_rule": "SIGNED_FLOW",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5166"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5510"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5520"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5525"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5610"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_supply_utilization",
+      "source_metric_id": "5910"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_trade",
+      "source_metric_id": "5610"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "USD",
+      "silver_unit": "1000 USD",
+      "source_id": "faostat_trade",
+      "source_metric_id": "5622"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "tonne",
+      "source_id": "faostat_trade",
+      "source_metric_id": "5910"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "USD",
+      "silver_unit": "1000 USD",
+      "source_id": "faostat_trade",
+      "source_metric_id": "5922"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "hectare",
+      "silver_unit": "1000 HA",
+      "source_id": "usda_psd",
+      "source_metric_id": "Area Harvested"
+    },
+    {
+      "aggregation_rule": "NO_SUM_OVER_TIME",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "Beginning Stocks"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "Domestic Consumption"
+    },
+    {
+      "aggregation_rule": "NO_SUM_OVER_TIME",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "Ending Stocks"
+    },
+    {
+      "aggregation_rule": "MY_FLOW",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "Exports"
+    },
+    {
+      "aggregation_rule": "MY_FLOW",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "Imports"
+    },
+    {
+      "aggregation_rule": "NEVER_SUM",
+      "gold_unit": "fraction",
+      "silver_unit": "fraction",
+      "source_id": "usda_psd",
+      "source_metric_id": "Milling Rate (.9999)"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "Production"
+    },
+    {
+      "aggregation_rule": "AREA_OR_FLOW_NONOVERLAP",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "Rough Production"
+    },
+    {
+      "aggregation_rule": "TY_FLOW",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "TY Exports"
+    },
+    {
+      "aggregation_rule": "TY_SUBSET",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "TY Imp. from U.S."
+    },
+    {
+      "aggregation_rule": "TY_FLOW",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "TY Imports"
+    },
+    {
+      "aggregation_rule": "NO_SUM_WITH_COMPONENTS",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "Total Distribution"
+    },
+    {
+      "aggregation_rule": "NO_SUM_WITH_COMPONENTS",
+      "gold_unit": "tonne",
+      "silver_unit": "1000 MT",
+      "source_id": "usda_psd",
+      "source_metric_id": "Total Supply"
+    },
+    {
+      "aggregation_rule": "NEVER_SUM",
+      "gold_unit": "tonne/hectare",
+      "silver_unit": "MT/HA",
+      "source_id": "usda_psd",
+      "source_metric_id": "Yield"
+    }
+  ],
+  "pointer": {
+    "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+    "manifest": "gold_publications/local_nine/ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235.json",
+    "owner": "tlcn-local"
+  },
+  "published_inputs": {
+    "faostat_monthly_price": {
+      "snapshot_id": "4111066513304943577",
+      "table": "iceberg.silver_local.faostat_monthly_price",
+      "uuid": "fdb60dcf-42d4-4d5d-845f-7d316be7b8d6"
+    },
+    "faostat_production": {
+      "snapshot_id": "4148714342754332207",
+      "table": "iceberg.silver_local.faostat_production",
+      "uuid": "1a77df77-5818-447e-8013-cc0b8373f7f1"
+    },
+    "faostat_supply_utilization": {
+      "snapshot_id": "8123855978320232066",
+      "table": "iceberg.silver_local.faostat_supply_utilization",
+      "uuid": "fba03ec7-0b17-4264-a5ba-37932eba3b7b"
+    },
+    "faostat_trade": {
+      "snapshot_id": "8505324700177525410",
+      "table": "iceberg.silver_local.faostat_trade",
+      "uuid": "875dab2c-6eaa-4e0a-91e1-82ed6a43ad75"
+    },
+    "nso": {
+      "snapshot_id": "139672476149787931",
+      "table": "iceberg.silver_local.nso_rice_statistics",
+      "uuid": "3fa9ef1e-24dc-4803-9ca9-7b123a7453b4"
+    },
+    "thitruongnongsan": {
+      "snapshot_id": "6096019421881505089",
+      "table": "iceberg.silver_local.thitruongnongsan",
+      "uuid": "231603f2-5d5a-493f-8bff-8c479ed52174"
+    },
+    "usda_psd": {
+      "snapshot_id": "7561675754441800451",
+      "table": "iceberg.silver_local.usda_rice_psd",
+      "uuid": "afd22c11-134e-4f9e-bb84-8695aaf2f82c"
+    },
+    "usda_rice_yearbook": {
+      "snapshot_id": "2558498974942784461",
+      "table": "iceberg.silver_local.usda_rice_yearbook",
+      "uuid": "12f9f1a7-030b-4b4f-99cf-6eb4a4b0357f"
+    },
+    "worldbank_pinksheet": {
+      "snapshot_id": "4338448473297469539",
+      "table": "iceberg.silver_local.worldbank_commodity_monthly",
+      "uuid": "f9a342d8-f3ee-4287-9966-f57b0672e2ab"
+    }
+  },
+  "semantic_queries": {
+    "vw_fao_production_yield": {
+      "bound_sql_sha256": "e7e3847edcb4644d12996bed3bf9f87f212784d2762ffdcebe71d9a4de31a222",
+      "definition_sha256": "24c9612df7303e64b64065fa0f492734cf1f5e4cd1f255bee8289e5b5947ce17",
+      "version": "gold-semantic-20261026.1"
+    },
+    "vw_nso_source_observations": {
+      "bound_sql_sha256": "6eb5f69130c7c6be82fd55d54929f1f92d2c33fc73d468e18f95819a82961b19",
+      "definition_sha256": "4d8711d4c9f7bad9c75f42c09996f9001df3e5bac4fff2739d8534df385ed7e2",
+      "version": "gold-semantic-20261026.1"
+    },
+    "vw_sua_supported_balance": {
+      "bound_sql_sha256": "3b85233eb0bd178e8c26b92b460b42dee2dcbd1e4150242deecbe1dbe94b5eb9",
+      "definition_sha256": "954c05b9311c4391f635fe21774e53634f1fa9cd57522a001bc32ff5926c9bca",
+      "version": "gold-semantic-20261026.1"
+    },
+    "vw_trade_reported_unit_values": {
+      "bound_sql_sha256": "8f548b5ef3d56f5eb89d6ff9c41845f91b4950faf3bb51a98d6af95701461a6c",
+      "definition_sha256": "3ae667300bbe4d72f6cef63714e905364774cb47b6509719e5f857810c21df02",
+      "version": "gold-semantic-20261026.1"
+    }
+  },
+  "tables": {
+    "bronze.faostat_monthly_price": {
+      "files": [
+        "s3://warehouse/bronze/faostat_monthly_price-3ba9dba03ab84a05946cbff2efa0af3e/data/00000-0-961d3893-9b5c-48de-885b-955ff36801d4.parquet"
+      ],
+      "metadata_location": "s3://warehouse/bronze/faostat_monthly_price-3ba9dba03ab84a05946cbff2efa0af3e/metadata/00001-b988d713-e3c5-4473-ac25-0e36aee9e7dd.metadata.json",
+      "snapshot_id": "1431305318135225792",
+      "uuid": "12fb4e71-1152-4980-a329-d3a86f57e14b"
+    },
+    "bronze.faostat_production": {
+      "files": [
+        "s3://warehouse/bronze/faostat_production-db5c030bcf8a41dcb7508c0e696fda6f/data/00000-0-9d1999f7-cdd5-4813-a6f0-36752759ba2f.parquet"
+      ],
+      "metadata_location": "s3://warehouse/bronze/faostat_production-db5c030bcf8a41dcb7508c0e696fda6f/metadata/00001-6fb078ee-5cf8-4ddf-8b40-4270203869fc.metadata.json",
+      "snapshot_id": "5697192421042119140",
+      "uuid": "9764f84b-0f20-4f4e-b333-f5fa1867fc44"
+    },
+    "bronze.faostat_supply_utilization": {
+      "files": [
+        "s3://warehouse/bronze/faostat_supply_utilization-8c519869ab334f2eb1ee471cb995e2dc/data/00000-0-4a753ab3-1d51-40f6-944b-30d9e13f6e62.parquet"
+      ],
+      "metadata_location": "s3://warehouse/bronze/faostat_supply_utilization-8c519869ab334f2eb1ee471cb995e2dc/metadata/00001-493fd06b-de27-446b-ad00-9064967f2fc6.metadata.json",
+      "snapshot_id": "352068865062062314",
+      "uuid": "e2d10fc1-b097-4a2e-9226-f1684a925bb3"
+    },
+    "bronze.faostat_trade": {
+      "files": [
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-171246b5-6e86-49ca-9301-951628962e5a.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-1d41e946-0023-44e6-8fbb-312bfb13ee84.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-1f4a5e21-706d-47f7-8a73-df9c31e4eb40.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-23363525-36da-44a6-b5cc-fbb3f6388ea9.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-24ed7b0c-e534-4112-a96a-0de7845a83ea.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-2f4faf94-aa2b-41a5-9cfb-8295d83ce8c0.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-33d384ab-55ad-4df5-9488-fb5cc0fbfd20.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-39805a80-6b72-48af-85a3-d6eb893c91be.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-3c08432e-7d39-42fc-a87e-27ec110a8802.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-40186f4b-c5b1-4916-ad74-12ae9f7e7dd3.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-4ce5161d-908d-4486-bfca-9460f05dea07.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-5e2037e4-9c99-4e86-a457-4f68ef220e57.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-62740a43-3821-4867-be3a-a97a09241cbf.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-7e469656-658d-4c64-98a4-51cc8aa7e975.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-910cdf6b-004b-494e-af46-ab24b06bfd1d.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-99dd264a-10d8-4b20-895b-6a35c685949e.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-9c9cf430-48c1-4703-9ee8-8cb272aef718.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-9cd6f735-a6e9-45ff-8b7c-cff030137c77.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-a2206794-6668-4724-9d0b-50e3d019f2dc.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-a26cc2d0-bac4-48b6-ae5a-ce810e65abb8.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-a946ff2c-fafd-4840-903a-90175d762d91.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-b1874043-7d42-4f7e-ac4c-82a76e82fecf.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-cf080e05-f1b9-4340-8643-1a6ac46d43fe.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-e927a1ae-a7c2-4648-9993-fc6a2bb07793.parquet",
+        "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/data/00000-0-f567a12e-6e90-456a-af50-0f34868d2755.parquet"
+      ],
+      "metadata_location": "s3://warehouse/bronze/faostat_trade-94ce7d355b9d4d7284e3a0c4dc66a6ab/metadata/00025-56165a6f-01d9-4907-8ca5-331ba94ee69a.metadata.json",
+      "snapshot_id": "5350262408353745079",
+      "uuid": "f19f242f-1cae-43ae-8c7f-21ef0716e879"
+    },
+    "bronze.nso": {
+      "files": [
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-0a752ae7-8503-476a-bad8-2bba0733099a.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-15195443-4692-46d6-99a2-f17f9b4c8256.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-406098bd-0ed2-4e4c-b508-247907406a68.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-40d4ce0d-8a58-46b9-836c-d85188c2559f.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-49de53b3-eed5-474b-aef3-234e17fd9767.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-699e82e2-a436-423a-8311-22797c1e7146.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-7704fb5f-67ea-408c-8951-819b918fe0f3.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-863d587b-0764-4548-998d-33da97d3cec0.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-a72c28ce-1038-45ea-9ffc-b6da4cd67374.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-a8f58211-c126-4135-8583-064a6dfee292.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-cc927a23-15af-4ce9-929f-727cb97a836e.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-cf69a56d-681b-4ef8-bfc5-3a5df01b1664.parquet",
+        "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/data/00000-0-ef35869d-85ef-4314-93e1-8ce5eafba6a0.parquet"
+      ],
+      "metadata_location": "s3://warehouse/bronze/nso-8f9ed817df2b497899958718b5d7ec7d/metadata/00013-b800b6c2-54df-4a21-925f-5e3ce9d50b06.metadata.json",
+      "snapshot_id": "4282478297747443644",
+      "uuid": "f1d8aad6-6232-4b33-97a5-e6973d43b552"
+    },
+    "bronze.thitruongnongsan": {
+      "files": [
+        "s3://warehouse/bronze/thitruongnongsan-fbd88992b78c47b08cdcea399bd1b91c/data/00000-0-a990eb55-9452-48c5-8056-063d6e9d0e3b.parquet"
+      ],
+      "metadata_location": "s3://warehouse/bronze/thitruongnongsan-fbd88992b78c47b08cdcea399bd1b91c/metadata/00001-0ebdaa11-86ef-41d5-a9ec-a235fa9a7dff.metadata.json",
+      "snapshot_id": "1785575878441176457",
+      "uuid": "dc0fb7fb-dde6-47b5-a9db-9e11bc64e322"
+    },
+    "bronze.usda_psd": {
+      "files": [
+        "s3://warehouse/bronze/usda_psd-2a41243d78494195af8d25ccda8fa8bb/data/00000-0-ee0c5ae3-a6d4-40b7-8279-85b072d13e7c.parquet"
+      ],
+      "metadata_location": "s3://warehouse/bronze/usda_psd-2a41243d78494195af8d25ccda8fa8bb/metadata/00001-6ee9a232-6053-46e1-9330-fb35c3994e4a.metadata.json",
+      "snapshot_id": "279671914674621947",
+      "uuid": "465e3ea6-db81-4d1f-ad97-7dd95e881d90"
+    },
+    "bronze.usda_rice_yearbook": {
+      "files": [
+        "s3://warehouse/bronze/usda_rice_yearbook-d480055019954b2781453ba82e10ebdd/data/00000-0-8bb1731a-8af2-4a29-ac48-f0fc939a22d1.parquet"
+      ],
+      "metadata_location": "s3://warehouse/bronze/usda_rice_yearbook-d480055019954b2781453ba82e10ebdd/metadata/00001-7a75e8d7-a6f4-4958-8ea9-2d106b08daad.metadata.json",
+      "snapshot_id": "6271199815080818291",
+      "uuid": "2a355e17-e740-4344-8265-a633d5d3ff9e"
+    },
+    "bronze.worldbank_pinksheet": {
+      "files": [
+        "s3://warehouse/bronze/worldbank_pinksheet-c58f6eb46b554f5f8b136778e82ff8af/data/00000-0-a568fead-0d2b-4b5a-8bfd-c4c9db14dfe3.parquet"
+      ],
+      "metadata_location": "s3://warehouse/bronze/worldbank_pinksheet-c58f6eb46b554f5f8b136778e82ff8af/metadata/00001-210f55ff-4d79-4a3e-b07d-9402d07fff2d.metadata.json",
+      "snapshot_id": "3860406346125660399",
+      "uuid": "24a8b068-d019-4b38-8ae2-0ecee99f5263"
+    },
+    "gold_local.dim_date": {
+      "files": [
+        "s3://warehouse/gold_local/dim_date/data/00000-732-4fba0b79-0e1c-4276-b9d3-a3d1297fcec3-0-00001.parquet",
+        "s3://warehouse/gold_local/dim_date/data/00001-733-4fba0b79-0e1c-4276-b9d3-a3d1297fcec3-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/dim_date/metadata/00001-74545bd2-d7ee-4d3a-8180-1e910e5aa9ed.metadata.json",
+      "snapshot_id": "7665947661409225898",
+      "uuid": "0d029553-197b-4e46-8d62-17f21334a11b"
+    },
+    "gold_local.dim_month": {
+      "files": [
+        "s3://warehouse/gold_local/dim_month/data/00000-697-2fc713e0-8657-4dda-a19f-d561e3cc751e-0-00001.parquet",
+        "s3://warehouse/gold_local/dim_month/data/00001-698-2fc713e0-8657-4dda-a19f-d561e3cc751e-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/dim_month/metadata/00001-b4719532-a54d-4ac5-9f24-23f8d71eddc3.metadata.json",
+      "snapshot_id": "8295574410069434036",
+      "uuid": "4f262a83-5e36-4d9e-b7e0-18f91b46327f"
+    },
+    "gold_local.dim_observation_type": {
+      "files": [
+        "s3://warehouse/gold_local/dim_observation_type/data/00000-2260-07e4476a-36ae-42dd-9e98-a8b68cc898cd-0-00001.parquet",
+        "s3://warehouse/gold_local/dim_observation_type/data/00001-2261-07e4476a-36ae-42dd-9e98-a8b68cc898cd-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/dim_observation_type/metadata/00001-0c09ece3-f31d-4ee0-ad95-52403322b2e6.metadata.json",
+      "snapshot_id": "1046146616745412073",
+      "uuid": "8adc0a9f-498e-4503-aa05-f95ae5a358ed"
+    },
+    "gold_local.dim_price_series": {
+      "files": [
+        "s3://warehouse/gold_local/dim_price_series/data/00000-2568-4e2cd996-9d61-419c-974b-58b561fab583-0-00001.parquet",
+        "s3://warehouse/gold_local/dim_price_series/data/00001-2569-4e2cd996-9d61-419c-974b-58b561fab583-0-00001.parquet",
+        "s3://warehouse/gold_local/dim_price_series/data/00002-2570-4e2cd996-9d61-419c-974b-58b561fab583-0-00001.parquet",
+        "s3://warehouse/gold_local/dim_price_series/data/00003-2571-4e2cd996-9d61-419c-974b-58b561fab583-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/dim_price_series/metadata/00001-6c160cdd-ea5c-42be-9fd6-bc14845f861e.metadata.json",
+      "snapshot_id": "2896601742107309180",
+      "uuid": "fa39bf1e-bbf1-4b50-8129-de1d4f37413b"
+    },
+    "gold_local.dim_source_geography": {
+      "files": [
+        "s3://warehouse/gold_local/dim_source_geography/data/00000-1301-393dcabd-6ee3-40d8-a366-cc4beceef9a2-0-00001.parquet",
+        "s3://warehouse/gold_local/dim_source_geography/data/00002-1303-393dcabd-6ee3-40d8-a366-cc4beceef9a2-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/dim_source_geography/metadata/00001-5ed5d982-d40b-42c6-9385-44c50f53c2a4.metadata.json",
+      "snapshot_id": "8664595598201008097",
+      "uuid": "ce487b86-5541-44de-a006-365dfbcc29f2"
+    },
+    "gold_local.dim_source_product": {
+      "files": [
+        "s3://warehouse/gold_local/dim_source_product/data/00000-1933-74f54a67-64bd-4545-8769-fd01c050212f-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/dim_source_product/metadata/00001-7c51a35e-19ed-4b84-b6f4-a30f0983aff1.metadata.json",
+      "snapshot_id": "8514812747103222137",
+      "uuid": "4ce4f42f-e876-4870-8b2a-0312c460d673"
+    },
+    "gold_local.dim_source_system": {
+      "files": [
+        "s3://warehouse/gold_local/dim_source_system/data/00000-597-79bf8c24-de64-4e93-8012-ad42416cae34-0-00001.parquet",
+        "s3://warehouse/gold_local/dim_source_system/data/00001-598-79bf8c24-de64-4e93-8012-ad42416cae34-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/dim_source_system/metadata/00001-fb65ce57-2c6c-451c-a555-9ac504bb423d.metadata.json",
+      "snapshot_id": "5212267582300439758",
+      "uuid": "3c9fdb0f-127a-45f4-8f5b-31c7d1d5c0c1"
+    },
+    "gold_local.dim_year": {
+      "files": [
+        "s3://warehouse/gold_local/dim_year/data/00000-666-7d5c9397-b000-44b5-abfb-a2a10ba22a85-0-00001.parquet",
+        "s3://warehouse/gold_local/dim_year/data/00001-667-7d5c9397-b000-44b5-abfb-a2a10ba22a85-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/dim_year/metadata/00001-9f7bf82b-c441-4073-960b-6997689f17e7.metadata.json",
+      "snapshot_id": "3316235776078407392",
+      "uuid": "032861f7-4c4e-4ac4-9a10-274670b1d694"
+    },
+    "gold_local.fact_fao_price_annual": {
+      "files": [
+        "s3://warehouse/gold_local/fact_fao_price_annual/data/00000-456-31c37cd3-5224-4cfb-8f91-1022c13f3b05-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_price_annual/data/00001-457-31c37cd3-5224-4cfb-8f91-1022c13f3b05-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_price_annual/data/00002-458-31c37cd3-5224-4cfb-8f91-1022c13f3b05-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_price_annual/data/00003-459-31c37cd3-5224-4cfb-8f91-1022c13f3b05-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_price_annual/data/00004-460-31c37cd3-5224-4cfb-8f91-1022c13f3b05-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_price_annual/data/00005-461-31c37cd3-5224-4cfb-8f91-1022c13f3b05-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_price_annual/data/00006-462-31c37cd3-5224-4cfb-8f91-1022c13f3b05-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_price_annual/data/00007-463-31c37cd3-5224-4cfb-8f91-1022c13f3b05-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_price_annual/data/00008-464-31c37cd3-5224-4cfb-8f91-1022c13f3b05-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/fact_fao_price_annual/metadata/00001-f2522753-1112-470e-ae27-af648ad40310.metadata.json",
+      "snapshot_id": "6561274137596983252",
+      "uuid": "3218dd14-0793-4c1d-941c-31ba5e1aaea8"
+    },
+    "gold_local.fact_fao_production_observation": {
+      "files": [
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00000-214-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00001-215-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00002-216-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00003-217-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00004-218-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00005-219-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00006-220-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00007-221-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00008-222-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00009-223-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00010-224-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00011-225-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00012-226-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00013-227-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00014-228-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_production_observation/data/00015-229-d24f253c-bb37-4fbd-82a5-f92bb9513213-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/fact_fao_production_observation/metadata/00001-641c4060-d369-432c-808b-6187f8caaec6.metadata.json",
+      "snapshot_id": "4557995850181557281",
+      "uuid": "f97e800f-ebe6-416c-918a-a148ec0388b4"
+    },
+    "gold_local.fact_fao_sua_observation": {
+      "files": [
+        "s3://warehouse/gold_local/fact_fao_sua_observation/data/00000-71-0b42dd15-57b7-4341-af7a-47953f487e82-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_sua_observation/data/00001-72-0b42dd15-57b7-4341-af7a-47953f487e82-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_sua_observation/data/00002-73-0b42dd15-57b7-4341-af7a-47953f487e82-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_sua_observation/data/00003-74-0b42dd15-57b7-4341-af7a-47953f487e82-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/fact_fao_sua_observation/metadata/00001-b3156e81-7dc8-4af8-a463-6162f9168074.metadata.json",
+      "snapshot_id": "5998541611407626400",
+      "uuid": "d07807f2-7f92-4a1e-a07f-26fe83d19fcd"
+    },
+    "gold_local.fact_fao_trade_observation": {
+      "files": [
+        "s3://warehouse/gold_local/fact_fao_trade_observation/data/00000-156-eb418b9d-ef09-4436-a2bd-727e05054dbc-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_trade_observation/data/00001-157-eb418b9d-ef09-4436-a2bd-727e05054dbc-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_trade_observation/data/00002-158-eb418b9d-ef09-4436-a2bd-727e05054dbc-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_trade_observation/data/00003-159-eb418b9d-ef09-4436-a2bd-727e05054dbc-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_trade_observation/data/00004-160-eb418b9d-ef09-4436-a2bd-727e05054dbc-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_trade_observation/data/00005-161-eb418b9d-ef09-4436-a2bd-727e05054dbc-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_trade_observation/data/00006-162-eb418b9d-ef09-4436-a2bd-727e05054dbc-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_trade_observation/data/00007-163-eb418b9d-ef09-4436-a2bd-727e05054dbc-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_trade_observation/data/00008-164-eb418b9d-ef09-4436-a2bd-727e05054dbc-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_fao_trade_observation/data/00009-165-eb418b9d-ef09-4436-a2bd-727e05054dbc-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/fact_fao_trade_observation/metadata/00001-19f1a0e8-b8e9-4a3a-92a8-d624b2c0f6ef.metadata.json",
+      "snapshot_id": "9089157317142504426",
+      "uuid": "46de034e-3120-474f-958d-c642ef351367"
+    },
+    "gold_local.fact_nso_observation": {
+      "files": [
+        "s3://warehouse/gold_local/fact_nso_observation/data/00000-96-fcea972e-d94e-4c4d-8364-2c0c2927cc8b-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_nso_observation/data/00001-97-fcea972e-d94e-4c4d-8364-2c0c2927cc8b-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_nso_observation/data/00002-98-fcea972e-d94e-4c4d-8364-2c0c2927cc8b-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_nso_observation/data/00003-99-fcea972e-d94e-4c4d-8364-2c0c2927cc8b-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_nso_observation/data/00004-100-fcea972e-d94e-4c4d-8364-2c0c2927cc8b-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_nso_observation/data/00005-101-fcea972e-d94e-4c4d-8364-2c0c2927cc8b-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_nso_observation/data/00006-102-fcea972e-d94e-4c4d-8364-2c0c2927cc8b-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_nso_observation/data/00007-103-fcea972e-d94e-4c4d-8364-2c0c2927cc8b-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_nso_observation/data/00008-104-fcea972e-d94e-4c4d-8364-2c0c2927cc8b-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/fact_nso_observation/metadata/00001-1806e36b-b116-436b-9256-2834493855df.metadata.json",
+      "snapshot_id": "4536483924352632178",
+      "uuid": "3f267f3b-736b-46af-aafa-39425488771b"
+    },
+    "gold_local.fact_price_monthly": {
+      "files": [
+        "s3://warehouse/gold_local/fact_price_monthly/data/00000-262-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00001-263-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00002-264-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00003-265-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00004-266-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00005-267-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00006-268-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00007-269-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00008-270-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00009-271-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00010-272-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00011-273-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00012-274-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00013-275-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00014-276-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00015-277-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00016-278-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00017-279-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00018-280-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00019-281-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_price_monthly/data/00020-282-5fcdc24a-3a16-4504-8dc6-63c4743ad192-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/fact_price_monthly/metadata/00002-cb400530-6b6d-491c-8fad-3737e8228f0d.metadata.json",
+      "snapshot_id": "4322554606104063046",
+      "uuid": "d7703bac-eb9b-4d7a-8ecc-f82769fb2ce9"
+    },
+    "gold_local.fact_usda_price_reference": {
+      "files": [
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00000-115-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00001-116-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00002-117-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00003-118-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00004-119-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00005-120-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00006-121-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00007-122-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00008-123-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00009-124-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_price_reference/data/00010-125-0dd7a9f2-19a4-4012-9abe-205da2b26ad1-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/fact_usda_price_reference/metadata/00001-7f6b4e46-4cbb-4607-83c7-4d37521be023.metadata.json",
+      "snapshot_id": "640990871150888729",
+      "uuid": "54439e5d-c3c0-44d9-b49f-227f8ab4dc93"
+    },
+    "gold_local.fact_usda_psd_observation": {
+      "files": [
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00000-207-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00001-208-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00002-209-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00003-210-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00004-211-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00005-212-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00006-213-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00007-214-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00008-215-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00009-216-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00010-217-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00011-218-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00012-219-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00013-220-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00014-221-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00015-222-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_usda_psd_observation/data/00016-223-e76730da-8bf3-4f26-aaa1-5f373d439f1a-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/fact_usda_psd_observation/metadata/00001-dd6fbb1a-dddf-4f58-ac26-37c9a710686a.metadata.json",
+      "snapshot_id": "1998504400080667561",
+      "uuid": "84eae338-4c21-4fb6-a4f3-06496122ac58"
+    },
+    "gold_local.fact_vn_market_quote_daily": {
+      "files": [
+        "s3://warehouse/gold_local/fact_vn_market_quote_daily/data/00000-38-f005167d-cacb-45f9-b2cd-9b995f2babaa-0-00001.parquet",
+        "s3://warehouse/gold_local/fact_vn_market_quote_daily/data/00001-39-f005167d-cacb-45f9-b2cd-9b995f2babaa-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/gold_local/fact_vn_market_quote_daily/metadata/00001-61366111-11df-42ea-a853-0ed17f35a880.metadata.json",
+      "snapshot_id": "8271577785702045919",
+      "uuid": "22f5be04-f9ee-4a53-b756-3ddd807a1e14"
+    },
+    "silver_local.dead_letters": {
+      "files": [
+        "s3://warehouse/silver_local/dead_letters/data/source_dataset=nso_exclusions/detected_at_day=2026-10-18/00000-122-93a98bfd-7c52-4134-b0aa-03a908066f55-0-00001.parquet",
+        "s3://warehouse/silver_local/dead_letters/data/source_dataset=thitruongnongsan/detected_at_day=2026-10-18/00000-17-bd15ca30-4072-455a-84a7-9a6961c5efcf-0-00001.parquet"
+      ],
+      "metadata_location": "s3://warehouse/silver_local/dead_letters/metadata/00002-bcc61a06-5e54-47b2-a8fb-3e11ddf9a38b.metadata.json",
+      "snapshot_id": "8254498830289844490",
+      "uuid": "a56705bb-96b3-41b2-95ec-73e858d50800"
+    },
+    "silver_local.faostat_monthly_price": {
+      "files": [
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=1991/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00001.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=1992/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00002.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=1993/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00003.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=1994/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00004.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=1995/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00005.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=1996/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00006.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=1997/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00007.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=1998/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00008.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=1999/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00009.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2000/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00010.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2001/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00011.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2002/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00012.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2003/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00013.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2004/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00014.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2005/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00015.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2006/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00016.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2007/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00017.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2008/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00018.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2009/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00019.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2010/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00020.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2011/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00021.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2012/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00022.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2013/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00023.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2014/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00024.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2015/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00025.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2016/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00026.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2017/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00027.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2018/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00028.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2019/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00029.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2020/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00030.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2021/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00031.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2022/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00032.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2023/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00033.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2024/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00034.parquet",
+        "s3://warehouse/silver_local/faostat_monthly_price/data/year=2025/00000-22-4e175e44-4fa7-4758-afcd-a947391a41fe-0-00035.parquet"
+      ],
+      "metadata_location": "s3://warehouse/silver_local/faostat_monthly_price/metadata/00001-57756e9a-c1a9-4903-a9c4-532a426b59d4.metadata.json",
+      "snapshot_id": "4111066513304943577",
+      "uuid": "fdb60dcf-42d4-4d5d-845f-7d316be7b8d6"
+    },
+    "silver_local.faostat_production": {
+      "files": [
+        "s3://warehouse/silver_local/faostat_production/data/year=1961/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00001.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1962/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00002.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1963/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00003.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1964/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00004.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1965/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00005.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1966/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00006.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1967/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00007.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1968/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00008.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1969/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00009.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1970/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00010.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1971/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00011.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1972/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00012.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1973/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00013.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1974/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00014.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1975/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00015.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1976/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00016.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1977/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00017.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1978/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00018.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1979/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00019.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1980/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00020.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1981/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00021.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1982/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00022.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1983/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00023.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1984/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00024.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1985/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00025.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1986/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00026.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1987/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00027.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1988/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00028.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1989/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00029.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1990/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00030.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1991/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00031.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1992/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00032.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1993/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00033.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1994/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00034.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1995/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00035.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1996/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00036.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1997/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00037.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1998/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00038.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=1999/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00039.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2000/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00040.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2001/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00041.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2002/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00042.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2003/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00043.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2004/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00044.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2005/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00045.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2006/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00046.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2007/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00047.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2008/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00048.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2009/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00049.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2010/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00050.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2011/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00051.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2012/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00052.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2013/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00053.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2014/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00054.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2015/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00055.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2016/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00056.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2017/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00057.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2018/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00058.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2019/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00059.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2020/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00060.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2021/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00061.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2022/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00062.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2023/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00063.parquet",
+        "s3://warehouse/silver_local/faostat_production/data/year=2024/00000-22-c9cf68c4-13a8-4e39-a177-773d398bd29e-0-00064.parquet"
+      ],
+      "metadata_location": "s3://warehouse/silver_local/faostat_production/metadata/00001-f2bae778-ccf8-4d80-b668-ac8b5668bb03.metadata.json",
+      "snapshot_id": "4148714342754332207",
+      "uuid": "1a77df77-5818-447e-8013-cc0b8373f7f1"
+    },
+    "silver_local.faostat_supply_utilization": {
+      "files": [
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2010/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00001.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2011/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00002.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2012/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00003.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2013/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00004.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2014/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00005.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2015/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00006.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2016/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00007.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2017/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00008.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2018/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00009.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2019/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00010.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2020/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00011.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2021/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00012.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2022/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00013.parquet",
+        "s3://warehouse/silver_local/faostat_supply_utilization/data/year=2023/00000-22-c4177f5d-b6ef-4fa3-9d2a-04cd2decf440-0-00014.parquet"
+      ],
+      "metadata_location": "s3://warehouse/silver_local/faostat_supply_utilization/metadata/00001-8bd47d4b-5bbb-4c99-a3d3-1d3cf0628b8c.metadata.json",
+      "snapshot_id": "8123855978320232066",
+      "uuid": "fba03ec7-0b17-4264-a5ba-37932eba3b7b"
+    },
+    "silver_local.faostat_trade": {
+      "files": [
+        "s3://warehouse/silver_local/faostat_trade/data/year=1986/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00001.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1987/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00002.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1988/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00003.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1989/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00001.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1990/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00004.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1991/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00005.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1992/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00002.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1993/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00003.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1994/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00006.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1995/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00007.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1996/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00004.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1997/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00008.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1998/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00005.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=1999/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00006.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2000/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00009.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2001/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00010.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2002/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00011.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2003/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00007.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2004/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00008.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2005/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00012.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2006/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00013.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2007/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00014.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2008/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00015.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2009/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00009.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2010/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00010.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2011/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00016.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2012/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00017.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2013/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00018.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2014/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00019.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2015/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00020.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2016/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00011.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2017/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00012.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2018/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00021.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2019/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00022.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2020/00000-44-301afa4f-ab33-4235-b63c-113212b3cd22-0-00013.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2021/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00023.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2022/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00024.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2023/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00025.parquet",
+        "s3://warehouse/silver_local/faostat_trade/data/year=2024/00001-45-301afa4f-ab33-4235-b63c-113212b3cd22-0-00026.parquet"
+      ],
+      "metadata_location": "s3://warehouse/silver_local/faostat_trade/metadata/00001-337765e0-6d73-49ab-a2ab-bd48bcc4f5de.metadata.json",
+      "snapshot_id": "8505324700177525410",
+      "uuid": "875dab2c-6eaa-4e0a-91e1-82ed6a43ad75"
+    },
+    "silver_local.nso_rice_statistics": {
+      "files": [
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=1990/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00001.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=1991/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00002.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=1992/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00001.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=1993/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00002.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=1994/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00003.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=1995/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00004.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=1996/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00003.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=1997/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00005.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=1998/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00004.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=1999/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00005.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2000/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00006.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2001/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00007.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2002/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00008.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2003/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00006.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2004/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00007.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2005/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00009.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2006/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00010.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2007/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00011.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2008/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00012.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2009/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00008.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2010/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00009.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2011/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00013.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2012/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00014.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2013/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00015.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2014/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00016.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2015/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00017.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2016/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00010.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2017/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00011.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2018/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00018.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2019/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00019.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2020/00000-153-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00012.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2021/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00020.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2022/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00021.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2023/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00022.parquet",
+        "s3://warehouse/silver_local/nso_rice_statistics/data/year=2024/00001-154-e22b65f6-14fc-46e9-862c-1df05a0d1f3d-0-00023.parquet"
+      ],
+      "metadata_location": "s3://warehouse/silver_local/nso_rice_statistics/metadata/00001-9838de04-d2b4-42c0-abe3-a34e982e6741.metadata.json",
+      "snapshot_id": "139672476149787931",
+      "uuid": "3fa9ef1e-24dc-4803-9ca9-7b123a7453b4"
+    },
+    "silver_local.thitruongnongsan": {
+      "files": [
+        "s3://warehouse/silver_local/thitruongnongsan/data/year=2021/00000-33-b41ddd77-4976-4424-9c4d-64aa9a3a5449-0-00001.parquet",
+        "s3://warehouse/silver_local/thitruongnongsan/data/year=2022/00000-33-b41ddd77-4976-4424-9c4d-64aa9a3a5449-0-00002.parquet",
+        "s3://warehouse/silver_local/thitruongnongsan/data/year=2023/00000-33-b41ddd77-4976-4424-9c4d-64aa9a3a5449-0-00003.parquet",
+        "s3://warehouse/silver_local/thitruongnongsan/data/year=2024/00000-33-b41ddd77-4976-4424-9c4d-64aa9a3a5449-0-00004.parquet",
+        "s3://warehouse/silver_local/thitruongnongsan/data/year=2025/00000-33-b41ddd77-4976-4424-9c4d-64aa9a3a5449-0-00005.parquet",
+        "s3://warehouse/silver_local/thitruongnongsan/data/year=2026/00000-33-b41ddd77-4976-4424-9c4d-64aa9a3a5449-0-00006.parquet"
+      ],
+      "metadata_location": "s3://warehouse/silver_local/thitruongnongsan/metadata/00001-29e54e55-9b33-4c76-b88b-02c85e5d85bf.metadata.json",
+      "snapshot_id": "6096019421881505089",
+      "uuid": "231603f2-5d5a-493f-8bff-8c479ed52174"
+    },
+    "silver_local.usda_rice_psd": {
+      "files": [
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1960/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00001.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1961/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00002.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1962/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00003.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1963/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00004.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1964/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00005.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1965/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00006.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1966/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00007.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1967/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00008.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1968/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00009.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1969/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00010.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1970/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00011.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1971/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00012.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1972/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00013.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1973/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00014.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1974/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00015.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1975/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00016.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1976/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00017.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1977/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00018.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1978/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00019.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1979/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00020.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1980/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00021.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1981/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00022.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1982/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00023.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1983/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00024.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1984/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00025.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1985/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00026.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1986/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00027.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1987/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00028.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1988/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00029.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1989/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00030.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1990/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00031.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1991/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00032.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1992/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00033.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1993/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00034.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1994/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00035.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1995/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00036.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1996/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00037.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1997/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00038.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1998/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00039.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=1999/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00040.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2000/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00041.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2001/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00042.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2002/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00043.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2003/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00044.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2004/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00045.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2005/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00046.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2006/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00047.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2007/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00048.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2008/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00049.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2009/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00050.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2010/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00051.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2011/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00052.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2012/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00053.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2013/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00054.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2014/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00055.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2015/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00056.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2016/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00057.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2017/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00058.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2018/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00059.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2019/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00060.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2020/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00061.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2021/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00062.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2022/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00063.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2023/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00064.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2024/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00065.parquet",
+        "s3://warehouse/silver_local/usda_rice_psd/data/market_year=2025/00000-22-be4f20c3-bf81-49be-ae3d-41e7937f46ec-0-00066.parquet"
+      ],
+      "metadata_location": "s3://warehouse/silver_local/usda_rice_psd/metadata/00001-743ab438-3558-4773-8764-9e6c6176b515.metadata.json",
+      "snapshot_id": "7561675754441800451",
+      "uuid": "afd22c11-134e-4f9e-bb84-8695aaf2f82c"
+    },
+    "silver_local.usda_rice_yearbook": {
+      "files": [
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1985/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00001.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1986/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00002.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1987/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00003.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1988/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00004.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1989/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00005.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1990/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00006.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1991/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00007.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1992/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00008.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1993/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00009.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1994/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00010.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1995/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00011.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1996/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00012.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1997/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00013.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1998/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00014.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=1999/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00015.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2000/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00016.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2001/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00017.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2002/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00018.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2003/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00019.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2004/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00020.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2005/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00021.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2006/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00022.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2007/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00023.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2008/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00024.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2009/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00025.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2010/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00026.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2011/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00027.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2012/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00028.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2013/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00029.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2014/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00030.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2015/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00031.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2016/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00032.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2017/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00033.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2018/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00034.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2019/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00035.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2020/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00036.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2021/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00037.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2022/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00038.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2023/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00039.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2024/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00040.parquet",
+        "s3://warehouse/silver_local/usda_rice_yearbook/data/year=2025/00000-22-41bd8760-4aa3-4205-9ca9-ab8a6da42c2b-0-00041.parquet"
+      ],
+      "metadata_location": "s3://warehouse/silver_local/usda_rice_yearbook/metadata/00001-6533a3af-82a7-484d-973a-a0d647eeddb6.metadata.json",
+      "snapshot_id": "2558498974942784461",
+      "uuid": "12f9f1a7-030b-4b4f-99cf-6eb4a4b0357f"
+    },
+    "silver_local.worldbank_commodity_monthly": {
+      "files": [
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1960/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00001.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1961/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00002.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1962/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00003.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1963/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00004.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1964/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00005.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1965/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00006.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1966/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00007.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1967/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00008.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1968/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00009.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1969/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00010.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1970/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00011.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1971/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00012.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1972/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00013.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1973/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00014.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1974/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00015.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1975/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00016.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1976/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00017.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1977/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00018.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1978/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00019.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1979/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00020.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1980/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00021.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1981/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00022.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1982/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00023.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1983/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00024.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1984/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00025.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1985/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00026.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1986/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00027.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1987/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00028.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1988/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00029.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1989/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00030.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1990/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00031.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1991/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00032.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1992/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00033.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1993/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00034.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1994/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00035.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1995/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00036.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1996/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00037.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1997/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00038.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1998/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00039.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=1999/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00040.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2000/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00041.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2001/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00042.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2002/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00043.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2003/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00044.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2004/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00045.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2005/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00046.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2006/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00047.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2007/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00048.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2008/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00049.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2009/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00050.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2010/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00051.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2011/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00052.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2012/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00053.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2013/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00054.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2014/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00055.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2015/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00056.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2016/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00057.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2017/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00058.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2018/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00059.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2019/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00060.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2020/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00061.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2021/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00062.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2022/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00063.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2023/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00064.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2024/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00065.parquet",
+        "s3://warehouse/silver_local/worldbank_commodity_monthly/data/year=2025/00000-24-ea5c5974-a4cc-4c51-ba8d-0fb64f0b6176-0-00066.parquet"
+      ],
+      "metadata_location": "s3://warehouse/silver_local/worldbank_commodity_monthly/metadata/00001-ecb080f3-a2b2-4623-a2b0-2e35b0bc5030.metadata.json",
+      "snapshot_id": "4338448473297469539",
+      "uuid": "f9a342d8-f3ee-4287-9966-f57b0672e2ab"
+    }
+  }
+}

@@ -1,0 +1,1014 @@
+﻿{
+  "started_at": "2026-10-26T15:41:21.489639+00:00",
+  "sources": {
+    "faostat_production": {
+      "status": "PASS",
+      "pin": {
+        "table": "iceberg.silver_local.faostat_production",
+        "uuid": "1a77df77-5818-447e-8013-cc0b8373f7f1",
+        "snapshot_id": "4148714342754332207"
+      },
+      "rows": 22738,
+      "schema_columns": 26,
+      "partitions": [
+        {
+          "year": null,
+          "rows": 22738,
+          "unique_keys": 22738,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "prod_dq_001": 0,
+          "prod_dq_002": 0,
+          "prod_dq_003": 0,
+          "missing_observations": 229,
+          "genuine_zero": 572,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        }
+      ],
+      "persisted_spark_status": "SUCCESS"
+    },
+    "faostat_monthly_price": {
+      "status": "PASS",
+      "pin": {
+        "table": "iceberg.silver_local.faostat_monthly_price",
+        "uuid": "fdb60dcf-42d4-4d5d-845f-7d316be7b8d6",
+        "snapshot_id": "4111066513304943577"
+      },
+      "rows": 15334,
+      "schema_columns": 32,
+      "partitions": [
+        {
+          "year": null,
+          "rows": 15334,
+          "unique_keys": 15334,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "price_dq_001": 0,
+          "price_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 2,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        }
+      ],
+      "persisted_spark_status": "SUCCESS"
+    },
+    "faostat_supply_utilization": {
+      "status": "PASS",
+      "pin": {
+        "table": "iceberg.silver_local.faostat_supply_utilization",
+        "uuid": "fba03ec7-0b17-4264-a5ba-37932eba3b7b",
+        "snapshot_id": "8123855978320232066"
+      },
+      "rows": 36380,
+      "schema_columns": 27,
+      "partitions": [
+        {
+          "year": null,
+          "rows": 36380,
+          "unique_keys": 36380,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "sua_dq_001": 0,
+          "sua_dq_002": 0,
+          "missing_observations": 257,
+          "genuine_zero": 8660,
+          "signed_negative": 1516,
+          "invalid_missing": 0
+        }
+      ],
+      "persisted_spark_status": "SUCCESS"
+    },
+    "faostat_trade": {
+      "status": "PASS",
+      "pin": {
+        "table": "iceberg.silver_local.faostat_trade",
+        "uuid": "875dab2c-6eaa-4e0a-91e1-82ed6a43ad75",
+        "snapshot_id": "8505324700177525410"
+      },
+      "rows": 1226470,
+      "schema_columns": 25,
+      "partitions": [
+        {
+          "year": 1986,
+          "rows": 8304,
+          "unique_keys": 8304,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 273,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1987,
+          "rows": 8156,
+          "unique_keys": 8156,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 269,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1988,
+          "rows": 8728,
+          "unique_keys": 8728,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 256,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1989,
+          "rows": 9454,
+          "unique_keys": 9454,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 337,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1990,
+          "rows": 9512,
+          "unique_keys": 9512,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 296,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1991,
+          "rows": 11522,
+          "unique_keys": 11522,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 198,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1992,
+          "rows": 12850,
+          "unique_keys": 12850,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 294,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1993,
+          "rows": 13298,
+          "unique_keys": 13298,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 443,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1994,
+          "rows": 15066,
+          "unique_keys": 15066,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 634,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1995,
+          "rows": 16222,
+          "unique_keys": 16222,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 1495,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1996,
+          "rows": 16658,
+          "unique_keys": 16658,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 1536,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1997,
+          "rows": 18038,
+          "unique_keys": 18038,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 1704,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1998,
+          "rows": 20042,
+          "unique_keys": 20042,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 2129,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 1999,
+          "rows": 21212,
+          "unique_keys": 21212,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 2403,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2000,
+          "rows": 22698,
+          "unique_keys": 22698,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 2910,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2001,
+          "rows": 25388,
+          "unique_keys": 25388,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4183,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2002,
+          "rows": 28614,
+          "unique_keys": 28614,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4327,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2003,
+          "rows": 29348,
+          "unique_keys": 29348,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4547,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2004,
+          "rows": 29756,
+          "unique_keys": 29756,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4552,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2005,
+          "rows": 30916,
+          "unique_keys": 30916,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4950,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2006,
+          "rows": 30950,
+          "unique_keys": 30950,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4585,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2007,
+          "rows": 31814,
+          "unique_keys": 31814,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4383,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2008,
+          "rows": 32192,
+          "unique_keys": 32192,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4512,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2009,
+          "rows": 33028,
+          "unique_keys": 33028,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4790,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2010,
+          "rows": 33858,
+          "unique_keys": 33858,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 5130,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2011,
+          "rows": 34768,
+          "unique_keys": 34768,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 5440,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2012,
+          "rows": 43814,
+          "unique_keys": 43814,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 7083,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2013,
+          "rows": 44880,
+          "unique_keys": 44880,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 7249,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2014,
+          "rows": 47444,
+          "unique_keys": 47444,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 3623,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2015,
+          "rows": 48924,
+          "unique_keys": 48924,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4030,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2016,
+          "rows": 51362,
+          "unique_keys": 51362,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4198,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2017,
+          "rows": 52802,
+          "unique_keys": 52802,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4405,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2018,
+          "rows": 53056,
+          "unique_keys": 53056,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4396,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2019,
+          "rows": 54730,
+          "unique_keys": 54730,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4553,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2020,
+          "rows": 55442,
+          "unique_keys": 55442,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 4794,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2021,
+          "rows": 57396,
+          "unique_keys": 57396,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 5841,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2022,
+          "rows": 57158,
+          "unique_keys": 57158,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 5967,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2023,
+          "rows": 56406,
+          "unique_keys": 56406,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 5925,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        },
+        {
+          "year": 2024,
+          "rows": 50664,
+          "unique_keys": 50664,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "trade_dq_001": 0,
+          "trade_dq_002": 0,
+          "missing_observations": 0,
+          "genuine_zero": 5308,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        }
+      ],
+      "persisted_spark_status": "SUCCESS"
+    },
+    "usda_psd": {
+      "status": "PASS",
+      "pin": {
+        "table": "iceberg.silver_local.usda_rice_psd",
+        "uuid": "afd22c11-134e-4f9e-bb84-8695aaf2f82c",
+        "snapshot_id": "7561675754441800451"
+      },
+      "rows": 990,
+      "schema_columns": 22,
+      "partitions": [
+        {
+          "year": null,
+          "rows": 990,
+          "unique_keys": 990,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "psd_dq_001": 0,
+          "psd_dq_002": 0,
+          "psd_dq_003": 0,
+          "psd_milling_rate": 0,
+          "psd_conversion": 0,
+          "missing_observations": 0,
+          "genuine_zero": 140,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        }
+      ],
+      "persisted_spark_status": "SUCCESS"
+    },
+    "usda_rice_yearbook": {
+      "status": "PASS",
+      "pin": {
+        "table": "iceberg.silver_local.usda_rice_yearbook",
+        "uuid": "12f9f1a7-030b-4b4f-99cf-6eb4a4b0357f",
+        "snapshot_id": "2558498974942784461"
+      },
+      "rows": 12936,
+      "schema_columns": 23,
+      "partitions": [
+        {
+          "year": null,
+          "rows": 12936,
+          "unique_keys": 12936,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "usda_price_dq_001": 0,
+          "usda_price_dq_002": 0,
+          "missing_observations": 4523,
+          "genuine_zero": 0,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        }
+      ],
+      "persisted_spark_status": "SUCCESS"
+    },
+    "worldbank_pinksheet": {
+      "status": "PASS",
+      "pin": {
+        "table": "iceberg.silver_local.worldbank_commodity_monthly",
+        "uuid": "f9a342d8-f3ee-4287-9966-f57b0672e2ab",
+        "snapshot_id": "4338448473297469539"
+      },
+      "rows": 56232,
+      "schema_columns": 22,
+      "partitions": [
+        {
+          "year": null,
+          "rows": 56232,
+          "unique_keys": 56232,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "wb_dq_001": 0,
+          "wb_dq_002": 0,
+          "wb_dq_003": 0,
+          "missing_observations": 6405,
+          "genuine_zero": 0,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        }
+      ],
+      "persisted_spark_status": "SUCCESS"
+    },
+    "thitruongnongsan": {
+      "status": "PASS",
+      "pin": {
+        "table": "iceberg.silver_local.thitruongnongsan",
+        "uuid": "231603f2-5d5a-493f-8bff-8c479ed52174",
+        "snapshot_id": "6096019421881505089"
+      },
+      "rows": 20387,
+      "schema_columns": 22,
+      "partitions": [
+        {
+          "year": null,
+          "rows": 20387,
+          "unique_keys": 20387,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "vn_price_dq_001": 0,
+          "vn_price_dq_002": 0,
+          "vn_price_dq_003": 0,
+          "missing_observations": 0,
+          "genuine_zero": 29,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        }
+      ],
+      "persisted_spark_status": "SUCCESS"
+    },
+    "nso": {
+      "status": "PASS",
+      "pin": {
+        "table": "iceberg.silver_local.nso_rice_statistics",
+        "uuid": "3fa9ef1e-24dc-4803-9ca9-7b123a7453b4",
+        "snapshot_id": "139672476149787931"
+      },
+      "rows": 23060,
+      "schema_columns": 44,
+      "partitions": [
+        {
+          "year": null,
+          "rows": 23060,
+          "unique_keys": 23060,
+          "invalid_required": 0,
+          "invalid_lineage": 0,
+          "nso_v2_grain": 0,
+          "nso_v2_missing": 0,
+          "nso_v2_units": 0,
+          "nso_v2_geography": 0,
+          "nso_v2_period": 0,
+          "nso_v2_geography_review": 22500,
+          "nso_v2_discrepancy": 344,
+          "missing_observations": 946,
+          "genuine_zero": 5,
+          "signed_negative": 0,
+          "invalid_missing": 0
+        }
+      ],
+      "persisted_spark_status": "SUCCESS"
+    }
+  },
+  "queries": [
+    {
+      "id": "20261026_154124_00054_yp58u",
+      "seconds": 0.5648734400001558
+    },
+    {
+      "id": "20261026_154125_00055_yp58u",
+      "seconds": 0.6915210139995907
+    },
+    {
+      "id": "20261026_154125_00056_yp58u",
+      "seconds": 3.1246405220008455
+    },
+    {
+      "id": "20261026_154128_00057_yp58u",
+      "seconds": 0.26198674000079336
+    },
+    {
+      "id": "20261026_154129_00058_yp58u",
+      "seconds": 0.21349640900007216
+    },
+    {
+      "id": "20261026_154129_00059_yp58u",
+      "seconds": 1.5901427649987454
+    },
+    {
+      "id": "20261026_154131_00060_yp58u",
+      "seconds": 0.196118492000096
+    },
+    {
+      "id": "20261026_154131_00061_yp58u",
+      "seconds": 0.18832650399963313
+    },
+    {
+      "id": "20261026_154131_00062_yp58u",
+      "seconds": 1.595037508999667
+    },
+    {
+      "id": "20261026_154133_00063_yp58u",
+      "seconds": 0.19506694699884974
+    },
+    {
+      "id": "20261026_154133_00064_yp58u",
+      "seconds": 0.5046792560005997
+    },
+    {
+      "id": "20261026_154133_00065_yp58u",
+      "seconds": 0.29198027399979765
+    },
+    {
+      "id": "20261026_154133_00066_yp58u",
+      "seconds": 0.6115526600005978
+    },
+    {
+      "id": "20261026_154134_00067_yp58u",
+      "seconds": 0.7787049500002468
+    },
+    {
+      "id": "20261026_154135_00068_yp58u",
+      "seconds": 0.4987272110010963
+    },
+    {
+      "id": "20261026_154135_00069_yp58u",
+      "seconds": 0.3058246659984434
+    },
+    {
+      "id": "20261026_154136_00070_yp58u",
+      "seconds": 0.4093259189994569
+    },
+    {
+      "id": "20261026_154136_00071_yp58u",
+      "seconds": 0.2883652450000227
+    },
+    {
+      "id": "20261026_154136_00072_yp58u",
+      "seconds": 0.31764137800018943
+    },
+    {
+      "id": "20261026_154137_00073_yp58u",
+      "seconds": 0.4758178889987903
+    },
+    {
+      "id": "20261026_154137_00074_yp58u",
+      "seconds": 0.21751004600082524
+    },
+    {
+      "id": "20261026_154137_00075_yp58u",
+      "seconds": 0.31223548900015885
+    },
+    {
+      "id": "20261026_154138_00076_yp58u",
+      "seconds": 0.4921354859998246
+    },
+    {
+      "id": "20261026_154138_00077_yp58u",
+      "seconds": 0.31389482699887594
+    },
+    {
+      "id": "20261026_154139_00078_yp58u",
+      "seconds": 0.38789856499897724
+    },
+    {
+      "id": "20261026_154139_00079_yp58u",
+      "seconds": 0.5955122639988986
+    },
+    {
+      "id": "20261026_154140_00080_yp58u",
+      "seconds": 0.3780741880000278
+    },
+    {
+      "id": "20261026_154140_00081_yp58u",
+      "seconds": 0.4982472769988817
+    },
+    {
+      "id": "20261026_154140_00082_yp58u",
+      "seconds": 0.6051171290000639
+    },
+    {
+      "id": "20261026_154141_00083_yp58u",
+      "seconds": 0.3954639090006822
+    },
+    {
+      "id": "20261026_154141_00084_yp58u",
+      "seconds": 0.4037115430000995
+    },
+    {
+      "id": "20261026_154142_00085_yp58u",
+      "seconds": 0.6368378739989566
+    },
+    {
+      "id": "20261026_154142_00086_yp58u",
+      "seconds": 0.5698896619996958
+    },
+    {
+      "id": "20261026_154143_00087_yp58u",
+      "seconds": 0.5489591990008194
+    },
+    {
+      "id": "20261026_154144_00088_yp58u",
+      "seconds": 0.5575632780000888
+    },
+    {
+      "id": "20261026_154144_00089_yp58u",
+      "seconds": 0.5013039720015513
+    },
+    {
+      "id": "20261026_154145_00090_yp58u",
+      "seconds": 0.6065521670007001
+    },
+    {
+      "id": "20261026_154145_00091_yp58u",
+      "seconds": 0.5140789359993505
+    },
+    {
+      "id": "20261026_154146_00092_yp58u",
+      "seconds": 0.6637915410010464
+    },
+    {
+      "id": "20261026_154146_00093_yp58u",
+      "seconds": 0.5239260600010311
+    },
+    {
+      "id": "20261026_154147_00094_yp58u",
+      "seconds": 0.6876174179997179
+    },
+    {
+      "id": "20261026_154148_00095_yp58u",
+      "seconds": 0.5977216869996482
+    },
+    {
+      "id": "20261026_154148_00096_yp58u",
+      "seconds": 0.621750547999909
+    },
+    {
+      "id": "20261026_154149_00097_yp58u",
+      "seconds": 0.7020210739992763
+    },
+    {
+      "id": "20261026_154150_00098_yp58u",
+      "seconds": 0.7106898199999705
+    },
+    {
+      "id": "20261026_154150_00099_yp58u",
+      "seconds": 0.778053252999598
+    },
+    {
+      "id": "20261026_154151_00100_yp58u",
+      "seconds": 0.7830272679984773
+    },
+    {
+      "id": "20261026_154152_00101_yp58u",
+      "seconds": 0.7944887600006041
+    },
+    {
+      "id": "20261026_154153_00102_yp58u",
+      "seconds": 0.6980827349998435
+    },
+    {
+      "id": "20261026_154153_00103_yp58u",
+      "seconds": 0.7133640570009447
+    },
+    {
+      "id": "20261026_154154_00104_yp58u",
+      "seconds": 0.6344498769994971
+    },
+    {
+      "id": "20261026_154155_00105_yp58u",
+      "seconds": 0.14638670699969225
+    },
+    {
+      "id": "20261026_154155_00106_yp58u",
+      "seconds": 0.20118899900080578
+    },
+    {
+      "id": "20261026_154155_00107_yp58u",
+      "seconds": 1.1943060519988649
+    },
+    {
+      "id": "20261026_154156_00108_yp58u",
+      "seconds": 0.11075010099921201
+    },
+    {
+      "id": "20261026_154156_00109_yp58u",
+      "seconds": 0.10435762999986764
+    },
+    {
+      "id": "20261026_154156_00110_yp58u",
+      "seconds": 0.8890752119987155
+    },
+    {
+      "id": "20261026_154157_00111_yp58u",
+      "seconds": 0.1122516600007657
+    },
+    {
+      "id": "20261026_154157_00112_yp58u",
+      "seconds": 0.17126163699867902
+    },
+    {
+      "id": "20261026_154158_00113_yp58u",
+      "seconds": 1.3832201119985257
+    },
+    {
+      "id": "20261026_154159_00114_yp58u",
+      "seconds": 0.10759366999991471
+    },
+    {
+      "id": "20261026_154159_00115_yp58u",
+      "seconds": 0.11891690500124241
+    },
+    {
+      "id": "20261026_154159_00116_yp58u",
+      "seconds": 0.569906283999444
+    },
+    {
+      "id": "20261026_154200_00117_yp58u",
+      "seconds": 0.17674931600049604
+    },
+    {
+      "id": "20261026_154200_00118_yp58u",
+      "seconds": 0.20297986200057494
+    },
+    {
+      "id": "20261026_154200_00119_yp58u",
+      "seconds": 1.291682586999741
+    }
+  ],
+  "silver_run_id": "local_nine_bronze__01642403687b19185d020dc67609ba14016444a733e68e54d789c5e4a567984b",
+  "published_batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+  "status": "PASS",
+  "completed_at": "2026-10-26T15:42:01.831056+00:00"
+}

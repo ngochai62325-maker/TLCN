@@ -20,6 +20,8 @@ __pycache__/
 build/
 dist/
 .pytest_cache/
+.test-tmp/
+.venv-foundation/
 .coverage
 htmlcov/
 .ipynb_checkpoints/
@@ -41,5 +43,7 @@ docs/*
 !docs/silver/
 !docs/gold/
 !docs/handoff/
+!docs/foundation/
+!docs/analytics/
 
 data/raw/faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv

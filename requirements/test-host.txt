@@ -1,0 +1,4 @@
+# Run from repository root in a dedicated venv. Runtime images keep their locks.
+-e .[dev]
+pytest==8.4.2
+responses==0.25.8
