@@ -1,6 +1,10 @@
 # TLCN Rice Lakehouse — Project Context
 
-## Current reporting decision — 27/10/2026
+## Current analytics delivery — 06/11/2026
+
+**DATA_MARTS_POWERBI_COMPLETE**, baseline `feat(gold)@cd2f1a77b27d5bcba6f1d925e3d9305952551bae`. Eight scoped Analytics marts/ten immutable CSVs, editable six-page PBIP/TMDL/PBIR và genuine Desktop-authored PBIX đã hoàn tất. 22 EDA IDs reconciled trong cùng batch; 58 Desktop DAX checks và 589 unit tests PASS. Publication và 36 table UUID/snapshot/metadata/file sets giữ nguyên; không ETL/DAG/Iceberg writes. [Delivery/evidence](../powerbi/REPORT_VALIDATION.md), [run/refresh](../powerbi/REPORT_IMPLEMENTATION.md). Mở local `powerbi/TLCN_Rice_Analytics.pbix`; export mới dùng `python -m jobs.analytics.build_powerbi_marts` rồi verify/cập nhật ExportFolder. PBIX/CSV/caches Git-ignored. Không Pro/cloud hoặc Streamlit. Foundation limitations và portability scope của teammate vẫn nguyên.
+
+## Historical reporting decision — 27/10/2026
 
 **Streamlit discontinued; Power BI Desktop Free chosen.** Source/tests/requirements/validator riêng UI đã xóa; historical acceptance ở [archive](../dashboard/archive/README.md). Gold 17 tables, publication/semantic SQL, Bronze/Silver và six executed EDA notebooks không đổi. Tái dùng `src/analytics/`, 14 fixed SQL templates + publication metadata operation; các bổ sung NSO scope/geography và publication metadata trước đây được giữ vì exporter sử dụng.
 

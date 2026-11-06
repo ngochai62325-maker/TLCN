@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import re
+import time
 import uuid
 
 import pandas as pd
@@ -97,7 +98,7 @@ def csv_read(path, schema):
                 if val=='':
                     if not kind.endswith('?'):raise ValueError('Unexpected empty required cell')
                     row[name]=None
-                elif kind=='integer':
+                elif kind.rstrip('?')=='integer':
                     if not re.fullmatch(r'0|[1-9][0-9]*',val):raise ValueError('Invalid integer encoding')
                     row[name]=int(val)
                 elif kind.startswith('decimal'):
@@ -135,16 +136,41 @@ def check_rows(name, rows):
 def verify_bundle(folder):
     folder=Path(folder)
     manifest=json.loads((folder/'export_manifest.json').read_text(encoding='utf-8'))
-    if manifest.get('status')!='COMPLETE' or manifest.get('format_version')!=FORMAT_VERSION or set(manifest.get('outputs',{}))!=set(SCHEMAS):
+    schemas=dict(SCHEMAS)
+    if manifest.get('format_version')=='powerbi-csv-2':
+        from analytics.marts.powerbi import SCHEMAS as extra
+        schemas.update(extra)
+    if manifest.get('status')!='COMPLETE' or manifest.get('format_version') not in (FORMAT_VERSION,'powerbi-csv-2') or set(manifest.get('outputs',{}))!=set(schemas):
         raise ValueError('Incomplete/unknown export manifest')
     if not re.fullmatch(r'[0-9a-f]{64}',manifest.get('published_batch','')):raise ValueError('Missing batch identity')
-    for name,schema in SCHEMAS.items():
+    for name,schema in schemas.items():
         record=manifest['outputs'][name];path=folder/name
         if path.is_symlink() or record['filename']!=name or record['schema']!=[{'name':n,'type':t} for n,t in schema] or sha256(path)!=record['sha256']:
             raise ValueError('CSV checksum/schema mismatch')
         rows=csv_read(path,schema)
         if len(rows)!=record['rows']:raise ValueError('CSV row count mismatch')
-        check_rows(name,rows)
+        if name in SCHEMAS:check_rows(name,rows)
+        else:
+            from analytics.marts.powerbi import check
+            check(name,rows)
+    if manifest.get('format_version')=='powerbi-csv-2':
+        from analytics.marts.powerbi import contracts
+        from gold.keys import fingerprint
+        expected=contracts()
+        if manifest.get('mart_contracts')!=expected or manifest.get('mart_contracts_sha256')!=fingerprint(expected):raise ValueError('Mart contract version/fingerprint drift')
+        from gold.spec import load_spec
+        from collections import Counter
+        if set(manifest.get('snapshots',{}))!=set(load_spec()) or manifest.get('source_namespace')!='iceberg.gold_local':raise ValueError('Incomplete mart snapshot context')
+        expected_queries={'publication':2,'fact_overview':9,'nso_scope_catalogue':2,'nso_observations':2,'catalogue':3,'fao_production':1,'price_observations':2,'sua':1,'psd':1,'trade':5}
+        if Counter(r['query'] for r in manifest.get('sql_definitions',[]))!=Counter(expected_queries):raise ValueError('Incomplete mart SQL provenance inventory')
+        bound={'outputs':manifest['snapshots']}
+        from analytics.queries import compile_query
+        for record in manifest.get('sql_definitions',[]):
+            sql,digest=compile_query(record['query'],record['parameters'],bound)
+            if record['version']!=VERSION or digest!=record['definition_sha256'] or hashlib.sha256((sql or '').encode()).hexdigest()!=record['compiled_sql_sha256']:raise ValueError('Mart SQL provenance mismatch')
+        overview=csv_read(folder/'fact_overview.csv',SCHEMAS['fact_overview.csv'])
+        for field,col in [('fact_observations','rows_total'),('numeric_observations','numeric_rows'),('present_null_observations','present_null_rows')]:
+            if manifest['reconciliation'][field]!=sum(r[col] for r in overview):raise ValueError('Manifest count reconciliation mismatch')
     return manifest
 
 
@@ -240,13 +266,15 @@ def cleanup_owned(folder,root):
     """Only our known flat files, never recursive deletion of a computed path."""
     if folder is None or not folder.exists():return
     if folder.resolve().parent!=root.resolve() or folder.is_symlink():raise RuntimeError('Unsafe export cleanup target')
-    for name in ['export_manifest.json',*SCHEMAS]:
+    from analytics.marts.powerbi import SCHEMAS as extra
+    for name in ['export_manifest.json',*SCHEMAS,*extra]:
         path=folder/name
         if path.exists() and path.is_file() and not path.is_symlink():path.unlink()
     folder.rmdir()
 
 
-def export_bundle(root,client=None,fence=publication_fence):
+def export_bundle(root,client=None,fence=publication_fence,report=False):
+    started=time.monotonic()
     root=Path(root).resolve();root.mkdir(parents=True,exist_ok=True)
     # Normal inherited workspace ACLs, including on Windows. mkdtemp(mode=700)
     # would make the promoted report folder inaccessible to restricted readers.
@@ -267,8 +295,13 @@ def export_bundle(root,client=None,fence=publication_fence):
         data,scope=observations(session,'V06.12.csv',{'production','area'})
         yields,yield_scope=observations(session,'V06.14.csv',{'yield'})
         files,lineage,reconciliation=nso_exports(data,yields);files['fact_overview.csv']=overview
+        schemas=dict(SCHEMAS)
+        if report:
+            from analytics.marts.powerbi import build,SCHEMAS as extra
+            extra_files,extra_lineage,extra_reconciliation=build(session)
+            files.update(extra_files);lineage.update(extra_lineage);reconciliation.update(extra_reconciliation);schemas.update(extra)
         outputs={}
-        for name,schema in SCHEMAS.items():
+        for name,schema in schemas.items():
             write_csv(stage/name,files[name],schema)
             if csv_read(stage/name,schema)!=files[name]:raise ValueError('CSV exact roundtrip reconciliation failed')
             outputs[name]=dict(filename=name,schema=[{'name':n,'type':t} for n,t in schema],rows=len(files[name]),sha256=sha256(stage/name),encoding='utf-8-sig')
@@ -279,7 +312,7 @@ def export_bundle(root,client=None,fence=publication_fence):
         final=root/(session.batch[:12]+'_'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'_'+export_id[:8])
         if final.exists() or final.parent!=root:raise RuntimeError('Unsafe/non-unique export destination')
         with fence(payload):
-            manifest=dict(status='COMPLETE',format_version=FORMAT_VERSION,export_id=export_id,
+            manifest=dict(status='COMPLETE',format_version='powerbi-csv-2' if report else FORMAT_VERSION,export_id=export_id,
                 export_timestamp=datetime.now(timezone.utc).isoformat(),published_batch=session.batch,gold_model=info['model'],
                 publication_manifest_sha256=session.manifest_sha,source_namespace='iceberg.gold_local',snapshots=pins,
                 sql_definitions=session.definitions,typed_scope={'annual_and_seasonal':scope,'reported_yield':yield_scope},outputs=outputs,
@@ -290,6 +323,22 @@ def export_bundle(root,client=None,fence=publication_fence):
                     'scope':'source-scoped national; no official geography conversion; quantity only; annual and seasonal kept separate',
                     'coverage_pct':'numeric_rows / rows_total * 100, rounded to eight decimal places; undefined when rows_total=0',
                     'publication_fence':'Gold/source shared locks held during atomic directory promotion; manifest verified again before release'})
+            if report:
+                from analytics.marts.powerbi import contracts
+                from gold.keys import fingerprint
+                manifest['mart_contracts']=contracts()
+                manifest['mart_contracts_sha256']=fingerprint(manifest['mart_contracts'])
+                evidence=session.client.evidence
+                manifest['performance']={
+                    'wall_seconds_before_promotion':time.monotonic()-started,
+                    'analytics_requests':len(evidence),
+                    'trino_requests':sum(bool(e.get('query_id')) for e in evidence),
+                    'sql_seconds':sum(e.get('query_seconds',0) for e in evidence),
+                    'client_seconds':sum(e.get('client_seconds',0) for e in evidence),
+                    'minimum_windows_available_bytes':min((e['windows_available_bytes'] for e in evidence if 'windows_available_bytes' in e),default=None),
+                    'output_rows':sum(v['rows'] for v in outputs.values()),
+                    'output_csv_bytes':sum((stage/n).stat().st_size for n in outputs),
+                    'queries':[{k:e[k] for k in ('query','query_id','query_seconds','client_seconds','row_count','response_bytes','stats') if k in e} for e in evidence]}
             (stage/'export_manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2,default=str),encoding='utf-8')
             verify_bundle(stage)
             os.rename(stage,final);promoted=final

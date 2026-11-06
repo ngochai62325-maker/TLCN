@@ -16,7 +16,8 @@ from analytics import VERSION
 from analytics.client import windows_available_bytes
 from analytics.queries import compile_query
 
-OPERATIONS = {'publication', 'fact_overview', 'nso_scope_catalogue', 'nso_observations'}
+OPERATIONS = {'publication', 'fact_overview', 'nso_scope_catalogue', 'nso_observations',
+              'catalogue', 'fao_production', 'sua', 'psd', 'price_observations', 'trade'}
 
 
 def valid_finish(line):

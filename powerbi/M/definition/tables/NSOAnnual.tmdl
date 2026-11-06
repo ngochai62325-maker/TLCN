@@ -1,0 +1,43 @@
+table NSOAnnual
+	column year
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year
+	column production_t
+		dataType: double
+		summarizeBy: none
+		sourceColumn: production_t
+	column area_ha
+		dataType: double
+		summarizeBy: none
+		sourceColumn: area_ha
+	column publication
+		dataType: string
+		summarizeBy: none
+		sourceColumn: publication
+	column geography_scope
+		dataType: string
+		summarizeBy: none
+		sourceColumn: geography_scope
+	column production_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: production_present
+	column area_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: area_present
+	partition NSOAnnual = m
+		mode: import
+		source =
+			let
+			    Raw = Csv.Document(File.Contents(ExportFolder & "\nso_national_annual.csv"), [Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+			    Checked = if Table.ColumnNames(Headers) = {"year", "production_t", "area_ha", "publication", "geography_scope", "production_present", "area_present"} then Headers else error "CSV schema mismatch",
+			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+			    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"production_t", type number}, {"area_ha", type number}, {"publication", type text}, {"geography_scope", type text}, {"production_present", type logical}, {"area_present", type logical}}, "en-US"),
+			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+			    Entry = Record.Field(Manifest[outputs], "nso_national_annual.csv"),
+			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+			in
+			    Accepted

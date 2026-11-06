@@ -1,0 +1,10 @@
+table BenchmarkMonth
+	column Date
+		dataType: dateTime
+		summarizeBy: none
+		sourceColumn: Date
+		formatString: yyyy-MM-dd
+	partition BenchmarkMonth = m
+		mode: import
+		source =
+			Table.RenameColumns(Table.Distinct(Table.SelectColumns(WB,{"month_date"})),{{"month_date","Date"}})

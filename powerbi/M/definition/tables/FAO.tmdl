@@ -1,0 +1,79 @@
+table FAO
+	column year
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year
+	column geography_key
+		dataType: string
+		summarizeBy: none
+		sourceColumn: geography_key
+	column area_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: area_code
+	column area_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: area_name
+	column product_key
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product_key
+	column product_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product_code
+	column production_t
+		dataType: double
+		summarizeBy: none
+		sourceColumn: production_t
+	column area_ha
+		dataType: double
+		summarizeBy: none
+		sourceColumn: area_ha
+	column reported_yield_kg_ha
+		dataType: double
+		summarizeBy: none
+		sourceColumn: reported_yield_kg_ha
+	column computed_yield_kg_ha
+		dataType: double
+		summarizeBy: none
+		sourceColumn: computed_yield_kg_ha
+	column production_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: production_present
+	column area_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: area_present
+	column yield_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: yield_present
+	column paired_valid
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: paired_valid
+	column paired_production_t
+		dataType: double
+		summarizeBy: none
+		sourceColumn: paired_production_t
+	column paired_area_ha
+		dataType: double
+		summarizeBy: none
+		sourceColumn: paired_area_ha
+	partition FAO = m
+		mode: import
+		source =
+			let
+			    Raw = Csv.Document(File.Contents(ExportFolder & "\fao_production.csv"), [Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+			    Checked = if Table.ColumnNames(Headers) = {"year", "geography_key", "area_code", "area_name", "product_key", "product_code", "production_t", "area_ha", "reported_yield_kg_ha", "computed_yield_kg_ha", "production_present", "area_present", "yield_present", "paired_valid", "paired_production_t", "paired_area_ha"} then Headers else error "CSV schema mismatch",
+			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+			    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"geography_key", type text}, {"area_code", type text}, {"area_name", type text}, {"product_key", type text}, {"product_code", type text}, {"production_t", type number}, {"area_ha", type number}, {"reported_yield_kg_ha", type number}, {"computed_yield_kg_ha", type number}, {"production_present", type logical}, {"area_present", type logical}, {"yield_present", type logical}, {"paired_valid", type logical}, {"paired_production_t", type number}, {"paired_area_ha", type number}}, "en-US"),
+			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+			    Entry = Record.Field(Manifest[outputs], "fao_production.csv"),
+			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+			in
+			    Accepted

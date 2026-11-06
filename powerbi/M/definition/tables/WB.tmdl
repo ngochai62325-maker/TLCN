@@ -1,0 +1,64 @@
+table WB
+	column month_date
+		dataType: dateTime
+		summarizeBy: none
+		sourceColumn: month_date
+		formatString: yyyy-MM-dd
+	column year
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year
+	column month_key
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: month_key
+	column series_key
+		dataType: string
+		summarizeBy: none
+		sourceColumn: series_key
+	column series_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: series_code
+	column unit
+		dataType: string
+		summarizeBy: none
+		sourceColumn: unit
+	column price_usd_t
+		dataType: double
+		summarizeBy: none
+		sourceColumn: price_usd_t
+	column observation_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: observation_present
+	column numeric_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: numeric_present
+	column previous_month_numeric
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: previous_month_numeric
+	column monthly_change_pct
+		dataType: double
+		summarizeBy: none
+		sourceColumn: monthly_change_pct
+	column volatility_12m_pct
+		dataType: double
+		summarizeBy: none
+		sourceColumn: volatility_12m_pct
+	partition WB = m
+		mode: import
+		source =
+			let
+			    Raw = Csv.Document(File.Contents(ExportFolder & "\wb_benchmark.csv"), [Delimiter=",", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+			    Checked = if Table.ColumnNames(Headers) = {"month_date", "year", "month_key", "series_key", "series_code", "unit", "price_usd_t", "observation_present", "numeric_present", "previous_month_numeric", "monthly_change_pct", "volatility_12m_pct"} then Headers else error "CSV schema mismatch",
+			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+			    Typed = Table.TransformColumnTypes(Missing, {{"month_date", type date}, {"year", Int64.Type}, {"month_key", Int64.Type}, {"series_key", type text}, {"series_code", type text}, {"unit", type text}, {"price_usd_t", type number}, {"observation_present", type logical}, {"numeric_present", type logical}, {"previous_month_numeric", type logical}, {"monthly_change_pct", type number}, {"volatility_12m_pct", type number}}, "en-US"),
+			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+			    Entry = Record.Field(Manifest[outputs], "wb_benchmark.csv"),
+			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+			in
+			    Accepted

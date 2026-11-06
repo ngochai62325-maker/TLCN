@@ -1,6 +1,12 @@
 # TLCN Rice Lakehouse — Next Steps
 
-## Current next steps — 27/10/2026
+## Current next steps — 06/11/2026
+
+1. Review [six-page Power BI delivery](../powerbi/REPORT_IMPLEMENTATION.md), [actual acceptance](../powerbi/REPORT_VALIDATION.md) và [insight/scope matrix](../powerbi/REPORT_INSIGHTS.md). Không dựng lại report từ đầu; local PBIX đã author/save/reopen, editable source ở `powerbi/`.
+2. Demo bằng `Invoke-Item .\powerbi\TLCN_Rice_Analytics.pbix`; cached Import không cần Gold queries. Khi cần dữ liệu mới: đóng Desktop nếu thiếu RAM, kiểm gates, `python -m jobs.analytics.build_powerbi_marts`, verify immutable bundle, đổi cùng parameter ExportFolder rồi Refresh/validate/Save.
+3. Giữ foundation retention/recovery limitations; chưa có universal conformance, FX, full global trade shares hay ML. Teammate tiếp tục second-laptop portability. Không tự trigger pipeline/rewrite published snapshots hoặc commit/push.
+
+## Historical next steps — 27/10/2026
 
 Baseline `feat(gold)@4bccf05ef1ba91f58d94df141cbbe6b97a28a6f4`; H01–H05 đã triển khai và nghiệm thu theo [scope/limitations](../foundation/ACCEPTANCE.md). Không reimplement các findings lịch sử bên dưới nếu chưa đối chiếu code mới.
 

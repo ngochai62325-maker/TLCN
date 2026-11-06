@@ -1,0 +1,1332 @@
+{
+  "status": "DATA_MARTS_POWERBI_COMPLETE",
+  "verified_at": "2026-11-06T04:02:40.498521+00:00",
+  "git_baseline": {
+    "branch": "feat(gold)",
+    "head": "cd2f1a77b27d5bcba6f1d925e3d9305952551bae",
+    "preexisting_untracked_preserved": [
+      "docs/bronze/BRONZE_PRESENTATION.md",
+      "docs/bronze/FULL_INCREMENTAL_AND_RELOAD.md",
+      "docs/gold/GOLD_PRESENTATION.md",
+      "docs/silver/SILVER_PRESENTATION.md"
+    ],
+    "commit_push_pull_merge_rebase_performed": false
+  },
+  "export": {
+    "bundle": "exports/powerbi/ec421297c194_20261106T031815Z_01d03710",
+    "format_version": "powerbi-csv-2",
+    "published_batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+    "gold_model": "gold-20261025.1",
+    "publication_manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+    "export_manifest_sha256": "d738cdf0110e9c4f3d56a6ebe23f069a45dda37af9e312b5bdbb738640b035ab",
+    "outputs": {
+      "fact_overview.csv": {
+        "filename": "fact_overview.csv",
+        "schema": [
+          {
+            "name": "fact_name",
+            "type": "text"
+          },
+          {
+            "name": "rows_total",
+            "type": "integer"
+          },
+          {
+            "name": "numeric_rows",
+            "type": "integer"
+          },
+          {
+            "name": "present_null_rows",
+            "type": "integer"
+          },
+          {
+            "name": "numeric_coverage_pct",
+            "type": "decimal?"
+          },
+          {
+            "name": "period_min",
+            "type": "text?"
+          },
+          {
+            "name": "period_max",
+            "type": "text?"
+          },
+          {
+            "name": "represented_periods",
+            "type": "integer"
+          },
+          {
+            "name": "period_grain",
+            "type": "text"
+          }
+        ],
+        "rows": 9,
+        "sha256": "0f2cd2aa96efbfd90a67d55a82e91ccc833808f00a48e7bf4362e11aca0381ea",
+        "encoding": "utf-8-sig",
+        "bytes": 870
+      },
+      "nso_national_annual.csv": {
+        "filename": "nso_national_annual.csv",
+        "schema": [
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "production_t",
+            "type": "decimal?"
+          },
+          {
+            "name": "area_ha",
+            "type": "decimal?"
+          },
+          {
+            "name": "publication",
+            "type": "text"
+          },
+          {
+            "name": "geography_scope",
+            "type": "text"
+          },
+          {
+            "name": "production_present",
+            "type": "boolean"
+          },
+          {
+            "name": "area_present",
+            "type": "boolean"
+          }
+        ],
+        "rows": 35,
+        "sha256": "74b3c7dd2ff9732f15b362d8a366f5b48855435300308467424464da4e7cac49",
+        "encoding": "utf-8-sig",
+        "bytes": 2539
+      },
+      "nso_national_seasonal.csv": {
+        "filename": "nso_national_seasonal.csv",
+        "schema": [
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "season",
+            "type": "text"
+          },
+          {
+            "name": "production_t",
+            "type": "decimal?"
+          },
+          {
+            "name": "publication",
+            "type": "text"
+          },
+          {
+            "name": "geography_scope",
+            "type": "text"
+          },
+          {
+            "name": "production_present",
+            "type": "boolean"
+          },
+          {
+            "name": "season_label_vi",
+            "type": "text"
+          }
+        ],
+        "rows": 105,
+        "sha256": "eb440c39445bad3f04b117d3346d22ab72c8df419bcc8e3f2c5a1a23dbc7d20a",
+        "encoding": "utf-8-sig",
+        "bytes": 7562
+      },
+      "nso_reported_yield.csv": {
+        "filename": "nso_reported_yield.csv",
+        "schema": [
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "yield_kg_ha",
+            "type": "decimal?"
+          },
+          {
+            "name": "publication",
+            "type": "text"
+          },
+          {
+            "name": "yield_present",
+            "type": "boolean"
+          }
+        ],
+        "rows": 30,
+        "sha256": "9d66a581885157bff690b819e47379fdcc21a7e9f4132375e7daeb3040c09077",
+        "encoding": "utf-8-sig",
+        "bytes": 1096
+      },
+      "fao_production.csv": {
+        "filename": "fao_production.csv",
+        "schema": [
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "geography_key",
+            "type": "text"
+          },
+          {
+            "name": "area_code",
+            "type": "text"
+          },
+          {
+            "name": "area_name",
+            "type": "text"
+          },
+          {
+            "name": "product_key",
+            "type": "text"
+          },
+          {
+            "name": "product_code",
+            "type": "text"
+          },
+          {
+            "name": "production_t",
+            "type": "decimal?"
+          },
+          {
+            "name": "area_ha",
+            "type": "decimal?"
+          },
+          {
+            "name": "reported_yield_kg_ha",
+            "type": "decimal?"
+          },
+          {
+            "name": "computed_yield_kg_ha",
+            "type": "decimal?"
+          },
+          {
+            "name": "production_present",
+            "type": "boolean"
+          },
+          {
+            "name": "area_present",
+            "type": "boolean"
+          },
+          {
+            "name": "yield_present",
+            "type": "boolean"
+          },
+          {
+            "name": "paired_valid",
+            "type": "boolean"
+          },
+          {
+            "name": "paired_production_t",
+            "type": "decimal?"
+          },
+          {
+            "name": "paired_area_ha",
+            "type": "decimal?"
+          }
+        ],
+        "rows": 256,
+        "sha256": "b2bfc379de7837ce011fe5528162a76c3730119de0507cffe58385b3e621090c",
+        "encoding": "utf-8-sig",
+        "bytes": 66168
+      },
+      "wb_benchmark.csv": {
+        "filename": "wb_benchmark.csv",
+        "schema": [
+          {
+            "name": "month_date",
+            "type": "text"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "month_key",
+            "type": "integer"
+          },
+          {
+            "name": "series_key",
+            "type": "text"
+          },
+          {
+            "name": "series_code",
+            "type": "text"
+          },
+          {
+            "name": "unit",
+            "type": "text"
+          },
+          {
+            "name": "price_usd_t",
+            "type": "decimal?"
+          },
+          {
+            "name": "observation_present",
+            "type": "boolean"
+          },
+          {
+            "name": "numeric_present",
+            "type": "boolean"
+          },
+          {
+            "name": "previous_month_numeric",
+            "type": "boolean"
+          },
+          {
+            "name": "monthly_change_pct",
+            "type": "decimal?"
+          },
+          {
+            "name": "volatility_12m_pct",
+            "type": "decimal?"
+          }
+        ],
+        "rows": 312,
+        "sha256": "73f028f5876537be618d2f4961c9fd18303c01a739285727d0b695668d758bac",
+        "encoding": "utf-8-sig",
+        "bytes": 56671
+      },
+      "vn_quote.csv": {
+        "filename": "vn_quote.csv",
+        "schema": [
+          {
+            "name": "date",
+            "type": "text"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "series_key",
+            "type": "text"
+          },
+          {
+            "name": "market",
+            "type": "text"
+          },
+          {
+            "name": "commodity",
+            "type": "text"
+          },
+          {
+            "name": "price_type",
+            "type": "text"
+          },
+          {
+            "name": "unit",
+            "type": "text"
+          },
+          {
+            "name": "currency",
+            "type": "text"
+          },
+          {
+            "name": "information_source",
+            "type": "text"
+          },
+          {
+            "name": "price_vnd_kg",
+            "type": "decimal?"
+          },
+          {
+            "name": "observation_present",
+            "type": "boolean"
+          },
+          {
+            "name": "numeric_present",
+            "type": "boolean"
+          },
+          {
+            "name": "days_since_previous_quote",
+            "type": "integer?"
+          }
+        ],
+        "rows": 484,
+        "sha256": "64db3df3b0350128eec688303156660fd7931ad8038a295fda5facb3d05d216a",
+        "encoding": "utf-8-sig",
+        "bytes": 92639
+      },
+      "trade_exports.csv": {
+        "filename": "trade_exports.csv",
+        "schema": [
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "reporter_key",
+            "type": "text"
+          },
+          {
+            "name": "reporter_code",
+            "type": "text"
+          },
+          {
+            "name": "partner_key",
+            "type": "text"
+          },
+          {
+            "name": "partner_code",
+            "type": "text"
+          },
+          {
+            "name": "partner_name",
+            "type": "text"
+          },
+          {
+            "name": "product_key",
+            "type": "text"
+          },
+          {
+            "name": "product_code",
+            "type": "text"
+          },
+          {
+            "name": "direction",
+            "type": "text"
+          },
+          {
+            "name": "quantity_t",
+            "type": "decimal?"
+          },
+          {
+            "name": "value_usd",
+            "type": "decimal?"
+          },
+          {
+            "name": "unit_value_usd_t",
+            "type": "decimal?"
+          },
+          {
+            "name": "quantity_present",
+            "type": "boolean"
+          },
+          {
+            "name": "value_present",
+            "type": "boolean"
+          },
+          {
+            "name": "denominator_valid",
+            "type": "boolean"
+          },
+          {
+            "name": "paired_quantity_t",
+            "type": "decimal?"
+          },
+          {
+            "name": "paired_value_usd",
+            "type": "decimal?"
+          }
+        ],
+        "rows": 15,
+        "sha256": "6b1dbb9767d53243aaac625f416fab22a011e3f201caa2d1e77355074dca9d62",
+        "encoding": "utf-8-sig",
+        "bytes": 5168
+      },
+      "sua_components.csv": {
+        "filename": "sua_components.csv",
+        "schema": [
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "geography_key",
+            "type": "text"
+          },
+          {
+            "name": "area_code",
+            "type": "text"
+          },
+          {
+            "name": "product_key",
+            "type": "text"
+          },
+          {
+            "name": "product_code",
+            "type": "text"
+          },
+          {
+            "name": "element_code",
+            "type": "text"
+          },
+          {
+            "name": "metric",
+            "type": "text"
+          },
+          {
+            "name": "unit",
+            "type": "text"
+          },
+          {
+            "name": "value_t",
+            "type": "decimal?"
+          },
+          {
+            "name": "observation_present",
+            "type": "boolean"
+          },
+          {
+            "name": "aggregation_rule",
+            "type": "text"
+          }
+        ],
+        "rows": 112,
+        "sha256": "cc38fc23798d2fc1a95ce3f8c0c6114ce03957ea955b0863e92bfef886b0c39d",
+        "encoding": "utf-8-sig",
+        "bytes": 23718
+      },
+      "usda_psd.csv": {
+        "filename": "usda_psd.csv",
+        "schema": [
+          {
+            "name": "market_year",
+            "type": "integer"
+          },
+          {
+            "name": "crop_year",
+            "type": "text"
+          },
+          {
+            "name": "geography_key",
+            "type": "text"
+          },
+          {
+            "name": "country",
+            "type": "text"
+          },
+          {
+            "name": "product_key",
+            "type": "text"
+          },
+          {
+            "name": "product",
+            "type": "text"
+          },
+          {
+            "name": "attribute",
+            "type": "text"
+          },
+          {
+            "name": "unit",
+            "type": "text"
+          },
+          {
+            "name": "value",
+            "type": "decimal?"
+          },
+          {
+            "name": "observation_present",
+            "type": "boolean"
+          },
+          {
+            "name": "aggregation_rule",
+            "type": "text"
+          }
+        ],
+        "rows": 990,
+        "sha256": "49d2e032fb84b8320f1d8bf4d5a86cc0d20e2e984d1519343dd7570a9c3e23f0",
+        "encoding": "utf-8-sig",
+        "bytes": 218926
+      }
+    },
+    "snapshots": {
+      "dim_date": {
+        "uuid": "0d029553-197b-4e46-8d62-17f21334a11b",
+        "snapshot_id": "7665947661409225898"
+      },
+      "dim_month": {
+        "uuid": "4f262a83-5e36-4d9e-b7e0-18f91b46327f",
+        "snapshot_id": "8295574410069434036"
+      },
+      "dim_observation_type": {
+        "uuid": "8adc0a9f-498e-4503-aa05-f95ae5a358ed",
+        "snapshot_id": "1046146616745412073"
+      },
+      "dim_price_series": {
+        "uuid": "fa39bf1e-bbf1-4b50-8129-de1d4f37413b",
+        "snapshot_id": "2896601742107309180"
+      },
+      "dim_source_geography": {
+        "uuid": "ce487b86-5541-44de-a006-365dfbcc29f2",
+        "snapshot_id": "8664595598201008097"
+      },
+      "dim_source_product": {
+        "uuid": "4ce4f42f-e876-4870-8b2a-0312c460d673",
+        "snapshot_id": "8514812747103222137"
+      },
+      "dim_source_system": {
+        "uuid": "3c9fdb0f-127a-45f4-8f5b-31c7d1d5c0c1",
+        "snapshot_id": "5212267582300439758"
+      },
+      "dim_year": {
+        "uuid": "032861f7-4c4e-4ac4-9a10-274670b1d694",
+        "snapshot_id": "3316235776078407392"
+      },
+      "fact_fao_price_annual": {
+        "uuid": "3218dd14-0793-4c1d-941c-31ba5e1aaea8",
+        "snapshot_id": "6561274137596983252"
+      },
+      "fact_fao_production_observation": {
+        "uuid": "f97e800f-ebe6-416c-918a-a148ec0388b4",
+        "snapshot_id": "4557995850181557281"
+      },
+      "fact_fao_sua_observation": {
+        "uuid": "d07807f2-7f92-4a1e-a07f-26fe83d19fcd",
+        "snapshot_id": "5998541611407626400"
+      },
+      "fact_fao_trade_observation": {
+        "uuid": "46de034e-3120-474f-958d-c642ef351367",
+        "snapshot_id": "9089157317142504426"
+      },
+      "fact_nso_observation": {
+        "uuid": "3f267f3b-736b-46af-aafa-39425488771b",
+        "snapshot_id": "4536483924352632178"
+      },
+      "fact_price_monthly": {
+        "uuid": "d7703bac-eb9b-4d7a-8ecc-f82769fb2ce9",
+        "snapshot_id": "4322554606104063046"
+      },
+      "fact_usda_price_reference": {
+        "uuid": "54439e5d-c3c0-44d9-b49f-227f8ab4dc93",
+        "snapshot_id": "640990871150888729"
+      },
+      "fact_usda_psd_observation": {
+        "uuid": "84eae338-4c21-4fb6-a4f3-06496122ac58",
+        "snapshot_id": "1998504400080667561"
+      },
+      "fact_vn_market_quote_daily": {
+        "uuid": "22f5be04-f9ee-4a53-b756-3ddd807a1e14",
+        "snapshot_id": "8271577785702045919"
+      }
+    },
+    "mart_contracts_sha256": "219d96640bb944a3fcdb311334755c8dd918c3e364570654921953bad90fd50c",
+    "performance": {
+      "wall_seconds_before_promotion": 89.9878533000001,
+      "analytics_requests": 28,
+      "trino_requests": 26,
+      "sql_seconds": 11.260806435999257,
+      "client_seconds": 86.93082570000206,
+      "minimum_windows_available_bytes": 2794188800,
+      "output_rows": 2348,
+      "output_csv_bytes": 475357,
+      "queries": [
+        {
+          "query": "publication",
+          "query_id": null,
+          "query_seconds": 0,
+          "client_seconds": 3.7169743999993443,
+          "row_count": 17,
+          "response_bytes": 4441
+        },
+        {
+          "query": "fact_overview",
+          "query_id": "20261106_031654_00029_qpd4x",
+          "query_seconds": 1.0785547420000512,
+          "client_seconds": 3.7867410999997446,
+          "row_count": 1,
+          "response_bytes": 3708,
+          "stats": {
+            "elapsedTimeMillis": 1033,
+            "processedBytes": 733256,
+            "peakMemoryBytes": 85197,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "fact_overview",
+          "query_id": "20261106_031658_00030_qpd4x",
+          "query_seconds": 0.463131589999648,
+          "client_seconds": 3.3957545000002938,
+          "row_count": 1,
+          "response_bytes": 3724,
+          "stats": {
+            "elapsedTimeMillis": 449,
+            "processedBytes": 1539970,
+            "peakMemoryBytes": 306594,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "fact_overview",
+          "query_id": "20261106_031701_00031_qpd4x",
+          "query_seconds": 0.28815455999983897,
+          "client_seconds": 2.954629300000306,
+          "row_count": 1,
+          "response_bytes": 3722,
+          "stats": {
+            "elapsedTimeMillis": 278,
+            "processedBytes": 2164745,
+            "peakMemoryBytes": 504146,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "fact_overview",
+          "query_id": "20261106_031704_00032_qpd4x",
+          "query_seconds": 1.3732832069999859,
+          "client_seconds": 4.469163600000684,
+          "row_count": 1,
+          "response_bytes": 3728,
+          "stats": {
+            "elapsedTimeMillis": 1363,
+            "processedBytes": 11990182,
+            "peakMemoryBytes": 6383996,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "fact_overview",
+          "query_id": "20261106_031708_00033_qpd4x",
+          "query_seconds": 0.25655805699989287,
+          "client_seconds": 2.8524661999999807,
+          "row_count": 1,
+          "response_bytes": 3717,
+          "stats": {
+            "elapsedTimeMillis": 243,
+            "processedBytes": 1985955,
+            "peakMemoryBytes": 232783,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "fact_overview",
+          "query_id": "20261106_031711_00034_qpd4x",
+          "query_seconds": 0.2627035790001173,
+          "client_seconds": 2.6928021000003355,
+          "row_count": 1,
+          "response_bytes": 3717,
+          "stats": {
+            "elapsedTimeMillis": 253,
+            "processedBytes": 3458317,
+            "peakMemoryBytes": 2069300,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "fact_overview",
+          "query_id": "20261106_031714_00035_qpd4x",
+          "query_seconds": 0.23991699399994104,
+          "client_seconds": 2.9745614000003116,
+          "row_count": 1,
+          "response_bytes": 3717,
+          "stats": {
+            "elapsedTimeMillis": 230,
+            "processedBytes": 728702,
+            "peakMemoryBytes": 144541,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "fact_overview",
+          "query_id": "20261106_031717_00036_qpd4x",
+          "query_seconds": 0.18988011800001914,
+          "client_seconds": 2.683285399999477,
+          "row_count": 1,
+          "response_bytes": 3712,
+          "stats": {
+            "elapsedTimeMillis": 180,
+            "processedBytes": 257261,
+            "peakMemoryBytes": 10389,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "fact_overview",
+          "query_id": "20261106_031720_00037_qpd4x",
+          "query_seconds": 0.1873800520002078,
+          "client_seconds": 3.0754273000002286,
+          "row_count": 1,
+          "response_bytes": 3727,
+          "stats": {
+            "elapsedTimeMillis": 177,
+            "processedBytes": 925099,
+            "peakMemoryBytes": 489842,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "nso_scope_catalogue",
+          "query_id": "20261106_031723_00038_qpd4x",
+          "query_seconds": 0.43504917900008877,
+          "client_seconds": 3.3182824000004985,
+          "row_count": 16,
+          "response_bytes": 7776,
+          "stats": {
+            "elapsedTimeMillis": 424,
+            "processedBytes": 2034365,
+            "peakMemoryBytes": 103447,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "nso_observations",
+          "query_id": "20261106_031726_00039_qpd4x",
+          "query_seconds": 0.36037921599972833,
+          "client_seconds": 3.0136388999999326,
+          "row_count": 560,
+          "response_bytes": 216260,
+          "stats": {
+            "elapsedTimeMillis": 350,
+            "processedBytes": 2032346,
+            "peakMemoryBytes": 78122,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "nso_scope_catalogue",
+          "query_id": "20261106_031729_00040_qpd4x",
+          "query_seconds": 0.28634967600009986,
+          "client_seconds": 2.794691399999465,
+          "row_count": 1,
+          "response_bytes": 4859,
+          "stats": {
+            "elapsedTimeMillis": 276,
+            "processedBytes": 2034365,
+            "peakMemoryBytes": 99338,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "nso_observations",
+          "query_id": "20261106_031732_00041_qpd4x",
+          "query_seconds": 0.3219454059999407,
+          "client_seconds": 2.9669192999999723,
+          "row_count": 30,
+          "response_bytes": 29119,
+          "stats": {
+            "elapsedTimeMillis": 312,
+            "processedBytes": 2032420,
+            "peakMemoryBytes": 5380,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "catalogue",
+          "query_id": "20261106_031735_00042_qpd4x",
+          "query_seconds": 0.11671588499984864,
+          "client_seconds": 2.8448828000000503,
+          "row_count": 987,
+          "response_bytes": 280735,
+          "stats": {
+            "elapsedTimeMillis": 109,
+            "processedBytes": 49486,
+            "peakMemoryBytes": 257721,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "catalogue",
+          "query_id": "20261106_031737_00043_qpd4x",
+          "query_seconds": 0.05608196599996518,
+          "client_seconds": 2.3981197000002794,
+          "row_count": 295,
+          "response_bytes": 49096,
+          "stats": {
+            "elapsedTimeMillis": 48,
+            "processedBytes": 17172,
+            "peakMemoryBytes": 55705,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "catalogue",
+          "query_id": "20261106_031740_00044_qpd4x",
+          "query_seconds": 0.08068822599989289,
+          "client_seconds": 2.5174434000000474,
+          "row_count": 1042,
+          "response_bytes": 440911,
+          "stats": {
+            "elapsedTimeMillis": 72,
+            "processedBytes": 78619,
+            "peakMemoryBytes": 23654,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "fao_production",
+          "query_id": "20261106_031742_00045_qpd4x",
+          "query_seconds": 1.4414828120002312,
+          "client_seconds": 3.8409418999999616,
+          "row_count": 256,
+          "response_bytes": 134833,
+          "stats": {
+            "elapsedTimeMillis": 1426,
+            "processedBytes": 6235927,
+            "peakMemoryBytes": 1166700,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "price_observations",
+          "query_id": "20261106_031747_00046_qpd4x",
+          "query_seconds": 0.28751571800012243,
+          "client_seconds": 2.863075999999637,
+          "row_count": 312,
+          "response_bytes": 80146,
+          "stats": {
+            "elapsedTimeMillis": 276,
+            "processedBytes": 1359922,
+            "peakMemoryBytes": 85911,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "price_observations",
+          "query_id": "20261106_031749_00047_qpd4x",
+          "query_seconds": 0.20926092000036078,
+          "client_seconds": 2.7312359000006836,
+          "row_count": 484,
+          "response_bytes": 175025,
+          "stats": {
+            "elapsedTimeMillis": 197,
+            "processedBytes": 1004053,
+            "peakMemoryBytes": 190084,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "sua",
+          "query_id": "20261106_031752_00048_qpd4x",
+          "query_seconds": 0.28807852099998854,
+          "client_seconds": 3.1086706000005506,
+          "row_count": 14,
+          "response_bytes": 20629,
+          "stats": {
+            "elapsedTimeMillis": 280,
+            "processedBytes": 2177326,
+            "peakMemoryBytes": 97871,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "psd",
+          "query_id": "20261106_031756_00049_qpd4x",
+          "query_seconds": 0.49452629600000364,
+          "client_seconds": 3.429086600000119,
+          "row_count": 990,
+          "response_bytes": 279736,
+          "stats": {
+            "elapsedTimeMillis": 485,
+            "processedBytes": 270506,
+            "peakMemoryBytes": 112114,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "trade",
+          "query_id": "20261106_031759_00050_qpd4x",
+          "query_seconds": 0.6260586109997348,
+          "client_seconds": 3.405592200000683,
+          "row_count": 78,
+          "response_bytes": 41107,
+          "stats": {
+            "elapsedTimeMillis": 615,
+            "processedBytes": 8548338,
+            "peakMemoryBytes": 996325,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "trade",
+          "query_id": "20261106_031802_00051_qpd4x",
+          "query_seconds": 0.4343832259996816,
+          "client_seconds": 3.057181700000001,
+          "row_count": 78,
+          "response_bytes": 41086,
+          "stats": {
+            "elapsedTimeMillis": 423,
+            "processedBytes": 3314449,
+            "peakMemoryBytes": 1213646,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "trade",
+          "query_id": "20261106_031805_00052_qpd4x",
+          "query_seconds": 0.4771220600000561,
+          "client_seconds": 3.129246799999237,
+          "row_count": 74,
+          "response_bytes": 39233,
+          "stats": {
+            "elapsedTimeMillis": 469,
+            "processedBytes": 8548338,
+            "peakMemoryBytes": 995148,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "trade",
+          "query_id": "20261106_031809_00053_qpd4x",
+          "query_seconds": 0.4856115329998829,
+          "client_seconds": 3.338860900000327,
+          "row_count": 82,
+          "response_bytes": 42940,
+          "stats": {
+            "elapsedTimeMillis": 475,
+            "processedBytes": 6586965,
+            "peakMemoryBytes": 1060283,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "trade",
+          "query_id": "20261106_031812_00054_qpd4x",
+          "query_seconds": 0.5199942859999283,
+          "client_seconds": 3.2345832000000883,
+          "row_count": 85,
+          "response_bytes": 44327,
+          "stats": {
+            "elapsedTimeMillis": 509,
+            "processedBytes": 6586965,
+            "peakMemoryBytes": 1065533,
+            "spilledBytes": 0
+          }
+        },
+        {
+          "query": "publication",
+          "query_id": null,
+          "query_seconds": 0,
+          "client_seconds": 2.336566699999821,
+          "row_count": 17,
+          "response_bytes": 4441
+        }
+      ]
+    }
+  },
+  "reconciliation": {
+    "findings": {
+      "OV01": "PASS",
+      "OV02": "PASS",
+      "OV03": "PASS_REUSED_IDENTICAL_PUBLISHED_BATCH",
+      "VN01": "PASS",
+      "VN02": "PASS",
+      "VN05": "PASS",
+      "VN03": "PASS",
+      "VN04": "PASS",
+      "FAO01": "PASS",
+      "FAO02": "PASS",
+      "FAO03": "PASS",
+      "SUA01": "PASS",
+      "SUA02": "PASS",
+      "PSD01": "PASS",
+      "PSD02": "PASS",
+      "PR01": "PASS",
+      "PR02": "PASS",
+      "PR03": "PASS",
+      "TR01": "PASS",
+      "TR02": "PASS",
+      "TR03": "PASS",
+      "TR04": "PASS"
+    },
+    "row_counts_equal_in_desktop": {
+      "Overview": 9,
+      "NSOAnnual": 35,
+      "NSOSeasonal": 105,
+      "NSOYield": 30,
+      "FAO": 256,
+      "SUA": 112,
+      "PSD": 990,
+      "WB": 312,
+      "VNQuote": 484,
+      "Trade": 15
+    },
+    "evidence": "report_evidence/reconciliation.json",
+    "ov03": "Accepted EDA inventory reused only for identical freshly verified published batch"
+  },
+  "powerbi": {
+    "desktop_version": "2.159.1231.0",
+    "pbip": "powerbi/TLCN_Rice_Analytics.pbip",
+    "pbix": "powerbi/TLCN_Rice_Analytics.pbix",
+    "pbix_bytes": 257857,
+    "pbix_sha256": "5f66390ba4aa7bd4fd3e9e734377ad053c773a87a514941542b32eac65f8dcff",
+    "authoring": "Native Desktop Save As Power BI file (*.pbix); final artifact closed/reopened",
+    "reopen": "Cached Import data queried and six pages rendered without Gold query or Refresh; no system-wide network disconnect claimed",
+    "model": {
+      "Tables": 13,
+      "Relationships": 8,
+      "Measures": 65,
+      "Errors": [],
+      "Mode": "Import"
+    },
+    "dax": {
+      "Status": "EXECUTED_IN_DESKTOP_ENGINE",
+      "Milliseconds": 287,
+      "Rows": [
+        {
+          "[Tests]": 58,
+          "[Failures]": 0,
+          "[Failed tests]": null
+        }
+      ]
+    },
+    "pages": 6,
+    "visuals": 63,
+    "screenshots": {
+      "cross_filter.png": {
+        "sha256": "12b219b5b1213277d01948aa3d846c92774cbdf59ac2b0e3d49399bb5ee43371",
+        "bytes": 61945
+      },
+      "fao_single_year.png": {
+        "sha256": "43e7f1728a10012546fe0d854cee2283456a034e03cf7cb8b0fca73b6e560d1c",
+        "bytes": 52621
+      },
+      "nso_single_year.png": {
+        "sha256": "06a14416aca4b59ca86c946e31a9c3821045dd3f5a99a8fa1621ef88a17559a9",
+        "bytes": 58872
+      },
+      "page1.png": {
+        "sha256": "26f8ff303d756eea4274fc804a97538a580399bf2d65bff66ee8b6b461b8ddde",
+        "bytes": 60001
+      },
+      "page2.png": {
+        "sha256": "f3d24a1a733c7770d67b7fccaafcdba76e7aab5a7d88fce36ec05e4d6a856891",
+        "bytes": 68767
+      },
+      "page3.png": {
+        "sha256": "5721f7fcba555ad4101cc1589ba3af042840bbb301e0c9c86d7736448f30a4cb",
+        "bytes": 59491
+      },
+      "page4.png": {
+        "sha256": "243fa857b7c3dde1e85d64ac546c66941d088d9e6064f9f55fa968384f91f4bb",
+        "bytes": 69495
+      },
+      "page5.png": {
+        "sha256": "03b77689fe1ea0aa9ee9ffca5993b81db6e81ef208ea1de9d81763a408f5d4a9",
+        "bytes": 64823
+      },
+      "page6.png": {
+        "sha256": "f7f7b9986edd1e86111db2b520cc8949b343a16c0ae84366548ff16ed0da1885",
+        "bytes": 69463
+      },
+      "reopened.png": {
+        "sha256": "8ddea06892c4399a794bbec57fc2841bc7ee98e737aa9ff02efa17411f9de5da",
+        "bytes": 60799
+      }
+    },
+    "interactive_checks": [
+      "NSO1990 single-year/no-yield/NA",
+      "clear year to default",
+      "Ctrl-click native page navigation",
+      "Philippines-only five-group ratio",
+      "FAO1961 four-point scatter",
+      "Trade2023 Philippines chart cross-filter one group",
+      "independent calendar/MY/date scopes"
+    ],
+    "source_schema": "75 source JSON artifacts validated against public official Microsoft schemas, including a fresh-cache download run",
+    "desktop_schema_limitation": "Native Desktop may emit schema versions not published at the public endpoint; do not claim external schema validation for unavailable versions",
+    "local_csv_refresh": {
+      "status": "LOCAL_CSV_REFRESH_PASS",
+      "windows_available_bytes": 2538897408,
+      "milliseconds": 5740,
+      "max_parallelism": 1
+    },
+    "memory_samples": {
+      "processes": [
+        {
+          "pid": 24400,
+          "name": "PBIDesktop.exe",
+          "working_set_bytes": 710557696,
+          "peak_working_set_since_process_start": 714063872
+        },
+        {
+          "pid": 13288,
+          "name": "msmdsrv.exe",
+          "working_set_bytes": 635719680,
+          "peak_working_set_since_process_start": 689917952
+        }
+      ],
+      "windows_available_bytes": 2600198144
+    },
+    "initial_import_upper_bound_seconds": 36,
+    "initial_import_timing_scope": "Refresh button to first successful actual DAX response, includes observation delay"
+  },
+  "preservation": {
+    "status": "PASS",
+    "table_count": 36,
+    "dag_runs": 6,
+    "publication_unchanged": true,
+    "protected_files_unchanged": 32,
+    "evidence": "report_evidence/preservation.json",
+    "no_iceberg_writes": true,
+    "no_dag_triggers": true
+  },
+  "tests": {
+    "passed": 589,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "baseline": 557,
+    "new": 32,
+    "seconds": 35.984,
+    "junit_sha256": "95c704e2e39e1a6fc7746d5e681cb40778dce71448ff37c62b3cecf029dc1e45",
+    "command": "python -m pytest tests/unit -q -o addopts= --basetemp=.test-tmp/pbi-unit-final-04 --junitxml=.test-tmp/pbi-final/unit-tests.xml",
+    "environment": "Python3.13; approved PySpark3.5.5/Py4J Python archives for import-only unit tests; no Spark JVM started"
+  },
+  "changed_files": [
+    "docs/analytics/DATA_MART_DESIGN.md",
+    "docs/analytics/DATA_MART_VALIDATION.md",
+    "docs/powerbi/REPORT_IMPLEMENTATION.md",
+    "docs/powerbi/REPORT_INSIGHTS.md",
+    "docs/powerbi/REPORT_VALIDATION.md",
+    "docs/powerbi/report_evidence/cross_filter.png",
+    "docs/powerbi/report_evidence/dax.json",
+    "docs/powerbi/report_evidence/fao_single_year.png",
+    "docs/powerbi/report_evidence/model.json",
+    "docs/powerbi/report_evidence/model_rows.json",
+    "docs/powerbi/report_evidence/nso_single_year.png",
+    "docs/powerbi/report_evidence/page1.png",
+    "docs/powerbi/report_evidence/page2.png",
+    "docs/powerbi/report_evidence/page3.png",
+    "docs/powerbi/report_evidence/page4.png",
+    "docs/powerbi/report_evidence/page5.png",
+    "docs/powerbi/report_evidence/page6.png",
+    "docs/powerbi/report_evidence/preservation.json",
+    "docs/powerbi/report_evidence/reconciliation.json",
+    "docs/powerbi/report_evidence/reopened.png",
+    "docs/powerbi/report_evidence/selected_insights.json",
+    "jobs/analytics/build_powerbi_marts.py",
+    "jobs/analytics/build_powerbi_report.py",
+    "powerbi/M/.platform",
+    "powerbi/M/DAXQueries/Query 1.dax",
+    "powerbi/M/definition.pbism",
+    "powerbi/M/definition/cultures/vi-VN.tmdl",
+    "powerbi/M/definition/database.tmdl",
+    "powerbi/M/definition/expressions.tmdl",
+    "powerbi/M/definition/model.tmdl",
+    "powerbi/M/definition/relationships.tmdl",
+    "powerbi/M/definition/tables/BenchmarkMonth.tmdl",
+    "powerbi/M/definition/tables/CalendarYear.tmdl",
+    "powerbi/M/definition/tables/FAO.tmdl",
+    "powerbi/M/definition/tables/NSOAnnual.tmdl",
+    "powerbi/M/definition/tables/NSOSeasonal.tmdl",
+    "powerbi/M/definition/tables/NSOYield.tmdl",
+    "powerbi/M/definition/tables/Overview.tmdl",
+    "powerbi/M/definition/tables/PSD.tmdl",
+    "powerbi/M/definition/tables/QuoteDate.tmdl",
+    "powerbi/M/definition/tables/SUA.tmdl",
+    "powerbi/M/definition/tables/Trade.tmdl",
+    "powerbi/M/definition/tables/VNQuote.tmdl",
+    "powerbi/M/definition/tables/WB.tmdl",
+    "powerbi/R/.platform",
+    "powerbi/R/StaticResources/RegisteredResources/TLCN.json",
+    "powerbi/R/definition.pbir",
+    "powerbi/R/definition/pages/p01/page.json",
+    "powerbi/R/definition/pages/p01/visuals/v01/visual.json",
+    "powerbi/R/definition/pages/p01/visuals/v02/visual.json",
+    "powerbi/R/definition/pages/p01/visuals/v03/visual.json",
+    "powerbi/R/definition/pages/p01/visuals/v04/visual.json",
+    "powerbi/R/definition/pages/p01/visuals/v05/visual.json",
+    "powerbi/R/definition/pages/p01/visuals/v06/visual.json",
+    "powerbi/R/definition/pages/p01/visuals/v07/visual.json",
+    "powerbi/R/definition/pages/p01/visuals/v08/visual.json",
+    "powerbi/R/definition/pages/p01/visuals/v09/visual.json",
+    "powerbi/R/definition/pages/p01/visuals/v90/visual.json",
+    "powerbi/R/definition/pages/p02/page.json",
+    "powerbi/R/definition/pages/p02/visuals/v01/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v02/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v03/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v04/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v05/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v06/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v07/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v08/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v09/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v10/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v11/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v12/visual.json",
+    "powerbi/R/definition/pages/p02/visuals/v90/visual.json",
+    "powerbi/R/definition/pages/p03/page.json",
+    "powerbi/R/definition/pages/p03/visuals/v01/visual.json",
+    "powerbi/R/definition/pages/p03/visuals/v02/visual.json",
+    "powerbi/R/definition/pages/p03/visuals/v03/visual.json",
+    "powerbi/R/definition/pages/p03/visuals/v04/visual.json",
+    "powerbi/R/definition/pages/p03/visuals/v05/visual.json",
+    "powerbi/R/definition/pages/p03/visuals/v06/visual.json",
+    "powerbi/R/definition/pages/p03/visuals/v07/visual.json",
+    "powerbi/R/definition/pages/p03/visuals/v08/visual.json",
+    "powerbi/R/definition/pages/p03/visuals/v90/visual.json",
+    "powerbi/R/definition/pages/p04/page.json",
+    "powerbi/R/definition/pages/p04/visuals/v01/visual.json",
+    "powerbi/R/definition/pages/p04/visuals/v02/visual.json",
+    "powerbi/R/definition/pages/p04/visuals/v03/visual.json",
+    "powerbi/R/definition/pages/p04/visuals/v04/visual.json",
+    "powerbi/R/definition/pages/p04/visuals/v05/visual.json",
+    "powerbi/R/definition/pages/p04/visuals/v06/visual.json",
+    "powerbi/R/definition/pages/p04/visuals/v07/visual.json",
+    "powerbi/R/definition/pages/p04/visuals/v08/visual.json",
+    "powerbi/R/definition/pages/p04/visuals/v90/visual.json",
+    "powerbi/R/definition/pages/p05/page.json",
+    "powerbi/R/definition/pages/p05/visuals/v01/visual.json",
+    "powerbi/R/definition/pages/p05/visuals/v02/visual.json",
+    "powerbi/R/definition/pages/p05/visuals/v03/visual.json",
+    "powerbi/R/definition/pages/p05/visuals/v04/visual.json",
+    "powerbi/R/definition/pages/p05/visuals/v05/visual.json",
+    "powerbi/R/definition/pages/p05/visuals/v06/visual.json",
+    "powerbi/R/definition/pages/p05/visuals/v07/visual.json",
+    "powerbi/R/definition/pages/p05/visuals/v08/visual.json",
+    "powerbi/R/definition/pages/p05/visuals/v90/visual.json",
+    "powerbi/R/definition/pages/p06/page.json",
+    "powerbi/R/definition/pages/p06/visuals/v01/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v02/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v03/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v04/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v05/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v06/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v07/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v08/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v09/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v10/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v11/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v12/visual.json",
+    "powerbi/R/definition/pages/p06/visuals/v90/visual.json",
+    "powerbi/R/definition/pages/pages.json",
+    "powerbi/R/definition/report.json",
+    "powerbi/R/definition/version.json",
+    "powerbi/TLCN_Rice_Analytics.pbip",
+    "powerbi/report_inventory.json",
+    "powerbi/theme.json",
+    "powerbi/validation.dax",
+    "requirements/powerbi.txt",
+    "scripts/build_powerbi_dax_checks.py",
+    "scripts/powerbi_desktop.ps1",
+    "scripts/powerbi_snapshot_proof.py",
+    "scripts/query_powerbi_model.ps1",
+    "scripts/validate_powerbi_marts.py",
+    "scripts/validate_powerbi_model.ps1",
+    "scripts/validate_powerbi_project.py",
+    "src/analytics/marts/__init__.py",
+    "src/analytics/marts/metrics.py",
+    "src/analytics/marts/powerbi.py",
+    "src/analytics/marts/report.py",
+    "tests/unit/analytics/test_mart_metrics.py",
+    "tests/unit/analytics/test_report_exports.py",
+    ".gitignore",
+    "README.md",
+    "docs/handoff/NEXT_STEPS.md",
+    "docs/handoff/PROJECT_CONTEXT.md",
+    "docs/handoff/PROJECT_STATUS.md",
+    "docs/powerbi/README.md",
+    "jobs/analytics/export_powerbi.py",
+    "src/analytics/powerbi.py",
+    "src/analytics/powerbi_fence.py"
+  ],
+  "limitations": [
+    "Local CSV extract, not automatic live refresh",
+    "No universal geography/product conformance or mirrored global trade totals",
+    "No second-laptop acceptance",
+    "Windows memory admission still required before any new export",
+    "Process memory samples are session-specific, not a benchmark of all prior Desktop sessions",
+    "Power Query checks schema/types/counts; run Python offline verifier for checksums before refresh",
+    "PBIX/CSV/caches are local and Git-ignored; editable source and evidence are reviewable"
+  ]
+}

@@ -50,6 +50,7 @@ docs/*
 
 # Local published-Gold extracts and manually authored Power BI reports
 exports/powerbi/
-*.pbix
+*.abf
+*.pbip.bak
 
 data/raw/faostat/Trade_DetailedTradeMatrix_E_All_Data_(Normalized)/rice_trade_data.csv

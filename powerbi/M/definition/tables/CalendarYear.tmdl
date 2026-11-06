@@ -1,0 +1,9 @@
+table CalendarYear
+	column Year
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Year
+	partition CalendarYear = m
+		mode: import
+		source =
+			let ys=List.Combine({NSOAnnual[year],FAO[year],SUA[year],Trade[year]}), rows=Table.FromList({List.Min(ys)..List.Max(ys)},Splitter.SplitByNothing(),{"Year"}), typed=Table.TransformColumnTypes(rows,{{"Year",Int64.Type}}) in typed

@@ -1,6 +1,22 @@
 # TLCN · Power BI Desktop Free
 
-**Kiến trúc hiện hành:** published Gold → Analytics allowlist/read gate → Python CSV export → Power BI Desktop Import. Streamlit đã ngừng; không tạo web Dashboard, Docker service hoặc database mới. Gold và sáu notebooks EDA giữ nguyên. Report `.pbix` do owner tự tạo trong Desktop, chưa được tác giả hướng dẫn này dựng hoặc nghiệm thu.
+**Hiện hành — 06/11/2026: DATA_MARTS_POWERBI_COMPLETE.** Đã dựng report sáu trang tiếng Việt từ tám subject marts/mười CSV thật, kiểm DAX trên Desktop và lưu/mở lại PBIX. Gold và sáu notebooks EDA giữ nguyên. Không Streamlit, web Dashboard, database hoặc Docker service mới.
+
+Mở ngay: `powerbi/TLCN_Rice_Analytics.pbix` (local, Git-ignored). Editable source: [TLCN_Rice_Analytics.pbip](../../powerbi/TLCN_Rice_Analytics.pbip). Xem [triển khai và commands](REPORT_IMPLEMENTATION.md), [nghiệm thu](REPORT_VALIDATION.md), [insight matrix](REPORT_INSIGHTS.md), [evidence mới](report_acceptance.json), [mart design](../analytics/DATA_MART_DESIGN.md).
+
+```powershell
+Invoke-Item .\powerbi\TLCN_Rice_Analytics.pbix
+```
+
+Tạo bundle mới khi Docker healthy/Gold published và đủ resource admission:
+
+```powershell
+python -m jobs.analytics.build_powerbi_marts
+```
+
+Sau đó verify bundle và cập nhật **ExportFolder** trong Desktop trước Refresh; không tự đổi từng CSV. Chạy source checks lần đầu có thể cần `python -m pip install -r requirements/powerbi.txt`. Xem report đã Import không cần Docker; tạo extract mới mới cần Docker. Không Pro/cloud Publish hoặc automatic refresh.
+
+**Phần dưới là tài liệu v1 và evidence ngày 27/10, được giữ để đối chiếu.** Câu “report authoring pending” chỉ mô tả thời điểm đó; không phải trạng thái hiện hành. Default CLI export v1 bốn CSV vẫn được hỗ trợ. Bundle v2 hiện dùng: `exports/powerbi/ec421297c194_20261106T031815Z_01d03710/`.
 
 Hướng dẫn thao tác: [POWER_BI_DESKTOP_GUIDE.md](POWER_BI_DESKTOP_GUIDE.md). [EDA findings](../analytics/EDA_FINDINGS.md) là evidence lịch sử, không dùng thay cho lần export hiện tại.
 

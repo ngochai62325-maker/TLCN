@@ -1,0 +1,11 @@
+{
+    "Status":  "EXECUTED_IN_DESKTOP_ENGINE",
+    "Milliseconds":  287,
+    "Rows":  [
+                 {
+                     "[Tests]":  58,
+                     "[Failures]":  0,
+                     "[Failed tests]":  null
+                 }
+             ]
+}

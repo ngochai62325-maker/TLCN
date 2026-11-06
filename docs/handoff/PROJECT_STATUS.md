@@ -1,6 +1,10 @@
 # TLCN Rice Lakehouse — Project Status
 
-## Reporting migration — 27/10/2026
+## Current reporting delivery — 06/11/2026
+
+**DATA_MARTS_POWERBI_COMPLETE.** Ten-CSV real export:2.348rows/475.357bytes, 28 Analytics operations/26 Trino SELECTs, same published batch `ec421297c194…`. Desktop2.159 Import model13tables/8relationships/65measures, six native pages đã render; 58 DAX assertions PASS, actual PBIX saved/reopened. Full unit suite589PASS. 36-table before/after proofs, publication và six historical DagRuns bằng nhau; protected Gold/EDA hashes giữ nguyên. Không commit/push hoặc lakehouse writes. [Machine evidence](../powerbi/report_acceptance.json), [validation/limitations](../powerbi/REPORT_VALIDATION.md). Git baseline `feat(gold)@cd2f1a77b27d5bcba6f1d925e3d9305952551bae`; pre-existing presentation docs preserved. Phần ngày27/10 bên dưới là lịch sử, không phải current report readiness.
+
+## Historical reporting migration — 27/10/2026
 
 Owner chọn **Power BI Desktop Free**, Streamlit đã ngừng. UI source/tests/dependencies/validator riêng đã gỡ; [archive](../dashboard/archive/README.md) không phải hệ thống active. Gold và EDA giữ nguyên; [CSV exporter](../powerbi/README.md) có fixed schema, presence flags, exact reconciliation và final publication fence. Current migration acceptance được cập nhật trong Power BI README; `.pbix` chưa được tạo hoặc kiểm thử trong Desktop.
 

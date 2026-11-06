@@ -7,15 +7,15 @@ Gold MVP gồm **8 physical dimensions, 9 physical facts và 4 version-controlle
 
 **Gold G12: GOLD_MVP_COMPLETE.** Hai Gold DagRuns SUCCESS; đủ 17 tables, 9-source reconciliation, DQ01–18, bốn semantic queries, publication/consumer và formal physical NOOP 17/17 tables PASS. Giữ Trino 448/512 MiB. Chi tiết và giới hạn vận hành tại [Gold validation](docs/gold/VALIDATION.md).
 
-## Analytics và báo cáo local — 27/10/2026
+## Analytics và báo cáo local — 06/11/2026
 
 **Streamlit Dashboard đã ngừng vĩnh viễn. Power BI Desktop Free là công cụ reporting hiện hành.** Bronze/Silver/Gold và sáu notebooks EDA được giữ; Python chỉ xuất CSV từ một published Gold batch qua Analytics allowlist/read gate. Không cần Power BI Pro hoặc cloud publication để tự dựng/lưu report local.
 
 ```powershell
-python -m jobs.analytics.export_powerbi
+python -m jobs.analytics.build_powerbi_marts
 ```
 
-Lấy đường dẫn bundle được CLI báo thành công dưới `exports/powerbi/`, import bốn CSV cùng bundle vào Desktop. Report `.pbix` do owner tạo thủ công; dữ liệu là extract, không tự live refresh với Gold. [Exporter/schema](docs/powerbi/README.md) · [Hướng dẫn kéo thả + DAX](docs/powerbi/POWER_BI_DESKTOP_GUIDE.md) · [EDA findings lịch sử](docs/analytics/EDA_FINDINGS.md) · [Archive UI đã ngừng](docs/dashboard/archive/README.md).
+**DATA_MARTS_POWERBI_COMPLETE.** Tám subject marts/mười CSV, sáu trang report tiếng Việt, 65 measures, 58 actual Desktop DAX checks và 589 unit tests PASS. Report thật đã Save As/mở lại tại `powerbi/TLCN_Rice_Analytics.pbix` (local, Git-ignored); mở bằng `Invoke-Item .\powerbi\TLCN_Rice_Analytics.pbix`. Source PBIP/TMDL/PBIR ở `powerbi/`. Dữ liệu là extract, không tự live refresh với Gold. [Cách dùng/refresh](docs/powerbi/REPORT_IMPLEMENTATION.md) · [Nghiệm thu](docs/powerbi/REPORT_VALIDATION.md) · [Mart design](docs/analytics/DATA_MART_DESIGN.md) · [EDA findings lịch sử](docs/analytics/EDA_FINDINGS.md). Default exporter v1 bốn CSV vẫn được giữ.
 
 ## 1. Dịch vụ & Cổng Localhost
 
