@@ -1,19 +1,21 @@
-// Proposed Power BI serving model. It is independent of immutable gold_local.
+// Proposed Power BI serving model (v2). Independent of immutable gold_local.
 // Physical target: iceberg.gold_serving_local. All keys are logical; Iceberg
-// integrity checks are enforced by the serving publication pipeline.
+// integrity checks and reference-bridge gates are enforced by the serving publication pipeline.
 
-Project rice_lakehouse_gold_serving_galaxy_20261107 {
+Project rice_lakehouse_gold_serving_galaxy_20261108_v2 {
   database_type: 'Apache Iceberg'
-  Note: 'Galaxy schema for rice analytics. Source-scoped geography and product identities are intentionally not universal country/product crosswalks.'
+  Note: 'Galaxy schema v2 for rice analytics (17 dimensions, 11 facts). Preserves strict source-scoped audit identities from gold_local (all 9 Core facts mapped with zero loss) while adding governed canonical bridges, universe-completeness flags, FX reference support, observation quality flags, and forecast extension hooks.'
 }
 
-// ---------- Conformed dimensions ----------
+// ---------- Conformed & Governed Bridge Dimensions ----------
 
 Table gold_serving_local.dim_source_system {
   source_system_key varchar(64) [pk]
   source_id varchar [not null, unique]
   provider varchar [not null]
   source_label varchar [not null]
+
+  Note: 'One canonical dataset from local_nine (or approved external FX/forecast provider).'
 }
 
 Table gold_serving_local.dim_source_scope {
@@ -23,16 +25,19 @@ Table gold_serving_local.dim_source_scope {
   publication_name varchar
   filter_description varchar [not null]
   period_semantics varchar [not null]
+  universe_completeness varchar [not null, note: 'complete_atomic_universe, complete_reporter_partner_set, hierarchical_mixed_levels, or curated_subset.']
+  allows_share_denominator boolean [not null, note: 'True only when denominator covers a complete non-overlapping population (when combined with is_atomic_member = true).']
 
   indexes {
     (source_system_key, scope_name) [unique]
   }
-  Note: 'A governed source/publication/filter scope. It prevents rows with different NSO publications or different admitted source populations from being silently combined.'
+  Note: 'Governed source/publication/filter scope. Prevents mixing incompatible NSO publications (e.g. V06.12 vs V06.14) and guards Partner Share % / Global Share % against partial subsets.'
 }
 
 Table gold_serving_local.dim_year {
   year_key integer [pk, note: 'Calendar year YYYY only.']
   decade integer [not null]
+  is_leap_year boolean [not null]
 }
 
 Table gold_serving_local.dim_month {
@@ -52,28 +57,61 @@ Table gold_serving_local.dim_date {
 }
 
 Table gold_serving_local.dim_marketing_year {
-  marketing_year_key varchar(32) [pk, note: 'USDA source label, for example 2024/25; never inferred as a calendar-year range.']
-  market_year integer [not null]
-  crop_year_label varchar [not null]
+  marketing_year_key varchar(32) [pk, note: 'Scoped USDA marketing-year key, e.g. usda_psd:2023/2024 or usda_rice_yearbook:2023/2024.']
+  market_year integer [not null, note: 'Beginning year integer of the source marketing year label.']
+  crop_year_label varchar [not null, note: 'Exact label such as 2023/2024.']
   source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  start_month_number integer [note: 'Curated month 1..12 only when officially defined by source (e.g. 8 for US Rice Yearbook Aug-Jul); NULL when country-variable and unverified.']
+  end_month_number integer [note: 'Curated ending month 1..12 only when officially defined by source (e.g. 7 for US Rice Yearbook Aug-Jul); NULL otherwise.']
+  trade_year_calendar_key integer [ref: > gold_serving_local.dim_year.year_key, note: 'Optional reference to calendar year YYYY+1 ONLY for USDA Rice Trade Year (TY) Jan-Dec alignment. Inactive in Power BI by default; never used for MY balances.']
 
   indexes {
     (source_system_key, market_year, crop_year_label) [unique]
   }
+  Note: 'Marketing-year dimension for USDA PSD and USDA Rice Yearbook marketing-period averages.'
+}
+
+Table gold_serving_local.dim_canonical_geography {
+  canonical_geography_key varchar(64) [pk]
+  canonical_code varchar [not null, unique, note: 'Governed code: ISO3 for countries/territories (e.g. VNM, THA, IND, PAK, CHN) or VN-R*/VN-P* for Vietnam regions/provinces.']
+  canonical_name_vi varchar [not null]
+  canonical_name_en varchar [not null]
+  canonical_level varchar [not null, note: 'country, reporting_territory, vn_region, vn_province, or historical_state.']
+  parent_canonical_code varchar [note: 'Optional parent canonical_code for Vietnam province -> region -> VNM or territory rollups; metadata attribute, not a recursive join.']
+  mapping_version varchar [not null, note: 'Version of curated config/gold_serving/canonical_geography_bridge.yaml.']
+
+  Note: 'Curated cross-source geography bridge enabling synchronized slicing across FAOSTAT, NSO, USDA and Vietnam domestic markets without altering source identities or joining on raw display names.'
 }
 
 Table gold_serving_local.dim_geography {
   geography_key varchar(64) [pk]
   source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
-  identity_namespace varchar [not null]
+  identity_namespace varchar [not null, note: 'faostat_m49, nso_raw_label, usda_psd_country, usda_yearbook_location, vn_market_label, or non_geographic_benchmark.']
+  identity_scope varchar [not null, note: 'Preserves gold_local.dim_source_geography.identity_scope (e.g. faostat, exact NSO source_table, or dataset ID) for 1:1 lossless lineage.']
   source_code varchar [not null]
   source_name varchar [not null]
-  geography_level varchar [not null]
+  geography_level varchar [not null, note: 'national, region, province, source_area, source_location, market_label, or benchmark_non_geographic.']
+  canonical_geography_key varchar(64) [ref: > gold_serving_local.dim_canonical_geography.canonical_geography_key, note: 'Nullable curated bridge FK; NULL for global non-geographic benchmarks or unmapped entities.']
+  is_atomic_member boolean [not null, note: 'False for umbrella aggregates that overlap atomic rows in the same dataset (e.g. FAO M49 159 China vs 156+158+344+446, or NSO national/region when summing provinces).']
+  valid_from_year integer [note: 'Optional start year for historical states/provinces.']
+  valid_to_year integer [note: 'Optional end year for dissolved/merged entities (e.g. 1991 USSR/Yugoslavia, 2011 Sudan former, 2008 Ha Tay).']
 
   indexes {
-    (source_system_key, identity_namespace, source_code) [unique]
+    (source_system_key, identity_namespace, identity_scope, source_code) [unique]
   }
-  Note: 'Conformed only inside the declared source namespace. No join by display name across FAOSTAT, NSO, USDA and Vietnamese market labels.'
+  Note: 'Source-scoped geography identity with atomic-universe governance and curated canonical bridge.'
+}
+
+Table gold_serving_local.dim_commodity_profile {
+  commodity_profile_key varchar(64) [pk]
+  profile_code varchar [not null, unique, note: 'e.g. RICE_PADDY_ROUGH, RICE_HUSKED_BROWN, RICE_MILLED_TOTAL, RICE_MILLED_5PCT, RICE_MILLED_25PCT, RICE_BROKEN_100PCT, RICE_FRAGRANT, RICE_MILLED_EQUIV_BALANCE.']
+  commodity_group varchar [not null, note: 'rice, other_grain, fertilizer, or macro_index.']
+  processing_stage varchar [not null, note: 'paddy_rough, husked_brown, milled_white, broken, fragrant_specialty, raw_material_semi, milled_equivalent, or not_applicable.']
+  broken_grade_pct decimal(5,2) [note: 'Standardized broken percentage when explicitly defined by source (e.g. 5.00, 10.00, 15.00, 25.00, 100.00); NULL otherwise.']
+  allows_direct_price_spread boolean [not null, note: 'True only when physical stage and grade allow direct price spread comparison after currency/mass-unit alignment.']
+  mapping_version varchar [not null]
+
+  Note: 'Curated commodity stage & grade classification. Enables side-by-side filtering and valid same-grade price spreads while strictly forbidding automatic paddy-to-milled volume summation.'
 }
 
 Table gold_serving_local.dim_product {
@@ -82,30 +120,38 @@ Table gold_serving_local.dim_product {
   identity_namespace varchar [not null]
   source_code varchar [not null]
   source_name varchar [not null]
-  product_form varchar [not null, note: 'Exact source form, such as paddy or milled; never inferred.']
+  identity_kind varchar [not null, note: 'cpc_source_code, source_commodity, price_class, benchmark, market_commodity, or dataset_implicit_commodity (for NSO rice_paddy_total).']
+  product_form varchar [not null, note: 'Exact source form such as paddy, husked, milled, broken, milled_equivalent, index, or market_quote_variety; never guessed.']
+  commodity_alias_group varchar [note: 'Curated grouping for fragmented domestic labels (e.g. Lua IR 50404 variants) without merging raw series identities.']
+  commodity_profile_key varchar(64) [ref: > gold_serving_local.dim_commodity_profile.commodity_profile_key]
 
   indexes {
     (source_system_key, identity_namespace, source_code) [unique]
   }
+  Note: 'Source-scoped product identity. Includes governed seeded member (nso, rice_paddy_total) for NSO paddy statistics which lack a product column in gold_local.'
 }
 
 Table gold_serving_local.dim_season {
   season_key varchar(32) [pk]
   season_code varchar [not null, unique]
   season_name_vi varchar [not null]
-  is_annual boolean [not null, note: 'Annual must not be aggregated with seasonal rows.']
+  is_annual boolean [not null, note: 'Annual must not be loaded into fact_crop_production_seasonal.']
 }
 
 Table gold_serving_local.dim_price_series {
   price_series_key varchar(64) [pk]
   source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
-  geography_key varchar(64) [ref: > gold_serving_local.dim_geography.geography_key]
+  geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
   product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
-  series_code varchar [not null]
+  series_code varchar [not null, note: 'Canonical series_identity_json or deterministic code from gold_local.dim_price_series.']
   market_name varchar
   price_type varchar
+  price_kind varchar [not null, note: 'producer_price, market_quote, reported_export_price, benchmark_price, or index.']
+  pricing_stage varchar [not null, note: 'farmgate_producer, local_purchase, domestic_wholesale, export_fob_quote, international_benchmark, or price_index.']
   unit varchar [not null]
   currency varchar
+  unit_scale_to_tonne decimal(18,6) [note: 'Exact mass-unit factor to convert quote to per-tonne in native currency: 1000 for VND/kg, 1 for USD/tonne or LCU/tonne, NULL for indices.']
+  benchmark_origin_canonical_geography_key varchar(64) [ref: > gold_serving_local.dim_canonical_geography.canonical_geography_key, note: 'Optional origin country tag for global FOB benchmarks (e.g. VNM for WB rice_viet_namese_5, THA for rice_thai_5) while keeping geography_key non-geographic.']
   information_source varchar
 
   indexes {
@@ -131,7 +177,7 @@ Table gold_serving_local.dim_sua_element {
   indexes {
     (source_system_key, element_code) [unique]
   }
-  Note: 'FAOSTAT SUA element identity and its element-specific aggregation behavior; not a generic metric catalogue.'
+  Note: 'FAOSTAT SUA element identity and element-specific aggregation behavior.'
 }
 
 Table gold_serving_local.dim_psd_attribute {
@@ -140,14 +186,43 @@ Table gold_serving_local.dim_psd_attribute {
   attribute_code varchar [not null]
   attribute_name varchar [not null]
   unit varchar [not null]
-  attribute_kind varchar [not null, note: 'flow, stock, rate, or other USDA PSD-defined attribute.']
-  time_aggregation_rule varchar [not null, note: 'sum, last_value, or do_not_aggregate as defined for this USDA PSD attribute.']
+  attribute_kind varchar [not null, note: 'flow, stock, or rate as defined by USDA PSD.']
+  temporal_basis varchar [not null, note: 'marketing_year for standard PSD attributes; trade_year_jan_dec for TY Exports, TY Imports, and TY Imp. from U.S.']
+  time_aggregation_rule varchar [not null, note: 'sum, last_value, or do_not_aggregate.']
   additivity varchar [not null, note: 'additive, semi_additive, or non_additive.']
 
   indexes {
     (source_system_key, attribute_code) [unique]
   }
-  Note: 'USDA PSD attribute identity and behavior. Marketing-year meaning remains source-defined.'
+  Note: 'USDA PSD attribute identity, stock/flow/rate semantics, and MY vs TY basis.'
+}
+
+Table gold_serving_local.dim_observation_status {
+  observation_status_key varchar(32) [pk]
+  status_code varchar [not null, unique, note: 'official, provisional, estimated, imputed, unconfirmed, missing_observation, or dq_scale_suspect.']
+  source_flag_code varchar [note: 'Preserves FAO flag (A, E, I, X, M) or NSO release_status (provisional, unconfirmed).']
+  status_label_vi varchar [not null]
+  is_provisional boolean [not null]
+  is_imputed_or_estimated boolean [not null]
+  is_trusted_for_kpi boolean [not null, note: 'False when observation is missing, zero-price placeholder, or flagged as unit-scale entry anomaly (e.g. <500 VND/kg domestic rice quote).']
+
+  Note: 'Observation-level reliability, preliminary release status (e.g. NSO So bo 2024), and DQ anomaly gating.'
+}
+
+Table gold_serving_local.dim_forecast_model_run {
+  model_run_key varchar(64) [pk]
+  model_name varchar [not null]
+  model_version varchar [not null]
+  target_subject_area varchar [not null, note: 'crop_production, monthly_price, trade_flow, or supply_utilization.']
+  training_cutoff_label varchar [not null, note: 'Last historical period seen by the model, e.g. 2024 or 2025-12.']
+  trained_at timestamptz [not null]
+  backtest_mape_pct decimal(10,4)
+  notes varchar
+
+  indexes {
+    (model_name, model_version, training_cutoff_label) [unique]
+  }
+  Note: 'Metadata for approved statistical/ML forecast runs loaded into fact_metric_forecast.'
 }
 
 // ---------- Facts: one star per subject area; together they form a galaxy ----------
@@ -158,17 +233,20 @@ Table gold_serving_local.fact_crop_production_annual {
   source_scope_key varchar(64) [not null, ref: > gold_serving_local.dim_source_scope.source_scope_key]
   geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
   product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
+  observation_status_key varchar(32) [not null, ref: > gold_serving_local.dim_observation_status.observation_status_key]
   production_t decimal(38,20)
   harvested_area_ha decimal(38,20)
   reported_yield_kg_ha decimal(38,20)
   paired_production_t decimal(38,20)
   paired_area_ha decimal(38,20)
+  area_yoy_index_pct decimal(18,4) [note: 'Published NSO development index (prior year = 100, %) from V06.12 when statistic_kind = development_index; never summed.']
+  production_yoy_index_pct decimal(18,4) [note: 'Published NSO production development index (prior year = 100, %) from V06.12; never summed.']
   observation_present boolean [not null]
 
   indexes {
     (year_key, source_scope_key, geography_key, product_key) [unique]
   }
-  Note: 'Grain: one source-scoped crop area/product/calendar-year. Computed yield is a semantic measure: 1000*SUM(paired_production_t)/SUM(paired_area_ha), never AVG(reported_yield_kg_ha).'
+  Note: 'Grain: one source-scoped crop area/product/calendar-year (FAO Production + NSO annual V06.12-V06.15). Weighted yield is 1000*SUM(paired_production_t)/SUM(paired_area_ha). Global/regional share requires dim_geography.is_atomic_member = true and dim_source_scope.allows_share_denominator = true.'
 }
 
 Table gold_serving_local.fact_crop_production_seasonal {
@@ -178,79 +256,147 @@ Table gold_serving_local.fact_crop_production_seasonal {
   source_scope_key varchar(64) [not null, ref: > gold_serving_local.dim_source_scope.source_scope_key]
   geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
   product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
+  observation_status_key varchar(32) [not null, ref: > gold_serving_local.dim_observation_status.observation_status_key]
   production_t decimal(38,20)
   harvested_area_ha decimal(38,20)
+  reported_yield_kg_ha decimal(38,20) [note: 'Serves NSO seasonal yield publications V06.17 (Dong Xuan), V06.20 (He Thu & Thu Dong), and V06.23 (Mua); never averaged.']
+  paired_production_t decimal(38,20) [note: 'Populated when both seasonal production and area exist for the exact scope/geography/year/season pair (e.g. V06.16+V06.18, V06.19+V06.21, V06.22+V06.24).']
+  paired_area_ha decimal(38,20)
+  area_yoy_index_pct decimal(18,4) [note: 'Published NSO seasonal area development index from V06.12 when available.']
+  production_yoy_index_pct decimal(18,4) [note: 'Published NSO seasonal production development index from V06.12 when available.']
   observation_present boolean [not null]
 
   indexes {
     (year_key, season_key, source_scope_key, geography_key, product_key) [unique]
   }
-  Note: 'Grain: one source-scoped crop area/product/calendar-year/season. Annual rows are prohibited.'
+  Note: 'Grain: one source-scoped crop area/product/calendar-year/season. Annual rows are prohibited. Preserves 100% of NSO seasonal area, yield, production and index tables (V06.12, V06.16-V06.24).'
 }
 
 Table gold_serving_local.fact_price_monthly {
   price_monthly_key varchar(64) [pk]
   month_key integer [not null, ref: > gold_serving_local.dim_month.month_key]
   price_series_key varchar(64) [not null, ref: > gold_serving_local.dim_price_series.price_series_key]
+  observation_status_key varchar(32) [not null, ref: > gold_serving_local.dim_observation_status.observation_status_key]
+  source_marketing_year_key varchar(32) [ref: > gold_serving_local.dim_marketing_year.marketing_year_key, note: 'Populated for USDA Rice Yearbook monthly quotes mapped via verified Aug-Jul marketing-year calendar rule; NULL for native calendar-month sources.']
   price_value decimal(38,20)
+  price_value_per_tonne_native decimal(38,20) [note: 'price_value * dim_price_series.unit_scale_to_tonne in native currency when mass-based; NULL for indices.']
   observation_present boolean [not null]
   numeric_present boolean [not null]
 
   indexes {
     (month_key, price_series_key) [unique]
   }
-  Note: 'Grain: one calendar month and price series. MoM change and 12-month volatility are semantic measures derived from price_value; calendar scaffold rows keep absent distinct from present-NULL and zero.'
+  Note: 'Grain: one calendar month and price series. Serves World Bank Pink Sheet (incl. rice_viet_namese_5 & Thai benchmarks), FAOSTAT monthly producer prices, and calendar-resolved monthly FOB export quotes from USDA Rice Yearbook (Tables 25-28).'
+}
+
+Table gold_serving_local.fact_price_annual {
+  price_annual_key varchar(64) [pk]
+  year_key integer [not null, ref: > gold_serving_local.dim_year.year_key]
+  price_series_key varchar(64) [not null, ref: > gold_serving_local.dim_price_series.price_series_key]
+  observation_status_key varchar(32) [not null, ref: > gold_serving_local.dim_observation_status.observation_status_key]
+  price_value decimal(38,20)
+  price_value_per_tonne_native decimal(38,20)
+  observation_present boolean [not null]
+  numeric_present boolean [not null]
+
+  indexes {
+    (year_key, price_series_key) [unique]
+  }
+  Note: 'Grain: one calendar year and price series. Serves gold_local.fact_fao_price_annual (published annual LCU/tonne, SLC/tonne, USD/tonne, and Producer Price Index 5539) without replacing published annual figures by monthly averages.'
+}
+
+Table gold_serving_local.fact_price_marketing_year {
+  price_marketing_year_key varchar(64) [pk]
+  marketing_year_key varchar(32) [not null, ref: > gold_serving_local.dim_marketing_year.marketing_year_key]
+  price_series_key varchar(64) [not null, ref: > gold_serving_local.dim_price_series.price_series_key]
+  observation_status_key varchar(32) [not null, ref: > gold_serving_local.dim_observation_status.observation_status_key]
+  price_value decimal(38,20)
+  price_value_per_tonne_native decimal(38,20)
+  observation_present boolean [not null]
+  numeric_present boolean [not null]
+
+  indexes {
+    (marketing_year_key, price_series_key) [unique]
+  }
+  Note: 'Grain: one marketing year and price series. Serves MARKETING-period average FOB export quotes from gold_local.fact_usda_price_reference cleanly separated from calendar years.'
 }
 
 Table gold_serving_local.fact_price_daily {
   price_daily_key varchar(64) [pk]
   date_key integer [not null, ref: > gold_serving_local.dim_date.date_key]
   price_series_key varchar(64) [not null, ref: > gold_serving_local.dim_price_series.price_series_key]
+  observation_status_key varchar(32) [not null, ref: > gold_serving_local.dim_observation_status.observation_status_key]
   price_value decimal(38,20)
+  price_value_per_tonne_native decimal(38,20) [note: 'Exact VND/tonne = price_value * 1000 for valid VND/kg quotes; NULL when is_usable_quote = false.']
   observation_present boolean [not null]
   numeric_present boolean [not null]
+  is_usable_quote boolean [not null, note: 'True only when numeric_present = true, price_value > 0, and quote passes unit-scale sanity gate (excludes raw zero placeholders and 13.56 VND/kg scale typos).']
 
   indexes {
     (date_key, price_series_key) [unique]
   }
-  Note: 'Grain: exact source quote date and series. No forward fill; price level is not summed across days.'
+  Note: 'Grain: exact source quote date and domestic series (thitruongnongsan). No forward fill; raw value preserved alongside usability gate.'
+}
+
+Table gold_serving_local.fact_exchange_rate {
+  exchange_rate_key varchar(64) [pk]
+  rate_grain varchar(16) [not null, note: 'annual, monthly, or daily.']
+  period_key integer [not null, note: 'YYYY for annual, YYYYMM for monthly, YYYYMMDD for daily.']
+  year_key integer [not null, ref: > gold_serving_local.dim_year.year_key]
+  month_key integer [ref: > gold_serving_local.dim_month.month_key, note: 'Populated when rate_grain in (monthly, daily); NULL for annual.']
+  date_key integer [ref: > gold_serving_local.dim_date.date_key, note: 'Populated when rate_grain = daily; NULL otherwise.']
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  from_currency varchar(8) [not null, note: 'ISO currency code, e.g. VND, THB, INR, PKR.']
+  to_currency varchar(8) [not null, note: 'Target currency code, typically USD.']
+  rate_type varchar(32) [not null, note: 'fao_implied_annual (derived from published FAO 5530/5532 pairs) or external_official_fx (requires upstream SBV/IMF FX ingestion for monthly/daily).']
+  fx_rate decimal(28,12) [not null, note: 'Multiplicative factor: amount_in_to_currency = amount_in_from_currency * fx_rate.']
+
+  indexes {
+    (rate_grain, period_key, from_currency, to_currency, rate_type) [unique]
+  }
+  Note: 'Governed FX reference table for DAX LOOKUPVALUE/TREATAS currency normalization without altering native price facts. Annual FAO implied FX is available from existing raw data; monthly/daily VND-USD requires an external FX feed.'
 }
 
 Table gold_serving_local.fact_trade_partner_year {
   trade_partner_year_key varchar(64) [pk]
   year_key integer [not null, ref: > gold_serving_local.dim_year.year_key]
+  source_scope_key varchar(64) [not null, ref: > gold_serving_local.dim_source_scope.source_scope_key]
   source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
   reporter_geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
   partner_geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
   product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
   direction_key varchar(16) [not null, ref: > gold_serving_local.dim_trade_direction.direction_key]
+  observation_status_key varchar(32) [not null, ref: > gold_serving_local.dim_observation_status.observation_status_key]
   quantity_t decimal(38,20)
   value_usd decimal(38,20)
   paired_quantity_t decimal(38,20)
   paired_value_usd decimal(38,20)
   quantity_present boolean [not null]
   value_present boolean [not null]
+  reporter_year_universe_complete boolean [not null, note: 'True when the full non-overlapping partner set reported by this reporter/year/product/direction is loaded (e.g. Vietnam 1986-2023 across all 80+ atomic partners).']
 
   indexes {
     (year_key, source_system_key, reporter_geography_key, partner_geography_key, product_key, direction_key) [unique]
   }
-  Note: 'Unit value is semantic: SUM(paired_value_usd)/SUM(paired_quantity_t). Do not average row-level unit values or mix reporter/partner roles.'
+  Note: 'Full bilateral FAOSTAT trade constellation (all reporters and partners, replacing legacy 3-partner CSV marts). Unit value = SUM(paired_value_usd)/SUM(paired_quantity_t). Partner Share % is unlocked whenever reporter_year_universe_complete = true and partner is_atomic_member = true.'
 }
 
 Table gold_serving_local.fact_supply_utilization_year {
   supply_utilization_key varchar(64) [pk]
   year_key integer [not null, ref: > gold_serving_local.dim_year.year_key]
+  source_scope_key varchar(64) [not null, ref: > gold_serving_local.dim_source_scope.source_scope_key]
   source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
   geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
   product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
   sua_element_key varchar(64) [not null, ref: > gold_serving_local.dim_sua_element.sua_element_key]
+  observation_status_key varchar(32) [not null, ref: > gold_serving_local.dim_observation_status.observation_status_key]
   element_value decimal(38,20)
   observation_present boolean [not null]
 
   indexes {
     (year_key, source_system_key, geography_key, product_key, sua_element_key) [unique]
   }
-  Note: 'Long fact for FAOSTAT SUA elements. source_system_key must match the selected SUA element namespace. Signed stock variation/residual values are preserved; components are never assumed to form a complete balance.'
+  Note: 'Long fact for FAOSTAT SUA 12 elements. Signed stock variation/residual values preserved; filter dim_geography.is_atomic_member = true when aggregating across countries (excluding M49 159 China umbrella).'
 }
 
 Table gold_serving_local.fact_psd_market_year {
@@ -260,11 +406,37 @@ Table gold_serving_local.fact_psd_market_year {
   geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
   product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
   psd_attribute_key varchar(64) [not null, ref: > gold_serving_local.dim_psd_attribute.psd_attribute_key]
+  observation_status_key varchar(32) [not null, ref: > gold_serving_local.dim_observation_status.observation_status_key]
   attribute_value decimal(38,20)
   observation_present boolean [not null]
 
   indexes {
     (marketing_year_key, source_system_key, geography_key, product_key, psd_attribute_key) [unique]
   }
-  Note: 'Long fact for USDA PSD attributes. source_system_key must match the selected PSD attribute namespace. It has no relationship to dim_year; stocks, rates and flows retain their source-specific aggregation rules.'
+  Note: 'Long fact for USDA PSD 15 attributes. Governed by dim_marketing_year; calendar alignment is permitted only for TY attributes via dim_marketing_year.trade_year_calendar_key.'
+}
+
+Table gold_serving_local.fact_metric_forecast {
+  forecast_observation_key varchar(64) [pk]
+  model_run_key varchar(64) [not null, ref: > gold_serving_local.dim_forecast_model_run.model_run_key]
+  period_grain varchar(16) [not null, note: 'annual, monthly, or marketing_year.']
+  target_period_key varchar(32) [not null, note: 'YYYY, YYYYMM, or marketing_year_key matching period_grain.']
+  year_key integer [ref: > gold_serving_local.dim_year.year_key, note: 'Populated for annual and monthly calendar forecasts.']
+  month_key integer [ref: > gold_serving_local.dim_month.month_key, note: 'Populated for monthly calendar forecasts.']
+  marketing_year_key varchar(32) [ref: > gold_serving_local.dim_marketing_year.marketing_year_key, note: 'Populated for marketing-year forecasts.']
+  geography_key varchar(64) [ref: > gold_serving_local.dim_geography.geography_key]
+  product_key varchar(64) [ref: > gold_serving_local.dim_product.product_key]
+  price_series_key varchar(64) [ref: > gold_serving_local.dim_price_series.price_series_key]
+  metric_code varchar(64) [not null, note: 'e.g. production_t, price_usd_t, export_quantity_t, ending_stocks_t.']
+  horizon_step integer [not null, note: '1..H steps ahead from training_cutoff_label.']
+  point_forecast decimal(38,20) [not null]
+  ci_lower_80 decimal(38,20)
+  ci_upper_80 decimal(38,20)
+  ci_lower_95 decimal(38,20)
+  ci_upper_95 decimal(38,20)
+
+  indexes {
+    (model_run_key, period_grain, target_period_key, metric_code, geography_key, product_key, price_series_key) [unique]
+  }
+  Note: 'Extensible forecast star isolated from historical observation facts. Allows overlaying point forecasts and prediction intervals alongside actuals on shared time/geography/product slicers.'
 }
