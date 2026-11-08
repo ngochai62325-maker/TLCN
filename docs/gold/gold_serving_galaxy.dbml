@@ -1,0 +1,270 @@
+// Proposed Power BI serving model. It is independent of immutable gold_local.
+// Physical target: iceberg.gold_serving_local. All keys are logical; Iceberg
+// integrity checks are enforced by the serving publication pipeline.
+
+Project rice_lakehouse_gold_serving_galaxy_20261107 {
+  database_type: 'Apache Iceberg'
+  Note: 'Galaxy schema for rice analytics. Source-scoped geography and product identities are intentionally not universal country/product crosswalks.'
+}
+
+// ---------- Conformed dimensions ----------
+
+Table gold_serving_local.dim_source_system {
+  source_system_key varchar(64) [pk]
+  source_id varchar [not null, unique]
+  provider varchar [not null]
+  source_label varchar [not null]
+}
+
+Table gold_serving_local.dim_source_scope {
+  source_scope_key varchar(64) [pk]
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  scope_name varchar [not null]
+  publication_name varchar
+  filter_description varchar [not null]
+  period_semantics varchar [not null]
+
+  indexes {
+    (source_system_key, scope_name) [unique]
+  }
+  Note: 'A governed source/publication/filter scope. It prevents rows with different NSO publications or different admitted source populations from being silently combined.'
+}
+
+Table gold_serving_local.dim_year {
+  year_key integer [pk, note: 'Calendar year YYYY only.']
+  decade integer [not null]
+}
+
+Table gold_serving_local.dim_month {
+  month_key integer [pk, note: 'YYYYMM.']
+  year_key integer [not null, ref: > gold_serving_local.dim_year.year_key]
+  month_number integer [not null]
+  quarter_number integer [not null]
+  month_start date [not null, unique]
+}
+
+Table gold_serving_local.dim_date {
+  date_key integer [pk, note: 'YYYYMMDD.']
+  full_date date [not null, unique]
+  month_key integer [not null, ref: > gold_serving_local.dim_month.month_key]
+  day_of_month integer [not null]
+  iso_weekday integer [not null]
+}
+
+Table gold_serving_local.dim_marketing_year {
+  marketing_year_key varchar(32) [pk, note: 'USDA source label, for example 2024/25; never inferred as a calendar-year range.']
+  market_year integer [not null]
+  crop_year_label varchar [not null]
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+
+  indexes {
+    (source_system_key, market_year, crop_year_label) [unique]
+  }
+}
+
+Table gold_serving_local.dim_geography {
+  geography_key varchar(64) [pk]
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  identity_namespace varchar [not null]
+  source_code varchar [not null]
+  source_name varchar [not null]
+  geography_level varchar [not null]
+
+  indexes {
+    (source_system_key, identity_namespace, source_code) [unique]
+  }
+  Note: 'Conformed only inside the declared source namespace. No join by display name across FAOSTAT, NSO, USDA and Vietnamese market labels.'
+}
+
+Table gold_serving_local.dim_product {
+  product_key varchar(64) [pk]
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  identity_namespace varchar [not null]
+  source_code varchar [not null]
+  source_name varchar [not null]
+  product_form varchar [not null, note: 'Exact source form, such as paddy or milled; never inferred.']
+
+  indexes {
+    (source_system_key, identity_namespace, source_code) [unique]
+  }
+}
+
+Table gold_serving_local.dim_season {
+  season_key varchar(32) [pk]
+  season_code varchar [not null, unique]
+  season_name_vi varchar [not null]
+  is_annual boolean [not null, note: 'Annual must not be aggregated with seasonal rows.']
+}
+
+Table gold_serving_local.dim_price_series {
+  price_series_key varchar(64) [pk]
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  geography_key varchar(64) [ref: > gold_serving_local.dim_geography.geography_key]
+  product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
+  series_code varchar [not null]
+  market_name varchar
+  price_type varchar
+  unit varchar [not null]
+  currency varchar
+  information_source varchar
+
+  indexes {
+    (source_system_key, series_code) [unique]
+  }
+}
+
+Table gold_serving_local.dim_trade_direction {
+  direction_key varchar(16) [pk]
+  direction_code varchar [not null, unique, note: 'import or export from reporter perspective.']
+  direction_name_vi varchar [not null]
+}
+
+Table gold_serving_local.dim_sua_element {
+  sua_element_key varchar(64) [pk]
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  element_code varchar [not null]
+  element_name varchar [not null]
+  unit varchar [not null]
+  time_aggregation_rule varchar [not null, note: 'sum, last_value, or do_not_aggregate as defined for this FAOSTAT SUA element.']
+  additivity varchar [not null, note: 'additive, semi_additive, or non_additive.']
+
+  indexes {
+    (source_system_key, element_code) [unique]
+  }
+  Note: 'FAOSTAT SUA element identity and its element-specific aggregation behavior; not a generic metric catalogue.'
+}
+
+Table gold_serving_local.dim_psd_attribute {
+  psd_attribute_key varchar(64) [pk]
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  attribute_code varchar [not null]
+  attribute_name varchar [not null]
+  unit varchar [not null]
+  attribute_kind varchar [not null, note: 'flow, stock, rate, or other USDA PSD-defined attribute.']
+  time_aggregation_rule varchar [not null, note: 'sum, last_value, or do_not_aggregate as defined for this USDA PSD attribute.']
+  additivity varchar [not null, note: 'additive, semi_additive, or non_additive.']
+
+  indexes {
+    (source_system_key, attribute_code) [unique]
+  }
+  Note: 'USDA PSD attribute identity and behavior. Marketing-year meaning remains source-defined.'
+}
+
+// ---------- Facts: one star per subject area; together they form a galaxy ----------
+
+Table gold_serving_local.fact_crop_production_annual {
+  crop_annual_key varchar(64) [pk]
+  year_key integer [not null, ref: > gold_serving_local.dim_year.year_key]
+  source_scope_key varchar(64) [not null, ref: > gold_serving_local.dim_source_scope.source_scope_key]
+  geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
+  product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
+  production_t decimal(38,20)
+  harvested_area_ha decimal(38,20)
+  reported_yield_kg_ha decimal(38,20)
+  paired_production_t decimal(38,20)
+  paired_area_ha decimal(38,20)
+  observation_present boolean [not null]
+
+  indexes {
+    (year_key, source_scope_key, geography_key, product_key) [unique]
+  }
+  Note: 'Grain: one source-scoped crop area/product/calendar-year. Computed yield is a semantic measure: 1000*SUM(paired_production_t)/SUM(paired_area_ha), never AVG(reported_yield_kg_ha).'
+}
+
+Table gold_serving_local.fact_crop_production_seasonal {
+  crop_seasonal_key varchar(64) [pk]
+  year_key integer [not null, ref: > gold_serving_local.dim_year.year_key]
+  season_key varchar(32) [not null, ref: > gold_serving_local.dim_season.season_key]
+  source_scope_key varchar(64) [not null, ref: > gold_serving_local.dim_source_scope.source_scope_key]
+  geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
+  product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
+  production_t decimal(38,20)
+  harvested_area_ha decimal(38,20)
+  observation_present boolean [not null]
+
+  indexes {
+    (year_key, season_key, source_scope_key, geography_key, product_key) [unique]
+  }
+  Note: 'Grain: one source-scoped crop area/product/calendar-year/season. Annual rows are prohibited.'
+}
+
+Table gold_serving_local.fact_price_monthly {
+  price_monthly_key varchar(64) [pk]
+  month_key integer [not null, ref: > gold_serving_local.dim_month.month_key]
+  price_series_key varchar(64) [not null, ref: > gold_serving_local.dim_price_series.price_series_key]
+  price_value decimal(38,20)
+  observation_present boolean [not null]
+  numeric_present boolean [not null]
+
+  indexes {
+    (month_key, price_series_key) [unique]
+  }
+  Note: 'Grain: one calendar month and price series. MoM change and 12-month volatility are semantic measures derived from price_value; calendar scaffold rows keep absent distinct from present-NULL and zero.'
+}
+
+Table gold_serving_local.fact_price_daily {
+  price_daily_key varchar(64) [pk]
+  date_key integer [not null, ref: > gold_serving_local.dim_date.date_key]
+  price_series_key varchar(64) [not null, ref: > gold_serving_local.dim_price_series.price_series_key]
+  price_value decimal(38,20)
+  observation_present boolean [not null]
+  numeric_present boolean [not null]
+
+  indexes {
+    (date_key, price_series_key) [unique]
+  }
+  Note: 'Grain: exact source quote date and series. No forward fill; price level is not summed across days.'
+}
+
+Table gold_serving_local.fact_trade_partner_year {
+  trade_partner_year_key varchar(64) [pk]
+  year_key integer [not null, ref: > gold_serving_local.dim_year.year_key]
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  reporter_geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
+  partner_geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
+  product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
+  direction_key varchar(16) [not null, ref: > gold_serving_local.dim_trade_direction.direction_key]
+  quantity_t decimal(38,20)
+  value_usd decimal(38,20)
+  paired_quantity_t decimal(38,20)
+  paired_value_usd decimal(38,20)
+  quantity_present boolean [not null]
+  value_present boolean [not null]
+
+  indexes {
+    (year_key, source_system_key, reporter_geography_key, partner_geography_key, product_key, direction_key) [unique]
+  }
+  Note: 'Unit value is semantic: SUM(paired_value_usd)/SUM(paired_quantity_t). Do not average row-level unit values or mix reporter/partner roles.'
+}
+
+Table gold_serving_local.fact_supply_utilization_year {
+  supply_utilization_key varchar(64) [pk]
+  year_key integer [not null, ref: > gold_serving_local.dim_year.year_key]
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
+  product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
+  sua_element_key varchar(64) [not null, ref: > gold_serving_local.dim_sua_element.sua_element_key]
+  element_value decimal(38,20)
+  observation_present boolean [not null]
+
+  indexes {
+    (year_key, source_system_key, geography_key, product_key, sua_element_key) [unique]
+  }
+  Note: 'Long fact for FAOSTAT SUA elements. source_system_key must match the selected SUA element namespace. Signed stock variation/residual values are preserved; components are never assumed to form a complete balance.'
+}
+
+Table gold_serving_local.fact_psd_market_year {
+  psd_market_year_key varchar(64) [pk]
+  marketing_year_key varchar(32) [not null, ref: > gold_serving_local.dim_marketing_year.marketing_year_key]
+  source_system_key varchar(64) [not null, ref: > gold_serving_local.dim_source_system.source_system_key]
+  geography_key varchar(64) [not null, ref: > gold_serving_local.dim_geography.geography_key]
+  product_key varchar(64) [not null, ref: > gold_serving_local.dim_product.product_key]
+  psd_attribute_key varchar(64) [not null, ref: > gold_serving_local.dim_psd_attribute.psd_attribute_key]
+  attribute_value decimal(38,20)
+  observation_present boolean [not null]
+
+  indexes {
+    (marketing_year_key, source_system_key, geography_key, product_key, psd_attribute_key) [unique]
+  }
+  Note: 'Long fact for USDA PSD attributes. source_system_key must match the selected PSD attribute namespace. It has no relationship to dim_year; stocks, rates and flows retain their source-specific aggregation rules.'
+}
