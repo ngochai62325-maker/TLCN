@@ -1,0 +1,10 @@
+{
+  "notebook": "04_rice_price_analysis.ipynb",
+  "status": "PASS",
+  "seconds": 26.262910499999634,
+  "error": null,
+  "windows_available_min_bytes": 2926555136,
+  "child_rss_peak_bytes": 193261568,
+  "code_cells": 17,
+  "charts": 3
+}

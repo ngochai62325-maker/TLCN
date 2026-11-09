@@ -65,7 +65,7 @@ class IdempotencyController:
                             reason=f"Batch {batch_id} marked as COMMITTED in metadata repository",
                         )
             except Exception as e:
-                self.logger.warning(f"Could not check metadata repo for batch {batch_id}: {e}")
+                raise RuntimeError(f"Idempotency metadata unavailable for batch {batch_id}; processing blocked") from e
 
         # Batch is new or forced reprocess -> proceed
         return IdempotencyDecision(
@@ -78,7 +78,10 @@ class IdempotencyController:
         self,
         metadata: BatchMetadata,
     ) -> None:
-        """Mark batch as COMMITTED in memory/logger."""
+        """Persist batch evidence in the existing run record before reporting commitment."""
+        if self.metadata_repo is None or not metadata.extra_properties.get("run_id"):
+            raise RuntimeError("Durable metadata repository and run identity required")
+        self.metadata_repo.save_batch_commit(metadata.extra_properties["run_id"], metadata.to_dict())
         metadata.status = BatchStatus.COMMITTED
         self.logger.info(
             "Batch successfully registered as COMMITTED",

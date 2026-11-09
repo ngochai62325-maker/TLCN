@@ -3,7 +3,7 @@ $containers = @(Get-DemoContainers)
 if (-not @($containers | Where-Object { $_.State.Running }).Count) { Write-Host 'Demo is already stopped; volumes preserved.'; return }
 Assert-DemoIdle $containers
 $scheduler = @($containers | Where-Object { $_.Config.Labels.'com.docker.compose.service' -eq 'airflow-scheduler' })[0]
-foreach ($dag in @('rice_lakehouse_silver_pipeline', 'rice_lakehouse_ingestion')) {
+foreach ($dag in @('rice_lakehouse_gold_pipeline', 'rice_lakehouse_silver_pipeline', 'rice_lakehouse_ingestion')) {
     Invoke-DemoDocker -Arguments @('exec', $scheduler.Id, 'airflow', 'dags', 'pause', $dag)
 }
 Assert-DemoIdle $containers

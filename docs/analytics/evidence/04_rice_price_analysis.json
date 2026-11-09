@@ -1,0 +1,260 @@
+{
+  "notebook": "04_rice_price_analysis",
+  "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+  "queries": [
+    {
+      "query_id": null,
+      "http_bytes": 0,
+      "query_seconds": 0,
+      "query": "publication",
+      "parameters": {},
+      "version": "eda-20261027.1",
+      "definition_sha256": "9137591a6cc57b9c6db1e4f9fb7b226e1e604c2cf01243362d8fa8808391f1f9",
+      "compiled_sql_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:32.240657+00:00",
+      "windows_available_bytes": 3010686976,
+      "cache": "DISABLED",
+      "row_count": 17,
+      "response_bytes": 4333,
+      "client_seconds": 2.695209800000157
+    },
+    {
+      "query_id": "20261027_035935_00121_r3abu",
+      "http_bytes": 441163,
+      "query_seconds": 0.0723987159999524,
+      "stats": {
+        "elapsedTimeMillis": 65,
+        "processedBytes": 78619,
+        "peakMemoryBytes": 284130,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "series"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "b17b098470680738c04a05832e9576521ff0f8b6a4c0ce8c1cc0dcf21fa4c5c7",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:35.333340+00:00",
+      "windows_available_bytes": 3018027008,
+      "cache": "DISABLED",
+      "row_count": 1042,
+      "response_bytes": 440911,
+      "client_seconds": 3.0880557999998928
+    },
+    {
+      "query_id": "20261027_035938_00122_r3abu",
+      "http_bytes": 89939,
+      "query_seconds": 0.43321277999984886,
+      "stats": {
+        "elapsedTimeMillis": 423,
+        "processedBytes": 1359922,
+        "peakMemoryBytes": 85912,
+        "spilledBytes": 0
+      },
+      "query": "price_observations",
+      "parameters": {
+        "fact": "fact_price_monthly",
+        "series": "31277471ba383c2f64dc3e639466128f6b3503027d3465dca59fe11cb494bad2",
+        "start_period": 200001,
+        "end_period": 202512
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "7e668c2f706ae6dc4979fa153cf9866f76adb93f1cc61188f658ddf36f2f0e5f",
+      "compiled_sql_sha256": "6e26210e65404abbd43ae7d8ee00762900e2d7991bef43f885871595d378f7bf",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:38.352794+00:00",
+      "windows_available_bytes": 2996482048,
+      "cache": "DISABLED",
+      "row_count": 312,
+      "response_bytes": 80146,
+      "client_seconds": 3.005829900000208
+    },
+    {
+      "query_id": "20261027_035941_00123_r3abu",
+      "http_bytes": 138591,
+      "query_seconds": 0.36812020399975154,
+      "stats": {
+        "elapsedTimeMillis": 356,
+        "processedBytes": 1158334,
+        "peakMemoryBytes": 1390711,
+        "spilledBytes": 0
+      },
+      "query": "price_coverage",
+      "parameters": {
+        "fact": "fact_vn_market_quote_daily"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "cb063672a63526130122ec74b1d6cfe954a6e14bbc4855eb8344d8e1e96ea5a1",
+      "compiled_sql_sha256": "96dc9b97f3df77eafbf261966b562f4e0921d4cc282c34545bb12911bfa44d01",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:41.881855+00:00",
+      "windows_available_bytes": 2978136064,
+      "cache": "DISABLED",
+      "row_count": 542,
+      "response_bytes": 132724,
+      "client_seconds": 2.9879086999999345
+    },
+    {
+      "query_id": "20261027_035944_00124_r3abu",
+      "http_bytes": 179212,
+      "query_seconds": 0.13833067100040353,
+      "stats": {
+        "elapsedTimeMillis": 125,
+        "processedBytes": 1004053,
+        "peakMemoryBytes": 190084,
+        "spilledBytes": 0
+      },
+      "query": "price_observations",
+      "parameters": {
+        "fact": "fact_vn_market_quote_daily",
+        "series": "ad571f56ddde74e20951e6cb945da0c0333a2806733cb8b2dd2487f476979b08",
+        "start_period": 20210101,
+        "end_period": 20260803
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "7e668c2f706ae6dc4979fa153cf9866f76adb93f1cc61188f658ddf36f2f0e5f",
+      "compiled_sql_sha256": "e07f4c8a581654aa2c849864cd9ab6ac7122f4d8be42b1e72c963288cd3804a4",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:44.579554+00:00",
+      "windows_available_bytes": 2975567872,
+      "cache": "DISABLED",
+      "row_count": 484,
+      "response_bytes": 175025,
+      "client_seconds": 2.6468879000003653
+    },
+    {
+      "query_id": "20261027_035947_00125_r3abu",
+      "http_bytes": 77333,
+      "query_seconds": 0.3238746369997898,
+      "stats": {
+        "elapsedTimeMillis": 314,
+        "processedBytes": 966491,
+        "peakMemoryBytes": 1855727,
+        "spilledBytes": 0
+      },
+      "query": "price_coverage",
+      "parameters": {
+        "fact": "fact_fao_price_annual"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "cb063672a63526130122ec74b1d6cfe954a6e14bbc4855eb8344d8e1e96ea5a1",
+      "compiled_sql_sha256": "58d16c790ad299c0d56c0ee8aa02ac1941fdd71c3b1d1375ba644004b2ef9eb5",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:47.456879+00:00",
+      "windows_available_bytes": 2959147008,
+      "cache": "DISABLED",
+      "row_count": 396,
+      "response_bytes": 70011,
+      "client_seconds": 2.7977231000004394
+    },
+    {
+      "query_id": "20261027_035950_00126_r3abu",
+      "http_bytes": 23471,
+      "query_seconds": 0.1787469479995707,
+      "stats": {
+        "elapsedTimeMillis": 168,
+        "processedBytes": 812122,
+        "peakMemoryBytes": 10056,
+        "spilledBytes": 0
+      },
+      "query": "price_observations",
+      "parameters": {
+        "fact": "fact_fao_price_annual",
+        "series": "0a5853aa7eb408683e9ccf85d371ce5a296763c34835a205a438fd1191026c5c",
+        "start_period": 1991,
+        "end_period": 2025
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "7e668c2f706ae6dc4979fa153cf9866f76adb93f1cc61188f658ddf36f2f0e5f",
+      "compiled_sql_sha256": "1393edba5a124c579024fd2b768c95979fac5609f9ea488660da59114f27ae56",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:50.185063+00:00",
+      "windows_available_bytes": 2958237696,
+      "cache": "DISABLED",
+      "row_count": 35,
+      "response_bytes": 13880,
+      "client_seconds": 2.6627430000007735
+    },
+    {
+      "query_id": "20261027_035952_00127_r3abu",
+      "http_bytes": 125872,
+      "query_seconds": 0.1546307099997648,
+      "stats": {
+        "elapsedTimeMillis": 145,
+        "processedBytes": 707884,
+        "peakMemoryBytes": 21862,
+        "spilledBytes": 0
+      },
+      "query": "price_observations",
+      "parameters": {
+        "fact": "fact_usda_price_reference",
+        "series": "dd22fa75fc5eb986bda7828b9677247cb2ecc27b867649f89a26d569a3f1d8f1",
+        "start_period": 1985,
+        "end_period": 2025
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "7e668c2f706ae6dc4979fa153cf9866f76adb93f1cc61188f658ddf36f2f0e5f",
+      "compiled_sql_sha256": "a7277886129592fc4b7ba90538752903020604cebc057347c19d4f38742a0113",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:52.866130+00:00",
+      "windows_available_bytes": 2960670720,
+      "cache": "DISABLED",
+      "row_count": 372,
+      "response_bytes": 113504,
+      "client_seconds": 2.6853886999997485
+    }
+  ],
+  "findings": [
+    {
+      "id": "PR01",
+      "title": "High/low của WB benchmark",
+      "observation": "rice_thai_5, 2000–2025: high 907.00 USD/t tại 2008-04; low 163.75 USD/t tại 2001-04.",
+      "scope": "World Bank rice_thai_5, USD/tonne, monthly",
+      "interpretation": "Observed benchmark extrema; không đại diện mọi giống/grade hay giá nội địa Việt Nam.",
+      "query": "price_observations",
+      "cell": "Câu hỏi 1",
+      "numbers": {
+        "high": 907.0,
+        "low": 163.75,
+        "missing": 0
+      }
+    },
+    {
+      "id": "PR02",
+      "title": "Window volatility cao nhất",
+      "observation": "Highest trailing 12-month log-return sample std: 17.47% tại 2009-01.",
+      "scope": "Same WB benchmark; complete-calendar 12 returns; ddof=1",
+      "interpretation": "Historical variability, không là forecast hoặc causal event attribution.",
+      "query": "price_observations",
+      "cell": "Câu hỏi 1"
+    },
+    {
+      "id": "PR03",
+      "title": "Range của một domestic quote",
+      "observation": "Selected exact identity có 484 quoted dates; numeric range 4,500.00–9,400.00 VND/kg trong 2021-04-01–2026-08-03.",
+      "scope": "[\"An Giang\",\"Lúa IR 50404 (lúa tươi)\",\"Thương lái thu mua\",\"VND/kg\",\"VND\",\"CTV địa phương\"]",
+      "interpretation": "Chỉ đại diện quote identity được in; không phải mức giá trung bình thị trường hay toàn Việt Nam.",
+      "query": "price_observations",
+      "cell": "Câu hỏi 2"
+    }
+  ]
+}

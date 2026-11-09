@@ -1,0 +1,246 @@
+table Overview
+	column fact_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: fact_name
+	column rows_total
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: rows_total
+	column numeric_rows
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: numeric_rows
+	column present_null_rows
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: present_null_rows
+	column numeric_coverage_pct
+		dataType: double
+		summarizeBy: none
+		sourceColumn: numeric_coverage_pct
+	column period_min
+		dataType: string
+		summarizeBy: none
+		sourceColumn: period_min
+	column period_max
+		dataType: string
+		summarizeBy: none
+		sourceColumn: period_max
+	column represented_periods
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: represented_periods
+	column period_grain
+		dataType: string
+		summarizeBy: none
+		sourceColumn: period_grain
+	/// All published facts or selected fact; count rows, including present-NULL.
+	measure 'Total Observations' = SUM(Overview[rows_total])
+		formatString: #,0
+	/// COUNT(value), aggregated from full-data fact counts.
+	measure 'Numeric Observations' = SUM(Overview[numeric_rows])
+		formatString: #,0
+	/// Rows with NULL numeric value; not absent observations.
+	measure 'Present NULL' = SUM(Overview[present_null_rows])
+		formatString: #,0
+	/// Ratio of count sums; blank denominator zero, never average per-fact percentages.
+	measure 'Numeric Coverage' = DIVIDE([Numeric Observations], [Total Observations])
+		formatString: 0.00%
+	/// V06.12 national annual quantity tonnes; one calendar year only; NULL remains blank; no SUM across years.
+	measure 'Annual Production' = IF(HASONEVALUE(CalendarYear[Year]), SUM(NSOAnnual[production_t]))
+		formatString: #,0
+	/// V06.12 national annual quantity hectares; one calendar year only; NULL remains blank; no SUM across years.
+	measure 'Annual Area' = IF(HASONEVALUE(CalendarYear[Year]), SUM(NSOAnnual[area_ha]))
+		formatString: #,0
+	/// V06.14 national annual reported kg/ha; one calendar year only; NULL remains blank; no SUM across years.
+	measure 'Reported Yield' = IF(HASONEVALUE(CalendarYear[Year]), SUM(NSOYield[yield_kg_ha]))
+		formatString: #,0.00
+	/// V06.12 source seasons, never includes annual; one calendar year only; NULL remains blank; no SUM across years.
+	measure 'Seasonal Production' = IF(HASONEVALUE(CalendarYear[Year]), SUM(NSOSeasonal[production_t]))
+		formatString: #,0
+	/// CPC0113 selected non-overlapping four source areas, tonnes; one calendar year only; NULL remains blank; no SUM across years.
+	measure 'FAO Production' = IF(HASONEVALUE(CalendarYear[Year]), SUM(FAO[production_t]))
+		formatString: #,0
+	/// CPC0113 selected non-overlapping four source areas, hectares; one calendar year only; NULL remains blank; no SUM across years.
+	measure 'FAO Area' = IF(HASONEVALUE(CalendarYear[Year]), SUM(FAO[area_ha]))
+		formatString: #,0
+	/// First selected numeric V06.12 annual year.
+	measure 'First Production Year' = MINX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Annual Production]))), CalendarYear[Year])
+		formatString: 0
+	/// Latest selected numeric V06.12 annual year.
+	measure 'Latest Production Year' = MAXX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Annual Production]))), CalendarYear[Year])
+		formatString: 0
+	/// First numeric selected annual production, V06.12 tonnes.
+	measure 'First Production' = VAR y=[First Production Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Annual Production], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
+		formatString: #,0
+	/// Latest numeric selected annual production, V06.12 tonnes.
+	measure 'Latest Production' = VAR y=[Latest Production Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Annual Production], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
+		formatString: #,0
+	/// Requires two distinct numeric comparable years; tonnes.
+	measure 'Production Change' = IF([First Production Year]<[Latest Production Year], [Latest Production]-[First Production])
+		formatString: +#,0;-#,0;0
+	/// Endpoint ratio; positive first denominator; full selected scope recalculated.
+	measure 'Production Change Pct' = IF([First Production]>0 && [First Production Year]<[Latest Production Year], DIVIDE([Production Change],[First Production]))
+		formatString: +0.00%;-0.00%;0.00%
+	/// Exact previous calendar year; never previous available row. Y-1 may be outside displayed selection but must exist in imported same-source data.
+	measure 'Production YoY' = VAR y=SELECTEDVALUE(CalendarYear[Year]) VAR prev=CALCULATE([Annual Production],REMOVEFILTERS(CalendarYear),CalendarYear[Year]=y-1) VAR currentValue=[Annual Production] RETURN IF(NOT ISBLANK(y) && NOT ISBLANK(currentValue) && prev>0,DIVIDE(currentValue-prev,prev))
+		formatString: +0.00%;-0.00%;0.00%
+	/// YoY at latest numeric selected year, exact prior year.
+	measure 'Latest Production YoY' = VAR y=[Latest Production Year] RETURN IF(NOT ISBLANK(y),CALCULATE([Production YoY],REMOVEFILTERS(CalendarYear),CalendarYear[Year]=y))
+		formatString: +0.00%;-0.00%;0.00%
+	/// Observed numeric peak within selected V06.12 years, not a forecast.
+	measure 'Peak Production' = MAXX(ALLSELECTED(CalendarYear[Year]),CALCULATE([Annual Production]))
+		formatString: #,0
+	/// Earliest year if selected observed peaks tie.
+	measure 'Peak Year' = VAR peak=[Peak Production] RETURN IF(NOT ISBLANK(peak), MINX(FILTER(ALLSELECTED(CalendarYear[Year]),CALCULATE([Annual Production])=peak),CalendarYear[Year]))
+		formatString: 0
+	/// Selected endpoint vs selected observed peak, not causal attribution.
+	measure 'Latest vs Peak Pct' = IF([Peak Production]>0,DIVIDE([Latest Production]-[Peak Production],[Peak Production]))
+		formatString: +0.00%;-0.00%;0.00%
+	/// Dynamic descriptive scope; all numeric facts come from current filters.
+	measure 'NSO Insight' = IF(ISBLANK([First Production Year]),"Không có dữ liệu trong phạm vi chọn.",IF([First Production Year]=[Latest Production Year],"V06.12 · chỉ một năm có số: " & FORMAT([Latest Production Year],"0") & ". Thay đổi đầu–cuối: Không áp dụng. Yield V06.14 chỉ có từ 1995.","V06.12 · " & FORMAT([First Production Year],"0") & "–" & FORMAT([Latest Production Year],"0") & ": " & FORMAT([Production Change Pct],"+0.00%;-0.00%") & ". Đỉnh quan sát " & FORMAT([Peak Year],"0") & "; cuối kỳ so với đỉnh " & FORMAT([Latest vs Peak Pct],"+0.00%;-0.00%") & ". Không suy quan hệ nhân quả."))
+		formatString: @
+	/// Same eligible country/year population as paired area, tonnes.
+	measure 'FAO Paired Production' = IF(HASONEVALUE(CalendarYear[Year]),SUM(FAO[paired_production_t]))
+		formatString: #,0
+	/// Only pairs with numeric production and positive numeric area, hectares.
+	measure 'FAO Paired Area' = IF(HASONEVALUE(CalendarYear[Year]),SUM(FAO[paired_area_ha]))
+		formatString: #,0
+	/// kg/ha, single calendar year, ratio of paired sums over selected non-overlapping four-area universe; never AVG yields.
+	measure 'FAO Weighted Yield' = DIVIDE(1000*[FAO Paired Production],[FAO Paired Area])
+		formatString: #,0.00
+	/// Source reported kg/ha, one source area/year; not combined across areas.
+	measure 'FAO Reported Yield' = IF(HASONEVALUE(CalendarYear[Year]) && HASONEVALUE(FAO[geography_key]),MAX(FAO[reported_yield_kg_ha]))
+		formatString: #,0.00
+	/// Latest selected year with valid paired measures for every selected area; selected universe only.
+	measure 'FAO Common Year' = MAXX(FILTER(ALLSELECTED(CalendarYear[Year]), VAR n=CALCULATE(DISTINCTCOUNT(FAO[geography_key]),ALLSELECTED(FAO[area_name]),FAO[paired_valid]=TRUE()) VAR expected=CALCULATE(DISTINCTCOUNT(FAO[geography_key]),ALLSELECTED(FAO[area_name]),REMOVEFILTERS(CalendarYear)) RETURN n=expected && n>0),CalendarYear[Year])
+		formatString: 0
+	/// Production at selected common year, not world total.
+	measure 'FAO Common Production' = VAR y=[FAO Common Year] RETURN IF(NOT ISBLANK(y), CALCULATE([FAO Production],REMOVEFILTERS(CalendarYear),CalendarYear[Year]=y))
+		formatString: #,0
+	/// Rank only among four admitted selected source areas, common paired year.
+	measure 'FAO Common Rank' = IF(NOT ISBLANK([FAO Common Production]),RANKX(ALLSELECTED(FAO[area_name]),[FAO Common Production],,DESC,Dense))
+		formatString: 0
+	/// One SUA calendar year/element, M49 704/CPC23161.02; NULL stays blank; no cross-element SUM.
+	measure 'SUA Selected Value' = IF(HASONEVALUE(CalendarYear[Year]) && HASONEVALUE(SUA[element_code]),MAX(SUA[value_t]))
+		formatString: #,0.00
+	/// SUA fixed element 5141; one calendar year, tonnes; no sum over years or invented balance.
+	measure 'SUA Food Supply' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5141")
+		formatString: #,0.00
+	/// SUA fixed element 5113; one calendar year, tonnes; no sum over years or invented balance.
+	measure 'SUA Opening Stocks' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5113")
+		formatString: #,0.00
+	/// SUA fixed element 5071; one calendar year, tonnes; no sum over years or invented balance.
+	measure 'SUA Stock Variation' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5071")
+		formatString: #,0.00
+	/// One marketing year and attribute; unit from row. No mixing MY/TY/rough/milled, rates or stocks.
+	measure 'PSD Selected Value' = IF(HASONEVALUE(PSD[market_year]) && HASONEVALUE(PSD[attribute]),MAX(PSD[value]))
+		formatString: #,0.00
+	/// USDA Vietnam/Rice, Milled Production tonnes at one market year; no stock sum across time.
+	measure 'PSD Production' = CALCULATE([PSD Selected Value],REMOVEFILTERS(PSD[attribute]),PSD[attribute]="Production")
+		formatString: #,0
+	/// USDA Vietnam/Rice, Milled Domestic Consumption tonnes at one market year; no stock sum across time.
+	measure 'PSD Consumption' = CALCULATE([PSD Selected Value],REMOVEFILTERS(PSD[attribute]),PSD[attribute]="Domestic Consumption")
+		formatString: #,0
+	/// USDA Vietnam/Rice, Milled Ending Stocks tonnes at one market year; no stock sum across time.
+	measure 'PSD Ending Stocks' = CALCULATE([PSD Selected Value],REMOVEFILTERS(PSD[attribute]),PSD[attribute]="Ending Stocks")
+		formatString: #,0
+	/// Exact rice_thai_5 monthly USD/tonne level; one month; never sum price over dates.
+	measure 'WB Price' = IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[price_usd_t]))
+		formatString: #,0.00
+	/// Exact calendar previous month, both numeric and prior>0; absent/NULL gives blank.
+	measure 'WB MoM' = IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[monthly_change_pct])/100)
+		formatString: +0.00%;-0.00%;0.00%
+	/// Trailing 12 log-return sample std, requires 13 positive consecutive monthly observations; not annualized. Window uses full imported history, even if slicer hides earlier months.
+	measure 'WB Volatility' = IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[volatility_12m_pct])/100)
+		formatString: 0.00%
+	/// Observed maximum rice_thai_5 in selected months, USD/tonne.
+	measure 'WB Peak' = MAXX(ALLSELECTED(BenchmarkMonth[Date]),CALCULATE([WB Price]))
+		formatString: #,0.00
+	/// Observed numeric minimum selected monthly benchmark, USD/tonne.
+	measure 'WB Minimum' = MINX(FILTER(ALLSELECTED(BenchmarkMonth[Date]),NOT ISBLANK(CALCULATE([WB Price]))),CALCULATE([WB Price]))
+		formatString: #,0.00
+	/// Numeric monthly prices in selected calendar; no imputation.
+	measure 'WB Numeric Months' = COALESCE(CALCULATE(COUNTROWS(WB),WB[numeric_present]=TRUE()),0)
+		formatString: #,0
+	/// Count of calendar rows with no source observation; zero is an empty count, not an imputed price.
+	measure 'WB Absent Months' = COALESCE(CALCULATE(COUNTROWS(WB),WB[observation_present]=FALSE()),0)
+		formatString: #,0
+	/// Exact An Giang/IR50404 quote VND/kg on one date; no unrelated-series average.
+	measure 'Domestic Quote' = IF(HASONEVALUE(QuoteDate[Date]),MAX(VNQuote[price_vnd_kg]))
+		formatString: #,0
+	/// Observed rows in selected date scope, including present-NULL.
+	measure 'Domestic Quoted Dates' = COUNTROWS(VNQuote)
+		formatString: #,0
+	/// Reported export tonnes; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
+	measure 'Trade Quantity' = SUM(Trade[quantity_t])
+		formatString: #,0.00
+	/// Reported export USD; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
+	measure 'Trade Value' = SUM(Trade[value_usd])
+		formatString: #,0.00
+	/// Numeric quantity paired with numeric monetary value and q>0; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
+	measure 'Trade Paired Quantity' = SUM(Trade[paired_quantity_t])
+		formatString: #,0.00
+	/// Same eligible contributor population as paired quantity; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
+	measure 'Trade Paired Value' = SUM(Trade[paired_value_usd])
+		formatString: #,0.00
+	/// USD/tonne = ratio of paired sums under current year/partner selection; never average row ratios; positive paired denominator.
+	measure 'Trade Unit Value' = DIVIDE([Trade Paired Value],[Trade Paired Quantity])
+		formatString: #,0.00
+	/// Eligible paired reporter-partner-product-year groups; coverage of selected three-partner scope only.
+	measure 'Trade Paired Groups' = COALESCE(COUNTROWS(FILTER(Trade,NOT ISBLANK(Trade[paired_quantity_t]) && NOT ISBLANK(Trade[paired_value_usd]))),0)
+		formatString: #,0
+	/// Dynamic paired coverage and ratio; no global denominator.
+	measure 'Trade Insight' = IF([Trade Paired Groups]=0,"Không có cặp đủ điều kiện trong phạm vi chọn.","Việt Nam → " & CONCATENATEX(VALUES(Trade[partner_name]),Trade[partner_name],", ") & " · " & FORMAT(MIN(Trade[year]),"0") & "–" & FORMAT(MAX(Trade[year]),"0") & " · CPC23161.02. " & FORMAT([Trade Paired Groups],"0") & " nhóm đủ cặp; đơn giá " & FORMAT([Trade Unit Value],"#,0.00") & " USD/t. Tỷ số giá trị/lượng báo cáo; không phải giá thị trường độc lập.")
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Total Observations Display' = IF(ISBLANK([Total Observations]),"Không áp dụng",FORMAT([Total Observations],"#,0"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Numeric Observations Display' = IF(ISBLANK([Numeric Observations]),"Không áp dụng",FORMAT([Numeric Observations],"#,0"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Present NULL Display' = IF(ISBLANK([Present NULL]),"Không áp dụng",FORMAT([Present NULL],"#,0"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Numeric Coverage Display' = IF(ISBLANK([Numeric Coverage]),"Không áp dụng",FORMAT([Numeric Coverage],"0.00%"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'First Production Display' = IF(ISBLANK([First Production]),"Không áp dụng",FORMAT([First Production],"#,0"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Latest Production Display' = IF(ISBLANK([Latest Production]),"Không áp dụng",FORMAT([Latest Production],"#,0"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Production Change Pct Display' = IF(ISBLANK([Production Change Pct]),"Không áp dụng",FORMAT([Production Change Pct],"+0.00%;-0.00%;0.00%"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Latest Production YoY Display' = IF(ISBLANK([Latest Production YoY]),"Không áp dụng",FORMAT([Latest Production YoY],"+0.00%;-0.00%;0.00%"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Trade Quantity Display' = IF(ISBLANK([Trade Quantity]),"Không áp dụng",FORMAT([Trade Quantity],"#,0.00"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Trade Value Display' = IF(ISBLANK([Trade Value]),"Không áp dụng",FORMAT([Trade Value],"#,0.00"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Trade Unit Value Display' = IF(ISBLANK([Trade Unit Value]),"Không áp dụng",FORMAT([Trade Unit Value],"#,0.00"))
+		formatString: @
+	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
+	measure 'Trade Paired Groups Display' = IF(ISBLANK([Trade Paired Groups]),"Không áp dụng",FORMAT([Trade Paired Groups],"#,0"))
+		formatString: @
+	partition Overview = m
+		mode: import
+		source =
+			let
+			    Raw = Csv.Document(File.Contents(ExportFolder & "\fact_overview.csv"), [Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+			    Checked = if Table.ColumnNames(Headers) = {"fact_name", "rows_total", "numeric_rows", "present_null_rows", "numeric_coverage_pct", "period_min", "period_max", "represented_periods", "period_grain"} then Headers else error "CSV schema mismatch",
+			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+			    Typed = Table.TransformColumnTypes(Missing, {{"fact_name", type text}, {"rows_total", Int64.Type}, {"numeric_rows", Int64.Type}, {"present_null_rows", Int64.Type}, {"numeric_coverage_pct", type number}, {"period_min", type text}, {"period_max", type text}, {"represented_periods", Int64.Type}, {"period_grain", type text}}, "en-US"),
+			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+			    Entry = Record.Field(Manifest[outputs], "fact_overview.csv"),
+			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+			in
+			    Accepted

@@ -1,3 +1,9 @@
+> **HISTORICAL AUDIT — không phải canonical design hiện tại.** Annotation ngày 25/10/2026: nội dung báo cáo bên dưới, findings, counts và kết quả kiểm tra thuộc thiết kế v3 27 bảng tại `1bb662c`, ngày 22/10. Các từ “hiện tại”, số dòng DBML và links tới filename DBML bên trong body phải được hiểu theo phiên bản đó. Xem lại DBML gốc bằng `git show 1bb662c:docs/gold/dim_fact_v3.dbml`.
+>
+> Canonical proposal mới là [README](README.md), [DBML cùng filename nhưng nội dung mới](dim_fact_v3.dbml) và [source_to_gold_mapping.csv](source_to_gold_mapping.csv), version `gold-20261025.1`: 17 bảng, chưa được owner phê duyệt và chưa triển khai ETL. Proposal 14-table MVP trong audit cũ đã được thay thế. [CSV ngày 22/10](design_audit_2026-10-22_field_mapping.csv) và [evidence JSON](audit_2026-10-22_evidence.json) là historical evidence bất biến; không phải mapping hoặc nghiệm thu của thiết kế mới. Không cập nhật lại số liệu lịch sử.
+
+---
+
 # TLCN Rice Lakehouse — Gold v3 Design Audit
 
 **Ngày audit: 22/10/2026 · Phạm vi: thiết kế, không triển khai · Kết luận: NOT READY.**

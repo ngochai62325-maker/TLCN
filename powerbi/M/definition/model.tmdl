@@ -1,0 +1,8 @@
+model Model
+	culture: vi-VN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	discourageImplicitMeasures
+	maxParallelismPerRefresh: 1
+	annotation PBI_ProTooling = ["DevMode"]
+	annotation __PBI_TimeIntelligenceEnabled = 0

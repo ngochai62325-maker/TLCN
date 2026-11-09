@@ -6,6 +6,57 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from decimal import Decimal
+import re
+
+
+def contract_expression_trino(expression):
+    """Translate only the Spark constructs used by the nine pinned contracts."""
+    expression = expression.replace("sha2(encode(geography_raw,'UTF-8'),256)", "lower(to_hex(sha256(to_utf8(geography_raw))))")
+    expression = expression.replace("right(period_raw,4)", "substr(period_raw,-4)").replace("current_date()", "current_date")
+    expression = expression.replace("try_multiply(value_source, conversion_factor)", "try(value_source * conversion_factor)")
+    return re.sub(r"period_raw RLIKE ('[^']*')", r"regexp_like(period_raw,\1)", expression)
+
+
+def verify_nso(url, table="iceberg.silver_local.nso_rice_statistics"):
+    """Verify the current contract; unknown geography/review warnings are valid.
+
+    Only retained Silver observations are examined. Structural exclusions and
+    quarantined rows require the separate persisted Spark admission report;
+    they must never be inferred from missing rows in this query.
+    """
+    import yaml
+    contract = yaml.safe_load((Path(__file__).resolve().parents[2] / "contracts/silver/nso.yaml").read_text(encoding="utf-8"))
+    target = identifier(table)
+    actual = {r["Column"]: r["Type"] for r in query(url, f"DESCRIBE {target}")}
+    for field in contract["schema"]["columns"]:
+        expected = {"string": "varchar", "long": "bigint", "integer": "integer"}.get(field["data_type"], field["data_type"])
+        if actual.get(field["name"]) != expected:
+            raise ValueError(f"NSO contract schema mismatch: {field['name']}")
+    expressions = []
+    hard_rules = []
+    for rule in contract["data_quality"]:
+        expression = contract_expression_trino(rule["sql_expr"])
+        # Treat SQL UNKNOWN as a failed predicate, exactly like framework DQ.
+        alias = rule["rule_id"].lower()
+        expressions.append(f"count_if(NOT coalesce(({expression}), FALSE)) AS {alias}")
+        if rule.get("action", "QUARANTINE") != "LOG":
+            hard_rules.append(alias)
+    nonnull = [c["name"] for c in contract["schema"]["columns"] if not c["nullable"]]
+    required = " OR ".join(identifier(c) + " IS NULL" for c in nonnull)
+    keys = ",".join(identifier(c) for c in contract["grain"]["business_key"])
+    sql = f"""SELECT count(*) AS rows, count(DISTINCT ROW({keys})) AS unique_keys,
+        count_if({required}) AS invalid_required,
+        count_if(geography_level='unknown') AS unknown_geography,
+        count_if(quality_status='MISSING') AS missing_observations,
+        count_if(value=0) AS genuine_zero,
+        count_if(release_status='provisional') AS provisional,
+        count_if(release_status='unconfirmed') AS unconfirmed,
+        {', '.join(expressions)} FROM {target}"""
+    counts = query(url, sql)[0]
+    if counts["rows"] != counts["unique_keys"] or counts["invalid_required"] or any(counts[r] for r in hard_rules):
+        raise ValueError(f"NSO contract/DQ violation: {counts}")
+    return {"status": "PASSED", "target": table, "counts": counts,
+            "scope": "retained Silver only; exclusions/quarantine need upstream admission evidence"}
 
 
 def query(url, sql, timeout=600):
@@ -91,10 +142,25 @@ def verify_record(url, source, record):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--spark-report", type=Path, required=True)
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--spark-report", type=Path)
+    group.add_argument("--nso-only", action="store_true", help="Read-only current NSO contract verification")
+    parser.add_argument("--namespace", default="iceberg.silver_local")
     parser.add_argument("--output-json", type=Path, required=True)
     parser.add_argument("--url", default="http://trino:8080")
     args = parser.parse_args()
+    if args.nso_only:
+        result = {"status": "RUNNING"}
+        try:
+            result = verify_nso(args.url, args.namespace + ".nso_rice_statistics")
+        except Exception as exc:
+            result = {"status": "FAILED", "error": str(exc)}
+            raise
+        finally:
+            args.output_json.parent.mkdir(parents=True, exist_ok=True)
+            args.output_json.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        print("TRINO_RESULT=" + json.dumps(result))
+        return
     evidence = json.loads(args.spark_report.read_text(encoding="utf-8"))
     if evidence["status"] not in {"PASSED", "VALIDATED_PENDING_OWNER"}:
         raise ValueError("A PASSED Spark report is required")
@@ -117,17 +183,7 @@ def main():
             if row["rows"] != expected:
                 raise ValueError(f"Spark/Trino row mismatch: {row['dataset']}: {row['rows']} != {expected}")
         if "nso" in evidence["datasets"]:
-            table = identifier(evidence["datasets"]["nso"]["metrics"]["target_table"])
-            report["nso"] = query(args.url, f"""SELECT count(*) AS rows,
-                count_if(missing_reason IS NOT NULL) AS missing_observations,
-                count_if(geography_level = 'UNMAPPED') AS geography_unmapped,
-                count_if(geography_name_vi IS NOT NULL) AS named_observations,
-                count_if(strpos(geography_name_vi, '?') > 0) AS damaged_candidate_names,
-                count_if(missing_reason IS NOT NULL AND value IS NOT NULL) AS invalid_missing_value
-                FROM {table}""")[0]
-            if (report["nso"]["geography_unmapped"] or report["nso"]["invalid_missing_value"]
-                    or report["nso"]["damaged_candidate_names"]):
-                raise ValueError("NSO geography/missing policy violated through Trino")
+            report["nso"] = verify_nso(args.url, evidence["datasets"]["nso"]["metrics"]["target_table"])
         if "usda_psd" in evidence["datasets"]:
             table = identifier(evidence["datasets"]["usda_psd"]["metrics"]["target_table"])
             report["usda_milling_rate"] = query(args.url, f"""SELECT count(*) AS rows,

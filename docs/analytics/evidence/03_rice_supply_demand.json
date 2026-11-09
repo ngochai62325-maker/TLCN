@@ -1,0 +1,245 @@
+{
+  "notebook": "03_rice_supply_demand",
+  "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+  "queries": [
+    {
+      "query_id": null,
+      "http_bytes": 0,
+      "query_seconds": 0,
+      "query": "publication",
+      "parameters": {},
+      "version": "eda-20261027.1",
+      "definition_sha256": "9137591a6cc57b9c6db1e4f9fb7b226e1e604c2cf01243362d8fa8808391f1f9",
+      "compiled_sql_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:12.682499+00:00",
+      "windows_available_bytes": 3017863168,
+      "cache": "DISABLED",
+      "row_count": 17,
+      "response_bytes": 4333,
+      "client_seconds": 2.6730226999998195
+    },
+    {
+      "query_id": "20261027_035915_00116_r3abu",
+      "http_bytes": 280686,
+      "query_seconds": 0.05132669599970541,
+      "stats": {
+        "elapsedTimeMillis": 46,
+        "processedBytes": 49486,
+        "peakMemoryBytes": 323059,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "geographies"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "5c688c00db4fa7e0f68d9a7b2d2122b3d2cf8a08b6815e7e03856d95ef9080fe",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:15.153968+00:00",
+      "windows_available_bytes": 3013865472,
+      "cache": "DISABLED",
+      "row_count": 987,
+      "response_bytes": 280734,
+      "client_seconds": 2.4046713999996427
+    },
+    {
+      "query_id": "20261027_035917_00117_r3abu",
+      "http_bytes": 53704,
+      "query_seconds": 0.05677268900035415,
+      "stats": {
+        "elapsedTimeMillis": 47,
+        "processedBytes": 17172,
+        "peakMemoryBytes": 45975,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "products"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "5f870d6f694d6226c66b92134f6871f26ba92335d6847f5aa96b8d2b90ff0c71",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:17.586911+00:00",
+      "windows_available_bytes": 3002130432,
+      "cache": "DISABLED",
+      "row_count": 295,
+      "response_bytes": 49096,
+      "client_seconds": 2.428677200000493
+    },
+    {
+      "query_id": "20261027_035920_00118_r3abu",
+      "http_bytes": 16340,
+      "query_seconds": 0.25883862799946655,
+      "stats": {
+        "elapsedTimeMillis": 249,
+        "processedBytes": 2228481,
+        "peakMemoryBytes": 289893,
+        "spilledBytes": 0
+      },
+      "query": "subject_products",
+      "parameters": {
+        "fact": "fact_fao_sua_observation",
+        "geography": "454338b3e9b9203015ec55fa27305ffba31eac866ae49718ed492e03c8dbc550"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "2013caf94209acbdce125cc0123eca1514ed3f8439002bfdf259f252981687be",
+      "compiled_sql_sha256": "31813bfd122bf1762a0b1f02b2930271ac9ccb534658c826c390a69b7b1538d3",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:20.259012+00:00",
+      "windows_available_bytes": 3007311872,
+      "cache": "DISABLED",
+      "row_count": 2,
+      "response_bytes": 4363,
+      "client_seconds": 2.6857351999997263
+    },
+    {
+      "query_id": "20261027_035923_00119_r3abu",
+      "http_bytes": 40873,
+      "query_seconds": 0.28577582399975654,
+      "stats": {
+        "elapsedTimeMillis": 272,
+        "processedBytes": 2177326,
+        "peakMemoryBytes": 117737,
+        "spilledBytes": 0
+      },
+      "query": "sua",
+      "parameters": {
+        "geography": "454338b3e9b9203015ec55fa27305ffba31eac866ae49718ed492e03c8dbc550",
+        "product": "9b20a1844ec8b08d320fceaf8f4360279d9a41fa491578ff01af75f520095397",
+        "start_year": 2010,
+        "end_year": 2023
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "8f0e3f70171c1bc67e036b6d141da2a8459421dc1bc6543a49974797abe6b499",
+      "compiled_sql_sha256": "55a8118c8d3c40f0702bf8abe45f3c421bb9e17ccfbc551c8208e13cfb2f10c6",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:23.281179+00:00",
+      "windows_available_bytes": 2999906304,
+      "cache": "DISABLED",
+      "row_count": 14,
+      "response_bytes": 20630,
+      "client_seconds": 3.0972506999996767
+    },
+    {
+      "query_id": "20261027_035926_00120_r3abu",
+      "http_bytes": 297470,
+      "query_seconds": 0.2473028449994672,
+      "stats": {
+        "elapsedTimeMillis": 241,
+        "processedBytes": 270506,
+        "peakMemoryBytes": 112114,
+        "spilledBytes": 0
+      },
+      "query": "psd",
+      "parameters": {
+        "geography": "c11f7acf2d86d0dedf53a3db9f0ed36ca33108d40f7db856f2475552f7d02e1a",
+        "product": "2bc6ec06dc9145fb58911ef62ec2a076a4e94fc9a35d0ecacd6593e4f8f2fb3d",
+        "start_year": 1960,
+        "end_year": 2025
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "99fcc45ddfebc9ea25cf204bd627325b1139b9bd97f51dce2089261470328cfe",
+      "compiled_sql_sha256": "f0bddf70e0dcfce4e71490a18cb47fe9602cf86af8365e5326622f1907a0a5f6",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:26.553944+00:00",
+      "windows_available_bytes": 2875334656,
+      "cache": "DISABLED",
+      "row_count": 990,
+      "response_bytes": 279735,
+      "client_seconds": 2.6612200999998095
+    }
+  ],
+  "findings": [
+    {
+      "id": "SUA01",
+      "title": "SUA food_supply_quantity_t",
+      "observation": "2010–2023: 14,050,000.00 → 13,837,660.13 tonnes (-1.51%).",
+      "scope": "FAOSTAT Viet Nam, 23161.02; calendar years",
+      "interpretation": "Reported component trend; opening stock is not annual flow and no closing stock is invented.",
+      "query": "sua",
+      "cell": "Câu hỏi 1",
+      "numbers": {
+        "first_year": 2010,
+        "last_year": 2023,
+        "first_value": 14050000.0,
+        "last_value": 13837660.13,
+        "change_pct": -1.5113158007117433,
+        "cagr_pct": -0.11707391983496462,
+        "numeric_periods": 14,
+        "calendar_span": 14
+      }
+    },
+    {
+      "id": "SUA02",
+      "title": "SUA opening_stocks_t",
+      "observation": "2010–2023: 5,917,024.29 → 6,113,011.31 tonnes (+3.31%).",
+      "scope": "FAOSTAT Viet Nam, 23161.02; calendar years",
+      "interpretation": "Reported component trend; opening stock is not annual flow and no closing stock is invented.",
+      "query": "sua",
+      "cell": "Câu hỏi 1",
+      "numbers": {
+        "first_year": 2010,
+        "last_year": 2023,
+        "first_value": 5917024.29,
+        "last_value": 6113011.31,
+        "change_pct": 3.3122564720788006,
+        "cagr_pct": 0.2509746646319089,
+        "numeric_periods": 14,
+        "calendar_span": 14
+      }
+    },
+    {
+      "id": "PSD01",
+      "title": "USDA MY Production",
+      "observation": "MY 2010–2025: 26,371,000.00 → 26,200,000.00 tonnes (-0.65%).",
+      "scope": "USDA PSD Vietnam / Rice, Milled; exact attribute",
+      "interpretation": "Descriptive marketing-year trend; không reconcile với FAOSTAT calendar observations.",
+      "query": "psd",
+      "cell": "Câu hỏi 2",
+      "numbers": {
+        "first_year": 2010,
+        "last_year": 2025,
+        "first_value": 26371000.0,
+        "last_value": 26200000.0,
+        "change_pct": -0.6484395737742177,
+        "cagr_pct": -0.04336066827755891,
+        "numeric_periods": 16,
+        "calendar_span": 16
+      }
+    },
+    {
+      "id": "PSD02",
+      "title": "USDA MY Ending Stocks",
+      "observation": "MY 2010–2025: 1,941,000.00 → 2,297,000.00 tonnes (+18.34%).",
+      "scope": "USDA PSD Vietnam / Rice, Milled; exact attribute",
+      "interpretation": "Descriptive marketing-year trend; không reconcile với FAOSTAT calendar observations.",
+      "query": "psd",
+      "cell": "Câu hỏi 2",
+      "numbers": {
+        "first_year": 2010,
+        "last_year": 2025,
+        "first_value": 1941000.0,
+        "last_value": 2297000.0,
+        "change_pct": 18.341061308603823,
+        "cagr_pct": 1.128996395109172,
+        "numeric_periods": 16,
+        "calendar_span": 16
+      }
+    }
+  ]
+}

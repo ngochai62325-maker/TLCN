@@ -1,0 +1,39 @@
+relationship 4090e996-7614-5ee7-a695-e547690b37d5
+	fromColumn: NSOAnnual.year
+	toColumn: CalendarYear.Year
+	crossFilteringBehavior: oneDirection
+
+relationship e622829f-7e44-5ca0-a3f0-196294edbf04
+	fromColumn: NSOSeasonal.year
+	toColumn: CalendarYear.Year
+	crossFilteringBehavior: oneDirection
+
+relationship ab9b30f9-76a8-5a7c-b5ce-e7452d452a02
+	fromColumn: NSOYield.year
+	toColumn: CalendarYear.Year
+	crossFilteringBehavior: oneDirection
+
+relationship b9e51862-9fb6-50cb-bd61-e5587ffd8ad9
+	fromColumn: FAO.year
+	toColumn: CalendarYear.Year
+	crossFilteringBehavior: oneDirection
+
+relationship 36c6c0fc-468e-55a7-a277-1eb87fd9fe73
+	fromColumn: SUA.year
+	toColumn: CalendarYear.Year
+	crossFilteringBehavior: oneDirection
+
+relationship 40e0a428-022e-5920-8e11-f0f2fcab592c
+	fromColumn: Trade.year
+	toColumn: CalendarYear.Year
+	crossFilteringBehavior: oneDirection
+
+relationship 8d4c3337-4454-5043-a2ec-9575be60b359
+	fromColumn: WB.month_date
+	toColumn: BenchmarkMonth.Date
+	crossFilteringBehavior: oneDirection
+
+relationship d8613fec-8397-5470-b421-e597fe0214dc
+	fromColumn: VNQuote.date
+	toColumn: QuoteDate.Date
+	crossFilteringBehavior: oneDirection

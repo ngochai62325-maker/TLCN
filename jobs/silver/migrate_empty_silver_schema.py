@@ -8,7 +8,10 @@ Obsolete required diagnostics are made nullable while retaining their fields.
 import argparse
 import json
 from pathlib import Path
-from run_all_silver import ROOT, datasets
+if __package__:
+    from .run_all_silver import ROOT, datasets
+else:
+    from run_all_silver import ROOT, datasets
 from silver.core.spark_session import get_spark_session
 from silver.engine.merge import quote, table_identifier
 from silver.framework import AUDIT_COLUMNS

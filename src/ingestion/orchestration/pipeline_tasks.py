@@ -213,6 +213,7 @@ def local_bronze_proof(record, repository, writer=None):
     if record["status"] == "SKIPPED":
         proved_run = repository.find_snapshot_by_checksum(source, checksum)["run_id"]
     prior = repository.get_run(proved_run)
+    physical_run = (prior.get("source_metadata") or {}).get("physical_run_id", proved_run)
     with repository.source_lock(source):
         writer = writer or BronzeIcebergWriter()
         catalog = writer.get_iceberg_catalog()
@@ -220,7 +221,7 @@ def local_bronze_proof(record, repository, writer=None):
         snapshot = table.current_snapshot()
         if snapshot is None:
             raise AirflowException("No committed local Bronze snapshot")
-        rows = table.scan(snapshot_id=snapshot.snapshot_id, row_filter=EqualTo("_ingestion_run_id", proved_run)).select("_source_id").to_arrow()
+        rows = table.scan(snapshot_id=snapshot.snapshot_id, row_filter=EqualTo("_ingestion_run_id", physical_run)).select("_source_id").to_arrow()
         if rows.num_rows != prior["records_extracted"] or set(pc.unique(rows["_source_id"]).to_pylist()) != {source}:
             raise AirflowException("Local Bronze commit/readback does not match persisted ingestion")
         if catalog.load_table("bronze." + source).metadata_location != table.metadata_location:

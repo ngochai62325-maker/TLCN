@@ -1,0 +1,68 @@
+table VNQuote
+	column date
+		dataType: dateTime
+		summarizeBy: none
+		sourceColumn: date
+		formatString: yyyy-MM-dd
+	column year
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year
+	column series_key
+		dataType: string
+		summarizeBy: none
+		sourceColumn: series_key
+	column market
+		dataType: string
+		summarizeBy: none
+		sourceColumn: market
+	column commodity
+		dataType: string
+		summarizeBy: none
+		sourceColumn: commodity
+	column price_type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: price_type
+	column unit
+		dataType: string
+		summarizeBy: none
+		sourceColumn: unit
+	column currency
+		dataType: string
+		summarizeBy: none
+		sourceColumn: currency
+	column information_source
+		dataType: string
+		summarizeBy: none
+		sourceColumn: information_source
+	column price_vnd_kg
+		dataType: double
+		summarizeBy: none
+		sourceColumn: price_vnd_kg
+	column observation_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: observation_present
+	column numeric_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: numeric_present
+	column days_since_previous_quote
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: days_since_previous_quote
+	partition VNQuote = m
+		mode: import
+		source =
+			let
+			    Raw = Csv.Document(File.Contents(ExportFolder & "\vn_quote.csv"), [Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+			    Checked = if Table.ColumnNames(Headers) = {"date", "year", "series_key", "market", "commodity", "price_type", "unit", "currency", "information_source", "price_vnd_kg", "observation_present", "numeric_present", "days_since_previous_quote"} then Headers else error "CSV schema mismatch",
+			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+			    Typed = Table.TransformColumnTypes(Missing, {{"date", type date}, {"year", Int64.Type}, {"series_key", type text}, {"market", type text}, {"commodity", type text}, {"price_type", type text}, {"unit", type text}, {"currency", type text}, {"information_source", type text}, {"price_vnd_kg", type number}, {"observation_present", type logical}, {"numeric_present", type logical}, {"days_since_previous_quote", Int64.Type}}, "en-US"),
+			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+			    Entry = Record.Field(Manifest[outputs], "vn_quote.csv"),
+			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+			in
+			    Accepted

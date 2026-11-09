@@ -1,0 +1,31 @@
+{
+  "query_id": "20261027_035001_00078_r3abu",
+  "http_bytes": 15616,
+  "query_seconds": 0.6443626780001068,
+  "stats": {
+    "elapsedTimeMillis": 630,
+    "processedBytes": 6586965,
+    "peakMemoryBytes": 520396,
+    "spilledBytes": 0
+  },
+  "query": "trade",
+  "parameters": {
+    "reporter": "454338b3e9b9203015ec55fa27305ffba31eac866ae49718ed492e03c8dbc550",
+    "product": "9b20a1844ec8b08d320fceaf8f4360279d9a41fa491578ff01af75f520095397",
+    "flow": "export",
+    "start_year": 2024,
+    "end_year": 2024
+  },
+  "version": "eda-20261027.1",
+  "definition_sha256": "d657c18317340320e9e95c3cee5575947f48a9bb6141b2bda309df9e546cb493",
+  "compiled_sql_sha256": "3adea4404cb8719c517d3ba54e3eb20e7bc4bdd5409a918728051f9b54d3d280",
+  "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+  "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+  "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+  "measured_at": "2026-10-27T03:50:01.689156+00:00",
+  "windows_available_bytes": 3154374656,
+  "cache": "DISABLED",
+  "row_count": 0,
+  "response_bytes": 4967,
+  "client_seconds": 3.1171965000003183
+}

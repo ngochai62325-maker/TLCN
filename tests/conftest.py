@@ -6,6 +6,32 @@ from ingestion.core.enums import LoadStrategy, SourceType, ArtifactFormat
 from ingestion.core.result import ReadinessResult
 from ingestion.adapters.base_adapter import BaseSourceAdapter
 
+# These tests start a JVM, parse real Airflow DAGs, or use physical Iceberg.
+# Exclude them BEFORE module imports, rather than hiding ImportErrors with skips.
+RUNTIME_UNIT_FILES = {
+    "test_dag_structure.py", "test_local_nine_dags.py", "test_silver_quarantine.py",
+    "test_silver_merge_engine.py", "test_silver_quality_engine.py",
+    "test_faostat_nso_transformers.py", "test_silver_transformers.py",
+    "test_usda_milling_rate.py", "test_usda_psd_transformer.py",
+}
+
+
+def pytest_addoption(parser):
+    parser.addoption("--with-runtime", action="store_true", default=False,
+                     help="Collect explicitly selected Spark/Airflow/integration tests (requires their runtime)")
+
+
+def pytest_ignore_collect(collection_path, config):
+    parts = collection_path.parts
+    runtime = "integration" in parts or ("unit" in parts and collection_path.name in RUNTIME_UNIT_FILES)
+    if runtime and not config.getoption("--with-runtime"):
+        return True
+
+
+def pytest_report_header(config):
+    return "runtime tests: " + ("enabled; dependencies must be present" if config.getoption("--with-runtime")
+                                else "excluded before imports (use --with-runtime and explicit paths)")
+
 @pytest.fixture
 def sample_retry_config():
     return RetryConfig(

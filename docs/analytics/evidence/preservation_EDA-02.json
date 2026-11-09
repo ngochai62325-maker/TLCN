@@ -1,0 +1,14 @@
+{
+  "phase": "EDA-02",
+  "status": "PASS",
+  "checks": {
+    "tables": true,
+    "context": true,
+    "pointer": true,
+    "manifest_hash": true,
+    "gold_dagruns": true
+  },
+  "existing_tables": 36,
+  "manifest_hash": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+  "captured_at": "2026-10-27T03:40:42.515261+00:00"
+}

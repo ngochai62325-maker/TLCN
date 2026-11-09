@@ -99,7 +99,7 @@ def test_release_lock_fails_closed_and_covers_outcome(monkeypatch):
             assert kwargs["bronze_snapshot_id"] == "123"
             events.append("write")
             return {"status": "SUCCESS"}
-        with patch("jobs.silver.run_all_silver.SilverTransformationFramework") as factory, patch("validate_silver_e2e.table_identity", side_effect=identity):
+        with patch("jobs.silver.run_all_silver.SilverTransformationFramework") as factory, patch("jobs.silver.validate_silver_e2e.table_identity", side_effect=identity):
             factory.return_value.contract.return_value.silver_output = f"iceberg.{RELEASE_NAMESPACE}.usda_rice_psd"
             factory.return_value.run.side_effect = write
             run_pipeline("usda_psd", spark=MagicMock(), release=RELEASE_NAMESPACE)
@@ -219,7 +219,7 @@ def test_release_unknown_commit_reads_catalog_under_lock_without_retry(monkeypat
         return {"snapshot_id": "123", "uuid": "test-uuid"}
     with patch("ingestion.storage.metadata_repository.MetadataRepository") as repository, \
          patch("jobs.silver.run_all_silver.SilverTransformationFramework") as factory, \
-         patch("validate_silver_e2e.table_identity", side_effect=identity):
+         patch("jobs.silver.validate_silver_e2e.table_identity", side_effect=identity):
         repository.return_value.source_lock.side_effect = locked
         factory.return_value.contract.return_value.silver_output = f"iceberg.{RELEASE_NAMESPACE}.usda_rice_psd"
         factory.return_value.run.side_effect = error
@@ -266,7 +266,9 @@ def test_health_responds_during_job_and_jobs_remain_serial():
                 second = executor.submit(post)
                 try:
                     with urlopen(url + '/health', timeout=2) as response:
-                        assert json.loads(response.read()) == {'status': 'ok', 'silver_release': RELEASE_NAMESPACE}
+                           health = json.loads(response.read())
+                           assert health['status'] == 'ok' and health['silver_release'] == RELEASE_NAMESPACE
+                           assert health['gold_model'] == 'gold-20261025.1'
                     assert len(executions) == 1
                 finally:
                     release.set()
@@ -346,7 +348,7 @@ def test_local_runner_holds_bronze_source_lock_through_commit_readback(local_pro
         return {"snapshot_id":str(snapshot), "uuid":"test"}
     with patch("ingestion.storage.metadata_repository.MetadataRepository") as repo, \
          patch("jobs.silver.run_all_silver.SilverTransformationFramework") as factory, \
-         patch("validate_silver_e2e.table_identity", side_effect=identity):
+         patch("jobs.silver.validate_silver_e2e.table_identity", side_effect=identity):
         repo.return_value.source_lock.side_effect = lock
         factory.return_value.run.return_value = {"status":"SUCCESS"}
         run_pipeline("nso", spark=MagicMock(), profile="local_nine", bronze_snapshot_id=snapshot)

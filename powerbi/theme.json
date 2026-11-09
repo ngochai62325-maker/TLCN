@@ -1,0 +1,14 @@
+{
+  "name": "TLCN Teal",
+  "dataColors": [
+    "#136F63",
+    "#3274A1",
+    "#D69832",
+    "#8E649A",
+    "#50A897",
+    "#C65D5B"
+  ],
+  "background": "#F4F7F6",
+  "foreground": "#17342F",
+  "tableAccent": "#136F63"
+}

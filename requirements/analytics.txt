@@ -1,0 +1,6 @@
+# Notebook execution only; does not alter the approved Docker images.
+nbformat==5.10.4
+nbclient==0.10.2
+ipykernel>=6.29,<7
+matplotlib>=3.9,<4
+pandas>=2.2,<3

@@ -1,0 +1,186 @@
+{
+  "status": "FOUNDATION_READY_WITH_LIMITATIONS",
+  "date": "2026-10-27",
+  "branch": "feat(gold)",
+  "head": "4bccf05ef1ba91f58d94df141cbbe6b97a28a6f4",
+  "tests": {
+    "host_unit": 489,
+    "approved_spark_python_unit": 490,
+    "gold_unit_subset": 138,
+    "spark_iceberg_fixtures": 28,
+    "trino_select_fixtures": 9,
+    "airflow_dag_imports": 12,
+    "owned_rest_pg_fixtures": 6,
+    "contracts": 9,
+    "final_unit_failures": 0,
+    "final_unit_skips": 0
+  },
+  "preservation": {
+    "tables": 36,
+    "table_identity_metadata_files_equal": true,
+    "manifest_hash": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+    "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+    "pointer_context_refs_unchanged": true,
+    "gold_dagruns_unchanged": true,
+    "consumer_statuses": {
+      "vw_fao_production_yield": {
+        "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+        "rows": 20,
+        "sample_years": [
+          2024
+        ],
+        "seconds": 2.1014330730000097,
+        "status": "PASS"
+      },
+      "vw_nso_source_observations": {
+        "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+        "rows": 20,
+        "sample_years": [
+          2024
+        ],
+        "seconds": 5.405225801000029,
+        "status": "PASS"
+      },
+      "vw_sua_supported_balance": {
+        "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+        "rows": 20,
+        "sample_years": [
+          2023
+        ],
+        "seconds": 1.5817933810000113,
+        "status": "PASS"
+      },
+      "vw_trade_reported_unit_values": {
+        "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+        "rows": 20,
+        "sample_years": [
+          2024
+        ],
+        "seconds": 2.3064232479999873,
+        "status": "PASS"
+      }
+    }
+  },
+  "silver": {
+    "sources": 9,
+    "rows": 1414527,
+    "trade_years": [
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "query_count": 66
+  },
+  "raw_manifest": {
+    "files": 21,
+    "bytes": 183728724,
+    "sha256_size_match": true
+  },
+  "runtime_limits": {
+    "final_windows_available_gib": 0.62,
+    "new_runtime_work_admitted": false,
+    "real_nine_source_replay_performed": false,
+    "all_crash_scenarios_physically_tested": false,
+    "fresh_venv_install_performed": false
+  },
+  "changed_files": [
+    ".gitignore",
+    "docs/analytics/ANALYTICS_READINESS.md",
+    "docs/foundation/ACCEPTANCE.md",
+    "docs/foundation/RECOVERY.md",
+    "docs/foundation/TESTING.md",
+    "docs/foundation/acceptance_summary.json",
+    "docs/foundation/analytics_coverage.json",
+    "docs/foundation/baseline_after.json",
+    "docs/foundation/baseline_before.json",
+    "docs/foundation/baseline_final.json",
+    "docs/foundation/nso_trino.json",
+    "docs/foundation/owned_runtime_tests.xml",
+    "docs/foundation/raw_inputs.json",
+    "docs/foundation/silver_readonly.json",
+    "docs/foundation/unit_tests.xml",
+    "docs/foundation/unit_tests_pinned.xml",
+    "docs/handoff/NEXT_STEPS.md",
+    "docs/handoff/PROJECT_CONTEXT.md",
+    "docs/handoff/PROJECT_STATUS.md",
+    "jobs/silver/job_faostat_monthly_price.py",
+    "jobs/silver/job_faostat_production.py",
+    "jobs/silver/job_faostat_supply_utilization.py",
+    "jobs/silver/job_faostat_trade.py",
+    "jobs/silver/job_nso.py",
+    "jobs/silver/job_thitruongnongsan.py",
+    "jobs/silver/job_usda_export_price.py",
+    "jobs/silver/job_usda_psd.py",
+    "jobs/silver/job_worldbank.py",
+    "jobs/silver/migrate_empty_silver_schema.py",
+    "jobs/silver/run_all_silver.py",
+    "jobs/silver/validate_silver_e2e.py",
+    "jobs/silver/verify_silver_trino.py",
+    "pyproject.toml",
+    "requirements/test-host.txt",
+    "scripts/test_silver_isolated.ps1",
+    "scripts/validate_foundation_readonly.py",
+    "scripts/validate_foundation_silver_readonly.py",
+    "src/ingestion/core/full_loader.py",
+    "src/ingestion/core/ingestion_engine.py",
+    "src/ingestion/orchestration/pipeline_tasks.py",
+    "src/ingestion/reliability/idempotency_controller.py",
+    "src/ingestion/reliability/quarantine_manager.py",
+    "src/ingestion/storage/bronze_writer.py",
+    "src/ingestion/storage/metadata_repository.py",
+    "tests/conftest.py",
+    "tests/integration/test_foundation_runtime.py",
+    "tests/unit/test_bronze_identity.py",
+    "tests/unit/test_chunk_idempotency.py",
+    "tests/unit/test_foundation_recovery.py",
+    "tests/unit/test_ingestion_engine.py",
+    "tests/unit/test_job_entrypoints.py",
+    "tests/unit/test_phase6_failure_recovery.py",
+    "tests/unit/test_quarantine_diagnostics.py",
+    "tests/unit/test_silver_orchestration.py",
+    "tests/unit/test_silver_trino_verifier.py"
+  ],
+  "static_checks": {
+    "markdown_links": "PASS",
+    "protected_file_scope": "PASS",
+    "reference_hashes": "PASS",
+    "python_compile": "PASS",
+    "git_diff_check": "PASS"
+  }
+}

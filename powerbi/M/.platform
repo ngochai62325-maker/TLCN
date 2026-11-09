@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "TLCN_Rice_Analytics"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "611bf87b-fc63-451c-84c2-01871104c3c1"
+  }
+}

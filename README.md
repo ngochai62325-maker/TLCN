@@ -3,12 +3,26 @@
 Đồ án Data Engineering chạy local trên một Docker Compose duy nhất ([`compose.yaml`](compose.yaml)) với **Airflow**, **Apache Spark**, **Apache Iceberg (REST Catalog)**, **MinIO**, **PostgreSQL** và **Trino**.
 Profile `local_nine` tích hợp **9 nguồn dữ liệu thực tế** từ Raw → Bronze (`iceberg.bronze.*`) → Silver (`iceberg.silver_local.*`).
 
+Gold MVP gồm **8 physical dimensions, 9 physical facts và 4 version-controlled semantic SQL queries**, DAG manual `rice_lakehouse_gold_pipeline`. Giữ Trino 448/REST hiện hữu, không tạo catalog views. Xem [hướng dẫn chạy/demo](docs/gold/IMPLEMENTATION.md) và [trạng thái nghiệm thu thực tế](docs/gold/VALIDATION.md).
+
+**Gold G12: GOLD_MVP_COMPLETE.** Hai Gold DagRuns SUCCESS; đủ 17 tables, 9-source reconciliation, DQ01–18, bốn semantic queries, publication/consumer và formal physical NOOP 17/17 tables PASS. Giữ Trino 448/512 MiB. Chi tiết và giới hạn vận hành tại [Gold validation](docs/gold/VALIDATION.md).
+
+## Analytics và báo cáo local — 06/11/2026
+
+**Streamlit Dashboard đã ngừng vĩnh viễn. Power BI Desktop Free là công cụ reporting hiện hành.** Bronze/Silver/Gold và sáu notebooks EDA được giữ; Python chỉ xuất CSV từ một published Gold batch qua Analytics allowlist/read gate. Không cần Power BI Pro hoặc cloud publication để tự dựng/lưu report local.
+
+```powershell
+python -m jobs.analytics.build_powerbi_marts
+```
+
+**DATA_MARTS_POWERBI_COMPLETE.** Tám subject marts/mười CSV, sáu trang report tiếng Việt, 65 measures, 58 actual Desktop DAX checks và 589 unit tests PASS. Report thật đã Save As/mở lại tại `powerbi/TLCN_Rice_Analytics.pbix` (local, Git-ignored); mở bằng `Invoke-Item .\powerbi\TLCN_Rice_Analytics.pbix`. Source PBIP/TMDL/PBIR ở `powerbi/`. Dữ liệu là extract, không tự live refresh với Gold. [Cách dùng/refresh](docs/powerbi/REPORT_IMPLEMENTATION.md) · [Nghiệm thu](docs/powerbi/REPORT_VALIDATION.md) · [Mart design](docs/analytics/DATA_MART_DESIGN.md) · [EDA findings lịch sử](docs/analytics/EDA_FINDINGS.md). Default exporter v1 bốn CSV vẫn được giữ.
+
 ## 1. Dịch vụ & Cổng Localhost
 
 | Dịch vụ | URL / Endpoint | Tài khoản mặc định (`.env.example`) | Ghi chú |
 |---|---|---|---|
-| **Airflow UI** | `http://localhost:8085` | `AIRFLOW_ADMIN_USER=admin` / `AIRFLOW_ADMIN_PASSWORD=admin` | Quản lý 2 DAG (`rice_lakehouse_ingestion`, `rice_lakehouse_silver_pipeline`) |
-| **MinIO Console** | `http://localhost:9001` | `MINIO_ROOT_USER=minioadmin` / `MINIO_ROOT_PASSWORD=minioadmin123` | Quản lý bucket `warehouse` (Bronze raw archive & Iceberg Parquet/metadata) |
+| **Airflow UI** | `http://localhost:8085` | `AIRFLOW_ADMIN_USER=admin` / `AIRFLOW_ADMIN_PASSWORD=admin` | Bronze, Silver và Gold DAG; Gold manual và có admission gate |
+| **MinIO Console** | `http://localhost:9001` | `MINIO_ROOT_USER=minioadmin` / `MINIO_ROOT_PASSWORD=minioadmin123` | Bucket `warehouse`: Iceberg và Gold publication metadata; Raw giữ local |
 | **Trino Coordinator** | `http://localhost:18080` | Không mật khẩu (local header `X-Trino-User`) | Truy vấn SQL trực tiếp catalog `iceberg` |
 | **PostgreSQL / Iceberg REST / Spark API** | Internal Docker network (`postgres:5432`, `iceberg-rest:8181`, `runner:5005`) | Cấu hình trong `.env` | Chỉ giao tiếp nội bộ trong bridge network của project `tlcn-local` |
 

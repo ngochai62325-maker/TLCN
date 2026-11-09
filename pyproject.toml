@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "rice-lakehouse-ingestion"
 version = "0.1.0"
 description = "Data Ingestion Engine for Vietnam Rice Market Data Lakehouse"
-requires-python = ">=3.11"
+requires-python = ">=3.10,<3.14"
 dependencies = [
     "requests>=2.31.0",
     "PyYAML>=6.0.1",
@@ -25,14 +25,17 @@ dev = [
     "pytest-cov>=4.1.0",
     "responses>=0.23.0",
     "moto[s3]>=5.0.0",
+    "pyspark==3.5.5",  # SQL schema/expression imports in unit tests; JVM fixtures are opt-in.
+    "pyarrow==21.0.0",  # Host exact-readback tests, including Python 3.13 wheels.
+    "lxml>=5.3,<7",  # USDA HTML source adapter; container versions stay in their locks.
 ]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["src"]
+testpaths = ["tests/unit"]
+pythonpath = ["src", "."]
 addopts = "-v --tb=short"
 markers = [
     "integration: marks tests requiring Docker services",

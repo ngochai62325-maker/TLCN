@@ -1,0 +1,216 @@
+{
+  "notebook": "05_international_rice_trade",
+  "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+  "queries": [
+    {
+      "query_id": null,
+      "http_bytes": 0,
+      "query_seconds": 0,
+      "query": "publication",
+      "parameters": {},
+      "version": "eda-20261027.1",
+      "definition_sha256": "9137591a6cc57b9c6db1e4f9fb7b226e1e604c2cf01243362d8fa8808391f1f9",
+      "compiled_sql_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T03:59:58.455680+00:00",
+      "windows_available_bytes": 3016880128,
+      "cache": "DISABLED",
+      "row_count": 17,
+      "response_bytes": 4333,
+      "client_seconds": 2.453571300000476
+    },
+    {
+      "query_id": "20261027_040001_00128_r3abu",
+      "http_bytes": 280687,
+      "query_seconds": 0.05896541000038269,
+      "stats": {
+        "elapsedTimeMillis": 52,
+        "processedBytes": 49486,
+        "peakMemoryBytes": 321731,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "geographies"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "5c688c00db4fa7e0f68d9a7b2d2122b3d2cf8a08b6815e7e03856d95ef9080fe",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T04:00:01.445980+00:00",
+      "windows_available_bytes": 3035787264,
+      "cache": "DISABLED",
+      "row_count": 987,
+      "response_bytes": 280734,
+      "client_seconds": 2.9818342999997185
+    },
+    {
+      "query_id": "20261027_040004_00129_r3abu",
+      "http_bytes": 53703,
+      "query_seconds": 0.04414601299959031,
+      "stats": {
+        "elapsedTimeMillis": 38,
+        "processedBytes": 17172,
+        "peakMemoryBytes": 45975,
+        "spilledBytes": 0
+      },
+      "query": "catalogue",
+      "parameters": {
+        "kind": "products"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "66b100a5c5aaf8aadd8780bbe75d7b116b0507718a7550ec58d6b06300870aa5",
+      "compiled_sql_sha256": "5f870d6f694d6226c66b92134f6871f26ba92335d6847f5aa96b8d2b90ff0c71",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T04:00:03.887547+00:00",
+      "windows_available_bytes": 2888749056,
+      "cache": "DISABLED",
+      "row_count": 295,
+      "response_bytes": 49096,
+      "client_seconds": 2.414144000000306
+    },
+    {
+      "query_id": "20261027_040006_00130_r3abu",
+      "http_bytes": 16874,
+      "query_seconds": 0.40653527800077427,
+      "stats": {
+        "elapsedTimeMillis": 391,
+        "processedBytes": 3539087,
+        "peakMemoryBytes": 569689,
+        "spilledBytes": 0
+      },
+      "query": "subject_products",
+      "parameters": {
+        "fact": "fact_fao_trade_observation",
+        "geography": "454338b3e9b9203015ec55fa27305ffba31eac866ae49718ed492e03c8dbc550"
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "2013caf94209acbdce125cc0123eca1514ed3f8439002bfdf259f252981687be",
+      "compiled_sql_sha256": "2d04a5c2014394980f4275ad12e1171c2e9d40f96efa12a39eb6729bad6c20ac",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T04:00:06.875634+00:00",
+      "windows_available_bytes": 2888048640,
+      "cache": "DISABLED",
+      "row_count": 6,
+      "response_bytes": 5057,
+      "client_seconds": 3.0669427000002543
+    },
+    {
+      "query_id": "20261027_040009_00131_r3abu",
+      "http_bytes": 198598,
+      "query_seconds": 0.5926982150003823,
+      "stats": {
+        "elapsedTimeMillis": 580,
+        "processedBytes": 18327903,
+        "peakMemoryBytes": 529121,
+        "spilledBytes": 0
+      },
+      "query": "trade",
+      "parameters": {
+        "reporter": "454338b3e9b9203015ec55fa27305ffba31eac866ae49718ed492e03c8dbc550",
+        "product": "9b20a1844ec8b08d320fceaf8f4360279d9a41fa491578ff01af75f520095397",
+        "flow": "export",
+        "start_year": 2019,
+        "end_year": 2023
+      },
+      "version": "eda-20261027.1",
+      "definition_sha256": "d657c18317340320e9e95c3cee5575947f48a9bb6141b2bda309df9e546cb493",
+      "compiled_sql_sha256": "584ed08975091a6e30db8059566cd868d9b8a6da45ffadf741d43fd084bb1e1f",
+      "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+      "manifest_sha256": "631c0d372fcb37dfd81466622012a42311b867c028f570b4465658a9136a046b",
+      "gold_code_fingerprint": "ce5f23517281b552d02f25529a70b064af320902976b4bf9c5291c99a564fa98",
+      "measured_at": "2026-10-27T04:00:10.182645+00:00",
+      "windows_available_bytes": 2967121920,
+      "cache": "DISABLED",
+      "row_count": 397,
+      "response_bytes": 188726,
+      "client_seconds": 3.2938881000000038
+    }
+  ],
+  "findings": [
+    {
+      "id": "TR01",
+      "title": "Bilateral reported quantity — China, mainland",
+      "observation": "2019–2023: 347,012.45 → 753,672.54 tonnes (+117.19%).",
+      "scope": "Viet Nam reporter; CPC 23161.02; export; exact selected partner identity",
+      "interpretation": "Bilateral reported change; không suy global exporter rank, mirror reconciliation hoặc price causality.",
+      "query": "trade",
+      "cell": "Câu hỏi 2",
+      "numbers": {
+        "first_year": 2019,
+        "last_year": 2023,
+        "first_value": 347012.45,
+        "last_value": 753672.54,
+        "change_pct": 117.18890489375812,
+        "cagr_pct": 21.397406552717335,
+        "numeric_periods": 5,
+        "calendar_span": 5
+      }
+    },
+    {
+      "id": "TR02",
+      "title": "Bilateral reported quantity — Malaysia",
+      "observation": "2019–2023: 546,516.60 → 400,504.18 tonnes (-26.72%).",
+      "scope": "Viet Nam reporter; CPC 23161.02; export; exact selected partner identity",
+      "interpretation": "Bilateral reported change; không suy global exporter rank, mirror reconciliation hoặc price causality.",
+      "query": "trade",
+      "cell": "Câu hỏi 2",
+      "numbers": {
+        "first_year": 2019,
+        "last_year": 2023,
+        "first_value": 546516.6,
+        "last_value": 400504.18,
+        "change_pct": -26.71692314560985,
+        "cagr_pct": -7.4767405638911715,
+        "numeric_periods": 5,
+        "calendar_span": 5
+      }
+    },
+    {
+      "id": "TR03",
+      "title": "Bilateral reported quantity — Philippines",
+      "observation": "2019–2023: 2,129,613.10 → 3,015,899.86 tonnes (+41.62%).",
+      "scope": "Viet Nam reporter; CPC 23161.02; export; exact selected partner identity",
+      "interpretation": "Bilateral reported change; không suy global exporter rank, mirror reconciliation hoặc price causality.",
+      "query": "trade",
+      "cell": "Câu hỏi 2",
+      "numbers": {
+        "first_year": 2019,
+        "last_year": 2023,
+        "first_value": 2129613.1,
+        "last_value": 3015899.86,
+        "change_pct": 41.61726653540963,
+        "cagr_pct": 9.088520535834643,
+        "numeric_periods": 5,
+        "calendar_span": 5
+      }
+    },
+    {
+      "id": "TR04",
+      "title": "Reported unit value sang Philippines",
+      "observation": "2019–2023: 414.96 → 560.88 USD/tonne (+35.16%).",
+      "scope": "Viet Nam reporter / partner M49 608 / CPC 23161.02 / export; value-quantity pairing",
+      "interpretation": "Có thể phản ánh composition/contract/reporting effects; không phải independent market price hoặc causal inflation estimate.",
+      "query": "trade",
+      "cell": "Câu hỏi 2",
+      "numbers": {
+        "first_year": 2019,
+        "last_year": 2023,
+        "first_value": 414.96,
+        "last_value": 560.88,
+        "change_pct": 35.164835164835175,
+        "cagr_pct": 7.824121840986353,
+        "numeric_periods": 5,
+        "calendar_span": 5
+      }
+    }
+  ]
+}

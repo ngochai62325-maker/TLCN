@@ -1,0 +1,83 @@
+table Trade
+	column year
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year
+	column reporter_key
+		dataType: string
+		summarizeBy: none
+		sourceColumn: reporter_key
+	column reporter_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: reporter_code
+	column partner_key
+		dataType: string
+		summarizeBy: none
+		sourceColumn: partner_key
+	column partner_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: partner_code
+	column partner_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: partner_name
+	column product_key
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product_key
+	column product_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product_code
+	column direction
+		dataType: string
+		summarizeBy: none
+		sourceColumn: direction
+	column quantity_t
+		dataType: double
+		summarizeBy: none
+		sourceColumn: quantity_t
+	column value_usd
+		dataType: double
+		summarizeBy: none
+		sourceColumn: value_usd
+	column unit_value_usd_t
+		dataType: double
+		summarizeBy: none
+		sourceColumn: unit_value_usd_t
+	column quantity_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: quantity_present
+	column value_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: value_present
+	column denominator_valid
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: denominator_valid
+	column paired_quantity_t
+		dataType: double
+		summarizeBy: none
+		sourceColumn: paired_quantity_t
+	column paired_value_usd
+		dataType: double
+		summarizeBy: none
+		sourceColumn: paired_value_usd
+	partition Trade = m
+		mode: import
+		source =
+			let
+			    Raw = Csv.Document(File.Contents(ExportFolder & "\trade_exports.csv"), [Delimiter=",", Columns=17, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+			    Checked = if Table.ColumnNames(Headers) = {"year", "reporter_key", "reporter_code", "partner_key", "partner_code", "partner_name", "product_key", "product_code", "direction", "quantity_t", "value_usd", "unit_value_usd_t", "quantity_present", "value_present", "denominator_valid", "paired_quantity_t", "paired_value_usd"} then Headers else error "CSV schema mismatch",
+			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+			    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"reporter_key", type text}, {"reporter_code", type text}, {"partner_key", type text}, {"partner_code", type text}, {"partner_name", type text}, {"product_key", type text}, {"product_code", type text}, {"direction", type text}, {"quantity_t", type number}, {"value_usd", type number}, {"unit_value_usd_t", type number}, {"quantity_present", type logical}, {"value_present", type logical}, {"denominator_valid", type logical}, {"paired_quantity_t", type number}, {"paired_value_usd", type number}}, "en-US"),
+			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+			    Entry = Record.Field(Manifest[outputs], "trade_exports.csv"),
+			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+			in
+			    Accepted

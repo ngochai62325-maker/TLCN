@@ -103,6 +103,7 @@ function Assert-DemoPersistedPause {
 BEGIN READ ONLY;
 SELECT CASE WHEN
  (SELECT count(*) FROM dag WHERE dag_id IN ('rice_lakehouse_ingestion','rice_lakehouse_silver_pipeline') AND is_paused)=2
+ AND NOT EXISTS (SELECT 1 FROM dag WHERE dag_id='rice_lakehouse_gold_pipeline' AND NOT is_paused)
  AND NOT EXISTS (SELECT 1 FROM dag_run WHERE state IN ('running','queued'))
  AND NOT EXISTS (SELECT 1 FROM task_instance WHERE state IN ('running','queued','scheduled','restarting'))
  AND NOT EXISTS (SELECT 1 FROM pg_locks WHERE locktype='advisory')
@@ -211,23 +212,25 @@ from airflow.models.dagrun import DagRun
 from silver.local_profile import BRONZE_SOURCES,DATASETS,REGISTRY_SHA256,local_contract
 from silver.contract.loader import SilverContractLoader
 bag=DagBag('dags/',include_examples=False);assert not bag.import_errors,bag.import_errors
-assert set(bag.dags)=={'rice_lakehouse_ingestion','rice_lakehouse_silver_pipeline'}
+assert set(bag.dags)=={'rice_lakehouse_ingestion','rice_lakehouse_silver_pipeline','rice_lakehouse_gold_pipeline'}
 b=bag.dags['rice_lakehouse_ingestion'];s=bag.dags['rice_lakehouse_silver_pipeline']
+g=bag.dags['rice_lakehouse_gold_pipeline']
 assert {t.task_id[7:] for t in b.tasks if t.task_id.startswith('ingest_')}==set(BRONZE_SOURCES)
 assert {t.task_id[10:] for t in s.tasks if t.task_id.startswith('transform_')}==set(DATASETS)
 assert len(s.tasks)==14 and 'transform_nso' in s.task_ids
-assert all(d.schedule_interval is None and not d.catchup and d.max_active_runs==1 and all(t.retries==0 for t in d.tasks) for d in [b,s])
+assert len(g.tasks)==16 and g.max_active_tasks==1
+assert all(d.schedule_interval is None and not d.catchup and d.max_active_runs==1 and all(t.retries==0 for t in d.tasks) for d in [b,s,g])
 assert all(local_contract(SilverContractLoader(),d).silver_output.startswith('iceberg.silver_local.') for d in DATASETS)
 assert hashlib.sha256(Path('config/ingestion/source_registry.yaml').read_bytes()).hexdigest()==REGISTRY_SHA256
 assert SilverContractLoader().load_contract('nso').status=='READY'
 with settings.Session() as session:
- dags=session.query(DagModel).filter(DagModel.dag_id.in_([b.dag_id,s.dag_id])).all()
- assert len(dags)==2 and all(d.is_paused for d in dags),'Pause both DAGs before readiness check'
+ dags=session.query(DagModel).filter(DagModel.dag_id.in_([b.dag_id,s.dag_id,g.dag_id])).all()
+ assert len(dags)==3 and all(d.is_paused for d in dags),'Pause all three DAGs before readiness check'
  runs=session.query(DagRun).count()
  if os.environ.get('DEMO_EXPECT_EMPTY')=='1':assert runs==0,'Unexpected automatic DagRun'
 for url in ['http://runner:5005/health','http://iceberg-rest:8181/v1/config','http://trino:8080/v1/info']:
  with urllib.request.urlopen(url,timeout=10) as r:assert r.status==200
-print(json.dumps({'dag_parse':'PASS','bronze_sources':9,'silver_tasks':14,'silver_sources':9,'paused':True,'schedule':None,'dag_runs':runs,'services_http':'PASS','nso_contract':'READY'}))
+print(json.dumps({'dag_parse':'PASS','bronze_sources':9,'silver_tasks':14,'silver_sources':9,'gold_tasks':16,'paused':True,'schedule':None,'dag_runs':runs,'services_http':'PASS','nso_contract':'READY'}))
 '@
     $empty = '0'; if ($Fresh) { $empty = '1' }
     Invoke-DemoPython -ContainerId $scheduler.Id -Code $probe -Environment @("DEMO_EXPECT_EMPTY=$empty")

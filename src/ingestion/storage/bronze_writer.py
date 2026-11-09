@@ -2,7 +2,7 @@
 
 Responsible for writing raw extracted data chunks into queryable Apache Iceberg
 tables in the Bronze layer via native Iceberg Parquet append commit (PyIceberg)
-with seamless fallback to Trino REST interface.
+with exact catalog readback and no ambiguous-commit SQL fallback.
 
 Enforces:
 1. Lossless pass-through of raw columns.
@@ -319,7 +319,7 @@ class BronzeIcebergWriter:
 
     @staticmethod
     def _validate_numeric_values(df: pd.DataFrame, schema_types: Dict[str, str]) -> None:
-        """Reject unrepresentable raw values before DELETE or append, never coerce to NULL."""
+        """Reject unrepresentable raw values before commit, never coerce to NULL."""
         for name, dtype in schema_types.items():
             if name not in df:
                 continue
@@ -419,7 +419,7 @@ class BronzeIcebergWriter:
         batch_id: str,
         source_checksum: str,
         chunk_id: int,
-        source_snapshot_id: int = 0,
+        source_snapshot_id: Optional[int] = None,
         source_file: str = "",
         batch_size: int = 500,
     ) -> int:
@@ -427,7 +427,7 @@ class BronzeIcebergWriter:
 
         Adds all technical metadata columns before writing.
         Uses high-performance PyIceberg bulk write (1 Parquet file + 1 atomic commit per chunk)
-        with fallback to Trino sub-batch INSERT VALUES if PyIceberg is unavailable.
+        with exact readback; unavailable native writers fail closed.
         Returns the number of rows inserted.
         """
         if chunk_df.empty:
@@ -490,113 +490,92 @@ class BronzeIcebergWriter:
 
         full_table = self.ensure_table(source_id, chunk_df)
         table_name = sanitize_column_name(source_id)
-        # Validate before idempotent DELETE: a schema failure must not remove
-        # the previously committed chunk. No implicit schema repair here.
+        # Validate before any commit. No implicit schema repair here.
         _, schema_rows = self.execute_query(f"DESCRIBE {full_table}")
         self._validate_schema_columns(list(df.columns), [str(row[0]) for row in schema_rows], full_table)
         self._validate_numeric_values(df, {str(row[0]): str(row[1]) for row in schema_rows})
         catalog = self.get_iceberg_catalog()
         arrow_table = None
         if catalog is not None:
-            # Conversion is part of preflight, not a fallback after destructive DELETE.
+            # Conversion must succeed before the commit protocol starts.
             table = catalog.load_table(f"{self.schema}.{table_name}")
             try:
                 arrow_table = self._dataframe_to_arrow(df, table.schema())
             except (ValueError, TypeError, OverflowError) as exc:
                 raise SchemaError("Arrow conversion failed before write; raw values preserved") from exc
 
-        # ── Idempotency: Remove existing chunk data before append ──────
-        # Transaction limitation: This DELETE and the subsequent APPEND are NOT atomic.
-        # If APPEND fails after DELETE, the chunk is temporarily missing until a successful retry.
-        # However, it guarantees that upon success, exactly one copy of the chunk exists.
-        delete_sql = (
-            f"DELETE FROM {full_table} "
-            f"WHERE _ingestion_run_id = '{run_id}' "
-            f"AND _ingestion_chunk_id = {chunk_id}"
-        )
-        for del_attempt in range(5):
+        if catalog is None:
+            raise RuntimeError("Native Iceberg writer unavailable; refusing unsafe multi-commit SQL fallback")
+        return self._commit_chunk(catalog, f"{self.schema}.{table_name}", arrow_table, run_id, chunk_id)
+
+    @staticmethod
+    def _same_chunk(actual, expected):
+        # Compare complete values and multiplicity, not a digest or aggregate.
+        from collections import Counter
+        import json
+        columns = [c for c in expected.column_names if c != "_ingestion_timestamp"]
+        if not set(columns).issubset(actual.column_names):
+            return False
+        if not actual.select(columns).schema.equals(expected.select(columns).schema, check_metadata=False):
+            return False
+        def cells(table):
+            return Counter(json.dumps(row, sort_keys=True, default=str, allow_nan=False)
+                           for row in table.select(columns).to_pylist())
+        return cells(actual) == cells(expected)
+
+    def _commit_chunk(self, catalog, name, proposed, run_id, chunk_id):
+        """One append, immutable retry identity, fresh exact readback.
+
+        Caller MUST hold the source advisory lock (engine protocol). No external
+        writer may bypass it. This is atomic per chunk, not per FULL source.
+        """
+        condition = "_ingestion_run_id = '" + run_id.replace("'", "''") + f"' AND _ingestion_chunk_id = {chunk_id}"
+        def read():
+            fresh = catalog.load_table(name)
+            snapshot = fresh.current_snapshot()
+            rows = fresh.scan(snapshot_id=snapshot.snapshot_id if snapshot else None,
+                              row_filter=condition).to_arrow()
+            return fresh, rows
+        table, existing = read()
+        if existing.num_rows:
+            if not self._same_chunk(existing, proposed):
+                raise RuntimeError("RECOVERY_REQUIRED: existing immutable chunk differs (partial write, checksum or content changed)")
+            return proposed.num_rows
+        try:
+            table.append(proposed)
+        except Exception as exc:
+            # A lost response can follow a successful catalog commit. Never INSERT
+            # or DELETE after this exception; verify using a newly loaded table.
             try:
-                self.execute_query(delete_sql)
-                logger.info("Executed idempotent DELETE", run_id=run_id, chunk_id=chunk_id, table=full_table)
-                break
-            except Exception as e:
-                if "does not exist" in str(e).lower():
-                    # Brand new table, no previous chunks to delete
-                    break
-                if del_attempt == 4:
-                    logger.error("Failed to execute idempotent DELETE before APPEND", error=str(e))
-                    raise RuntimeError(f"Idempotency failure: could not delete existing chunk before append: {e}") from e
-                import random
-                time.sleep(0.5 * (2 ** del_attempt) + random.uniform(0.1, 0.4))
-
-        # ── High-Performance PyIceberg Bulk Write Path ────────────────
+                _, actual = read()
+                if self._same_chunk(actual, proposed):
+                    return proposed.num_rows
+            except Exception as read_error:
+                raise RuntimeError("UNKNOWN_COMMIT: catalog readback unavailable; no automatic retry") from read_error
+            raise RuntimeError("UNKNOWN_COMMIT: append not exactly verified; no fallback write") from exc
         try:
-            if catalog is not None:
-                table.append(arrow_table)
-                logger.info(
-                    "Chunk written to Iceberg via PyIceberg bulk path",
-                    rows=len(df),
-                    table=full_table,
-                )
-                return len(df)
-        except SchemaError:
-            raise
-        except Exception as bulk_err:
-            logger.warning(
-                f"PyIceberg bulk write failed ({bulk_err}); falling back to Trino INSERT VALUES",
-                exc_info=True,
-            )
+            _, actual = read()
+        except Exception as exc:
+            raise RuntimeError("UNKNOWN_COMMIT: catalog readback unavailable; checkpoint forbidden") from exc
+        if not self._same_chunk(actual, proposed):
+            raise RuntimeError("UNKNOWN_COMMIT: append readback mismatch; checkpoint forbidden")
+        return proposed.num_rows
 
-        # ── Fallback: Trino Sub-Batch INSERT VALUES ──────────────────
-        cols = list(df.columns)
-        quoted_cols = ", ".join(f'"{c}"' for c in cols)
-
-        # Retrieve table schema types for exact type formatting in SQL VALUES
-        table_schema: Dict[str, str] = {}
-        try:
-            _, schema_rows = self.execute_query(f"DESCRIBE {full_table}")
-            table_schema = {str(r[0]).lower(): str(r[1]).upper() for r in schema_rows}
-        except Exception:
-            pass
-
-        # Insert in sub-batches for Trino query size safety
-        total_inserted = 0
-        for start_idx in range(0, len(df), batch_size):
-            sub_df = df.iloc[start_idx : start_idx + batch_size]
-            val_rows: List[str] = []
-
-            for row in sub_df.itertuples(index=False):
-                vals: List[str] = []
-                for val, col in zip(row, cols):
-                    col_type = table_schema.get(col.lower(), "")
-                    if pd.isna(val) or val is None:
-                        vals.append("NULL")
-                    elif col == "_ingestion_timestamp" or "TIMESTAMP" in col_type:
-                        vals.append(f"TIMESTAMP '{val}'")
-                    elif isinstance(val, bool) or col_type == "BOOLEAN":
-                        vals.append("TRUE" if val else "FALSE")
-                    elif any(num_t in col_type for num_t in ("DOUBLE", "REAL", "FLOAT")):
-                        try:
-                            float_val = float(val)
-                            vals.append(f"DOUBLE '{float_val}'")
-                        except (ValueError, TypeError):
-                            vals.append("NULL")
-                    elif any(int_t in col_type for int_t in ("BIGINT", "INTEGER", "SMALLINT", "TINYINT")):
-                        try:
-                            int_val = int(val)
-                            vals.append(str(int_val))
-                        except (ValueError, TypeError):
-                            vals.append("NULL")
-                    else:
-                        escaped = str(val).replace("'", "''")
-                        vals.append(f"'{escaped}'")
-                val_rows.append(f"({', '.join(vals)})")
-
-            insert_sql = f"INSERT INTO {full_table} ({quoted_cols}) VALUES\n" + ",\n".join(val_rows)
-            self.execute_query(insert_sql)
-            total_inserted += len(sub_df)
-
-        return total_inserted
+    def verify_run(self, source_id: str, run_id: str, expected_records: int) -> Dict[str, Any]:
+        """Read physical run membership; caller holds the source lock."""
+        import pyarrow.compute as pc
+        catalog = self.get_iceberg_catalog()
+        if catalog is None:
+            raise RuntimeError("Physical Bronze commit evidence unavailable")
+        table = catalog.load_table(f"{self.schema}.{sanitize_column_name(source_id)}")
+        snapshot = table.current_snapshot()
+        if snapshot is None:
+            raise RuntimeError("No physical Bronze snapshot")
+        rows = table.scan(snapshot_id=snapshot.snapshot_id, row_filter="_ingestion_run_id = '" + run_id.replace("'", "''") + "'").select("_source_id").to_arrow()
+        if rows.num_rows != expected_records or set(pc.unique(rows["_source_id"]).to_pylist()) != {source_id}:
+            raise RuntimeError("Physical Bronze run row/source reconciliation failed")
+        return {"uuid": str(table.metadata.table_uuid), "snapshot_id": str(snapshot.snapshot_id),
+                "metadata_location": table.metadata_location, "run_id": run_id, "rows": rows.num_rows}
 
     def get_row_count(self, source_id: str) -> int:
         """Return total row count in the Bronze Iceberg table."""

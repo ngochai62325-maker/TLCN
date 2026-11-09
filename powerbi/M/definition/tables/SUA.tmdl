@@ -1,0 +1,59 @@
+table SUA
+	column year
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year
+	column geography_key
+		dataType: string
+		summarizeBy: none
+		sourceColumn: geography_key
+	column area_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: area_code
+	column product_key
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product_key
+	column product_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product_code
+	column element_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: element_code
+	column metric
+		dataType: string
+		summarizeBy: none
+		sourceColumn: metric
+	column unit
+		dataType: string
+		summarizeBy: none
+		sourceColumn: unit
+	column value_t
+		dataType: double
+		summarizeBy: none
+		sourceColumn: value_t
+	column observation_present
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: observation_present
+	column aggregation_rule
+		dataType: string
+		summarizeBy: none
+		sourceColumn: aggregation_rule
+	partition SUA = m
+		mode: import
+		source =
+			let
+			    Raw = Csv.Document(File.Contents(ExportFolder & "\sua_components.csv"), [Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+			    Checked = if Table.ColumnNames(Headers) = {"year", "geography_key", "area_code", "product_key", "product_code", "element_code", "metric", "unit", "value_t", "observation_present", "aggregation_rule"} then Headers else error "CSV schema mismatch",
+			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+			    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"geography_key", type text}, {"area_code", type text}, {"product_key", type text}, {"product_code", type text}, {"element_code", type text}, {"metric", type text}, {"unit", type text}, {"value_t", type number}, {"observation_present", type logical}, {"aggregation_rule", type text}}, "en-US"),
+			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+			    Entry = Record.Field(Manifest[outputs], "sua_components.csv"),
+			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+			in
+			    Accepted

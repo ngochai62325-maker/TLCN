@@ -1,0 +1,22 @@
+{
+  "status": "PASSED",
+  "target": "iceberg.silver_local.nso_rice_statistics",
+  "counts": {
+    "rows": 23060,
+    "unique_keys": 23060,
+    "invalid_required": 0,
+    "unknown_geography": 0,
+    "missing_observations": 946,
+    "genuine_zero": 5,
+    "provisional": 766,
+    "unconfirmed": 22294,
+    "nso_v2_grain": 0,
+    "nso_v2_missing": 0,
+    "nso_v2_units": 0,
+    "nso_v2_geography": 0,
+    "nso_v2_period": 0,
+    "nso_v2_geography_review": 22500,
+    "nso_v2_discrepancy": 344
+  },
+  "scope": "retained Silver only; exclusions/quarantine need upstream admission evidence"
+}

@@ -91,7 +91,10 @@ def run_pipeline(dataset="all", mode="full", run_id=None, watermark=None,
         for target in targets:
             with source_lock(target, release, **({"profile": profile} if profile else {})):
                 if release or profile:
-                    from validate_silver_e2e import table_identity
+                    if __package__:
+                        from .validate_silver_e2e import table_identity
+                    else:
+                        from validate_silver_e2e import table_identity
                     table = framework.contract(target).silver_output
                     before = table_identity(session, table)
                     pinned = table_identity(session, framework.contract(target).bronze_input)["snapshot_id"]

@@ -37,6 +37,7 @@ class TestIngestionEngine:
             checkpoint_store=cs,
             watermark_store=ws,
             minio_storage=ms,
+            bronze_writer=MagicMock(),
         )
 
     @patch("ingestion.core.ingestion_engine.importlib.import_module")
