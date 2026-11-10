@@ -59,10 +59,10 @@ table Overview
 	/// V06.12 source seasons, never includes annual; one calendar year only; NULL remains blank; no SUM across years.
 	measure 'Seasonal Production' = IF(HASONEVALUE(CalendarYear[Year]), SUM(NSOSeasonal[production_t]))
 		formatString: #,0
-	/// CPC0113 selected non-overlapping four source areas, tonnes; one calendar year only; NULL remains blank; no SUM across years.
+	/// CPC0113 selected non-overlapping source areas, tonnes; one calendar year only; NULL remains blank; no SUM across years.
 	measure 'FAO Production' = IF(HASONEVALUE(CalendarYear[Year]), SUM(FAO[production_t]))
 		formatString: #,0
-	/// CPC0113 selected non-overlapping four source areas, hectares; one calendar year only; NULL remains blank; no SUM across years.
+	/// CPC0113 selected non-overlapping source areas, hectares; one calendar year only; NULL remains blank; no SUM across years.
 	measure 'FAO Area' = IF(HASONEVALUE(CalendarYear[Year]), SUM(FAO[area_ha]))
 		formatString: #,0
 	/// First selected numeric V06.12 annual year.
@@ -107,7 +107,7 @@ table Overview
 	/// Only pairs with numeric production and positive numeric area, hectares.
 	measure 'FAO Paired Area' = IF(HASONEVALUE(CalendarYear[Year]),SUM(FAO[paired_area_ha]))
 		formatString: #,0
-	/// kg/ha, single calendar year, ratio of paired sums over selected non-overlapping four-area universe; never AVG yields.
+	/// kg/ha, single calendar year, ratio of paired sums over selected non-overlapping area universe; never AVG yields.
 	measure 'FAO Weighted Yield' = DIVIDE(1000*[FAO Paired Production],[FAO Paired Area])
 		formatString: #,0.00
 	/// Source reported kg/ha, one source area/year; not combined across areas.
@@ -119,20 +119,53 @@ table Overview
 	/// Production at selected common year, not world total.
 	measure 'FAO Common Production' = VAR y=[FAO Common Year] RETURN IF(NOT ISBLANK(y), CALCULATE([FAO Production],REMOVEFILTERS(CalendarYear),CalendarYear[Year]=y))
 		formatString: #,0
-	/// Rank only among four admitted selected source areas, common paired year.
+	/// Rank only among admitted selected source areas, common paired year.
 	measure 'FAO Common Rank' = IF(NOT ISBLANK([FAO Common Production]),RANKX(ALLSELECTED(FAO[area_name]),[FAO Common Production],,DESC,Dense))
 		formatString: 0
+	/// Active year for FAO scatter: selected single year, or common paired year when all years are selected.
+	measure 'FAO Scatter Year' = IF(HASONEVALUE(CalendarYear[Year]), SELECTEDVALUE(CalendarYear[Year]), [FAO Common Year])
+		formatString: 0
+	/// Area at selected year or default common year.
+	measure 'FAO Scatter Area' = VAR y=[FAO Scatter Year] RETURN IF(NOT ISBLANK(y), CALCULATE(SUM(FAO[area_ha]), REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
+		formatString: #,0
+	/// Production at selected year or default common year.
+	measure 'FAO Scatter Production' = VAR y=[FAO Scatter Year] RETURN IF(NOT ISBLANK(y), CALCULATE(SUM(FAO[production_t]), REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
+		formatString: #,0
+	/// Weighted yield at selected year or default common year.
+	measure 'FAO Scatter Yield' = VAR y=[FAO Scatter Year] RETURN IF(NOT ISBLANK(y), CALCULATE([FAO Weighted Yield], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
+		formatString: #,0.00
 	/// One SUA calendar year/element, M49 704/CPC23161.02; NULL stays blank; no cross-element SUM.
 	measure 'SUA Selected Value' = IF(HASONEVALUE(CalendarYear[Year]) && HASONEVALUE(SUA[element_code]),MAX(SUA[value_t]))
 		formatString: #,0.00
-	/// SUA fixed element 5141; one calendar year, tonnes; no sum over years or invented balance.
+	/// SUA element 5141; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Food Supply' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5141")
 		formatString: #,0.00
-	/// SUA fixed element 5113; one calendar year, tonnes; no sum over years or invented balance.
+	/// SUA element 5113; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Opening Stocks' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5113")
 		formatString: #,0.00
-	/// SUA fixed element 5071; one calendar year, tonnes; no sum over years or invented balance.
+	/// SUA element 5071; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Stock Variation' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5071")
+		formatString: #,0.00
+	/// SUA element 5023; one calendar year, tonnes; no sum over years or invented balance.
+	measure 'SUA Processed' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5023")
+		formatString: #,0.00
+	/// SUA element 5520; one calendar year, tonnes; no sum over years or invented balance.
+	measure 'SUA Feed' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5520")
+		formatString: #,0.00
+	/// SUA element 5525; one calendar year, tonnes; no sum over years or invented balance.
+	measure 'SUA Seed' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5525")
+		formatString: #,0.00
+	/// SUA element 5016; one calendar year, tonnes; no sum over years or invented balance.
+	measure 'SUA Loss' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5016")
+		formatString: #,0.00
+	/// SUA element 5910; one calendar year, tonnes; no sum over years or invented balance.
+	measure 'SUA Exports' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5910")
+		formatString: #,0.00
+	/// SUA element 5165; one calendar year, tonnes; no sum over years or invented balance.
+	measure 'SUA Other Uses' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5165")
+		formatString: #,0.00
+	/// SUA element 5166; one calendar year, tonnes; no sum over years or invented balance.
+	measure 'SUA Residuals' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5166")
 		formatString: #,0.00
 	/// One marketing year and attribute; unit from row. No mixing MY/TY/rough/milled, rates or stocks.
 	measure 'PSD Selected Value' = IF(HASONEVALUE(PSD[market_year]) && HASONEVALUE(PSD[attribute]),MAX(PSD[value]))
@@ -146,16 +179,22 @@ table Overview
 	/// USDA Vietnam/Rice, Milled Ending Stocks tonnes at one market year; no stock sum across time.
 	measure 'PSD Ending Stocks' = CALCULATE([PSD Selected Value],REMOVEFILTERS(PSD[attribute]),PSD[attribute]="Ending Stocks")
 		formatString: #,0
-	/// Exact rice_thai_5 monthly USD/tonne level; one month; never sum price over dates.
+	/// USDA FOB export price reference USD/tonne; NEVER_SUM; average only across selected periods/classes.
+	measure 'USDA Price' = AVERAGE(USDAPrice[price_usd_t])
+		formatString: #,0.00
+	/// USDA FOB export price reference USD/tonne over reference year.
+	measure 'USDA Price Trend' = AVERAGE(USDAPrice[price_usd_t])
+		formatString: #,0.00
+	/// World Bank benchmark monthly USD/tonne level; never sum price over dates.
 	measure 'WB Price' = IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[price_usd_t]))
 		formatString: #,0.00
 	/// Exact calendar previous month, both numeric and prior>0; absent/NULL gives blank.
 	measure 'WB MoM' = IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[monthly_change_pct])/100)
 		formatString: +0.00%;-0.00%;0.00%
-	/// Trailing 12 log-return sample std, requires 13 positive consecutive monthly observations; not annualized. Window uses full imported history, even if slicer hides earlier months.
-	measure 'WB Volatility' = IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[volatility_12m_pct])/100)
+	/// Trailing 12 log-return sample std, requires 13 positive consecutive monthly observations; not annualized.
+	measure 'WB Volatility' = IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[volatility_12m_pct])/100,AVERAGE(WB[volatility_12m_pct])/100)
 		formatString: 0.00%
-	/// Observed maximum rice_thai_5 in selected months, USD/tonne.
+	/// Observed maximum benchmark in selected months, USD/tonne.
 	measure 'WB Peak' = MAXX(ALLSELECTED(BenchmarkMonth[Date]),CALCULATE([WB Price]))
 		formatString: #,0.00
 	/// Observed numeric minimum selected monthly benchmark, USD/tonne.
@@ -167,28 +206,28 @@ table Overview
 	/// Count of calendar rows with no source observation; zero is an empty count, not an imputed price.
 	measure 'WB Absent Months' = COALESCE(CALCULATE(COUNTROWS(WB),WB[observation_present]=FALSE()),0)
 		formatString: #,0
-	/// Exact An Giang/IR50404 quote VND/kg on one date; no unrelated-series average.
+	/// Vietnam domestic quote VND/kg on selected date or average quote.
 	measure 'Domestic Quote' = IF(HASONEVALUE(QuoteDate[Date]),MAX(VNQuote[price_vnd_kg]))
 		formatString: #,0
 	/// Observed rows in selected date scope, including present-NULL.
 	measure 'Domestic Quoted Dates' = COUNTROWS(VNQuote)
 		formatString: #,0
-	/// Reported export tonnes; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
+	/// Reported export tonnes; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
 	measure 'Trade Quantity' = SUM(Trade[quantity_t])
 		formatString: #,0.00
-	/// Reported export USD; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
+	/// Reported export USD; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
 	measure 'Trade Value' = SUM(Trade[value_usd])
 		formatString: #,0.00
-	/// Numeric quantity paired with numeric monetary value and q>0; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
+	/// Numeric quantity paired with numeric monetary value and q>0; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
 	measure 'Trade Paired Quantity' = SUM(Trade[paired_quantity_t])
 		formatString: #,0.00
-	/// Same eligible contributor population as paired quantity; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
+	/// Same eligible contributor population as paired quantity; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
 	measure 'Trade Paired Value' = SUM(Trade[paired_value_usd])
 		formatString: #,0.00
 	/// USD/tonne = ratio of paired sums under current year/partner selection; never average row ratios; positive paired denominator.
 	measure 'Trade Unit Value' = DIVIDE([Trade Paired Value],[Trade Paired Quantity])
 		formatString: #,0.00
-	/// Eligible paired reporter-partner-product-year groups; coverage of selected three-partner scope only.
+	/// Eligible paired reporter-partner-product-year groups; coverage of selected partner scope.
 	measure 'Trade Paired Groups' = COALESCE(COUNTROWS(FILTER(Trade,NOT ISBLANK(Trade[paired_quantity_t]) && NOT ISBLANK(Trade[paired_value_usd]))),0)
 		formatString: #,0
 	/// Dynamic paired coverage and ratio; no global denominator.
@@ -218,17 +257,17 @@ table Overview
 	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
 	measure 'Latest Production YoY Display' = IF(ISBLANK([Latest Production YoY]),"Không áp dụng",FORMAT([Latest Production YoY],"+0.00%;-0.00%;0.00%"))
 		formatString: @
-	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
-	measure 'Trade Quantity Display' = IF(ISBLANK([Trade Quantity]),"Không áp dụng",FORMAT([Trade Quantity],"#,0.00"))
+	/// Formatted export quantity in million tonnes.
+	measure 'Trade Quantity Display' = IF(ISBLANK([Trade Quantity]),"Không áp dụng",FORMAT([Trade Quantity]/1000000,"#,0.00") & " tr tấn")
 		formatString: @
-	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
-	measure 'Trade Value Display' = IF(ISBLANK([Trade Value]),"Không áp dụng",FORMAT([Trade Value],"#,0.00"))
+	/// Formatted export value in billion USD.
+	measure 'Trade Value Display' = IF(ISBLANK([Trade Value]),"Không áp dụng",FORMAT([Trade Value]/1000000000,"$#,0.00") & " tỷ USD")
 		formatString: @
-	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
-	measure 'Trade Unit Value Display' = IF(ISBLANK([Trade Unit Value]),"Không áp dụng",FORMAT([Trade Unit Value],"#,0.00"))
+	/// Formatted unit value USD/tonne.
+	measure 'Trade Unit Value Display' = IF(ISBLANK([Trade Unit Value]),"Không áp dụng",FORMAT([Trade Unit Value],"$#,0.00") & " /tấn")
 		formatString: @
-	/// Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations.
-	measure 'Trade Paired Groups Display' = IF(ISBLANK([Trade Paired Groups]),"Không áp dụng",FORMAT([Trade Paired Groups],"#,0"))
+	/// Formatted paired groups count.
+	measure 'Trade Paired Groups Display' = IF(ISBLANK([Trade Paired Groups]),"Không áp dụng",FORMAT([Trade Paired Groups],"#,0") & " nhóm")
 		formatString: @
 	partition Overview = m
 		mode: import

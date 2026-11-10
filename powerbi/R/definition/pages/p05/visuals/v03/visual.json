@@ -5,7 +5,7 @@
     "x": 32,
     "y": 120,
     "z": 3,
-    "width": 500,
+    "width": 290,
     "height": 72,
     "tabOrder": 3
   },
@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Tháng World Bank'"
+                  "Value": "'Quốc gia FOB USDA'"
                 }
               }
             },
@@ -92,14 +92,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "BenchmarkMonth"
+                      "Entity": "USDAPrice"
                     }
                   },
-                  "Property": "Date"
+                  "Property": "location"
                 }
               },
-              "queryRef": "BenchmarkMonth.Date",
-              "displayName": "Tháng"
+              "queryRef": "USDAPrice.location",
+              "displayName": "Nước xuất khẩu"
             }
           ]
         }

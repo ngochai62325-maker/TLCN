@@ -3,10 +3,10 @@
   "name": "v07",
   "position": {
     "x": 32,
-    "y": 404,
+    "y": 192,
     "z": 7,
-    "width": 796,
-    "height": 215,
+    "width": 590,
+    "height": 195,
     "tabOrder": 7
   },
   "visual": {
@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Thay đổi theo tháng và biến động 12 returns'"
+                  "Value": "'Giá xuất khẩu FOB USDA (USD/tấn)'"
                 }
               }
             },
@@ -92,14 +92,32 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "BenchmarkMonth"
+                      "Entity": "USDAPrice"
                     }
                   },
-                  "Property": "Date"
+                  "Property": "reference_year"
                 }
               },
-              "queryRef": "BenchmarkMonth.Date",
-              "displayName": "Tháng"
+              "queryRef": "USDAPrice.reference_year",
+              "displayName": "Năm tham chiếu"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "USDAPrice"
+                    }
+                  },
+                  "Property": "location"
+                }
+              },
+              "queryRef": "USDAPrice.location",
+              "displayName": "Quốc gia"
             }
           ]
         },
@@ -113,25 +131,11 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "WB MoM"
+                  "Property": "USDA Price"
                 }
               },
-              "queryRef": "Overview.WB MoM",
-              "displayName": "MoM"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "WB Volatility"
-                }
-              },
-              "queryRef": "Overview.WB Volatility",
-              "displayName": "Volatility"
+              "queryRef": "Overview.USDA Price",
+              "displayName": "USD/tấn"
             }
           ]
         }

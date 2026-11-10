@@ -3,14 +3,14 @@
   "name": "v08",
   "position": {
     "x": 638,
-    "y": 224,
+    "y": 220,
     "z": 8,
     "width": 610,
     "height": 225,
     "tabOrder": 8
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "hundredPercentStackedBarChart",
     "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Có số và present-NULL'"
+                  "Value": "'Tỷ lệ có số và thiếu theo bộ dữ liệu'"
                 }
               }
             },

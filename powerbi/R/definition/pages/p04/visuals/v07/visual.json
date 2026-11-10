@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'SUA: tồn đầu kỳ và biến động có dấu (tấn)'"
+                  "Value": "'SUA: Tồn đầu kỳ, biến động tồn & hao hụt (tấn)'"
                 }
               }
             },
@@ -132,6 +132,20 @@
               },
               "queryRef": "Overview.SUA Stock Variation",
               "displayName": "Biến động tồn"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "SUA Residuals"
+                }
+              },
+              "queryRef": "Overview.SUA Residuals",
+              "displayName": "Phần dư"
             }
           ]
         }

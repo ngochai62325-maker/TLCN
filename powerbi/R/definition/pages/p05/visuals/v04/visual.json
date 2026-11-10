@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v04",
   "position": {
-    "x": 638,
+    "x": 338,
     "y": 120,
     "z": 4,
-    "width": 610,
+    "width": 284,
     "height": 72,
     "tabOrder": 4
   },
@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Ngày quote An Giang'"
+                  "Value": "'Kỳ USDA'"
                 }
               }
             },
@@ -92,14 +92,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "QuoteDate"
+                      "Entity": "USDAPrice"
                     }
                   },
-                  "Property": "Date"
+                  "Property": "reference_period"
                 }
               },
-              "queryRef": "QuoteDate.Date",
-              "displayName": "Ngày"
+              "queryRef": "USDAPrice.reference_period",
+              "displayName": "Kỳ tham chiếu"
             }
           ]
         }

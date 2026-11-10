@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Đơn giá cặp (USD/tấn)'"
+                  "Value": "'Đơn giá bình quân'"
                 }
               }
             },
@@ -99,7 +99,7 @@
                 }
               },
               "queryRef": "Overview.Trade Unit Value Display",
-              "displayName": "Đơn giá cặp (USD/tấn)"
+              "displayName": "Đơn giá bình quân"
             }
           ]
         }

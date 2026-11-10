@@ -3,10 +3,10 @@
   "name": "v01",
   "position": {
     "x": 32,
-    "y": 12,
+    "y": 10,
     "z": 1,
     "width": 1216,
-    "height": 44,
+    "height": 52,
     "tabOrder": 1
   },
   "visual": {
@@ -94,7 +94,7 @@
                     "value": "Tổng quan dữ liệu lúa gạo",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "23pt",
+                      "fontSize": "20pt",
                       "fontWeight": "bold",
                       "color": "#136F63"
                     }

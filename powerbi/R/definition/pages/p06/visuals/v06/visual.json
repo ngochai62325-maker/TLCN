@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Số nhóm đủ cặp'"
+                  "Value": "'Số nhóm đối tác'"
                 }
               }
             },
@@ -99,7 +99,7 @@
                 }
               },
               "queryRef": "Overview.Trade Paired Groups Display",
-              "displayName": "Số nhóm đủ cặp"
+              "displayName": "Số nhóm đối tác"
             }
           ]
         }

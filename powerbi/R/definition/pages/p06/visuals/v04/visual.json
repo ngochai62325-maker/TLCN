@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Giá trị báo cáo (USD)'"
+                  "Value": "'Giá trị xuất khẩu'"
                 }
               }
             },
@@ -99,7 +99,7 @@
                 }
               },
               "queryRef": "Overview.Trade Value Display",
-              "displayName": "Giá trị báo cáo (USD)"
+              "displayName": "Giá trị xuất khẩu"
             }
           ]
         }

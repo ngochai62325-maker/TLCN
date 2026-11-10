@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v08",
   "position": {
-    "x": 844,
-    "y": 404,
+    "x": 638,
+    "y": 192,
     "z": 8,
-    "width": 404,
-    "height": 215,
+    "width": 610,
+    "height": 195,
     "tabOrder": 8
   },
   "visual": {
-    "visualType": "tableEx",
+    "visualType": "lineChart",
     "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Chẩn đoán coverage trong phạm vi chọn'"
+                  "Value": "'Benchmark giá gạo World Bank (USD/tấn)'"
                 }
               }
             },
@@ -85,7 +85,43 @@
     },
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BenchmarkMonth"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "BenchmarkMonth.Date",
+              "displayName": "Tháng"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WB"
+                    }
+                  },
+                  "Property": "series_code"
+                }
+              },
+              "queryRef": "WB.series_code",
+              "displayName": "Chuỗi giá"
+            }
+          ]
+        },
+        "Y": {
           "projections": [
             {
               "field": {
@@ -95,11 +131,29 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "WB Numeric Months"
+                  "Property": "WB Price"
                 }
               },
-              "queryRef": "Overview.WB Numeric Months",
-              "displayName": "Tháng có số"
+              "queryRef": "Overview.WB Price",
+              "displayName": "USD/tấn"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "WB MoM"
+                }
+              },
+              "queryRef": "Overview.WB MoM",
+              "displayName": "MoM"
             },
             {
               "field": {
@@ -109,11 +163,11 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "WB Absent Months"
+                  "Property": "WB Peak"
                 }
               },
-              "queryRef": "Overview.WB Absent Months",
-              "displayName": "Tháng vắng quan sát"
+              "queryRef": "Overview.WB Peak",
+              "displayName": "Đỉnh phạm vi"
             },
             {
               "field": {
@@ -123,11 +177,11 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "Domestic Quoted Dates"
+                  "Property": "WB Minimum"
                 }
               },
-              "queryRef": "Overview.Domestic Quoted Dates",
-              "displayName": "Ngày có quote"
+              "queryRef": "Overview.WB Minimum",
+              "displayName": "Đáy phạm vi"
             }
           ]
         }

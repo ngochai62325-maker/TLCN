@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v06",
   "position": {
-    "x": 638,
-    "y": 192,
+    "x": 944,
+    "y": 120,
     "z": 6,
-    "width": 610,
-    "height": 195,
+    "width": 304,
+    "height": 72,
     "tabOrder": 6
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "slicer",
     "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Quote An Giang IR50404 (VND/kg)'"
+                  "Value": "'Thị trường nội địa VN'"
                 }
               }
             },
@@ -85,43 +85,60 @@
     },
     "query": {
       "queryState": {
-        "Category": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "QuoteDate"
+                      "Entity": "VNQuote"
                     }
                   },
-                  "Property": "Date"
+                  "Property": "market"
                 }
               },
-              "queryRef": "QuoteDate.Date",
-              "displayName": "Ngày"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "Domestic Quote"
-                }
-              },
-              "queryRef": "Overview.Domestic Quote",
-              "displayName": "VND/kg"
+              "queryRef": "VNQuote.market",
+              "displayName": "Thị trường"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "selection": [
+        {
+          "properties": {
+            "singleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "selectAllCheckboxEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

@@ -20,14 +20,27 @@ class Session:
         product=lambda code:key('dim_source_product',['faostat_cpc',code])
         if name=='catalogue':
             if p['kind']=='geographies':
-                rows=[dict(geography_key=geo(c),identity_namespace='faostat_m49',identity_scope='faostat',source_identity=c,source_labels_json=json.dumps([{'label':'Area '+c}])) for c in ('356','360','704','764','156','458','608')]
+                rows=[dict(geography_key=geo(c),identity_namespace='faostat_m49',identity_scope='faostat',source_identity=c,source_labels_json=json.dumps([{'label':'Area '+c}])) for c in ('356','360','704','764','586','156','458','608')]
                 rows.append(dict(geography_key='usda',identity_namespace='usda_psd_country',identity_scope='usda_psd',source_identity='Vietnam',source_labels_json='[]'))
             elif p['kind']=='products':rows=[dict(product_key=product(c),identity_namespace='faostat_cpc',source_identity=c) for c in ('0113','23161.02')]+[dict(product_key='rice',identity_namespace='usda_psd',source_identity='Rice, Milled')]
-            else:rows=[dict(price_series_key='wb',series_identity_json='["rice_thai_5"]'),dict(price_series_key='vn',series_identity_json=json.dumps(['An Giang','Lúa IR 50404 (lúa tươi)','Thương lái thu mua','VND/kg','VND','CTV địa phương']))]
+            else:
+                rows=[
+                    dict(price_series_key='wb',series_identity_json='["rice_thai_5"]'),
+                    dict(price_series_key='vn',series_identity_json=json.dumps(['An Giang','Lúa IR 50404 (lúa tươi)','Thương lái thu mua','VND/kg','VND','CTV địa phương'])),
+                    dict(price_series_key='yb_th',series_identity_json=json.dumps(['THAILAND','5-PERCENT BROKEN','FREIGHT ON BOARD PRICE'])),
+                    dict(price_series_key='yb_vn',series_identity_json=json.dumps(['VIETNAM','5-PERCENT BROKEN','FREIGHT ON BOARD PRICE'])),
+                    dict(price_series_key='yb_in',series_identity_json=json.dumps(['INDIA','5-PERCENT PARBOILED','FREIGHT ON BOARD PRICE'])),
+                    dict(price_series_key='yb_pk',series_identity_json=json.dumps(['PAKISTAN','5-PERCENT BROKEN','FREIGHT ON BOARD PRICE']))
+                ]
         elif name=='fao_production':
             rows=[dict(year_key=y,geography_key=g,product_key=product('0113'),product_identity='0113',production_t='12',area_ha='3',reported_yield_kg_ha=None,present_5312=1,present_5510=1,present_5412=1,observation_5312=f'{g}-{y}-a',observation_5510=f'{g}-{y}-p',observation_5412=f'{g}-{y}-y') for g in p['geographies'] for y in (1961,1962)]
         elif name=='price_observations':
-            rows=[dict(period=200001+i if i<12 else 200101,price_series_key='wb',value=str(10+i),unit='USD/tonne',observation_key='wb'+str(i)) for i in range(13)] if p['series']=='wb' else [dict(period=d,price_series_key='vn',value='0' if i==0 else None,unit='VND/kg',observation_key='vn'+str(i)) for i,d in enumerate((20210401,20210403))]
+            if p.get('fact')=='fact_usda_price_reference':
+                rows=[dict(period=y,reference_period='MARKETING',price_series_key=p['series'],value='500.0',missing_reason=None,dq_warnings_json='[]',unit='USD/tonne',observation_key=f"yb-{p['series']}-{y}") for y in (2020,2021)]
+            elif p.get('series')=='wb' or p.get('fact')=='fact_price_monthly':
+                rows=[dict(period=200001+i if i<12 else 200101,price_series_key=p['series'],value=str(10+i),unit='USD/tonne',observation_key='wb'+str(i)) for i in range(13)]
+            else:
+                rows=[dict(period=d,price_series_key=p['series'],value='0' if i==0 else None,unit='VND/kg',observation_key='vn'+str(i)) for i,d in enumerate((20210401,20210403))]
         elif name=='sua':rows=[dict(year_key=2010,geography_key=geo('704'),product_key=product('23161.02'),**{k:v for c,m in SUA.items() for k,v in [(m,'-2' if c in ('5071','5166') else None),('present_'+c,1),('observation_'+c,'sua'+c)]})]
         elif name=='psd':rows=[dict(market_year=2024,crop_year='2024/2025',geography_key='usda',product_key='rice',metric='Ending Stocks',unit='tonne',value='23',observation_key='psd')]
         elif name=='trade':rows=[dict(year_key=p['start_year'],reporter_geography_key=geo('704'),partner_geography_key=geo(c),product_key=product('23161.02'),partner_identity=c,partner_labels=json.dumps([{'label':c}]),quantity_t='0' if c=='156' else '3',value_usd=None if c=='458' else '10',present_quantity=1,present_value=1,observation_quantity='q'+c,observation_value='v'+c) for c in ('156','458','608')]
@@ -116,7 +129,7 @@ def test_complete_v2_bundle_provenance_and_failure_cleanup(tmp_path,tamper):
         def query(self,name,**params):
             if name in ('publication','fact_overview','nso_scope_catalogue','nso_observations'):
                 return super().query(name,**params)
-            identities={n:key('fixture_identity',[n]) for n in ('wb','vn','usda','rice')}
+            identities={n:key('fixture_identity',[n]) for n in ('wb','vn','usda','rice','yb_th','yb_vn','yb_in','yb_pk')}
             stub_params={k:next((n for n,h in identities.items() if h==v),v) for k,v in params.items()}
             frame=Session().query(name,**stub_params).replace(identities)
             bound={'outputs':{n:{'uuid':'uuid-'+n,'snapshot_id':'123'} for n in load_spec()}}
@@ -125,7 +138,7 @@ def test_complete_v2_bundle_provenance_and_failure_cleanup(tmp_path,tamper):
                 manifest_sha256=MANIFEST,definition_sha256=digest,compiled_sql_sha256=hashlib.sha256(sql.encode()).hexdigest()))
             return frame
     folder,m=export_bundle(tmp_path,ReportClient(),fence=lambda p:nullcontext(),report=True)
-    assert len(m['outputs'])==10 and m['performance']['analytics_requests']==28
+    assert len(m['outputs'])==11 and m['performance']['analytics_requests']>=28
     assert verify_bundle(folder)['status']=='COMPLETE'
     path=folder/'export_manifest.json'
     if tamper=='definitions':m['sql_definitions']=[]

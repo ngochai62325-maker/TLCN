@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v05",
   "position": {
-    "x": 32,
-    "y": 192,
+    "x": 638,
+    "y": 120,
     "z": 5,
-    "width": 590,
-    "height": 195,
+    "width": 290,
+    "height": 72,
     "tabOrder": 5
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "slicer",
     "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Benchmark gạo Thái 5% (USD/tấn)'"
+                  "Value": "'Chuỗi giá World Bank'"
                 }
               }
             },
@@ -85,89 +85,60 @@
     },
     "query": {
       "queryState": {
-        "Category": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "BenchmarkMonth"
+                      "Entity": "WB"
                     }
                   },
-                  "Property": "Date"
+                  "Property": "series_code"
                 }
               },
-              "queryRef": "BenchmarkMonth.Date",
-              "displayName": "Tháng"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "WB Price"
-                }
-              },
-              "queryRef": "Overview.WB Price",
-              "displayName": "USD/tấn"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "WB MoM"
-                }
-              },
-              "queryRef": "Overview.WB MoM",
-              "displayName": "MoM"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "WB Peak"
-                }
-              },
-              "queryRef": "Overview.WB Peak",
-              "displayName": "Đỉnh phạm vi"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "WB Minimum"
-                }
-              },
-              "queryRef": "Overview.WB Minimum",
-              "displayName": "Đáy phạm vi"
+              "queryRef": "WB.series_code",
+              "displayName": "Chuỗi giá WB"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "selection": [
+        {
+          "properties": {
+            "singleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "selectAllCheckboxEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

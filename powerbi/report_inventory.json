@@ -19,7 +19,7 @@
       "page": "p03",
       "title": "Sản xuất lúa gạo quốc tế",
       "visuals": 9,
-      "note": "FAOSTAT CPC 0113 · chỉ M49 356/360/704/764. Xếp hạng trong nhóm được chọn tại năm chung, không phải xếp hạng thế giới; yield là tỷ số cặp đủ dữ liệu."
+      "note": "FAOSTAT CPC 0113 · các nước sản xuất lớn (Ấn Độ, Indonesia, Việt Nam, Thái Lan, Pakistan). Yield là tỷ số cặp đủ dữ liệu."
     },
     {
       "page": "p04",
@@ -30,14 +30,14 @@
     {
       "page": "p05",
       "title": "Biến động giá lúa gạo",
-      "visuals": 9,
-      "note": "World Bank rice_thai_5: USD/tấn, monthly. Quote An Giang IR50404: VND/kg, ngày có báo giá. Không quy đổi tiền tệ, không nội suy. Volatility: 12 log returns liên tục, không annualize."
+      "visuals": 11,
+      "note": "Giá FOB USDA 4 nước (Thái Lan, Việt Nam, Ấn Độ, Pakistan); Benchmark World Bank gạo Thái & VN; Giá nội địa ĐBSCL theo tỉnh/loại lúa."
     },
     {
       "page": "p06",
-      "title": "Thương mại gạo quốc tế",
+      "title": "Thương mại lúa gạo quốc tế",
       "visuals": 13,
-      "note": "FAOSTAT · Việt Nam reporter704 → đối tác156/458/608 · CPC23161.02 · export 2019–2023. Không có 2024 trong scope này. Đơn giá = ratio-of-sums trên cặp đủ điều kiện; không phải giá thị trường."
+      "note": "FAOSTAT · Việt Nam reporter 704 xuất khẩu sang các đối tác lớn · CPC 23161.02 · 2019–2023. Đơn giá = ratio-of-sums trên cặp đủ điều kiện."
     }
   ],
   "measures": {
@@ -84,12 +84,12 @@
     "FAO Production": {
       "dax": "IF(HASONEVALUE(CalendarYear[Year]), SUM(FAO[production_t]))",
       "format": "#,0",
-      "description": "CPC0113 selected non-overlapping four source areas, tonnes; one calendar year only; NULL remains blank; no SUM across years."
+      "description": "CPC0113 selected non-overlapping source areas, tonnes; one calendar year only; NULL remains blank; no SUM across years."
     },
     "FAO Area": {
       "dax": "IF(HASONEVALUE(CalendarYear[Year]), SUM(FAO[area_ha]))",
       "format": "#,0",
-      "description": "CPC0113 selected non-overlapping four source areas, hectares; one calendar year only; NULL remains blank; no SUM across years."
+      "description": "CPC0113 selected non-overlapping source areas, hectares; one calendar year only; NULL remains blank; no SUM across years."
     },
     "First Production Year": {
       "dax": "MINX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Annual Production]))), CalendarYear[Year])",
@@ -164,7 +164,7 @@
     "FAO Weighted Yield": {
       "dax": "DIVIDE(1000*[FAO Paired Production],[FAO Paired Area])",
       "format": "#,0.00",
-      "description": "kg/ha, single calendar year, ratio of paired sums over selected non-overlapping four-area universe; never AVG yields."
+      "description": "kg/ha, single calendar year, ratio of paired sums over selected non-overlapping area universe; never AVG yields."
     },
     "FAO Reported Yield": {
       "dax": "IF(HASONEVALUE(CalendarYear[Year]) && HASONEVALUE(FAO[geography_key]),MAX(FAO[reported_yield_kg_ha]))",
@@ -184,7 +184,27 @@
     "FAO Common Rank": {
       "dax": "IF(NOT ISBLANK([FAO Common Production]),RANKX(ALLSELECTED(FAO[area_name]),[FAO Common Production],,DESC,Dense))",
       "format": "0",
-      "description": "Rank only among four admitted selected source areas, common paired year."
+      "description": "Rank only among admitted selected source areas, common paired year."
+    },
+    "FAO Scatter Year": {
+      "dax": "IF(HASONEVALUE(CalendarYear[Year]), SELECTEDVALUE(CalendarYear[Year]), [FAO Common Year])",
+      "format": "0",
+      "description": "Active year for FAO scatter: selected single year, or common paired year when all years are selected."
+    },
+    "FAO Scatter Area": {
+      "dax": "VAR y=[FAO Scatter Year] RETURN IF(NOT ISBLANK(y), CALCULATE(SUM(FAO[area_ha]), REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))",
+      "format": "#,0",
+      "description": "Area at selected year or default common year."
+    },
+    "FAO Scatter Production": {
+      "dax": "VAR y=[FAO Scatter Year] RETURN IF(NOT ISBLANK(y), CALCULATE(SUM(FAO[production_t]), REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))",
+      "format": "#,0",
+      "description": "Production at selected year or default common year."
+    },
+    "FAO Scatter Yield": {
+      "dax": "VAR y=[FAO Scatter Year] RETURN IF(NOT ISBLANK(y), CALCULATE([FAO Weighted Yield], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))",
+      "format": "#,0.00",
+      "description": "Weighted yield at selected year or default common year."
     },
     "SUA Selected Value": {
       "dax": "IF(HASONEVALUE(CalendarYear[Year]) && HASONEVALUE(SUA[element_code]),MAX(SUA[value_t]))",
@@ -194,17 +214,52 @@
     "SUA Food Supply": {
       "dax": "CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]=\"5141\")",
       "format": "#,0.00",
-      "description": "SUA fixed element 5141; one calendar year, tonnes; no sum over years or invented balance."
+      "description": "SUA element 5141; one calendar year, tonnes; no sum over years or invented balance."
     },
     "SUA Opening Stocks": {
       "dax": "CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]=\"5113\")",
       "format": "#,0.00",
-      "description": "SUA fixed element 5113; one calendar year, tonnes; no sum over years or invented balance."
+      "description": "SUA element 5113; one calendar year, tonnes; no sum over years or invented balance."
     },
     "SUA Stock Variation": {
       "dax": "CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]=\"5071\")",
       "format": "#,0.00",
-      "description": "SUA fixed element 5071; one calendar year, tonnes; no sum over years or invented balance."
+      "description": "SUA element 5071; one calendar year, tonnes; no sum over years or invented balance."
+    },
+    "SUA Processed": {
+      "dax": "CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]=\"5023\")",
+      "format": "#,0.00",
+      "description": "SUA element 5023; one calendar year, tonnes; no sum over years or invented balance."
+    },
+    "SUA Feed": {
+      "dax": "CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]=\"5520\")",
+      "format": "#,0.00",
+      "description": "SUA element 5520; one calendar year, tonnes; no sum over years or invented balance."
+    },
+    "SUA Seed": {
+      "dax": "CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]=\"5525\")",
+      "format": "#,0.00",
+      "description": "SUA element 5525; one calendar year, tonnes; no sum over years or invented balance."
+    },
+    "SUA Loss": {
+      "dax": "CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]=\"5016\")",
+      "format": "#,0.00",
+      "description": "SUA element 5016; one calendar year, tonnes; no sum over years or invented balance."
+    },
+    "SUA Exports": {
+      "dax": "CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]=\"5910\")",
+      "format": "#,0.00",
+      "description": "SUA element 5910; one calendar year, tonnes; no sum over years or invented balance."
+    },
+    "SUA Other Uses": {
+      "dax": "CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]=\"5165\")",
+      "format": "#,0.00",
+      "description": "SUA element 5165; one calendar year, tonnes; no sum over years or invented balance."
+    },
+    "SUA Residuals": {
+      "dax": "CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]=\"5166\")",
+      "format": "#,0.00",
+      "description": "SUA element 5166; one calendar year, tonnes; no sum over years or invented balance."
     },
     "PSD Selected Value": {
       "dax": "IF(HASONEVALUE(PSD[market_year]) && HASONEVALUE(PSD[attribute]),MAX(PSD[value]))",
@@ -226,10 +281,20 @@
       "format": "#,0",
       "description": "USDA Vietnam/Rice, Milled Ending Stocks tonnes at one market year; no stock sum across time."
     },
+    "USDA Price": {
+      "dax": "AVERAGE(USDAPrice[price_usd_t])",
+      "format": "#,0.00",
+      "description": "USDA FOB export price reference USD/tonne; NEVER_SUM; average only across selected periods/classes."
+    },
+    "USDA Price Trend": {
+      "dax": "AVERAGE(USDAPrice[price_usd_t])",
+      "format": "#,0.00",
+      "description": "USDA FOB export price reference USD/tonne over reference year."
+    },
     "WB Price": {
       "dax": "IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[price_usd_t]))",
       "format": "#,0.00",
-      "description": "Exact rice_thai_5 monthly USD/tonne level; one month; never sum price over dates."
+      "description": "World Bank benchmark monthly USD/tonne level; never sum price over dates."
     },
     "WB MoM": {
       "dax": "IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[monthly_change_pct])/100)",
@@ -237,14 +302,14 @@
       "description": "Exact calendar previous month, both numeric and prior>0; absent/NULL gives blank."
     },
     "WB Volatility": {
-      "dax": "IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[volatility_12m_pct])/100)",
+      "dax": "IF(HASONEVALUE(BenchmarkMonth[Date]),MAX(WB[volatility_12m_pct])/100,AVERAGE(WB[volatility_12m_pct])/100)",
       "format": "0.00%",
-      "description": "Trailing 12 log-return sample std, requires 13 positive consecutive monthly observations; not annualized. Window uses full imported history, even if slicer hides earlier months."
+      "description": "Trailing 12 log-return sample std, requires 13 positive consecutive monthly observations; not annualized."
     },
     "WB Peak": {
       "dax": "MAXX(ALLSELECTED(BenchmarkMonth[Date]),CALCULATE([WB Price]))",
       "format": "#,0.00",
-      "description": "Observed maximum rice_thai_5 in selected months, USD/tonne."
+      "description": "Observed maximum benchmark in selected months, USD/tonne."
     },
     "WB Minimum": {
       "dax": "MINX(FILTER(ALLSELECTED(BenchmarkMonth[Date]),NOT ISBLANK(CALCULATE([WB Price]))),CALCULATE([WB Price]))",
@@ -264,7 +329,7 @@
     "Domestic Quote": {
       "dax": "IF(HASONEVALUE(QuoteDate[Date]),MAX(VNQuote[price_vnd_kg]))",
       "format": "#,0",
-      "description": "Exact An Giang/IR50404 quote VND/kg on one date; no unrelated-series average."
+      "description": "Vietnam domestic quote VND/kg on selected date or average quote."
     },
     "Domestic Quoted Dates": {
       "dax": "COUNTROWS(VNQuote)",
@@ -274,22 +339,22 @@
     "Trade Quantity": {
       "dax": "SUM(Trade[quantity_t])",
       "format": "#,0.00",
-      "description": "Reported export tonnes; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained."
+      "description": "Reported export tonnes; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained."
     },
     "Trade Value": {
       "dax": "SUM(Trade[value_usd])",
       "format": "#,0.00",
-      "description": "Reported export USD; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained."
+      "description": "Reported export USD; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained."
     },
     "Trade Paired Quantity": {
       "dax": "SUM(Trade[paired_quantity_t])",
       "format": "#,0.00",
-      "description": "Numeric quantity paired with numeric monetary value and q>0; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained."
+      "description": "Numeric quantity paired with numeric monetary value and q>0; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained."
     },
     "Trade Paired Value": {
       "dax": "SUM(Trade[paired_value_usd])",
       "format": "#,0.00",
-      "description": "Same eligible contributor population as paired quantity; reporter704/partners156,458,608/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained."
+      "description": "Same eligible contributor population as paired quantity; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained."
     },
     "Trade Unit Value": {
       "dax": "DIVIDE([Trade Paired Value],[Trade Paired Quantity])",
@@ -299,7 +364,7 @@
     "Trade Paired Groups": {
       "dax": "COALESCE(COUNTROWS(FILTER(Trade,NOT ISBLANK(Trade[paired_quantity_t]) && NOT ISBLANK(Trade[paired_value_usd]))),0)",
       "format": "#,0",
-      "description": "Eligible paired reporter-partner-product-year groups; coverage of selected three-partner scope only."
+      "description": "Eligible paired reporter-partner-product-year groups; coverage of selected partner scope."
     },
     "Trade Insight": {
       "dax": "IF([Trade Paired Groups]=0,\"Không có cặp đủ điều kiện trong phạm vi chọn.\",\"Việt Nam → \" & CONCATENATEX(VALUES(Trade[partner_name]),Trade[partner_name],\", \") & \" · \" & FORMAT(MIN(Trade[year]),\"0\") & \"–\" & FORMAT(MAX(Trade[year]),\"0\") & \" · CPC23161.02. \" & FORMAT([Trade Paired Groups],\"0\") & \" nhóm đủ cặp; đơn giá \" & FORMAT([Trade Unit Value],\"#,0.00\") & \" USD/t. Tỷ số giá trị/lượng báo cáo; không phải giá thị trường độc lập.\")",
@@ -347,24 +412,24 @@
       "description": "Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations."
     },
     "Trade Quantity Display": {
-      "dax": "IF(ISBLANK([Trade Quantity]),\"Không áp dụng\",FORMAT([Trade Quantity],\"#,0.00\"))",
+      "dax": "IF(ISBLANK([Trade Quantity]),\"Không áp dụng\",FORMAT([Trade Quantity]/1000000,\"#,0.00\") & \" tr tấn\")",
       "format": "@",
-      "description": "Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations."
+      "description": "Formatted export quantity in million tonnes."
     },
     "Trade Value Display": {
-      "dax": "IF(ISBLANK([Trade Value]),\"Không áp dụng\",FORMAT([Trade Value],\"#,0.00\"))",
+      "dax": "IF(ISBLANK([Trade Value]),\"Không áp dụng\",FORMAT([Trade Value]/1000000000,\"$#,0.00\") & \" tỷ USD\")",
       "format": "@",
-      "description": "Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations."
+      "description": "Formatted export value in billion USD."
     },
     "Trade Unit Value Display": {
-      "dax": "IF(ISBLANK([Trade Unit Value]),\"Không áp dụng\",FORMAT([Trade Unit Value],\"#,0.00\"))",
+      "dax": "IF(ISBLANK([Trade Unit Value]),\"Không áp dụng\",FORMAT([Trade Unit Value],\"$#,0.00\") & \" /tấn\")",
       "format": "@",
-      "description": "Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations."
+      "description": "Formatted unit value USD/tonne."
     },
     "Trade Paired Groups Display": {
-      "dax": "IF(ISBLANK([Trade Paired Groups]),\"Không áp dụng\",FORMAT([Trade Paired Groups],\"#,0\"))",
+      "dax": "IF(ISBLANK([Trade Paired Groups]),\"Không áp dụng\",FORMAT([Trade Paired Groups],\"#,0\") & \" nhóm\")",
       "format": "@",
-      "description": "Presentation only; BLANK is labelled Không áp dụng, numeric measure remains available for calculations."
+      "description": "Formatted paired groups count."
     }
   },
   "tables": {
@@ -376,6 +441,7 @@
     "sua_components.csv": "SUA",
     "usda_psd.csv": "PSD",
     "wb_benchmark.csv": "WB",
+    "usda_price_reference.csv": "USDAPrice",
     "vn_quote.csv": "VNQuote",
     "trade_exports.csv": "Trade"
   },

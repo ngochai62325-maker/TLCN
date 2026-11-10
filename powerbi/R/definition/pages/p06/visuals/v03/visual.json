@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Lượng báo cáo (tấn)'"
+                  "Value": "'Lượng xuất khẩu'"
                 }
               }
             },
@@ -99,7 +99,7 @@
                 }
               },
               "queryRef": "Overview.Trade Quantity Display",
-              "displayName": "Lượng báo cáo (tấn)"
+              "displayName": "Lượng xuất khẩu"
             }
           ]
         }

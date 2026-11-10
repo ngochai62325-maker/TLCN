@@ -1,2 +1,2 @@
-expression ExportFolder = "C:\Users\hoang\source\repos\final term\tieu luan chuyen nganh\source\nhanh2\TLCN\exports\powerbi\ec421297c194_20261106T031815Z_01d03710" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+expression ExportFolder = "C:\Windows_Application\TLCN\exports\powerbi\ec421297c194_20261106T031815Z_01d03710" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	kind: m

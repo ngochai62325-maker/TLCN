@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "World Bank rice_thai_5: USD/tấn, monthly. Quote An Giang IR50404: VND/kg, ngày có báo giá. Không quy đổi tiền tệ, không nội suy. Volatility: 12 log returns liên tục, không annualize. · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "Giá FOB USDA 4 nước (Thái Lan, Việt Nam, Ấn Độ, Pakistan); Benchmark World Bank gạo Thái & VN; Giá nội địa ĐBSCL theo tỉnh/loại lúa. · Batch ec421297c194 · Export 2026-11-06",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

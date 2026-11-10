@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'SUA: lượng cung cấp thực phẩm (tấn)'"
+                  "Value": "'SUA: Tiêu thụ thực phẩm & chế biến (tấn)'"
                 }
               }
             },
@@ -117,7 +117,63 @@
                 }
               },
               "queryRef": "Overview.SUA Food Supply",
-              "displayName": "Tấn"
+              "displayName": "Thực phẩm"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "SUA Processed"
+                }
+              },
+              "queryRef": "Overview.SUA Processed",
+              "displayName": "Chế biến"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "SUA Loss"
+                }
+              },
+              "queryRef": "Overview.SUA Loss",
+              "displayName": "Hao hụt"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "SUA Feed"
+                }
+              },
+              "queryRef": "Overview.SUA Feed",
+              "displayName": "Thức ăn"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "SUA Seed"
+                }
+              },
+              "queryRef": "Overview.SUA Seed",
+              "displayName": "Giống"
             }
           ]
         }

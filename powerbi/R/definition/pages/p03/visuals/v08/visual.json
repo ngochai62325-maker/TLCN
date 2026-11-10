@@ -26,7 +26,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Diện tích và sản lượng · chọn một năm'"
+                  "Value": "'Diện tích và sản lượng · năm chọn hoặc năm chung'"
                 }
               }
             },
@@ -113,10 +113,10 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "FAO Area"
+                  "Property": "FAO Scatter Area"
                 }
               },
-              "queryRef": "Overview.FAO Area",
+              "queryRef": "Overview.FAO Scatter Area",
               "displayName": "Diện tích ha"
             }
           ]
@@ -131,10 +131,10 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "FAO Production"
+                  "Property": "FAO Scatter Production"
                 }
               },
-              "queryRef": "Overview.FAO Production",
+              "queryRef": "Overview.FAO Scatter Production",
               "displayName": "Sản lượng tấn"
             }
           ]
@@ -149,11 +149,29 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "FAO Weighted Yield"
+                  "Property": "FAO Scatter Yield"
                 }
               },
-              "queryRef": "Overview.FAO Weighted Yield",
+              "queryRef": "Overview.FAO Scatter Yield",
               "displayName": "Năng suất kg/ha"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "FAO Scatter Year"
+                }
+              },
+              "queryRef": "Overview.FAO Scatter Year",
+              "displayName": "Năm"
             }
           ]
         }
