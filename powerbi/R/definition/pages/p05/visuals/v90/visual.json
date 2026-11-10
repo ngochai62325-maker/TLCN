@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Giá FOB USDA 4 nước theo phẩm cấp; Benchmark World Bank gạo Thái & VN; Giá nội địa ĐBSCL theo tỉnh và giống lúa. · Dữ liệu Giá lúa gạo: World Bank 01/2000–12/2025 · USDA FOB 1985–2025 · Giá nội địa ĐBSCL 04/01/2021–03/08/2026 · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "Nguồn & Mốc mới nhất: World Bank (12/2025), USDA FOB (2025), Giá nội địa ĐBSCL (03/08/2026) · Batch: ec421297c194 · Export: 2026-11-06",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

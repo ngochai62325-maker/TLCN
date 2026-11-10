@@ -1,16 +1,88 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v06",
   "position": {
     "x": 638,
-    "y": 185,
+    "y": 180,
     "z": 6,
-    "height": 205,
     "width": 610,
+    "height": 195,
     "tabOrder": 6
   },
   "visual": {
     "visualType": "lineChart",
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17342F'"
+                    }
+                  }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Gạo xay xát] USDA PSD · Niên vụ: Sản xuất và tiêu dùng (triệu tấn, MY)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "query": {
       "queryState": {
         "Category": {
@@ -27,7 +99,6 @@
                 }
               },
               "queryRef": "PSD.market_year",
-              "active": true,
               "displayName": "Niên vụ"
             }
           ]
@@ -42,10 +113,10 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "PSD Production"
+                  "Property": "PSD Production Mil"
                 }
               },
-              "queryRef": "Overview.PSD Production",
+              "queryRef": "Overview.PSD Production Mil",
               "displayName": "Sản xuất"
             },
             {
@@ -56,10 +127,10 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "PSD Consumption"
+                  "Property": "PSD Consumption Mil"
                 }
               },
-              "queryRef": "Overview.PSD Consumption",
+              "queryRef": "Overview.PSD Consumption Mil",
               "displayName": "Tiêu dùng"
             }
           ]
@@ -110,72 +181,8 @@
                   "Value": "1D"
                 }
               }
-            }
-          }
-        }
-      ]
-    },
-    "visualContainerObjects": {
-      "title": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
             },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "12D"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#17342F'"
-                    }
-                  }
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'[Gạo xay xát] USDA PSD: Sản xuất và tiêu dùng (tấn, MY)'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "background": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FFFFFF'"
-                    }
-                  }
-                }
-              }
-            },
-            "transparency": {
+            "start": {
               "expr": {
                 "Literal": {
                   "Value": "0D"
@@ -185,7 +192,6 @@
           }
         }
       ]
-    },
-    "drillFilterOtherVisuals": true
+    }
   }
 }

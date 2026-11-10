@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Từ Gold đã publish · 9 Fact tables · Present-NULL là quan sát có giá trị thiếu. Bảng Fact sắp xếp theo %NULL giảm dần. · Dữ liệu Gold toàn hệ thống: 9 Fact tables · 1.414.527 quan sát · Khung thời gian: 1960–2025 · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "Nguồn dữ liệu: Tổng hợp 9 bảng Fact lớp Gold (GSO, FAOSTAT, USDA, World Bank, ĐBSCL) · Mốc dữ liệu mới nhất: 03/08/2026 · Batch: ec421297c194 · Export: 2026-11-06",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

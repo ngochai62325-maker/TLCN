@@ -165,19 +165,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Annual Production"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Sản lượng": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.annual_area": {
 			      "Definition": {
@@ -186,19 +174,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Annual Area"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Diện tích": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.reported_yield": {
 			      "Definition": {
@@ -228,19 +204,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Seasonal Production"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Tấn": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.nso_insight": {
 			      "Definition": {
@@ -249,19 +213,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "NSO Insight"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Nhận xét": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.fao_production": {
 			      "Definition": {
@@ -300,19 +252,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "FAO Common Production"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Tấn": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.fao_common_year": {
 			      "Definition": {
@@ -372,19 +312,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "SUA Food Supply"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Thực phẩm": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.psd_production": {
 			      "Definition": {
@@ -393,19 +321,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "PSD Production"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Sản xuất": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.psd_consumption": {
 			      "Definition": {
@@ -414,19 +330,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "PSD Consumption"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Tiêu dùng": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.sua_opening_stocks": {
 			      "Definition": {
@@ -435,19 +339,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "SUA Opening Stocks"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Tồn đầu kỳ": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.sua_stock_variation": {
 			      "Definition": {
@@ -456,19 +348,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "SUA Stock Variation"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Biến động tồn": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.psd_ending_stocks": {
 			      "Definition": {
@@ -477,19 +357,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "PSD Ending Stocks"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Tồn cuối kỳ": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.psd_selected_value": {
 			      "Definition": {
@@ -591,19 +459,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Domestic Quote"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "VND/kg": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.wb_volatility": {
 			      "Definition": {
@@ -612,19 +468,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "WB Volatility"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Volatility 12M": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.wb_numeric_months": {
 			      "Definition": {
@@ -660,19 +504,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Trade Quantity"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Tấn": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.trade_value": {
 			      "Definition": {
@@ -681,19 +513,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Trade Value"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "USD": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.trade_unit_value": {
 			      "Definition": {
@@ -732,19 +552,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Trade Insight"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Nhận xét": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "calendaryear.year": {
 			      "Definition": {
@@ -1032,7 +840,7 @@ cultureInfo vi-VN
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "[Gạo xay xát] XK cộng dồn 2019–2023": {
+			          "[Gạo xay xát] XK 7 đối tác (2019–2023)": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -1071,7 +879,19 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Trade Unit Value Display"
 			        }
 			      },
-			      "State": "Generated"
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "[Gạo xay xát] Đơn giá bình quân": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    },
 			    "overview.trade_paired_groups_display": {
 			      "Definition": {
@@ -1083,7 +903,7 @@ cultureInfo vi-VN
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "[Gạo xay xát] Số cặp đối tác–năm": {
+			          "[Gạo xay xát] Cặp đối tác–năm": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -1101,19 +921,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "FAO Scatter Area"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Diện tích ha": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.fao_scatter_production": {
 			      "Definition": {
@@ -1122,19 +930,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "FAO Scatter Production"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Sản lượng tấn": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.fao_scatter_yield": {
 			      "Definition": {
@@ -1185,19 +981,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "SUA Processed"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Chế biến": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.sua_loss": {
 			      "Definition": {
@@ -1233,19 +1017,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "SUA Residuals"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Sai số thống kê (residual)": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.usda_price": {
 			      "Definition": {
@@ -1254,19 +1026,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "USDA Price"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "USD/tấn": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "usdaprice.location": {
 			      "Definition": {
@@ -1377,19 +1137,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Highest Null Fact Display"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Fact khuyết cao nhất": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.fact_name_vi": {
 			      "Definition": {
@@ -1629,19 +1377,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Latest WB Price Display"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Giá WB mới nhất (chuỗi đang chọn)": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.wb_peak_display": {
 			      "Definition": {
@@ -1650,19 +1386,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "WB Peak Display"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Đỉnh giá WB (toàn chuỗi)": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.wb_minimum_display": {
 			      "Definition": {
@@ -1671,19 +1395,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "WB Minimum Display"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Đáy giá WB (toàn chuỗi)": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.trade_partners_display": {
 			      "Definition": {
@@ -1853,6 +1565,510 @@ cultureInfo vi-VN
 			      "Terms": [
 			        {
 			          "Đối tác": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.highest_null_fact_pct_display": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Highest Null Fact Pct Display"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Fact khuyết cao nhất: USDA · Giá XK tham chiếu": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.annual_production_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Annual Production Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Sản lượng": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.annual_area_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Annual Area Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Diện tích": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.seasonal_production_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Seasonal Production Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Triệu tấn": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.fao_common_production_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "FAO Common Production Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Triệu tấn": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.fao_scatter_area_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "FAO Scatter Area Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Diện tích triệu ha": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.fao_scatter_production_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "FAO Scatter Production Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Sản lượng triệu tấn": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.sua_food_supply_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "SUA Food Supply Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Thực phẩm": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.sua_processed_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "SUA Processed Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Chế biến": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.psd_production_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "PSD Production Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Sản xuất": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.psd_consumption_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "PSD Consumption Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tiêu dùng": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.sua_opening_stocks_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "SUA Opening Stocks Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tồn đầu kỳ": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.sua_stock_variation_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "SUA Stock Variation Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Biến động tồn": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.sua_residuals_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "SUA Residuals Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Sai số thống kê (residual)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.psd_ending_stocks_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "PSD Ending Stocks Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tồn cuối kỳ": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.latest_wb_thai_5_display": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Latest WB Thai 5 Display"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "[Gạo xay xát] Giá Thái 5% mới nhất": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.latest_wb_vn_5_display": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Latest WB VN 5 Display"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "[Gạo xay xát] Giá Việt Nam 5% mới nhất": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.wb_spread_vn5_vs_thai5_display": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "WB Spread VN5 vs Thai5 Display"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "[Gạo xay xát] Chênh lệch VN 5% − Thái 5%": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.usda_fob_chart_price": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "USDA FOB Chart Price"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "USD/tấn": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.domestic_quote_chart_price": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Domestic Quote Chart Price"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "VND/kg": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.wb_mom_comparison": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "WB MoM Comparison"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "MoM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.wb_volatility_comparison": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "WB Volatility Comparison"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Volatility 12M": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.trade_quantity_mil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Trade Quantity Mil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Triệu tấn": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.trade_value_bil": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Trade Value Bil"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tỷ USD": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

@@ -1,16 +1,88 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v05",
   "position": {
     "x": 32,
-    "y": 185,
+    "y": 180,
     "z": 5,
-    "height": 205,
     "width": 590,
+    "height": 195,
     "tabOrder": 5
   },
   "visual": {
     "visualType": "lineChart",
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17342F'"
+                    }
+                  }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Gạo xay xát] FAOSTAT SUA · Năm dương lịch: Tiêu thụ thực phẩm & chế biến (triệu tấn)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "query": {
       "queryState": {
         "Category": {
@@ -27,7 +99,6 @@
                 }
               },
               "queryRef": "CalendarYear.Year",
-              "active": true,
               "displayName": "Năm"
             }
           ]
@@ -42,10 +113,10 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "SUA Food Supply"
+                  "Property": "SUA Food Supply Mil"
                 }
               },
-              "queryRef": "Overview.SUA Food Supply",
+              "queryRef": "Overview.SUA Food Supply Mil",
               "displayName": "Thực phẩm"
             },
             {
@@ -56,10 +127,10 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "SUA Processed"
+                  "Property": "SUA Processed Mil"
                 }
               },
-              "queryRef": "Overview.SUA Processed",
+              "queryRef": "Overview.SUA Processed Mil",
               "displayName": "Chế biến"
             }
           ]
@@ -110,72 +181,8 @@
                   "Value": "1D"
                 }
               }
-            }
-          }
-        }
-      ]
-    },
-    "visualContainerObjects": {
-      "title": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
             },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "12D"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#17342F'"
-                    }
-                  }
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'[Gạo xay xát] SUA: Tiêu thụ thực phẩm & chế biến (tấn)'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "background": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FFFFFF'"
-                    }
-                  }
-                }
-              }
-            },
-            "transparency": {
+            "start": {
               "expr": {
                 "Literal": {
                   "Value": "0D"
@@ -185,7 +192,6 @@
           }
         }
       ]
-    },
-    "drillFilterOtherVisuals": true
+    }
   }
 }

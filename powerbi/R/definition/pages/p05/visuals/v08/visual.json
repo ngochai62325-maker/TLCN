@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Đỉnh giá WB (toàn chuỗi)'"
+                  "Value": "'[Gạo xay xát] Giá Việt Nam 5% mới nhất'"
                 }
               }
             }
@@ -95,11 +95,11 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "WB Peak Display"
+                  "Property": "Latest WB VN 5 Display"
                 }
               },
-              "queryRef": "Overview.WB Peak Display",
-              "displayName": "Đỉnh giá WB (toàn chuỗi)"
+              "queryRef": "Overview.Latest WB VN 5 Display",
+              "displayName": "[Gạo xay xát] Giá Việt Nam 5% mới nhất"
             }
           ]
         }
@@ -126,7 +126,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "22D"
+                  "Value": "14D"
                 }
               }
             }

@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v04",
   "position": {
-    "x": 278,
+    "x": 236,
     "y": 118,
     "z": 4,
-    "width": 230,
+    "width": 194,
     "height": 88,
     "tabOrder": 4
   },
@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'[Gạo xay xát] Số cặp đối tác–năm'"
+                  "Value": "'[Gạo xay xát] Cặp đối tác–năm'"
                 }
               }
             }
@@ -99,7 +99,7 @@
                 }
               },
               "queryRef": "Overview.Trade Paired Groups Display",
-              "displayName": "[Gạo xay xát] Số cặp đối tác–năm"
+              "displayName": "[Gạo xay xát] Cặp đối tác–năm"
             }
           ]
         }
@@ -126,7 +126,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "22D"
+                  "Value": "14D"
                 }
               }
             }

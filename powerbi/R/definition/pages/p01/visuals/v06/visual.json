@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Fact khuyết cao nhất'"
+                  "Value": "'Fact khuyết cao nhất: USDA · Giá XK tham chiếu'"
                 }
               }
             }
@@ -95,11 +95,11 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "Highest Null Fact Display"
+                  "Property": "Highest Null Fact Pct Display"
                 }
               },
-              "queryRef": "Overview.Highest Null Fact Display",
-              "displayName": "Fact khuyết cao nhất"
+              "queryRef": "Overview.Highest Null Fact Pct Display",
+              "displayName": "Fact khuyết cao nhất: USDA · Giá XK tham chiếu"
             }
           ]
         }
@@ -126,7 +126,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "22D"
+                  "Value": "20D"
                 }
               }
             }

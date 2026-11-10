@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Giá WB mới nhất (chuỗi đang chọn)'"
+                  "Value": "'[Gạo xay xát] Giá Thái 5% mới nhất'"
                 }
               }
             }
@@ -95,11 +95,11 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "Latest WB Price Display"
+                  "Property": "Latest WB Thai 5 Display"
                 }
               },
-              "queryRef": "Overview.Latest WB Price Display",
-              "displayName": "Giá WB mới nhất (chuỗi đang chọn)"
+              "queryRef": "Overview.Latest WB Thai 5 Display",
+              "displayName": "[Gạo xay xát] Giá Thái 5% mới nhất"
             }
           ]
         }
@@ -126,7 +126,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "22D"
+                  "Value": "14D"
                 }
               }
             }

@@ -1,3 +1,2 @@
-database
-	compatibilityLevel: 1606
-
+database TLCN_Rice_Analytics
+	compatibilityLevel: 1600

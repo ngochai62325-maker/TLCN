@@ -68,7 +68,7 @@ measure('Present NULL', 'SUM(Overview[present_null_rows])', '#,0', 'Số quan s�
 measure('Numeric Coverage', 'DIVIDE([Numeric Observations], [Total Observations])', '0.00%', 'Tỷ lệ quan sát có số trên tổng quan sát (99,13%).')
 measure('Null Percentage', 'DIVIDE([Present NULL], [Total Observations])', '0.00%', 'Tỷ lệ quan sát khuyết trên tổng quan sát (0,87%).')
 measure('Highest Null Fact Pct', 'MAXX(Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]))', '0.00%', 'Tỷ lệ quan sát khuyết cao nhất trong 9 fact (USDA price reference 34,96%).')
-measure('Highest Null Fact Display', 'VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) VAR pct = MAXX(maxFact, DIVIDE(Overview[present_null_rows], Overview[rows_total])) VAR name = MAXX(maxFact, Overview[fact_name_vi]) RETURN name & ": " & FORMAT(pct, "0.00%")', '@', 'Tên tiếng Việt và tỷ lệ của fact có tỷ lệ khuyết cao nhất.')
+measure('Highest Null Fact Display', 'VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) VAR pct = MAXX(maxFact, DIVIDE(Overview[present_null_rows], Overview[rows_total])) VAR factName = MAXX(maxFact, Overview[fact_name_vi]) RETURN factName & ": " & FORMAT(pct, "0.00%")', '@', 'Tên tiếng Việt và tỷ lệ của fact có tỷ lệ khuyết cao nhất.')
 
 # ==============================================================================
 # PAGE 2: NSO VIETNAM PRODUCTION MEASURES
@@ -144,10 +144,39 @@ for attr, name in [('Production', 'PSD Production'), ('Domestic Consumption', 'P
     measure(name, f'CALCULATE([PSD Selected Value],REMOVEFILTERS(PSD[attribute]),PSD[attribute]="{attr}")', '#,0', 'USDA Vietnam/Rice, Milled ' + attr + ' tonnes at one market year; no stock sum across time.')
 
 # ==============================================================================
+# DISPLAY MEASURES FOR CHARTS (S1: Divided by 1e6 and 1e9 to match axis labels)
+# ==============================================================================
+# Page 2: Vietnam Production Chart Display Measures
+measure('Annual Production Mil', '[Annual Production] / 1000000', '#,0.00', 'Sản lượng lúa cả năm triệu tấn.')
+measure('Annual Area Mil', '[Annual Area] / 1000000', '#,0.00', 'Diện tích lúa cả năm triệu ha.')
+measure('Seasonal Production Mil', '[Seasonal Production] / 1000000', '#,0.00', 'Sản lượng lúa theo vụ triệu tấn.')
+
+# Page 3: International Production Chart Display Measures
+measure('FAO Common Production Mil', '[FAO Common Production] / 1000000', '#,0.0', 'Sản lượng lúa tại năm chung triệu tấn.')
+measure('FAO Scatter Area Mil', '[FAO Scatter Area] / 1000000', '#,0.0', 'Diện tích scatter triệu ha.')
+measure('FAO Scatter Production Mil', '[FAO Scatter Production] / 1000000', '#,0.0', 'Sản lượng scatter triệu tấn.')
+
+# Page 4: SUA & PSD Chart Display Measures
+measure('SUA Food Supply Mil', '[SUA Food Supply] / 1000000', '#,0.00', 'Tiêu thụ thực phẩm triệu tấn.')
+measure('SUA Processed Mil', '[SUA Processed] / 1000000', '#,0.00', 'Chế biến triệu tấn.')
+measure('SUA Opening Stocks Mil', '[SUA Opening Stocks] / 1000000', '#,0.00', 'Tồn kho đầu kỳ triệu tấn.')
+measure('SUA Stock Variation Mil', '[SUA Stock Variation] / 1000000', '#,0.00', 'Biến động tồn kho triệu tấn.')
+measure('SUA Residuals Mil', '[SUA Residuals] / 1000000', '#,0.00', 'Sai số thống kê triệu tấn.')
+measure('PSD Production Mil', '[PSD Production] / 1000000', '#,0.00', 'Sản xuất USDA PSD triệu tấn.')
+measure('PSD Consumption Mil', '[PSD Consumption] / 1000000', '#,0.00', 'Tiêu dùng USDA PSD triệu tấn.')
+measure('PSD Ending Stocks Mil', '[PSD Ending Stocks] / 1000000', '#,0.00', 'Tồn kho cuối kỳ USDA PSD triệu tấn.')
+
+# Page 6: Trade Chart Display Measures
+measure('Trade Quantity Mil', '[Trade Quantity] / 1000000', '#,0.00', 'Lượng xuất khẩu triệu tấn.')
+measure('Trade Value Bil', '[Trade Value] / 1000000000', '#,0.00', 'Giá trị xuất khẩu tỷ USD.')
+
+# ==============================================================================
 # PAGE 5: PRICES MEASURES (World Bank, USDA Price Reference, VN Domestic Quotes)
 # ==============================================================================
 # USDA Price: guard both location and commodity_class
 measure('USDA Price', 'IF(HASONEVALUE(USDAPrice[location]) && HASONEVALUE(USDAPrice[commodity_class]), IF(HASONEVALUE(USDAPrice[reference_year]), AVERAGE(USDAPrice[price_usd_t]), AVERAGE(USDAPrice[price_usd_t])))', '#,0.00', 'USDA FOB export price reference USD/tonne; guardrail: yêu cầu chọn đúng 1 quốc gia và 1 phẩm cấp.')
+measure('USDA FOB Chart Price', 'VAR chosen_class = SELECTEDVALUE(USDAPrice[commodity_class], "5-PERCENT BROKEN") RETURN CALCULATE(AVERAGE(USDAPrice[price_usd_t]), KEEPFILTERS(USDAPrice[commodity_class] = chosen_class))', '#,0.00', 'Giá FOB USDA đối sánh 4 nước (mặc định Gạo 5% tấm nếu chưa chọn).')
+measure('USDA FOB Chart Title', 'VAR chosen_class_vi = SELECTEDVALUE(USDAPrice[commodity_class_vi]) RETURN IF(ISBLANK(chosen_class_vi), "[Gạo xay xát] Giá FOB USDA – Gạo 5% tấm (đối sánh 4 nước) (USD/tấn)", "[Gạo xay xát] Giá FOB USDA – " & chosen_class_vi & " (USD/tấn)")', '@', 'Tiêu đề động biểu đồ giá FOB USDA.')
 
 # WB Price, MoM, Volatility: guard single series and single month
 measure('WB Price', 'IF(HASONEVALUE(WB[series_code]) && HASONEVALUE(BenchmarkMonth[Date]), MAX(WB[price_usd_t]))', '#,0.00', 'World Bank benchmark monthly USD/tonne level; guardrail: yêu cầu đúng 1 chuỗi giá và 1 tháng.')
@@ -165,11 +194,30 @@ measure('Latest WB Price Display', 'IF(ISBLANK([Latest WB Price]), "Chọn 1 chu
 measure('WB Peak Display', 'IF(ISBLANK([WB Peak]), "Chọn 1 chuỗi", FORMAT([WB Peak], "$#,0.00") & " /tấn")', '@', 'Thẻ đỉnh giá WB.')
 measure('WB Minimum Display', 'IF(ISBLANK([WB Minimum]), "Chọn 1 chuỗi", FORMAT([WB Minimum], "$#,0.00") & " /tấn")', '@', 'Thẻ đáy giá WB.')
 measure('WB Numeric Months Display', 'FORMAT([WB Numeric Months], "#,0") & " tháng"', '@', 'Thẻ số tháng có giá WB.')
-measure('WB Volatility Title', '"[Gạo xay xát] Biến động giá World Bank – " & SELECTEDVALUE(WB[series_name_vi], "Gạo Thái 5% tấm") & " (độ lệch chuẩn log-return 12 tháng, chưa annualize)"', '@', 'Tiêu đề động biểu đồ biến động giá WB.')
+
+# S2: Fixed WB Cards (never display "Chọn 1 chuỗi" at "All")
+measure('Latest WB Thai 5 Price', 'VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_thai_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_thai_5", WB[month_date] = m)', '#,0.00', 'Giá Gạo Thái 5% mới nhất.')
+measure('Latest WB Thai 5 MoM', 'VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_thai_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[monthly_change_pct]) / 100, REMOVEFILTERS(WB), WB[series_code] = "rice_thai_5", WB[month_date] = m)', '+0.00%;-0.00%;0.00%', 'Biến động MoM Gạo Thái 5% mới nhất.')
+measure('Latest WB Thai 5 Display', 'FORMAT([Latest WB Thai 5 Price], "$#,0.00") & " /tấn (" & FORMAT([Latest WB Thai 5 MoM], "+0.00%;-0.00%") & ")"', '@', 'Thẻ giá Thái 5% mới nhất kèm MoM.')
+
+measure('Latest WB VN 5 Price', 'VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_viet_namese_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m)', '#,0.00', 'Giá Gạo Việt Nam 5% mới nhất.')
+measure('Latest WB VN 5 MoM', 'VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_viet_namese_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[monthly_change_pct]) / 100, REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m)', '+0.00%;-0.00%;0.00%', 'Biến động MoM Gạo Việt Nam 5% mới nhất.')
+measure('Latest WB VN 5 Display', 'FORMAT([Latest WB VN 5 Price], "$#,0.00") & " /tấn (" & FORMAT([Latest WB VN 5 MoM], "+0.00%;-0.00%") & ")"', '@', 'Thẻ giá Việt Nam 5% mới nhất kèm MoM.')
+
+measure('Latest Common WB Month', 'VAR thai_m = CALCULATETABLE(VALUES(WB[month_date]), WB[series_code] = "rice_thai_5", NOT ISBLANK(WB[price_usd_t]), REMOVEFILTERS(WB)) VAR vn_m = CALCULATETABLE(VALUES(WB[month_date]), WB[series_code] = "rice_viet_namese_5", NOT ISBLANK(WB[price_usd_t]), REMOVEFILTERS(WB)) RETURN MAXX(INTERSECT(thai_m, vn_m), [month_date])', '@', 'Tháng mới nhất chung có giá của cả Thái 5% và VN 5%.')
+measure('WB Spread VN5 vs Thai5', 'VAR m = [Latest Common WB Month] VAR vn = CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m) VAR thai = CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_thai_5", WB[month_date] = m) RETURN IF(NOT ISBLANK(vn) && NOT ISBLANK(thai), vn - thai)', '#,0.00', 'Chênh lệch giá World Bank: Việt Nam 5% − Thái 5% (USD/tấn).')
+measure('WB Spread VN5 vs Thai5 Display', 'IF(ISBLANK([WB Spread VN5 vs Thai5]), "Không áp dụng", FORMAT([WB Spread VN5 vs Thai5], "+$#,0.00;-$#,0.00;$0.00") & " /tấn")', '@', 'Thẻ chênh lệch giá VN 5% − Thái 5%.')
+
+measure('WB MoM Comparison', 'IF(HASONEVALUE(WB[series_code]), [WB MoM], IF(SELECTEDVALUE(WB[series_code]) IN {"rice_thai_5", "rice_viet_namese_5"}, [WB MoM]))', '+0.00%;-0.00%;0.00%', 'Biến động MoM: 2 chuỗi 5% đối sánh mặc định, hoặc chuỗi được chọn.')
+measure('WB Volatility Comparison', 'IF(HASONEVALUE(WB[series_code]), [WB Volatility], IF(SELECTEDVALUE(WB[series_code]) IN {"rice_thai_5", "rice_viet_namese_5"}, [WB Volatility]))', '0.00%', 'Độ biến động 12M: 2 chuỗi 5% đối sánh mặc định, hoặc chuỗi được chọn.')
+measure('WB MoM Title', 'IF(HASONEVALUE(WB[series_code]), "[Gạo xay xát] Biến động MoM – " & SELECTEDVALUE(WB[series_name_vi]) & " (%)", "[Gạo xay xát] Biến động MoM – Gạo Thái 5% & VN 5% (%)")', '@', 'Tiêu đề động biểu đồ MoM.')
+measure('WB Volatility Title', 'IF(HASONEVALUE(WB[series_code]), "[Gạo xay xát] Biến động 12M – " & SELECTEDVALUE(WB[series_name_vi]) & " (%)", "[Gạo xay xát] Biến động 12M – Gạo Thái 5% & VN 5% (%)")', '@', 'Tiêu đề động biểu đồ biến động 12M.')
 
 # Domestic Quote: guard commodity AND price_type
 measure('Domestic Quote', 'IF(HASONEVALUE(VNQuote[commodity]) && HASONEVALUE(VNQuote[price_type]), IF(HASONEVALUE(QuoteDate[Date]), MAX(VNQuote[price_vnd_kg]), AVERAGE(VNQuote[price_vnd_kg])))', '#,0', 'Vietnam domestic quote VND/kg; guardrail: yêu cầu chọn đúng 1 giống lúa và 1 loại giá xác định.')
 measure('Domestic Quoted Dates', 'DISTINCTCOUNT(VNQuote[date])', '#,0', 'Số ngày có báo giá duy nhất trong phạm vi chọn.')
+measure('Domestic Quote Chart Price', 'VAR chosen_series = SELECTEDVALUE(VNQuote[series_label], "Lúa IR 50404 (lúa tươi) · Thương lái thu mua") RETURN CALCULATE(AVERAGE(VNQuote[price_vnd_kg]), KEEPFILTERS(VNQuote[series_label] = chosen_series))', '#,0', 'Giá nội địa hiển thị biểu đồ (mặc định Lúa IR 50404 tươi thu mua nếu chưa chọn).')
+measure('Domestic Quote Chart Title', 'VAR chosen_series = SELECTEDVALUE(VNQuote[series_label]) RETURN IF(ISBLANK(chosen_series), "[Lúa] Giá nội địa Việt Nam – Lúa IR 50404 (lúa tươi) · Thương lái thu mua (VND/kg)", "[Lúa] Giá nội địa Việt Nam – " & chosen_series & " (VND/kg)")', '@', 'Tiêu đề động biểu đồ giá nội địa.')
 
 # ==============================================================================
 # PAGE 6: TRADE EXPORTS MEASURES
@@ -209,7 +257,7 @@ measure('Yield Change Pct Display', 'IF(ISBLANK([Yield Change Pct]),"Không áp 
 
 # Page 6 Card Displays
 measure('Trade Quantity Display', 'IF(ISBLANK([Trade Quantity]),"Không áp dụng",FORMAT([Trade Quantity]/1000000,"#,0.00") & " tr tấn")', '@', 'Formatted export quantity in million tonnes.')
-measure('Latest Trade Quantity Display', 'VAR y=[Latest Trade Year] RETURN IF(ISBLANK([Latest Trade Quantity]),"Không áp dụng",FORMAT([Latest Trade Quantity]/1000000,"#,0.00") & " tr tấn (" & FORMAT(y,"0") & ")")', '@', 'Formatted export quantity in million tonnes for latest year.')
+measure('Latest Trade Quantity Display', 'VAR y=[Latest Trade Year] RETURN IF(ISBLANK([Latest Trade Quantity]),"Không áp dụng",FORMAT([Latest Trade Quantity]/1000000,"#,0.00") & " tr tấn · " & FORMAT(y,"0"))', '@', 'Formatted export quantity in million tonnes for latest year.')
 measure('Trade Value Display', 'IF(ISBLANK([Trade Value]),"Không áp dụng",FORMAT([Trade Value]/1000000000,"$#,0.00") & " tỷ USD")', '@', 'Formatted export value in billion USD.')
 measure('Trade Unit Value Display', 'IF(ISBLANK([Trade Unit Value]),"Không áp dụng",FORMAT([Trade Unit Value],"$#,0.00") & " /tấn")', '@', 'Formatted unit value USD/tonne.')
 measure('Trade Partners Display', 'IF(ISBLANK([Trade Partners]),"Không áp dụng",FORMAT([Trade Partners],"#,0") & " đối tác")', '@', 'Formatted distinct partner count.')
@@ -323,13 +371,19 @@ def visual(identifier, kind, title, x, y, w, h, roles=None, single_select=False,
     if kind == 'card' and roles:
         name = next(iter(roles.values()))[0][1]
         fmt = MEASURES.get(name, {}).get('format', '')
-        objs['labels'] = [{'properties': {'labelDisplayUnits': literal(1), 'labelPrecision': literal(2 if '.00' in fmt else 0), 'fontSize': literal(22 if fmt != '@' or name.endswith(' Display') else 11)}}]
+        if name in ('Latest WB Thai 5 Display', 'Latest WB VN 5 Display', 'WB Spread VN5 vs Thai5 Display', 'Latest Trade Quantity Display', 'Trade Paired Groups Display'):
+            font_size = 14
+        elif fmt != '@' or name.endswith(' Display'):
+            font_size = 20
+        else:
+            font_size = 11
+        objs['labels'] = [{'properties': {'labelDisplayUnits': literal(1), 'labelPrecision': literal(2 if '.00' in fmt else 0), 'fontSize': literal(font_size)}}]
         objs['categoryLabels'] = [{'properties': {'show': literal(False)}}]
     if kind == 'slicer':
         objs['data'] = [{'properties': {'mode': literal('Dropdown')}}]
         objs['selection'] = [{'properties': {'singleSelect': literal(single_select), 'selectAllCheckboxEnabled': literal(not single_select)}}]
         if hide_slicer_header:
-            objs['slicerHeader'] = [{'properties': {'show': literal(False)}}]
+            objs['header'] = [{'properties': {'show': literal(False)}}]
     if x_axis:
         cat_props = {}
         if x_axis[0] is not None:
@@ -342,10 +396,14 @@ def visual(identifier, kind, title, x, y, w, h, roles=None, single_select=False,
             objs['categoryAxis'] = [{'properties': cat_props}]
     if y_axis:
         val_props = {}
-        if y_axis[0]:
+        if y_axis[0] is not None:
             val_props['titleText'] = literal(y_axis[0])
         if len(y_axis) > 1 and y_axis[1] is not None:
             val_props['labelDisplayUnits'] = literal(y_axis[1])
+        if len(y_axis) > 2 and y_axis[2] is not None:
+            val_props['start'] = literal(y_axis[2])
+        if len(y_axis) > 3 and y_axis[3] is not None:
+            val_props['end'] = literal(y_axis[3])
         if val_props:
             objs['valueAxis'] = [{'properties': val_props}]
     if objs:
@@ -378,20 +436,21 @@ def pages():
         p['visuals'].append((kind, title, pos, roles, single_select, sort, x_axis, y_axis, hide_slicer_header, filter_config, dynamic_title_measure))
 
     def card(p, name, label, x, y=112, w=290, h=65):
-        add(p, 'card', label, (x, y, w, h), False, None, Values=[ms(name + ' Display', label)])
+        m_name = name if name.endswith(' Display') else name + ' Display'
+        add(p, 'card', label, (x, y, w, h), False, None, Values=[ms(m_name, label)])
 
     # ==============================================================================
-    # Page 1: Overview (R4: 1 bảng 9 Fact sắp xếp theo %NULL giảm dần, tên tiếng Việt, vi-VN format)
+    # Page 1: Overview (R4: 1 bảng 9 Fact sắp xếp theo %NULL giảm dần, tên tiếng Việt, vi-VN format; S3: Sửa thẻ bị cắt)
     # ==============================================================================
     p = page(
         'Tổng quan dữ liệu lúa gạo',
-        'Từ Gold đã publish · 9 Fact tables · Present-NULL là quan sát có giá trị thiếu. Bảng Fact sắp xếp theo %NULL giảm dần.',
-        'Dữ liệu Gold toàn hệ thống: 9 Fact tables · 1.414.527 quan sát · Khung thời gian: 1960–2025'
+        'Bảng thống kê 9 tập dữ liệu lúa gạo, sắp xếp theo tỷ lệ dữ liệu khuyết giảm dần.',
+        'Nguồn dữ liệu: Tổng hợp 9 bảng Fact lớp Gold (GSO, FAOSTAT, USDA, World Bank, ĐBSCL) · Mốc dữ liệu mới nhất: 03/08/2026 · Batch: ec421297c194 · Export: 2026-11-06'
     )
     card(p, 'Total Observations', 'Tổng quan sát', 32, y=120, w=290, h=90)
     card(p, 'Numeric Coverage', 'Tỷ lệ có số', 336, y=120, w=290, h=90)
     card(p, 'Null Percentage', 'Tỷ lệ khuyết', 640, y=120, w=290, h=90)
-    card(p, 'Highest Null Fact', 'Fact khuyết cao nhất', 944, y=120, w=290, h=90)
+    card(p, 'Highest Null Fact Pct Display', 'Fact khuyết cao nhất: USDA · Giá XK tham chiếu', 944, y=120, w=290, h=90)
     add(p, 'tableEx', 'Danh mục 9 bảng Fact lớp Gold & Tỷ lệ khuyết (Present-NULL)', (32, 220, 1216, 424),
         sort=('Overview', 'Null Percentage', True, 'Descending'),
         Values=[
@@ -407,12 +466,12 @@ def pages():
         ])
 
     # ==============================================================================
-    # Page 2: Vietnam Production (R11: Bổ sung 4 thẻ KPI đỉnh sản lượng, diện tích, năng suất)
+    # Page 2: Vietnam Production (S1: Measure chia sẵn triệu tấn/ha; R11: Bổ sung 4 thẻ KPI)
     # ==============================================================================
     p = page(
         'Sản xuất lúa Việt Nam',
-        'Số liệu chính thức theo Niên giám Thống kê NSO Việt Nam; tách biệt số cả năm và số theo mùa vụ. Yield báo cáo V06.14.',
-        'Dữ liệu NSO Việt Nam: Sản lượng & diện tích 1990–2024 · Năng suất V06.14: 1995–2024'
+        'Số liệu chính thức theo Niên giám Thống kê Việt Nam, tách biệt số cả năm và số theo mùa vụ.',
+        'Nguồn dữ liệu: Niên giám Thống kê GSO · Mốc mới nhất: 2024 (Sản lượng, diện tích 1990–2024; Năng suất 1995–2024) · Batch: ec421297c194 · Export: 2026-11-06'
     )
     # Row 1 KPI cards
     card(p, 'First Production', '[Lúa] Sản lượng kỳ đầu', 32, y=110, w=290, h=65)
@@ -427,29 +486,28 @@ def pages():
     card(p, 'Area Change Pct', '[Lúa] Thay đổi diện tích', 640, y=180, w=290, h=65)
     card(p, 'Yield Change Pct', '[Lúa] Thay đổi năng suất', 944, y=180, w=208, h=65)
 
-    # Line charts
-    add(p, 'lineChart', '[Lúa] Sản lượng cả năm (tấn)', (32, 255, 390, 175),
+    # Line charts (S1: measure chia sẵn / 1e6; tiêu đề khớp trục triệu tấn / triệu ha)
+    add(p, 'lineChart', '[Lúa] Sản lượng cả năm (triệu tấn)', (32, 255, 390, 175),
         x_axis=(1990, 2024, 'Năm'), y_axis=('Triệu tấn', 1),
-        Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('Annual Production', 'Sản lượng')])
-    add(p, 'lineChart', '[Lúa] Diện tích cả năm (ha)', (438, 255, 390, 175),
+        Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('Annual Production Mil', 'Sản lượng')])
+    add(p, 'lineChart', '[Lúa] Diện tích cả năm (triệu ha)', (438, 255, 390, 175),
         x_axis=(1990, 2024, 'Năm'), y_axis=('Triệu ha', 1),
-        Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('Annual Area', 'Diện tích')])
+        Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('Annual Area Mil', 'Diện tích')])
     add(p, 'lineChart', '[Lúa] Năng suất lúa cả năm (kg/ha)', (844, 255, 404, 175),
         x_axis=(1995, 2024, 'Năm'), y_axis=('Năng suất (kg/ha)', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('Reported Yield', 'Năng suất')])
 
-    add(p, 'lineChart', '[Lúa] Sản lượng theo vụ · không gồm cả năm (tấn)', (32, 440, 796, 205),
+    add(p, 'lineChart', '[Lúa] Sản lượng theo vụ · không gồm cả năm (triệu tấn)', (32, 440, 1216, 205),
         x_axis=(1990, 2024, 'Năm'), y_axis=('Triệu tấn', 1),
-        Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('NSOSeasonal', 'season_label_vi', 'Vụ')], Y=[ms('Seasonal Production', 'Tấn')])
-    add(p, 'card', '[Lúa] Nhận xét theo phạm vi chọn', (844, 440, 404, 205), Values=[ms('NSO Insight', 'Nhận xét')])
+        Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('NSOSeasonal', 'season_label_vi', 'Vụ')], Y=[ms('Seasonal Production Mil', 'Triệu tấn')])
 
     # ==============================================================================
-    # Page 3: International Production (R7: Chặn trục 1961-2024; R8: Tiếng Việt, R9: Common Year)
+    # Page 3: International Production (R7: Chặn trục 1961-2024; R8: Tiếng Việt, R9: 5 nước; S1: triệu tấn)
     # ==============================================================================
     p = page(
         'Sản xuất lúa gạo quốc tế',
-        'FAOSTAT CPC 0113 · các nước sản xuất lớn (Ấn Độ, Indonesia, Việt Nam, Thái Lan, Pakistan). Yield là tỷ số cặp đủ dữ liệu.',
-        'Dữ liệu FAOSTAT: Niên độ 1961–2024 (5 quốc gia: Ấn Độ, Indonesia, Pakistan, Thái Lan, Việt Nam)'
+        '5 quốc gia sản xuất lúa lớn: Ấn Độ, Indonesia, Pakistan, Thái Lan và Việt Nam.',
+        'Nguồn dữ liệu: FAOSTAT Sản xuất · Mốc mới nhất: 2024 (1961–2024; Nhóm 5 nước đối thủ xuất khẩu / sản xuất chính đã chọn: Ấn Độ, Indonesia, Pakistan, Thái Lan, Việt Nam) · Batch: ec421297c194 · Export: 2026-11-06'
     )
     add(p, 'slicer', 'Năm', (860, 120, 180, 55), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
     add(p, 'slicer', 'Quốc gia', (1056, 120, 192, 55), False, None, hide_slicer_header=True, Values=[col('FAO', 'area_name_vi', 'Quốc gia')])
@@ -461,56 +519,55 @@ def pages():
         x_axis=(1961, 2024, 'Năm'), y_axis=('Năng suất (kg/ha)', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('FAO', 'area_name_vi', 'Quốc gia')], Y=[ms('FAO Weighted Yield', 'Năng suất (kg/ha)')])
 
-    add(p, 'barChart', '[Lúa] Sản lượng lúa tại năm chung (tấn)', (32, 404, 590, 235),
-        sort=('Overview', 'FAO Common Production', True, 'Descending'),
-        y_axis=('Sản lượng (tấn)', 1), dynamic_title_measure='FAO Common Production Title',
-        Category=[col('FAO', 'area_name_vi', 'Quốc gia')], Y=[ms('FAO Common Production', 'Tấn')],
+    add(p, 'barChart', '[Lúa] Sản lượng lúa tại năm chung (triệu tấn)', (32, 404, 590, 235),
+        sort=('Overview', 'FAO Common Production Mil', True, 'Descending'),
+        y_axis=('Sản lượng (triệu tấn)', 1), dynamic_title_measure='FAO Common Production Title',
+        Category=[col('FAO', 'area_name_vi', 'Quốc gia')], Y=[ms('FAO Common Production Mil', 'Triệu tấn')],
         Tooltips=[ms('FAO Common Year', 'Năm chung'), ms('FAO Common Rank', 'Hạng trong nhóm')])
     add(p, 'scatterChart', '[Lúa] Diện tích và sản lượng · năm chọn hoặc năm chung', (638, 404, 610, 235),
-        x_axis=(None, None, 'Diện tích (ha)'), y_axis=('Sản lượng (tấn)', 1),
+        x_axis=(None, None, 'Diện tích (triệu ha)'), y_axis=('Sản lượng (triệu tấn)', 1),
         Category=[col('FAO', 'area_name_vi', 'Quốc gia')],
-        X=[ms('FAO Scatter Area', 'Diện tích ha')], Y=[ms('FAO Scatter Production', 'Sản lượng tấn')],
+        X=[ms('FAO Scatter Area Mil', 'Diện tích triệu ha')], Y=[ms('FAO Scatter Production Mil', 'Sản lượng triệu tấn')],
         Size=[ms('FAO Scatter Yield', 'Năng suất kg/ha')], Tooltips=[ms('FAO Scatter Year', 'Năm')])
 
     # ==============================================================================
-    # Page 4: Supply-Demand & Stocks (R7: Chặn trục SUA 2023, PSD 2025; R8: Tiêu đề trục tường minh)
+    # Page 4: Supply-Demand & Stocks (S1: Triệu tấn; S7: Sửa 2 chart SUA và chữ gạo)
     # ==============================================================================
     p = page(
         'Cung cầu và tồn kho lúa gạo',
-        'Trái: FAOSTAT SUA calendar-year M49 704/CPC23161.02. Phải: USDA Vietnam/Rice, Milled theo marketing year. Không cộng stocks qua năm hoặc ghép hai cơ sở thời gian.',
-        'Dữ liệu Cung cầu: FAOSTAT SUA 2010–2023 · USDA PSD Niên vụ 1960/1961–2024/2025'
+        'Trái: Cân đối cung sử dụng FAOSTAT SUA. Phải: Cân đối cung cầu gạo USDA PSD.',
+        'Nguồn dữ liệu: FAOSTAT Cân đối cung sử dụng (2010–2023; chỉ công bố Thực phẩm & Chế biến) & Cân đối ngũ cốc USDA PSD (1960–2025) · Batch: ec421297c194 · Export: 2026-11-06'
     )
     add(p, 'slicer', 'Năm FAOSTAT SUA', (32, 120, 290, 55), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
     add(p, 'slicer', 'Niên vụ USDA PSD', (638, 120, 610, 55), False, None, hide_slicer_header=True, Values=[col('PSD', 'market_year', 'Niên vụ')])
 
-    add(p, 'lineChart', '[Gạo xay xát] SUA: Tiêu thụ thực phẩm & chế biến (tấn)', (32, 185, 590, 205),
-        x_axis=(2010, 2023, 'Năm'), y_axis=('Triệu tấn', 1),
-        Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('SUA Food Supply', 'Thực phẩm'), ms('SUA Processed', 'Chế biến')])
-    add(p, 'lineChart', '[Gạo xay xát] USDA PSD: Sản xuất và tiêu dùng (tấn, MY)', (638, 185, 610, 205),
-        x_axis=(1960, 2025, 'Niên vụ'), y_axis=('Triệu tấn', 1),
-        Category=[col('PSD', 'market_year', 'Niên vụ')], Y=[ms('PSD Production', 'Sản xuất'), ms('PSD Consumption', 'Tiêu dùng')])
+    add(p, 'lineChart', '[Gạo xay xát] FAOSTAT SUA · Năm dương lịch: Tiêu thụ thực phẩm & chế biến (triệu tấn)', (32, 180, 590, 195),
+        x_axis=(2010, 2023, 'Năm'), y_axis=('Triệu tấn', 1, 0),
+        Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('SUA Food Supply Mil', 'Thực phẩm'), ms('SUA Processed Mil', 'Chế biến')])
+    add(p, 'lineChart', '[Gạo xay xát] USDA PSD · Niên vụ: Sản xuất và tiêu dùng (triệu tấn, MY)', (638, 180, 610, 195),
+        x_axis=(1960, 2025, 'Niên vụ'), y_axis=('Triệu tấn', 1, 0),
+        Category=[col('PSD', 'market_year', 'Niên vụ')], Y=[ms('PSD Production Mil', 'Sản xuất'), ms('PSD Consumption Mil', 'Tiêu dùng')])
 
-    add(p, 'lineChart', '[Gạo xay xát] SUA: Tồn kho đầu kỳ (tấn)', (32, 400, 590, 115),
-        x_axis=(2010, 2023, 'Năm'), y_axis=('Triệu tấn', 1),
-        Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('SUA Opening Stocks', 'Tồn đầu kỳ')])
-    add(p, 'barChart', '[Gạo xay xát] SUA: Biến động tồn kho & Sai số thống kê (tấn)', (32, 525, 590, 118),
-        x_axis=(2010, 2023, 'Năm'), y_axis=('Nghìn tấn', 1),
-        Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('SUA Stock Variation', 'Biến động tồn'), ms('SUA Residuals', 'Sai số thống kê (residual)')])
-    add(p, 'lineChart', '[Gạo xay xát] USDA PSD: Tồn kho cuối kỳ (tấn, MY)', (638, 400, 610, 243),
-        x_axis=(1960, 2025, 'Niên vụ'), y_axis=('Triệu tấn', 1),
-        Category=[col('PSD', 'market_year', 'Niên vụ')], Y=[ms('PSD Ending Stocks', 'Tồn cuối kỳ')])
+    add(p, 'lineChart', '[Gạo xay xát] FAOSTAT SUA · Năm dương lịch: Tồn kho đầu kỳ (triệu tấn)', (32, 380, 590, 130),
+        x_axis=(2010, 2023, 'Năm'), y_axis=('Triệu tấn', 1, 0),
+        Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('SUA Opening Stocks Mil', 'Tồn đầu kỳ')])
+    add(p, 'columnChart', '[Gạo xay xát] FAOSTAT SUA · Năm dương lịch: Biến động tồn & Sai số (triệu tấn)', (32, 515, 590, 130),
+        x_axis=(2010, 2023, 'Năm'), y_axis=('', 1, -1.5, 1.0),
+        Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('SUA Stock Variation Mil', 'Biến động tồn'), ms('SUA Residuals Mil', 'Sai số thống kê (residual)')])
+    add(p, 'lineChart', '[Gạo xay xát] USDA PSD · Niên vụ: Tồn kho cuối kỳ (triệu tấn, MY)', (638, 380, 610, 265),
+        x_axis=(1960, 2025, 'Niên vụ'), y_axis=('Triệu tấn', 1, 0),
+        Category=[col('PSD', 'market_year', 'Niên vụ')], Y=[ms('PSD Ending Stocks Mil', 'Tồn cuối kỳ')])
 
     # ==============================================================================
-    # Page 5: Prices (R2: Slicer WB mặc định rice_thai_5, visualInteractions NoFilter; R3: Guard; R11: Thẻ KPI WB)
+    # Page 5: Prices (S2: Không phụ thuộc slicer mặc định; S1: Trục VND/kg)
     # ==============================================================================
-    # Interactivity: Slicer WB (v06) filters MoM/Volatility chart (v15), but DOES NOT filter Benchmark chart (v14)
     p5_interactions = [
         {'source': 'v06', 'target': 'v14', 'type': 'NoFilter'}
     ]
     p = page(
         'Biến động giá lúa gạo',
-        'Giá FOB USDA 4 nước theo phẩm cấp; Benchmark World Bank gạo Thái & VN; Giá nội địa ĐBSCL theo tỉnh và giống lúa.',
-        'Dữ liệu Giá lúa gạo: World Bank 01/2000–12/2025 · USDA FOB 1985–2025 · Giá nội địa ĐBSCL 04/01/2021–03/08/2026',
+        'Giá FOB USDA theo phẩm cấp; Benchmark giá World Bank; Giá lúa nội địa ĐBSCL theo giống.',
+        'Nguồn & Mốc mới nhất: World Bank (12/2025), USDA FOB (2025), Giá nội địa ĐBSCL (03/08/2026) · Batch: ec421297c194 · Export: 2026-11-06',
         interactions=p5_interactions
     )
     # Top slicers (y=112, h=55)
@@ -520,66 +577,125 @@ def pages():
     add(p, 'slicer', 'Chuỗi giá World Bank', (638, 112, 610, 55), True, None, hide_slicer_header=True,
         Values=[col('WB', 'series_name_vi', 'Chuỗi giá WB')])
 
-    # R11: 3 KPI Cards for World Bank Price (x=638, y=172, h=62)
-    card(p, 'Latest WB Price', 'Giá WB mới nhất (chuỗi đang chọn)', 638, y=172, w=200, h=62)
-    card(p, 'WB Peak', 'Đỉnh giá WB (toàn chuỗi)', 843, y=172, w=200, h=62)
-    card(p, 'WB Minimum', 'Đáy giá WB (toàn chuỗi)', 1048, y=172, w=200, h=62)
+    # Fixed WB Cards (S2: never display "Chọn 1 chuỗi" at "All")
+    card(p, 'Latest WB Thai 5 Display', '[Gạo xay xát] Giá Thái 5% mới nhất', 638, y=172, w=200, h=62)
+    card(p, 'Latest WB VN 5 Display', '[Gạo xay xát] Giá Việt Nam 5% mới nhất', 843, y=172, w=200, h=62)
+    card(p, 'WB Spread VN5 vs Thai5 Display', '[Gạo xay xát] Chênh lệch VN 5% − Thái 5%', 1048, y=172, w=200, h=62)
 
-    # USDA Line chart (Left top)
-    add(p, 'lineChart', '[Gạo xay xát] Giá xuất khẩu FOB USDA theo phẩm cấp (USD/tấn)', (32, 172, 590, 195),
-        x_axis=(1985, 2025, 'Năm tham chiếu'), y_axis=('USD/tấn', 1),
-        Category=[col('USDAPrice', 'reference_year', 'Năm tham chiếu')], Series=[col('USDAPrice', 'location_vi', 'Quốc gia')], Y=[ms('USDA Price', 'USD/tấn')])
+    # USDA Line chart (Left top) - S2.4: compares 4 countries on 5-PERCENT BROKEN by default
+    add(p, 'lineChart', '', (32, 172, 590, 195),
+        x_axis=(1985, 2025, 'Năm tham chiếu'), y_axis=('USD/tấn', 1), dynamic_title_measure='USDA FOB Chart Title',
+        Category=[col('USDAPrice', 'reference_year', 'Năm tham chiếu')], Series=[col('USDAPrice', 'location_vi', 'Quốc gia')], Y=[ms('USDA FOB Chart Price', 'USD/tấn')])
 
     # Domestic Slicers (Left middle)
     add(p, 'slicer', 'Thị trường nội địa VN', (32, 375, 285, 55), False, None, hide_slicer_header=True, Values=[col('VNQuote', 'market', 'Thị trường')])
     add(p, 'slicer', 'Giống lúa & Loại giá', (325, 375, 297, 55), True, None, hide_slicer_header=True, Values=[col('VNQuote', 'series_label', 'Giống lúa & Loại giá')])
 
-    # Domestic Quote Line chart (Left bottom)
-    add(p, 'lineChart', '[Lúa] Giá nội địa Việt Nam theo giống lúa (VND/kg)', (32, 435, 590, 205),
-        y_axis=('Nghìn VNĐ/kg', 1),
-        Category=[col('QuoteDate', 'Date', 'Ngày')], Series=[col('VNQuote', 'market', 'Thị trường')], Y=[ms('Domestic Quote', 'VND/kg')])
+    # Domestic Quote Line chart (Left bottom) - S2.5: defaults to primary series; S1: VND/kg
+    add(p, 'lineChart', '', (32, 435, 590, 205),
+        y_axis=('VND/kg', 1), dynamic_title_measure='Domestic Quote Chart Title',
+        Category=[col('QuoteDate', 'Date', 'Ngày')], Series=[col('VNQuote', 'market', 'Thị trường')], Y=[ms('Domestic Quote Chart Price', 'VND/kg')])
 
-    # WB Benchmark Line chart (Right middle) - ID v13
+    # WB Benchmark Line chart (Right middle) - ID v14 (4 series preserved via NoFilter)
     add(p, 'lineChart', '[Gạo xay xát] Benchmark giá gạo World Bank (USD/tấn)', (638, 240, 610, 190),
         y_axis=('USD/tấn', 1),
         Category=[col('BenchmarkMonth', 'Date', 'Tháng')], Series=[col('WB', 'series_name_vi', 'Chuỗi giá')], Y=[ms('WB Price', 'USD/tấn')],
         Tooltips=[ms('WB MoM', 'MoM'), ms('WB Peak', 'Đỉnh'), ms('WB Minimum', 'Đáy')])
 
-    # WB MoM & Volatility chart (Right bottom) - ID v14
-    add(p, 'lineChart', '', (638, 436, 610, 204),
-        y_axis=('Biến động (%)', 1), dynamic_title_measure='WB Volatility Title',
-        Category=[col('BenchmarkMonth', 'Date', 'Tháng')], Y=[ms('WB MoM', 'MoM'), ms('WB Volatility', 'Volatility 12M')])
+    # Visual-level filters for v15 & v16 to strictly keep only Thai 5% and VN 5%
+    def make_wb_filter(name):
+        return {
+            'filters': [
+                {
+                    'name': name,
+                    'field': {
+                        'Column': {
+                            'Expression': {
+                                'SourceRef': {
+                                    'Entity': 'WB'
+                                }
+                            },
+                            'Property': 'series_code'
+                        }
+                    },
+                    'type': 'Categorical',
+                    'filter': {
+                        'Version': 2,
+                        'From': [
+                            {
+                                'Name': 'w',
+                                'Entity': 'WB',
+                                'Type': 0
+                            }
+                        ],
+                        'Where': [
+                            {
+                                'Condition': {
+                                    'In': {
+                                        'Expressions': [
+                                            {
+                                                'Column': {
+                                                    'Expression': {
+                                                        'SourceRef': {
+                                                            'Source': 'w'
+                                                        }
+                                                    },
+                                                    'Property': 'series_code'
+                                                }
+                                            }
+                                        ],
+                                        'Values': [
+                                            [{'Literal': {'Value': "'rice_thai_5'"}}],
+                                            [{'Literal': {'Value': "'rice_viet_namese_5'"}}]
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    'isLockedInViewMode': True
+                }
+            ]
+        }
+
+    # WB MoM & Volatility charts (Right bottom side-by-side) - ID v15 & v16 (S2.2: 2 dedicated charts)
+    add(p, 'lineChart', '', (638, 436, 300, 204),
+        y_axis=('Biến động (%)', 1), dynamic_title_measure='WB MoM Title', filter_config=make_wb_filter('p05_v15_wb_5pct'),
+        Category=[col('BenchmarkMonth', 'Date', 'Tháng')], Series=[col('WB', 'series_name_vi', 'Chuỗi giá')], Y=[ms('WB MoM Comparison', 'MoM')])
+    add(p, 'lineChart', '', (948, 436, 300, 204),
+        y_axis=('Độ biến động (%)', 1), dynamic_title_measure='WB Volatility Title', filter_config=make_wb_filter('p05_v16_wb_5pct'),
+        Category=[col('BenchmarkMonth', 'Date', 'Tháng')], Series=[col('WB', 'series_name_vi', 'Chuỗi giá')], Y=[ms('WB Volatility Comparison', 'Volatility 12M')])
 
     # ==============================================================================
-    # Page 6: Trade Exports (R5: Khôi phục thẻ giá trị cộng dồn 13,51 tỷ USD, thẻ số cặp 35)
+    # Page 6: Trade Exports (S5: Khôi phục thẻ Đơn giá bình quân; sửa nhãn bị cắt; S1: Triệu tấn/Tỷ USD)
     # ==============================================================================
     p = page(
         'Thương mại lúa gạo quốc tế',
-        'FAOSTAT · Việt Nam reporter 704 xuất khẩu sang các đối tác lớn · CPC 23161.02 · 2019–2023. Đơn giá = ratio-of-sums trên cặp đủ điều kiện.',
-        'Dữ liệu Hải quan xuất khẩu: Niên độ 2019–2023 (7 đối tác chính của Việt Nam) · CPC 23161.02'
+        'Xuất khẩu gạo của Việt Nam sang các đối tác thương mại trọng điểm.',
+        'Nguồn dữ liệu: Thương mại FAOSTAT · Mốc mới nhất: 2023 (2019–2023, 7 đối tác chính, không phải tổng xuất khẩu quốc gia) · Batch: ec421297c194 · Export: 2026-11-06'
     )
-    # Top 5 KPI cards across the canvas (width=230 each)
-    card(p, 'Trade Partners', '[Gạo xay xát] Số đối tác', 32, y=118, w=230, h=88)
-    card(p, 'Trade Paired Groups', '[Gạo xay xát] Số cặp đối tác–năm', 278, y=118, w=230, h=88)
-    card(p, 'Latest Trade Quantity', '[Gạo xay xát] XK năm gần nhất', 524, y=118, w=230, h=88)
-    card(p, 'Trade Quantity', '[Gạo xay xát] XK cộng dồn 2019–2023', 770, y=118, w=230, h=88)
-    card(p, 'Trade Value', '[Gạo xay xát] Giá trị cộng dồn', 1016, y=118, w=232, h=88)
+    # Top 6 KPI cards across the canvas (width ~194 each)
+    card(p, 'Trade Partners', '[Gạo xay xát] Số đối tác', 32, y=118, w=194, h=88)
+    card(p, 'Trade Paired Groups', '[Gạo xay xát] Cặp đối tác–năm', 236, y=118, w=194, h=88)
+    card(p, 'Latest Trade Quantity', '[Gạo xay xát] XK năm gần nhất', 440, y=118, w=194, h=88)
+    card(p, 'Trade Quantity', '[Gạo xay xát] XK 7 đối tác (2019–2023)', 644, y=118, w=194, h=88)
+    card(p, 'Trade Value', '[Gạo xay xát] Giá trị cộng dồn', 848, y=118, w=194, h=88)
+    card(p, 'Trade Unit Value', '[Gạo xay xát] Đơn giá bình quân', 1052, y=118, w=196, h=88)
 
     # Slicers top right
     add(p, 'slicer', 'Năm', (860, 28, 180, 80), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
     add(p, 'slicer', 'Đối tác', (1056, 28, 192, 80), False, None, hide_slicer_header=True, Values=[col('Trade', 'partner_name_vi', 'Đối tác')])
 
-    # Charts
-    add(p, 'lineChart', '[Gạo xay xát] Lượng xuất khẩu theo đối tác (tấn)', (32, 218, 590, 200),
+    # Charts (S1: Triệu tấn và Tỷ USD)
+    add(p, 'lineChart', '[Gạo xay xát] Lượng xuất khẩu theo đối tác (triệu tấn)', (32, 218, 590, 200),
         x_axis=(2019, 2023, 'Năm'), y_axis=('Triệu tấn', 1),
-        Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('Trade', 'partner_name_vi', 'Đối tác')], Y=[ms('Trade Quantity', 'Tấn')])
+        Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('Trade', 'partner_name_vi', 'Đối tác')], Y=[ms('Trade Quantity Mil', 'Triệu tấn')])
     add(p, 'lineChart', '[Gạo xay xát] Đơn giá báo cáo theo đối tác (USD/tấn)', (638, 218, 610, 200),
         x_axis=(2019, 2023, 'Năm'), y_axis=('USD/tấn', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('Trade', 'partner_name_vi', 'Đối tác')], Y=[ms('Trade Unit Value', 'USD/tấn')])
-    add(p, 'lineChart', '[Gạo xay xát] Giá trị xuất khẩu theo năm và đối tác (USD)', (32, 428, 590, 216),
+    add(p, 'lineChart', '[Gạo xay xát] Giá trị xuất khẩu theo năm và đối tác (tỷ USD)', (32, 428, 1216, 216),
         x_axis=(2019, 2023, 'Năm'), y_axis=('Tỷ USD', 1),
-        Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('Trade', 'partner_name_vi', 'Đối tác')], Y=[ms('Trade Value', 'USD')])
-    add(p, 'card', '[Gạo xay xát] Phạm vi và diễn giải', (638, 428, 610, 216), Values=[ms('Trade Insight', 'Nhận xét')])
+        Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('Trade', 'partner_name_vi', 'Đối tác')], Y=[ms('Trade Value Bil', 'Tỷ USD')])
 
     return specs
 
@@ -727,8 +843,8 @@ def build_project(root, bundle):
                     v['position']['y'] = 28
                     v['position']['height'] = 88
 
-        # Dynamic Footer per page (R6)
-        note_text = f"{p['note']} · {p['footer']} · Batch {manifest['published_batch'][:12]} · Export {manifest['export_timestamp'][:10]}"
+        # Clean business footer per page
+        note_text = p['footer']
         note = visual('v90', 'textbox', '', 32, 654, 1216, 56)
         note['visual']['objects'] = {'general': [{'properties': {'paragraphs': [{'textRuns': [{'value': note_text, 'textStyle': {'fontFamily': 'Segoe UI', 'fontSize': '10pt', 'color': '#435B55'}}]}]}}]}
         all_visuals.append(note)

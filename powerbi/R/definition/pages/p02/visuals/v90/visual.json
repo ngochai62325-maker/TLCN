@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Số liệu chính thức theo Niên giám Thống kê NSO Việt Nam; tách biệt số cả năm và số theo mùa vụ. Yield báo cáo V06.14. · Dữ liệu NSO Việt Nam: Sản lượng & diện tích 1990–2024 · Năng suất V06.14: 1995–2024 · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "Nguồn dữ liệu: Niên giám Thống kê GSO · Mốc mới nhất: 2024 (Sản lượng, diện tích 1990–2024; Năng suất 1995–2024) · Batch: ec421297c194 · Export: 2026-11-06",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

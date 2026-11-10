@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v06",
   "position": {
-    "x": 770,
+    "x": 644,
     "y": 118,
     "z": 6,
-    "width": 230,
+    "width": 194,
     "height": 88,
     "tabOrder": 6
   },
@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'[Gạo xay xát] XK cộng dồn 2019–2023'"
+                  "Value": "'[Gạo xay xát] XK 7 đối tác (2019–2023)'"
                 }
               }
             }
@@ -99,7 +99,7 @@
                 }
               },
               "queryRef": "Overview.Trade Quantity Display",
-              "displayName": "[Gạo xay xát] XK cộng dồn 2019–2023"
+              "displayName": "[Gạo xay xát] XK 7 đối tác (2019–2023)"
             }
           ]
         }
@@ -126,7 +126,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "22D"
+                  "Value": "20D"
                 }
               }
             }

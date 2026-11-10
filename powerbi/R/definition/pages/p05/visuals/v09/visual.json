@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Đáy giá WB (toàn chuỗi)'"
+                  "Value": "'[Gạo xay xát] Chênh lệch VN 5% − Thái 5%'"
                 }
               }
             }
@@ -95,11 +95,11 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "WB Minimum Display"
+                  "Property": "WB Spread VN5 vs Thai5 Display"
                 }
               },
-              "queryRef": "Overview.WB Minimum Display",
-              "displayName": "Đáy giá WB (toàn chuỗi)"
+              "queryRef": "Overview.WB Spread VN5 vs Thai5 Display",
+              "displayName": "[Gạo xay xát] Chênh lệch VN 5% − Thái 5%"
             }
           ]
         }
@@ -126,7 +126,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "22D"
+                  "Value": "14D"
                 }
               }
             }

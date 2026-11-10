@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v13",
   "position": {
-    "x": 638,
+    "x": 32,
     "y": 428,
     "z": 13,
-    "width": 610,
+    "width": 1216,
     "height": 216,
     "tabOrder": 13
   },
   "visual": {
-    "visualType": "card",
+    "visualType": "lineChart",
     "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'[Gạo xay xát] Phạm vi và diễn giải'"
+                  "Value": "'[Gạo xay xát] Giá trị xuất khẩu theo năm và đối tác (tỷ USD)'"
                 }
               }
             }
@@ -85,7 +85,43 @@
     },
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CalendarYear"
+                    }
+                  },
+                  "Property": "Year"
+                }
+              },
+              "queryRef": "CalendarYear.Year",
+              "displayName": "Năm"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trade"
+                    }
+                  },
+                  "Property": "partner_name_vi"
+                }
+              },
+              "queryRef": "Trade.partner_name_vi",
+              "displayName": "Đối tác"
+            }
+          ]
+        },
+        "Y": {
           "projections": [
             {
               "field": {
@@ -95,51 +131,58 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "Trade Insight"
+                  "Property": "Trade Value Bil"
                 }
               },
-              "queryRef": "Overview.Trade Insight",
-              "displayName": "Nhận xét"
+              "queryRef": "Overview.Trade Value Bil",
+              "displayName": "Tỷ USD"
             }
           ]
         }
       }
     },
     "objects": {
-      "labels": [
+      "categoryAxis": [
         {
           "properties": {
-            "labelDisplayUnits": {
+            "start": {
               "expr": {
                 "Literal": {
-                  "Value": "1D"
+                  "Value": "2019D"
                 }
               }
             },
-            "labelPrecision": {
+            "end": {
               "expr": {
                 "Literal": {
-                  "Value": "0D"
+                  "Value": "2023D"
                 }
               }
             },
-            "fontSize": {
+            "titleText": {
               "expr": {
                 "Literal": {
-                  "Value": "11D"
+                  "Value": "'Năm'"
                 }
               }
             }
           }
         }
       ],
-      "categoryLabels": [
+      "valueAxis": [
         {
           "properties": {
-            "show": {
+            "titleText": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "'Tỷ USD'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }

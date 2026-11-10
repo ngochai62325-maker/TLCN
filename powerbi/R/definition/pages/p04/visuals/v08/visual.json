@@ -1,16 +1,88 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v08",
   "position": {
     "x": 32,
-    "y": 525,
+    "y": 515,
     "z": 8,
-    "height": 118,
     "width": 590,
+    "height": 130,
     "tabOrder": 8
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "columnChart",
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17342F'"
+                    }
+                  }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Gạo xay xát] FAOSTAT SUA · Năm dương lịch: Biến động tồn & Sai số (triệu tấn)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "query": {
       "queryState": {
         "Category": {
@@ -27,7 +99,6 @@
                 }
               },
               "queryRef": "CalendarYear.Year",
-              "active": true,
               "displayName": "Năm"
             }
           ]
@@ -42,10 +113,10 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "SUA Stock Variation"
+                  "Property": "SUA Stock Variation Mil"
                 }
               },
-              "queryRef": "Overview.SUA Stock Variation",
+              "queryRef": "Overview.SUA Stock Variation Mil",
               "displayName": "Biến động tồn"
             },
             {
@@ -56,10 +127,10 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "SUA Residuals"
+                  "Property": "SUA Residuals Mil"
                 }
               },
-              "queryRef": "Overview.SUA Residuals",
+              "queryRef": "Overview.SUA Residuals Mil",
               "displayName": "Sai số thống kê (residual)"
             }
           ]
@@ -100,7 +171,7 @@
             "titleText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Nghìn tấn'"
+                  "Value": "''"
                 }
               }
             },
@@ -110,82 +181,24 @@
                   "Value": "1D"
                 }
               }
-            }
-          }
-        }
-      ]
-    },
-    "visualContainerObjects": {
-      "title": [
-        {
-          "properties": {
-            "show": {
+            },
+            "start": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "-1.5D"
                 }
               }
             },
-            "fontSize": {
+            "end": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#17342F'"
-                    }
-                  }
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'[Gạo xay xát] SUA: Biến động tồn kho & Sai số thống kê (tấn)'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "background": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FFFFFF'"
-                    }
-                  }
-                }
-              }
-            },
-            "transparency": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
+                  "Value": "1.0D"
                 }
               }
             }
           }
         }
       ]
-    },
-    "drillFilterOtherVisuals": true
+    }
   }
 }

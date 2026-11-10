@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Trái: FAOSTAT SUA calendar-year M49 704/CPC23161.02. Phải: USDA Vietnam/Rice, Milled theo marketing year. Không cộng stocks qua năm hoặc ghép hai cơ sở thời gian. · Dữ liệu Cung cầu: FAOSTAT SUA 2010–2023 · USDA PSD Niên vụ 1960/1961–2024/2025 · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "Nguồn dữ liệu: FAOSTAT Cân đối cung sử dụng (2010–2023; chỉ công bố Thực phẩm & Chế biến) & Cân đối ngũ cốc USDA PSD (1960–2025) · Batch: ec421297c194 · Export: 2026-11-06",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

@@ -7,37 +7,37 @@
       "page": "p01",
       "title": "Tổng quan dữ liệu lúa gạo",
       "visuals": 8,
-      "note": "Từ Gold đã publish · 9 Fact tables · Present-NULL là quan sát có giá trị thiếu. Bảng Fact sắp xếp theo %NULL giảm dần."
+      "note": "Bảng thống kê 9 tập dữ liệu lúa gạo, sắp xếp theo tỷ lệ dữ liệu khuyết giảm dần."
     },
     {
       "page": "p02",
       "title": "Sản xuất lúa Việt Nam",
-      "visuals": 17,
-      "note": "Số liệu chính thức theo Niên giám Thống kê NSO Việt Nam; tách biệt số cả năm và số theo mùa vụ. Yield báo cáo V06.14."
+      "visuals": 16,
+      "note": "Số liệu chính thức theo Niên giám Thống kê Việt Nam, tách biệt số cả năm và số theo mùa vụ."
     },
     {
       "page": "p03",
       "title": "Sản xuất lúa gạo quốc tế",
       "visuals": 9,
-      "note": "FAOSTAT CPC 0113 · các nước sản xuất lớn (Ấn Độ, Indonesia, Việt Nam, Thái Lan, Pakistan). Yield là tỷ số cặp đủ dữ liệu."
+      "note": "5 quốc gia sản xuất lúa lớn: Ấn Độ, Indonesia, Pakistan, Thái Lan và Việt Nam."
     },
     {
       "page": "p04",
       "title": "Cung cầu và tồn kho lúa gạo",
       "visuals": 10,
-      "note": "Trái: FAOSTAT SUA calendar-year M49 704/CPC23161.02. Phải: USDA Vietnam/Rice, Milled theo marketing year. Không cộng stocks qua năm hoặc ghép hai cơ sở thời gian."
+      "note": "Trái: Cân đối cung sử dụng FAOSTAT SUA. Phải: Cân đối cung cầu gạo USDA PSD."
     },
     {
       "page": "p05",
       "title": "Biến động giá lúa gạo",
-      "visuals": 16,
-      "note": "Giá FOB USDA 4 nước theo phẩm cấp; Benchmark World Bank gạo Thái & VN; Giá nội địa ĐBSCL theo tỉnh và giống lúa."
+      "visuals": 17,
+      "note": "Giá FOB USDA theo phẩm cấp; Benchmark giá World Bank; Giá lúa nội địa ĐBSCL theo giống."
     },
     {
       "page": "p06",
       "title": "Thương mại lúa gạo quốc tế",
       "visuals": 14,
-      "note": "FAOSTAT · Việt Nam reporter 704 xuất khẩu sang các đối tác lớn · CPC 23161.02 · 2019–2023. Đơn giá = ratio-of-sums trên cặp đủ điều kiện."
+      "note": "Xuất khẩu gạo của Việt Nam sang các đối tác thương mại trọng điểm."
     }
   ],
   "measures": {
@@ -72,7 +72,7 @@
       "description": "Tỷ lệ quan sát khuyết cao nhất trong 9 fact (USDA price reference 34,96%)."
     },
     "Highest Null Fact Display": {
-      "dax": "VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) VAR pct = MAXX(maxFact, DIVIDE(Overview[present_null_rows], Overview[rows_total])) VAR name = MAXX(maxFact, Overview[fact_name_vi]) RETURN name & \": \" & FORMAT(pct, \"0.00%\")",
+      "dax": "VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) VAR pct = MAXX(maxFact, DIVIDE(Overview[present_null_rows], Overview[rows_total])) VAR factName = MAXX(maxFact, Overview[fact_name_vi]) RETURN factName & \": \" & FORMAT(pct, \"0.00%\")",
       "format": "@",
       "description": "Tên tiếng Việt và tỷ lệ của fact có tỷ lệ khuyết cao nhất."
     },
@@ -356,10 +356,100 @@
       "format": "#,0",
       "description": "USDA Vietnam/Rice, Milled Ending Stocks tonnes at one market year; no stock sum across time."
     },
+    "Annual Production Mil": {
+      "dax": "[Annual Production] / 1000000",
+      "format": "#,0.00",
+      "description": "Sản lượng lúa cả năm triệu tấn."
+    },
+    "Annual Area Mil": {
+      "dax": "[Annual Area] / 1000000",
+      "format": "#,0.00",
+      "description": "Diện tích lúa cả năm triệu ha."
+    },
+    "Seasonal Production Mil": {
+      "dax": "[Seasonal Production] / 1000000",
+      "format": "#,0.00",
+      "description": "Sản lượng lúa theo vụ triệu tấn."
+    },
+    "FAO Common Production Mil": {
+      "dax": "[FAO Common Production] / 1000000",
+      "format": "#,0.0",
+      "description": "Sản lượng lúa tại năm chung triệu tấn."
+    },
+    "FAO Scatter Area Mil": {
+      "dax": "[FAO Scatter Area] / 1000000",
+      "format": "#,0.0",
+      "description": "Diện tích scatter triệu ha."
+    },
+    "FAO Scatter Production Mil": {
+      "dax": "[FAO Scatter Production] / 1000000",
+      "format": "#,0.0",
+      "description": "Sản lượng scatter triệu tấn."
+    },
+    "SUA Food Supply Mil": {
+      "dax": "[SUA Food Supply] / 1000000",
+      "format": "#,0.00",
+      "description": "Tiêu thụ thực phẩm triệu tấn."
+    },
+    "SUA Processed Mil": {
+      "dax": "[SUA Processed] / 1000000",
+      "format": "#,0.00",
+      "description": "Chế biến triệu tấn."
+    },
+    "SUA Opening Stocks Mil": {
+      "dax": "[SUA Opening Stocks] / 1000000",
+      "format": "#,0.00",
+      "description": "Tồn kho đầu kỳ triệu tấn."
+    },
+    "SUA Stock Variation Mil": {
+      "dax": "[SUA Stock Variation] / 1000000",
+      "format": "#,0.00",
+      "description": "Biến động tồn kho triệu tấn."
+    },
+    "SUA Residuals Mil": {
+      "dax": "[SUA Residuals] / 1000000",
+      "format": "#,0.00",
+      "description": "Sai số thống kê triệu tấn."
+    },
+    "PSD Production Mil": {
+      "dax": "[PSD Production] / 1000000",
+      "format": "#,0.00",
+      "description": "Sản xuất USDA PSD triệu tấn."
+    },
+    "PSD Consumption Mil": {
+      "dax": "[PSD Consumption] / 1000000",
+      "format": "#,0.00",
+      "description": "Tiêu dùng USDA PSD triệu tấn."
+    },
+    "PSD Ending Stocks Mil": {
+      "dax": "[PSD Ending Stocks] / 1000000",
+      "format": "#,0.00",
+      "description": "Tồn kho cuối kỳ USDA PSD triệu tấn."
+    },
+    "Trade Quantity Mil": {
+      "dax": "[Trade Quantity] / 1000000",
+      "format": "#,0.00",
+      "description": "Lượng xuất khẩu triệu tấn."
+    },
+    "Trade Value Bil": {
+      "dax": "[Trade Value] / 1000000000",
+      "format": "#,0.00",
+      "description": "Giá trị xuất khẩu tỷ USD."
+    },
     "USDA Price": {
       "dax": "IF(HASONEVALUE(USDAPrice[location]) && HASONEVALUE(USDAPrice[commodity_class]), IF(HASONEVALUE(USDAPrice[reference_year]), AVERAGE(USDAPrice[price_usd_t]), AVERAGE(USDAPrice[price_usd_t])))",
       "format": "#,0.00",
       "description": "USDA FOB export price reference USD/tonne; guardrail: yêu cầu chọn đúng 1 quốc gia và 1 phẩm cấp."
+    },
+    "USDA FOB Chart Price": {
+      "dax": "VAR chosen_class = SELECTEDVALUE(USDAPrice[commodity_class], \"5-PERCENT BROKEN\") RETURN CALCULATE(AVERAGE(USDAPrice[price_usd_t]), KEEPFILTERS(USDAPrice[commodity_class] = chosen_class))",
+      "format": "#,0.00",
+      "description": "Giá FOB USDA đối sánh 4 nước (mặc định Gạo 5% tấm nếu chưa chọn)."
+    },
+    "USDA FOB Chart Title": {
+      "dax": "VAR chosen_class_vi = SELECTEDVALUE(USDAPrice[commodity_class_vi]) RETURN IF(ISBLANK(chosen_class_vi), \"[Gạo xay xát] Giá FOB USDA – Gạo 5% tấm (đối sánh 4 nước) (USD/tấn)\", \"[Gạo xay xát] Giá FOB USDA – \" & chosen_class_vi & \" (USD/tấn)\")",
+      "format": "@",
+      "description": "Tiêu đề động biểu đồ giá FOB USDA."
     },
     "WB Price": {
       "dax": "IF(HASONEVALUE(WB[series_code]) && HASONEVALUE(BenchmarkMonth[Date]), MAX(WB[price_usd_t]))",
@@ -431,10 +521,70 @@
       "format": "@",
       "description": "Thẻ số tháng có giá WB."
     },
-    "WB Volatility Title": {
-      "dax": "\"[Gạo xay xát] Biến động giá World Bank – \" & SELECTEDVALUE(WB[series_name_vi], \"Gạo Thái 5% tấm\") & \" (độ lệch chuẩn log-return 12 tháng, chưa annualize)\"",
+    "Latest WB Thai 5 Price": {
+      "dax": "VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = \"rice_thai_5\" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = \"rice_thai_5\", WB[month_date] = m)",
+      "format": "#,0.00",
+      "description": "Giá Gạo Thái 5% mới nhất."
+    },
+    "Latest WB Thai 5 MoM": {
+      "dax": "VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = \"rice_thai_5\" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[monthly_change_pct]) / 100, REMOVEFILTERS(WB), WB[series_code] = \"rice_thai_5\", WB[month_date] = m)",
+      "format": "+0.00%;-0.00%;0.00%",
+      "description": "Biến động MoM Gạo Thái 5% mới nhất."
+    },
+    "Latest WB Thai 5 Display": {
+      "dax": "FORMAT([Latest WB Thai 5 Price], \"$#,0.00\") & \" /tấn (\" & FORMAT([Latest WB Thai 5 MoM], \"+0.00%;-0.00%\") & \")\"",
       "format": "@",
-      "description": "Tiêu đề động biểu đồ biến động giá WB."
+      "description": "Thẻ giá Thái 5% mới nhất kèm MoM."
+    },
+    "Latest WB VN 5 Price": {
+      "dax": "VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = \"rice_viet_namese_5\" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = \"rice_viet_namese_5\", WB[month_date] = m)",
+      "format": "#,0.00",
+      "description": "Giá Gạo Việt Nam 5% mới nhất."
+    },
+    "Latest WB VN 5 MoM": {
+      "dax": "VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = \"rice_viet_namese_5\" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[monthly_change_pct]) / 100, REMOVEFILTERS(WB), WB[series_code] = \"rice_viet_namese_5\", WB[month_date] = m)",
+      "format": "+0.00%;-0.00%;0.00%",
+      "description": "Biến động MoM Gạo Việt Nam 5% mới nhất."
+    },
+    "Latest WB VN 5 Display": {
+      "dax": "FORMAT([Latest WB VN 5 Price], \"$#,0.00\") & \" /tấn (\" & FORMAT([Latest WB VN 5 MoM], \"+0.00%;-0.00%\") & \")\"",
+      "format": "@",
+      "description": "Thẻ giá Việt Nam 5% mới nhất kèm MoM."
+    },
+    "Latest Common WB Month": {
+      "dax": "VAR thai_m = CALCULATETABLE(VALUES(WB[month_date]), WB[series_code] = \"rice_thai_5\", NOT ISBLANK(WB[price_usd_t]), REMOVEFILTERS(WB)) VAR vn_m = CALCULATETABLE(VALUES(WB[month_date]), WB[series_code] = \"rice_viet_namese_5\", NOT ISBLANK(WB[price_usd_t]), REMOVEFILTERS(WB)) RETURN MAXX(INTERSECT(thai_m, vn_m), [month_date])",
+      "format": "@",
+      "description": "Tháng mới nhất chung có giá của cả Thái 5% và VN 5%."
+    },
+    "WB Spread VN5 vs Thai5": {
+      "dax": "VAR m = [Latest Common WB Month] VAR vn = CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = \"rice_viet_namese_5\", WB[month_date] = m) VAR thai = CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = \"rice_thai_5\", WB[month_date] = m) RETURN IF(NOT ISBLANK(vn) && NOT ISBLANK(thai), vn - thai)",
+      "format": "#,0.00",
+      "description": "Chênh lệch giá World Bank: Việt Nam 5% − Thái 5% (USD/tấn)."
+    },
+    "WB Spread VN5 vs Thai5 Display": {
+      "dax": "IF(ISBLANK([WB Spread VN5 vs Thai5]), \"Không áp dụng\", FORMAT([WB Spread VN5 vs Thai5], \"+$#,0.00;-$#,0.00;$0.00\") & \" /tấn\")",
+      "format": "@",
+      "description": "Thẻ chênh lệch giá VN 5% − Thái 5%."
+    },
+    "WB MoM Comparison": {
+      "dax": "IF(HASONEVALUE(WB[series_code]), [WB MoM], IF(SELECTEDVALUE(WB[series_code]) IN {\"rice_thai_5\", \"rice_viet_namese_5\"}, [WB MoM]))",
+      "format": "+0.00%;-0.00%;0.00%",
+      "description": "Biến động MoM: 2 chuỗi 5% đối sánh mặc định, hoặc chuỗi được chọn."
+    },
+    "WB Volatility Comparison": {
+      "dax": "IF(HASONEVALUE(WB[series_code]), [WB Volatility], IF(SELECTEDVALUE(WB[series_code]) IN {\"rice_thai_5\", \"rice_viet_namese_5\"}, [WB Volatility]))",
+      "format": "0.00%",
+      "description": "Độ biến động 12M: 2 chuỗi 5% đối sánh mặc định, hoặc chuỗi được chọn."
+    },
+    "WB MoM Title": {
+      "dax": "IF(HASONEVALUE(WB[series_code]), \"[Gạo xay xát] Biến động MoM – \" & SELECTEDVALUE(WB[series_name_vi]) & \" (%)\", \"[Gạo xay xát] Biến động MoM – Gạo Thái 5% & VN 5% (%)\")",
+      "format": "@",
+      "description": "Tiêu đề động biểu đồ MoM."
+    },
+    "WB Volatility Title": {
+      "dax": "IF(HASONEVALUE(WB[series_code]), \"[Gạo xay xát] Biến động 12M – \" & SELECTEDVALUE(WB[series_name_vi]) & \" (%)\", \"[Gạo xay xát] Biến động 12M – Gạo Thái 5% & VN 5% (%)\")",
+      "format": "@",
+      "description": "Tiêu đề động biểu đồ biến động 12M."
     },
     "Domestic Quote": {
       "dax": "IF(HASONEVALUE(VNQuote[commodity]) && HASONEVALUE(VNQuote[price_type]), IF(HASONEVALUE(QuoteDate[Date]), MAX(VNQuote[price_vnd_kg]), AVERAGE(VNQuote[price_vnd_kg])))",
@@ -445,6 +595,16 @@
       "dax": "DISTINCTCOUNT(VNQuote[date])",
       "format": "#,0",
       "description": "Số ngày có báo giá duy nhất trong phạm vi chọn."
+    },
+    "Domestic Quote Chart Price": {
+      "dax": "VAR chosen_series = SELECTEDVALUE(VNQuote[series_label], \"Lúa IR 50404 (lúa tươi) · Thương lái thu mua\") RETURN CALCULATE(AVERAGE(VNQuote[price_vnd_kg]), KEEPFILTERS(VNQuote[series_label] = chosen_series))",
+      "format": "#,0",
+      "description": "Giá nội địa hiển thị biểu đồ (mặc định Lúa IR 50404 tươi thu mua nếu chưa chọn)."
+    },
+    "Domestic Quote Chart Title": {
+      "dax": "VAR chosen_series = SELECTEDVALUE(VNQuote[series_label]) RETURN IF(ISBLANK(chosen_series), \"[Lúa] Giá nội địa Việt Nam – Lúa IR 50404 (lúa tươi) · Thương lái thu mua (VND/kg)\", \"[Lúa] Giá nội địa Việt Nam – \" & chosen_series & \" (VND/kg)\")",
+      "format": "@",
+      "description": "Tiêu đề động biểu đồ giá nội địa."
     },
     "Trade Quantity": {
       "dax": "SUM(Trade[quantity_t])",
@@ -562,7 +722,7 @@
       "description": "Formatted export quantity in million tonnes."
     },
     "Latest Trade Quantity Display": {
-      "dax": "VAR y=[Latest Trade Year] RETURN IF(ISBLANK([Latest Trade Quantity]),\"Không áp dụng\",FORMAT([Latest Trade Quantity]/1000000,\"#,0.00\") & \" tr tấn (\" & FORMAT(y,\"0\") & \")\")",
+      "dax": "VAR y=[Latest Trade Year] RETURN IF(ISBLANK([Latest Trade Quantity]),\"Không áp dụng\",FORMAT([Latest Trade Quantity]/1000000,\"#,0.00\") & \" tr tấn · \" & FORMAT(y,\"0\"))",
       "format": "@",
       "description": "Formatted export quantity in million tonnes for latest year."
     },
