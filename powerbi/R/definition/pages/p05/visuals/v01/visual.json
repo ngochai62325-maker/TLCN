@@ -19,14 +19,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "''"
+                  "Value": "false"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }

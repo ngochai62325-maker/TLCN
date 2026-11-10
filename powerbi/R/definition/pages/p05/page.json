@@ -4,5 +4,12 @@
   "displayName": "05 · Biến động giá lúa gạo",
   "displayOption": "FitToPage",
   "width": 1280,
-  "height": 720
+  "height": 720,
+  "visualInteractions": [
+    {
+      "source": "v06",
+      "target": "v14",
+      "type": "NoFilter"
+    }
+  ]
 }

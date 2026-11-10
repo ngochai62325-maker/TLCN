@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v11",
   "position": {
-    "x": 32,
-    "y": 412,
+    "x": 944,
+    "y": 180,
     "z": 11,
-    "width": 796,
-    "height": 195,
+    "width": 208,
+    "height": 65,
     "tabOrder": 11
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "card",
     "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
@@ -20,13 +20,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Sản lượng theo vụ · không gồm annual'"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Lúa] Thay đổi năng suất'"
                 }
               }
             }
@@ -85,43 +85,7 @@
     },
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "CalendarYear"
-                    }
-                  },
-                  "Property": "Year"
-                }
-              },
-              "queryRef": "CalendarYear.Year",
-              "displayName": "Năm"
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "NSOSeasonal"
-                    }
-                  },
-                  "Property": "season_label_vi"
-                }
-              },
-              "queryRef": "NSOSeasonal.season_label_vi",
-              "displayName": "Vụ"
-            }
-          ]
-        },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
@@ -131,15 +95,57 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "Seasonal Production"
+                  "Property": "Yield Change Pct Display"
                 }
               },
-              "queryRef": "Overview.Seasonal Production",
-              "displayName": "Tấn"
+              "queryRef": "Overview.Yield Change Pct Display",
+              "displayName": "[Lúa] Thay đổi năng suất"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "22D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

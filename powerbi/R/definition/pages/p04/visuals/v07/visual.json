@@ -1,17 +1,106 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "v07",
   "position": {
     "x": 32,
-    "y": 404,
+    "y": 400,
     "z": 7,
+    "height": 115,
     "width": 590,
-    "height": 215,
     "tabOrder": 7
   },
   "visual": {
     "visualType": "lineChart",
-    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CalendarYear"
+                    }
+                  },
+                  "Property": "Year"
+                }
+              },
+              "queryRef": "CalendarYear.Year",
+              "active": true,
+              "displayName": "Năm"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "SUA Opening Stocks"
+                }
+              },
+              "queryRef": "Overview.SUA Opening Stocks",
+              "displayName": "Tồn đầu kỳ"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "start": {
+              "expr": {
+                "Literal": {
+                  "Value": "2010D"
+                }
+              }
+            },
+            "end": {
+              "expr": {
+                "Literal": {
+                  "Value": "2023D"
+                }
+              }
+            },
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Năm'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Triệu tấn'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -20,13 +109,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'SUA: Tồn đầu kỳ, biến động tồn & hao hụt (tấn)'"
                 }
               }
             },
@@ -45,6 +127,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Gạo xay xát] SUA: Tồn kho đầu kỳ (tấn)'"
                 }
               }
             }
@@ -83,73 +172,6 @@
         }
       ]
     },
-    "query": {
-      "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "CalendarYear"
-                    }
-                  },
-                  "Property": "Year"
-                }
-              },
-              "queryRef": "CalendarYear.Year",
-              "displayName": "Năm"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "SUA Opening Stocks"
-                }
-              },
-              "queryRef": "Overview.SUA Opening Stocks",
-              "displayName": "Tồn đầu kỳ"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "SUA Stock Variation"
-                }
-              },
-              "queryRef": "Overview.SUA Stock Variation",
-              "displayName": "Biến động tồn"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "SUA Residuals"
-                }
-              },
-              "queryRef": "Overview.SUA Residuals",
-              "displayName": "Phần dư"
-            }
-          ]
-        }
-      }
-    }
+    "drillFilterOtherVisuals": true
   }
 }

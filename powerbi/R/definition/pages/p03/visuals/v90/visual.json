@@ -19,14 +19,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "''"
+                  "Value": "false"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }
@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "FAOSTAT CPC 0113 · các nước sản xuất lớn (Ấn Độ, Indonesia, Việt Nam, Thái Lan, Pakistan). Yield là tỷ số cặp đủ dữ liệu. · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "FAOSTAT CPC 0113 · các nước sản xuất lớn (Ấn Độ, Indonesia, Việt Nam, Thái Lan, Pakistan). Yield là tỷ số cặp đủ dữ liệu. · Dữ liệu FAOSTAT: Niên độ 1961–2024 (5 quốc gia: Ấn Độ, Indonesia, Pakistan, Thái Lan, Việt Nam) · Batch ec421297c194 · Export 2026-11-06",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

@@ -1,17 +1,120 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "v08",
   "position": {
-    "x": 638,
-    "y": 404,
+    "x": 32,
+    "y": 525,
     "z": 8,
-    "width": 610,
-    "height": 215,
+    "height": 118,
+    "width": 590,
     "tabOrder": 8
   },
   "visual": {
-    "visualType": "lineChart",
-    "drillFilterOtherVisuals": true,
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CalendarYear"
+                    }
+                  },
+                  "Property": "Year"
+                }
+              },
+              "queryRef": "CalendarYear.Year",
+              "active": true,
+              "displayName": "Năm"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "SUA Stock Variation"
+                }
+              },
+              "queryRef": "Overview.SUA Stock Variation",
+              "displayName": "Biến động tồn"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "SUA Residuals"
+                }
+              },
+              "queryRef": "Overview.SUA Residuals",
+              "displayName": "Sai số thống kê (residual)"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "start": {
+              "expr": {
+                "Literal": {
+                  "Value": "2010D"
+                }
+              }
+            },
+            "end": {
+              "expr": {
+                "Literal": {
+                  "Value": "2023D"
+                }
+              }
+            },
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Năm'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Nghìn tấn'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -20,13 +123,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'USDA tồn cuối kỳ (tấn, MY)'"
                 }
               }
             },
@@ -45,6 +141,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Gạo xay xát] SUA: Biến động tồn kho & Sai số thống kê (tấn)'"
                 }
               }
             }
@@ -83,45 +186,6 @@
         }
       ]
     },
-    "query": {
-      "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "PSD"
-                    }
-                  },
-                  "Property": "market_year"
-                }
-              },
-              "queryRef": "PSD.market_year",
-              "displayName": "Marketing year"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "PSD Ending Stocks"
-                }
-              },
-              "queryRef": "Overview.PSD Ending Stocks",
-              "displayName": "Tồn cuối kỳ"
-            }
-          ]
-        }
-      }
-    }
+    "drillFilterOtherVisuals": true
   }
 }

@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
-  "name": "v08",
+  "name": "v16",
   "position": {
-    "x": 638,
-    "y": 220,
-    "z": 8,
-    "width": 610,
-    "height": 225,
-    "tabOrder": 8
+    "x": 844,
+    "y": 440,
+    "z": 16,
+    "width": 404,
+    "height": 205,
+    "tabOrder": 16
   },
   "visual": {
-    "visualType": "hundredPercentStackedBarChart",
+    "visualType": "card",
     "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
@@ -20,13 +20,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Tỷ lệ có số và thiếu theo bộ dữ liệu'"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Lúa] Nhận xét theo phạm vi chọn'"
                 }
               }
             }
@@ -85,25 +85,7 @@
     },
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "fact_name"
-                }
-              },
-              "queryRef": "Overview.fact_name",
-              "displayName": "Bộ dữ liệu"
-            }
-          ]
-        },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
@@ -113,29 +95,57 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "Numeric Observations"
+                  "Property": "NSO Insight"
                 }
               },
-              "queryRef": "Overview.Numeric Observations",
-              "displayName": "Có số"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "Present NULL"
-                }
-              },
-              "queryRef": "Overview.Present NULL",
-              "displayName": "NULL"
+              "queryRef": "Overview.NSO Insight",
+              "displayName": "Nhận xét"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

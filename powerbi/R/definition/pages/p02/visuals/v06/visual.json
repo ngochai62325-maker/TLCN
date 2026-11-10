@@ -3,10 +3,10 @@
   "name": "v06",
   "position": {
     "x": 944,
-    "y": 120,
+    "y": 110,
     "z": 6,
-    "width": 290,
-    "height": 90,
+    "width": 208,
+    "height": 65,
     "tabOrder": 6
   },
   "visual": {
@@ -20,13 +20,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'YoY kỳ cuối'"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Lúa] YoY kỳ cuối'"
                 }
               }
             }
@@ -99,7 +99,7 @@
                 }
               },
               "queryRef": "Overview.Latest Production YoY Display",
-              "displayName": "YoY kỳ cuối"
+              "displayName": "[Lúa] YoY kỳ cuối"
             }
           ]
         }
@@ -126,7 +126,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "24D"
+                  "Value": "22D"
                 }
               }
             }

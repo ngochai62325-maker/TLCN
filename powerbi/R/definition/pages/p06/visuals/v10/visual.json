@@ -1,17 +1,124 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "v10",
   "position": {
-    "x": 638,
-    "y": 220,
+    "x": 32,
+    "y": 218,
     "z": 10,
-    "width": 610,
-    "height": 195,
+    "height": 200,
+    "width": 590,
     "tabOrder": 10
   },
   "visual": {
     "visualType": "lineChart",
-    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CalendarYear"
+                    }
+                  },
+                  "Property": "Year"
+                }
+              },
+              "queryRef": "CalendarYear.Year",
+              "active": true,
+              "displayName": "Năm"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trade"
+                    }
+                  },
+                  "Property": "partner_name_vi"
+                }
+              },
+              "queryRef": "Trade.partner_name_vi",
+              "displayName": "Đối tác"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "Trade Quantity"
+                }
+              },
+              "queryRef": "Overview.Trade Quantity",
+              "displayName": "Tấn"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "start": {
+              "expr": {
+                "Literal": {
+                  "Value": "2019D"
+                }
+              }
+            },
+            "end": {
+              "expr": {
+                "Literal": {
+                  "Value": "2023D"
+                }
+              }
+            },
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Năm'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Triệu tấn'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -20,13 +127,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Đơn giá báo cáo theo đối tác (USD/tấn)'"
                 }
               }
             },
@@ -45,6 +145,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Gạo xay xát] Lượng xuất khẩu theo đối tác (tấn)'"
                 }
               }
             }
@@ -83,63 +190,6 @@
         }
       ]
     },
-    "query": {
-      "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "CalendarYear"
-                    }
-                  },
-                  "Property": "Year"
-                }
-              },
-              "queryRef": "CalendarYear.Year",
-              "displayName": "Năm"
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Trade"
-                    }
-                  },
-                  "Property": "partner_name"
-                }
-              },
-              "queryRef": "Trade.partner_name",
-              "displayName": "Đối tác"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "Trade Unit Value"
-                }
-              },
-              "queryRef": "Overview.Trade Unit Value",
-              "displayName": "USD/tấn"
-            }
-          ]
-        }
-      }
-    }
+    "drillFilterOtherVisuals": true
   }
 }
