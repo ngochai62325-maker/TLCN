@@ -567,14 +567,14 @@
       "description": "Thẻ chênh lệch giá VN 5% − Thái 5%."
     },
     "WB MoM Comparison": {
-      "dax": "IF(HASONEVALUE(WB[series_code]), [WB MoM], IF(SELECTEDVALUE(WB[series_code]) IN {\"rice_thai_5\", \"rice_viet_namese_5\"}, [WB MoM]))",
+      "dax": "VAR selected_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALLSELECTED(WB), REMOVEFILTERS(BenchmarkMonth)) VAR total_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALL(WB)) VAR cur_code = SELECTEDVALUE(WB[series_code]) RETURN IF(NOT ISBLANK(cur_code) && (selected_cnt < total_cnt || cur_code IN {\"rice_thai_5\", \"rice_viet_namese_5\"}), [WB MoM])",
       "format": "+0.00%;-0.00%;0.00%",
-      "description": "Biến động MoM: 2 chuỗi 5% đối sánh mặc định, hoặc chuỗi được chọn."
+      "description": "Biến động MoM: 2 chuỗi 5% đối sánh mặc định khi chưa lọc, hoặc chuỗi được chọn trên slicer."
     },
     "WB Volatility Comparison": {
-      "dax": "IF(HASONEVALUE(WB[series_code]), [WB Volatility], IF(SELECTEDVALUE(WB[series_code]) IN {\"rice_thai_5\", \"rice_viet_namese_5\"}, [WB Volatility]))",
+      "dax": "VAR selected_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALLSELECTED(WB), REMOVEFILTERS(BenchmarkMonth)) VAR total_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALL(WB)) VAR cur_code = SELECTEDVALUE(WB[series_code]) RETURN IF(NOT ISBLANK(cur_code) && (selected_cnt < total_cnt || cur_code IN {\"rice_thai_5\", \"rice_viet_namese_5\"}), [WB Volatility])",
       "format": "0.00%",
-      "description": "Độ biến động 12M: 2 chuỗi 5% đối sánh mặc định, hoặc chuỗi được chọn."
+      "description": "Độ biến động 12M: 2 chuỗi 5% đối sánh mặc định khi chưa lọc, hoặc chuỗi được chọn trên slicer."
     },
     "WB MoM Title": {
       "dax": "IF(HASONEVALUE(WB[series_code]), \"[Gạo xay xát] Biến động MoM – \" & SELECTEDVALUE(WB[series_name_vi]) & \" (%)\", \"[Gạo xay xát] Biến động MoM – Gạo Thái 5% & VN 5% (%)\")",
@@ -582,9 +582,9 @@
       "description": "Tiêu đề động biểu đồ MoM."
     },
     "WB Volatility Title": {
-      "dax": "IF(HASONEVALUE(WB[series_code]), \"[Gạo xay xát] Biến động 12M – \" & SELECTEDVALUE(WB[series_name_vi]) & \" (VN khuyết 12/2005–03/2010)\", \"[Gạo xay xát] Biến động 12M – Thái 5% & VN 5% (VN khuyết 12/2005–03/2010)\")",
+      "dax": "IF(HASONEVALUE(WB[series_code]), \"[Gạo xay xát] Biến động 12M – \" & SELECTEDVALUE(WB[series_name_vi]) & IF(SELECTEDVALUE(WB[series_code]) = \"rice_viet_namese_5\", \" (VN khuyết 12/2005–03/2010)\", \" (%)\"), \"[Gạo xay xát] Biến động 12M – Thái 5% & VN 5% (VN khuyết 12/2005–03/2010)\")",
       "format": "@",
-      "description": "Tiêu đề động biểu đồ biến động 12M kèm ghi chú khoảng khuyết dữ liệu VN."
+      "description": "Tiêu đề động biểu đồ biến động 12M kèm ghi chú khoảng khuyết dữ liệu khi hiển thị chuỗi VN."
     },
     "Domestic Quote": {
       "dax": "IF(HASONEVALUE(VNQuote[commodity]) && HASONEVALUE(VNQuote[price_type]), IF(HASONEVALUE(QuoteDate[Date]), MAX(VNQuote[price_vnd_kg]), AVERAGE(VNQuote[price_vnd_kg])))",
@@ -597,14 +597,14 @@
       "description": "Số ngày có báo giá duy nhất trong phạm vi chọn."
     },
     "Domestic Quote Chart Price": {
-      "dax": "VAR chosen_series = \"Lúa IR 50404 (lúa tươi) · Thương lái thu mua\" VAR valid_rows = FILTER(VNQuote, VNQuote[series_label] = chosen_series && NOT ISBLANK(VNQuote[price_vnd_kg]) && VNQuote[price_vnd_kg] > 0) RETURN IF(COUNTROWS(valid_rows) > 0, AVERAGEX(valid_rows, VNQuote[price_vnd_kg]), BLANK())",
+      "dax": "VAR chosen_series = IF(ISFILTERED(VNQuote[series_label]) && COUNTROWS(FILTERS(VNQuote[series_label])) = 1, MAXX(FILTERS(VNQuote[series_label]), VNQuote[series_label]), \"Lúa IR 50404 (lúa tươi) · Thương lái thu mua\") VAR valid_rows = FILTER(VNQuote, VNQuote[series_label] = chosen_series && NOT ISBLANK(VNQuote[price_vnd_kg]) && VNQuote[price_vnd_kg] >= 1000) RETURN IF(COUNTROWS(valid_rows) > 0, AVERAGEX(valid_rows, VNQuote[price_vnd_kg]), BLANK())",
       "format": "#,0",
-      "description": "Giá nội địa chuỗi chuẩn (Lúa IR 50404 tươi · Thương lái thu mua); trả BLANK() khi không có quan sát hợp lệ."
+      "description": "Giá nội địa theo chuỗi chọn trên slicer (mặc định IR 50404 tươi · Thương lái thu mua); lọc bỏ giá < 1000 VND/kg và trả BLANK() khi thiếu quan sát."
     },
     "Domestic Quote Chart Title": {
-      "dax": "VAR chosen_series = \"Lúa IR 50404 (lúa tươi) · Thương lái thu mua\" VAR valid_markets = FILTER(VALUES(VNQuote[market]), CALCULATE(COUNTROWS(VNQuote), VNQuote[series_label] = chosen_series, NOT ISBLANK(VNQuote[price_vnd_kg]), VNQuote[price_vnd_kg] > 0) > 0) VAR market_list = CONCATENATEX(valid_markets, VNQuote[market], \", \", VNQuote[market], ASC) RETURN IF(ISBLANK(market_list) || market_list = \"\", \"[Lúa] Giá nội địa – \" & chosen_series & \" (không có dữ liệu)\", \"[Lúa] Giá nội địa (\" & market_list & \") – \" & chosen_series & \" (VND/kg)\")",
+      "dax": "VAR chosen_series = IF(ISFILTERED(VNQuote[series_label]) && COUNTROWS(FILTERS(VNQuote[series_label])) = 1, MAXX(FILTERS(VNQuote[series_label]), VNQuote[series_label]), \"Lúa IR 50404 (lúa tươi) · Thương lái thu mua\") VAR valid_markets = FILTER(VALUES(VNQuote[market]), CALCULATE(COUNTROWS(VNQuote), VNQuote[series_label] = chosen_series, NOT ISBLANK(VNQuote[price_vnd_kg]), VNQuote[price_vnd_kg] >= 1000) > 0) VAR market_list = CONCATENATEX(valid_markets, VNQuote[market], \", \", VNQuote[market], ASC) RETURN IF(ISBLANK(market_list) || market_list = \"\", \"[Lúa] Giá nội địa – \" & chosen_series & \" (không có dữ liệu)\", \"[Lúa] Giá nội địa (\" & market_list & \") – \" & chosen_series & \" (VND/kg)\")",
       "format": "@",
-      "description": "Tiêu đề động biểu đồ giá nội địa liệt kê đúng tập thị trường hiển thị."
+      "description": "Tiêu đề động biểu đồ giá nội địa liệt kê đúng chuỗi đang chọn và tập thị trường hợp lệ."
     },
     "Trade Quantity": {
       "dax": "SUM(Trade[quantity_t])",

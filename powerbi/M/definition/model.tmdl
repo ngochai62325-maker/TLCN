@@ -4,15 +4,10 @@ model Model
 	discourageImplicitMeasures
 	sourceQueryCulture: en-US
 	maxParallelismPerRefresh: 1
-	dataAccessOptions
-		legacyRedirects
-		returnErrorValuesAsNull
 
 annotation PBI_ProTooling = ["DevMode"]
 
 annotation __PBI_TimeIntelligenceEnabled = 0
-
-annotation PBI_QueryOrder = ["BenchmarkMonth","CalendarYear","FAO","NSOAnnual","NSOSeasonal","NSOYield","Overview","PSD","QuoteDate","SUA","Trade","USDAPrice","VNQuote","WB","ExportFolder"]
 
 ref table BenchmarkMonth
 ref table CalendarYear

@@ -163,9 +163,9 @@ def test_mart_cli_parses_before_any_export_or_docker_access(arguments,code):
     assert 'Traceback' not in result.stderr and 'RESOURCE_BLOCKED' not in result.stderr
 
 
-def test_page4_footer_excludes_cereal_and_v13_locks_standard_quote():
+def test_page4_footer_excludes_cereal():
     from pathlib import Path
-    from analytics.marts.report import MEASURES, pages
+    from analytics.marts.report import pages
     repo_root = Path(__file__).resolve().parents[3]
 
     spec_p4 = next(p for p in pages('testbatch1234', '2026-11-11') if p['title'] == 'Cung cầu và tồn kho lúa gạo')
@@ -180,17 +180,34 @@ def test_page4_footer_excludes_cereal_and_v13_locks_standard_quote():
     assert 'ngũ cốc' not in footer_text.lower()
     assert 'cân đối gạo usda psd' in footer_text.lower()
 
-    v13_path = repo_root / 'powerbi/R/definition/pages/p05/visuals/v13/visual.json'
-    v13 = json.loads(v13_path.read_text(encoding='utf-8'))
-    filters = v13.get('filterConfig', {}).get('filters', [])
-    assert len(filters) == 1
-    assert filters[0]['field']['Column']['Property'] == 'series_label'
-    assert filters[0]['isLockedInViewMode'] is True
-    in_vals = filters[0]['filter']['Where'][0]['Condition']['In']['Values']
-    assert in_vals == [[{'Literal': {'Value': "'Lúa IR 50404 (lúa tươi) · Thương lái thu mua'"}}]]
-    assert 'BLANK()' in MEASURES['Domestic Quote Chart Price']['dax']
-    assert 'price_vnd_kg] > 0' in MEASURES['Domestic Quote Chart Price']['dax']
-    assert 'CONCATENATEX' in MEASURES['Domestic Quote Chart Title']['dax']
+
+def test_page5_v13_v15_v16_follow_slicers_without_locked_filters():
+    from pathlib import Path
+    from analytics.marts.report import MEASURES, pages
+    repo_root = Path(__file__).resolve().parents[3]
+
+    for vid in ('v13', 'v15', 'v16'):
+        visual_path = repo_root / f'powerbi/R/definition/pages/p05/visuals/{vid}/visual.json'
+        visual = json.loads(visual_path.read_text(encoding='utf-8'))
+        assert not visual.get('filterConfig', {}).get('filters')
+    p05_visuals = pages()[4]['visuals']
+    assert all(not item[9] for item in p05_visuals if len(item) > 9)
+    quote_price_dax = MEASURES['Domestic Quote Chart Price']['dax']
+    quote_title_dax = MEASURES['Domestic Quote Chart Title']['dax']
+    for dax in (quote_price_dax, quote_title_dax):
+        assert 'ISFILTERED(VNQuote[series_label])' in dax
+        assert 'FILTERS(VNQuote[series_label])' in dax
+        assert 'Lúa IR 50404 (lúa tươi) · Thương lái thu mua' in dax
+        assert 'price_vnd_kg] >= 1000' in dax
+    assert 'BLANK()' in quote_price_dax
+    assert 'CONCATENATEX' in quote_title_dax
+    for cmp_name in ('WB MoM Comparison', 'WB Volatility Comparison'):
+        cmp_dax = MEASURES[cmp_name]['dax']
+        assert 'ALLSELECTED(WB)' in cmp_dax
+        assert 'REMOVEFILTERS(BenchmarkMonth)' in cmp_dax
+        assert '{"rice_thai_5", "rice_viet_namese_5"}' in cmp_dax
+    vol_title_dax = MEASURES['WB Volatility Title']['dax']
+    assert 'SELECTEDVALUE(WB[series_code]) = "rice_viet_namese_5"' in vol_title_dax
 
 
 def test_vn_quote_series_selection_includes_kien_giang_and_filters_budget():

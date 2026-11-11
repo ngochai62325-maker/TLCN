@@ -1,75 +1,75 @@
 table USDAPrice
-	lineageTag: 85ec2efb-b12f-4fd2-a05f-f0577e0bbc20
+	lineageTag: 822c8dc4-856b-4dfd-b2d8-dbdb1d54fe5d
 
 	column reference_year
 		dataType: int64
-		lineageTag: 094f3844-b4b6-44dc-89d8-77a2c83409d6
+		lineageTag: c8a4357a-94ea-4cfb-a091-83bc74816ebb
 		summarizeBy: none
 		sourceColumn: reference_year
 
 	column reference_period
 		dataType: string
-		lineageTag: 554dd844-a651-492d-95c3-ce791bf269c7
+		lineageTag: 62b2c29f-2abc-4bef-bd64-f36efb96c0a1
 		summarizeBy: none
 		sourceColumn: reference_period
 
 	column series_key
 		dataType: string
-		lineageTag: b6f3c697-697a-4f58-b1f4-911d9fbe61e8
+		lineageTag: fcaae4a8-24b7-4105-83a1-276d22338e3c
 		summarizeBy: none
 		sourceColumn: series_key
 
 	column location
 		dataType: string
-		lineageTag: dc7eafea-8622-4035-b8af-d80f490ebe82
+		lineageTag: f70031ce-351a-46a6-8ee2-f0120c6b03d3
 		summarizeBy: none
 		sourceColumn: location
 
 	column commodity_class
 		dataType: string
-		lineageTag: 38cd7c98-0136-49c6-a895-49cefaf3b5cc
+		lineageTag: 6516d215-9998-4e8d-9506-7493fbcc12bc
 		summarizeBy: none
 		sourceColumn: commodity_class
 
 	column statistic_type
 		dataType: string
-		lineageTag: 9b242962-3ca2-485b-b2ee-bbac9251ed40
+		lineageTag: 3f585a20-9139-437d-82df-08664c1e1510
 		summarizeBy: none
 		sourceColumn: statistic_type
 
 	column unit
 		dataType: string
-		lineageTag: 708ee106-403e-4bcd-b2c1-d58e7e5f9ad6
+		lineageTag: 7b491de3-f644-4084-863b-76c779bac016
 		summarizeBy: none
 		sourceColumn: unit
 
 	column price_usd_t
 		dataType: double
-		lineageTag: 4d285877-b195-47ea-8c79-09b450f905f7
+		lineageTag: a5a24422-6926-4609-9482-c0df7d8cb8f3
 		summarizeBy: none
 		sourceColumn: price_usd_t
 
 	column observation_present
 		dataType: boolean
-		lineageTag: a920c060-72fa-4048-8e60-f9cbc4623457
+		lineageTag: a04c4afb-d4b1-48c8-98c5-c65b66635c79
 		summarizeBy: none
 		sourceColumn: observation_present
 
 	column numeric_present
 		dataType: boolean
-		lineageTag: 6e3d5952-1c3f-45fe-a4e3-822b61d84a7b
+		lineageTag: cb4529db-7175-4507-a9f9-a2240e03ce3f
 		summarizeBy: none
 		sourceColumn: numeric_present
 
 	column location_vi
 		dataType: string
-		lineageTag: da11ce31-8622-4dc7-8551-ceea3ae1e7fc
+		lineageTag: 7c25cc60-d286-4f6b-a850-9a3611129778
 		summarizeBy: none
 		sourceColumn: location_vi
 
 	column commodity_class_vi
 		dataType: string
-		lineageTag: dc745761-3de3-47f0-a717-5887e667f2d3
+		lineageTag: 325d4df6-5790-427f-b25b-35d6d20dee21
 		summarizeBy: none
 		sourceColumn: commodity_class_vi
 
