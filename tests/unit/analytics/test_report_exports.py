@@ -161,3 +161,55 @@ def test_mart_cli_parses_before_any_export_or_docker_access(arguments,code):
     assert result.returncode==code
     assert 'usage:' in (result.stdout+result.stderr).lower()
     assert 'Traceback' not in result.stderr and 'RESOURCE_BLOCKED' not in result.stderr
+
+
+def test_page4_footer_excludes_cereal_and_v13_locks_standard_quote():
+    from pathlib import Path
+    from analytics.marts.report import MEASURES, pages
+    repo_root = Path(__file__).resolve().parents[3]
+
+    spec_p4 = next(p for p in pages('testbatch1234', '2026-11-11') if p['title'] == 'Cung cầu và tồn kho lúa gạo')
+    assert 'ngũ cốc' not in spec_p4['footer'].lower()
+    assert 'cân đối gạo usda psd' in spec_p4['footer'].lower()
+    assert 'Batch: testbatch1234 · Export: 2026-11-11' in spec_p4['footer']
+
+    v90_path = repo_root / 'powerbi/R/definition/pages/p04/visuals/v90/visual.json'
+    v90 = json.loads(v90_path.read_text(encoding='utf-8'))
+    runs = v90['visual']['objects']['general'][0]['properties']['paragraphs'][0]['textRuns']
+    footer_text = ''.join(r.get('value', '') for r in runs)
+    assert 'ngũ cốc' not in footer_text.lower()
+    assert 'cân đối gạo usda psd' in footer_text.lower()
+
+    v13_path = repo_root / 'powerbi/R/definition/pages/p05/visuals/v13/visual.json'
+    v13 = json.loads(v13_path.read_text(encoding='utf-8'))
+    filters = v13.get('filterConfig', {}).get('filters', [])
+    assert len(filters) == 1
+    assert filters[0]['field']['Column']['Property'] == 'series_label'
+    assert filters[0]['isLockedInViewMode'] is True
+    in_vals = filters[0]['filter']['Where'][0]['Condition']['In']['Values']
+    assert in_vals == [[{'Literal': {'Value': "'Lúa IR 50404 (lúa tươi) · Thương lái thu mua'"}}]]
+    assert 'BLANK()' in MEASURES['Domestic Quote Chart Price']['dax']
+    assert 'price_vnd_kg] > 0' in MEASURES['Domestic Quote Chart Price']['dax']
+    assert 'CONCATENATEX' in MEASURES['Domestic Quote Chart Title']['dax']
+
+
+def test_vn_quote_series_selection_includes_kien_giang_and_filters_budget():
+    def mutate(name, p, df):
+        if name == 'catalogue' and p['kind'] == 'series':
+            extra = pd.DataFrame([
+                dict(price_series_key='vn_kg', series_identity_json=json.dumps(['Kiên Giang', 'Lúa IR 50404 (lúa tươi)', 'Thương lái thu mua', 'VND/kg', 'VND', 'CTV địa phương'])),
+                dict(price_series_key='vn_lx', series_identity_json=json.dumps(['Long Xuyên', 'Lúa IR 50404 (lúa tươi)', 'Thương lái thu mua', 'VND/kg', 'VND', 'CTV địa phương'])),
+                dict(price_series_key='vn_dt_off', series_identity_json=json.dumps(['Đồng Tháp', 'Gạo thơm', 'Thu mua', 'VND/kg', 'VND', 'CTV địa phương'])),
+                dict(price_series_key='vn_ag_usd', series_identity_json=json.dumps(['An Giang', 'IR 50404', 'Thu mua', 'USD/tonne', 'USD', 'CTV địa phương'])),
+            ])
+            return pd.concat([df, extra], ignore_index=True)
+        return df
+
+    files, _, _ = build(Session(mutate))
+    vn_rows = files['vn_quote.csv']
+    assert {r['market'] for r in vn_rows} == {'An Giang', 'Kiên Giang'}
+    assert {r['series_key'] for r in vn_rows} == {'vn', 'vn_kg'}
+    assert 'Long Xuyên' not in {r['market'] for r in vn_rows}
+    assert 'Gạo thơm' not in {r['commodity'] for r in vn_rows}
+    assert len(vn_rows) <= 5000
+

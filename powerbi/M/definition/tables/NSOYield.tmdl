@@ -1,31 +1,42 @@
 table NSOYield
+	lineageTag: 15188f22-0c4d-4998-a53a-0250aca3ec97
+
 	column year
 		dataType: int64
+		lineageTag: 10e64254-2653-4668-b137-a217840098c4
 		summarizeBy: none
 		sourceColumn: year
+
 	column yield_kg_ha
 		dataType: double
+		lineageTag: e24991f3-d9b2-4b18-bff0-5f0b79fa24b2
 		summarizeBy: none
 		sourceColumn: yield_kg_ha
+
 	column publication
 		dataType: string
+		lineageTag: 598f4edb-49b2-4dd5-a85a-dfaf9723432f
 		summarizeBy: none
 		sourceColumn: publication
+
 	column yield_present
 		dataType: boolean
+		lineageTag: 59672908-3824-43c2-9e40-b68d96a5c1ba
 		summarizeBy: none
 		sourceColumn: yield_present
+
 	partition NSOYield = m
 		mode: import
 		source =
-			let
-			    Raw = Csv.Document(File.Contents(ExportFolder & "\nso_reported_yield.csv"), [Delimiter=",", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
-			    Checked = if Table.ColumnNames(Headers) = {"year", "yield_kg_ha", "publication", "yield_present"} then Headers else error "CSV schema mismatch",
-			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
-			    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"yield_kg_ha", type number}, {"publication", type text}, {"yield_present", type logical}}, "en-US"),
-			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
-			    Entry = Record.Field(Manifest[outputs], "nso_reported_yield.csv"),
-			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
-			in
-			    Accepted
+				let
+				    Raw = Csv.Document(File.Contents(ExportFolder & "\nso_reported_yield.csv"), [Delimiter=",", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+				    Checked = if Table.ColumnNames(Headers) = {"year", "yield_kg_ha", "publication", "yield_present"} then Headers else error "CSV schema mismatch",
+				    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+				    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"yield_kg_ha", type number}, {"publication", type text}, {"yield_present", type logical}}, "en-US"),
+				    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+				    Entry = Record.Field(Manifest[outputs], "nso_reported_yield.csv"),
+				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+				in
+				    Accepted
+

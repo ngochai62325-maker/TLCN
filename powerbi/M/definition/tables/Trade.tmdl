@@ -1,88 +1,129 @@
 table Trade
+	lineageTag: 5d6d3ad6-bad2-406e-bb72-65edcd3ddd34
+
 	column year
 		dataType: int64
+		lineageTag: ff6f39ab-867f-4912-bb04-087727522629
 		summarizeBy: none
 		sourceColumn: year
+
 	column reporter_key
 		dataType: string
+		lineageTag: f159e38f-01b6-451f-a01d-76d51a272cda
 		summarizeBy: none
 		sourceColumn: reporter_key
+
 	column reporter_code
 		dataType: string
+		lineageTag: a435c890-794d-4918-a5eb-344c5474bd13
 		summarizeBy: none
 		sourceColumn: reporter_code
+
 	column partner_key
 		dataType: string
+		lineageTag: 9376d7b6-4c76-4caa-adaf-f1d8ab31a54c
 		summarizeBy: none
 		sourceColumn: partner_key
+
 	column partner_code
 		dataType: string
+		lineageTag: 6d293f48-ebbc-4126-9fc1-0426cbd98802
 		summarizeBy: none
 		sourceColumn: partner_code
+
 	column partner_name
 		dataType: string
+		lineageTag: 6831556b-c938-4137-83aa-585b61cf59ce
 		summarizeBy: none
 		sourceColumn: partner_name
+
 	column product_key
 		dataType: string
+		lineageTag: ff85fb77-55de-4cf5-bb9c-2c7ba49013bd
 		summarizeBy: none
 		sourceColumn: product_key
+
 	column product_code
 		dataType: string
+		lineageTag: f039ea43-65e1-40d1-abe3-6693cf6a79d0
 		summarizeBy: none
 		sourceColumn: product_code
+
 	column direction
 		dataType: string
+		lineageTag: d4ee2c68-fb3b-4fb2-85b8-bdc7895b3292
 		summarizeBy: none
 		sourceColumn: direction
+
 	column quantity_t
 		dataType: double
+		lineageTag: 917cf7ab-1c47-43c3-871e-7eeb294339fb
 		summarizeBy: none
 		sourceColumn: quantity_t
+
 	column value_usd
 		dataType: double
+		lineageTag: e5357ad3-d0ec-4715-ba72-a56285009d10
 		summarizeBy: none
 		sourceColumn: value_usd
+
 	column unit_value_usd_t
 		dataType: double
+		lineageTag: 1d322232-7e21-44c2-8973-8cd65a3022b2
 		summarizeBy: none
 		sourceColumn: unit_value_usd_t
+
 	column quantity_present
 		dataType: boolean
+		lineageTag: cac33752-2ec3-4f17-900d-f6eb096c9841
 		summarizeBy: none
 		sourceColumn: quantity_present
+
 	column value_present
 		dataType: boolean
+		lineageTag: 676e3ca9-b5d5-44f1-bfcf-31c21188532b
 		summarizeBy: none
 		sourceColumn: value_present
+
 	column denominator_valid
 		dataType: boolean
+		lineageTag: 4431287c-4b82-4b51-b461-45a35a22dd6a
 		summarizeBy: none
 		sourceColumn: denominator_valid
+
 	column paired_quantity_t
 		dataType: double
+		lineageTag: 71b1731b-9473-42fa-84c8-cd7cb6626be5
 		summarizeBy: none
 		sourceColumn: paired_quantity_t
+
 	column paired_value_usd
 		dataType: double
+		lineageTag: bb6d8da7-0e37-4133-adcf-b175cd1fb80d
 		summarizeBy: none
 		sourceColumn: paired_value_usd
+
 	column partner_name_vi
 		dataType: string
+		lineageTag: f8993668-6a2e-47f9-85d7-bb13aca7ea42
 		summarizeBy: none
 		sourceColumn: partner_name_vi
+
 	partition Trade = m
 		mode: import
 		source =
-			let
-			    Raw = Csv.Document(File.Contents(ExportFolder & "\trade_exports.csv"), [Delimiter=",", Columns=17, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
-			    Checked = if Table.ColumnNames(Headers) = {"year", "reporter_key", "reporter_code", "partner_key", "partner_code", "partner_name", "product_key", "product_code", "direction", "quantity_t", "value_usd", "unit_value_usd_t", "quantity_present", "value_present", "denominator_valid", "paired_quantity_t", "paired_value_usd"} then Headers else error "CSV schema mismatch",
-			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
-			    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"reporter_key", type text}, {"reporter_code", type text}, {"partner_key", type text}, {"partner_code", type text}, {"partner_name", type text}, {"product_key", type text}, {"product_code", type text}, {"direction", type text}, {"quantity_t", type number}, {"value_usd", type number}, {"unit_value_usd_t", type number}, {"quantity_present", type logical}, {"value_present", type logical}, {"denominator_valid", type logical}, {"paired_quantity_t", type number}, {"paired_value_usd", type number}}, "en-US"),
-			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
-			    Entry = Record.Field(Manifest[outputs], "trade_exports.csv"),
-			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
-			    With_partner_name_vi = Table.AddColumn(Accepted, "partner_name_vi", each if [partner_name] = "China, mainland" then "Trung Quốc" else if [partner_name] = "Côte d'Ivoire" then "Bờ Biển Ngà" else if [partner_name] = "Ghana" then "Ghana" else if [partner_name] = "Indonesia" then "Indonesia" else if [partner_name] = "Malaysia" then "Malaysia" else if [partner_name] = "Philippines" then "Philippines" else if [partner_name] = "Singapore" then "Singapore" else [partner_name], type text)
-			in
-			    With_partner_name_vi
+				let
+				    Raw = Csv.Document(File.Contents(ExportFolder & "\trade_exports.csv"), [Delimiter=",", Columns=17, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+				    Checked = if Table.ColumnNames(Headers) = {"year", "reporter_key", "reporter_code", "partner_key", "partner_code", "partner_name", "product_key", "product_code", "direction", "quantity_t", "value_usd", "unit_value_usd_t", "quantity_present", "value_present", "denominator_valid", "paired_quantity_t", "paired_value_usd"} then Headers else error "CSV schema mismatch",
+				    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+				    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"reporter_key", type text}, {"reporter_code", type text}, {"partner_key", type text}, {"partner_code", type text}, {"partner_name", type text}, {"product_key", type text}, {"product_code", type text}, {"direction", type text}, {"quantity_t", type number}, {"value_usd", type number}, {"unit_value_usd_t", type number}, {"quantity_present", type logical}, {"value_present", type logical}, {"denominator_valid", type logical}, {"paired_quantity_t", type number}, {"paired_value_usd", type number}}, "en-US"),
+				    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+				    Entry = Record.Field(Manifest[outputs], "trade_exports.csv"),
+				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
+				    With_partner_name_vi = Table.AddColumn(Accepted, "partner_name_vi", each if [partner_name] = "China, mainland" then "Trung Quốc" else if [partner_name] = "Côte d'Ivoire" then "Bờ Biển Ngà" else if [partner_name] = "Ghana" then "Ghana" else if [partner_name] = "Indonesia" then "Indonesia" else if [partner_name] = "Malaysia" then "Malaysia" else if [partner_name] = "Philippines" then "Philippines" else if [partner_name] = "Singapore" then "Singapore" else [partner_name], type text)
+				in
+				    With_partner_name_vi
+
+	annotation PBI_ResultType = Table
+

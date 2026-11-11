@@ -1,43 +1,60 @@
 table NSOSeasonal
+	lineageTag: 1617abbd-6da6-4e60-9b7a-cfaba6e0deb3
+
 	column year
 		dataType: int64
+		lineageTag: 0141cd5d-bd56-403e-addc-536ef9766f5a
 		summarizeBy: none
 		sourceColumn: year
+
 	column season
 		dataType: string
+		lineageTag: a39e7cb7-6cd8-4ff0-a9ce-6b96161b9434
 		summarizeBy: none
 		sourceColumn: season
+
 	column production_t
 		dataType: double
+		lineageTag: a024926a-516a-458c-b6b9-b218b5929a1c
 		summarizeBy: none
 		sourceColumn: production_t
+
 	column publication
 		dataType: string
+		lineageTag: 90699ee9-6d39-404d-aad1-644d4553c842
 		summarizeBy: none
 		sourceColumn: publication
+
 	column geography_scope
 		dataType: string
+		lineageTag: dacf3a95-586e-4cc1-804d-ff99bcb3248a
 		summarizeBy: none
 		sourceColumn: geography_scope
+
 	column production_present
 		dataType: boolean
+		lineageTag: 30e308c5-bbc9-414e-83ed-f3995600bcf8
 		summarizeBy: none
 		sourceColumn: production_present
+
 	column season_label_vi
 		dataType: string
+		lineageTag: c54b11f5-cacf-423b-9d47-7914ccc32111
 		summarizeBy: none
 		sourceColumn: season_label_vi
+
 	partition NSOSeasonal = m
 		mode: import
 		source =
-			let
-			    Raw = Csv.Document(File.Contents(ExportFolder & "\nso_national_seasonal.csv"), [Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
-			    Checked = if Table.ColumnNames(Headers) = {"year", "season", "production_t", "publication", "geography_scope", "production_present", "season_label_vi"} then Headers else error "CSV schema mismatch",
-			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
-			    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"season", type text}, {"production_t", type number}, {"publication", type text}, {"geography_scope", type text}, {"production_present", type logical}, {"season_label_vi", type text}}, "en-US"),
-			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
-			    Entry = Record.Field(Manifest[outputs], "nso_national_seasonal.csv"),
-			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
-			in
-			    Accepted
+				let
+				    Raw = Csv.Document(File.Contents(ExportFolder & "\nso_national_seasonal.csv"), [Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+				    Checked = if Table.ColumnNames(Headers) = {"year", "season", "production_t", "publication", "geography_scope", "production_present", "season_label_vi"} then Headers else error "CSV schema mismatch",
+				    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+				    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"season", type text}, {"production_t", type number}, {"publication", type text}, {"geography_scope", type text}, {"production_present", type logical}, {"season_label_vi", type text}}, "en-US"),
+				    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+				    Entry = Record.Field(Manifest[outputs], "nso_national_seasonal.csv"),
+				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+				in
+				    Accepted
+

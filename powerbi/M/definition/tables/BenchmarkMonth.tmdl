@@ -1,10 +1,16 @@
 table BenchmarkMonth
+	lineageTag: e368290c-a362-44b8-a8e0-93943d2dc077
+
 	column Date
 		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: b8573b03-81ae-4e63-b543-41108df7c476
 		summarizeBy: none
 		sourceColumn: Date
-		formatString: yyyy-MM-dd
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	partition BenchmarkMonth = m
 		mode: import
-		source =
-			Table.RenameColumns(Table.Distinct(Table.SelectColumns(WB,{"month_date"})),{{"month_date","Date"}})
+		source = Table.RenameColumns(Table.Distinct(Table.SelectColumns(WB,{"month_date"})),{{"month_date","Date"}})
+

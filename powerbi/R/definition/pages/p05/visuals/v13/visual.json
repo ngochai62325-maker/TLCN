@@ -1,17 +1,97 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "v13",
   "position": {
     "x": 32,
     "y": 435,
     "z": 13,
-    "width": 590,
     "height": 205,
+    "width": 590,
     "tabOrder": 13
   },
   "visual": {
     "visualType": "lineChart",
-    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "QuoteDate"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "QuoteDate.Date",
+              "active": true,
+              "displayName": "Ngày"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "VNQuote"
+                    }
+                  },
+                  "Property": "market"
+                }
+              },
+              "queryRef": "VNQuote.market",
+              "displayName": "Thị trường"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "Domestic Quote Chart Price"
+                }
+              },
+              "queryRef": "Overview.Domestic Quote Chart Price",
+              "displayName": "VND/kg"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "valueAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'VND/kg'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -88,85 +168,64 @@
         }
       ]
     },
-    "query": {
-      "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "QuoteDate"
-                    }
-                  },
-                  "Property": "Date"
-                }
-              },
-              "queryRef": "QuoteDate.Date",
-              "displayName": "Ngày"
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "VNQuote"
-                    }
-                  },
-                  "Property": "market"
-                }
-              },
-              "queryRef": "VNQuote.market",
-              "displayName": "Thị trường"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "Domestic Quote Chart Price"
-                }
-              },
-              "queryRef": "Overview.Domestic Quote Chart Price",
-              "displayName": "VND/kg"
-            }
-          ]
-        }
-      }
-    },
-    "objects": {
-      "valueAxis": [
-        {
-          "properties": {
-            "titleText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'VND/kg'"
-                }
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "p05_v13_standard_quote",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "VNQuote"
               }
             },
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
+            "Property": "series_label"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "q",
+              "Entity": "VNQuote",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "q"
+                          }
+                        },
+                        "Property": "series_label"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Lúa IR 50404 (lúa tươi) · Thương lái thu mua'"
+                        }
+                      }
+                    ]
+                  ]
                 }
               }
             }
-          }
-        }
-      ]
-    }
+          ]
+        },
+        "isLockedInViewMode": true
+      }
+    ]
   }
 }

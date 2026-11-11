@@ -1,65 +1,92 @@
 table USDAPrice
+	lineageTag: 85ec2efb-b12f-4fd2-a05f-f0577e0bbc20
+
 	column reference_year
 		dataType: int64
+		lineageTag: 094f3844-b4b6-44dc-89d8-77a2c83409d6
 		summarizeBy: none
 		sourceColumn: reference_year
+
 	column reference_period
 		dataType: string
+		lineageTag: 554dd844-a651-492d-95c3-ce791bf269c7
 		summarizeBy: none
 		sourceColumn: reference_period
+
 	column series_key
 		dataType: string
+		lineageTag: b6f3c697-697a-4f58-b1f4-911d9fbe61e8
 		summarizeBy: none
 		sourceColumn: series_key
+
 	column location
 		dataType: string
+		lineageTag: dc7eafea-8622-4035-b8af-d80f490ebe82
 		summarizeBy: none
 		sourceColumn: location
+
 	column commodity_class
 		dataType: string
+		lineageTag: 38cd7c98-0136-49c6-a895-49cefaf3b5cc
 		summarizeBy: none
 		sourceColumn: commodity_class
+
 	column statistic_type
 		dataType: string
+		lineageTag: 9b242962-3ca2-485b-b2ee-bbac9251ed40
 		summarizeBy: none
 		sourceColumn: statistic_type
+
 	column unit
 		dataType: string
+		lineageTag: 708ee106-403e-4bcd-b2c1-d58e7e5f9ad6
 		summarizeBy: none
 		sourceColumn: unit
+
 	column price_usd_t
 		dataType: double
+		lineageTag: 4d285877-b195-47ea-8c79-09b450f905f7
 		summarizeBy: none
 		sourceColumn: price_usd_t
+
 	column observation_present
 		dataType: boolean
+		lineageTag: a920c060-72fa-4048-8e60-f9cbc4623457
 		summarizeBy: none
 		sourceColumn: observation_present
+
 	column numeric_present
 		dataType: boolean
+		lineageTag: 6e3d5952-1c3f-45fe-a4e3-822b61d84a7b
 		summarizeBy: none
 		sourceColumn: numeric_present
+
 	column location_vi
 		dataType: string
+		lineageTag: da11ce31-8622-4dc7-8551-ceea3ae1e7fc
 		summarizeBy: none
 		sourceColumn: location_vi
+
 	column commodity_class_vi
 		dataType: string
+		lineageTag: dc745761-3de3-47f0-a717-5887e667f2d3
 		summarizeBy: none
 		sourceColumn: commodity_class_vi
+
 	partition USDAPrice = m
 		mode: import
 		source =
-			let
-			    Raw = Csv.Document(File.Contents(ExportFolder & "\usda_price_reference.csv"), [Delimiter=",", Columns=10, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
-			    Checked = if Table.ColumnNames(Headers) = {"reference_year", "reference_period", "series_key", "location", "commodity_class", "statistic_type", "unit", "price_usd_t", "observation_present", "numeric_present"} then Headers else error "CSV schema mismatch",
-			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
-			    Typed = Table.TransformColumnTypes(Missing, {{"reference_year", Int64.Type}, {"reference_period", type text}, {"series_key", type text}, {"location", type text}, {"commodity_class", type text}, {"statistic_type", type text}, {"unit", type text}, {"price_usd_t", type number}, {"observation_present", type logical}, {"numeric_present", type logical}}, "en-US"),
-			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
-			    Entry = Record.Field(Manifest[outputs], "usda_price_reference.csv"),
-			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
-			    With_location_vi = Table.AddColumn(Accepted, "location_vi", each if [location] = "INDIA" then "Ấn Độ" else if [location] = "PAKISTAN" then "Pakistan" else if [location] = "THAILAND" then "Thái Lan" else if [location] = "VIETNAM" then "Việt Nam" else [location], type text),
-			    With_commodity_class_vi = Table.AddColumn(With_location_vi, "commodity_class_vi", each if [commodity_class] = "100-PERCENT GRADE B" then "Gạo 100% loại B" else if [commodity_class] = "5-PERCENT BROKEN" then "Gạo 5% tấm" else if [commodity_class] = "5-PERCENT PARBOILED" then "Gạo 5% đồ" else if [commodity_class] = "FRAGRANT WHITE RICE" then "Gạo thơm hạt dài" else [commodity_class], type text)
-			in
-			    With_commodity_class_vi
+				let
+				    Raw = Csv.Document(File.Contents(ExportFolder & "\usda_price_reference.csv"), [Delimiter=",", Columns=10, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+				    Checked = if Table.ColumnNames(Headers) = {"reference_year", "reference_period", "series_key", "location", "commodity_class", "statistic_type", "unit", "price_usd_t", "observation_present", "numeric_present"} then Headers else error "CSV schema mismatch",
+				    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+				    Typed = Table.TransformColumnTypes(Missing, {{"reference_year", Int64.Type}, {"reference_period", type text}, {"series_key", type text}, {"location", type text}, {"commodity_class", type text}, {"statistic_type", type text}, {"unit", type text}, {"price_usd_t", type number}, {"observation_present", type logical}, {"numeric_present", type logical}}, "en-US"),
+				    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+				    Entry = Record.Field(Manifest[outputs], "usda_price_reference.csv"),
+				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
+				    With_location_vi = Table.AddColumn(Accepted, "location_vi", each if [location] = "INDIA" then "Ấn Độ" else if [location] = "PAKISTAN" then "Pakistan" else if [location] = "THAILAND" then "Thái Lan" else if [location] = "VIETNAM" then "Việt Nam" else [location], type text),
+				    With_commodity_class_vi = Table.AddColumn(With_location_vi, "commodity_class_vi", each if [commodity_class] = "100-PERCENT GRADE B" then "Gạo 100% loại B" else if [commodity_class] = "5-PERCENT BROKEN" then "Gạo 5% tấm" else if [commodity_class] = "5-PERCENT PARBOILED" then "Gạo 5% đồ" else if [commodity_class] = "FRAGRANT WHITE RICE" then "Gạo thơm hạt dài" else [commodity_class], type text)
+				in
+				    With_commodity_class_vi
+

@@ -208,14 +208,20 @@ def test_query_allowlist_invalid_filters_fail_before_client_call():
 
 
 def test_guard_refuses_tampered_definition_and_changed_pins():
-    from analytics.powerbi_fence import check_manifest
+    from analytics.powerbi_fence import check_manifest, MAX_DEFINITIONS
     from gold.keys import fingerprint
     m={'outputs':{n:{'uuid':'uuid-'+n,'snapshot_id':'123'} for n in load_spec()},'context':{'code_fingerprint':'code'},'batch':BATCH}
     sql,h=compile_query('fact_overview',{'fact':'fact_nso_observation'},m)
-    payload=dict(batch=BATCH,manifest_sha256=fingerprint(m),snapshots=m['outputs'],definitions=[dict(query='fact_overview',parameters={'fact':'fact_nso_observation'},
-        version=VERSION,definition_sha256=h,compiled_sql_sha256=__import__('hashlib').sha256(sql.encode()).hexdigest())])
+    rec=dict(query='fact_overview',parameters={'fact':'fact_nso_observation'},
+        version=VERSION,definition_sha256=h,compiled_sql_sha256=__import__('hashlib').sha256(sql.encode()).hexdigest())
+    payload=dict(batch=BATCH,manifest_sha256=fingerprint(m),snapshots=m['outputs'],definitions=[dict(rec)])
     with patch('gold.admission.code_fingerprint',return_value='code'):
         check_manifest(m,payload)
+        check_manifest(m,dict(payload,definitions=[dict(rec) for _ in range(74)]))
+        with pytest.raises(ValueError,match='definition inventory'):
+            check_manifest(m,dict(payload,definitions=[]))
+        with pytest.raises(ValueError,match='definition inventory'):
+            check_manifest(m,dict(payload,definitions=[dict(rec) for _ in range(MAX_DEFINITIONS+1)]))
         payload['definitions'][0]['definition_sha256']='0'*64
         with pytest.raises(RuntimeError,match='definition'):check_manifest(m,payload)
         payload['snapshots']={}

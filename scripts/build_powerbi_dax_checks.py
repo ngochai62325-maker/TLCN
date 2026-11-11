@@ -19,10 +19,13 @@ def build(bundle):
         else:ok=f'NOT ISBLANK({expression}) && ABS(({expression})-({expected}))<={tolerance}'
         tests.append((name,ok))
     def cy(measure,year):return f'CALCULATE([{measure}],CalendarYear[Year]={year})'
-    add('overview_total','[Total Observations]',sum(r['rows_total'] for r in data['fact_overview.csv']))
-    add('overview_numeric','[Numeric Observations]',sum(r['numeric_rows'] for r in data['fact_overview.csv']))
-    add('overview_null','[Present NULL]',sum(r['present_null_rows'] for r in data['fact_overview.csv']))
-    add('overview_ratio','[Numeric Coverage]',Decimal(1402167)/Decimal(1414527))
+    overview_total=sum(r['rows_total'] for r in data['fact_overview.csv'])
+    overview_numeric=sum(r['numeric_rows'] for r in data['fact_overview.csv'])
+    overview_null=sum(r['present_null_rows'] for r in data['fact_overview.csv'])
+    add('overview_total','[Total Observations]',overview_total)
+    add('overview_numeric','[Numeric Observations]',overview_numeric)
+    add('overview_null','[Present NULL]',overview_null)
+    add('overview_ratio','[Numeric Coverage]',Decimal(overview_numeric)/Decimal(overview_total))
     for year in (1990,2015,2024):
         r=next(r for r in data['nso_national_annual.csv'] if r['year']==year)
         add('production_'+str(year),cy('Annual Production',year),r['production_t'])
@@ -73,8 +76,9 @@ def build(bundle):
     add('no_trade_2024',cy('Trade Quantity',2024),None)
     add('empty_trade_group_count',cy('Trade Paired Groups',2024),0)
     add('WB_absent_count','[WB Absent Months]',sum(not r['observation_present'] for r in data['wb_benchmark.csv']))
+    n_fao_areas=len({r['area_code'] for r in fao})
     add('FAO_common_year','[FAO Common Year]',2024)
-    add('FAO_selected_rank_sum','SUMX(SUMMARIZECOLUMNS(FAO[area_name],"rank",[FAO Common Rank]),[rank])',10)
+    add('FAO_selected_rank_sum','SUMX(SUMMARIZECOLUMNS(FAO[area_name],"rank",[FAO Common Rank]),[rank])',n_fao_areas*(n_fao_areas+1)//2)
     for partner in ('156','458','608'):
         rows=[r for r in trade if r['partner_code']==partner]
         add('trade_multi_year_'+partner,f'CALCULATE([Trade Unit Value],Trade[partner_code]="{partner}")',paired_ratio(rows,'paired_value_usd','paired_quantity_t'))

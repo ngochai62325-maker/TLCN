@@ -196,8 +196,10 @@ def build(session):
             yb_rows.append(dict(reference_year=integer(x['period']),reference_period=str(x['reference_period']),series_key=sr.price_series_key,location=loc,commodity_class=cls,statistic_type=stat,unit='USD/tonne',price_usd_t=val,observation_present=True,numeric_present=val is not None))
     files['usda_price_reference.csv']=yb_rows
 
-    # Vietnam Domestic Daily Quotes
-    vn_series = series[series.series_identity_json.map(lambda s: len(json.loads(s))==6 and json.loads(s)[0] in ('An Giang', 'Đồng Tháp', 'Long Xuyên', 'Cần Thơ') and json.loads(s)[3]=='VND/kg')]
+    # Vietnam Domestic Daily Quotes (keep within 5,000-row mart budget across 4 Mekong Delta provinces & 6 core commodities)
+    vn_markets = ('An Giang', 'Đồng Tháp', 'Kiên Giang', 'Cần Thơ')
+    vn_commodities = ('Lúa IR 50404 (lúa tươi)', 'IR 50404', 'Lúa IR 50404', 'OM 5451', 'Lúa OM 5451 (lúa tươi)', 'Đài Loan')
+    vn_series = series[series.series_identity_json.map(lambda s: len(json.loads(s))==6 and json.loads(s)[0] in vn_markets and json.loads(s)[1] in vn_commodities and json.loads(s)[3]=='VND/kg')]
     if vn_series.empty:
         domestic_identity=['An Giang','Lúa IR 50404 (lúa tươi)','Thương lái thu mua','VND/kg','VND','CTV địa phương']
         vn_series = series[series.series_identity_json.map(lambda s:json.loads(s)==domestic_identity)]

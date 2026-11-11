@@ -1,6 +1,6 @@
 {
   "project": "TLCN_Rice_Analytics",
-  "batch": "ec421297c194804dc7a3a63aacfda37a65dacfac07245d118e34b34506ca2235",
+  "batch": "b32b331ebc12f6edd89161049917025ecafd3c26bac600e729352cc4d8f577dd",
   "bundle_format": "powerbi-csv-2",
   "pages": [
     {
@@ -44,32 +44,32 @@
     "Total Observations": {
       "dax": "SUM(Overview[rows_total])",
       "format": "#,0",
-      "description": "Tổng số quan sát toàn hệ thống Gold (1.414.527 dòng)."
+      "description": "Tổng số quan sát toàn hệ thống Gold (tính từ fact_overview)."
     },
     "Numeric Observations": {
       "dax": "SUM(Overview[numeric_rows])",
       "format": "#,0",
-      "description": "Số quan sát có dữ liệu số thực tế (1.402.167 dòng)."
+      "description": "Số quan sát có dữ liệu số thực tế (tính từ fact_overview)."
     },
     "Present NULL": {
       "dax": "SUM(Overview[present_null_rows])",
       "format": "#,0",
-      "description": "Số quan sát khuyết có ghi nhận (12.360 dòng)."
+      "description": "Số quan sát khuyết có ghi nhận (tính từ fact_overview)."
     },
     "Numeric Coverage": {
       "dax": "DIVIDE([Numeric Observations], [Total Observations])",
       "format": "0.00%",
-      "description": "Tỷ lệ quan sát có số trên tổng quan sát (99,13%)."
+      "description": "Tỷ lệ quan sát có số trên tổng quan sát."
     },
     "Null Percentage": {
       "dax": "DIVIDE([Present NULL], [Total Observations])",
       "format": "0.00%",
-      "description": "Tỷ lệ quan sát khuyết trên tổng quan sát (0,87%)."
+      "description": "Tỷ lệ quan sát khuyết trên tổng quan sát."
     },
     "Highest Null Fact Pct": {
       "dax": "MAXX(Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]))",
       "format": "0.00%",
-      "description": "Tỷ lệ quan sát khuyết cao nhất trong 9 fact (USDA price reference 34,96%)."
+      "description": "Tỷ lệ quan sát khuyết cao nhất trong 9 fact."
     },
     "Highest Null Fact Display": {
       "dax": "VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) VAR pct = MAXX(maxFact, DIVIDE(Overview[present_null_rows], Overview[rows_total])) VAR factName = MAXX(maxFact, Overview[fact_name_vi]) RETURN factName & \": \" & FORMAT(pct, \"0.00%\")",
@@ -552,8 +552,8 @@
       "description": "Thẻ giá Việt Nam 5% mới nhất kèm MoM."
     },
     "Latest Common WB Month": {
-      "dax": "VAR thai_m = CALCULATETABLE(VALUES(WB[month_date]), WB[series_code] = \"rice_thai_5\", NOT ISBLANK(WB[price_usd_t]), REMOVEFILTERS(WB)) VAR vn_m = CALCULATETABLE(VALUES(WB[month_date]), WB[series_code] = \"rice_viet_namese_5\", NOT ISBLANK(WB[price_usd_t]), REMOVEFILTERS(WB)) RETURN MAXX(INTERSECT(thai_m, vn_m), [month_date])",
-      "format": "@",
+      "dax": "MAXX(FILTER(ALL(WB[month_date]), CALCULATE(COUNTROWS(WB), WB[series_code] = \"rice_thai_5\", NOT ISBLANK(WB[price_usd_t])) > 0 && CALCULATE(COUNTROWS(WB), WB[series_code] = \"rice_viet_namese_5\", NOT ISBLANK(WB[price_usd_t])) > 0), WB[month_date])",
+      "format": "yyyy-MM-dd",
       "description": "Tháng mới nhất chung có giá của cả Thái 5% và VN 5%."
     },
     "WB Spread VN5 vs Thai5": {
@@ -582,9 +582,9 @@
       "description": "Tiêu đề động biểu đồ MoM."
     },
     "WB Volatility Title": {
-      "dax": "IF(HASONEVALUE(WB[series_code]), \"[Gạo xay xát] Biến động 12M – \" & SELECTEDVALUE(WB[series_name_vi]) & \" (%)\", \"[Gạo xay xát] Biến động 12M – Gạo Thái 5% & VN 5% (%)\")",
+      "dax": "IF(HASONEVALUE(WB[series_code]), \"[Gạo xay xát] Biến động 12M – \" & SELECTEDVALUE(WB[series_name_vi]) & \" (VN khuyết 12/2005–03/2010)\", \"[Gạo xay xát] Biến động 12M – Thái 5% & VN 5% (VN khuyết 12/2005–03/2010)\")",
       "format": "@",
-      "description": "Tiêu đề động biểu đồ biến động 12M."
+      "description": "Tiêu đề động biểu đồ biến động 12M kèm ghi chú khoảng khuyết dữ liệu VN."
     },
     "Domestic Quote": {
       "dax": "IF(HASONEVALUE(VNQuote[commodity]) && HASONEVALUE(VNQuote[price_type]), IF(HASONEVALUE(QuoteDate[Date]), MAX(VNQuote[price_vnd_kg]), AVERAGE(VNQuote[price_vnd_kg])))",
@@ -597,14 +597,14 @@
       "description": "Số ngày có báo giá duy nhất trong phạm vi chọn."
     },
     "Domestic Quote Chart Price": {
-      "dax": "VAR chosen_series = SELECTEDVALUE(VNQuote[series_label], \"Lúa IR 50404 (lúa tươi) · Thương lái thu mua\") RETURN CALCULATE(AVERAGE(VNQuote[price_vnd_kg]), KEEPFILTERS(VNQuote[series_label] = chosen_series))",
+      "dax": "VAR chosen_series = \"Lúa IR 50404 (lúa tươi) · Thương lái thu mua\" VAR valid_rows = FILTER(VNQuote, VNQuote[series_label] = chosen_series && NOT ISBLANK(VNQuote[price_vnd_kg]) && VNQuote[price_vnd_kg] > 0) RETURN IF(COUNTROWS(valid_rows) > 0, AVERAGEX(valid_rows, VNQuote[price_vnd_kg]), BLANK())",
       "format": "#,0",
-      "description": "Giá nội địa hiển thị biểu đồ (mặc định Lúa IR 50404 tươi thu mua nếu chưa chọn)."
+      "description": "Giá nội địa chuỗi chuẩn (Lúa IR 50404 tươi · Thương lái thu mua); trả BLANK() khi không có quan sát hợp lệ."
     },
     "Domestic Quote Chart Title": {
-      "dax": "VAR chosen_series = SELECTEDVALUE(VNQuote[series_label]) RETURN IF(ISBLANK(chosen_series), \"[Lúa] Giá nội địa Việt Nam – Lúa IR 50404 (lúa tươi) · Thương lái thu mua (VND/kg)\", \"[Lúa] Giá nội địa Việt Nam – \" & chosen_series & \" (VND/kg)\")",
+      "dax": "VAR chosen_series = \"Lúa IR 50404 (lúa tươi) · Thương lái thu mua\" VAR valid_markets = FILTER(VALUES(VNQuote[market]), CALCULATE(COUNTROWS(VNQuote), VNQuote[series_label] = chosen_series, NOT ISBLANK(VNQuote[price_vnd_kg]), VNQuote[price_vnd_kg] > 0) > 0) VAR market_list = CONCATENATEX(valid_markets, VNQuote[market], \", \", VNQuote[market], ASC) RETURN IF(ISBLANK(market_list) || market_list = \"\", \"[Lúa] Giá nội địa – \" & chosen_series & \" (không có dữ liệu)\", \"[Lúa] Giá nội địa (\" & market_list & \") – \" & chosen_series & \" (VND/kg)\")",
       "format": "@",
-      "description": "Tiêu đề động biểu đồ giá nội địa."
+      "description": "Tiêu đề động biểu đồ giá nội địa liệt kê đúng tập thị trường hiển thị."
     },
     "Trade Quantity": {
       "dax": "SUM(Trade[quantity_t])",
