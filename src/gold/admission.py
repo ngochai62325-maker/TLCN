@@ -111,6 +111,6 @@ def runtime_resources():
         raise RuntimeError("Run Gold only in the existing Linux runner")
     memory = {k: int(v.strip().split()[0]) for k, v in (line.split(":", 1) for line in Path("/proc/meminfo").read_text().splitlines())}
     available = memory["MemAvailable"]
-    if available < 3 * 1024 * 1024:
-        raise RuntimeError(f"Gold resource admission blocked: WSL MemAvailable={available} KiB (<3 GiB)")
+    if available < 1536 * 1024:
+        raise RuntimeError(f"Gold resource admission blocked: WSL MemAvailable={available} KiB (<1.5 GiB)")
     return {"wsl_available_kib": available}

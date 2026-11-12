@@ -29,7 +29,8 @@ def main():
     require_semantic_definitions()
     spark = get_spark_session("TLCNGold-" + args.action)
     spark.conf.set("spark.sql.ansi.enabled", "true")
-    spark.conf.set("spark.sql.shuffle.partitions", "2")
+    spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "true")
+    spark.conf.set("spark.sql.shuffle.partitions", "4")
     try:
         result = execute(spark, args.action, args.owner_run_id, args.silver_run_id, args.source)
         print("GOLD_RESULT=" + json.dumps(result, ensure_ascii=False))

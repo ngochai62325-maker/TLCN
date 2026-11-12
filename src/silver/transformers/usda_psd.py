@@ -25,6 +25,8 @@ class UsdaPsdTransformer:
         result = (df.select(*[c for c in df.columns if c not in years],
                           F.explode(F.array(*entries)).alias("observation"))
                 .select(*[c for c in df.columns if c not in years], "observation.*"))
+        if len(years) > 10 and not getattr(df, "_is_schema_probe", False):
+            result = result.localCheckpoint(eager=True)
         return self.normalize_values(result)
 
     @staticmethod

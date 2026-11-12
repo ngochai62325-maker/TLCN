@@ -116,8 +116,8 @@ services:
     command:
       - |
         printf '%s\n' 'connector.name=iceberg' 'iceberg.catalog.type=rest' 'iceberg.rest-catalog.uri=http://iceberg-rest:8181' 'iceberg.rest-catalog.warehouse=s3://warehouse' 'fs.native-s3.enabled=true' 's3.endpoint=http://minio:9000' 's3.region=us-east-1' "s3.aws-access-key=$${MINIO_ROOT_USER}" "s3.aws-secret-key=$${MINIO_ROOT_PASSWORD}" 's3.path-style-access=true' > /etc/trino/catalog/iceberg.properties
-        printf '%s\n' 'coordinator=true' 'node-scheduler.include-coordinator=true' 'http-server.http.port=8080' 'query.max-memory=128MB' 'query.max-total-memory=256MB' 'memory.heap-headroom-per-node=256MB' 'task.concurrency=2' 'task.max-worker-threads=4' 'task.min-drivers=4' 'discovery.uri=http://localhost:8080' > /etc/trino/config.properties
-        printf '%s\n' '-server' '-Xmx512M' '-XX:ActiveProcessorCount=2' '-XX:+UseG1GC' '-XX:+ExitOnOutOfMemoryError' '-Djdk.attach.allowAttachSelf=true' > /etc/trino/jvm.config
+        printf '%s\n' 'coordinator=true' 'node-scheduler.include-coordinator=true' 'http-server.http.port=8080' 'query.max-memory=256MB' 'query.max-total-memory=512MB' 'memory.heap-headroom-per-node=256MB' 'query.max-history=25' 'query.min-expire-age=5s' 'task.concurrency=2' 'task.max-worker-threads=4' 'task.min-drivers=4' 'discovery.uri=http://localhost:8080' > /etc/trino/config.properties
+        printf '%s\n' '-server' '-Xmx1024M' '-XX:ActiveProcessorCount=2' '-XX:+UseG1GC' '-XX:+ExitOnOutOfMemoryError' '-Djdk.attach.allowAttachSelf=true' > /etc/trino/jvm.config
         exec /usr/lib/trino/bin/run-trino
     depends_on:
       iceberg-rest: {condition: service_started}
@@ -143,8 +143,8 @@ services:
       <<: *local-env
       TLCN_ISOLATED_REBUILD: "1"
       JAVA_TOOL_OPTIONS: -XX:ActiveProcessorCount=2
-      SILVER_SHUFFLE_PARTITIONS: "2"
-      PYSPARK_SUBMIT_ARGS: --driver-memory 768m --conf spark.sql.defaultCatalog=spark_catalog --conf spark.sql.catalog.iceberg.type=hadoop --conf spark.sql.catalog.iceberg.warehouse=/tmp/unused-warehouse pyspark-shell
+      SILVER_SHUFFLE_PARTITIONS: "4"
+      PYSPARK_SUBMIT_ARGS: --master local[2] --driver-memory 2g --conf spark.ui.enabled=false --conf spark.sql.execution.arrow.pyspark.enabled=true --conf spark.sql.shuffle.partitions=4 --conf spark.sql.defaultCatalog=spark_catalog pyspark-shell
       SPARK_LOCAL_IP: 127.0.0.1
       SPARK_LOCAL_HOSTNAME: localhost
     entrypoint: [python3]

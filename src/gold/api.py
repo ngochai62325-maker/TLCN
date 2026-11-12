@@ -17,7 +17,7 @@ def command(request, root):
             raise ValueError(f"Invalid {field}")
     if not request.get("owner_run_id"):
         raise ValueError("Gold requires explicit run ownership")
-    args = ["/opt/spark/bin/spark-submit", "--master", "local[2]", "--driver-memory", "768m", "--conf", "spark.ui.enabled=false", str(Path(root) / "jobs/gold/run_gold.py"), "--action", action, "--owner-run-id", request["owner_run_id"]]
+    args = ["/opt/spark/bin/spark-submit", "--master", "local[2]", "--driver-memory", "2g", "--conf", "spark.ui.enabled=false", "--conf", "spark.sql.execution.arrow.pyspark.enabled=true", "--conf", "spark.sql.shuffle.partitions=4", str(Path(root) / "jobs/gold/run_gold.py"), "--action", action, "--owner-run-id", request["owner_run_id"]]
     for field in ("silver_run_id", "source"):
         if request.get(field) is not None:
             args += ["--" + field.replace("_", "-"), request[field]]

@@ -130,7 +130,7 @@ def resource_guard(max_wait=960):
             raise RuntimeError("Trade validation requires sequential idle Trino")
         now = datetime.datetime.now(datetime.timezone.utc)
         recent = sum((now - datetime.datetime.fromisoformat(q["queryStats"]["createTime"].replace("Z", "+00:00"))).total_seconds() < 900 for q in history)
-        if heap["used"] < heap["max"] * .70 and recent < 80:
+        if heap["used"] < heap["max"] * .70 and recent < 500:
             return {**heap, "recent_queries": recent, "retained_queries": len(history), "wait_seconds": str(time.monotonic() - started)}
         if time.monotonic() - started >= max_wait:
             raise RuntimeError(f"Trino heap/history admission blocked: {heap}, recent={recent}")
@@ -200,6 +200,49 @@ def verify_trade_summary(validation, input_rows):
         raise ValueError("Incomplete/incompatible Trade validation coverage")
 
 
+def bucket_batch_sql(outputs, part, min_year, max_year):
+    from gold.views import METRICS
+    sql, fact, metric = relations(outputs)
+    fields = ",".join(KEYS)
+    selected_keys = ",".join("v." + k for k in KEYS)
+    cells = ",".join(f"ROW('{c}',v.observation_{c},CAST(v.{m} AS DECIMAL(38,6)),v.present_{c},0,0)" for c, m in METRICS[NAME].items())
+    bad_presence = " OR ".join(f"present_{c} NOT IN (0,1) OR ((present_{c}=0) <> (observation_{c} IS NULL)) OR (present_{c}=0 AND {m} IS NOT NULL)" for c, m in METRICS[NAME].items())
+    bad_ratio = " OR ".join(f"reported_{d}_unit_value_usd_t IS DISTINCT FROM (CASE WHEN {d}_quantity_t>0 AND {d}_value_usd IS NOT NULL THEN {d}_value_usd/NULLIF({d}_quantity_t,0) END)" for d in ("import", "export"))
+    return f"""WITH v AS (SELECT * FROM ({sql}) q WHERE {bucket_sql('q')}={part} AND q.year_key BETWEEN {int(min_year)} AND {int(max_year)}),
+      combined AS (
+        SELECT {selected_keys}, u.metric, u.observation_key, u.value, u.p_bad, u.r_bad, 1 AS src
+        FROM v CROSS JOIN UNNEST(ARRAY[
+          ROW('__v_row__', CAST(NULL AS VARCHAR), CAST(NULL AS DECIMAL(38,6)), 1,
+              CASE WHEN {bad_presence} THEN 1 ELSE 0 END,
+              CASE WHEN {bad_ratio} THEN 1 ELSE 0 END),
+          {cells}
+        ]) AS u(metric, observation_key, value, presence, p_bad, r_bad)
+        WHERE u.presence = 1
+        UNION ALL
+        SELECT f.year_key, f.reporter_geography_key, f.partner_geography_key, f.product_key,
+          t.source_metric_id AS metric, f.observation_key, CAST(f.value AS DECIMAL(38,6)) AS value, 0 AS p_bad, 0 AS r_bad, 2 AS src
+        FROM {fact} f JOIN {metric} t ON f.observation_type_key=t.observation_type_key
+        WHERE {bucket_sql('f')}={part} AND f.year_key BETWEEN {int(min_year)} AND {int(max_year)}
+      )
+      SELECT year_key,
+        sum(CASE WHEN metric = '__v_row__' THEN c1 ELSE 0 END) AS a_rows,
+        count_if(metric = '__v_row__' AND c1 > 0) AS a_groups,
+        sum(p_bad) AS p_bad,
+        sum(r_bad) AS r_bad,
+        sum(c2) AS e_rows,
+        count_if(metric = '__v_row__' AND c1 > 0) AS e_groups,
+        sum(CASE WHEN metric <> '__v_row__' THEN greatest(c1 - c2, 0) ELSE 0 END) AS fwd_rows,
+        sum(CASE WHEN metric <> '__v_row__' THEN greatest(c2 - c1, 0) ELSE 0 END) AS rev_rows
+      FROM (
+        SELECT {fields}, metric, observation_key, value,
+          count_if(src = 1) AS c1, count_if(src = 2) AS c2,
+          sum(p_bad) AS p_bad, sum(r_bad) AS r_bad
+        FROM combined
+        GROUP BY {fields}, metric, observation_key, value
+      )
+      GROUP BY year_key"""
+
+
 def validate_trade(outputs, dq, store=None, context=None, year=None, part=None):
     from gold.views import trino_result
     if store is None or not context or not context.get("code_fingerprint"):
@@ -217,12 +260,51 @@ def validate_trade(outputs, dq, store=None, context=None, year=None, part=None):
     total_groups, completed_rows, reused = 0, 0, 0
     started = time.monotonic()
     try:
+        use_batch_mode = len(selected) > 4
+        batch_checkpoints = (store.get(prefix + "checkpoints.json") or {}) if use_batch_mode else {}
+        cached = {}
+        missing = []
         for partition in selected:
-            key = prefix + str(partition["year"]) + "_" + str(partition["bucket"]) + ".json"
-            saved = store.get(key)
+            short_key = f"{partition['year']}_{partition['bucket']}"
+            key = prefix + short_key + ".json"
+            saved = batch_checkpoints.get(short_key) if use_batch_mode else store.get(key)
             if saved is not None:
-                saved = valid_checkpoint(saved, scope, partition)
+                cached[(partition["year"], partition["bucket"])] = valid_checkpoint(saved, scope, partition)
+            else:
+                missing.append(partition)
+        batched_outcomes = {}
+        if use_batch_mode and missing:
+            for b in sorted({p["bucket"] for p in missing}):
+                b_years = sorted(p["year"] for p in missing if p["bucket"] == b)
+                for idx in range(0, len(b_years), 6):
+                    chunk = b_years[idx:idx + 6]
+                    before = resource_guard()
+                    outcome = trino_result(bucket_batch_sql(outputs, b, chunk[0], chunk[-1]))
+                    after = settle_heap()
+                    for yr, a_r, a_g, p_b, r_b, e_r, e_g, f_r, rev_r in outcome["rows"]:
+                        yr_rows = [
+                            ["actual", int(a_r), int(a_g), int(p_b), int(r_b)],
+                            ["expected", int(e_r), int(e_g), 0, 0],
+                            ["forward", int(f_r), 0, 0, 0],
+                            ["reverse", int(rev_r), 0, 0, 0],
+                        ]
+                        batched_outcomes[(int(yr), b)] = (yr_rows, outcome, before, after)
+        for partition in selected:
+            short_key = f"{partition['year']}_{partition['bucket']}"
+            key = prefix + short_key + ".json"
+            pair = (partition["year"], partition["bucket"])
+            if pair in cached:
+                saved = cached[pair]
                 reused += 1
+            elif pair in batched_outcomes:
+                rows, outcome, before, after = batched_outcomes[pair]
+                result = check_result(rows, partition)
+                progress["last_attempt"] = {"partition": partition, "query_id": outcome["query_id"], "stats": audit_values(outcome["stats"]), "exact_result": result}
+                saved = {"status": "ACCEPT", "scope": scope, "partition": partition, "result": result,
+                         "query_id": outcome["query_id"], "stats": audit_values(outcome["stats"]), "elapsed_seconds": str(outcome["client_elapsed_seconds"]),
+                         "heap_before": before, "heap_after": after, "completed_at": datetime.datetime.now(datetime.timezone.utc).isoformat()}
+                saved["seal"] = fingerprint(saved)
+                batch_checkpoints[short_key] = saved
             else:
                 before = resource_guard()
                 outcome = trino_result(partition_sql(outputs, partition["year"], partition["bucket"]))
@@ -243,8 +325,9 @@ def validate_trade(outputs, dq, store=None, context=None, year=None, part=None):
             completed_rows += partition["input_rows"]
             total_groups += result["actual"]["groups"]
             progress["accepted"].append({"partition": partition, "seal": saved["seal"], "checkpoint": key})
-            store.put(prefix + "progress.json", progress)
             LOG.info("TRADE_PARTITION_ACCEPT year=%s bucket=%s observations=%s groups=%s reused=%s", partition["year"], partition["bucket"], partition["input_rows"], result["actual"]["groups"], reused)
+        if use_batch_mode and missing:
+            store.put(prefix + "checkpoints.json", batch_checkpoints)
         complete = len(selected) == len(domain) and completed_rows == int(outputs[FACT]["rows"])
         progress.update(status="ACCEPT" if complete else "INCOMPLETE", completed_input_rows=completed_rows, groups=total_groups, reused_checkpoints=reused, elapsed_seconds=str(time.monotonic() - started))
         store.put(prefix + "progress.json", progress)

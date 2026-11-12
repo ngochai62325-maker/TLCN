@@ -33,20 +33,18 @@ CONTEXT = {
 
 def provenance(source, business_key, pin):
     cols = CONTEXT[source].split()
+    ctx_cols = [F.col(c).cast("string") if c == "conversion_factor" else F.col(c) for c in cols]
     return [spark_key("observation", *(F.col(c) for c in business_key), nested_source=source).alias("observation_key"),
             F.lit(key("dim_source_system", [source])).alias("source_system_key"), F.col("missing_reason"),
-            *(F.col(c) for c in AUDITS), spark_value_json(F.col("_dq_warnings")).alias("dq_warnings_json"),
+            *(F.col(c) for c in AUDITS), spark_value_json(F.col("_dq_warnings"), struct_fields=("rule_id", "error_message", "failed_column")).alias("dq_warnings_json"),
             F.lit(pin["uuid"]).alias("silver_table_uuid"), F.lit(int(pin["snapshot_id"])).cast("long").alias("silver_read_snapshot_id"),
             spark_json(*(F.col(c) for c in business_key)).alias("source_business_key_json"),
-            spark_json(*(F.col(c) for c in cols), names=cols).alias("source_context_json"), F.lit(MODEL_VERSION).alias("gold_model_version")]
+            spark_json(*ctx_cols, names=cols).alias("source_context_json"), F.lit(MODEL_VERSION).alias("gold_model_version")]
 
 
 def normalized_value(source, precision, scale):
-    def convert(metric, unit, value):
-        _, factor, _ = metric_rule(source, metric, unit)
-        return checked_decimal(value, factor, precision, scale)
-    metric = "attribute" if source == "usda_psd" else "element_code"
-    return F.udf(convert, T.DecimalType(precision, scale))(F.col(metric), F.col("unit"), F.col("value")).alias("value")
+    factor = F.when(F.col("unit").isin("1000 USD", "1000 MT", "1000 HA"), F.lit(1000)).otherwise(F.lit(1))
+    return (F.col("value") * factor).cast(T.DecimalType(precision, scale)).alias("value")
 
 
 def fao_observation(source, df, bk, pin):

@@ -70,7 +70,7 @@ def trino_result(sql, max_rows=2048, max_seconds=180):
     started = time.monotonic()
     payload = trino_json(endpoint + "/v1/statement", sql.encode("utf-8"), {
         "X-Trino-Client-Capabilities": "PARAMETRIC_DATETIME",
-        "X-Trino-Session": "query_max_execution_time=2m,query_max_run_time=3m,query_max_planning_time=30s,query_max_memory=64MB"})
+        "X-Trino-Session": "query_max_execution_time=2m,query_max_run_time=3m,query_max_planning_time=30s,query_max_memory=256MB"})
     rows, columns = [], []
     def checked_uri(uri):
         from urllib.parse import urlparse

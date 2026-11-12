@@ -156,15 +156,24 @@ class SilverTransformationFramework:
                     bronze = bronze.filter(F.col("_ingestion_run_id") == F.lit(run_id))
                 if watermark:
                     bronze = bronze.filter(F.col("_ingestion_timestamp") > F.lit(watermark))
-            bronze_count = bronze.count()
-            bronze = bronze.withColumn("_source_payload", F.to_json(
-                F.struct(*[F.col(c) for c in sorted(bronze.columns)]),
-                options={"ignoreNullFields": "false"}))
+            bronze_count = bronze.count() if dataset_id in {"usda_psd", "worldbank_pinksheet", "nso"} else None
+            if dataset_id == "nso":
+                bronze = bronze.withColumn("_source_payload", F.to_json(
+                    F.struct(*[F.col(c) for c in sorted(bronze.columns)]),
+                    options={"ignoreNullFields": "false"}))
+            else:
+                bronze = bronze.withColumn("_source_payload", F.struct(*[F.col(c) for c in sorted(bronze.columns)]))
+            if dataset_id == "usda_psd":
+                bronze = bronze.localCheckpoint(eager=True)
             stage = "transformation"
             transformer = self.transformer(dataset_id)
             observation_metrics = {}
             exclusions = None
             if transformer and hasattr(transformer, "observation_audit"):
+                try:
+                    bronze._nso_cache_key = (contract.bronze_input, read_snapshot_id) if mode == "full" and contract.bronze_input == "iceberg.bronze.nso" else None
+                except Exception:
+                    pass
                 observation_metrics = transformer.observation_audit(bronze)
                 exclusions = transformer.excluded_records(bronze)
             if isinstance(transformer, ReadContextTransformer):
@@ -172,6 +181,8 @@ class SilverTransformationFramework:
                 # from the exact snapshot-id used by the reader above, not latest.
                 context = BronzeReadContext(contract.bronze_input, read_snapshot_id)
                 bound = bronze.withColumn("_bronze_read_snapshot_id", F.lit(read_snapshot_id).cast("long"))
+                bound._nso_validated_files = getattr(bronze, "_nso_validated_files", None)
+                bound._is_full_snapshot = (mode == "full")
                 prepared = transformer.preprocess_with_read_context(bound, context)
             else:
                 prepared = transformer.preprocess(bronze) if transformer else bronze
@@ -187,7 +198,9 @@ class SilverTransformationFramework:
             checked = SilverQualityEngine(rules).evaluate(normalized)
             # Full wide JSON is needed only by dead letters. Caching it for
             # millions of valid observations wastes memory without adding lineage.
-            checked = checked.withColumn("_source_payload", F.when(F.size("dq_errors") > 0, F.col("_source_payload")))
+            payload_expr = (F.col("_source_payload") if isinstance(checked.schema["_source_payload"].dataType, T.StringType)
+                            else F.to_json(F.col("_source_payload"), options={"ignoreNullFields": "false"}))
+            checked = checked.withColumn("_source_payload", F.when(F.size("dq_errors") > 0, payload_expr))
             checked = checked.persist(StorageLevel.MEMORY_AND_DISK)
             cached.append(checked)
             stats = checked.agg(
@@ -196,6 +209,8 @@ class SilverTransformationFramework:
                 F.sum(F.when(F.size("_dq_warnings") > 0, 1).otherwise(0)).alias("warning_count"),
             ).first().asDict()
             prepared_count = stats["prepared_count"]
+            if bronze_count is None:
+                bronze_count = prepared_count
             if observation_metrics and observation_metrics["observation_count"] != prepared_count + observation_metrics["excluded_count"]:
                 raise ValueError("Observation reconciliation failed: candidates != prepared + excluded")
             quarantine_count = stats["quarantine_count"] or 0
@@ -204,18 +219,29 @@ class SilverTransformationFramework:
             stage = "quarantine"
             self.quarantine_manager.ensure_table()
             if exclusions is not None:
-                self.quarantine_manager.route_quarantine(
-                    exclusions, dataset_id + "_exclusions", pipeline_run_id, ["source_table"])
+                if observation_metrics.get("excluded_record_count", 1) > 0:
+                    self.quarantine_manager.route_quarantine(
+                        exclusions, dataset_id + "_exclusions", pipeline_run_id, ["source_table"])
                 exclusions_committed = bool(observation_metrics.get("excluded_record_count", 0))
-            self.quarantine_manager.route_quarantine(quarantine, dataset_id, pipeline_run_id, contract.business_key)
+            if quarantine_count > 0:
+                self.quarantine_manager.route_quarantine(quarantine, dataset_id, pipeline_run_id, contract.business_key)
             quarantine_committed = quarantine_count > 0
             valid = checked.filter(F.size("dq_errors") == 0).select(
                 *[c["name"] for c in contract.columns],
                 *[c for c in AUDIT_COLUMNS if c in checked.columns], "_dq_warnings")
             stage = "deduplication"
-            dedup = self.merge_engine.deduplicate(valid, contract.business_key).persist(StorageLevel.MEMORY_AND_DISK)
-            cached.append(dedup)
-            dedup_count = dedup.count()
+            dedup_raw = self.merge_engine.deduplicate(valid, contract.business_key)
+            if dedup_raw is valid:
+                dedup = valid
+                dedup_count = valid_count
+            else:
+                dedup = dedup_raw.persist(StorageLevel.MEMORY_AND_DISK)
+                cached.append(dedup)
+                dedup_count = dedup.count()
+                try:
+                    checked.unpersist()
+                except Exception:
+                    pass
             output = dedup.withColumn("_silver_processed_at", F.lit(datetime.now(timezone.utc)))
             stage = "silver_merge"
             self.merge_engine.merge(output, target_table=contract.silver_output, business_keys=contract.business_key,

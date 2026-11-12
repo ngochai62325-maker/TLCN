@@ -1,6 +1,7 @@
 """K1 keys and lossless canonical serialization shared by Spark and tests."""
 import hashlib
 import json
+import math
 from datetime import date, datetime, timezone
 from decimal import Decimal
 
@@ -45,21 +46,93 @@ def fingerprint(value):
     return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
 
 
+def _make_converter():
+    import numpy as np
+    import pandas as pd
+
+    def to_py(v):
+        if v is None or v is pd.NA or v is pd.NaT:
+            return None
+        t = type(v)
+        if t in (str, int, bool, Decimal, date, datetime):
+            return v
+        if t is float:
+            if math.isnan(v):
+                return None
+            if v.is_integer():
+                return int(v)
+            return v
+        if isinstance(v, pd.Timestamp):
+            return v.to_pydatetime()
+        if isinstance(v, np.generic):
+            return to_py(v.item())
+        if isinstance(v, (list, tuple, np.ndarray)):
+            return [to_py(x) for x in v]
+        if isinstance(v, dict):
+            return {k: to_py(val) for k, val in v.items()}
+        if hasattr(v, "asDict"):
+            return to_py(v.asDict(recursive=True))
+        return v
+
+    def series_to_pylist(s):
+        if s.dtype.kind in ("i", "u", "b"):
+            return s.tolist()
+        return [to_py(v) for v in s.tolist()]
+
+    return pd, np, to_py, series_to_pylist
+
+
+def _catalyst_json_elem(col):
+    from pyspark.sql import functions as F
+    return F.regexp_extract(F.to_json(F.array(col)), r"^\[(.*)\]$", 1)
+
+
 def spark_json(*columns, names=None):
-    """Python UDF deliberately avoids Spark JSON decimal/NULL configuration drift."""
-    from pyspark.sql import functions as F, types as T
+    """Vectorized Catalyst expression preserving exact canonical_json semantics."""
+    from pyspark.sql import functions as F
     if names is None:
-        return F.udf(lambda *xs: canonical_json(list(xs)), T.StringType())(*columns)
-    return F.udf(lambda *xs: canonical_json(dict(zip(names, xs))), T.StringType())(*columns)
+        return F.concat(F.lit("["), F.concat_ws(",", *(_catalyst_json_elem(c) for c in columns)), F.lit("]"))
+    pairs = sorted(zip(names, columns), key=lambda kv: kv[0])
+    fields = [F.concat(F.lit(f"{canonical_json(k)}:"), _catalyst_json_elem(c)) for k, c in pairs]
+    return F.concat(F.lit("{"), F.concat_ws(",", *fields), F.lit("}"))
 
 
-def spark_value_json(column):
+def spark_value_json(column, struct_fields=None):
     from pyspark.sql import functions as F, types as T
-    return F.udf(canonical_json, T.StringType())(column)
+    if struct_fields is not None:
+        ordered = sorted(struct_fields)
+        return F.coalesce(
+            F.to_json(
+                F.transform(column, lambda x: F.struct(*(x[f].alias(f) for f in ordered))),
+                options={"ignoreNullFields": "false"},
+            ),
+            F.lit("null"),
+        )
+    pd, np, to_py, _ = _make_converter()
+
+    @F.pandas_udf(T.StringType())
+    def _vec_val_json(s: pd.Series) -> pd.Series:
+        if len(s) == 0:
+            return pd.Series([], dtype="object")
+        out = []
+        for v in s.tolist():
+            if v is None:
+                out.append("null")
+            elif isinstance(v, (list, tuple, np.ndarray)) and len(v) == 0:
+                out.append("[]")
+            else:
+                out.append(canonical_json(to_py(v)))
+        return pd.Series(out, dtype="object")
+    return _vec_val_json(column)
 
 
 def spark_key(domain, *columns, nested_source=None):
-    from pyspark.sql import functions as F, types as T
+    from pyspark.sql import functions as F
+    elems = F.concat_ws(",", *(_catalyst_json_elem(c) for c in columns))
     if nested_source is not None:
-        return F.udf(lambda *xs: key(domain, [nested_source, list(xs)]), T.StringType())(*columns)
-    return F.udf(lambda *xs: key(domain, list(xs)), T.StringType())(*columns)
+        prefix = f'["K1",{canonical_json(domain)},[{canonical_json(nested_source)},['
+        suffix = "]]]"
+    else:
+        prefix = f'["K1",{canonical_json(domain)},['
+        suffix = "]]"
+    return F.sha2(F.concat(F.lit(prefix), elems, F.lit(suffix)), 256)
