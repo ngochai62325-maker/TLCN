@@ -3,10 +3,10 @@
   "name": "v03",
   "position": {
     "x": 32,
-    "y": 120,
+    "y": 110,
     "z": 3,
     "width": 290,
-    "height": 90,
+    "height": 65,
     "tabOrder": 3
   },
   "visual": {
@@ -20,13 +20,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Sản lượng kỳ đầu (tấn)'"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Lúa] Sản lượng kỳ đầu'"
                 }
               }
             }
@@ -99,7 +99,7 @@
                 }
               },
               "queryRef": "Overview.First Production Display",
-              "displayName": "Sản lượng kỳ đầu (tấn)"
+              "displayName": "[Lúa] Sản lượng kỳ đầu"
             }
           ]
         }
@@ -126,7 +126,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "24D"
+                  "Value": "20D"
                 }
               }
             }

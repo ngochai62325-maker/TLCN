@@ -50,9 +50,11 @@ def validate_project(project,schemas,fetch=False):
         if isinstance(value,dict):
             for kind in ('Column','Measure'):
                 if kind in value and isinstance(value[kind],dict) and 'Property' in value[kind]:
-                    node=value[kind];table=node['Expression']['SourceRef']['Entity'];name=node['Property']
-                    if kind=='Column' and name not in fields.get(table,set()):raise ValueError(f'Broken column reference {table}.{name}')
-                    if kind=='Measure' and (table!='Overview' or name not in MEASURES):raise ValueError(f'Broken measure reference {table}.{name}')
+                    node=value[kind];sref=node.get('Expression',{}).get('SourceRef',{})
+                    table=sref.get('Entity');name=node['Property']
+                    if table:
+                        if kind=='Column' and name not in fields.get(table,set()):raise ValueError(f'Broken column reference {table}.{name}')
+                        if kind=='Measure' and (table!='Overview' or name not in MEASURES):raise ValueError(f'Broken measure reference {table}.{name}')
             for child in value.values():refs(child)
         elif isinstance(value,list):
             for child in value:refs(child)

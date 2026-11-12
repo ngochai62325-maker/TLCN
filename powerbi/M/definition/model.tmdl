@@ -1,8 +1,28 @@
 model Model
 	culture: vi-VN
 	defaultPowerBIDataSourceVersion: powerBI_V3
-	sourceQueryCulture: en-US
 	discourageImplicitMeasures
+	sourceQueryCulture: en-US
 	maxParallelismPerRefresh: 1
-	annotation PBI_ProTooling = ["DevMode"]
-	annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+ref table BenchmarkMonth
+ref table CalendarYear
+ref table FAO
+ref table NSOAnnual
+ref table NSOSeasonal
+ref table NSOYield
+ref table Overview
+ref table PSD
+ref table QuoteDate
+ref table SUA
+ref table Trade
+ref table USDAPrice
+ref table VNQuote
+ref table WB
+
+ref cultureInfo vi-VN
+

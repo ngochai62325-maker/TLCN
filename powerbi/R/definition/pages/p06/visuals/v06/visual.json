@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v06",
   "position": {
-    "x": 944,
-    "y": 120,
+    "x": 644,
+    "y": 118,
     "z": 6,
-    "width": 290,
-    "height": 90,
+    "width": 194,
+    "height": 88,
     "tabOrder": 6
   },
   "visual": {
@@ -20,13 +20,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Số nhóm đủ cặp'"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Gạo xay xát] XK 7 đối tác (2019–2023)'"
                 }
               }
             }
@@ -95,11 +95,11 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "Trade Paired Groups Display"
+                  "Property": "Trade Quantity Display"
                 }
               },
-              "queryRef": "Overview.Trade Paired Groups Display",
-              "displayName": "Số nhóm đủ cặp"
+              "queryRef": "Overview.Trade Quantity Display",
+              "displayName": "[Gạo xay xát] XK 7 đối tác (2019–2023)"
             }
           ]
         }
@@ -126,7 +126,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "24D"
+                  "Value": "20D"
                 }
               }
             }

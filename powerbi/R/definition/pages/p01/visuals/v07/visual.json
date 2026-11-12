@@ -1,17 +1,167 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "v07",
   "position": {
     "x": 32,
-    "y": 224,
+    "y": 220,
     "z": 7,
-    "width": 590,
-    "height": 225,
+    "height": 424,
+    "width": 1216,
     "tabOrder": 7
   },
   "visual": {
-    "visualType": "barChart",
-    "drillFilterOtherVisuals": true,
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "fact_name_vi"
+                }
+              },
+              "queryRef": "Overview.fact_name_vi",
+              "displayName": "Bộ dữ liệu"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "rows_total"
+                }
+              },
+              "queryRef": "Overview.rows_total",
+              "displayName": "Số quan sát"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "numeric_rows"
+                }
+              },
+              "queryRef": "Overview.numeric_rows",
+              "displayName": "Có số"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "present_null_rows"
+                }
+              },
+              "queryRef": "Overview.present_null_rows",
+              "displayName": "NULL"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "Null Percentage"
+                }
+              },
+              "queryRef": "Overview.Null Percentage",
+              "displayName": "%NULL"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "period_min"
+                }
+              },
+              "queryRef": "Overview.period_min",
+              "displayName": "Kỳ đầu"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "period_max"
+                }
+              },
+              "queryRef": "Overview.period_max",
+              "displayName": "Kỳ cuối"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "represented_periods"
+                }
+              },
+              "queryRef": "Overview.represented_periods",
+              "displayName": "Số kỳ hiện diện"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "period_grain_vi"
+                }
+              },
+              "queryRef": "Overview.period_grain_vi",
+              "displayName": "Đơn vị thời gian"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Overview"
+                  }
+                },
+                "Property": "Null Percentage"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -20,13 +170,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Số quan sát theo bộ dữ liệu'"
                 }
               }
             },
@@ -45,6 +188,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Danh mục 9 bảng Fact lớp Gold & Tỷ lệ khuyết (Present-NULL)'"
                 }
               }
             }
@@ -83,45 +233,6 @@
         }
       ]
     },
-    "query": {
-      "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "fact_name"
-                }
-              },
-              "queryRef": "Overview.fact_name",
-              "displayName": "Bộ dữ liệu"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "Total Observations"
-                }
-              },
-              "queryRef": "Overview.Total Observations",
-              "displayName": "Quan sát"
-            }
-          ]
-        }
-      }
-    }
+    "drillFilterOtherVisuals": true
   }
 }

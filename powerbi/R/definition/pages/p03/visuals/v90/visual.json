@@ -19,14 +19,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "''"
+                  "Value": "false"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }
@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "FAOSTAT CPC 0113 · chỉ M49 356/360/704/764. Xếp hạng trong nhóm được chọn tại năm chung, không phải xếp hạng thế giới; yield là tỷ số cặp đủ dữ liệu. · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "Nguồn dữ liệu: FAOSTAT Sản xuất · Mốc mới nhất: 2024 (1961–2024; Nhóm 5 nước đối thủ xuất khẩu / sản xuất chính đã chọn: Ấn Độ, Indonesia, Pakistan, Thái Lan, Việt Nam) · Batch: b32b331ebc12 · Export: 2026-11-11",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

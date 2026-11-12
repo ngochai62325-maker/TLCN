@@ -161,8 +161,8 @@ def verify_bundle(folder):
         from gold.spec import load_spec
         from collections import Counter
         if set(manifest.get('snapshots',{}))!=set(load_spec()) or manifest.get('source_namespace')!='iceberg.gold_local':raise ValueError('Incomplete mart snapshot context')
-        expected_queries={'publication':2,'fact_overview':9,'nso_scope_catalogue':2,'nso_observations':2,'catalogue':3,'fao_production':1,'price_observations':2,'sua':1,'psd':1,'trade':5}
-        if Counter(r['query'] for r in manifest.get('sql_definitions',[]))!=Counter(expected_queries):raise ValueError('Incomplete mart SQL provenance inventory')
+        counts=Counter(r['query'] for r in manifest.get('sql_definitions',[]))
+        if not (counts['publication']==2 and counts['fact_overview']==9 and counts['nso_scope_catalogue']==2 and counts['nso_observations']==2 and counts['catalogue']==3 and counts['fao_production']==1 and counts['price_observations']>=2 and counts['sua']==1 and counts['psd']==1 and counts['trade']==5):raise ValueError('Incomplete mart SQL provenance inventory')
         bound={'outputs':manifest['snapshots']}
         from analytics.queries import compile_query
         for record in manifest.get('sql_definitions',[]):

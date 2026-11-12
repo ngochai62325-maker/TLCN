@@ -3,10 +3,10 @@
   "name": "v05",
   "position": {
     "x": 640,
-    "y": 120,
+    "y": 110,
     "z": 5,
     "width": 290,
-    "height": 90,
+    "height": 65,
     "tabOrder": 5
   },
   "visual": {
@@ -20,13 +20,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Thay đổi đầu–cuối'"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Lúa] Thay đổi đầu–cuối'"
                 }
               }
             }
@@ -99,7 +99,7 @@
                 }
               },
               "queryRef": "Overview.Production Change Pct Display",
-              "displayName": "Thay đổi đầu–cuối"
+              "displayName": "[Lúa] Thay đổi đầu–cuối"
             }
           ]
         }
@@ -126,7 +126,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "24D"
+                  "Value": "20D"
                 }
               }
             }

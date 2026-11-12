@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v08",
   "position": {
-    "x": 844,
-    "y": 404,
+    "x": 843,
+    "y": 172,
     "z": 8,
-    "width": 404,
-    "height": 215,
+    "width": 200,
+    "height": 62,
     "tabOrder": 8
   },
   "visual": {
-    "visualType": "tableEx",
+    "visualType": "card",
     "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
@@ -20,13 +20,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Chẩn đoán coverage trong phạm vi chọn'"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Gạo xay xát] Giá Việt Nam 5% mới nhất'"
                 }
               }
             }
@@ -95,43 +95,57 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "WB Numeric Months"
+                  "Property": "Latest WB VN 5 Display"
                 }
               },
-              "queryRef": "Overview.WB Numeric Months",
-              "displayName": "Tháng có số"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "WB Absent Months"
-                }
-              },
-              "queryRef": "Overview.WB Absent Months",
-              "displayName": "Tháng vắng quan sát"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "Domestic Quoted Dates"
-                }
-              },
-              "queryRef": "Overview.Domestic Quoted Dates",
-              "displayName": "Ngày có quote"
+              "queryRef": "Overview.Latest WB VN 5 Display",
+              "displayName": "[Gạo xay xát] Giá Việt Nam 5% mới nhất"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

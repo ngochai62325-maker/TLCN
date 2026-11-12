@@ -18,6 +18,7 @@ from analytics.queries import compile_query
 
 OPERATIONS = {'publication', 'fact_overview', 'nso_scope_catalogue', 'nso_observations',
               'catalogue', 'fao_production', 'sua', 'psd', 'price_observations', 'trade'}
+MAX_DEFINITIONS = 128
 
 
 def valid_finish(line):
@@ -32,7 +33,7 @@ def check_manifest(manifest, payload):
     if (manifest['batch'] != payload['batch'] or fingerprint(manifest) != payload['manifest_sha256']
             or pins != payload['snapshots'] or code_fingerprint() != manifest['context']['code_fingerprint']):
         raise RuntimeError('Publication/schema/snapshot fingerprint changed during export')
-    if not 1 <= len(payload['definitions']) <= 32:
+    if not 1 <= len(payload['definitions']) <= MAX_DEFINITIONS:
         raise ValueError('Invalid export definition inventory')
     for record in payload['definitions']:
         if record['query'] not in OPERATIONS or record['version'] != VERSION:

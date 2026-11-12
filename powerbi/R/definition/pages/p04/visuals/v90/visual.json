@@ -19,14 +19,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "''"
+                  "Value": "false"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }
@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Trái: FAOSTAT SUA calendar-year M49 704/CPC23161.02. Phải: USDA Vietnam/Rice, Milled theo marketing year. Không cộng stocks qua năm hoặc ghép hai cơ sở thời gian. · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "Nguồn dữ liệu: FAOSTAT Cân đối cung sử dụng (2010–2023; chỉ công bố Thực phẩm & Chế biến) & Cân đối gạo USDA PSD (1960–2025) · Batch: b32b331ebc12 · Export: 2026-11-11",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

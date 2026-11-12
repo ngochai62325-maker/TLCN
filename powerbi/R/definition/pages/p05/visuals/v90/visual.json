@@ -19,14 +19,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "''"
+                  "Value": "false"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }
@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "World Bank rice_thai_5: USD/tấn, monthly. Quote An Giang IR50404: VND/kg, ngày có báo giá. Không quy đổi tiền tệ, không nội suy. Volatility: 12 log returns liên tục, không annualize. · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "Nguồn & Mốc mới nhất: World Bank (12/2025), USDA FOB (2025), Giá nội địa ĐBSCL (03/08/2026) · Batch: b32b331ebc12 · Export: 2026-11-11",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

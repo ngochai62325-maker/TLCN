@@ -3,14 +3,14 @@
   "name": "v08",
   "position": {
     "x": 32,
-    "y": 224,
+    "y": 180,
     "z": 8,
-    "width": 390,
-    "height": 175,
+    "width": 290,
+    "height": 65,
     "tabOrder": 8
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "card",
     "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
@@ -20,13 +20,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Sản lượng annual (tấn)'"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[Lúa] Đỉnh sản lượng (năm)'"
                 }
               }
             }
@@ -85,25 +85,7 @@
     },
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "CalendarYear"
-                    }
-                  },
-                  "Property": "Year"
-                }
-              },
-              "queryRef": "CalendarYear.Year",
-              "displayName": "Năm"
-            }
-          ]
-        },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
@@ -113,15 +95,57 @@
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "Annual Production"
+                  "Property": "Peak Production Display"
                 }
               },
-              "queryRef": "Overview.Annual Production",
-              "displayName": "Sản lượng annual (tấn)"
+              "queryRef": "Overview.Peak Production Display",
+              "displayName": "[Lúa] Đỉnh sản lượng (năm)"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

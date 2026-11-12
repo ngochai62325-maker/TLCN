@@ -19,14 +19,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "''"
+                  "Value": "false"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }
@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "FAOSTAT · Việt Nam reporter704 → đối tác156/458/608 · CPC23161.02 · export 2019–2023. Không có 2024 trong scope này. Đơn giá = ratio-of-sums trên cặp đủ điều kiện; không phải giá thị trường. · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "Nguồn dữ liệu: Thương mại FAOSTAT · Mốc mới nhất: 2023 (2019–2023, 7 đối tác chính, không phải tổng xuất khẩu quốc gia) · Batch: b32b331ebc12 · Export: 2026-11-11",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

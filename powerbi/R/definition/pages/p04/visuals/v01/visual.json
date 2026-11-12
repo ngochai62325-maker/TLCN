@@ -3,10 +3,10 @@
   "name": "v01",
   "position": {
     "x": 32,
-    "y": 12,
+    "y": 10,
     "z": 1,
     "width": 1216,
-    "height": 44,
+    "height": 52,
     "tabOrder": 1
   },
   "visual": {
@@ -19,14 +19,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "''"
+                  "Value": "false"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }
@@ -94,7 +94,7 @@
                     "value": "Cung cầu và tồn kho lúa gạo",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "23pt",
+                      "fontSize": "20pt",
                       "fontWeight": "bold",
                       "color": "#136F63"
                     }

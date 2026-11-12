@@ -19,14 +19,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "''"
+                  "Value": "false"
                 }
               }
             },
@@ -45,6 +38,13 @@
                       "Value": "'#17342F'"
                     }
                   }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
                 }
               }
             }
@@ -91,7 +91,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "NSO V06.12 quốc gia/quantity; annual và seasonal tách riêng. Yield báo cáo V06.14, không suy ra từ V06.12. Provisional/unconfirmed không tự trở thành FINAL. · Batch ec421297c194 · Export 2026-11-06",
+                    "value": "Nguồn dữ liệu: Niên giám Thống kê GSO · Mốc mới nhất: 2024 (Sản lượng, diện tích 1990–2024; Năng suất 1995–2024) · Batch: b32b331ebc12 · Export: 2026-11-11",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

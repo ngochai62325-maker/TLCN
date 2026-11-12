@@ -1,10 +1,14 @@
 table QuoteDate
+	lineageTag: 7d619a02-b56d-42f1-8157-a25ede5a91be
+
 	column Date
 		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: 11040120-8021-4445-815c-8972e3a44f32
 		summarizeBy: none
 		sourceColumn: Date
-		formatString: yyyy-MM-dd
+
 	partition QuoteDate = m
 		mode: import
-		source =
-			let lo=List.Min(VNQuote[date]), hi=List.Max(VNQuote[date]), rows=Table.FromList(List.Dates(lo,Duration.Days(hi-lo)+1,#duration(1,0,0,0)),Splitter.SplitByNothing(),{"Date"}) in Table.TransformColumnTypes(rows,{{"Date",type date}})
+		source = let lo=List.Min(VNQuote[date]), hi=List.Max(VNQuote[date]), rows=Table.FromList(List.Dates(lo,Duration.Days(hi-lo)+1,#duration(1,0,0,0)),Splitter.SplitByNothing(),{"Date"}) in Table.TransformColumnTypes(rows,{{"Date",type date}})
+

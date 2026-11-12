@@ -1,9 +1,13 @@
 table CalendarYear
+	lineageTag: 5fe2cc21-c08c-46ff-8255-a8d218ef48ad
+
 	column Year
 		dataType: int64
+		lineageTag: 0335afa8-7220-4077-aa65-413cb6678fdf
 		summarizeBy: none
 		sourceColumn: Year
+
 	partition CalendarYear = m
 		mode: import
-		source =
-			let ys=List.Combine({NSOAnnual[year],FAO[year],SUA[year],Trade[year]}), rows=Table.FromList({List.Min(ys)..List.Max(ys)},Splitter.SplitByNothing(),{"Year"}), typed=Table.TransformColumnTypes(rows,{{"Year",Int64.Type}}) in typed
+		source = let ys=List.Combine({NSOAnnual[year],FAO[year],SUA[year],Trade[year]}), rows=Table.FromList({List.Min(ys)..List.Max(ys)},Splitter.SplitByNothing(),{"Year"}), typed=Table.TransformColumnTypes(rows,{{"Year",Int64.Type}}) in typed
+
