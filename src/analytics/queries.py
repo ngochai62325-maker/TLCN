@@ -166,8 +166,7 @@ def compile_query(name, params, manifest):
         tokens["filters"] = f"f.price_series_key={key(p['series'])} AND f.{PERIODS[p['fact']]} BETWEEN {p['start_period']} AND {p['end_period']}"
     if name == "context_profile":
         field = p["field"]
-        tokens["profile_expression"] = ("f.release_status" if field == "release_status" else
-            "coalesce(json_extract_scalar(f.source_context_json,'$."+field+"'),'<unavailable>')")
+        tokens["profile_expression"] = "f.release_status" if field == "release_status" else "'<unavailable>'"
     for token, value in tokens.items():
         sql = sql.replace("{{"+token+"}}", value)
     for table in set(re.findall(r"\{\{(\w+)\}\}", sql)):

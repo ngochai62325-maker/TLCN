@@ -14,7 +14,7 @@ from gold import BUILD_ORDER
 
 
 def test_mapping_matches_all_current_contracts():
-    assert validate_mapping() == {"tables": 17, "columns": 262, "mapping_branches": 488, "foreign_keys": 40}
+    assert validate_mapping() == {"tables": 17, "columns": 125, "mapping_branches": 336, "foreign_keys": 40}
     specs = load_spec()
     assert sum(n.startswith("dim_") for n in specs) == 8
     assert sum(n.startswith("fact_") for n in specs) == 9

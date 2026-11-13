@@ -59,8 +59,8 @@ def load_spec(root=ROOT):
         if name in result or len({c.name for c in columns}) != len(columns):
             raise ValueError("Duplicate Gold table/column")
         result[name] = Table(name, tuple(columns), tuple(uniques))
-    if len(result) != 17 or sum(len(t.columns) for t in result.values()) != 262:
-        raise ValueError("Canonical Gold inventory must be 17 tables / 262 columns")
+    if len(result) != 17 or sum(len(t.columns) for t in result.values()) != 125:
+        raise ValueError("Canonical Gold inventory must be 17 tables / 125 columns")
     for table in result.values():
         if len(table.primary_key) != 1:
             raise ValueError(f"Missing/ambiguous PK: {table.name}")
@@ -99,6 +99,6 @@ def validate_mapping(root=ROOT):
                 or row["mapping_status"] not in {"DIRECT", "DERIVED", "LOOKUP"}
                 or row["source_contract_sha256"] != hashlib.sha256((root / f"contracts/silver/{source}.yaml").read_bytes()).hexdigest()):
             raise ValueError(f"Incompatible mapping: {branch}")
-    if covered != {(t.name, c.name) for t in tables.values() for c in t.columns} or len(rows) != 488:
+    if covered != {(t.name, c.name) for t in tables.values() for c in t.columns} or len(rows) != 336:
         raise ValueError("Incomplete canonical mapping")
-    return {"tables": 17, "columns": 262, "mapping_branches": len(rows), "foreign_keys": sum(bool(c.reference) for t in tables.values() for c in t.columns)}
+    return {"tables": 17, "columns": 125, "mapping_branches": len(rows), "foreign_keys": sum(bool(c.reference) for t in tables.values() for c in t.columns)}

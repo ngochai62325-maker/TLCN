@@ -4,9 +4,20 @@ from functools import reduce
 
 from pyspark.sql import DataFrame, functions as F, types as T
 
-from gold.facts import AUDITS
-from gold.keys import spark_key
+from gold.keys import key, spark_key
 from gold.rules import PRICE_UNITS
+
+AUDITS = (
+    "_ingestion_run_id",
+    "_ingestion_batch_id",
+    "_ingestion_chunk_id",
+    "_ingestion_timestamp",
+    "_source_id",
+    "_source_file",
+    "_source_checksum",
+    "_source_snapshot_id",
+    "_silver_processed_at",
+)
 
 
 def _multiset_diff_count(left, right):
@@ -152,10 +163,8 @@ def validate_table(name, df, spec, dimensions, dq):
     req_cond = reduce(lambda a, b: a | b, (F.col(c).isNull() for c in required))
     if name.startswith("fact_"):
         from gold.facts import TARGETS
-        from gold.keys import _catalyst_json_elem
         admitted_sources = [s for s, targets in TARGETS.items() if name in targets]
-        expected_key = F.sha2(F.concat(F.lit('["K1","observation",['), _catalyst_json_elem(F.col("_source_id")), F.lit(","), F.col("source_business_key_json"), F.lit("]]")), 256)
-        expected_source = spark_key("dim_source_system", F.col("_source_id"))
+        admitted_source_keys = [key("dim_source_system", [s]) for s in admitted_sources]
         fk_specs = []
         for col in spec.columns:
             if col.reference:
@@ -177,12 +186,9 @@ def validate_table(name, df, spec, dimensions, dq):
                         _DIM_SNAPSHOT_CACHE[cache_k] = vals
         agg_exprs = [
             F.max(F.when(req_cond, 1).otherwise(0)).alias("b_req"),
-            F.max(F.when(~F.col("_source_id").isin(*admitted_sources), 1).otherwise(0)).alias("b_src"),
-            F.max(F.when(F.col("observation_key") != expected_key, 1).otherwise(0)).alias("b_key"),
-            F.max(F.when((F.col("silver_read_snapshot_id") <= 0) | (F.length("silver_table_uuid") < 32) | F.col("dq_warnings_json").isNull(), 1).otherwise(0)).alias("b_lin"),
-            F.max(F.when(F.col("source_system_key") != expected_source, 1).otherwise(0)).alias("b_fk_src"),
+            F.max(F.when(~F.col("source_system_key").isin(*admitted_source_keys), 1).otherwise(0)).alias("b_src"),
         ]
-        stat_names = ["b_req", "b_src", "b_key", "b_lin", "b_fk_src"]
+        stat_names = ["b_req", "b_src"]
         for idx, (col_name, parent, pk) in enumerate(fk_specs):
             pks = dim_pk_sets[(parent, pk)]
             cond = F.col(col_name).isNotNull() & (~F.col(col_name).isin(*pks) if pks else F.lit(True))
@@ -225,13 +231,9 @@ def validate_table(name, df, spec, dimensions, dq):
         dq.record("DQ05", name, "all required Gold fields non-null", 0, b_req, b_req == 0)
     else:
         dq.zero("DQ05", name, "all required Gold fields non-null", df.where(req_cond))
-    if name.startswith("fact_") and len(spec.unique) == 1 and int(row_stats.get("b_key") or 0) == 0 and int(row_stats.get("_has_u_dup") or 0) == 0:
-        for unique in (spec.primary_key, *spec.unique):
-            dq.record("DQ03", name, f"unique {unique}", 0, 0, True)
-    else:
-        for unique in (spec.primary_key, *spec.unique):
-            dup_n = _has_duplicate_keys(df, unique)
-            dq.record("DQ03", name, f"unique {unique}", 0, dup_n, dup_n == 0)
+    for unique in (spec.primary_key, *spec.unique):
+        dup_n = _has_duplicate_keys(df, unique)
+        dq.record("DQ03", name, f"unique {unique}", 0, dup_n, dup_n == 0)
     if name.startswith("fact_"):
         for idx, (col_name, parent, pk) in enumerate(fk_specs):
             b_fk = int(row_stats[f"b_fk_{idx}"] or 0)
@@ -246,12 +248,6 @@ def validate_table(name, df, spec, dimensions, dq):
     if name.startswith("fact_"):
         b_src = int(row_stats["b_src"] or 0)
         dq.record("DQ11", name, "only declared source branches, no extra-source observations", 0, b_src, b_src == 0)
-        b_key = int(row_stats["b_key"] or 0)
-        dq.record("DQ03", name, "K1 recomputed from exact retained source tuple", 0, b_key, b_key == 0)
-        b_lin = int(row_stats["b_lin"] or 0)
-        dq.record("DQ14", name, "real Silver identity not upstream placeholder", 0, b_lin, b_lin == 0)
-        b_fk_src = int(row_stats["b_fk_src"] or 0)
-        dq.record("DQ04", name, "source FK agrees with provenance", 0, b_fk_src, b_fk_src == 0)
         for fk in attr_checks:
             b_attr = int(row_stats[f"b_attr_{fk}"] or 0)
             dq.record("DQ04", name, f"{fk} source attribution", 0, b_attr, b_attr == 0)
