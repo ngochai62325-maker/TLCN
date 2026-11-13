@@ -276,8 +276,8 @@ def validate_trade(outputs, dq, store=None, context=None, year=None, part=None):
         if use_batch_mode and missing:
             for b in sorted({p["bucket"] for p in missing}):
                 b_years = sorted(p["year"] for p in missing if p["bucket"] == b)
-                for idx in range(0, len(b_years), 6):
-                    chunk = b_years[idx:idx + 6]
+                for idx in range(0, len(b_years), 2):
+                    chunk = b_years[idx:idx + 2]
                     before = resource_guard()
                     outcome = trino_result(bucket_batch_sql(outputs, b, chunk[0], chunk[-1]))
                     after = settle_heap()

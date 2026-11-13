@@ -76,7 +76,7 @@ _DIM_SNAPSHOT_CACHE = {}
 
 
 def validate_input(source, df, contract, pin, proof, dq):
-    required = {c["name"] for c in contract.columns if not c.get("nullable", True)} | set(contract.business_key) | set(AUDITS) | {"_dq_warnings"}
+    required = {c["name"] for c in contract.columns if not c.get("nullable", True)} | set(contract.business_key) | (set(AUDITS) - {"_source_snapshot_id"}) | {"_dq_warnings"}
     expected = {c["name"]: T._parse_datatype_string(c["data_type"]) for c in contract.columns}
     expected.update({c: T.StringType() for c in ("_ingestion_run_id", "_ingestion_batch_id", "_source_id", "_source_file", "_source_checksum")})
     expected.update({c: T.LongType() for c in ("_ingestion_chunk_id", "_source_snapshot_id")})

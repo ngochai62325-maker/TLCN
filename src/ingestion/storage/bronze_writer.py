@@ -20,6 +20,7 @@ Enforces:
 
 from __future__ import annotations
 
+import gc
 import os
 import re
 import time
@@ -503,25 +504,46 @@ class BronzeIcebergWriter:
                 arrow_table = self._dataframe_to_arrow(df, table.schema())
             except (ValueError, TypeError, OverflowError) as exc:
                 raise SchemaError("Arrow conversion failed before write; raw values preserved") from exc
+        del df
 
         if catalog is None:
             raise RuntimeError("Native Iceberg writer unavailable; refusing unsafe multi-commit SQL fallback")
-        return self._commit_chunk(catalog, f"{self.schema}.{table_name}", arrow_table, run_id, chunk_id)
+        try:
+            return self._commit_chunk(catalog, f"{self.schema}.{table_name}", arrow_table, run_id, chunk_id)
+        finally:
+            if isinstance(getattr(arrow_table, "num_rows", None), int) and arrow_table.num_rows >= 5000:
+                import pyarrow as pa
+                del arrow_table
+                gc.collect()
+                pa.default_memory_pool().release_unused()
 
     @staticmethod
     def _same_chunk(actual, expected):
-        # Compare complete values and multiplicity, not a digest or aggregate.
-        from collections import Counter
-        import json
+        # Compare complete values and multiplicity in Arrow memory without Python dict/JSON bloat.
+        import pyarrow.compute as pc
+        import pyarrow.types as pat
+
         columns = [c for c in expected.column_names if c != "_ingestion_timestamp"]
         if not set(columns).issubset(actual.column_names):
             return False
-        if not actual.select(columns).schema.equals(expected.select(columns).schema, check_metadata=False):
+        left = actual.select(columns)
+        right = expected.select(columns)
+        if not left.schema.equals(right.schema, check_metadata=False):
             return False
-        def cells(table):
-            return Counter(json.dumps(row, sort_keys=True, default=str, allow_nan=False)
-                           for row in table.select(columns).to_pylist())
-        return cells(actual) == cells(expected)
+        if left.num_rows != right.num_rows:
+            return False
+        if left.num_rows == 0:
+            return True
+        for col in columns:
+            if pat.is_floating(left.schema.field(col).type):
+                if pc.any(pc.is_nan(left[col])).as_py() or pc.any(pc.is_nan(right[col])).as_py():
+                    raise ValueError("Out of range float values are not JSON compliant")
+        if left.equals(right):
+            return True
+        order = [(c, "ascending") for c in columns if not pat.is_null(left.schema.field(c).type)]
+        if not order:
+            return True
+        return left.sort_by(order).equals(right.sort_by(order))
 
     def _commit_chunk(self, catalog, name, proposed, run_id, chunk_id):
         """One append, immutable retry identity, fresh exact readback.

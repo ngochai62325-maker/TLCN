@@ -37,12 +37,13 @@ x-airflow: &airflow
     AIRFLOW__CORE__PARALLELISM: "2"
     AIRFLOW__CORE__MAX_ACTIVE_TASKS_PER_DAG: "1"
     AIRFLOW__SCHEDULER__PARSING_PROCESSES: "1"
-    AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "10"
-    AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: "10"
+    AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "30"
+    AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: "30"
     AIRFLOW__WEBSERVER__WORKERS: "1"
     AIRFLOW__WEBSERVER__SECRET_KEY: isolated-local-nine-test-only
     AIRFLOW__OPENLINEAGE__DISABLED: "True"
     _PIP_ADDITIONAL_REQUIREMENTS: ""
+    MALLOC_ARENA_MAX: "2"
   volumes:
     - .:/workspace:ro
     - ${SILVER_TEST_RAW_ROOT:?Set complete Raw path}:/workspace/data/raw:ro
@@ -112,12 +113,13 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+      MALLOC_ARENA_MAX: "2"
     entrypoint: [/bin/bash, -c]
     command:
       - |
         printf '%s\n' 'connector.name=iceberg' 'iceberg.catalog.type=rest' 'iceberg.rest-catalog.uri=http://iceberg-rest:8181' 'iceberg.rest-catalog.warehouse=s3://warehouse' 'fs.native-s3.enabled=true' 's3.endpoint=http://minio:9000' 's3.region=us-east-1' "s3.aws-access-key=$${MINIO_ROOT_USER}" "s3.aws-secret-key=$${MINIO_ROOT_PASSWORD}" 's3.path-style-access=true' > /etc/trino/catalog/iceberg.properties
-        printf '%s\n' 'coordinator=true' 'node-scheduler.include-coordinator=true' 'http-server.http.port=8080' 'query.max-memory=256MB' 'query.max-total-memory=512MB' 'memory.heap-headroom-per-node=256MB' 'query.max-history=25' 'query.min-expire-age=5s' 'task.concurrency=2' 'task.max-worker-threads=4' 'task.min-drivers=4' 'discovery.uri=http://localhost:8080' > /etc/trino/config.properties
-        printf '%s\n' '-server' '-Xmx1024M' '-XX:ActiveProcessorCount=2' '-XX:+UseG1GC' '-XX:+ExitOnOutOfMemoryError' '-Djdk.attach.allowAttachSelf=true' > /etc/trino/jvm.config
+        printf '%s\n' 'coordinator=true' 'node-scheduler.include-coordinator=true' 'http-server.http.port=8080' 'query.max-memory=192MB' 'query.max-total-memory=384MB' 'memory.heap-headroom-per-node=192MB' 'query.max-history=25' 'query.min-expire-age=5s' 'task.concurrency=2' 'task.max-worker-threads=4' 'task.min-drivers=4' 'discovery.uri=http://localhost:8080' > /etc/trino/config.properties
+        printf '%s\n' '-server' '-Xmx768M' '-XX:ActiveProcessorCount=2' '-XX:+UseG1GC' '-XX:+ExitOnOutOfMemoryError' '-Djdk.attach.allowAttachSelf=true' > /etc/trino/jvm.config
         exec /usr/lib/trino/bin/run-trino
     depends_on:
       iceberg-rest: {condition: service_started}

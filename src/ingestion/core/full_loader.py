@@ -322,6 +322,9 @@ class FullLoader(BaseLoader):
                         checksum=chunk.checksum,
                     )
 
+                    # Free the processed chunk DataFrame before reading the next chunk
+                    chunk.data = None
+
                     if chunks_processed % 50 == 0:
                         logger.info(
                             "Chunk progress",

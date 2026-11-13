@@ -203,11 +203,11 @@ class SparkApiHandler(BaseHTTPRequestHandler):
                 try:
                     from gold.admission import runtime_resources, success_context
                     from gold.views import require_semantic_definitions
-                    from gold.pipeline import execute
                     runtime_resources()
                     success_context(request.get("silver_run_id"))
                     require_semantic_definitions()
                     spark = _get_warm_spark(ansi=True)
+                    from gold.pipeline import execute
                     result = execute(spark, request["action"], request["owner_run_id"], request.get("silver_run_id"), request.get("source"))
                     if request["action"] == "publish":
                         _stop_warm_spark()

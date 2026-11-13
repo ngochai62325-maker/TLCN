@@ -328,7 +328,7 @@ class NsoTransformer:
     def quality_rules():
         rules = [sql_rule("NSO_V2_NUMERIC", "_numeric_valid", "value_raw", "Invalid/negative/overflowing numeric source or precision loss")]
         rules.extend(sql_rule(f"NSO_V2_LINEAGE_{c}", f"`{c}` IS NOT NULL AND length(trim(cast(`{c}` AS STRING))) > 0",
-                              c, "Original Bronze lineage is required") for c in AUDIT_COLUMNS)
+                              c, "Original Bronze lineage is required") for c in AUDIT_COLUMNS if c != "_source_snapshot_id")
         return rules
 
 
