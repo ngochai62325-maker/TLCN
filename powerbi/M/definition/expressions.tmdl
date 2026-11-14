@@ -1,3 +1,2 @@
-expression ExportFolder = "C:\Windows_Application\TLCN\exports\powerbi\b32b331ebc12_20261111T025506Z_c7206585" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
-	lineageTag: b91b8604-de1c-4dec-8a75-5a74f08e9d70
-
+expression ExportFolder = "C:\Users\phucb\Documents\TLCN\exports\powerbi\2fde7c72c691_20261114T165113Z_bd63300a" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	kind: m

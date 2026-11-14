@@ -1,84 +1,59 @@
 table SUA
-	lineageTag: 02da25da-9a4e-4242-8ce4-158c6c527b6e
-
 	column year
 		dataType: int64
-		lineageTag: b096c7cd-8d9b-4e37-afc6-f982500a9c20
 		summarizeBy: none
 		sourceColumn: year
-
 	column geography_key
 		dataType: string
-		lineageTag: 38198db5-8dc2-47ca-b343-a76aa97c641e
 		summarizeBy: none
 		sourceColumn: geography_key
-
 	column area_code
 		dataType: string
-		lineageTag: a604323f-1b26-4206-b094-4fd4a6273148
 		summarizeBy: none
 		sourceColumn: area_code
-
 	column product_key
 		dataType: string
-		lineageTag: 475ec4ef-9737-4b28-b349-3f8f25fc1438
 		summarizeBy: none
 		sourceColumn: product_key
-
 	column product_code
 		dataType: string
-		lineageTag: 32114780-b711-4619-9689-6241c7b61247
 		summarizeBy: none
 		sourceColumn: product_code
-
 	column element_code
 		dataType: string
-		lineageTag: 2080bfc1-d3db-432c-b1ca-1528eecfc59d
 		summarizeBy: none
 		sourceColumn: element_code
-
 	column metric
 		dataType: string
-		lineageTag: 4af1fe69-3778-4a9b-a3f4-5feb1ae7cd52
 		summarizeBy: none
 		sourceColumn: metric
-
 	column unit
 		dataType: string
-		lineageTag: 01fb173f-425b-4102-ad60-71f6ee361b87
 		summarizeBy: none
 		sourceColumn: unit
-
 	column value_t
 		dataType: double
-		lineageTag: 10052591-a54b-417a-b229-2672e7ccc7c4
 		summarizeBy: none
 		sourceColumn: value_t
-
 	column observation_present
 		dataType: boolean
-		lineageTag: c0f66544-da8d-426a-8680-30dd5b6d8066
 		summarizeBy: none
 		sourceColumn: observation_present
-
 	column aggregation_rule
 		dataType: string
-		lineageTag: 1735b34d-d71b-413f-abfa-069d2efdab15
 		summarizeBy: none
 		sourceColumn: aggregation_rule
-
 	partition SUA = m
 		mode: import
 		source =
-				let
-				    Raw = Csv.Document(File.Contents(ExportFolder & "\sua_components.csv"), [Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-				    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
-				    Checked = if Table.ColumnNames(Headers) = {"year", "geography_key", "area_code", "product_key", "product_code", "element_code", "metric", "unit", "value_t", "observation_present", "aggregation_rule"} then Headers else error "CSV schema mismatch",
-				    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
-				    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"geography_key", type text}, {"area_code", type text}, {"product_key", type text}, {"product_code", type text}, {"element_code", type text}, {"metric", type text}, {"unit", type text}, {"value_t", type number}, {"observation_present", type logical}, {"aggregation_rule", type text}}, "en-US"),
-				    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
-				    Entry = Record.Field(Manifest[outputs], "sua_components.csv"),
-				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
-				in
-				    Accepted
-
+			let
+			    Raw = Csv.Document(File.Contents(ExportFolder & "\sua_components.csv"), [Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+			    Checked = if Table.ColumnNames(Headers) = {"year", "geography_key", "area_code", "product_key", "product_code", "element_code", "metric", "unit", "value_t", "observation_present", "aggregation_rule"} then Headers else error "CSV schema mismatch",
+			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+			    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"geography_key", type text}, {"area_code", type text}, {"product_key", type text}, {"product_code", type text}, {"element_code", type text}, {"metric", type text}, {"unit", type text}, {"value_t", type number}, {"observation_present", type logical}, {"aggregation_rule", type text}}, "en-US"),
+			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+			    Entry = Record.Field(Manifest[outputs], "sua_components.csv"),
+			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+			in
+			    Accepted

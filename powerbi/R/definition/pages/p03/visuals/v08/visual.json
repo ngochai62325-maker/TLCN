@@ -1,165 +1,17 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v08",
   "position": {
     "x": 646,
     "y": 426,
     "z": 8,
-    "height": 248,
     "width": 610,
+    "height": 248,
     "tabOrder": 8
   },
   "visual": {
     "visualType": "scatterChart",
-    "query": {
-      "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FAO"
-                    }
-                  },
-                  "Property": "area_name_vi"
-                }
-              },
-              "queryRef": "FAO.area_name_vi",
-              "active": true,
-              "displayName": "Quốc gia"
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FAO"
-                    }
-                  },
-                  "Property": "area_name_vi"
-                }
-              },
-              "queryRef": "FAO.area_name_vi",
-              "displayName": "Quốc gia"
-            }
-          ]
-        },
-        "Size": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Scatter Yield"
-                }
-              },
-              "queryRef": "Overview.FAO Scatter Yield",
-              "displayName": "Năng suất kg/ha"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Scatter Year"
-                }
-              },
-              "queryRef": "Overview.FAO Scatter Year",
-              "displayName": "Năm"
-            }
-          ]
-        },
-        "X": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Scatter Area Mil"
-                }
-              },
-              "queryRef": "Overview.FAO Scatter Area Mil",
-              "active": true,
-              "displayName": "Diện tích triệu ha"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Scatter Production Mil"
-                }
-              },
-              "queryRef": "Overview.FAO Scatter Production Mil",
-              "displayName": "Sản lượng triệu tấn"
-            }
-          ]
-        }
-      }
-    },
-    "objects": {
-      "categoryAxis": [
-        {
-          "properties": {
-            "titleText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Diện tích (triệu ha)'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "valueAxis": [
-        {
-          "properties": {
-            "titleText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Sản lượng (triệu tấn)'"
-                }
-              }
-            },
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -236,6 +88,152 @@
         }
       ]
     },
-    "drillFilterOtherVisuals": true
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FAO"
+                    }
+                  },
+                  "Property": "area_name_vi"
+                }
+              },
+              "queryRef": "FAO.area_name_vi",
+              "displayName": "Quốc gia"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FAO"
+                    }
+                  },
+                  "Property": "area_name_vi"
+                }
+              },
+              "queryRef": "FAO.area_name_vi",
+              "displayName": "Quốc gia"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "FAO Scatter Area Mil"
+                }
+              },
+              "queryRef": "Overview.FAO Scatter Area Mil",
+              "displayName": "Diện tích triệu ha"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "FAO Scatter Production Mil"
+                }
+              },
+              "queryRef": "Overview.FAO Scatter Production Mil",
+              "displayName": "Sản lượng triệu tấn"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "FAO Scatter Yield"
+                }
+              },
+              "queryRef": "Overview.FAO Scatter Yield",
+              "displayName": "Năng suất kg/ha"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "FAO Scatter Year"
+                }
+              },
+              "queryRef": "Overview.FAO Scatter Year",
+              "displayName": "Năm"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Diện tích (triệu ha)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sản lượng (triệu tấn)'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
   }
 }

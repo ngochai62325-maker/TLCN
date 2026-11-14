@@ -1,121 +1,84 @@
 table FAO
-	lineageTag: 4fe30099-ff5f-44eb-9075-38cdb673d2cb
-
 	column year
 		dataType: int64
-		lineageTag: 899dbcfb-2ccc-45fe-8970-a019f8945096
 		summarizeBy: none
 		sourceColumn: year
-
 	column geography_key
 		dataType: string
-		lineageTag: c3c1ea30-98ff-43aa-aac2-f74dd8e727d3
 		summarizeBy: none
 		sourceColumn: geography_key
-
 	column area_code
 		dataType: string
-		lineageTag: 8670da72-f92e-4d7a-8864-4f3d43b197c1
 		summarizeBy: none
 		sourceColumn: area_code
-
 	column area_name
 		dataType: string
-		lineageTag: 3eb8dc5b-8b57-4c67-86b9-04be58bd9635
 		summarizeBy: none
 		sourceColumn: area_name
-
 	column product_key
 		dataType: string
-		lineageTag: 9181082c-c301-4150-8f7b-0ca300b347b1
 		summarizeBy: none
 		sourceColumn: product_key
-
 	column product_code
 		dataType: string
-		lineageTag: e317901c-2467-4185-98d2-982ca03b1c5c
 		summarizeBy: none
 		sourceColumn: product_code
-
 	column production_t
 		dataType: double
-		lineageTag: 5e28973c-9c1f-40c0-bb40-b8f711072297
 		summarizeBy: none
 		sourceColumn: production_t
-
 	column area_ha
 		dataType: double
-		lineageTag: a503f866-9f89-41aa-b26c-f40d20279e73
 		summarizeBy: none
 		sourceColumn: area_ha
-
 	column reported_yield_kg_ha
 		dataType: double
-		lineageTag: 9fdcaa46-7938-4b99-bb1f-cd0bb3ffd9d7
 		summarizeBy: none
 		sourceColumn: reported_yield_kg_ha
-
 	column computed_yield_kg_ha
 		dataType: double
-		lineageTag: 73aec86f-ae11-4715-b22a-032d9c75891a
 		summarizeBy: none
 		sourceColumn: computed_yield_kg_ha
-
 	column production_present
 		dataType: boolean
-		lineageTag: 6971c47a-c93a-4628-9545-390aa1e5f60c
 		summarizeBy: none
 		sourceColumn: production_present
-
 	column area_present
 		dataType: boolean
-		lineageTag: 35dad826-cd8e-490c-8fe4-5ca759d2dd2a
 		summarizeBy: none
 		sourceColumn: area_present
-
 	column yield_present
 		dataType: boolean
-		lineageTag: 0d07dd75-1b32-47db-968d-47d7b7ab02fa
 		summarizeBy: none
 		sourceColumn: yield_present
-
 	column paired_valid
 		dataType: boolean
-		lineageTag: 8b72cfd8-5250-4906-b586-194ffe57aa00
 		summarizeBy: none
 		sourceColumn: paired_valid
-
 	column paired_production_t
 		dataType: double
-		lineageTag: e9c8631a-f58e-4354-977f-13003f252d3a
 		summarizeBy: none
 		sourceColumn: paired_production_t
-
 	column paired_area_ha
 		dataType: double
-		lineageTag: cc2ea02b-e630-4ec0-b860-dc4db75a6c64
 		summarizeBy: none
 		sourceColumn: paired_area_ha
-
 	column area_name_vi
 		dataType: string
-		lineageTag: eb65d300-62b2-4892-a6b7-3a48da8564f4
 		summarizeBy: none
 		sourceColumn: area_name_vi
-
 	partition FAO = m
 		mode: import
 		source =
-				let
-				    Raw = Csv.Document(File.Contents(ExportFolder & "\fao_production.csv"), [Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-				    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
-				    Checked = if Table.ColumnNames(Headers) = {"year", "geography_key", "area_code", "area_name", "product_key", "product_code", "production_t", "area_ha", "reported_yield_kg_ha", "computed_yield_kg_ha", "production_present", "area_present", "yield_present", "paired_valid", "paired_production_t", "paired_area_ha"} then Headers else error "CSV schema mismatch",
-				    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
-				    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"geography_key", type text}, {"area_code", type text}, {"area_name", type text}, {"product_key", type text}, {"product_code", type text}, {"production_t", type number}, {"area_ha", type number}, {"reported_yield_kg_ha", type number}, {"computed_yield_kg_ha", type number}, {"production_present", type logical}, {"area_present", type logical}, {"yield_present", type logical}, {"paired_valid", type logical}, {"paired_production_t", type number}, {"paired_area_ha", type number}}, "en-US"),
-				    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
-				    Entry = Record.Field(Manifest[outputs], "fao_production.csv"),
-				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
-				    With_area_name_vi = Table.AddColumn(Accepted, "area_name_vi", each if [area_name] = "India" then "Ấn Độ" else if [area_name] = "Indonesia" then "Indonesia" else if [area_name] = "Pakistan" then "Pakistan" else if [area_name] = "Thailand" then "Thái Lan" else if [area_name] = "Viet Nam" then "Việt Nam" else [area_name], type text)
-				in
-				    With_area_name_vi
-
+			let
+			    Raw = Csv.Document(File.Contents(ExportFolder & "\fao_production.csv"), [Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+			    Checked = if Table.ColumnNames(Headers) = {"year", "geography_key", "area_code", "area_name", "product_key", "product_code", "production_t", "area_ha", "reported_yield_kg_ha", "computed_yield_kg_ha", "production_present", "area_present", "yield_present", "paired_valid", "paired_production_t", "paired_area_ha"} then Headers else error "CSV schema mismatch",
+			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+			    Typed = Table.TransformColumnTypes(Missing, {{"year", Int64.Type}, {"geography_key", type text}, {"area_code", type text}, {"area_name", type text}, {"product_key", type text}, {"product_code", type text}, {"production_t", type number}, {"area_ha", type number}, {"reported_yield_kg_ha", type number}, {"computed_yield_kg_ha", type number}, {"production_present", type logical}, {"area_present", type logical}, {"yield_present", type logical}, {"paired_valid", type logical}, {"paired_production_t", type number}, {"paired_area_ha", type number}}, "en-US"),
+			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+			    Entry = Record.Field(Manifest[outputs], "fao_production.csv"),
+			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
+			    With_area_name_vi = Table.AddColumn(Accepted, "area_name_vi", each if [area_name] = "India" then "Ấn Độ" else if [area_name] = "Indonesia" then "Indonesia" else if [area_name] = "Pakistan" then "Pakistan" else if [area_name] = "Thailand" then "Thái Lan" else if [area_name] = "Viet Nam" then "Việt Nam" else [area_name], type text)
+			in
+			    With_area_name_vi
