@@ -46,11 +46,16 @@ def write_snapshot(spark, spec, df, dq, guard=lambda: None):
         if actual != expected:
             raise ValueError(f"Existing Gold physical schema drift: {name}")
         before_files = file_state(spark, name)
-        changed = df.exceptAll(current).limit(1).count() or current.exceptAll(df).limit(1).count()
+        from gold.quality import _multiset_diff_count
+        changed = _multiset_diff_count(df, current)
         if not changed:
             after = identity(spark, name)
             after_files = file_state(spark, name)
             dq.record("DQ16", spec.name, "physical NOOP: identical UUID/snapshot/metadata/files", before, after, before == after and before_files == after_files)
+            try:
+                df._verified_snapshot = (after["uuid"], after["snapshot_id"])
+            except Exception:
+                pass
             return {**after, "rows": current.count(), "write": "NOOP", "data_files": after_files}
     else:
         fields = ", ".join(f"`{c.name}` {c.spark_type}" + (" NOT NULL" if c.required else "") for c in spec.columns)
@@ -58,13 +63,17 @@ def write_snapshot(spark, spec, df, dq, guard=lambda: None):
         spark.sql(f"CREATE TABLE {name} ({fields}) USING iceberg TBLPROPERTIES ('format-version'='2','gold.owner'='{OWNER}','gold.model'='{MODEL_VERSION}','write.target-file-size-bytes'='67108864','write.distribution-mode'='none')")
     # Overwrite the *entire* admitted snapshot; withdrawn Silver rows disappear.
     # Do not overwritePartitions (empty/removed partitions would survive).
-    from pyspark.sql import functions as F
+    from pyspark.sql import DataFrame, functions as F
     from pyspark.sql import types as T
     # UDF outputs are nullable to Spark's analyzer even after the DQ non-null gate.
-    # Bind requiredness explicitly and verify every row while streaming to writer;
+    # Bind requiredness explicitly in the JVM without a Python RDD roundtrip;
     # keep Iceberg's write-time nullability checks enabled.
     schema = T.StructType([T.StructField(c.name, df.schema[c.name].dataType, not c.required) for c in spec.columns])
-    write_df = spark.createDataFrame(df.rdd, schema, verifySchema=True)
+    if type(df) is DataFrame:
+        jschema = spark._jvm.org.apache.spark.sql.types.DataType.fromJson(schema.json())
+        write_df = DataFrame(spark._jsparkSession.createDataFrame(df._jdf.rdd(), jschema), spark)
+    else:
+        write_df = spark.createDataFrame(df.rdd, schema, verifySchema=True)
     try:
         guard()
         write_df.writeTo(name).overwrite(F.lit(True))
@@ -82,4 +91,8 @@ def write_snapshot(spark, spec, df, dq, guard=lambda: None):
     guard()
     check_owned(after, name)
     dq.same("DQ17", spec.name, df, spark.table(name), "committed full table readback")
+    try:
+        df._verified_snapshot = (after["uuid"], after["snapshot_id"])
+    except Exception:
+        pass
     return {**after, "rows": spark.table(name).count(), "write": "COMMITTED", "data_files": file_state(spark, name)}

@@ -33,17 +33,17 @@ class Session:
                     dict(price_series_key='yb_pk',series_identity_json=json.dumps(['PAKISTAN','5-PERCENT BROKEN','FREIGHT ON BOARD PRICE']))
                 ]
         elif name=='fao_production':
-            rows=[dict(year_key=y,geography_key=g,product_key=product('0113'),product_identity='0113',production_t='12',area_ha='3',reported_yield_kg_ha=None,present_5312=1,present_5510=1,present_5412=1,observation_5312=f'{g}-{y}-a',observation_5510=f'{g}-{y}-p',observation_5412=f'{g}-{y}-y') for g in p['geographies'] for y in (1961,1962)]
+            rows=[dict(year_key=y,geography_key=g,product_key=product('0113'),product_identity='0113',production_t='12',area_ha='3',reported_yield_kg_ha=None,present_5312=1,present_5510=1,present_5412=1) for g in p['geographies'] for y in (1961,1962)]
         elif name=='price_observations':
             if p.get('fact')=='fact_usda_price_reference':
-                rows=[dict(period=y,reference_period='MARKETING',price_series_key=p['series'],value='500.0',missing_reason=None,dq_warnings_json='[]',unit='USD/tonne',observation_key=f"yb-{p['series']}-{y}") for y in (2020,2021)]
+                rows=[dict(period=y,reference_period='MARKETING',price_series_key=p['series'],value='500.0',missing_reason=None,dq_warnings_json='[]',unit='USD/tonne') for y in (2020,2021)]
             elif p.get('series')=='wb' or p.get('fact')=='fact_price_monthly':
-                rows=[dict(period=200001+i if i<12 else 200101,price_series_key=p['series'],value=str(10+i),unit='USD/tonne',observation_key='wb'+str(i)) for i in range(13)]
+                rows=[dict(period=200001+i if i<12 else 200101,price_series_key=p['series'],value=str(10+i),unit='USD/tonne') for i in range(13)]
             else:
-                rows=[dict(period=d,price_series_key=p['series'],value='0' if i==0 else None,unit='VND/kg',observation_key='vn'+str(i)) for i,d in enumerate((20210401,20210403))]
-        elif name=='sua':rows=[dict(year_key=2010,geography_key=geo('704'),product_key=product('23161.02'),**{k:v for c,m in SUA.items() for k,v in [(m,'-2' if c in ('5071','5166') else None),('present_'+c,1),('observation_'+c,'sua'+c)]})]
-        elif name=='psd':rows=[dict(market_year=2024,crop_year='2024/2025',geography_key='usda',product_key='rice',metric='Ending Stocks',unit='tonne',value='23',observation_key='psd')]
-        elif name=='trade':rows=[dict(year_key=p['start_year'],reporter_geography_key=geo('704'),partner_geography_key=geo(c),product_key=product('23161.02'),partner_identity=c,partner_labels=json.dumps([{'label':c}]),quantity_t='0' if c=='156' else '3',value_usd=None if c=='458' else '10',present_quantity=1,present_value=1,observation_quantity='q'+c,observation_value='v'+c) for c in ('156','458','608')]
+                rows=[dict(period=d,price_series_key=p['series'],value='0' if i==0 else None,unit='VND/kg') for i,d in enumerate((20210401,20210403))]
+        elif name=='sua':rows=[dict(year_key=2010,geography_key=geo('704'),product_key=product('23161.02'),**{k:v for c,m in SUA.items() for k,v in [(m,'-2' if c in ('5071','5166') else None),('present_'+c,1)]})]
+        elif name=='psd':rows=[dict(market_year=2024,crop_year='2024/2025',geography_key='usda',product_key='rice',metric='Ending Stocks',unit='tonne',value='23')]
+        elif name=='trade':rows=[dict(year_key=p['start_year'],reporter_geography_key=geo('704'),partner_geography_key=geo(c),product_key=product('23161.02'),partner_identity=c,partner_labels=json.dumps([{'label':c}]),quantity_t='0' if c=='156' else '3',value_usd=None if c=='458' else '10',present_quantity=1,present_value=1) for c in ('156','458','608')]
         else:raise AssertionError(name)
         df=pd.DataFrame(rows)
         return self.mutate(name,p,df) if self.mutate else df

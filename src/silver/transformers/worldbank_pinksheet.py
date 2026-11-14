@@ -21,7 +21,7 @@ class WorldbankPinksheetTransformer:
         # missing headers Commodity_N. Remove only proven entirely-null synthetic
         # columns; a named series with missing prices is still an observation.
         synthetic = [c for c in columns if re.fullmatch(r"commodity_[0-9]+", c)]
-        if synthetic:
+        if synthetic and not getattr(df, "_is_schema_probe", False):
             counts = df.agg(*[F.count(F.col(c)).alias(c) for c in synthetic]).first().asDict()
             empty = {c for c in synthetic if counts[c] == 0}
             columns = [c for c in columns if c not in empty]
@@ -46,6 +46,8 @@ class WorldbankPinksheetTransformer:
                                     F.col(column).cast("string").alias("price")))
         keep = [c for c in df.columns if c.startswith("_") or c == "period"]
         result = df.select(*keep, F.explode(F.array(*entries)).alias("observation")).select(*keep, "observation.*")
+        if len(entries) > 10 and not getattr(df, "_is_schema_probe", False):
+            result = result.localCheckpoint(eager=True)
         result = source_values(result, "price", "_source_unit_token", ("�", "…", "...", "..", "NA"))
         result = result.withColumn("period", F.upper(F.trim("period")))
         result = result.withColumn("year", F.expr("try_cast(substring(period, 1, 4) as int)"))

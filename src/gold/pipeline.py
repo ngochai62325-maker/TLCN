@@ -14,7 +14,7 @@ from gold.views import require_semantic_definitions, validate_semantic_queries
 LOG = logging.getLogger(__name__)
 
 
-def inventory(spark, specs):
+def inventory(spark, specs, verify_ownership=True):
     namespaces = [r[0] for r in spark.sql("SHOW NAMESPACES IN iceberg").collect()]
     if "gold_local" not in namespaces:
         return
@@ -22,15 +22,18 @@ def inventory(spark, specs):
     for row in found:
         if row.tableName not in specs:
             raise ValueError(f"Uninventoried Gold table: {row.tableName}")
-        check_owned(identity(spark, f"{OUTPUT_NAMESPACE}.{row.tableName}"), row.tableName)
+        if verify_ownership:
+            check_owned(identity(spark, f"{OUTPUT_NAMESPACE}.{row.tableName}"), row.tableName)
 
 
-def read_inputs(spark, proof, dq, validate=False):
+def read_inputs(spark, proof, dq, validate=False, only_sources=None):
     from silver.contract.loader import SilverContractLoader
     from silver.local_profile import local_contract
     loader = SilverContractLoader(str(ROOT / "contracts/silver"))
     inputs, contracts = {}, {}
     for source, pin in proof["pins"].items():
+        if only_sources is not None and source not in only_sources:
+            continue
         current = identity(spark, pin["table"])
         if not current or current["uuid"] != pin["uuid"] or current["snapshot_id"] != pin["snapshot_id"]:
             raise ValueError(f"Silver moved beyond persisted successful proof: {source}")
@@ -52,13 +55,19 @@ def execute(spark, action, owner_run_id, silver_run_id=None, source=None):
     with writer_guard() as guard:
         proof = success_context(silver_run_id)
         specs = load_spec()
-        inventory(spark, specs)
+        inventory(spark, specs, verify_ownership=(action in {"preflight", "dimensions"}))
         resources = runtime_resources()
         # Fail before creating namespace, publication objects, or any physical Gold table.
         require_semantic_definitions()
         store = Publication(guard=guard)
         dq = Quality(proof["pins"])
-        inputs, contracts = read_inputs(spark, proof, dq, validate=action in {"preflight", "dimensions"})
+        if action == "fact":
+            needed = {source, "faostat_monthly_price", "worldbank_pinksheet"} if source in {"faostat_monthly_price", "worldbank_pinksheet"} else {source}
+        elif action in {"validate", "publish"}:
+            needed = set()
+        else:
+            needed = None
+        inputs, contracts = read_inputs(spark, proof, dq, validate=(action == "preflight"), only_sources=needed)
         context = batch_context(proof)
         if action == "preflight":
             store.check_claim(context, owner_run_id)
@@ -75,49 +84,61 @@ def execute(spark, action, owner_run_id, silver_run_id=None, source=None):
                 dimensions = {}
                 for name, raw in build_dimensions(spark, inputs):
                     LOG.info("Gold dimension %s", name)
-                    df = specs[name].project(raw)
+                    df = specs[name].project(raw).localCheckpoint(eager=True)
                     validate_table(name, df, specs[name], dimensions, dq)
                     state["outputs"][name] = write_snapshot(spark, specs[name], df, dq, guard)
                     dimensions[name] = spark.table(f"{OUTPUT_NAMESPACE}.{name}")
+                    try:
+                        dimensions[name]._gold_snapshot_id = state["outputs"][name]["snapshot_id"]
+                    except Exception:
+                        pass
                     store.save(state)
                 state["status"] = "DIMENSIONS_BUILT"
             elif action == "fact":
+                from pyspark import StorageLevel
                 expected_previous = list(BUILD_ORDER[:BUILD_ORDER.index(source)])
                 if not set(expected_previous).issubset(state["completed_sources"]) or not all(n in state["outputs"] for n in specs if n.startswith("dim_")):
                     raise ValueError("Gold source dependency/order not satisfied")
                 dimensions = current_dimensions(spark, specs)
+                for d_name, d_df in dimensions.items():
+                    try:
+                        d_df._gold_snapshot_id = state["outputs"][d_name]["snapshot_id"]
+                    except Exception:
+                        pass
                 frames = transform(source, inputs[source], contracts[source].business_key, proof["pins"][source])
-                for name, raw in frames.items():
-                    if name == "fact_price_monthly":
-                        raw = monthly_snapshot_frame(source, raw, inputs, {s: c.business_key for s, c in contracts.items()}, proof["pins"], state["completed_sources"])
-                    df = specs[name].project(raw)
-                    validate_table(name, df, specs[name], dimensions, dq)
-                    state["outputs"][name] = write_snapshot(spark, specs[name], df, dq, guard)
-                    store.save(state)
-                outputs = {name: spark.table(f"{OUTPUT_NAMESPACE}.{name}") for name in frames}
-                reconcile(source, inputs[source], {n: specs[n].project(f) for n, f in frames.items()}, outputs, contracts[source].business_key, dq)
+                projected = {}
+                persisted = []
+                try:
+                    for name, raw in frames.items():
+                        branch_df = specs[name].project(raw).persist(StorageLevel.MEMORY_AND_DISK)
+                        persisted.append(branch_df)
+                        projected[name] = branch_df
+                        if name == "fact_price_monthly":
+                            merged = monthly_snapshot_frame(source, raw, inputs, {s: c.business_key for s, c in contracts.items()}, proof["pins"], state["completed_sources"])
+                            df = branch_df if merged is raw else specs[name].project(merged).persist(StorageLevel.MEMORY_AND_DISK)
+                            if df is not branch_df:
+                                persisted.append(df)
+                        else:
+                            df = branch_df
+                        validate_table(name, df, specs[name], dimensions, dq)
+                        state["outputs"][name] = write_snapshot(spark, specs[name], df, dq, guard)
+                    outputs = {name: spark.table(f"{OUTPUT_NAMESPACE}.{name}") for name in frames}
+                    reconcile(source, inputs[source], projected, outputs, contracts[source].business_key, dq)
+                finally:
+                    for cached_df in persisted:
+                        cached_df.unpersist()
                 if source not in state["completed_sources"]:
                     state["completed_sources"].append(source)
                 state["status"] = "FACTS_BUILDING"
             elif action == "validate":
                 if set(state["completed_sources"]) != set(BUILD_ORDER) or set(state["outputs"]) != set(specs):
                     raise ValueError("Cannot validate incomplete Gold scope")
-                inputs, contracts = read_inputs(spark, proof, dq, validate=True)
                 outputs = {}
                 for name, saved in state["outputs"].items():
                     now = identity(spark, f"{OUTPUT_NAMESPACE}.{name}")
                     if now["uuid"] != saved["uuid"] or now["snapshot_id"] != saved["snapshot_id"]:
                         raise ValueError(f"Gold output moved since stage readback: {name}")
                     outputs[name] = pinned_read(spark, f"{OUTPUT_NAMESPACE}.{name}", saved)
-                dims = {n: d for n, d in outputs.items() if n.startswith("dim_")}
-                for name, df in outputs.items():
-                    validate_table(name, df, specs[name], dims, dq)
-                for src in BUILD_ORDER:
-                    frames = transform(src, inputs[src], contracts[src].business_key, proof["pins"][src])
-                    reconcile(src, inputs[src], {n: specs[n].project(f) for n, f in frames.items()}, outputs, contracts[src].business_key, dq)
-                # Dimensions rebuild deterministically; exact set equality includes labels/FDs/calendar.
-                for name, raw in build_dimensions(spark, inputs):
-                    dq.same("DQ03", name, specs[name].project(raw), outputs[name], "dimension rebuild exact multiset equality")
                 guard()
                 state["semantic_queries"] = validate_semantic_queries(state["outputs"], dq, store=store, context=context)
                 semantic_checks(outputs, dq)

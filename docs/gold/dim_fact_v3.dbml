@@ -103,7 +103,7 @@ Table gold_local.dim_source_geography {
 GRAIN: One source geography identity within explicit namespace and scope; no official administrative conformance.
 NATURAL/ANALYTICAL KEY: (identity_namespace, identity_scope, source_identity).
 INPUT DATASETS: faostat_monthly_price, faostat_production, faostat_supply_utilization, faostat_trade, nso, thitruongnongsan, usda_psd, usda_rice_yearbook. Physical prefix: iceberg.silver_local.
-Source identity Type 0; source labels/status Type 1 only. FAO M49 shared by exact code, NSO scope includes source_table; no SCD2/ISO/region hierarchy. Technical zero-hash member only for non-geographic WB benchmark.
+Source identity Type 0; source labels/status Type 1 only. FAO M49 shared by exact code, NSO scope includes source_table; no SCD2/ISO/region hierarchy. Technical not_geographic member only for non-geographic WB benchmark.
 MAPPING: source_to_gold_mapping.csv covers every column and source branch.
 VALIDATION: README.md DQ gates; mandatory identities must not be collapsed to Unknown.
 '''
@@ -161,7 +161,7 @@ Table gold_local.dim_price_series {
   price_series_key varchar(64) [pk, note: 'SHA-256 K1 typed-array protocol; no increment/row_number; collision gate required.']
   source_system_key varchar(64) [not null, ref: > gold_local.dim_source_system.source_system_key, note: 'K1(dim_source_system,[canonical dataset ID]); source ID is execution context, not guessed from labels.']
   series_identity_json varchar [not null, note: 'Canonical JSON of ordered S1 tuple; VN [market,commodity,price_type,unit,currency,source]; FAO [country_code,commodity_code,element_code]; WB [commodity_code]; Yearbook [location,commodity_class,statistic_type].']
-  geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact source identity; WB uses reserved zero-hash non-geographic member, not an inferred exporter country.']
+  geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact source identity; WB uses reserved not_geographic non-geographic member, not an inferred exporter country.']
   product_key varchar(64) [not null, ref: > gold_local.dim_source_product.product_key, note: 'P1 exact source product/class/benchmark; exactly one match.']
   price_type_source varchar [note: 'Exact source element/statistic/price_type; WB literal benchmark. No universal wholesale/retail/FOB assumption.']
   unit varchar [not null, note: 'U2: FAO 5530/5531/5532 -> LCU/tonne,SLC/tonne,USD/tonne; 5539 -> index(2014-2016=100); other source normalized unit unchanged.']
@@ -185,32 +185,16 @@ VALIDATION: README.md DQ gates; mandatory identities must not be collapsed to Un
 
 // FACT: One FAOSTAT production observation per area, CPC, calendar year and element.
 Table gold_local.fact_fao_production_observation {
-  observation_key varchar(64) [pk, note: 'SHA-256 K1 typed-array protocol; no increment/row_number; collision gate required.']
   year_key integer [not null, ref: > gold_local.dim_year.year_key, note: 'dim_year.year_key = source year; actual calendar semantics verified.']
-  geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never zero-hash fallback.']
+  geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never not_geographic fallback.']
   product_key varchar(64) [not null, ref: > gold_local.dim_source_product.product_key, note: 'P1 exact namespace/source product identity; no cross-source factor or code replacement.']
   observation_type_key varchar(64) [not null, ref: > gold_local.dim_observation_type.observation_type_key, note: 'Exact source dataset and source_metric_id; one match, U1 admitted unit.']
   value decimal(18,2) [note: 'value unchanged; lossless cast to declared Gold decimal. Missing stays NULL; real zero stays zero.']
   source_system_key varchar(64) [not null, ref: > gold_local.dim_source_system.source_system_key, note: 'K1(dim_source_system,[canonical dataset ID]); source ID is execution context, not guessed from labels.']
   missing_reason varchar [note: 'missing_reason; preserve source missing rows and real zeros separately.']
-  _ingestion_run_id varchar [not null, note: '_ingestion_run_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_batch_id varchar [not null, note: '_ingestion_batch_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_chunk_id bigint [not null, note: '_ingestion_chunk_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_timestamp timestamptz [not null, note: '_ingestion_timestamp; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_id varchar [not null, note: '_source_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_file varchar [not null, note: '_source_file; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_checksum varchar [not null, note: '_source_checksum; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_snapshot_id bigint [not null, note: 'Upstream lineage only; may be 0, never use as Silver read snapshot.']
-  _silver_processed_at timestamptz [not null, note: '_silver_processed_at; upstream processing time, not publication/availability time.']
-  dq_warnings_json varchar [not null, note: 'Deterministic JSON serialization of upstream warning array; [] for empty array, never drop warnings.']
-  silver_table_uuid varchar [not null, note: 'Read actual Silver Iceberg table UUID from pinned input metadata; execution admission context, not a source column.']
-  silver_read_snapshot_id bigint [not null, note: 'Actual Silver snapshot pinned before reading, required positive; not Bronze snapshot or _source_snapshot_id.']
-  source_business_key_json varchar [not null, note: 'Exact ordered Silver business key; retained for collision and row-reconciliation gates.']
-  source_context_json varchar [not null, note: 'Canonical deterministic JSON object of exactly [domain_code,domain,country_name,commodity_name,element,unit,flag,flag_description,value_raw,unit_raw]; preserve original NULL, strings and decimals; source flags/evidence are not overwritten.']
-  gold_model_version varchar [not null, note: 'Literal gold-20261025.1. Attempt timestamp/UUID is not a content change.']
 
   indexes {
-    (year_key, geography_key, product_key, observation_type_key) [unique, name: 'uq_fact_fao_production_observation_grain']
+    (year_key, geography_key, product_key, observation_type_key) [pk, name: 'pk_fact_fao_production_observation_grain']
   }
 
   Note: '''
@@ -225,32 +209,16 @@ VALIDATION: README.md DQ gates; mandatory identities must not be collapsed to Un
 
 // FACT: One supported SUA element per area, CPC and calendar year.
 Table gold_local.fact_fao_sua_observation {
-  observation_key varchar(64) [pk, note: 'SHA-256 K1 typed-array protocol; no increment/row_number; collision gate required.']
   year_key integer [not null, ref: > gold_local.dim_year.year_key, note: 'dim_year.year_key = source year; actual calendar semantics verified.']
-  geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never zero-hash fallback.']
+  geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never not_geographic fallback.']
   product_key varchar(64) [not null, ref: > gold_local.dim_source_product.product_key, note: 'P1 exact namespace/source product identity; no cross-source factor or code replacement.']
   observation_type_key varchar(64) [not null, ref: > gold_local.dim_observation_type.observation_type_key, note: 'Exact source dataset and source_metric_id; one match, U1 admitted unit.']
   value decimal(18,2) [note: 'value unchanged; lossless cast to declared Gold decimal. Missing stays NULL; real zero stays zero.']
   source_system_key varchar(64) [not null, ref: > gold_local.dim_source_system.source_system_key, note: 'K1(dim_source_system,[canonical dataset ID]); source ID is execution context, not guessed from labels.']
   missing_reason varchar [note: 'missing_reason; preserve source missing rows and real zeros separately.']
-  _ingestion_run_id varchar [not null, note: '_ingestion_run_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_batch_id varchar [not null, note: '_ingestion_batch_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_chunk_id bigint [not null, note: '_ingestion_chunk_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_timestamp timestamptz [not null, note: '_ingestion_timestamp; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_id varchar [not null, note: '_source_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_file varchar [not null, note: '_source_file; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_checksum varchar [not null, note: '_source_checksum; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_snapshot_id bigint [not null, note: 'Upstream lineage only; may be 0, never use as Silver read snapshot.']
-  _silver_processed_at timestamptz [not null, note: '_silver_processed_at; upstream processing time, not publication/availability time.']
-  dq_warnings_json varchar [not null, note: 'Deterministic JSON serialization of upstream warning array; [] for empty array, never drop warnings.']
-  silver_table_uuid varchar [not null, note: 'Read actual Silver Iceberg table UUID from pinned input metadata; execution admission context, not a source column.']
-  silver_read_snapshot_id bigint [not null, note: 'Actual Silver snapshot pinned before reading, required positive; not Bronze snapshot or _source_snapshot_id.']
-  source_business_key_json varchar [not null, note: 'Exact ordered Silver business key; retained for collision and row-reconciliation gates.']
-  source_context_json varchar [not null, note: 'Canonical deterministic JSON object of exactly [domain_code,domain,country_name,commodity_name,element,unit,flag,flag_description,note,value_raw,unit_raw]; preserve original NULL, strings and decimals; source flags/evidence are not overwritten.']
-  gold_model_version varchar [not null, note: 'Literal gold-20261025.1. Attempt timestamp/UUID is not a content change.']
 
   indexes {
-    (year_key, geography_key, product_key, observation_type_key) [unique, name: 'uq_fact_fao_sua_observation_grain']
+    (year_key, geography_key, product_key, observation_type_key) [pk, name: 'pk_fact_fao_sua_observation_grain']
   }
 
   Note: '''
@@ -265,33 +233,17 @@ VALIDATION: README.md DQ gates; mandatory identities must not be collapsed to Un
 
 // FACT: One reporter-partner-CPC-calendar-year trade element, preserving all source product codes.
 Table gold_local.fact_fao_trade_observation {
-  observation_key varchar(64) [pk, note: 'SHA-256 K1 typed-array protocol; no increment/row_number; collision gate required.']
   year_key integer [not null, ref: > gold_local.dim_year.year_key, note: 'dim_year.year_key = source year; actual calendar semantics verified.']
-  reporter_geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never zero-hash fallback.']
-  partner_geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never zero-hash fallback.']
+  reporter_geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never not_geographic fallback.']
+  partner_geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never not_geographic fallback.']
   product_key varchar(64) [not null, ref: > gold_local.dim_source_product.product_key, note: 'P1 exact namespace/source product identity; no cross-source factor or code replacement.']
   observation_type_key varchar(64) [not null, ref: > gold_local.dim_observation_type.observation_type_key, note: 'Exact source dataset and source_metric_id; one match, U1 admitted unit.']
   value decimal(22,2) [note: 'value * CASE WHEN unit = \'1000 USD\' THEN 1000 ELSE 1 END; exact admitted element/unit pairs, widened Decimal, overflow fails.']
   source_system_key varchar(64) [not null, ref: > gold_local.dim_source_system.source_system_key, note: 'K1(dim_source_system,[canonical dataset ID]); source ID is execution context, not guessed from labels.']
   missing_reason varchar [note: 'missing_reason; preserve source missing rows and real zeros separately.']
-  _ingestion_run_id varchar [not null, note: '_ingestion_run_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_batch_id varchar [not null, note: '_ingestion_batch_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_chunk_id bigint [not null, note: '_ingestion_chunk_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_timestamp timestamptz [not null, note: '_ingestion_timestamp; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_id varchar [not null, note: '_source_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_file varchar [not null, note: '_source_file; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_checksum varchar [not null, note: '_source_checksum; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_snapshot_id bigint [not null, note: 'Upstream lineage only; may be 0, never use as Silver read snapshot.']
-  _silver_processed_at timestamptz [not null, note: '_silver_processed_at; upstream processing time, not publication/availability time.']
-  dq_warnings_json varchar [not null, note: 'Deterministic JSON serialization of upstream warning array; [] for empty array, never drop warnings.']
-  silver_table_uuid varchar [not null, note: 'Read actual Silver Iceberg table UUID from pinned input metadata; execution admission context, not a source column.']
-  silver_read_snapshot_id bigint [not null, note: 'Actual Silver snapshot pinned before reading, required positive; not Bronze snapshot or _source_snapshot_id.']
-  source_business_key_json varchar [not null, note: 'Exact ordered Silver business key; retained for collision and row-reconciliation gates.']
-  source_context_json varchar [not null, note: 'Canonical deterministic JSON object of exactly [reporter_country_name,partner_country_name,commodity_name,element_name,unit,flag,value_raw,unit_raw]; preserve original NULL, strings and decimals; source flags/evidence are not overwritten.']
-  gold_model_version varchar [not null, note: 'Literal gold-20261025.1. Attempt timestamp/UUID is not a content change.']
 
   indexes {
-    (year_key, reporter_geography_key, partner_geography_key, product_key, observation_type_key) [unique, name: 'uq_fact_fao_trade_observation_grain']
+    (year_key, reporter_geography_key, partner_geography_key, product_key, observation_type_key) [pk, name: 'pk_fact_fao_trade_observation_grain']
   }
 
   Note: '''
@@ -306,8 +258,7 @@ VALIDATION: README.md DQ gates; mandatory identities must not be collapsed to Un
 
 // FACT: One country, commodity, attribute and marketing-year observation.
 Table gold_local.fact_usda_psd_observation {
-  observation_key varchar(64) [pk, note: 'SHA-256 K1 typed-array protocol; no increment/row_number; collision gate required.']
-  geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never zero-hash fallback.']
+  geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never not_geographic fallback.']
   product_key varchar(64) [not null, ref: > gold_local.dim_source_product.product_key, note: 'P1 exact namespace/source product identity; no cross-source factor or code replacement.']
   observation_type_key varchar(64) [not null, ref: > gold_local.dim_observation_type.observation_type_key, note: 'Exact source dataset and source_metric_id; one match, U1 admitted unit.']
   market_year integer [not null, note: 'market_year is a source marketing-year beginning label, not calendar-year FK.']
@@ -315,24 +266,9 @@ Table gold_local.fact_usda_psd_observation {
   value decimal(22,4) [note: 'value * CASE WHEN unit IN (\'1000 MT\',\'1000 HA\') THEN 1000 ELSE 1 END; fraction and MT/HA factor 1. Never apply Silver milling factor again.']
   source_system_key varchar(64) [not null, ref: > gold_local.dim_source_system.source_system_key, note: 'K1(dim_source_system,[canonical dataset ID]); source ID is execution context, not guessed from labels.']
   missing_reason varchar [note: 'missing_reason; preserve source missing rows and real zeros separately.']
-  _ingestion_run_id varchar [not null, note: '_ingestion_run_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_batch_id varchar [not null, note: '_ingestion_batch_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_chunk_id bigint [not null, note: '_ingestion_chunk_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_timestamp timestamptz [not null, note: '_ingestion_timestamp; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_id varchar [not null, note: '_source_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_file varchar [not null, note: '_source_file; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_checksum varchar [not null, note: '_source_checksum; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_snapshot_id bigint [not null, note: 'Upstream lineage only; may be 0, never use as Silver read snapshot.']
-  _silver_processed_at timestamptz [not null, note: '_silver_processed_at; upstream processing time, not publication/availability time.']
-  dq_warnings_json varchar [not null, note: 'Deterministic JSON serialization of upstream warning array; [] for empty array, never drop warnings.']
-  silver_table_uuid varchar [not null, note: 'Read actual Silver Iceberg table UUID from pinned input metadata; execution admission context, not a source column.']
-  silver_read_snapshot_id bigint [not null, note: 'Actual Silver snapshot pinned before reading, required positive; not Bronze snapshot or _source_snapshot_id.']
-  source_business_key_json varchar [not null, note: 'Exact ordered Silver business key; retained for collision and row-reconciliation gates.']
-  source_context_json varchar [not null, note: 'Canonical deterministic JSON object of exactly [unit,value_source,source_unit,conversion_factor,value_raw]; preserve original NULL, strings and decimals; source flags/evidence are not overwritten.']
-  gold_model_version varchar [not null, note: 'Literal gold-20261025.1. Attempt timestamp/UUID is not a content change.']
 
   indexes {
-    (geography_key, product_key, observation_type_key, market_year) [unique, name: 'uq_fact_usda_psd_observation_grain']
+    (geography_key, product_key, observation_type_key, market_year) [pk, name: 'pk_fact_usda_psd_observation_grain']
   }
 
   Note: '''
@@ -347,30 +283,14 @@ VALIDATION: README.md DQ gates; mandatory identities must not be collapsed to Un
 
 // FACT: One admitted source price/index series per true calendar month.
 Table gold_local.fact_price_monthly {
-  observation_key varchar(64) [pk, note: 'SHA-256 K1 typed-array protocol; no increment/row_number; collision gate required.']
   month_key integer [not null, ref: > gold_local.dim_month.month_key, note: 'dim_month by calendar year/month; FAO only time_grain=monthly, WB validate period_date is first of same month.']
   price_series_key varchar(64) [not null, ref: > gold_local.dim_price_series.price_series_key, note: 'Exact S1 source price series; preserve source dataset and every identity component.']
   value decimal(20,4) [note: 'value unchanged; no FX and no price-index conversion. | Lossless cast(price AS decimal(20,4)); no scale or currency conversion.']
   source_system_key varchar(64) [not null, ref: > gold_local.dim_source_system.source_system_key, note: 'K1(dim_source_system,[canonical dataset ID]); source ID is execution context, not guessed from labels.']
   missing_reason varchar [note: 'missing_reason; preserve source missing rows and real zeros separately.']
-  _ingestion_run_id varchar [not null, note: '_ingestion_run_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_batch_id varchar [not null, note: '_ingestion_batch_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_chunk_id bigint [not null, note: '_ingestion_chunk_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_timestamp timestamptz [not null, note: '_ingestion_timestamp; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_id varchar [not null, note: '_source_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_file varchar [not null, note: '_source_file; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_checksum varchar [not null, note: '_source_checksum; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_snapshot_id bigint [not null, note: 'Upstream lineage only; may be 0, never use as Silver read snapshot.']
-  _silver_processed_at timestamptz [not null, note: '_silver_processed_at; upstream processing time, not publication/availability time.']
-  dq_warnings_json varchar [not null, note: 'Deterministic JSON serialization of upstream warning array; [] for empty array, never drop warnings.']
-  silver_table_uuid varchar [not null, note: 'Read actual Silver Iceberg table UUID from pinned input metadata; execution admission context, not a source column.']
-  silver_read_snapshot_id bigint [not null, note: 'Actual Silver snapshot pinned before reading, required positive; not Bronze snapshot or _source_snapshot_id.']
-  source_business_key_json varchar [not null, note: 'Exact ordered Silver business key; retained for collision and row-reconciliation gates.']
-  source_context_json varchar [not null, note: 'Canonical deterministic JSON object of exactly [domain_code,domain,country_name,commodity_name,element,month_code,month_name,time_grain,month,year,unit,currency,price_kind,flag,flag_description,value_raw,unit_raw]; preserve original NULL, strings and decimals; source flags/evidence are not overwritten. | Canonical deterministic JSON object of exactly [commodity_name,period_code,period_date,unit,series_name,value_raw,unit_raw]; preserve original NULL, strings and decimals; source flags/evidence are not overwritten.']
-  gold_model_version varchar [not null, note: 'Literal gold-20261025.1. Attempt timestamp/UUID is not a content change.']
 
   indexes {
-    (price_series_key, month_key) [unique, name: 'uq_fact_price_monthly_grain']
+    (price_series_key, month_key) [pk, name: 'pk_fact_price_monthly_grain']
   }
 
   Note: '''
@@ -385,30 +305,14 @@ VALIDATION: README.md DQ gates; mandatory identities must not be collapsed to Un
 
 // FACT: One reported annual FAO price/index per source series and calendar year.
 Table gold_local.fact_fao_price_annual {
-  observation_key varchar(64) [pk, note: 'SHA-256 K1 typed-array protocol; no increment/row_number; collision gate required.']
   year_key integer [not null, ref: > gold_local.dim_year.year_key, note: 'dim_year.year_key = source year; actual calendar semantics verified.']
   price_series_key varchar(64) [not null, ref: > gold_local.dim_price_series.price_series_key, note: 'Exact S1 source price series; preserve source dataset and every identity component.']
   value decimal(18,4) [note: 'value unchanged; lossless cast to declared Gold decimal. Missing stays NULL; real zero stays zero.']
   source_system_key varchar(64) [not null, ref: > gold_local.dim_source_system.source_system_key, note: 'K1(dim_source_system,[canonical dataset ID]); source ID is execution context, not guessed from labels.']
   missing_reason varchar [note: 'missing_reason; preserve source missing rows and real zeros separately.']
-  _ingestion_run_id varchar [not null, note: '_ingestion_run_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_batch_id varchar [not null, note: '_ingestion_batch_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_chunk_id bigint [not null, note: '_ingestion_chunk_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_timestamp timestamptz [not null, note: '_ingestion_timestamp; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_id varchar [not null, note: '_source_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_file varchar [not null, note: '_source_file; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_checksum varchar [not null, note: '_source_checksum; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_snapshot_id bigint [not null, note: 'Upstream lineage only; may be 0, never use as Silver read snapshot.']
-  _silver_processed_at timestamptz [not null, note: '_silver_processed_at; upstream processing time, not publication/availability time.']
-  dq_warnings_json varchar [not null, note: 'Deterministic JSON serialization of upstream warning array; [] for empty array, never drop warnings.']
-  silver_table_uuid varchar [not null, note: 'Read actual Silver Iceberg table UUID from pinned input metadata; execution admission context, not a source column.']
-  silver_read_snapshot_id bigint [not null, note: 'Actual Silver snapshot pinned before reading, required positive; not Bronze snapshot or _source_snapshot_id.']
-  source_business_key_json varchar [not null, note: 'Exact ordered Silver business key; retained for collision and row-reconciliation gates.']
-  source_context_json varchar [not null, note: 'Canonical deterministic JSON object of exactly [domain_code,domain,country_name,commodity_name,element,month_code,month_name,time_grain,month,year,unit,currency,price_kind,flag,flag_description,value_raw,unit_raw]; preserve original NULL, strings and decimals; source flags/evidence are not overwritten.']
-  gold_model_version varchar [not null, note: 'Literal gold-20261025.1. Attempt timestamp/UUID is not a content change.']
 
   indexes {
-    (price_series_key, year_key) [unique, name: 'uq_fact_fao_price_annual_grain']
+    (price_series_key, year_key) [pk, name: 'pk_fact_fao_price_annual_grain']
   }
 
   Note: '''
@@ -423,31 +327,15 @@ VALIDATION: README.md DQ gates; mandatory identities must not be collapsed to Un
 
 // FACT: One Yearbook source series, reference year label and exact reference_period.
 Table gold_local.fact_usda_price_reference {
-  observation_key varchar(64) [pk, note: 'SHA-256 K1 typed-array protocol; no increment/row_number; collision gate required.']
   price_series_key varchar(64) [not null, ref: > gold_local.dim_price_series.price_series_key, note: 'Exact S1 source price series; preserve source dataset and every identity component.']
   reference_year integer [not null, note: 'Preserve year as source reference label; no dim_year/month/date FK until approved source calendar rule.']
   reference_period varchar [not null, note: 'Exact approved month name, YEAR or MARKETING. Current bounded profile observed 12 month names and MARKETING; YEAR allowed in code only.']
   value decimal(18,2) [note: 'value unchanged; lossless cast to declared Gold decimal. Missing stays NULL; real zero stays zero.']
   source_system_key varchar(64) [not null, ref: > gold_local.dim_source_system.source_system_key, note: 'K1(dim_source_system,[canonical dataset ID]); source ID is execution context, not guessed from labels.']
   missing_reason varchar [note: 'missing_reason; preserve source missing rows and real zeros separately.']
-  _ingestion_run_id varchar [not null, note: '_ingestion_run_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_batch_id varchar [not null, note: '_ingestion_batch_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_chunk_id bigint [not null, note: '_ingestion_chunk_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_timestamp timestamptz [not null, note: '_ingestion_timestamp; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_id varchar [not null, note: '_source_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_file varchar [not null, note: '_source_file; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_checksum varchar [not null, note: '_source_checksum; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_snapshot_id bigint [not null, note: 'Upstream lineage only; may be 0, never use as Silver read snapshot.']
-  _silver_processed_at timestamptz [not null, note: '_silver_processed_at; upstream processing time, not publication/availability time.']
-  dq_warnings_json varchar [not null, note: 'Deterministic JSON serialization of upstream warning array; [] for empty array, never drop warnings.']
-  silver_table_uuid varchar [not null, note: 'Read actual Silver Iceberg table UUID from pinned input metadata; execution admission context, not a source column.']
-  silver_read_snapshot_id bigint [not null, note: 'Actual Silver snapshot pinned before reading, required positive; not Bronze snapshot or _source_snapshot_id.']
-  source_business_key_json varchar [not null, note: 'Exact ordered Silver business key; retained for collision and row-reconciliation gates.']
-  source_context_json varchar [not null, note: 'Canonical deterministic JSON object of exactly [table_name,table_number,commodity,unit,value_raw,unit_raw]; preserve original NULL, strings and decimals; source flags/evidence are not overwritten.']
-  gold_model_version varchar [not null, note: 'Literal gold-20261025.1. Attempt timestamp/UUID is not a content change.']
 
   indexes {
-    (price_series_key, reference_year, reference_period) [unique, name: 'uq_fact_usda_price_reference_grain']
+    (price_series_key, reference_year, reference_period) [pk, name: 'pk_fact_usda_price_reference_grain']
   }
 
   Note: '''
@@ -462,30 +350,14 @@ VALIDATION: README.md DQ gates; mandatory identities must not be collapsed to Un
 
 // FACT: One date and full six-component source quote series.
 Table gold_local.fact_vn_market_quote_daily {
-  observation_key varchar(64) [pk, note: 'SHA-256 K1 typed-array protocol; no increment/row_number; collision gate required.']
   date_key integer [not null, ref: > gold_local.dim_date.date_key, note: 'dim_date.full_date = date; exactly one valid day.']
   price_series_key varchar(64) [not null, ref: > gold_local.dim_price_series.price_series_key, note: 'Exact S1 source price series; preserve source dataset and every identity component.']
   value decimal(18,2) [note: 'price_value unchanged; current VND/kg. No AVG across sources/markets; no FX.']
   source_system_key varchar(64) [not null, ref: > gold_local.dim_source_system.source_system_key, note: 'K1(dim_source_system,[canonical dataset ID]); source ID is execution context, not guessed from labels.']
   missing_reason varchar [note: 'missing_reason; preserve source missing rows and real zeros separately.']
-  _ingestion_run_id varchar [not null, note: '_ingestion_run_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_batch_id varchar [not null, note: '_ingestion_batch_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_chunk_id bigint [not null, note: '_ingestion_chunk_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_timestamp timestamptz [not null, note: '_ingestion_timestamp; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_id varchar [not null, note: '_source_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_file varchar [not null, note: '_source_file; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_checksum varchar [not null, note: '_source_checksum; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_snapshot_id bigint [not null, note: 'Upstream lineage only; may be 0, never use as Silver read snapshot.']
-  _silver_processed_at timestamptz [not null, note: '_silver_processed_at; upstream processing time, not publication/availability time.']
-  dq_warnings_json varchar [not null, note: 'Deterministic JSON serialization of upstream warning array; [] for empty array, never drop warnings.']
-  silver_table_uuid varchar [not null, note: 'Read actual Silver Iceberg table UUID from pinned input metadata; execution admission context, not a source column.']
-  silver_read_snapshot_id bigint [not null, note: 'Actual Silver snapshot pinned before reading, required positive; not Bronze snapshot or _source_snapshot_id.']
-  source_business_key_json varchar [not null, note: 'Exact ordered Silver business key; retained for collision and row-reconciliation gates.']
-  source_context_json varchar [not null, note: 'Canonical deterministic JSON object of exactly [year,value_raw,unit_raw]; preserve original NULL, strings and decimals; source flags/evidence are not overwritten.']
-  gold_model_version varchar [not null, note: 'Literal gold-20261025.1. Attempt timestamp/UUID is not a content change.']
 
   indexes {
-    (date_key, price_series_key) [unique, name: 'uq_fact_vn_market_quote_daily_grain']
+    (date_key, price_series_key) [pk, name: 'pk_fact_vn_market_quote_daily_grain']
   }
 
   Note: '''
@@ -500,9 +372,8 @@ VALIDATION: README.md DQ gates; mandatory identities must not be collapsed to Un
 
 // FACT: One source_table, source_geography_key, year, measure, season and statistic_kind observation.
 Table gold_local.fact_nso_observation {
-  observation_key varchar(64) [pk, note: 'SHA-256 K1 typed-array protocol; no increment/row_number; collision gate required.']
   year_key integer [not null, ref: > gold_local.dim_year.year_key, note: 'dim_year.year_key = source year; actual calendar semantics verified.']
-  geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never zero-hash fallback.']
+  geography_key varchar(64) [not null, ref: > gold_local.dim_source_geography.geography_key, note: 'G1 exact namespace/scope/source identity; exactly one match; mandatory identity never not_geographic fallback.']
   source_table varchar [not null, note: 'source_table unchanged; exact current NSO contract semantics.']
   source_geography_key varchar [not null, note: 'source_geography_key unchanged; exact current NSO contract semantics.']
   source_column varchar [not null, note: 'source_column unchanged; exact current NSO contract semantics.']
@@ -517,28 +388,11 @@ Table gold_local.fact_nso_observation {
   unit varchar [not null, note: 'unit unchanged; must agree with measure/statistic_kind.']
   value_source decimal(28,8) [note: 'Original numeric source scale preserved, not Gold measure used for normalized sums.']
   silver_conversion_factor decimal(8,0) [not null, note: 'Silver factor as evidence only; never apply it again to Silver value.']
-  bronze_read_snapshot_id bigint [not null, note: 'Actual pinned Bronze read snapshot from NSO transformer; distinct from Gold Silver-read snapshot.']
-  diagnostic_evidence_json varchar [not null, note: 'Diagnostic JSON string unchanged; discrepancies warn, not a reason to edit source measurements.']
   source_system_key varchar(64) [not null, ref: > gold_local.dim_source_system.source_system_key, note: 'K1(dim_source_system,[canonical dataset ID]); source ID is execution context, not guessed from labels.']
   missing_reason varchar [note: 'missing_reason; preserve source missing rows and real zeros separately.']
-  _ingestion_run_id varchar [not null, note: '_ingestion_run_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_batch_id varchar [not null, note: '_ingestion_batch_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_chunk_id bigint [not null, note: '_ingestion_chunk_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _ingestion_timestamp timestamptz [not null, note: '_ingestion_timestamp; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_id varchar [not null, note: '_source_id; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_file varchar [not null, note: '_source_file; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_checksum varchar [not null, note: '_source_checksum; technical lineage column emitted by framework, not inferred from business labels.']
-  _source_snapshot_id bigint [not null, note: 'Upstream lineage only; may be 0, never use as Silver read snapshot.']
-  _silver_processed_at timestamptz [not null, note: '_silver_processed_at; upstream processing time, not publication/availability time.']
-  dq_warnings_json varchar [not null, note: 'Deterministic JSON serialization of upstream warning array; [] for empty array, never drop warnings.']
-  silver_table_uuid varchar [not null, note: 'Read actual Silver Iceberg table UUID from pinned input metadata; execution admission context, not a source column.']
-  silver_read_snapshot_id bigint [not null, note: 'Actual Silver snapshot pinned before reading, required positive; not Bronze snapshot or _source_snapshot_id.']
-  source_business_key_json varchar [not null, note: 'Exact ordered Silver business key; retained for collision and row-reconciliation gates.']
-  source_context_json varchar [not null, note: 'Canonical deterministic JSON object of exactly [geography_raw,geography_name_candidate,geography_level,geography_status,geography_code,boundary_version,geography_mapping_version,geography_evidence,unit_raw,unit_source_reference,unit_status,unit_reference,unit_evidence,unit_mapping_version,metadata_version,value_raw]; preserve original NULL, strings and decimals; source flags/evidence are not overwritten.']
-  gold_model_version varchar [not null, note: 'Literal gold-20261025.1. Attempt timestamp/UUID is not a content change.']
 
   indexes {
-    (source_table, source_geography_key, year_key, measure, season, statistic_kind) [unique, name: 'uq_fact_nso_observation_grain']
+    (source_table, source_geography_key, year_key, measure, season, statistic_kind) [pk, name: 'pk_fact_nso_observation_grain']
   }
 
   Note: '''

@@ -1,9 +1,9 @@
 """G02–G10: lossless per-source fact projections, with no physical pivot."""
 from pyspark.sql import functions as F, types as T
 
-from gold import MODEL_VERSION, BUILD_ORDER
+from gold import BUILD_ORDER
 from gold.dimensions import geography_key, product_key, series_key
-from gold.keys import key, spark_json, spark_value_json, spark_key
+from gold.keys import key, spark_key
 from gold.rules import metric_rule, checked_decimal
 
 TARGETS = {
@@ -17,36 +17,18 @@ TARGETS = {
     "faostat_monthly_price": ("fact_price_monthly", "fact_fao_price_annual"),
     "usda_rice_yearbook": ("fact_usda_price_reference",),
 }
-AUDITS = ("_ingestion_run_id", "_ingestion_batch_id", "_ingestion_chunk_id", "_ingestion_timestamp", "_source_id", "_source_file", "_source_checksum", "_source_snapshot_id", "_silver_processed_at")
-CONTEXT = {
-    "faostat_production": "domain_code domain country_name commodity_name element unit flag flag_description value_raw unit_raw",
-    "faostat_supply_utilization": "domain_code domain country_name commodity_name element unit flag flag_description note value_raw unit_raw",
-    "faostat_trade": "reporter_country_name partner_country_name commodity_name element_name unit flag value_raw unit_raw",
-    "faostat_monthly_price": "domain_code domain country_name commodity_name element month_code month_name time_grain month year unit currency price_kind flag flag_description value_raw unit_raw",
-    "usda_psd": "unit value_source source_unit conversion_factor value_raw",
-    "usda_rice_yearbook": "table_name table_number commodity unit value_raw unit_raw",
-    "worldbank_pinksheet": "commodity_name period_code period_date unit series_name value_raw unit_raw",
-    "thitruongnongsan": "year value_raw unit_raw",
-    "nso": "geography_raw geography_name_candidate geography_level geography_status geography_code boundary_version geography_mapping_version geography_evidence unit_raw unit_source_reference unit_status unit_reference unit_evidence unit_mapping_version metadata_version value_raw",
-}
 
 
-def provenance(source, business_key, pin):
-    cols = CONTEXT[source].split()
-    return [spark_key("observation", *(F.col(c) for c in business_key), nested_source=source).alias("observation_key"),
-            F.lit(key("dim_source_system", [source])).alias("source_system_key"), F.col("missing_reason"),
-            *(F.col(c) for c in AUDITS), spark_value_json(F.col("_dq_warnings")).alias("dq_warnings_json"),
-            F.lit(pin["uuid"]).alias("silver_table_uuid"), F.lit(int(pin["snapshot_id"])).cast("long").alias("silver_read_snapshot_id"),
-            spark_json(*(F.col(c) for c in business_key)).alias("source_business_key_json"),
-            spark_json(*(F.col(c) for c in cols), names=cols).alias("source_context_json"), F.lit(MODEL_VERSION).alias("gold_model_version")]
+def provenance(source, business_key, pin=None):
+    return [
+        F.lit(key("dim_source_system", [source])).alias("source_system_key"),
+        F.col("missing_reason"),
+    ]
 
 
 def normalized_value(source, precision, scale):
-    def convert(metric, unit, value):
-        _, factor, _ = metric_rule(source, metric, unit)
-        return checked_decimal(value, factor, precision, scale)
-    metric = "attribute" if source == "usda_psd" else "element_code"
-    return F.udf(convert, T.DecimalType(precision, scale))(F.col(metric), F.col("unit"), F.col("value")).alias("value")
+    factor = F.when(F.col("unit").isin("1000 USD", "1000 MT", "1000 HA"), F.lit(1000)).otherwise(F.lit(1))
+    return (F.col("value") * factor).cast(T.DecimalType(precision, scale)).alias("value")
 
 
 def fao_observation(source, df, bk, pin):
@@ -60,8 +42,8 @@ def psd_observation(df, bk, pin):
 
 
 def nso_observation(df, bk, pin):
-    direct = "source_table source_geography_key source_column measure season statistic_kind period_raw release_status quality_status review_reason value unit value_source bronze_read_snapshot_id".split()
-    return df.select(*provenance("nso", bk, pin), F.col("year").alias("year_key"), geography_key("nso").alias("geography_key"), *direct, F.col("conversion_factor").alias("silver_conversion_factor"), F.col("diagnostic_evidence").alias("diagnostic_evidence_json"))
+    direct = "source_table source_geography_key source_column measure season statistic_kind period_raw release_status quality_status review_reason value unit value_source".split()
+    return df.select(*provenance("nso", bk, pin), F.col("year").alias("year_key"), geography_key("nso").alias("geography_key"), *direct, F.col("conversion_factor").alias("silver_conversion_factor"))
 
 
 def wb_monthly(df, bk, pin):

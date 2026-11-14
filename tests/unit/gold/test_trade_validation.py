@@ -41,18 +41,21 @@ def response(rows):
 
 
 def test_deterministic_bucket_exhaustive_disjoint_and_group_containment():
-    # Exhaust every possible first byte, plus many groups and paired metrics.
-    for prefix in range(256):
-        reporter = f"{prefix:02x}"+"a"*62
-        assert bucket(reporter) == prefix % 4
-        for partner in ("p1","p2"):
-            for product in ("rice","paddy"):
-                positions = {bucket(reporter) for metric in ("5610","5622","5910","5922")}
-                assert positions == {prefix % 4}
-    assert {bucket(key("reporter",[i])) for i in range(100)} == set(range(4))
+    import hashlib
+    seen = set()
+    for i in range(100):
+        reporter = key("dim_source_geography", ["faostat_m49", "faostat", str(i)])
+        b = bucket(reporter)
+        seen.add(b)
+        assert b == hashlib.sha256(reporter.encode("utf-8")).digest()[0] % 4
+        for partner in ("p1", "p2"):
+            for product in ("rice", "paddy"):
+                positions = {bucket(reporter) for metric in ("5610", "5622", "5910", "5922")}
+                assert positions == {b}
+    assert seen == set(range(4))
 
 
-@pytest.mark.parametrize("bad", [None,"g1","A"*64,"0"*63,42])
+@pytest.mark.parametrize("bad", [None, "", "A" * 64, "a" * 65, "g-1", "đ", 42])
 def test_invalid_reporter_rejected(bad):
     with pytest.raises(ValueError): bucket(bad)
 
@@ -73,7 +76,7 @@ def test_sql_preserves_full_grain_metric_contributors_null_and_both_multisets():
     sql = partition_sql(outputs(),2017,2)
     assert sql.count('EXCEPT ALL') == 2
     assert 'LIMIT' not in sql and 'approx_distinct' not in sql
-    assert 'u.metric,u.observation_key,u.value' in sql
+    assert 'u.metric,u.value' in sql
     assert 'partner_geography_key' in sql and "u.presence=1" in sql
     assert 'present_5610=0 AND import_quantity_t IS NOT NULL' in sql
     assert 'IS DISTINCT FROM' in sql
@@ -191,7 +194,7 @@ def test_consumer_trade_uses_verified_bucket_before_limit():
     def window(): yield manifest
     with patch('gold.consumer.read_window',window), patch('gold.consumer.trino_result',return_value={'columns':expected_schema(VIEW_NAMES[3]),'rows':[[1]]}) as execute:
         result=query(VIEW_NAMES[3],2024)
-    assert 'from_base(substr(q.reporter_geography_key,1,2)' in execute.call_args[0][0]
+    assert 'from_base(substr(to_hex(sha256(to_utf8(q.reporter_geography_key))),1,2)' in execute.call_args[0][0]
     assert result['sample_partitions']==[{'year':2024,'bucket':0}]
 
 

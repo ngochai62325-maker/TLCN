@@ -21,11 +21,17 @@ class IcebergMergeEngine:
     def deduplicate(self, df, business_keys, order_cols=None):
         if not business_keys:
             raise ValueError("Deduplication requires business keys")
+        from pyspark.sql import DataFrame
+        if type(df) is DataFrame:
+            bk_h = F.xxhash64(*[F.col(quote(k)) for k in business_keys])
+            if df.select(bk_h.alias("_h")).groupBy("_h").count().where("count > 1").limit(1).isEmpty():
+                return df
         order_cols = order_cols if order_cols is not None else ["_ingestion_timestamp", "_source_file"]
         order = [F.col(c).desc_nulls_last() for c in order_cols if c in df.columns]
         # JSON for nested/map columns avoids unsupported ordering of Spark maps.
+        skip = set(business_keys) | set(order_cols) | {"_silver_processed_at"}
         for field in df.schema:
-            if field.name not in order_cols and field.name != "_silver_processed_at":
+            if field.name not in skip:
                 value = F.col(field.name)
                 if field.dataType.typeName() in {"array", "map", "struct"}:
                     value = F.to_json(value)
@@ -61,6 +67,14 @@ class IcebergMergeEngine:
         if not business_keys or not set(business_keys).issubset(df.columns):
             raise ValueError("MERGE requires existing business keys")
         self.ensure_table(df, target_table, partition_columns)
+        from pyspark.sql import DataFrame
+        if type(df) is DataFrame:
+            cmp_cols = [F.col(quote(c)) for c in df.columns if c != "_silver_processed_at"]
+            h_expr = F.xxhash64(*cmp_cols)
+            l_h = df.select(h_expr.alias("_h")).groupBy("_h").count().withColumnRenamed("count", "l_cnt")
+            r_h = self.spark.table(target_table).select(*df.columns).select(h_expr.alias("_h")).groupBy("_h").count().withColumnRenamed("count", "r_cnt")
+            if l_h.join(r_h, "_h", "full_outer").where("coalesce(l_cnt, 0) <> coalesce(r_cnt, 0)").limit(1).isEmpty():
+                return
         if df.isEmpty():
             return
         # Iceberg can commit an empty MERGE snapshot even when SQL UPDATE

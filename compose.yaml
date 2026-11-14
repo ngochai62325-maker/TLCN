@@ -37,12 +37,13 @@ x-airflow: &airflow
     AIRFLOW__CORE__PARALLELISM: "2"
     AIRFLOW__CORE__MAX_ACTIVE_TASKS_PER_DAG: "1"
     AIRFLOW__SCHEDULER__PARSING_PROCESSES: "1"
-    AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "10"
-    AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: "10"
+    AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "30"
+    AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: "30"
     AIRFLOW__WEBSERVER__WORKERS: "1"
     AIRFLOW__WEBSERVER__SECRET_KEY: isolated-local-nine-test-only
     AIRFLOW__OPENLINEAGE__DISABLED: "True"
     _PIP_ADDITIONAL_REQUIREMENTS: ""
+    MALLOC_ARENA_MAX: "2"
   volumes:
     - .:/workspace:ro
     - ${SILVER_TEST_RAW_ROOT:?Set complete Raw path}:/workspace/data/raw:ro
@@ -112,12 +113,13 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+      MALLOC_ARENA_MAX: "2"
     entrypoint: [/bin/bash, -c]
     command:
       - |
         printf '%s\n' 'connector.name=iceberg' 'iceberg.catalog.type=rest' 'iceberg.rest-catalog.uri=http://iceberg-rest:8181' 'iceberg.rest-catalog.warehouse=s3://warehouse' 'fs.native-s3.enabled=true' 's3.endpoint=http://minio:9000' 's3.region=us-east-1' "s3.aws-access-key=$${MINIO_ROOT_USER}" "s3.aws-secret-key=$${MINIO_ROOT_PASSWORD}" 's3.path-style-access=true' > /etc/trino/catalog/iceberg.properties
-        printf '%s\n' 'coordinator=true' 'node-scheduler.include-coordinator=true' 'http-server.http.port=8080' 'query.max-memory=128MB' 'query.max-total-memory=256MB' 'memory.heap-headroom-per-node=256MB' 'task.concurrency=2' 'task.max-worker-threads=4' 'task.min-drivers=4' 'discovery.uri=http://localhost:8080' > /etc/trino/config.properties
-        printf '%s\n' '-server' '-Xmx512M' '-XX:ActiveProcessorCount=2' '-XX:+UseG1GC' '-XX:+ExitOnOutOfMemoryError' '-Djdk.attach.allowAttachSelf=true' > /etc/trino/jvm.config
+        printf '%s\n' 'coordinator=true' 'node-scheduler.include-coordinator=true' 'http-server.http.port=8080' 'query.max-memory=192MB' 'query.max-total-memory=384MB' 'memory.heap-headroom-per-node=192MB' 'query.max-history=25' 'query.min-expire-age=5s' 'task.concurrency=2' 'task.max-worker-threads=4' 'task.min-drivers=4' 'discovery.uri=http://localhost:8080' > /etc/trino/config.properties
+        printf '%s\n' '-server' '-Xmx768M' '-XX:ActiveProcessorCount=2' '-XX:+UseG1GC' '-XX:+ExitOnOutOfMemoryError' '-Djdk.attach.allowAttachSelf=true' > /etc/trino/jvm.config
         exec /usr/lib/trino/bin/run-trino
     depends_on:
       iceberg-rest: {condition: service_started}
@@ -143,8 +145,8 @@ services:
       <<: *local-env
       TLCN_ISOLATED_REBUILD: "1"
       JAVA_TOOL_OPTIONS: -XX:ActiveProcessorCount=2
-      SILVER_SHUFFLE_PARTITIONS: "2"
-      PYSPARK_SUBMIT_ARGS: --driver-memory 768m --conf spark.sql.defaultCatalog=spark_catalog --conf spark.sql.catalog.iceberg.type=hadoop --conf spark.sql.catalog.iceberg.warehouse=/tmp/unused-warehouse pyspark-shell
+      SILVER_SHUFFLE_PARTITIONS: "4"
+      PYSPARK_SUBMIT_ARGS: --master local[2] --driver-memory 2g --conf spark.ui.enabled=false --conf spark.sql.execution.arrow.pyspark.enabled=true --conf spark.sql.shuffle.partitions=4 --conf spark.sql.defaultCatalog=spark_catalog pyspark-shell
       SPARK_LOCAL_IP: 127.0.0.1
       SPARK_LOCAL_HOSTNAME: localhost
     entrypoint: [python3]

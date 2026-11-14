@@ -213,16 +213,15 @@ def observations(session, table, measures):
     identities=eligible[['geography_key','source_geography_key']].drop_duplicates()
     if len(identities)!=1:raise ValueError('Ambiguous NSO national source identity')
     geo=identities.iloc[0]
-    if not re.fullmatch(r'[0-9a-f]{64}',geo.geography_key):raise ValueError('Invalid source geography key')
+    if not re.fullmatch(r'[a-z0-9_]{1,64}',geo.geography_key):raise ValueError('Invalid source geography key')
     start,end=int(eligible.first_year.min()),int(eligible.last_year.max())
     params=dict(source_table=table,level='national',geography_key=geo.geography_key,start_year=start,end_year=end)
-    data=require(session.query('nso_observations',**params),['observation_key','year_key','source_table','source_level','geography_key','source_geography_key',
+    data=require(session.query('nso_observations',**params),['year_key','source_table','source_level','geography_key','source_geography_key',
         'measure','statistic_kind','season','value','unit','release_status','quality_status'])
     data['year_key']=data.year_key.map(integer)
     for column,value in [('source_table',table),('source_level','national'),('geography_key',geo.geography_key),('source_geography_key',geo.source_geography_key)]:
         if not data[column].eq(value).all():raise ValueError('NSO query mixed source identities')
-    if (data.observation_key.isna().any() or not data.observation_key.map(lambda v:isinstance(v,str) and bool(v)).all()
-            or data.observation_key.duplicated().any() or not data.year_key.between(start,end).all()):raise ValueError('Invalid NSO observation identity/time')
+    if not data.year_key.between(start,end).all():raise ValueError('Invalid NSO observation identity/time')
     data=data[data.statistic_kind.eq('quantity') & data.measure.isin(measures)].copy()
     for r in data.itertuples():
         if r.unit!={'production':'tonne','area':'hectare','yield':'kg/hectare'}[r.measure]:raise ValueError('NSO unit drift/double conversion')
@@ -240,14 +239,14 @@ def nso_exports(data,yields):
         cell={r.measure:r for r in part.itertuples()};row=dict(year=int(year),publication='V06.12.csv',geography_scope='national')
         for measure,target in [('production','production_t'),('area','area_ha')]:
             present=measure in cell;row[target]=cell[measure].exact_value if present else None;row[measure+'_present']=present
-            if present:orig[(int(year),measure)]=cell[measure].observation_key
+            if present:orig[(int(year),measure)]=(cell[measure].geography_key,cell[measure].source_geography_key)
         rows.append(row)
-    files['nso_national_annual.csv']=rows;lineage['nso_national_annual.csv']=[{'year':y,'measure':m,'observation_key':key} for (y,m),key in orig.items()]
+    files['nso_national_annual.csv']=rows;lineage['nso_national_annual.csv']=[{'year':y,'measure':m,'geography_key':g,'source_geography_key':sg} for (y,m),(g,sg) in orig.items()]
     files['nso_national_seasonal.csv']=[dict(year=int(r.year_key),season=r.season,production_t=r.exact_value,publication='V06.12.csv',
         geography_scope='national',production_present=True,season_label_vi=SEASONS[r.season]) for r in seasonal.sort_values(['year_key','season']).itertuples()]
-    lineage['nso_national_seasonal.csv']=[dict(year=int(r.year_key),season=r.season,observation_key=r.observation_key) for r in seasonal.sort_values(['year_key','season']).itertuples()]
+    lineage['nso_national_seasonal.csv']=[dict(year=int(r.year_key),season=r.season,geography_key=r.geography_key,source_geography_key=r.source_geography_key) for r in seasonal.sort_values(['year_key','season']).itertuples()]
     files['nso_reported_yield.csv']=[dict(year=int(r.year_key),yield_kg_ha=r.exact_value,publication='V06.14.csv',yield_present=True) for r in yr.sort_values('year_key').itertuples()]
-    lineage['nso_reported_yield.csv']=[dict(year=int(r.year_key),observation_key=r.observation_key) for r in yr.sort_values('year_key').itertuples()]
+    lineage['nso_reported_yield.csv']=[dict(year=int(r.year_key),geography_key=r.geography_key,source_geography_key=r.source_geography_key) for r in yr.sort_values('year_key').itertuples()]
     # Exact value/NULL/multiplicity reconciliation, not checksums alone.
     expected['annual']={(int(r.year_key),r.measure):r.exact_value for r in annual.itertuples()}
     actual={(r['year'],m):r[col] for r in rows for m,col in [('production','production_t'),('area','area_ha')] if r[m+'_present']}

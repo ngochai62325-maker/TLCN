@@ -21,7 +21,7 @@ def manifest():
     ("publication",{"sql":"SELECT 1"}),
     ("nso_observations",dict(source_table="V06.12.csv",start_year=True,end_year=2024,level="national")),
     ("trade",dict(reporter="a"*64,product="b"*64,flow="export",start_year=1986,end_year=2024)),
-    ("trade",dict(reporter="bad",product="b"*64,flow="export",start_year=2020,end_year=2024)),
+    ("trade",dict(reporter="bad-key!",product="b"*64,flow="export",start_year=2020,end_year=2024)),
     ("price_observations",dict(fact="fact_fao_trade_observation",series="a"*64,start_period=2020,end_period=2024)),
 ])
 def test_invalid_parameters_fail_before_query(name,params):

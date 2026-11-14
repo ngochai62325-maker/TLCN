@@ -9,7 +9,7 @@ from gold.keys import canonical_json, key, spark_json, spark_key, spark_value_js
 from gold.rules import metric_rule, PRICE_UNITS
 from gold.spec import ROOT
 
-ZERO_GEOGRAPHY = "0" * 64
+ZERO_GEOGRAPHY = "not_geographic"
 METRIC_SOURCES = ("faostat_production", "faostat_supply_utilization", "faostat_trade", "usda_psd")
 SERIES_COLUMNS = {
     "worldbank_pinksheet": ("commodity_code",),
@@ -73,22 +73,29 @@ def sources_dimension(spark):
 def calendar_dimensions(spark, inputs):
     years = []
     months = []
+    lo, hi = None, None
     for source, df in inputs.items():
         if source in {"usda_psd", "usda_rice_yearbook"}:
             continue
-        bounds = df.agg(F.min("year"), F.max("year")).first()
+        if source == "thitruongnongsan":
+            m_idx = F.col("year") * 12 + F.month("date") - 1
+            res = df.agg(F.min("year"), F.max("year"), F.min(m_idx), F.max(m_idx), F.min("date"), F.max("date")).first()
+            bounds, row, lo, hi = res[0:2], res[2:4], res[4], res[5]
+        elif source in {"faostat_monthly_price", "worldbank_pinksheet"}:
+            m_col = F.col("year") * 12 + F.col("month") - 1
+            m_idx = F.when(F.col("time_grain") == "monthly", m_col) if source == "faostat_monthly_price" else m_col
+            res = df.agg(F.min("year"), F.max("year"), F.min(m_idx), F.max(m_idx)).first()
+            bounds, row = res[0:2], res[2:4]
+        else:
+            bounds = df.agg(F.min("year"), F.max("year")).first()
+            row = (None, None)
         if bounds[0] is None or not 1 <= bounds[0] <= bounds[1] <= 9999:
             raise ValueError(f"Invalid calendar bounds: {source}")
         years.extend(bounds)
-        if source in {"faostat_monthly_price", "worldbank_pinksheet", "thitruongnongsan"}:
-            subset = df.where("time_grain = 'monthly'") if source == "faostat_monthly_price" else df
-            m = F.month("date") if source == "thitruongnongsan" else F.col("month")
-            row = subset.agg(F.min(F.col("year") * 12 + m - 1), F.max(F.col("year") * 12 + m - 1)).first()
-            if row[0] is not None:
-                months.extend(row)
+        if row[0] is not None:
+            months.extend(row)
     yd = spark.createDataFrame([(y, y // 10 * 10, calendar.isleap(y)) for y in range(min(years), max(years) + 1)], "year_key int, decade int, is_leap_year boolean")
     md = spark.createDataFrame([(n // 12 * 100 + n % 12 + 1, n // 12, n % 12 + 1, n % 12 // 3 + 1, date(n // 12, n % 12 + 1, 1)) for n in range(min(months), max(months) + 1)], "month_key int, year_key int, month_number int, quarter_number int, month_start date")
-    lo, hi = inputs["thitruongnongsan"].agg(F.min("date"), F.max("date")).first()
     if lo is None or hi is None or (hi - lo).days > 36600:
         raise ValueError("Missing/excessive VN daily calendar range")
     dd = spark.createDataFrame([(d.year * 10000 + d.month * 100 + d.day, d, d.year * 100 + d.month, d.isoweekday(), d.day) for d in (lo + timedelta(days=n) for n in range((hi - lo).days + 1))], "date_key int, full_date date, month_key int, iso_weekday int, day_of_month int")
@@ -108,7 +115,7 @@ def geography_dimension(spark, inputs):
                     (F.col("geography_level") if source == "nso" else F.lit(level)).alias("source_level"),
                     (F.col("geography_status") if source == "nso" else F.lit("source_identity_only")).alias("interpretation_status"),
                     F.lit(label_role).alias("role"), F.col(label_col).alias("label")).distinct())
-    raw = union(frames)
+    raw = union(frames).localCheckpoint(eager=True)
     nk = ["identity_namespace", "identity_scope", "source_identity"]
     assert_fd(raw, nk, ["source_level", "interpretation_status"], "geography classification")
     labels = raw.groupBy(*nk, "source_level", "interpretation_status").agg(F.sort_array(F.collect_set(F.when(F.col("label").isNotNull(), F.struct("role", "label")))).alias("labels"))
@@ -139,11 +146,16 @@ def observation_dimension(spark, inputs):
         metric = "attribute" if source == "usda_psd" else "element_code"
         label = "attribute" if source == "usda_psd" else "element_name" if source == "faostat_trade" else "element"
         dictionary = inputs[source].select(F.col(metric).alias("metric"), F.col(label).alias("label"), "unit").distinct()
-        assert_fd(dictionary, ["metric"], ["unit"], f"{source} metric/unit")
         # At most 34 reviewed metrics; bounded dictionary collect, never full observations.
         values = dictionary.limit(129).collect()
         if len(values) > 128:
+            assert_fd(dictionary, ["metric"], ["unit"], f"{source} metric/unit")
             raise ValueError("Metric dictionary drift")
+        units_by_metric = {}
+        for row in values:
+            units_by_metric.setdefault(row.metric, set()).add(row.unit)
+        if any(len(u) > 1 for u in units_by_metric.values()):
+            raise ValueError(f"Functional dependency/fan-out: {source} metric/unit")
         definitions = {}
         for row in values:
             gold_unit, factor, rule = metric_rule(source, row.metric, row.unit)

@@ -14,15 +14,21 @@ from gold import BUILD_ORDER
 
 
 def test_mapping_matches_all_current_contracts():
-    assert validate_mapping() == {"tables": 17, "columns": 262, "mapping_branches": 488, "foreign_keys": 40}
+    assert validate_mapping() == {"tables": 17, "columns": 116, "mapping_branches": 326, "foreign_keys": 40}
     specs = load_spec()
     assert sum(n.startswith("dim_") for n in specs) == 8
     assert sum(n.startswith("fact_") for n in specs) == 9
+    assert all(t.primary_key for t in specs.values())
 
 
 def test_k1_exact_protocol():
+    assert key("dim_source_system", ["faostat_production"]) == "faostat_production"
+    assert key("dim_observation_type", ["faostat_production", "5510"]) == "faostat_production_5510"
+    k = key("dim_source_product", ["nso", "Lúa gạo", None, 2024])
     payload = '["K1","dim_source_product",["nso","Lúa gạo",null,2024]]'
-    assert key("dim_source_product", ["nso", "Lúa gạo", None, 2024]) == hashlib.sha256(payload.encode()).hexdigest()
+    expected_suffix = hashlib.sha256(payload.encode()).hexdigest()[:6]
+    assert k == f"nso_lua_gao_2024_{expected_suffix}"
+    assert len(key("test", ["very_long_" * 10])) <= 64
 
 
 @pytest.mark.parametrize("a,b", [(None, "null"), (1, "1"), ("", None), ("é", "e\u0301"), (["a|b", "c"], ["a", "b|c"]), (["faostat", "704"], ["usda", "704"])])

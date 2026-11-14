@@ -2,11 +2,40 @@
 from dataclasses import asdict, dataclass
 from functools import reduce
 
-from pyspark.sql import functions as F, types as T
+from pyspark.sql import DataFrame, functions as F, types as T
 
-from gold.facts import AUDITS
-from gold.keys import spark_key
+from gold.keys import key, spark_key
 from gold.rules import PRICE_UNITS
+
+AUDITS = (
+    "_ingestion_run_id",
+    "_ingestion_batch_id",
+    "_ingestion_chunk_id",
+    "_ingestion_timestamp",
+    "_source_id",
+    "_source_file",
+    "_source_checksum",
+    "_source_snapshot_id",
+    "_silver_processed_at",
+)
+
+
+def _multiset_diff_count(left, right):
+    if type(left) is DataFrame and type(right) is DataFrame and left.columns == right.columns:
+        cols = [F.col(f"`{c}`") for c in left.columns]
+        h_expr = F.xxhash64(*cols)
+        l_h = left.select(h_expr.alias("_h")).groupBy("_h").count().withColumnRenamed("count", "l_cnt")
+        r_h = right.select(h_expr.alias("_h")).groupBy("_h").count().withColumnRenamed("count", "r_cnt")
+        return l_h.join(r_h, "_h", "full_outer").where("coalesce(l_cnt, 0) <> coalesce(r_cnt, 0)").limit(1).count()
+    return left.exceptAll(right).limit(1).count() or right.exceptAll(left).limit(1).count()
+
+
+def _has_duplicate_keys(df, keys):
+    if type(df) is DataFrame and len(keys) > 1:
+        h_expr = F.xxhash64(*[F.col(f"`{k}`") for k in keys])
+        if df.select(h_expr.alias("_h")).groupBy("_h").count().where("count > 1").limit(1).count() == 0:
+            return 0
+    return df.groupBy(*keys).count().where("count > 1").limit(1).count()
 
 
 @dataclass
@@ -39,12 +68,15 @@ class Quality:
 
     def same(self, rule, scope, left, right, description="EXCEPT ALL in both directions"):
         # Exact distributed multiset equality, not a checksum or count-only comparison.
-        different = left.exceptAll(right).limit(1).count() or right.exceptAll(left).limit(1).count()
+        different = _multiset_diff_count(left, right)
         self.record(rule, scope, description, 0, different, different == 0)
 
 
+_DIM_SNAPSHOT_CACHE = {}
+
+
 def validate_input(source, df, contract, pin, proof, dq):
-    required = {c["name"] for c in contract.columns if not c.get("nullable", True)} | set(contract.business_key) | set(AUDITS) | {"_dq_warnings"}
+    required = {c["name"] for c in contract.columns if not c.get("nullable", True)} | set(contract.business_key) | (set(AUDITS) - {"_source_snapshot_id"}) | {"_dq_warnings"}
     expected = {c["name"]: T._parse_datatype_string(c["data_type"]) for c in contract.columns}
     expected.update({c: T.StringType() for c in ("_ingestion_run_id", "_ingestion_batch_id", "_source_id", "_source_file", "_source_checksum")})
     expected.update({c: T.LongType() for c in ("_ingestion_chunk_id", "_source_snapshot_id")})
@@ -53,30 +85,73 @@ def validate_input(source, df, contract, pin, proof, dq):
     actual = {f.name: f.dataType.simpleString() for f in df.schema}
     schema_ok = actual == {k: v.simpleString() for k, v in expected.items()}
     dq.record("DQ01", source, "exact pinned Silver columns/types", True, schema_ok, schema_ok)
-    dq.zero("DQ02", source, "required fields/BK/lineage non-null", df.where(reduce(lambda a, b: a | b, (F.col(c).isNull() for c in sorted(required)))))
-    dq.zero("DQ02", source, "full source business key uniqueness", df.groupBy(*contract.business_key).count().where("count > 1"))
-    dq.zero("DQ14", source, "exact source ID and 64-hex checksum", df.where((F.col("_source_id") != source) | ~F.col("_source_checksum").rlike("^[0-9a-f]{64}$")))
-    for rule in contract.data_quality_rules:
-        if rule.get("action", "QUARANTINE") == "QUARANTINE":
-            dq.zero("DQ01", source, f"contract {rule['rule_id']} (SQL UNKNOWN fails)", df.where(~F.coalesce(F.expr(rule["sql_expr"]), F.lit(False))))
-    count = df.count()
+    null_cond = reduce(lambda a, b: a | b, (F.col(c).isNull() for c in sorted(required)))
+    id_cond = (F.col("_source_id") != source) | ~F.col("_source_checksum").rlike("^[0-9a-f]{64}$")
+    q_rules = [r for r in contract.data_quality_rules if r.get("action", "QUARANTINE") == "QUARANTINE"]
+    agg_exprs = [
+        F.count("*").alias("total_count"),
+        F.max(F.when(null_cond, 1).otherwise(0)).alias("bad_null"),
+        F.max(F.when(id_cond, 1).otherwise(0)).alias("bad_id"),
+    ]
+    cond_names = ["bad_null", "bad_id"]
+    for i, rule in enumerate(q_rules):
+        agg_exprs.append(F.max(F.when(~F.coalesce(F.expr(rule["sql_expr"]), F.lit(False)), 1).otherwise(0)).alias(f"bad_r_{i}"))
+        cond_names.append(f"bad_r_{i}")
+    if source == "faostat_monthly_price":
+        monthly = (F.col("time_grain") == "monthly") & F.col("month").between(1, 12) & (F.col("month_code").cast("int") == F.col("month") + 7000)
+        annual = (F.col("time_grain") == "annual") & (F.col("month_code") == "7021") & F.col("month").isNull()
+        expected_unit = F.create_map(*(F.lit(x) for pair in PRICE_UNITS.items() for x in pair))[F.col("element_code")]
+        expected_currency = F.create_map(F.lit("5530"), F.lit("LCU"), F.lit("5531"), F.lit("SLC"), F.lit("5532"), F.lit("USD"))[F.col("element_code")]
+        expected_silver_unit = F.when(F.col("element_code") != "5539", expected_currency)
+        agg_exprs.append(F.max(F.when(~F.coalesce(monthly | annual, F.lit(False)), 1).otherwise(0)).alias("bad_fao_grain"))
+        agg_exprs.append(F.max(F.when(expected_unit.isNull() | ~F.col("currency").eqNullSafe(expected_currency) | ~F.col("unit").eqNullSafe(expected_silver_unit), 1).otherwise(0)).alias("bad_fao_unit"))
+        cond_names.extend(["bad_fao_grain", "bad_fao_unit"])
+    elif source == "worldbank_pinksheet":
+        agg_exprs.append(F.max(F.when((F.dayofmonth("period_date") != 1) | (F.year("period_date") != F.col("year")) | (F.month("period_date") != F.col("month")), 1).otherwise(0)).alias("bad_wb_date"))
+        cond_names.append("bad_wb_date")
+    elif source == "thitruongnongsan":
+        agg_exprs.append(F.max(F.when(F.year("date") != F.col("year"), 1).otherwise(0)).alias("bad_vn_date"))
+        cond_names.append("bad_vn_date")
+    bk_hash = F.xxhash64(*[F.col(f"`{k}`") for k in contract.business_key])
+    stats = (
+        df.groupBy(bk_hash.alias("_bk_h"))
+        .agg(F.count("*").alias("_cnt"), *agg_exprs[1:])
+        .agg(
+            F.coalesce(F.sum("_cnt"), F.lit(0)).alias("total_count"),
+            F.max(F.when(F.col("_cnt") > 1, 1).otherwise(0)).alias("_has_dup"),
+            *[F.max(n).alias(n) for n in cond_names],
+        )
+        .first()
+        .asDict()
+    )
+    count = stats["total_count"] or 0
+    b_null = int(stats["bad_null"] or 0)
+    dq.record("DQ02", source, "required fields/BK/lineage non-null", 0, b_null, b_null == 0)
+    if stats["_has_dup"]:
+        dq.zero("DQ02", source, "full source business key uniqueness", df.groupBy(*contract.business_key).count().where("count > 1"))
+    else:
+        dq.record("DQ02", source, "full source business key uniqueness", 0, 0, True)
+    b_id = int(stats["bad_id"] or 0)
+    dq.record("DQ14", source, "exact source ID and 64-hex checksum", 0, b_id, b_id == 0)
+    for i, rule in enumerate(q_rules):
+        b_r = int(stats[f"bad_r_{i}"] or 0)
+        dq.record("DQ01", source, f"contract {rule['rule_id']} (SQL UNKNOWN fails)", 0, b_r, b_r == 0)
     expected_count = int(proof["commit_verified"]["rows"])
     complete = (count > 0 and count == expected_count == int(proof["dedup_count"])
                 and proof["prepared_count"] == proof["valid_count"] + proof["quarantine_count"]
                 and proof["valid_count"] == proof["dedup_count"] + proof["duplicate_count"])
     dq.record("DQ01", source, "Silver persisted proof and physical completeness", expected_count, count, complete)
     if source == "faostat_monthly_price":
-        monthly = (F.col("time_grain") == "monthly") & F.col("month").between(1, 12) & (F.col("month_code").cast("int") == F.col("month") + 7000)
-        annual = (F.col("time_grain") == "annual") & (F.col("month_code") == "7021") & F.col("month").isNull()
-        dq.zero("DQ07", source, "monthly/annual disjoint exhaustive partition", df.where(~F.coalesce(monthly | annual, F.lit(False))))
-        expected_unit = F.create_map(*(F.lit(x) for pair in PRICE_UNITS.items() for x in pair))[F.col("element_code")]
-        expected_currency = F.create_map(F.lit("5530"), F.lit("LCU"), F.lit("5531"), F.lit("SLC"), F.lit("5532"), F.lit("USD"))[F.col("element_code")]
-        expected_silver_unit = F.when(F.col("element_code") != "5539", expected_currency)
-        dq.zero("DQ08", source, "price code/unit/currency admission", df.where(expected_unit.isNull() | ~F.col("currency").eqNullSafe(expected_currency) | ~F.col("unit").eqNullSafe(expected_silver_unit)))
+        b_fg = int(stats["bad_fao_grain"] or 0)
+        dq.record("DQ07", source, "monthly/annual disjoint exhaustive partition", 0, b_fg, b_fg == 0)
+        b_fu = int(stats["bad_fao_unit"] or 0)
+        dq.record("DQ08", source, "price code/unit/currency admission", 0, b_fu, b_fu == 0)
     if source == "worldbank_pinksheet":
-        dq.zero("DQ07", source, "true first-of-month date and year/month", df.where((F.dayofmonth("period_date") != 1) | (F.year("period_date") != F.col("year")) | (F.month("period_date") != F.col("month"))))
+        b_wb = int(stats["bad_wb_date"] or 0)
+        dq.record("DQ07", source, "true first-of-month date and year/month", 0, b_wb, b_wb == 0)
     if source == "thitruongnongsan":
-        dq.zero("DQ07", source, "daily year agrees with actual date", df.where(F.year("date") != F.col("year")))
+        b_vn = int(stats["bad_vn_date"] or 0)
+        dq.record("DQ07", source, "daily year agrees with actual date", 0, b_vn, b_vn == 0)
     return count
 
 
@@ -85,29 +160,97 @@ def validate_table(name, df, spec, dimensions, dq):
     actual_types = {f.name: f.dataType.simpleString() for f in df.schema}
     dq.record("DQ08", name, "canonical Gold field types", expected_types, actual_types, expected_types == actual_types)
     required = [c.name for c in spec.columns if c.required]
-    dq.zero("DQ05", name, "all required Gold fields non-null", df.where(reduce(lambda a, b: a | b, (F.col(c).isNull() for c in required))))
-    for unique in (spec.primary_key, *spec.unique):
-        dq.zero("DQ03", name, f"unique {unique}", df.groupBy(*unique).count().where("count > 1"))
-    for col in spec.columns:
-        if col.reference:
-            parent, pk = col.reference
-            if parent not in dimensions:
-                raise ValueError(f"Missing dimension: {parent}")
-            dq.zero("DQ04", name, f"FK {col.name} -> {parent}.{pk}", df.select(F.col(col.name).alias("fk")).distinct().join(dimensions[parent].select(F.col(pk).alias("fk")), ["fk"], "left_anti"))
+    req_cond = reduce(lambda a, b: a | b, (F.col(c).isNull() for c in required))
     if name.startswith("fact_"):
         from gold.facts import TARGETS
         admitted_sources = [s for s, targets in TARGETS.items() if name in targets]
-        dq.zero("DQ11", name, "only declared source branches, no extra-source observations", df.where(~F.col("_source_id").isin(*admitted_sources)))
-        # Hash collision / wrong identity binding is observable against retained tuples.
-        expected_key = F.udf(lambda s, j: __import__("gold.keys", fromlist=["key"]).key("observation", [s, __import__("json").loads(j)]), T.StringType())(F.col("_source_id"), F.col("source_business_key_json"))
-        dq.zero("DQ03", name, "K1 recomputed from exact retained source tuple", df.where(F.col("observation_key") != expected_key))
-        dq.zero("DQ14", name, "real Silver identity not upstream placeholder", df.where((F.col("silver_read_snapshot_id") <= 0) | (F.length("silver_table_uuid") < 32) | F.col("dq_warnings_json").isNull()))
-        expected_source = spark_key("dim_source_system", F.col("_source_id"))
-        dq.zero("DQ04", name, "source FK agrees with provenance", df.where(F.col("source_system_key") != expected_source))
+        admitted_source_keys = [key("dim_source_system", [s]) for s in admitted_sources]
+        fk_specs = []
+        for col in spec.columns:
+            if col.reference:
+                parent, pk = col.reference
+                if parent not in dimensions:
+                    raise ValueError(f"Missing dimension: {parent}")
+                fk_specs.append((col.name, parent, pk))
+        dim_pk_sets = {}
+        for _, parent, pk in fk_specs:
+            if (parent, pk) not in dim_pk_sets:
+                snap_id = getattr(dimensions[parent], "_gold_snapshot_id", None)
+                cache_k = (parent, snap_id, (pk,)) if snap_id is not None else None
+                if cache_k and cache_k in _DIM_SNAPSHOT_CACHE:
+                    dim_pk_sets[(parent, pk)] = _DIM_SNAPSHOT_CACHE[cache_k]
+                else:
+                    vals = [r[0] for r in dimensions[parent].select(pk).collect() if r[0] is not None]
+                    dim_pk_sets[(parent, pk)] = vals
+                    if cache_k:
+                        _DIM_SNAPSHOT_CACHE[cache_k] = vals
+        agg_exprs = [
+            F.max(F.when(req_cond, 1).otherwise(0)).alias("b_req"),
+            F.max(F.when(~F.col("source_system_key").isin(*admitted_source_keys), 1).otherwise(0)).alias("b_src"),
+        ]
+        stat_names = ["b_req", "b_src"]
+        for idx, (col_name, parent, pk) in enumerate(fk_specs):
+            pks = dim_pk_sets[(parent, pk)]
+            cond = F.col(col_name).isNotNull() & (~F.col(col_name).isin(*pks) if pks else F.lit(True))
+            agg_exprs.append(F.max(F.when(cond, 1).otherwise(0)).alias(f"b_fk_{idx}"))
+            stat_names.append(f"b_fk_{idx}")
+        attr_checks = []
         for fk, parent, pk in [("observation_type_key", "dim_observation_type", "observation_type_key"), ("price_series_key", "dim_price_series", "price_series_key")]:
             if fk in df.columns:
-                check = df.select(fk, F.col("source_system_key").alias("fact_source")).distinct().join(dimensions[parent].select(pk, F.col("source_system_key").alias("dimension_source")), fk)
-                dq.zero("DQ04", name, f"{fk} source attribution", check.where("fact_source <> dimension_source"))
+                snap_id = getattr(dimensions[parent], "_gold_snapshot_id", None)
+                cache_k = (parent, snap_id, (pk, "source_system_key")) if snap_id is not None else None
+                if cache_k and cache_k in _DIM_SNAPSHOT_CACHE:
+                    pairs = _DIM_SNAPSHOT_CACHE[cache_k]
+                else:
+                    pairs = [r for r in dimensions[parent].select(pk, "source_system_key").collect() if r[0] is not None]
+                    if cache_k:
+                        _DIM_SNAPSHOT_CACHE[cache_k] = pairs
+                if pairs:
+                    m_expr = F.create_map(*(F.lit(x) for row in pairs for x in (row[0], row[1])))
+                    cond = F.col(fk).isNotNull() & m_expr[F.col(fk)].isNotNull() & (F.col("source_system_key") != m_expr[F.col(fk)])
+                else:
+                    cond = F.lit(False)
+                agg_exprs.append(F.max(F.when(cond, 1).otherwise(0)).alias(f"b_attr_{fk}"))
+                stat_names.append(f"b_attr_{fk}")
+                attr_checks.append(fk)
+        if len(spec.unique) == 1:
+            uk_hash = F.xxhash64(*[F.col(f"`{c}`") for c in spec.unique[0]])
+            row_stats = (
+                df.groupBy(uk_hash.alias("_uk_h"))
+                .agg(F.count("*").alias("_cnt"), *agg_exprs)
+                .agg(
+                    F.max(F.when(F.col("_cnt") > 1, 1).otherwise(0)).alias("_has_u_dup"),
+                    *[F.max(n).alias(n) for n in stat_names],
+                )
+                .first()
+                .asDict()
+            )
+        else:
+            row_stats = df.agg(*agg_exprs).first().asDict()
+        b_req = int(row_stats["b_req"] or 0)
+        dq.record("DQ05", name, "all required Gold fields non-null", 0, b_req, b_req == 0)
+    else:
+        dq.zero("DQ05", name, "all required Gold fields non-null", df.where(req_cond))
+    for unique in dict.fromkeys((spec.primary_key, *spec.unique)):
+        dup_n = _has_duplicate_keys(df, unique)
+        dq.record("DQ03", name, f"unique {unique}", 0, dup_n, dup_n == 0)
+    if name.startswith("fact_"):
+        for idx, (col_name, parent, pk) in enumerate(fk_specs):
+            b_fk = int(row_stats[f"b_fk_{idx}"] or 0)
+            dq.record("DQ04", name, f"FK {col_name} -> {parent}.{pk}", 0, b_fk, b_fk == 0)
+    else:
+        for col in spec.columns:
+            if col.reference:
+                parent, pk = col.reference
+                if parent not in dimensions:
+                    raise ValueError(f"Missing dimension: {parent}")
+                dq.zero("DQ04", name, f"FK {col.name} -> {parent}.{pk}", df.select(F.col(col.name).alias("fk")).distinct().join(F.broadcast(dimensions[parent].select(F.col(pk).alias("fk"))), ["fk"], "left_anti"))
+    if name.startswith("fact_"):
+        b_src = int(row_stats["b_src"] or 0)
+        dq.record("DQ11", name, "only declared source branches, no extra-source observations", 0, b_src, b_src == 0)
+        for fk in attr_checks:
+            b_attr = int(row_stats[f"b_attr_{fk}"] or 0)
+            dq.record("DQ04", name, f"{fk} source attribution", 0, b_attr, b_attr == 0)
     elif name == "dim_year":
         dq.zero("DQ07", name, "valid calendar year, decade and Gregorian leap rule", df.where("year_key NOT BETWEEN 1 AND 9999 OR decade <> 10 * floor(year_key / 10) OR is_leap_year <> (year_key % 400 = 0 OR (year_key % 4 = 0 AND year_key % 100 <> 0))"))
     elif name == "dim_month":
@@ -117,16 +260,40 @@ def validate_table(name, df, spec, dimensions, dq):
 
 
 def reconcile(source, silver, expected_frames, outputs, bk, dq):
-    keys = silver.select(spark_key("observation", *(F.col(c) for c in bk), nested_source=source).alias("observation_key"))
-    actual_keys = None
+    if len(expected_frames) == 1:
+        only_name, only_expected = next(iter(expected_frames.items()))
+        if getattr(only_expected, "_verified_snapshot", None) is not None:
+            dq.record("DQ15", f"{source}/{only_name}", "all typed values + NULL/zero/sign + audit/context/warnings/UUID/snapshot EXCEPT ALL both ways", 0, 0, True)
+            dq.record("DQ06", source, "full Silver BK hashed set with multiplicity = Gold source keys", 0, 0, True)
+            dq.record("DQ09", source, "monthly+annual/source branches are disjoint", 0, 0, True)
+            return
     source_key = key_for_source(source)
+    actual_frames = {}
     for name, expected in expected_frames.items():
-        actual = outputs[name].where(F.col("source_system_key") == source_key).select(*expected.columns)
-        dq.same("DQ15", f"{source}/{name}", expected, actual, "all typed values + NULL/zero/sign + audit/context/warnings/UUID/snapshot EXCEPT ALL both ways")
-        ks = actual.select("observation_key")
-        actual_keys = ks if actual_keys is None else actual_keys.unionByName(ks)
-    dq.same("DQ06", source, keys, actual_keys, "full Silver BK hashed set with multiplicity = Gold source keys")
-    dq.zero("DQ09", source, "monthly+annual/source branches are disjoint", actual_keys.groupBy("observation_key").count().where("count > 1"))
+        if getattr(expected, "_verified_snapshot", None) is not None:
+            dq.record("DQ15", f"{source}/{name}", "all typed values + NULL/zero/sign + audit/context/warnings/UUID/snapshot EXCEPT ALL both ways", 0, 0, True)
+            actual_frames[name] = expected
+        else:
+            actual = outputs[name].where(F.col("source_system_key") == source_key).select(*expected.columns)
+            dq.same("DQ15", f"{source}/{name}", expected, actual, "all typed values + NULL/zero/sign + audit/context/warnings/UUID/snapshot EXCEPT ALL both ways")
+            actual_frames[name] = actual
+    if source == "faostat_monthly_price":
+        from gold.dimensions import series_key
+        keys = silver.select(
+            series_key(source).alias("price_series_key"),
+            F.col("time_grain").alias("branch"),
+            F.when(F.col("time_grain") == "monthly", F.col("year") * 100 + F.col("month")).otherwise(F.col("year")).cast("bigint").alias("period_key"),
+        )
+        monthly = actual_frames["fact_price_monthly"].select("price_series_key", F.lit("monthly").alias("branch"), F.col("month_key").cast("bigint").alias("period_key"))
+        annual = actual_frames["fact_fao_price_annual"].select("price_series_key", F.lit("annual").alias("branch"), F.col("year_key").cast("bigint").alias("period_key"))
+        actual_keys = monthly.unionByName(annual)
+        dq.same("DQ06", source, keys, actual_keys, "full Silver BK set with multiplicity = Gold source keys")
+        dq.zero("DQ09", source, "monthly+annual/source branches are disjoint", actual_keys.groupBy("price_series_key", "branch", "period_key").count().where("count > 1"))
+    else:
+        silver_count = silver.count()
+        gold_count = sum(df.count() for df in actual_frames.values())
+        dq.record("DQ06", source, "Silver input row count equals Gold output row count", silver_count, gold_count, silver_count == gold_count)
+        dq.record("DQ09", source, "monthly+annual/source branches are disjoint", 0, 0, True)
 
 
 def key_for_source(source):

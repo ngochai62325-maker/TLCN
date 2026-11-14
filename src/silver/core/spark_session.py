@@ -23,7 +23,8 @@ def get_spark_session(app_name: str = "RiceLakehouseSilver") -> SparkSession:
         SparkSession.builder.appName(app_name)
         .config("spark.sql.session.timeZone", "UTC")
         .config("spark.sql.adaptive.enabled", "true")
-        .config("spark.sql.shuffle.partitions", os.environ.get("SILVER_SHUFFLE_PARTITIONS", "8"))
+        .config("spark.sql.execution.arrow.pyspark.enabled", "true")
+        .config("spark.sql.shuffle.partitions", os.environ.get("SILVER_SHUFFLE_PARTITIONS", "4"))
         # Iceberg Catalog configs
         .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions")
         .config("spark.sql.defaultCatalog", "iceberg")
