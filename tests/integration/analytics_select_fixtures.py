@@ -17,14 +17,14 @@ types(observation_type_key,source_metric_id) AS (VALUES ('area','5312'),('prod',
 geo(geography_key,source_identity,source_labels_json,source_level) AS
  (VALUES ('{A}','reporter','[]','source_area'),('{C}','partner','[]','source_area')),
 product(product_key,source_identity,source_labels_json) AS (VALUES ('{B}','rice','[]')),
-fao(year_key,geography_key,product_key,observation_type_key,value,observation_key,source_context_json) AS
- (VALUES (2024,'{A}','{B}','area',DECIMAL '10.00','a1','{{"flag":"A"}}'),(2024,'{A}','{B}','prod',DECIMAL '20.00','p1','{{"flag":"A"}}'),
- (2024,'{A}','{B}','yield',CAST(NULL AS DECIMAL(18,2)),'y1','{{"flag":"M"}}')),
-sua(year_key,geography_key,product_key,observation_type_key,value,observation_key) AS
- (VALUES (2024,'{A}','{B}','stock',DECIMAL '-2.00','s1')),
-trade(year_key,reporter_geography_key,partner_geography_key,product_key,observation_type_key,value,observation_key) AS
- (VALUES (2024,'{A}','{C}','{B}','eq',DECIMAL '10.00','eq1'),(2024,'{A}','{C}','{B}','ev',DECIMAL '0.00','ev1'),
- (2024,'{A}','{C}','{B}','iq',CAST(NULL AS DECIMAL(22,2)),'iq1'),(2024,'{A}','{C}','{B}','iv',DECIMAL '50.00','iv1'))
+fao(year_key,geography_key,product_key,observation_type_key,value,source_context_json) AS
+ (VALUES (2024,'{A}','{B}','area',DECIMAL '10.00','{{"flag":"A"}}'),(2024,'{A}','{B}','prod',DECIMAL '20.00','{{"flag":"A"}}'),
+ (2024,'{A}','{B}','yield',CAST(NULL AS DECIMAL(18,2)),'{{"flag":"M"}}')),
+sua(year_key,geography_key,product_key,observation_type_key,value) AS
+ (VALUES (2024,'{A}','{B}','stock',DECIMAL '-2.00')),
+trade(year_key,reporter_geography_key,partner_geography_key,product_key,observation_type_key,value) AS
+ (VALUES (2024,'{A}','{C}','{B}','eq',DECIMAL '10.00'),(2024,'{A}','{C}','{B}','ev',DECIMAL '0.00'),
+ (2024,'{A}','{C}','{B}','iq',CAST(NULL AS DECIMAL(22,2))),(2024,'{A}','{C}','{B}','iv',DECIMAL '50.00'))
 """
 
 

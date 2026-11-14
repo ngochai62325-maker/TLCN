@@ -152,7 +152,7 @@ def build(session):
         if g.source_identity not in geo_codes or x['product_key']!=paddy.product_key or x['product_identity']!='0113':raise ValueError('FAO scope drift')
         values=[number(x[c]) for c in ('production_t','area_ha','reported_yield_kg_ha')]
         rows.append(dict(year=integer(x['year_key']),geography_key=g.geography_key,area_code=g.source_identity,area_name=labels(g.source_labels_json),product_key=paddy.product_key,product_code='0113',production_t=values[0],area_ha=values[1],reported_yield_kg_ha=values[2],computed_yield_kg_ha=ratio(values[0],values[1],1000),production_present=present(x['present_5510']),area_present=present(x['present_5312']),yield_present=present(x['present_5412']),paired_valid=values[0] is not None and values[1] is not None and values[1]>0))
-        lineage['fao_production.csv'].append({k:x[k] for k in ('year_key','geography_key','observation_5312','observation_5510','observation_5412')})
+        lineage['fao_production.csv'].append({k:x[k] for k in ('year_key','geography_key','product_key','present_5312','present_5510','present_5412')})
     files['fao_production.csv']=rows;scopes['fao_production.csv']=params
 
     # Multi-series World Bank rice benchmarks
@@ -167,7 +167,7 @@ def build(session):
         data=unique(session.query('price_observations',**params),['period','price_series_key'])
         if not data.unit.eq('USD/tonne').all() or not data.price_series_key.eq(sr.price_series_key).all():raise ValueError('WB series/unit drift')
         scopes['wb_benchmark.csv'].append(params)
-        lineage['wb_benchmark.csv'].extend(data[['observation_key','period']].to_dict('records'))
+        lineage['wb_benchmark.csv'].extend(data[['price_series_key','period']].to_dict('records'))
         cells={integer(x['period']):number(x['value']) for x in data.to_dict('records')};history=[]
         for n in range(2000*12, 2026*12):
             y,m=divmod(n,12);m+=1;k=y*100+m;value=cells.get(k);prev=history[-1] if history else None
@@ -190,7 +190,7 @@ def build(session):
         params=dict(fact='fact_usda_price_reference',series=sr.price_series_key,start_period=1985,end_period=2025)
         data=session.query('price_observations',**params)
         scopes['usda_price_reference.csv'].append(params)
-        lineage['usda_price_reference.csv'].extend(data[['observation_key','period']].to_dict('records'))
+        lineage['usda_price_reference.csv'].extend(data[['price_series_key','period','reference_period']].to_dict('records'))
         for x in data.to_dict('records'):
             val = number(x['value'])
             yb_rows.append(dict(reference_year=integer(x['period']),reference_period=str(x['reference_period']),series_key=sr.price_series_key,location=loc,commodity_class=cls,statistic_type=stat,unit='USD/tonne',price_usd_t=val,observation_present=True,numeric_present=val is not None))
@@ -208,7 +208,7 @@ def build(session):
         params=dict(fact='fact_vn_market_quote_daily',series=sr.price_series_key,start_period=20210101,end_period=20260803)
         data=unique(session.query('price_observations',**params),['period','price_series_key'])
         if not data.unit.eq('VND/kg').all() or not data.price_series_key.eq(sr.price_series_key).all():raise ValueError('Price series/unit drift')
-        lineage['vn_quote.csv'].extend(data[['observation_key','period']].to_dict('records'))
+        lineage['vn_quote.csv'].extend(data[['price_series_key','period']].to_dict('records'))
         scopes['vn_quote.csv'].append(params)
         last=None
         ident = json.loads(sr.series_identity_json)
@@ -225,7 +225,7 @@ def build(session):
         for code,metric in SUA.items():
             if present(x['present_'+code]):
                 rows.append(dict(year=integer(x['year_key']),geography_key=vn.geography_key,area_code='704',product_key=milled.product_key,product_code='23161.02',element_code=code,metric=metric,unit='tonne',value_t=number(x[metric]),observation_present=True,aggregation_rule=metric_rule('faostat_supply_utilization',code,'tonne')[2]))
-                lineage['sua_components.csv'].append(dict(year=x['year_key'],element_code=code,observation_key=x['observation_'+code]))
+                lineage['sua_components.csv'].append(dict(year=x['year_key'],geography_key=vn.geography_key,product_key=milled.product_key,element_code=code))
     files['sua_components.csv']=rows;scopes['sua_components.csv']=params
 
     # USDA PSD Marketing Year Balance
@@ -237,7 +237,7 @@ def build(session):
         unit,_,rule=metric_rule('usda_psd',x['metric'],PSD.get(x['metric']))
         if x['geography_key']!=g.geography_key or x['product_key']!=p.product_key or x['unit']!=unit:raise ValueError('PSD scope/unit drift')
         rows.append(dict(market_year=integer(x['market_year']),crop_year=x['crop_year'],geography_key=g.geography_key,country='Vietnam',product_key=p.product_key,product='Rice, Milled',attribute=x['metric'],unit=x['unit'],value=number(x['value']),observation_present=True,aggregation_rule=rule))
-    files['usda_psd.csv']=rows;lineage['usda_psd.csv']=data[['observation_key','market_year','metric']].to_dict('records');scopes['usda_psd.csv']=params
+    files['usda_psd.csv']=rows;lineage['usda_psd.csv']=data[['market_year','geography_key','product_key','metric']].to_dict('records');scopes['usda_psd.csv']=params
 
     # Bilateral Trade Exports: Vietnam to Top Partners
     partner_codes = ('156', '458', '608', '360', '384', '288', '702')
@@ -250,7 +250,7 @@ def build(session):
             if x['reporter_geography_key']!=vn.geography_key or x['product_key']!=milled.product_key or integer(x['year_key'])!=year:raise ValueError('Trade identity drift')
             q,v=number(x['quantity_t']),number(x['value_usd'])
             trade_rows.append(dict(year=year,reporter_key=vn.geography_key,reporter_code='704',partner_key=x['partner_geography_key'],partner_code=x['partner_identity'],partner_name=labels(x['partner_labels']),product_key=milled.product_key,product_code='23161.02',direction='export',quantity_t=q,value_usd=v,unit_value_usd_t=ratio(v,q),quantity_present=present(x['present_quantity']),value_present=present(x['present_value']),denominator_valid=q is not None and q>0))
-            lineage['trade_exports.csv'].append({k:x[k] for k in ('year_key','partner_geography_key','observation_quantity','observation_value')})
+            lineage['trade_exports.csv'].append({k:x[k] for k in ('year_key','reporter_geography_key','partner_geography_key','product_key','present_quantity','present_value')})
         scopes['trade_exports.csv'].append(params)
     files['trade_exports.csv']=trade_rows
 

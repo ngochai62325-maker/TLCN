@@ -342,16 +342,16 @@
       "measure_columns": [],
       "sha256": "22f59d3870d02142d655610894ee83d507a53723861ffee407425d69487ff5bb",
       "raw_headers": [
-        "Giá tr? và Ch? s? phát tri?n",
-        "Nam",
-        "T?ng di?n tích (Nghìn ha)",
-        "Di?n tích Lúa  ?ông xuân (Nghìn ha)",
-        "Di?n tích Lúa  hè thu (Nghìn ha)",
-        "Di?n tích Lúa mùa (Nghìn ha)",
-        "T?ng s?n lu?ng (Nghìn t?n)",
-        "S?n lu?ng Lúa  ?ông xuân (Nghìn t?n)",
-        "S?n lu?ng Lúa  hè thu (Nghìn t?n)",
-        "S?n lu?ng Lúa mùa (Nghìn t?n)"
+        "Giá trị và Chỉ số phát triển",
+        "Năm",
+        "Tổng diện tích (Nghìn ha)",
+        "Diện tích Lúa đông xuân (Nghìn ha)",
+        "Diện tích Lúa hè thu (Nghìn ha)",
+        "Diện tích Lúa mùa (Nghìn ha)",
+        "Tổng sản lượng (Nghìn tấn)",
+        "Sản lượng Lúa đông xuân (Nghìn tấn)",
+        "Sản lượng Lúa hè thu (Nghìn tấn)",
+        "Sản lượng Lúa mùa (Nghìn tấn)"
       ],
       "size_bytes": 6281,
       "title": "Diện tích gieo trồng và sản lượng lúa cả năm",
@@ -367,6 +367,16 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
+      },
+      "source_column_labels": {
+        "t_ng_di_n_t_ch_ngh_n_ha_": "Tổng diện tích (Nghìn ha)",
+        "di_n_t_ch_l_a_ng_xu_n_ngh_n_ha_": "Diện tích Lúa đông xuân (Nghìn ha)",
+        "di_n_t_ch_l_a_h_thu_ngh_n_ha_": "Diện tích Lúa hè thu (Nghìn ha)",
+        "di_n_t_ch_l_a_m_a_ngh_n_ha_": "Diện tích Lúa mùa (Nghìn ha)",
+        "t_ng_s_n_lu_ng_ngh_n_t_n_": "Tổng sản lượng (Nghìn tấn)",
+        "s_n_lu_ng_l_a_ng_xu_n_ngh_n_t_n_": "Sản lượng Lúa đông xuân (Nghìn tấn)",
+        "s_n_lu_ng_l_a_h_thu_ngh_n_t_n_": "Sản lượng Lúa hè thu (Nghìn tấn)",
+        "s_n_lu_ng_l_a_m_a_ngh_n_t_n_": "Sản lượng Lúa mùa (Nghìn tấn)"
       }
     },
     "V06.13.csv": {
@@ -439,7 +449,7 @@
       "measure": "area",
       "season": "annual",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -469,7 +479,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 12726,
       "title": "Diện tích lúa cả năm phân theo địa phương",
@@ -486,7 +496,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Diện tích Lúa cả năm (Nghìn ha)"
     },
     "V06.14.csv": {
       "source_columns": [
@@ -558,7 +569,7 @@
       "measure": "yield",
       "season": "annual",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -588,7 +599,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 11766,
       "title": "Năng suất gieo trồng lúa cả năm phân theo địa phương",
@@ -605,7 +616,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Năng suất Lúa cả năm (Tạ/ha)"
     },
     "V06.15.csv": {
       "source_columns": [
@@ -677,7 +689,7 @@
       "measure": "production",
       "season": "annual",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -707,7 +719,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 14205,
       "title": "Sản lượng lúa cả năm phân theo địa phương",
@@ -724,7 +736,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Sản lượng Lúa cả năm (Nghìn tấn)"
     },
     "V06.16.csv": {
       "source_columns": [
@@ -796,7 +809,7 @@
       "measure": "area",
       "season": "winter_spring",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -826,7 +839,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 11726,
       "title": "Diện tích gieo trồng lúa đông xuân phân theo địa phương",
@@ -843,7 +856,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Diện tích Lúa đông xuân (Nghìn ha)"
     },
     "V06.17.csv": {
       "source_columns": [
@@ -915,7 +929,7 @@
       "measure": "yield",
       "season": "winter_spring",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -945,7 +959,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 11738,
       "title": "Năng suất gieo trồng lúa đông xuân phân theo địa phương",
@@ -962,7 +976,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Năng suất Lúa đông xuân (Tạ/ha)"
     },
     "V06.18.csv": {
       "source_columns": [
@@ -1034,7 +1049,7 @@
       "measure": "production",
       "season": "winter_spring",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -1064,7 +1079,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 13393,
       "title": "Sản lượng lúa đông xuân phân theo địa phương",
@@ -1081,7 +1096,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Sản lượng Lúa đông xuân (Nghìn tấn)"
     },
     "V06.19.csv": {
       "source_columns": [
@@ -1153,7 +1169,7 @@
       "measure": "area",
       "season": "summer_autumn_autumn_winter",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -1183,7 +1199,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 6462,
       "title": "Diện tích gieo trồng lúa hè thu và thu đông phân theo địa phương",
@@ -1199,7 +1215,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Diện tích Lúa hè thu và thu đông (Nghìn ha)"
     },
     "V06.20.csv": {
       "source_columns": [
@@ -1271,7 +1288,7 @@
       "measure": "yield",
       "season": "summer_autumn_autumn_winter",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -1301,7 +1318,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 6203,
       "title": "Năng suất gieo trồng lúa hè thu và thu đông phân theo địa phương",
@@ -1317,7 +1334,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Năng suất Lúa hè thu và thu đông (Tạ/ha)"
     },
     "V06.21.csv": {
       "source_columns": [
@@ -1389,7 +1407,7 @@
       "measure": "production",
       "season": "summer_autumn_autumn_winter",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -1419,7 +1437,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 7127,
       "title": "Sản lượng lúa hè thu và thu đông phân theo địa phương",
@@ -1435,7 +1453,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Sản lượng Lúa hè thu và thu đông (Nghìn tấn)"
     },
     "V06.22.csv": {
       "source_columns": [
@@ -1507,7 +1526,7 @@
       "measure": "area",
       "season": "main_season",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -1537,7 +1556,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 11467,
       "title": "Diện tích gieo trồng lúa mùa phân theo địa phương",
@@ -1554,7 +1573,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Diện tích Lúa mùa (Nghìn ha)"
     },
     "V06.23.csv": {
       "source_columns": [
@@ -1626,7 +1646,7 @@
       "measure": "yield",
       "season": "main_season",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -1656,7 +1676,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 11505,
       "title": "Năng suất gieo trồng lúa mùa phân theo địa phương",
@@ -1673,7 +1693,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Năng suất Lúa mùa (Tạ/ha)"
     },
     "V06.24.csv": {
       "source_columns": [
@@ -1745,7 +1766,7 @@
       "measure": "production",
       "season": "main_season",
       "raw_headers": [
-        "T?nh, thành ph?",
+        "Tỉnh, thành phố",
         "1995",
         "1996",
         "1997",
@@ -1775,7 +1796,7 @@
         "2021",
         "2022",
         "2023",
-        "So b? 2024"
+        "Sơ bộ 2024"
       ],
       "size_bytes": 12702,
       "title": "Sản lượng lúa mùa phân theo địa phương",
@@ -1792,7 +1813,8 @@
         "raw_publication_identity": "unverified",
         "approval": "owner_approved_for_pinned_13_csv_snapshot",
         "unit_mapping_version": "nso-units-20261015.1"
-      }
+      },
+      "source_column_label": "Sản lượng Lúa mùa (Nghìn tấn)"
     }
   }
 }

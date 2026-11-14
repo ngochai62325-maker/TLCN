@@ -188,6 +188,7 @@ def test_nso_national_quantities_indices_season_and_nulls(spark):
     assert all(r.year == 2024 and r.release_status == "provisional" for r in quantities)
     assert {r.season for r in quantities} == {"annual", "winter_spring", "summer_autumn", "main_season"}
     assert {r.value for r in quantities} == {Decimal("2500"), None}
+    assert "Tổng diện tích (Nghìn ha)" in {r.source_column for r in quantities}
     assert result.filter(F.col("statistic_kind") == "development_index").first().value == Decimal("2.5")
 
 
@@ -202,8 +203,9 @@ def test_nso_matrix_candidate_province_is_retained_with_warning(spark):
     }
     df = sql_rows(spark, [{**base_audit, "t_nh_th_nh_ph_": "C? NU?C", "so_b_2024": "15"},
                           {**base_audit, "t_nh_th_nh_ph_": "Hà N?i", "so_b_2024": "10"}])
-    result = transformer._preprocess(df).filter(F.col("source_column") == "so_b_2024")
+    result = transformer._preprocess(df).filter(F.col("source_column") == transformer.normalize_source_column("V06.18.csv", "so_b_2024"))
     assert result.count() == 2
+    assert result.first().source_column == "Sản lượng Lúa đông xuân — Sơ bộ 2024 (Nghìn tấn)"
     assert result.filter(F.col("geography_level") == "national").first().season == "winter_spring"
     unknown = result.filter(F.col("geography_level") == "province").first()
     assert unknown.geography_raw == "Hà N?i"

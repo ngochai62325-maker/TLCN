@@ -31,10 +31,11 @@ class Table:
     name: str
     columns: tuple
     unique: tuple
+    pk_override: tuple = ()
 
     @property
     def primary_key(self):
-        return tuple(c.name for c in self.columns if c.primary)
+        return self.pk_override or tuple(c.name for c in self.columns if c.primary)
 
     def project(self, df):
         from pyspark.sql import functions as F
@@ -49,20 +50,31 @@ def load_spec(root=ROOT):
         raise ValueError("Unapproved Gold model version")
     result = {}
     for name, body in re.findall(r"Table gold_local\.(\w+) \{(.*?)(?=\n\})", text, re.S):
-        columns = []
+        pk_indexes = [tuple(x.strip() for x in v.split(",")) for v in re.findall(r"^    \(([^)]+)\) \[pk", body, re.M)]
+        pk_override = pk_indexes[0] if len(pk_indexes) == 1 else ()
+        raw_cols = []
         for col, dtype, attrs in re.findall(r"^  (\w+) ([\w(),]+) \[([^\n]*)", body, re.M):
             ref = re.search(r"ref: > gold_local\.(\w+)\.(\w+)", attrs)
             pk = bool(re.match(r"pk(?:,|\])", attrs))
-            columns.append(Column(col, dtype, pk or "not null" in attrs, pk, ref.groups() if ref else None))
+            raw_cols.append((col, dtype, pk or "not null" in attrs, pk, ref.groups() if ref else None))
+        inline_pk = [c[0] for c in raw_cols if c[3]]
+        if bool(inline_pk) == bool(pk_indexes) or (inline_pk and len(inline_pk) != 1) or (pk_indexes and len(pk_indexes) != 1):
+            raise ValueError(f"Missing/ambiguous PK: {name}")
+        if pk_override:
+            col_req = {c[0]: c[2] for c in raw_cols}
+            if not set(pk_override).issubset(col_req) or any(not col_req[c] for c in pk_override):
+                raise ValueError(f"Composite PK requires existing NOT NULL columns: {name}")
+        pk_set = set(pk_override)
+        columns = [Column(col, dtype, req, pk or col in pk_set, ref) for col, dtype, req, pk, ref in raw_cols]
         uniques = [tuple(x.strip() for x in v.split(",")) for v in re.findall(r"^    \(([^)]+)\) \[unique", body, re.M)]
         uniques += [(c,) for c, attrs in re.findall(r"^  (\w+) [\w(),]+ \[([^\n]*)", body, re.M) if re.search(r"\bunique\b", attrs)]
         if name in result or len({c.name for c in columns}) != len(columns):
             raise ValueError("Duplicate Gold table/column")
-        result[name] = Table(name, tuple(columns), tuple(uniques))
-    if len(result) != 17 or sum(len(t.columns) for t in result.values()) != 125:
-        raise ValueError("Canonical Gold inventory must be 17 tables / 125 columns")
+        result[name] = Table(name, tuple(columns), tuple(uniques), pk_override)
+    if len(result) != 17 or sum(len(t.columns) for t in result.values()) != 116:
+        raise ValueError("Canonical Gold inventory must be 17 tables / 116 columns")
     for table in result.values():
-        if len(table.primary_key) != 1:
+        if not table.primary_key:
             raise ValueError(f"Missing/ambiguous PK: {table.name}")
         for col in table.columns:
             if col.reference:
@@ -99,6 +111,6 @@ def validate_mapping(root=ROOT):
                 or row["mapping_status"] not in {"DIRECT", "DERIVED", "LOOKUP"}
                 or row["source_contract_sha256"] != hashlib.sha256((root / f"contracts/silver/{source}.yaml").read_bytes()).hexdigest()):
             raise ValueError(f"Incompatible mapping: {branch}")
-    if covered != {(t.name, c.name) for t in tables.values() for c in t.columns} or len(rows) != 336:
+    if covered != {(t.name, c.name) for t in tables.values() for c in t.columns} or len(rows) != 326:
         raise ValueError("Incomplete canonical mapping")
-    return {"tables": 17, "columns": 125, "mapping_branches": len(rows), "foreign_keys": sum(bool(c.reference) for t in tables.values() for c in t.columns)}
+    return {"tables": 17, "columns": 116, "mapping_branches": len(rows), "foreign_keys": sum(bool(c.reference) for t in tables.values() for c in t.columns)}

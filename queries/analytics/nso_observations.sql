@@ -1,4 +1,4 @@
-SELECT f.observation_key,f.year_key,f.geography_key,f.source_table,f.source_geography_key,
+SELECT f.year_key,f.geography_key,f.source_table,f.source_geography_key,
  f.measure,f.season,f.statistic_kind,f.value,f.unit,f.release_status,f.quality_status,
  f.review_reason,
  g.source_labels_json,g.source_level

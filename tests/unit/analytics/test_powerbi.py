@@ -21,7 +21,7 @@ GEO14='d'*64
 def source_rows(table):
     rows=[]
     def add(year,measure,season,value,unit):
-        rows.append(dict(observation_key=f'{table}-{year}-{measure}-{season}',year_key=year,measure=measure,season=season,value=value,unit=unit,
+        rows.append(dict(year_key=year,measure=measure,season=season,value=value,unit=unit,
             source_table=table,source_level='national',geography_key=GEO12 if table=='V06.12.csv' else GEO14,
             source_geography_key='__national_table_scope',statistic_kind='quantity',release_status='provisional',quality_status='warn'))
     if table=='V06.12.csv':
@@ -51,7 +51,7 @@ class Client:
             frame=pd.DataFrame([dict(rows=3,numeric_observations=2,missing_observations=1,first_period=a,last_period=b,represented_periods=3)])
         elif name=='nso_scope_catalogue':
             table=params['source_table'];df=source_rows(table)
-            frame=df.drop_duplicates(['measure','season']).drop(columns=['year_key','value','observation_key']).assign(first_year=2020,last_year=2022)
+            frame=df.drop_duplicates(['measure','season']).drop(columns=['year_key','value']).assign(first_year=2020,last_year=2022)
         elif name=='nso_observations':frame=source_rows(params['source_table'])
         else:raise AssertionError(name)
         return self.mutate(self,name,params,frame) if self.mutate else frame

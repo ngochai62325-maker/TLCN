@@ -9,7 +9,7 @@ from gold.keys import canonical_json, key, spark_json, spark_key, spark_value_js
 from gold.rules import metric_rule, PRICE_UNITS
 from gold.spec import ROOT
 
-ZERO_GEOGRAPHY = "0" * 64
+ZERO_GEOGRAPHY = "not_geographic"
 METRIC_SOURCES = ("faostat_production", "faostat_supply_utilization", "faostat_trade", "usda_psd")
 SERIES_COLUMNS = {
     "worldbank_pinksheet": ("commodity_code",),

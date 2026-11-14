@@ -20,14 +20,15 @@ LOG = logging.getLogger(__name__)
 
 
 def bucket(reporter):
+    import hashlib
     import re
-    if not isinstance(reporter, str) or not re.fullmatch("[0-9a-f]{64}", reporter):
+    if not isinstance(reporter, str) or not re.fullmatch("[a-z0-9_]{1,64}", reporter):
         raise ValueError("Trade reporter requires exact non-null K1 identity")
-    return int(reporter[:2], 16) % BUCKETS
+    return hashlib.sha256(reporter.encode("utf-8")).digest()[0] % BUCKETS
 
 
 def bucket_sql(alias):
-    return f"mod(from_base(substr({alias}.reporter_geography_key,1,2),16),{BUCKETS})"
+    return f"mod(from_base(substr(to_hex(sha256(to_utf8({alias}.reporter_geography_key))),1,2),16),{BUCKETS})"
 
 
 def predicate(year, part, alias):
@@ -50,7 +51,7 @@ def domain_sql(outputs):
     invalid = " OR ".join(f"f.{k} IS NULL" for k in KEYS)
     return f"""SELECT f.year_key,{bucket_sql('f')} AS bucket,count(*) AS observations,
       count_if(t.observation_type_key IS NULL OR t.source_metric_id NOT IN ('5610','5622','5910','5922')
-        OR {invalid} OR NOT regexp_like(f.reporter_geography_key,'^[0-9a-f]{{64}}$')) AS invalid
+        OR {invalid} OR NOT regexp_like(f.reporter_geography_key,'^[a-z0-9_]{{1,64}}$')) AS invalid
       FROM {fact} f LEFT JOIN {metric} t ON f.observation_type_key=t.observation_type_key
       GROUP BY f.year_key,{bucket_sql('f')} ORDER BY 1,2"""
 
@@ -73,16 +74,16 @@ def partition_sql(outputs, year, part):
     sql, fact, metric = relations(outputs)
     fields = ",".join(KEYS)
     selected_keys = ",".join("v." + k for k in KEYS)
-    cells = ",".join(f"ROW('{c}',v.observation_{c},v.{m},v.present_{c})" for c, m in METRICS[NAME].items())
-    bad_presence = " OR ".join(f"present_{c} NOT IN (0,1) OR ((present_{c}=0) <> (observation_{c} IS NULL)) OR (present_{c}=0 AND {m} IS NOT NULL)" for c, m in METRICS[NAME].items())
+    cells = ",".join(f"ROW('{c}',v.{m},v.present_{c})" for c, m in METRICS[NAME].items())
+    bad_presence = " OR ".join(f"present_{c} NOT IN (0,1) OR (present_{c}=0 AND {m} IS NOT NULL)" for c, m in METRICS[NAME].items())
     bad_ratio = " OR ".join(f"reported_{d}_unit_value_usd_t IS DISTINCT FROM (CASE WHEN {d}_quantity_t>0 AND {d}_value_usd IS NOT NULL THEN {d}_value_usd/NULLIF({d}_quantity_t,0) END)" for d in ("import", "export"))
     return f"""WITH v AS (SELECT * FROM ({sql}) q WHERE {predicate(year, part, 'q')}),
       e AS (SELECT f.year_key,f.reporter_geography_key,f.partner_geography_key,f.product_key,
-        t.source_metric_id AS metric,f.observation_key,f.value
+        t.source_metric_id AS metric,f.value
         FROM {fact} f JOIN {metric} t ON f.observation_type_key=t.observation_type_key
         WHERE {predicate(year, part, 'f')}),
-      a AS (SELECT {selected_keys},u.metric,u.observation_key,u.value FROM v
-        CROSS JOIN UNNEST(ARRAY[{cells}]) AS u(metric,observation_key,value,presence) WHERE u.presence=1)
+      a AS (SELECT {selected_keys},u.metric,u.value FROM v
+        CROSS JOIN UNNEST(ARRAY[{cells}]) AS u(metric,value,presence) WHERE u.presence=1)
       SELECT 'actual' AS kind,count(*) AS rows,count(DISTINCT ROW({fields})) AS groups,
         count_if({bad_presence}) AS presence_bad,count_if({bad_ratio}) AS ratio_bad FROM v
       UNION ALL SELECT 'expected',count(*),count(DISTINCT ROW({fields})),0,0 FROM e
@@ -205,22 +206,22 @@ def bucket_batch_sql(outputs, part, min_year, max_year):
     sql, fact, metric = relations(outputs)
     fields = ",".join(KEYS)
     selected_keys = ",".join("v." + k for k in KEYS)
-    cells = ",".join(f"ROW('{c}',v.observation_{c},CAST(v.{m} AS DECIMAL(38,6)),v.present_{c},0,0)" for c, m in METRICS[NAME].items())
-    bad_presence = " OR ".join(f"present_{c} NOT IN (0,1) OR ((present_{c}=0) <> (observation_{c} IS NULL)) OR (present_{c}=0 AND {m} IS NOT NULL)" for c, m in METRICS[NAME].items())
+    cells = ",".join(f"ROW('{c}',CAST(v.{m} AS DECIMAL(38,6)),v.present_{c},0,0)" for c, m in METRICS[NAME].items())
+    bad_presence = " OR ".join(f"present_{c} NOT IN (0,1) OR (present_{c}=0 AND {m} IS NOT NULL)" for c, m in METRICS[NAME].items())
     bad_ratio = " OR ".join(f"reported_{d}_unit_value_usd_t IS DISTINCT FROM (CASE WHEN {d}_quantity_t>0 AND {d}_value_usd IS NOT NULL THEN {d}_value_usd/NULLIF({d}_quantity_t,0) END)" for d in ("import", "export"))
     return f"""WITH v AS (SELECT * FROM ({sql}) q WHERE {bucket_sql('q')}={part} AND q.year_key BETWEEN {int(min_year)} AND {int(max_year)}),
       combined AS (
-        SELECT {selected_keys}, u.metric, u.observation_key, u.value, u.p_bad, u.r_bad, 1 AS src
+        SELECT {selected_keys}, u.metric, u.value, u.p_bad, u.r_bad, 1 AS src
         FROM v CROSS JOIN UNNEST(ARRAY[
-          ROW('__v_row__', CAST(NULL AS VARCHAR), CAST(NULL AS DECIMAL(38,6)), 1,
+          ROW('__v_row__', CAST(NULL AS DECIMAL(38,6)), 1,
               CASE WHEN {bad_presence} THEN 1 ELSE 0 END,
               CASE WHEN {bad_ratio} THEN 1 ELSE 0 END),
           {cells}
-        ]) AS u(metric, observation_key, value, presence, p_bad, r_bad)
+        ]) AS u(metric, value, presence, p_bad, r_bad)
         WHERE u.presence = 1
         UNION ALL
         SELECT f.year_key, f.reporter_geography_key, f.partner_geography_key, f.product_key,
-          t.source_metric_id AS metric, f.observation_key, CAST(f.value AS DECIMAL(38,6)) AS value, 0 AS p_bad, 0 AS r_bad, 2 AS src
+          t.source_metric_id AS metric, CAST(f.value AS DECIMAL(38,6)) AS value, 0 AS p_bad, 0 AS r_bad, 2 AS src
         FROM {fact} f JOIN {metric} t ON f.observation_type_key=t.observation_type_key
         WHERE {bucket_sql('f')}={part} AND f.year_key BETWEEN {int(min_year)} AND {int(max_year)}
       )
@@ -234,11 +235,11 @@ def bucket_batch_sql(outputs, part, min_year, max_year):
         sum(CASE WHEN metric <> '__v_row__' THEN greatest(c1 - c2, 0) ELSE 0 END) AS fwd_rows,
         sum(CASE WHEN metric <> '__v_row__' THEN greatest(c2 - c1, 0) ELSE 0 END) AS rev_rows
       FROM (
-        SELECT {fields}, metric, observation_key, value,
+        SELECT {fields}, metric, value,
           count_if(src = 1) AS c1, count_if(src = 2) AS c2,
           sum(p_bad) AS p_bad, sum(r_bad) AS r_bad
         FROM combined
-        GROUP BY {fields}, metric, observation_key, value
+        GROUP BY {fields}, metric, value
       )
       GROUP BY year_key"""
 

@@ -21,7 +21,6 @@ TARGETS = {
 
 def provenance(source, business_key, pin=None):
     return [
-        spark_key("observation", *(F.col(c) for c in business_key), nested_source=source).alias("observation_key"),
         F.lit(key("dim_source_system", [source])).alias("source_system_key"),
         F.col("missing_reason"),
     ]

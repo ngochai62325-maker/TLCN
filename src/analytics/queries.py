@@ -39,7 +39,7 @@ def literal(value, pattern=r"[A-Za-z0-9_. -]{1,80}"):
 
 
 def key(value):
-    return literal(value, r"[0-9a-f]{64}")
+    return literal(value, r"[a-z0-9_]{1,64}")
 
 
 def validate(name, params):
@@ -155,8 +155,7 @@ def compile_query(name, params, manifest):
             codes = ("5610", "5622") if flow == "import" else ("5910", "5922")
             filtered += f" AND reporter_geography_key={key(p['reporter'])} AND observation_type_key IN (SELECT observation_type_key FROM {relation('dim_observation_type')} WHERE source_metric_id IN {codes})"
             tokens.update(quantity=flow+"_quantity_t", monetary=flow+"_value_usd", ratio="reported_"+flow+"_unit_value_usd_t",
-                          present_quantity="present_"+codes[0], present_value="present_"+codes[1],
-                          observation_quantity="observation_"+codes[0], observation_value="observation_"+codes[1])
+                          present_quantity="present_"+codes[0], present_value="present_"+codes[1])
         semantic = load_definitions()[view]["sql"].replace("{{"+fact+"}}", "("+filtered+")")
         tokens["semantic"] = semantic
     if name == "psd":

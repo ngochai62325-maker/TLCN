@@ -115,7 +115,7 @@ def expected_schema(name):
     keys = ["year_key", "reporter_geography_key", "partner_geography_key", "product_key"] if name == VIEW_NAMES[3] else ["year_key", "geography_key", "product_key"]
     result = [{"name": k, "type": "integer" if k == "year_key" else "varchar"} for k in keys]
     for code, measure in METRICS[name].items():
-        result += [{"name": measure, "type": "decimal(22,2)" if name == VIEW_NAMES[3] else "decimal(18,2)"}, {"name": "present_" + code, "type": "bigint"}, {"name": "observation_" + code, "type": "varchar"}]
+        result += [{"name": measure, "type": "decimal(22,2)" if name == VIEW_NAMES[3] else "decimal(18,2)"}, {"name": "present_" + code, "type": "bigint"}]
     if name == VIEW_NAMES[1]:
         result.append({"name": "computed_yield_kg_ha", "type": "decimal(25,3)"})
     if name == VIEW_NAMES[3]:
@@ -176,15 +176,15 @@ def validate_semantic_queries(outputs, dq, store=None, context=None):
             expected_rows = trino(f"SELECT count(*) FROM {source} WHERE {condition}")[0][0] if name == VIEW_NAMES[0] else trino(f"SELECT count(*) FROM (SELECT {','.join(keys)} FROM {source} WHERE {condition} GROUP BY {','.join(keys)})")[0][0]
             dq.record("DQ10", f"{name}/{label}", "exact source observation/group coverage", expected_rows, rows, rows == expected_rows)
             if name in METRICS:
-                predicates = [f"present_{c} NOT IN (0,1) OR ((present_{c}=0) <> (observation_{c} IS NULL))" for c in METRICS[name]]
+                predicates = [f"present_{c} NOT IN (0,1) OR (present_{c}=0 AND {m} IS NOT NULL)" for c, m in METRICS[name].items()]
                 bad = trino(f"SELECT count(*) FROM {scoped} AND (" + " OR ".join(predicates) + ")")[0][0]
                 dq.record("DQ10", f"{name}/{label}/presence", "present-null vs absent; unique contributor", 0, bad, bad == 0)
                 # One pivot plan, not N duplicated pivot/join/scan plans. The
                 # original UNION of 12 SUA pivots exhausted the local heap.
-                cells = ",".join(f"ROW('{c}',v.observation_{c},v.{m},v.present_{c})" for c, m in METRICS[name].items())
-                unpivot = f"SELECT {','.join('v.'+k for k in keys)},u.metric,u.observation_key,u.value FROM ({sql}) v CROSS JOIN UNNEST(ARRAY[{cells}]) AS u(metric,observation_key,value,presence) WHERE {condition} AND u.presence=1"
+                cells = ",".join(f"ROW('{c}',v.{m},v.present_{c})" for c, m in METRICS[name].items())
+                unpivot = f"SELECT {','.join('v.'+k for k in keys)},u.metric,u.value FROM ({sql}) v CROSS JOIN UNNEST(ARRAY[{cells}]) AS u(metric,value,presence) WHERE {condition} AND u.presence=1"
                 metric = f"iceberg.gold_local.dim_observation_type FOR VERSION AS OF {outputs['dim_observation_type']['snapshot_id']}"
-                expected_cells = f"SELECT {','.join('f.'+k for k in keys)},t.source_metric_id,f.observation_key,f.value FROM {source} f JOIN {metric} t ON f.observation_type_key=t.observation_type_key WHERE {condition}"
+                expected_cells = f"SELECT {','.join('f.'+k for k in keys)},t.source_metric_id,f.value FROM {source} f JOIN {metric} t ON f.observation_type_key=t.observation_type_key WHERE {condition}"
                 diff = trino(f"SELECT count(*) FROM (({unpivot}) EXCEPT ALL ({expected_cells}))")[0][0]
                 reverse = trino(f"SELECT count(*) FROM (({expected_cells}) EXCEPT ALL ({unpivot}))")[0][0]
                 dq.record("DQ10", f"{name}/{label}/cells", "full grain/metric/contributor/value multiset both directions", 0, diff + reverse, diff + reverse == 0)

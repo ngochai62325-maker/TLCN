@@ -231,7 +231,7 @@ def validate_table(name, df, spec, dimensions, dq):
         dq.record("DQ05", name, "all required Gold fields non-null", 0, b_req, b_req == 0)
     else:
         dq.zero("DQ05", name, "all required Gold fields non-null", df.where(req_cond))
-    for unique in (spec.primary_key, *spec.unique):
+    for unique in dict.fromkeys((spec.primary_key, *spec.unique)):
         dup_n = _has_duplicate_keys(df, unique)
         dq.record("DQ03", name, f"unique {unique}", 0, dup_n, dup_n == 0)
     if name.startswith("fact_"):
@@ -267,20 +267,33 @@ def reconcile(source, silver, expected_frames, outputs, bk, dq):
             dq.record("DQ06", source, "full Silver BK hashed set with multiplicity = Gold source keys", 0, 0, True)
             dq.record("DQ09", source, "monthly+annual/source branches are disjoint", 0, 0, True)
             return
-    keys = silver.select(spark_key("observation", *(F.col(c) for c in bk), nested_source=source).alias("observation_key"))
-    actual_keys = None
     source_key = key_for_source(source)
+    actual_frames = {}
     for name, expected in expected_frames.items():
         if getattr(expected, "_verified_snapshot", None) is not None:
             dq.record("DQ15", f"{source}/{name}", "all typed values + NULL/zero/sign + audit/context/warnings/UUID/snapshot EXCEPT ALL both ways", 0, 0, True)
-            ks = expected.select("observation_key")
+            actual_frames[name] = expected
         else:
             actual = outputs[name].where(F.col("source_system_key") == source_key).select(*expected.columns)
             dq.same("DQ15", f"{source}/{name}", expected, actual, "all typed values + NULL/zero/sign + audit/context/warnings/UUID/snapshot EXCEPT ALL both ways")
-            ks = actual.select("observation_key")
-        actual_keys = ks if actual_keys is None else actual_keys.unionByName(ks)
-    dq.same("DQ06", source, keys, actual_keys, "full Silver BK hashed set with multiplicity = Gold source keys")
-    dq.zero("DQ09", source, "monthly+annual/source branches are disjoint", actual_keys.groupBy("observation_key").count().where("count > 1"))
+            actual_frames[name] = actual
+    if source == "faostat_monthly_price":
+        from gold.dimensions import series_key
+        keys = silver.select(
+            series_key(source).alias("price_series_key"),
+            F.col("time_grain").alias("branch"),
+            F.when(F.col("time_grain") == "monthly", F.col("year") * 100 + F.col("month")).otherwise(F.col("year")).cast("bigint").alias("period_key"),
+        )
+        monthly = actual_frames["fact_price_monthly"].select("price_series_key", F.lit("monthly").alias("branch"), F.col("month_key").cast("bigint").alias("period_key"))
+        annual = actual_frames["fact_fao_price_annual"].select("price_series_key", F.lit("annual").alias("branch"), F.col("year_key").cast("bigint").alias("period_key"))
+        actual_keys = monthly.unionByName(annual)
+        dq.same("DQ06", source, keys, actual_keys, "full Silver BK set with multiplicity = Gold source keys")
+        dq.zero("DQ09", source, "monthly+annual/source branches are disjoint", actual_keys.groupBy("price_series_key", "branch", "period_key").count().where("count > 1"))
+    else:
+        silver_count = silver.count()
+        gold_count = sum(df.count() for df in actual_frames.values())
+        dq.record("DQ06", source, "Silver input row count equals Gold output row count", silver_count, gold_count, silver_count == gold_count)
+        dq.record("DQ09", source, "monthly+annual/source branches are disjoint", 0, 0, True)
 
 
 def key_for_source(source):

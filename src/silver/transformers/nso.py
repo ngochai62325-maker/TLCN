@@ -14,9 +14,27 @@ from silver.transformers.faostat_source import sql_rule
 
 INVENTORY_PATH = Path(__file__).resolve().parents[3] / "config/silver/nso_v2_metadata.json"
 METADATA_VERSION = "nso-v2-20261015.1"
-METADATA_SHA256 = "a076880448eaf84593e75a20d0fc6156302d26c053b07e260c3b3916d4da335d"
+METADATA_SHA256 = "b9b7cf07659a4c4babf9359bbe0572eec722ac6c9eb924c84b2f0269671ad67e"
 logger = logging.getLogger(__name__)
 _NSO_VALIDATED_SNAPSHOTS = {}
+
+
+def normalize_source_column(table, col, metadata=None):
+    """Map raw Bronze NSO column slugs to clean UTF-8 Vietnamese labels."""
+    tables = (metadata or json.loads(INVENTORY_PATH.read_text(encoding="utf-8"))).get("tables", {})
+    spec = tables.get(table, {})
+    labels = spec.get("source_column_labels", {})
+    if col in labels:
+        return labels[col]
+    base = spec.get("source_column_label")
+    if not base or " (" not in base:
+        return base or col
+    prefix, unit_part = base.rsplit(" (", 1)
+    if col.startswith("so_b_"):
+        return f"{prefix} — Sơ bộ {col[-4:]} ({unit_part}"
+    if col.startswith("col_") and col[4:].isdigit():
+        return f"{prefix} — Năm {col[4:]} ({unit_part}"
+    return base
 
 
 # Geography identity is derived from exact decoded source labels, never candidates.
@@ -109,6 +127,9 @@ class NsoTransformer:
         if any((self.metadata["units"][k]["unit"], self.metadata["units"][k]["factor"]) != v
                for k, v in expected_units.items()):
             raise ValueError("NSO V2 unit mapping differs from owner-approved policy")
+
+    def normalize_source_column(self, table, col):
+        return normalize_source_column(table, col, self.metadata)
 
     def _records(self, df):
         missing = set(AUDIT_COLUMNS) - set(df.columns)
@@ -243,13 +264,22 @@ class NsoTransformer:
             for file in group:
                 if not national:
                     metadata.extend([F.lit(file), F.struct(F.lit(self.inventory[file]["measure"]).alias("measure"),
-                                                         F.lit(self.inventory[file]["season"]).alias("season"))])
+                                                         F.lit(self.inventory[file]["season"]).alias("season"),
+                                                         F.lit(self.inventory[file]["source_column_label"]).alias("label"))])
             mapped = F.element_at(F.create_map(*metadata), F.col("source_table")) if metadata else None
             entries = []
             for c in columns:
                 measure, season = (tuple(F.lit(v) for v in NATIONAL_MEASURES[c]) if national else (mapped["measure"], mapped["season"]))
                 period = F.col("nam") if national else F.lit(("So b? " if c.startswith("so_b_") else "") + c[-4:])
-                entries.append(F.struct(F.lit(c).alias("source_column"), F.col(c).cast("string").alias("value_raw"),
+                if national:
+                    source_col = F.lit(self.normalize_source_column("V06.12.csv", c))
+                elif c.startswith("so_b_") or (c.startswith("col_") and c[4:].isdigit()):
+                    tag = f" — {'Sơ bộ' if c.startswith('so_b_') else 'Năm'} {c[-4:]} ("
+                    source_col = F.concat(F.substring_index(mapped["label"], " (", 1), F.lit(tag),
+                                          F.substring_index(mapped["label"], " (", -1))
+                else:
+                    source_col = mapped["label"]
+                entries.append(F.struct(source_col.alias("source_column"), F.col(c).cast("string").alias("value_raw"),
                                         period.alias("period_raw"), measure.alias("measure"), season.alias("season")))
             piece = records.filter(F.col("source_table").isin(group)).withColumn("o", F.explode(F.array(*entries)))
             pieces.append(piece.select(*audit, "source_table", "o.*",
@@ -293,7 +323,7 @@ class NsoTransformer:
         mapping = F.element_at(unit_map, unit_key)
         headers = dict(zip(self.inventory["V06.12.csv"]["source_columns"], self.inventory["V06.12.csv"]["raw_headers"]))
         header_units = F.create_map(*[x for name in NATIONAL_MEASURES for x in (
-            F.lit(name), F.lit(headers[name].rsplit("(", 1)[1].rstrip(")")))])
+            F.lit(self.normalize_source_column("V06.12.csv", name)), F.lit(headers[name].rsplit("(", 1)[1].rstrip(")")))])
         out = out.withColumn("unit_raw", F.when(national, F.when(index, "%").otherwise(F.element_at(header_units, F.col("source_column")))))
         out = out.withColumn("unit", mapping["unit"]).withColumn("conversion_factor", mapping["factor"])
         out = out.withColumn("unit_source_reference", mapping["source_unit"])

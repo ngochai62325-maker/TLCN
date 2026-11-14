@@ -2,8 +2,48 @@
 import hashlib
 import json
 import math
+import re
 from datetime import date, datetime, timezone
 from decimal import Decimal
+
+_CLEAN_PART = re.compile(r"\A[a-z0-9]+(?:_[a-z0-9]+)*\Z")
+_KEY_PATTERN = re.compile(r"\A[a-z0-9_]{1,64}\Z")
+_VI_MAP = (
+    ("àáảãạăằắẳẵặâầấẩẫậÀÁẢÃẠĂẰẮẲẴẶÂẦẤẨẪẬäåæ", "a" * 37),
+    ("èéẻẽẹêềếểễệÈÉẺẼẸÊỀẾỂỄỆë", "e" * 23),
+    ("ìíỉĩịÌÍỈĨỊîï", "i" * 12),
+    ("òóỏõọôồốổỗộơờớởỡợÒÓỎÕỌÔỒỐỔỖỘƠỜỚỞỠỢöø", "o" * 36),
+    ("ùúủũụưừứửữựÙÚỦŨỤƯỪỨỬỮỰüû", "u" * 24),
+    ("ỳýỷỹỵỲÝỶỸỴÿ", "y" * 11),
+    ("đĐ", "dd"),
+    ("çÇ", "cc"),
+    ("ñÑ", "nn"),
+)
+VI_SRC = "".join(s for s, _ in _VI_MAP)
+VI_DST = "".join(d for _, d in _VI_MAP)
+assert len(VI_SRC) == len(VI_DST) and len(set(VI_SRC)) == len(VI_SRC)
+_VI_TABLE = str.maketrans(VI_SRC, VI_DST)
+
+
+def _slug_part(text):
+    folded = text.translate(_VI_TABLE).lower()
+    return re.sub(r"_+", "_", re.sub(r"[^a-z0-9_]+", "_", folded)).strip("_")
+
+
+def _flatten_items(v):
+    if isinstance(v, (list, tuple)):
+        for item in v:
+            yield from _flatten_items(item)
+    else:
+        yield v
+
+
+def _format_human_key(slug, digest, clean):
+    slug = slug or "k"
+    if clean and len(slug) <= 64:
+        return slug
+    prefix = slug[:57].rstrip("_") or "k"
+    return f"{prefix}_{digest[:6]}"
 
 
 def json_value(value):
@@ -39,7 +79,29 @@ def key(domain, values):
         elif v is not None and type(v) not in (str, int, bool) and type(v) is not date:
             raise TypeError("K1 natural keys allow only strings, integers, booleans, dates, NULL and arrays")
     validate(values)
-    return hashlib.sha256(canonical_json(["K1", domain, values]).encode("utf-8")).hexdigest()
+    if domain == "dim_source_system" and isinstance(values, (list, tuple)) and len(values) == 1:
+        source_id = values[0]
+        if isinstance(source_id, str) and _KEY_PATTERN.fullmatch(source_id):
+            return source_id
+    digest = hashlib.sha256(canonical_json(["K1", domain, values]).encode("utf-8")).hexdigest()
+    items = list(_flatten_items(values))
+    clean = bool(items)
+    tokens = []
+    for item in items:
+        if item is None:
+            clean = False
+            continue
+        if isinstance(item, str):
+            clean = clean and bool(_CLEAN_PART.fullmatch(item))
+            tok = _slug_part(item)
+        else:
+            clean = False
+            raw = item.isoformat() if isinstance(item, date) else ("true" if item is True else "false" if item is False else str(item))
+            tok = _slug_part(raw)
+        if tok:
+            tokens.append(tok)
+    slug = re.sub(r"_+", "_", "_".join(tokens)).strip("_")
+    return _format_human_key(slug, digest, clean)
 
 
 def fingerprint(value):
@@ -128,11 +190,29 @@ def spark_value_json(column, struct_fields=None):
 
 def spark_key(domain, *columns, nested_source=None):
     from pyspark.sql import functions as F
+    if domain == "dim_source_system" and len(columns) == 1 and nested_source is None:
+        return columns[0].cast("string")
     elems = F.concat_ws(",", *(_catalyst_json_elem(c) for c in columns))
     if nested_source is not None:
         prefix = f'["K1",{canonical_json(domain)},[{canonical_json(nested_source)},['
         suffix = "]]]"
+        slug_cols = [F.lit(nested_source), *columns]
     else:
         prefix = f'["K1",{canonical_json(domain)},['
         suffix = "]]"
-    return F.sha2(F.concat(F.lit(prefix), elems, F.lit(suffix)), 256)
+        slug_cols = list(columns)
+    digest = F.sha2(F.concat(F.lit(prefix), elems, F.lit(suffix)), 256)
+    tokens = []
+    clean = F.lit(bool(slug_cols))
+    for col in slug_cols:
+        json_elem = _catalyst_json_elem(col)
+        s = col.cast("string")
+        clean = clean & col.isNotNull() & json_elem.startswith('"') & s.rlike(r"\A[a-z0-9]+(?:_[a-z0-9]+)*\z")
+        folded = F.lower(F.translate(s, VI_SRC, VI_DST))
+        tok = F.regexp_replace(F.regexp_replace(F.regexp_replace(folded, r"[^a-z0-9_]+", "_"), r"_+", "_"), r"^_+|_+$", "")
+        tokens.append(F.when(col.isNotNull() & (F.length(tok) > 0), tok))
+    slug = F.concat_ws("_", *tokens)
+    slug = F.when(F.length(slug) > 0, slug).otherwise(F.lit("k"))
+    trunc = F.regexp_replace(F.substring(slug, 1, 57), r"_+$", "")
+    trunc = F.when(F.length(trunc) > 0, trunc).otherwise(F.lit("k"))
+    return F.when(clean & (F.length(slug) <= 64), slug).otherwise(F.concat(trunc, F.lit("_"), F.substring(digest, 1, 6)))
