@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v02",
   "position": {
-    "x": 32,
-    "y": 64,
+    "x": 24,
+    "y": 57,
     "z": 2,
-    "width": 770,
-    "height": 42,
+    "width": 1232,
+    "height": 34,
     "tabOrder": 2
   },
   "visual": {
@@ -26,7 +26,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "10.5D"
                 }
               }
             },
@@ -35,7 +35,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#17342F'"
+                      "Value": "'#0F172A'"
                     }
                   }
                 }
@@ -57,25 +57,46 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FFFFFF'"
-                    }
-                  }
-                }
-              }
-            },
-            "transparency": {
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
               "expr": {
                 "Literal": {
-                  "Value": "0D"
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }

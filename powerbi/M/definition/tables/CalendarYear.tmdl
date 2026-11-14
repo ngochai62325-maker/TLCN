@@ -1,9 +1,9 @@
 table CalendarYear
-	lineageTag: 5fe2cc21-c08c-46ff-8255-a8d218ef48ad
+	lineageTag: e8239dfd-f191-4f12-a53b-ca7fab9d992a
 
 	column Year
 		dataType: int64
-		lineageTag: 0335afa8-7220-4077-aa65-413cb6678fdf
+		lineageTag: 2d0e5c76-3958-4442-84ff-8893d7e4bbb5
 		summarizeBy: none
 		sourceColumn: Year
 

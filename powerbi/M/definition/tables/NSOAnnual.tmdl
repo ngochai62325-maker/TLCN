@@ -1,45 +1,45 @@
 table NSOAnnual
-	lineageTag: 2490d37d-4c34-4dfd-af09-4759bca11c28
+	lineageTag: 6f000cc6-4620-4f57-af62-35aa39c6987a
 
 	column year
 		dataType: int64
-		lineageTag: b152f1cd-2c4f-4f8f-be3f-64c53a8941ae
+		lineageTag: 6ab8a469-9453-4205-b9f8-46f145c678a9
 		summarizeBy: none
 		sourceColumn: year
 
 	column production_t
 		dataType: double
-		lineageTag: ec38d46e-f796-4607-9a1b-b786b5649601
+		lineageTag: 95857724-4331-4bdb-9989-b5337539b9e3
 		summarizeBy: none
 		sourceColumn: production_t
 
 	column area_ha
 		dataType: double
-		lineageTag: 77b322f3-f02f-432c-a86d-73ffebca1c03
+		lineageTag: b9529b36-5563-451d-9948-b10dc12249ac
 		summarizeBy: none
 		sourceColumn: area_ha
 
 	column publication
 		dataType: string
-		lineageTag: de523981-0bf3-48b7-b8a6-74717a902212
+		lineageTag: 68fbda3d-f16c-4b59-86f6-68d3f547e0d7
 		summarizeBy: none
 		sourceColumn: publication
 
 	column geography_scope
 		dataType: string
-		lineageTag: d9a11193-98f7-4a95-960a-863797657c28
+		lineageTag: bff1f93b-f0b9-4d41-ba49-e51e3154b8f3
 		summarizeBy: none
 		sourceColumn: geography_scope
 
 	column production_present
 		dataType: boolean
-		lineageTag: 0d27de59-7105-41b7-b198-791c91ea54b7
+		lineageTag: 099356c5-0141-4b28-810b-669851090569
 		summarizeBy: none
 		sourceColumn: production_present
 
 	column area_present
 		dataType: boolean
-		lineageTag: 2af9e781-98ea-475a-8b77-ec96f7831985
+		lineageTag: b0d60569-1fb9-4209-80fa-3c3af075434d
 		summarizeBy: none
 		sourceColumn: area_present
 

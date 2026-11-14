@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "v07",
   "position": {
-    "x": 32,
-    "y": 380,
+    "x": 24,
+    "y": 368,
     "z": 7,
-    "height": 130,
-    "width": 590,
+    "height": 144,
+    "width": 610,
     "tabOrder": 7
   },
   "visual": {
@@ -122,7 +122,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "10.5D"
                 }
               }
             },
@@ -131,7 +131,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#17342F'"
+                      "Value": "'#0F172A'"
                     }
                   }
                 }
@@ -140,7 +140,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'[Gạo xay xát] FAOSTAT SUA · Năm dương lịch: Tồn kho đầu kỳ (triệu tấn)'"
+                  "Value": "'[Gạo xay xát] FAOSTAT SUA · Tồn kho đầu kỳ (triệu tấn)'"
                 }
               }
             }

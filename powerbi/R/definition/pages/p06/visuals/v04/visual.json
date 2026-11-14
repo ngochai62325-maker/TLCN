@@ -1,17 +1,87 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "v04",
   "position": {
-    "x": 236,
-    "y": 118,
+    "x": 1048,
+    "y": 96,
     "z": 4,
-    "width": 194,
-    "height": 88,
+    "height": 64,
+    "width": 208,
     "tabOrder": 4
   },
   "visual": {
-    "visualType": "card",
-    "drillFilterOtherVisuals": true,
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trade"
+                    }
+                  },
+                  "Property": "partner_name_vi"
+                }
+              },
+              "queryRef": "Trade.partner_name_vi",
+              "active": true,
+              "displayName": "Đối tác"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "selection": [
+        {
+          "properties": {
+            "singleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "selectAllCheckboxEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "header": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -26,7 +96,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "9.5D"
                 }
               }
             },
@@ -35,7 +105,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#17342F'"
+                      "Value": "'#475569'"
                     }
                   }
                 }
@@ -44,7 +114,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'[Gạo xay xát] Cặp đối tác–năm'"
+                  "Value": "'Đối tác'"
                 }
               }
             }
@@ -81,59 +151,76 @@
             }
           }
         }
-      ]
-    },
-    "query": {
-      "queryState": {
-        "Values": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "Trade Paired Groups Display"
-                }
-              },
-              "queryRef": "Overview.Trade Paired Groups Display",
-              "displayName": "[Gạo xay xát] Cặp đối tác–năm"
-            }
-          ]
-        }
-      }
-    },
-    "objects": {
-      "labels": [
+      ],
+      "spacing": [
         {
           "properties": {
-            "labelDisplayUnits": {
+            "customizeSpacing": {
               "expr": {
                 "Literal": {
-                  "Value": "1D"
+                  "Value": "true"
                 }
               }
             },
-            "labelPrecision": {
+            "verticalSpacing": {
               "expr": {
                 "Literal": {
-                  "Value": "0D"
+                  "Value": "2D"
                 }
               }
             },
-            "fontSize": {
+            "spaceBelowTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "2D"
+                }
+              }
+            },
+            "spaceBelowTitleArea": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
                 }
               }
             }
           }
         }
       ],
-      "categoryLabels": [
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
         {
           "properties": {
             "show": {
@@ -146,6 +233,7 @@
           }
         }
       ]
-    }
+    },
+    "drillFilterOtherVisuals": true
   }
 }

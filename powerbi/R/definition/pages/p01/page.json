@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
   "name": "p01",
-  "displayName": "01 · Tổng quan dữ liệu lúa gạo",
+  "displayName": "01 · Tổng quan",
   "displayOption": "FitToPage",
   "width": 1280,
   "height": 720

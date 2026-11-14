@@ -1,111 +1,111 @@
 table Trade
-	lineageTag: 6178be10-bb64-45a5-aa0b-64a5c2e584ea
+	lineageTag: 8d0189b7-4a1d-49b0-aeac-0a55e48e98ee
 
 	column year
 		dataType: int64
-		lineageTag: f8720253-f2bb-4c4e-97c4-762f308ab6f3
+		lineageTag: 287df849-14db-4cc3-82cb-f20ea4387fee
 		summarizeBy: none
 		sourceColumn: year
 
 	column reporter_key
 		dataType: string
-		lineageTag: 1cd4d2d9-0f2f-428f-bd46-808eb9d8215c
+		lineageTag: 9bf72fed-da02-498d-b55f-2eef3d584d90
 		summarizeBy: none
 		sourceColumn: reporter_key
 
 	column reporter_code
 		dataType: string
-		lineageTag: 82034ab7-4bd1-4669-b3ba-3c2f2eb7ad90
+		lineageTag: 81baed63-c4a7-478c-8d93-c407e0ae321f
 		summarizeBy: none
 		sourceColumn: reporter_code
 
 	column partner_key
 		dataType: string
-		lineageTag: 31874573-aee9-491c-a49d-17d3e838d0e5
+		lineageTag: 2d56936d-9cf2-4a2d-88b9-fd2d12717c33
 		summarizeBy: none
 		sourceColumn: partner_key
 
 	column partner_code
 		dataType: string
-		lineageTag: 551abcd2-d744-4e4e-9794-236a238d74b2
+		lineageTag: 7e5be71a-8e49-468f-b878-4530df47e318
 		summarizeBy: none
 		sourceColumn: partner_code
 
 	column partner_name
 		dataType: string
-		lineageTag: 748c03fb-aae1-4edb-9600-9d00d5b1c3fd
+		lineageTag: 5409d4d3-21f2-44e5-9d49-758f45d39554
 		summarizeBy: none
 		sourceColumn: partner_name
 
 	column product_key
 		dataType: string
-		lineageTag: 3772ed68-b4ba-476b-b2b9-ad1773c449d9
+		lineageTag: ae56147c-344a-4b78-9708-fc14ed3ebd80
 		summarizeBy: none
 		sourceColumn: product_key
 
 	column product_code
 		dataType: string
-		lineageTag: cc3a21d2-98ca-48bb-94c6-db1fc0ea47d9
+		lineageTag: bb0796c4-8fcf-4447-998a-ff8a593a2fea
 		summarizeBy: none
 		sourceColumn: product_code
 
 	column direction
 		dataType: string
-		lineageTag: 074a7c5a-b68a-4efc-a764-a5ecf2804baf
+		lineageTag: 67a12a7f-af2f-4747-bdd4-0534efa5be21
 		summarizeBy: none
 		sourceColumn: direction
 
 	column quantity_t
 		dataType: double
-		lineageTag: fe94df07-25be-45f7-a56b-470d35c360b3
+		lineageTag: 369ef49d-32e1-4ace-9de2-790f802b8643
 		summarizeBy: none
 		sourceColumn: quantity_t
 
 	column value_usd
 		dataType: double
-		lineageTag: 2f07cd78-0ed4-4c54-a4f2-e1394314dc4b
+		lineageTag: 593472bd-772f-4917-a5be-a755faa1d182
 		summarizeBy: none
 		sourceColumn: value_usd
 
 	column unit_value_usd_t
 		dataType: double
-		lineageTag: 5fde12f8-fc58-4f17-aea4-c360fc549d4f
+		lineageTag: 856aaccb-95ab-4000-85ef-0218676391e2
 		summarizeBy: none
 		sourceColumn: unit_value_usd_t
 
 	column quantity_present
 		dataType: boolean
-		lineageTag: f1868d36-9ba4-4f80-b3f6-ca97ad6785f4
+		lineageTag: 2238e647-2b4b-4dc5-8a25-b9baed9879bc
 		summarizeBy: none
 		sourceColumn: quantity_present
 
 	column value_present
 		dataType: boolean
-		lineageTag: 2a266046-9c8c-4d1e-a4c6-14d50b6bc2fa
+		lineageTag: 6a2de8d9-ce3b-47d2-93d4-8030930d5f2d
 		summarizeBy: none
 		sourceColumn: value_present
 
 	column denominator_valid
 		dataType: boolean
-		lineageTag: 394a0d51-7800-4606-b7e7-ec6d9ef7fd72
+		lineageTag: dd3a3e90-7f03-4c2b-a46a-ded990f496bd
 		summarizeBy: none
 		sourceColumn: denominator_valid
 
 	column paired_quantity_t
 		dataType: double
-		lineageTag: dd7f366c-3da4-4a61-af5a-be9585a08c3a
+		lineageTag: 66098117-c079-4e16-964d-fa1d0e3553f9
 		summarizeBy: none
 		sourceColumn: paired_quantity_t
 
 	column paired_value_usd
 		dataType: double
-		lineageTag: 21e9a35e-4718-4353-9b92-edd6ddc7b724
+		lineageTag: 8cfb3835-65ee-4f4e-9564-478f42252b4f
 		summarizeBy: none
 		sourceColumn: paired_value_usd
 
 	column partner_name_vi
 		dataType: string
-		lineageTag: e39e3956-6bb8-4df6-89c4-3bf2870d670e
+		lineageTag: 4d480540-f1d0-475c-87e6-12102bac05a5
 		summarizeBy: none
 		sourceColumn: partner_name_vi
 

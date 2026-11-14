@@ -1,10 +1,10 @@
 table QuoteDate
-	lineageTag: 7d619a02-b56d-42f1-8157-a25ede5a91be
+	lineageTag: 38685e1c-dcc6-44fd-a354-50678420d68a
 
 	column Date
 		dataType: dateTime
 		formatString: yyyy-MM-dd
-		lineageTag: 11040120-8021-4445-815c-8972e3a44f32
+		lineageTag: ff992c7c-b2dc-49af-bf07-e5246149c74d
 		summarizeBy: none
 		sourceColumn: Date
 

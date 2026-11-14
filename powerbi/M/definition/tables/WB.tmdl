@@ -1,82 +1,82 @@
 table WB
-	lineageTag: 0b7c7a03-b80c-403a-95e0-446e08859a97
+	lineageTag: 06608fb5-85a6-4aad-a56b-1eee829da788
 
 	column month_date
 		dataType: dateTime
 		formatString: yyyy-MM-dd
-		lineageTag: 447e02b2-ce82-4138-99e0-3125d85bda34
+		lineageTag: 891c7244-f079-4f05-b718-131a625352c0
 		summarizeBy: none
 		sourceColumn: month_date
 
 	column year
 		dataType: int64
-		lineageTag: 26ac2551-f198-418f-a64f-66b6a9e9a015
+		lineageTag: 5321a079-9dfa-4104-a5ea-0103b33930e4
 		summarizeBy: none
 		sourceColumn: year
 
 	column month_key
 		dataType: int64
-		lineageTag: 9dadeae6-07de-48cb-ba54-d76d7248c14d
+		lineageTag: 457e5773-a8bd-4ece-9df9-66fb3053f5b3
 		summarizeBy: none
 		sourceColumn: month_key
 
 	column series_key
 		dataType: string
-		lineageTag: 318ba983-f4e9-48fc-863f-ad21d15b7a22
+		lineageTag: bdf4d8fd-32e1-405d-8eb7-b355fa0c5846
 		summarizeBy: none
 		sourceColumn: series_key
 
 	column series_code
 		dataType: string
-		lineageTag: a245d200-2bd8-4fd9-8d94-25c7aaf8c59c
+		lineageTag: ea8d2183-5dd3-48f2-8147-1252dfd6eecc
 		summarizeBy: none
 		sourceColumn: series_code
 
 	column unit
 		dataType: string
-		lineageTag: 3497b998-6bb9-4420-98bc-389049fafc93
+		lineageTag: dee6b7cb-065c-4ffb-8b9c-2848b7923b0f
 		summarizeBy: none
 		sourceColumn: unit
 
 	column price_usd_t
 		dataType: double
-		lineageTag: 4f14ceaf-c013-41ff-9de3-bd97e6d5078a
+		lineageTag: b5ffa089-d13c-4523-b6cc-3077333e16e2
 		summarizeBy: none
 		sourceColumn: price_usd_t
 
 	column observation_present
 		dataType: boolean
-		lineageTag: 653c8f43-8349-4234-9a32-93e6d1fe4f5f
+		lineageTag: 2eaac86f-4cad-48d3-854a-80d92f8ab316
 		summarizeBy: none
 		sourceColumn: observation_present
 
 	column numeric_present
 		dataType: boolean
-		lineageTag: e2019e8d-b953-4efe-9de6-1ab4fc7a7f00
+		lineageTag: 83d51588-1a2e-44b5-8a8f-7418f5657e40
 		summarizeBy: none
 		sourceColumn: numeric_present
 
 	column previous_month_numeric
 		dataType: boolean
-		lineageTag: f26156af-f4da-428f-baf5-e15a4bdec741
+		lineageTag: b9255fcd-24f6-4cd4-9d7a-639adcad5a4d
 		summarizeBy: none
 		sourceColumn: previous_month_numeric
 
 	column monthly_change_pct
 		dataType: double
-		lineageTag: 8f65222a-8ef2-4aa0-a394-346d73aaab78
+		lineageTag: 787498f5-4389-4c52-a5dd-72c64a5f001c
 		summarizeBy: none
 		sourceColumn: monthly_change_pct
 
 	column volatility_12m_pct
 		dataType: double
-		lineageTag: 6f05ee6f-5749-4afd-9ace-7b4adb96a662
+		lineageTag: c2ff33e0-bedf-4ab0-9307-fb9aebff644b
 		summarizeBy: none
 		sourceColumn: volatility_12m_pct
 
 	column series_name_vi
 		dataType: string
-		lineageTag: bbcaa68b-e68d-499d-bbe7-703e18922771
+		lineageTag: 0fd44ceb-bd74-4c8b-9990-fd7d0f1d6964
 		summarizeBy: none
 		sourceColumn: series_name_vi
 

@@ -204,9 +204,10 @@ measure('Latest WB VN 5 Price', 'VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = 
 measure('Latest WB VN 5 MoM', 'VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_viet_namese_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[monthly_change_pct]) / 100, REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m)', '+0.00%;-0.00%;0.00%', 'Biến động MoM Gạo Việt Nam 5% mới nhất.')
 measure('Latest WB VN 5 Display', 'FORMAT([Latest WB VN 5 Price], "$#,0.00") & " /tấn (" & FORMAT([Latest WB VN 5 MoM], "+0.00%;-0.00%") & ")"', '@', 'Thẻ giá Việt Nam 5% mới nhất kèm MoM.')
 
-measure('Latest Common WB Month', 'MAXX(FILTER(ALL(WB[month_date]), CALCULATE(COUNTROWS(WB), WB[series_code] = "rice_thai_5", NOT ISBLANK(WB[price_usd_t])) > 0 && CALCULATE(COUNTROWS(WB), WB[series_code] = "rice_viet_namese_5", NOT ISBLANK(WB[price_usd_t])) > 0), WB[month_date])', 'yyyy-MM-dd', 'Tháng mới nhất chung có giá của cả Thái 5% và VN 5%.')
+measure('Latest Common WB Month', 'MAXX(FILTER(ALL(WB[month_date]), VAR m = WB[month_date] RETURN CALCULATE(COUNTROWS(WB), REMOVEFILTERS(WB), WB[month_date] = m, WB[series_code] = "rice_thai_5", NOT ISBLANK(WB[price_usd_t])) > 0 && CALCULATE(COUNTROWS(WB), REMOVEFILTERS(WB), WB[month_date] = m, WB[series_code] = "rice_viet_namese_5", NOT ISBLANK(WB[price_usd_t])) > 0), WB[month_date])', 'yyyy-MM-dd', 'Tháng mới nhất chung có giá của cả Thái 5% và VN 5%.')
 measure('WB Spread VN5 vs Thai5', 'VAR m = [Latest Common WB Month] VAR vn = CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m) VAR thai = CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_thai_5", WB[month_date] = m) RETURN IF(NOT ISBLANK(vn) && NOT ISBLANK(thai), vn - thai)', '#,0.00', 'Chênh lệch giá World Bank: Việt Nam 5% − Thái 5% (USD/tấn).')
 measure('WB Spread VN5 vs Thai5 Display', 'IF(ISBLANK([WB Spread VN5 vs Thai5]), "Không áp dụng", FORMAT([WB Spread VN5 vs Thai5], "+$#,0.00;-$#,0.00;$0.00") & " /tấn")', '@', 'Thẻ chênh lệch giá VN 5% − Thái 5%.')
+measure('FAO Scatter Title', 'IF(ISBLANK([FAO Scatter Year]), "[Lúa] Diện tích và sản lượng · Không áp dụng", "[Lúa] Diện tích và sản lượng (năm " & FORMAT([FAO Scatter Year], "0") & ")")', '@', 'Tiêu đề động biểu đồ phân tán diện tích – sản lượng.')
 
 for cmp_name, base_measure, fmt, desc in [
     ('WB MoM Comparison', 'WB MoM', '+0.00%;-0.00%;0.00%', 'Biến động MoM: 2 chuỗi 5% đối sánh mặc định khi chưa lọc, hoặc chuỗi được chọn trên slicer.'),
@@ -248,7 +249,7 @@ measure('Trade Paired Groups', 'COALESCE(COUNTROWS(FILTER(Trade, NOT ISBLANK(Tra
 measure('Trade Insight', 'IF([Trade Paired Groups]=0,"Không có cặp đủ điều kiện trong phạm vi chọn.","Việt Nam → " & CONCATENATEX(VALUES(Trade[partner_name_vi]),Trade[partner_name_vi],", ") & " · " & FORMAT(MIN(Trade[year]),"0") & "–" & FORMAT(MAX(Trade[year]),"0") & " · CPC23161.02. " & FORMAT([Trade Partners],"0") & " đối tác (" & FORMAT([Trade Paired Groups],"0") & " cặp năm–đối tác); đơn giá bình quân " & FORMAT([Trade Unit Value],"#,0.00") & " USD/t. Tỷ số giá trị/lượng báo cáo; không phải giá thị trường độc lập.")', '@', 'Dynamic paired coverage and ratio; no global denominator.')
 
 # ==============================================================================
-# CARD DISPLAY MEASURES
+# CARD DISPLAY MEASURES (Legacy strings kept intact; Hero + 3-tier Ref measures added)
 # ==============================================================================
 measure('Total Observations Display', 'FORMAT([Total Observations], "#,0")', '@', 'Tổng quan sát format vi-VN.')
 measure('Numeric Coverage Display', 'FORMAT([Numeric Coverage], "0.00%")', '@', 'Tỷ lệ có số format vi-VN.')
@@ -272,6 +273,72 @@ measure('Trade Value Display', 'IF(ISBLANK([Trade Value]),"Không áp dụng",FO
 measure('Trade Unit Value Display', 'IF(ISBLANK([Trade Unit Value]),"Không áp dụng",FORMAT([Trade Unit Value],"$#,0.00") & " /tấn")', '@', 'Formatted unit value USD/tonne.')
 measure('Trade Partners Display', 'IF(ISBLANK([Trade Partners]),"Không áp dụng",FORMAT([Trade Partners],"#,0") & " đối tác")', '@', 'Formatted distinct partner count.')
 measure('Trade Paired Groups Display', 'IF(ISBLANK([Trade Paired Groups]),"Không áp dụng",FORMAT([Trade Paired Groups],"#,0") & " cặp đối tác–năm")', '@', 'Formatted paired groups count as partner-year pairs.')
+
+# Clean 3-tier template measures (Line 2 Hero + Line 3 Reference Triangle & Color)
+_GREEN = '#16A34A'
+_RED = '#DC2626'
+_SLATE = '#64748B'
+_TEAL = '#0F6B5E'
+
+
+def _trend_ref(name, color_name, expr, desc, suffix=''):
+    tail = f' & "{suffix}"' if suffix else ''
+    measure(
+        name,
+        f'VAR v = {expr} RETURN IF(ISBLANK(v), "Không áp dụng", IF(v > 0, "▲ " & FORMAT(v, "0.00%"){tail}, IF(v < 0, "▼ " & FORMAT(v, "0.00%"){tail}, "• 0,00%"{tail})))',
+        '@',
+        desc,
+    )
+    measure(
+        color_name,
+        f'VAR v = {expr} RETURN IF(ISBLANK(v), "{_SLATE}", IF(v > 0, "{_GREEN}", IF(v < 0, "{_RED}", "{_SLATE}")))',
+        '@',
+        f'Màu ngữ nghĩa cho {name}.',
+    )
+
+
+def _static_ref(name, color_name, text_dax, color_hex, desc):
+    measure(name, text_dax, '@', desc)
+    measure(color_name, f'"{color_hex}"', '@', f'Màu chú thích cho {name}.')
+
+
+# Page 1 3-tier refs
+_static_ref('Overview Scope Ref', 'Overview Scope Ref Color', '"9 bảng Fact · Gold layer"', _SLATE, 'Phạm vi 9 bảng Fact.')
+_static_ref('Overview Numeric Ref', 'Overview Numeric Ref Color', 'FORMAT([Numeric Observations], "#,0") & " có số thực"', _GREEN, 'Số quan sát có giá trị số.')
+_static_ref('Overview Null Ref', 'Overview Null Ref Color', 'FORMAT([Present NULL], "#,0") & " giá trị NULL"', _SLATE, 'Số quan sát khuyết có ghi nhận.')
+_static_ref('Highest Null Fact Ref', 'Highest Null Fact Ref Color', 'VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) RETURN "Nguồn: " & MAXX(maxFact, Overview[fact_name_vi])', _SLATE, 'Tên nguồn có tỷ lệ khuyết cao nhất.')
+
+# Page 2 Hero + 3-tier refs
+measure('Peak Production Hero', 'IF(ISBLANK([Peak Production]), "Không áp dụng", FORMAT([Peak Production]/1000000, "#,0.00") & " tr tấn")', '@', 'Đỉnh sản lượng triệu tấn.')
+_static_ref('First Production Year Ref', 'First Production Year Ref Color', 'IF(ISBLANK([First Production Year]), "Không áp dụng", "Năm " & FORMAT([First Production Year], "0"))', _SLATE, 'Năm bắt đầu giai đoạn chọn.')
+_trend_ref('Latest Production YoY Ref', 'Latest Production YoY Ref Color', '[Latest Production YoY]', 'Tăng trưởng YoY kỳ cuối.', suffix=' YoY')
+measure('Production Change Abs Ref', 'IF(ISBLANK([Production Change]), "Không áp dụng", IF([Production Change] > 0, "▲ +" & FORMAT([Production Change]/1000000, "#,0.00") & " tr tấn", IF([Production Change] < 0, "▼ " & FORMAT([Production Change]/1000000, "#,0.00") & " tr tấn", "• 0,00 tr tấn")))', '@', 'Mức tăng/giảm tuyệt đối đầu–cuối.')
+measure('Production Change Abs Ref Color', f'IF(ISBLANK([Production Change]), "{_SLATE}", IF([Production Change] > 0, "{_GREEN}", IF([Production Change] < 0, "{_RED}", "{_SLATE}")))', '@', 'Màu ngữ nghĩa cho Production Change Abs Ref.')
+measure('Latest Production Period Ref', 'IF(ISBLANK([Latest Production Year]), "Không áp dụng", IF([Latest Production YoY] >= 0, "▲ ", "▼ ") & FORMAT([Latest Production Year], "0") & " so " & FORMAT([Latest Production Year] - 1, "0"))', '@', 'Kỳ so sánh YoY mới nhất.')
+_static_ref('Peak Year Ref', 'Peak Year Ref Color', 'IF(ISBLANK([Peak Year]), "Không áp dụng", "Kỷ lục năm " & FORMAT([Peak Year], "0"))', _TEAL, 'Năm đạt đỉnh sản lượng.')
+measure('Latest vs Peak Ref', 'IF(ISBLANK([Latest vs Peak Pct]), "Không áp dụng", IF([Latest vs Peak Pct] < 0, "▼ Dưới đỉnh " & FORMAT([Peak Year], "0"), "▲ Đạt đỉnh " & FORMAT([Peak Year], "0")))', '@', 'So sánh kỳ cuối với đỉnh.')
+measure('Latest vs Peak Ref Color', f'IF(ISBLANK([Latest vs Peak Pct]), "{_SLATE}", IF([Latest vs Peak Pct] < 0, "{_RED}", "{_GREEN}"))', '@', 'Màu ngữ nghĩa cho Latest vs Peak Ref.')
+measure('Area Span Ref', 'IF(ISBLANK([Area Change Pct]), "Không áp dụng", IF([Area Change Pct] >= 0, "▲ ", "▼ ") & FORMAT([First Area Year], "0") & "–" & FORMAT([Latest Area Year], "0"))', '@', 'Khoảng thời gian diện tích.')
+measure('Area Span Ref Color', f'IF(ISBLANK([Area Change Pct]), "{_SLATE}", IF([Area Change Pct] >= 0, "{_GREEN}", "{_RED}"))', '@', 'Màu ngữ nghĩa thay đổi diện tích.')
+measure('Yield Span Ref', 'IF(ISBLANK([Yield Change Pct]), "Không áp dụng", IF([Yield Change Pct] >= 0, "▲ ", "▼ ") & FORMAT([First Yield Year], "0") & "–" & FORMAT([Latest Yield Year], "0"))', '@', 'Khoảng thời gian năng suất.')
+measure('Yield Span Ref Color', f'IF(ISBLANK([Yield Change Pct]), "{_SLATE}", IF([Yield Change Pct] >= 0, "{_GREEN}", "{_RED}"))', '@', 'Màu ngữ nghĩa thay đổi năng suất.')
+
+# Page 5 Hero + 3-tier refs
+measure('Latest WB Thai 5 Hero', 'FORMAT([Latest WB Thai 5 Price], "$#,0.00") & " /tấn"', '@', 'Giá gạo Thái 5% mới nhất.')
+measure('Latest WB VN 5 Hero', 'FORMAT([Latest WB VN 5 Price], "$#,0.00") & " /tấn"', '@', 'Giá gạo Việt Nam 5% mới nhất.')
+_trend_ref('Latest WB Thai 5 MoM Ref', 'Latest WB Thai 5 MoM Ref Color', '[Latest WB Thai 5 MoM]', 'Biến động MoM gạo Thái 5%.', suffix=' MoM')
+_trend_ref('Latest WB VN 5 MoM Ref', 'Latest WB VN 5 MoM Ref Color', '[Latest WB VN 5 MoM]', 'Biến động MoM gạo VN 5%.', suffix=' MoM')
+_static_ref('Latest Common WB Ref', 'Latest Common WB Ref Color', 'IF(ISBLANK([Latest Common WB Month]), "Không áp dụng", "Kỳ chung: " & FORMAT([Latest Common WB Month], "MM/yyyy"))', _SLATE, 'Tháng chung mới nhất.')
+
+# Page 6 Hero + 3-tier refs
+measure('Trade Paired Groups Hero', 'IF(ISBLANK([Trade Paired Groups]), "Không áp dụng", FORMAT([Trade Paired Groups], "#,0") & " cặp")', '@', 'Số cặp đối tác–năm.')
+measure('Latest Trade Quantity Hero', 'IF(ISBLANK([Latest Trade Quantity]), "Không áp dụng", FORMAT([Latest Trade Quantity]/1000000, "#,0.00") & " tr tấn")', '@', 'Sản lượng xuất khẩu năm gần nhất.')
+_static_ref('Trade Partners Ref', 'Trade Partners Ref Color', '"Thị trường trọng điểm"', _SLATE, 'Phụ đề số đối tác.')
+_static_ref('Trade Paired Groups Ref', 'Trade Paired Groups Ref Color', '"Cặp đối tác–năm"', _SLATE, 'Phụ đề cặp đối tác–năm.')
+_static_ref('Latest Trade Year Ref', 'Latest Trade Year Ref Color', 'IF(ISBLANK([Latest Trade Year]), "Không áp dụng", "Năm " & FORMAT([Latest Trade Year], "0"))', _TEAL, 'Năm xuất khẩu gần nhất.')
+_static_ref('Trade Span Ref', 'Trade Span Ref Color', 'IF(ISBLANK(MIN(Trade[year])), "Không áp dụng", "Giai đoạn " & FORMAT(MIN(Trade[year]), "0") & "–" & FORMAT(MAX(Trade[year]), "0"))', _SLATE, 'Khoảng năm thương mại.')
+_static_ref('Trade Value Ref', 'Trade Value Ref Color', '"Tổng kim ngạch 7 nước"', _SLATE, 'Phụ đề kim ngạch xuất khẩu.')
+_static_ref('Trade Unit Value Ref', 'Trade Unit Value Ref Color', '"Tỷ số Giá trị / Lượng"', _SLATE, 'Phụ đề đơn giá bình quân.')
 
 
 def write_json(path, value):
@@ -345,24 +412,97 @@ def literal(value):
 
 
 def visual(identifier, kind, title, x, y, w, h, roles=None, single_select=False, sort=None,
-           x_axis=None, y_axis=None, hide_slicer_header=False, filter_config=None, dynamic_title_measure=None):
+           x_axis=None, y_axis=None, hide_slicer_header=False, filter_config=None, dynamic_title_measure=None,
+           card_meta=None):
+    is_nav = kind == 'pageNavigator'
+    is_card_visual = kind == 'cardVisual'
+    is_card = kind in ('card', 'cardVisual')
+    is_slicer = kind == 'slicer'
+    title_size = 9.5 if (is_card or is_slicer) else 10.5
+    title_color = '#475569' if (is_card or is_slicer) else '#0F172A'
     title_obj = {
-        'show': literal(bool(title) or bool(dynamic_title_measure)),
-        'fontSize': literal(12),
-        'fontColor': {'solid': {'color': literal('#17342F')}}
+        'show': literal((bool(title) or bool(dynamic_title_measure)) and not is_card_visual),
+        'fontSize': literal(title_size),
+        'fontColor': {'solid': {'color': literal(title_color)}}
     }
     if dynamic_title_measure:
         title_obj['text'] = {'expr': {'Measure': {'Expression': {'SourceRef': {'Entity': 'Overview'}}, 'Property': dynamic_title_measure}}}
     else:
         title_obj['text'] = literal(title)
 
+    container_objs = {'title': [{'properties': title_obj}]}
+    if is_nav:
+        container_objs.update({
+            'background': [{'properties': {'show': literal(False)}}],
+            'border': [{'properties': {'show': literal(False)}}],
+            'dropShadow': [{'properties': {'show': literal(False)}}],
+            'visualHeader': [{'properties': {'show': literal(False)}}]
+        })
+    elif is_card_visual:
+        pad_v = 3
+        pad_h = 14 if h >= 84 else (12 if w >= 240 else 11)
+        container_objs.update({
+            'background': [{'properties': {
+                'show': literal(True),
+                'color': {'solid': {'color': literal('#FFFFFF')}},
+                'transparency': literal(0)
+            }}],
+            'border': [{'properties': {
+                'show': literal(True),
+                'color': {'solid': {'color': literal('#DCE4EC')}},
+                'radius': literal(10),
+                'width': literal(1)
+            }}],
+            'dropShadow': [{'properties': {
+                'show': literal(True),
+                'color': {'solid': {'color': literal('#0F172A')}},
+                'preset': literal('Custom'),
+                'angle': literal(90),
+                'shadowDistance': literal(2),
+                'shadowBlur': literal(8),
+                'shadowSpread': literal(0),
+                'transparency': literal(93)
+            }}],
+            'visualHeader': [{'properties': {'show': literal(False)}}],
+            'padding': [{'properties': {
+                'top': literal(pad_v),
+                'bottom': literal(pad_v),
+                'left': literal(pad_h),
+                'right': literal(pad_h)
+            }}]
+        })
+    elif kind == 'card':
+        container_objs.update({
+            'background': [{'properties': {'show': literal(True), 'color': {'solid': {'color': literal('#FFFFFF')}}, 'transparency': literal(0)}}],
+            'divider': [{'properties': {'show': literal(False)}}],
+            'spacing': [{'properties': {
+                'customizeSpacing': literal(True),
+                'verticalSpacing': literal(2),
+                'spaceBelowTitle': literal(2),
+                'spaceBelowTitleArea': literal(2)
+            }}],
+            'padding': [{'properties': {'top': literal(6), 'bottom': literal(6), 'left': literal(6), 'right': literal(6)}}],
+            'visualHeader': [{'properties': {'show': literal(False)}}]
+        })
+    elif is_slicer:
+        container_objs.update({
+            'background': [{'properties': {'show': literal(True), 'color': {'solid': {'color': literal('#FFFFFF')}}, 'transparency': literal(0)}}],
+            'spacing': [{'properties': {
+                'customizeSpacing': literal(True),
+                'verticalSpacing': literal(2),
+                'spaceBelowTitle': literal(2),
+                'spaceBelowTitleArea': literal(2)
+            }}],
+            'padding': [{'properties': {'top': literal(4), 'bottom': literal(6), 'left': literal(10), 'right': literal(10)}}],
+            'visualHeader': [{'properties': {'show': literal(False)}}]
+        })
+    else:
+        container_objs['background'] = [{'properties': {'show': literal(True), 'color': {'solid': {'color': literal('#FFFFFF')}}, 'transparency': literal(0)}}]
+
     config = {
         'visualType': kind,
         'drillFilterOtherVisuals': True,
-        'visualContainerObjects': {
-            'title': [{'properties': title_obj}],
-            'background': [{'properties': {'show': literal(True), 'color': {'solid': {'color': literal('#FFFFFF')}}, 'transparency': literal(0)}}]
-        }
+        'visualContainerObjects': container_objs
     }
     if roles:
         config['query'] = {
@@ -378,17 +518,113 @@ def visual(identifier, kind, title, x, y, w, h, roles=None, single_select=False,
                 'isDefaultSort': False
             }
     objs = {}
-    if kind == 'card' and roles:
+    if kind == 'cardVisual' and roles:
+        main_m = next(iter(roles.values()))[0][1]
+        main_qref = f'Overview.{main_m}'
+        meta = card_meta or {}
+        font_size = meta.get('font_size') or (16.5 if h >= 84 else (15 if w >= 240 else 14.5))
+        callout_size = 71 if h >= 84 else (70 if w >= 240 else 69)
+        v_spacing = 5 if (h < 84 and w >= 240) else 6
+        objs['layout'] = [{
+            'properties': {
+                'calloutSize': literal(callout_size),
+                'alignment': literal('middle'),
+                'cellPadding': literal(0),
+                'backgroundShow': literal(False),
+                'paddingIndividual': literal(False),
+                'paddingUniform': literal(0)
+            }
+        }]
+        objs['fillCustom'] = [{'selector': {'id': 'default'}, 'properties': {'show': literal(False)}}]
+        objs['outline'] = [{'selector': {'id': 'default'}, 'properties': {'show': literal(False)}}]
+        objs['shadowCustom'] = [{'selector': {'id': 'default'}, 'properties': {'show': literal(False)}}]
+        objs['padding'] = [{
+            'selector': {'id': 'default'},
+            'properties': {
+                'paddingSelection': literal('Custom'),
+                'paddingIndividual': literal(True),
+                'topMargin': literal(0),
+                'bottomMargin': literal(0),
+                'leftMargin': literal(0),
+                'rightMargin': literal(0)
+            }
+        }]
+        objs['spacing'] = [{
+            'selector': {'id': 'default'},
+            'properties': {
+                'verticalSpacing': literal(v_spacing)
+            }
+        }]
+        objs['value'] = [{
+            'selector': {'id': 'default'},
+            'properties': {
+                'fontSize': literal(font_size),
+                'labelDisplayUnits': literal(1),
+                'horizontalAlignment': literal('left'),
+                'bold': literal(True),
+                'fontColor': {'solid': {'color': literal('#0F172A')}}
+            }
+        }]
+        objs['label'] = [{
+            'selector': {'id': 'default'},
+            'properties': {
+                'show': literal(True),
+                'position': literal('aboveValue'),
+                'horizontalAlignment': literal('left'),
+                'alignBaselines': literal(False),
+                'textWrap': literal(False),
+                'fontSize': literal(9),
+                'fontColor': {'solid': {'color': literal('#475569')}}
+            }
+        }]
+        objs['divider'] = [{'selector': {'id': 'default'}, 'properties': {'show': literal(False)}}]
+        ref_m = meta.get('ref_measure')
+        ref_color_m = meta.get('ref_color_measure')
+        if ref_m:
+            objs['referenceLabel'] = [{
+                'selector': {
+                    'metadata': main_qref,
+                    'id': 'ref1',
+                    'data': [{'dataViewWildcard': {'matchingOption': 0}}]
+                },
+                'properties': {
+                    'value': {'expr': {'Measure': {'Expression': {'SourceRef': {'Entity': 'Overview'}}, 'Property': ref_m}}},
+                    'backgroundShow': literal(False)
+                }
+            }]
+            objs['referenceLabelTitle'] = [
+                {'properties': {'show': literal(False)}},
+                {'selector': {'metadata': main_qref, 'id': 'ref1'}, 'properties': {'show': literal(False)}}
+            ]
+            objs['referenceLabelLayout'] = [{
+                'selector': {'id': 'default'},
+                'properties': {
+                    'arrangement': literal('rows'),
+                    'horizontalAlignment': literal('left'),
+                    'verticalAlignment': literal('middle'),
+                    'labelSpace': literal(0),
+                    'outerPadding': literal(0)
+                }
+            }]
+            ref_val_props = {
+                'show': literal(True),
+                'valueFontSize': literal(9),
+                'valueBold': literal(True),
+                'valueDisplayUnits': literal(1)
+            }
+            if ref_color_m:
+                ref_val_props['valueFontColor'] = {
+                    'solid': {'color': {'expr': {'Measure': {'Expression': {'SourceRef': {'Entity': 'Overview'}}, 'Property': ref_color_m}}}}
+                }
+            objs['referenceLabelValue'] = [{'selector': {'metadata': main_qref, 'id': 'ref1'}, 'properties': ref_val_props}]
+    elif kind == 'card' and roles:
         name = next(iter(roles.values()))[0][1]
         fmt = MEASURES.get(name, {}).get('format', '')
-        if name in ('Latest WB Thai 5 Display', 'Latest WB VN 5 Display', 'WB Spread VN5 vs Thai5 Display', 'Latest Trade Quantity Display', 'Trade Paired Groups Display'):
-            font_size = 14
-        elif fmt != '@' or name.endswith(' Display'):
-            font_size = 20
-        else:
-            font_size = 11
+        font_size = 18 if (fmt != '@' or name.endswith(' Display')) else 11
         objs['labels'] = [{'properties': {'labelDisplayUnits': literal(1), 'labelPrecision': literal(2 if '.00' in fmt else 0), 'fontSize': literal(font_size)}}]
         objs['categoryLabels'] = [{'properties': {'show': literal(False)}}]
+    if kind == 'barChart':
+        objs['labels'] = [{'properties': {'show': literal(True), 'fontSize': literal(9), 'color': {'solid': {'color': literal('#132E2A')}}}}]
     if kind == 'slicer':
         objs['data'] = [{'properties': {'mode': literal('Dropdown')}}]
         objs['selection'] = [{'properties': {'singleSelect': literal(single_select), 'selectAllCheckboxEnabled': literal(not single_select)}}]
@@ -437,222 +673,465 @@ def pages(batch_short='UNBOUND', export_date='UNKNOWN'):
     batch_tag = f'Batch: {batch_short} · Export: {export_date}'
     specs = []
 
-    def page(title, note, footer_freshness, interactions=None):
-        p = {'title': title, 'note': note, 'footer': footer_freshness, 'interactions': interactions or [], 'visuals': []}
+    def page(title, note, footer_freshness, interactions=None, pills=None, nav_label=None):
+        p = {
+            'title': title,
+            'nav_label': nav_label or title,
+            'note': note,
+            'footer': footer_freshness,
+            'interactions': interactions or [],
+            'pills': pills or [],
+            'visuals': []
+        }
         specs.append(p)
         return p
 
     def add(p, kind, title, pos, single_select=False, sort=None, x_axis=None, y_axis=None,
-            hide_slicer_header=False, filter_config=None, dynamic_title_measure=None, **roles):
-        p['visuals'].append((kind, title, pos, roles, single_select, sort, x_axis, y_axis, hide_slicer_header, filter_config, dynamic_title_measure))
+            hide_slicer_header=False, filter_config=None, dynamic_title_measure=None, card_meta=None, **roles):
+        p['visuals'].append((kind, title, pos, roles, single_select, sort, x_axis, y_axis, hide_slicer_header, filter_config, dynamic_title_measure, card_meta))
 
-    def card(p, name, label, x, y=112, w=290, h=65):
-        m_name = name if name.endswith(' Display') else name + ' Display'
-        add(p, 'card', label, (x, y, w, h), False, None, Values=[ms(m_name, label)])
+    def card(p, name, label, x, y=96, w=299, h=78, ref=None, ref_color=None, font_size=None):
+        if ref_color is None and ref and f'{ref} Color' in MEASURES:
+            ref_color = f'{ref} Color'
+        m_name = name if (name in MEASURES and (name.endswith(' Display') or name.endswith(' Hero'))) else (name + ' Display')
+        card_meta = {'ref_measure': ref, 'ref_color_measure': ref_color, 'font_size': font_size}
+        add(p, 'cardVisual', label, (x, y, w, h), False, None, None, None, False, None, None, card_meta, Data=[ms(m_name, label)])
 
     # ==============================================================================
-    # Page 1: Overview (R4: 1 bảng 9 Fact sắp xếp theo %NULL giảm dần, tên tiếng Việt, vi-VN format; S3: Sửa thẻ bị cắt)
+    # Page 1: Overview
     # ==============================================================================
     p = page(
         'Tổng quan dữ liệu lúa gạo',
-        'Bảng thống kê 9 tập dữ liệu lúa gạo, sắp xếp theo tỷ lệ dữ liệu khuyết giảm dần.',
-        f'Nguồn dữ liệu: Tổng hợp 9 bảng Fact lớp Gold (GSO, FAOSTAT, USDA, World Bank, ĐBSCL) · Mốc dữ liệu mới nhất: 03/08/2026 · {batch_tag}'
+        'Thống kê 9 bảng Fact lớp Gold (GSO, FAOSTAT, USDA, World Bank, ĐBSCL), sắp xếp theo tỷ lệ dữ liệu khuyết giảm dần.',
+        f'Nguồn dữ liệu: Tổng hợp 9 bảng Fact lớp Gold · Mốc dữ liệu mới nhất: 03/08/2026 · {batch_tag}',
+        nav_label='01 · Tổng quan'
     )
-    card(p, 'Total Observations', 'Tổng quan sát', 32, y=120, w=290, h=90)
-    card(p, 'Numeric Coverage', 'Tỷ lệ có số', 336, y=120, w=290, h=90)
-    card(p, 'Null Percentage', 'Tỷ lệ khuyết', 640, y=120, w=290, h=90)
-    card(p, 'Highest Null Fact Pct Display', 'Fact khuyết cao nhất: USDA · Giá XK tham chiếu', 944, y=120, w=290, h=90)
-    add(p, 'tableEx', 'Danh mục 9 bảng Fact lớp Gold & Tỷ lệ khuyết (Present-NULL)', (32, 220, 1216, 424),
+    card(p, 'Total Observations', 'Tổng quan sát', 24, y=96, w=299, h=84, ref='Overview Scope Ref', font_size=16.5)
+    card(p, 'Numeric Coverage', 'Tỷ lệ có số', 335, y=96, w=299, h=84, ref='Overview Numeric Ref', font_size=16.5)
+    card(p, 'Null Percentage', 'Tỷ lệ khuyết', 646, y=96, w=299, h=84, ref='Overview Null Ref', font_size=16.5)
+    card(p, 'Highest Null Fact Pct Display', 'Tỷ lệ NULL cao nhất', 957, y=96, w=299, h=84, ref='Highest Null Fact Ref', font_size=16.5)
+    add(p, 'tableEx', 'Danh mục 9 bảng Fact lớp Gold & Tỷ lệ khuyết (Present-NULL)', (24, 190, 844, 484),
         sort=('Overview', 'Null Percentage', True, 'Descending'),
         Values=[
             col('Overview', 'fact_name_vi', 'Bộ dữ liệu'),
-            col('Overview', 'rows_total', 'Số quan sát'),
-            col('Overview', 'numeric_rows', 'Có số'),
-            col('Overview', 'present_null_rows', 'NULL'),
+            ms('Total Observations', 'Quan sát'),
+            ms('Numeric Observations', 'Có số'),
+            ms('Present NULL', 'NULL'),
             ms('Null Percentage', '%NULL'),
             col('Overview', 'period_min', 'Kỳ đầu'),
             col('Overview', 'period_max', 'Kỳ cuối'),
-            col('Overview', 'represented_periods', 'Số kỳ hiện diện'),
-            col('Overview', 'period_grain_vi', 'Đơn vị thời gian')
+            col('Overview', 'represented_periods', 'Số kỳ'),
+            col('Overview', 'period_grain_vi', 'Đơn vị')
         ])
+    add(p, 'barChart', 'Tỷ lệ dữ liệu khuyết theo bảng Fact (%)', (880, 190, 376, 484),
+        sort=('Overview', 'Null Percentage', True, 'Descending'),
+        y_axis=('%NULL', 1),
+        Category=[col('Overview', 'fact_name_vi', 'Bộ dữ liệu')], Y=[ms('Null Percentage', '%NULL')])
 
     # ==============================================================================
-    # Page 2: Vietnam Production (S1: Measure chia sẵn triệu tấn/ha; R11: Bổ sung 4 thẻ KPI)
+    # Page 2: Vietnam Production
     # ==============================================================================
     p = page(
         'Sản xuất lúa Việt Nam',
-        'Số liệu chính thức theo Niên giám Thống kê Việt Nam, tách biệt số cả năm và số theo mùa vụ.',
-        f'Nguồn dữ liệu: Niên giám Thống kê GSO · Mốc mới nhất: 2024 (Sản lượng, diện tích 1990–2024; Năng suất 1995–2024) · {batch_tag}'
+        'Số liệu chính thức theo Niên giám Thống kê Việt Nam (GSO), tách biệt số cả năm và số theo mùa vụ.',
+        f'Nguồn dữ liệu: Niên giám Thống kê GSO · Mốc mới nhất: 2024 (Sản lượng, diện tích 1990–2024; Năng suất 1995–2024) · {batch_tag}',
+        nav_label='02 · SX Việt Nam',
+        pills=[(
+            'Phạm vi GSO quốc gia',
+            'SL & DT: 1990–2024 · NS: 1995–2024',
+            (1080, 186, 176, 80)
+        )]
     )
-    # Row 1 KPI cards
-    card(p, 'First Production', '[Lúa] Sản lượng kỳ đầu', 32, y=110, w=290, h=65)
-    card(p, 'Latest Production', '[Lúa] Sản lượng kỳ cuối', 336, y=110, w=290, h=65)
-    card(p, 'Production Change Pct', '[Lúa] Thay đổi đầu–cuối', 640, y=110, w=290, h=65)
-    card(p, 'Latest Production YoY', '[Lúa] YoY kỳ cuối', 944, y=110, w=208, h=65)
-    add(p, 'slicer', 'Năm', (1160, 110, 88, 135), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
+    # Row 1 KPI cards + Year slicer (uniform 4-col KPI grid + right column)
+    card(p, 'First Production', '[Lúa] Sản lượng kỳ đầu', 24, y=98, w=254, h=80, ref='First Production Year Ref', font_size=15)
+    card(p, 'Latest Production', '[Lúa] Sản lượng kỳ cuối', 288, y=98, w=254, h=80, ref='Latest Production YoY Ref', font_size=15)
+    card(p, 'Production Change Pct', '[Lúa] Thay đổi đầu–cuối', 552, y=98, w=254, h=80, ref='Production Change Abs Ref', font_size=15)
+    card(p, 'Latest Production YoY', '[Lúa] YoY kỳ cuối', 816, y=98, w=254, h=80, ref='Latest Production Period Ref', ref_color='Latest Production YoY Ref Color', font_size=15)
+    add(p, 'slicer', 'Năm', (1080, 98, 176, 80), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
 
-    # Row 2 KPI cards (R11: Peak, Peak vs Latest, Area change, Yield change)
-    card(p, 'Peak Production', '[Lúa] Đỉnh sản lượng (năm)', 32, y=180, w=290, h=65)
-    card(p, 'Latest vs Peak Pct', '[Lúa] So với đỉnh', 336, y=180, w=290, h=65)
-    card(p, 'Area Change Pct', '[Lúa] Thay đổi diện tích', 640, y=180, w=290, h=65)
-    card(p, 'Yield Change Pct', '[Lúa] Thay đổi năng suất', 944, y=180, w=208, h=65)
+    # Row 2 KPI cards (4 equal cards aligned with Row 1, h=80)
+    card(p, 'Peak Production Hero', '[Lúa] Đỉnh sản lượng', 24, y=186, w=254, h=80, ref='Peak Year Ref', font_size=15)
+    card(p, 'Latest vs Peak Pct', '[Lúa] So với đỉnh', 288, y=186, w=254, h=80, ref='Latest vs Peak Ref', font_size=15)
+    card(p, 'Area Change Pct', '[Lúa] Thay đổi diện tích', 552, y=186, w=254, h=80, ref='Area Span Ref', font_size=15)
+    card(p, 'Yield Change Pct', '[Lúa] Thay đổi năng suất', 816, y=186, w=254, h=80, ref='Yield Span Ref', font_size=15)
 
-    # Line charts (S1: measure chia sẵn / 1e6; tiêu đề khớp trục triệu tấn / triệu ha)
-    add(p, 'lineChart', '[Lúa] Sản lượng cả năm (triệu tấn)', (32, 255, 390, 175),
+    # Row 3 & Row 4 Charts
+    add(p, 'lineChart', '[Lúa] Sản lượng cả năm (triệu tấn)', (24, 274, 402, 182),
         x_axis=(1990, 2024, 'Năm'), y_axis=('Triệu tấn', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('Annual Production Mil', 'Sản lượng')])
-    add(p, 'lineChart', '[Lúa] Diện tích cả năm (triệu ha)', (438, 255, 390, 175),
+    add(p, 'lineChart', '[Lúa] Diện tích cả năm (triệu ha)', (438, 274, 402, 182),
         x_axis=(1990, 2024, 'Năm'), y_axis=('Triệu ha', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('Annual Area Mil', 'Diện tích')])
-    add(p, 'lineChart', '[Lúa] Năng suất lúa cả năm (kg/ha)', (844, 255, 404, 175),
+    add(p, 'lineChart', '[Lúa] Năng suất lúa cả năm (kg/ha)', (852, 274, 404, 182),
         x_axis=(1995, 2024, 'Năm'), y_axis=('Năng suất (kg/ha)', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('Reported Yield', 'Năng suất')])
 
-    add(p, 'lineChart', '[Lúa] Sản lượng theo vụ · không gồm cả năm (triệu tấn)', (32, 440, 1216, 205),
+    add(p, 'lineChart', '[Lúa] Sản lượng theo vụ · không gồm cả năm (triệu tấn)', (24, 464, 1232, 210),
         x_axis=(1990, 2024, 'Năm'), y_axis=('Triệu tấn', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('NSOSeasonal', 'season_label_vi', 'Vụ')], Y=[ms('Seasonal Production Mil', 'Triệu tấn')])
 
     # ==============================================================================
-    # Page 3: International Production (R7: Chặn trục 1961-2024; R8: Tiếng Việt, R9: 5 nước; S1: triệu tấn)
+    # Page 3: International Production
     # ==============================================================================
     p = page(
         'Sản xuất lúa gạo quốc tế',
-        '5 quốc gia sản xuất lúa lớn: Ấn Độ, Indonesia, Pakistan, Thái Lan và Việt Nam.',
-        f'Nguồn dữ liệu: FAOSTAT Sản xuất · Mốc mới nhất: 2024 (1961–2024; Nhóm 5 nước đối thủ xuất khẩu / sản xuất chính đã chọn: Ấn Độ, Indonesia, Pakistan, Thái Lan, Việt Nam) · {batch_tag}'
+        'Đối chiếu 5 quốc gia sản xuất & xuất khẩu chủ lực: Ấn Độ, Indonesia, Pakistan, Thái Lan và Việt Nam (1961–2024).',
+        f'Nguồn dữ liệu: FAOSTAT Sản xuất · Mốc mới nhất: 2024 (1961–2024; Nhóm 5 nước đã chọn: Ấn Độ, Indonesia, Pakistan, Thái Lan, Việt Nam) · {batch_tag}',
+        nav_label='03 · SX Quốc tế',
+        pills=[(
+            'Phạm vi đối chiếu FAOSTAT · 5 nước chủ lực (1961–2024)',
+            'Chọn Năm để cắt lát từng năm hoặc để Tất cả để tự động đối chiếu năm chung mới nhất.',
+            (24, 96, 796, 64)
+        )]
     )
-    add(p, 'slicer', 'Năm', (860, 120, 180, 55), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
-    add(p, 'slicer', 'Quốc gia', (1056, 120, 192, 55), False, None, hide_slicer_header=True, Values=[col('FAO', 'area_name_vi', 'Quốc gia')])
+    add(p, 'slicer', 'Năm', (832, 96, 200, 64), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
+    add(p, 'slicer', 'Quốc gia', (1044, 96, 212, 64), False, None, hide_slicer_header=True, Values=[col('FAO', 'area_name_vi', 'Quốc gia')])
 
-    add(p, 'lineChart', '[Lúa] Chỉ số sản lượng lúa so với năm 1961 (1961=100)', (32, 192, 590, 195),
+    add(p, 'lineChart', '[Lúa] Chỉ số sản lượng lúa so với năm 1961 (1961=100)', (24, 170, 610, 246),
         x_axis=(1961, 2024, 'Năm'), y_axis=('Chỉ số (1961=100)', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('FAO', 'area_name_vi', 'Quốc gia')], Y=[ms('FAO Production Index', 'Chỉ số 1961=100')])
-    add(p, 'lineChart', '[Lúa] Năng suất cặp hợp lệ (kg/ha)', (638, 192, 610, 195),
+    add(p, 'lineChart', '[Lúa] Năng suất cặp hợp lệ (kg/ha)', (646, 170, 610, 246),
         x_axis=(1961, 2024, 'Năm'), y_axis=('Năng suất (kg/ha)', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('FAO', 'area_name_vi', 'Quốc gia')], Y=[ms('FAO Weighted Yield', 'Năng suất (kg/ha)')])
 
-    add(p, 'barChart', '[Lúa] Sản lượng lúa tại năm chung (triệu tấn)', (32, 404, 590, 235),
+    add(p, 'barChart', '[Lúa] Sản lượng lúa tại năm chung (triệu tấn)', (24, 426, 610, 248),
         sort=('Overview', 'FAO Common Production Mil', True, 'Descending'),
         y_axis=('Sản lượng (triệu tấn)', 1), dynamic_title_measure='FAO Common Production Title',
         Category=[col('FAO', 'area_name_vi', 'Quốc gia')], Y=[ms('FAO Common Production Mil', 'Triệu tấn')],
         Tooltips=[ms('FAO Common Year', 'Năm chung'), ms('FAO Common Rank', 'Hạng trong nhóm')])
-    add(p, 'scatterChart', '[Lúa] Diện tích và sản lượng · năm chọn hoặc năm chung', (638, 404, 610, 235),
+    add(p, 'scatterChart', '[Lúa] Diện tích và sản lượng · năm chọn hoặc năm chung', (646, 426, 610, 248),
         x_axis=(None, None, 'Diện tích (triệu ha)'), y_axis=('Sản lượng (triệu tấn)', 1),
+        dynamic_title_measure='FAO Scatter Title',
         Category=[col('FAO', 'area_name_vi', 'Quốc gia')],
+        Series=[col('FAO', 'area_name_vi', 'Quốc gia')],
         X=[ms('FAO Scatter Area Mil', 'Diện tích triệu ha')], Y=[ms('FAO Scatter Production Mil', 'Sản lượng triệu tấn')],
         Size=[ms('FAO Scatter Yield', 'Năng suất kg/ha')], Tooltips=[ms('FAO Scatter Year', 'Năm')])
 
     # ==============================================================================
-    # Page 4: Supply-Demand & Stocks (S1: Triệu tấn; S7: Sửa 2 chart SUA và chữ gạo)
+    # Page 4: Supply-Demand & Stocks
     # ==============================================================================
     p = page(
         'Cung cầu và tồn kho lúa gạo',
-        'Trái: Cân đối cung sử dụng FAOSTAT SUA. Phải: Cân đối cung cầu gạo USDA PSD.',
-        f'Nguồn dữ liệu: FAOSTAT Cân đối cung sử dụng (2010–2023; chỉ công bố Thực phẩm & Chế biến) & Cân đối gạo USDA PSD (1960–2025) · {batch_tag}'
+        'Tách biệt hai nguồn theo đúng đơn vị thời gian: Trái — FAOSTAT SUA (năm dương lịch); Phải — USDA PSD (niên vụ).',
+        f'Nguồn dữ liệu: FAOSTAT Cân đối cung sử dụng (2010–2023; chỉ công bố Thực phẩm & Chế biến) & Cân đối gạo USDA PSD (1960–2025) · {batch_tag}',
+        nav_label='04 · Cung & Cầu',
+        pills=[
+            ('FAOSTAT SUA · Năm dương lịch (2010–2023)', 'Thực phẩm, chế biến, tồn kho đầu kỳ và sai số thống kê.', (24, 96, 396, 64)),
+            ('USDA PSD · Niên vụ Market Year (1960–2025)', 'Sản xuất, tiêu dùng nội địa và tồn kho cuối kỳ.', (646, 96, 396, 64))
+        ]
     )
-    add(p, 'slicer', 'Năm FAOSTAT SUA', (32, 120, 290, 55), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
-    add(p, 'slicer', 'Niên vụ USDA PSD', (638, 120, 610, 55), False, None, hide_slicer_header=True, Values=[col('PSD', 'market_year', 'Niên vụ')])
+    add(p, 'slicer', 'Năm FAOSTAT SUA', (430, 96, 204, 64), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
+    add(p, 'slicer', 'Niên vụ USDA PSD', (1052, 96, 204, 64), False, None, hide_slicer_header=True, Values=[col('PSD', 'market_year', 'Niên vụ')])
 
-    add(p, 'lineChart', '[Gạo xay xát] FAOSTAT SUA · Năm dương lịch: Tiêu thụ thực phẩm & chế biến (triệu tấn)', (32, 180, 590, 195),
+    add(p, 'lineChart', '[Gạo xay xát] FAOSTAT SUA · Tiêu thụ thực phẩm & chế biến (triệu tấn)', (24, 170, 610, 188),
         x_axis=(2010, 2023, 'Năm'), y_axis=('Triệu tấn', 1, 0),
         Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('SUA Food Supply Mil', 'Thực phẩm'), ms('SUA Processed Mil', 'Chế biến')])
-    add(p, 'lineChart', '[Gạo xay xát] USDA PSD · Niên vụ: Sản xuất và tiêu dùng (triệu tấn, MY)', (638, 180, 610, 195),
+    add(p, 'lineChart', '[Gạo xay xát] USDA PSD · Sản xuất và tiêu dùng (triệu tấn, MY)', (646, 170, 610, 188),
         x_axis=(1960, 2025, 'Niên vụ'), y_axis=('Triệu tấn', 1, 0),
         Category=[col('PSD', 'market_year', 'Niên vụ')], Y=[ms('PSD Production Mil', 'Sản xuất'), ms('PSD Consumption Mil', 'Tiêu dùng')])
 
-    add(p, 'lineChart', '[Gạo xay xát] FAOSTAT SUA · Năm dương lịch: Tồn kho đầu kỳ (triệu tấn)', (32, 380, 590, 130),
+    add(p, 'lineChart', '[Gạo xay xát] FAOSTAT SUA · Tồn kho đầu kỳ (triệu tấn)', (24, 368, 610, 144),
         x_axis=(2010, 2023, 'Năm'), y_axis=('Triệu tấn', 1, 0),
         Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('SUA Opening Stocks Mil', 'Tồn đầu kỳ')])
-    add(p, 'columnChart', '[Gạo xay xát] FAOSTAT SUA · Năm dương lịch: Biến động tồn & Sai số (triệu tấn)', (32, 515, 590, 130),
+    add(p, 'columnChart', '[Gạo xay xát] FAOSTAT SUA · Biến động tồn & Sai số (triệu tấn)', (24, 522, 610, 152),
         x_axis=(2010, 2023, 'Năm'), y_axis=('', 1, -1.5, 1.0),
         Category=[col('CalendarYear', 'Year', 'Năm')], Y=[ms('SUA Stock Variation Mil', 'Biến động tồn'), ms('SUA Residuals Mil', 'Sai số thống kê (residual)')])
-    add(p, 'lineChart', '[Gạo xay xát] USDA PSD · Niên vụ: Tồn kho cuối kỳ (triệu tấn, MY)', (638, 380, 610, 265),
+    add(p, 'lineChart', '[Gạo xay xát] USDA PSD · Tồn kho cuối kỳ (triệu tấn, MY)', (646, 368, 610, 306),
         x_axis=(1960, 2025, 'Niên vụ'), y_axis=('Triệu tấn', 1, 0),
         Category=[col('PSD', 'market_year', 'Niên vụ')], Y=[ms('PSD Ending Stocks Mil', 'Tồn cuối kỳ')])
 
     # ==============================================================================
-    # Page 5: Prices (S2: Không phụ thuộc slicer mặc định; S1: Trục VND/kg)
+    # Page 5: Prices (Keep v03..v16 indices untouched!)
     # ==============================================================================
     p5_interactions = [
         {'source': 'v06', 'target': 'v14', 'type': 'NoFilter'}
     ]
     p = page(
         'Biến động giá lúa gạo',
-        'Giá FOB USDA theo phẩm cấp; Benchmark giá World Bank; Giá lúa nội địa ĐBSCL theo giống.',
+        'Giá FOB xuất khẩu (USDA), giá chuẩn quốc tế (World Bank) và giá lúa thu mua nội địa ĐBSCL theo giống.',
         f'Nguồn & Mốc mới nhất: World Bank (12/2025), USDA FOB (2025), Giá nội địa ĐBSCL (03/08/2026) · {batch_tag}',
-        interactions=p5_interactions
+        interactions=p5_interactions,
+        nav_label='05 · Giá lúa gạo',
+        pills=[(
+            'World Bank · Benchmark giá gạo tham chiếu',
+            'Biểu đồ chính giữ đủ 4 chuỗi; MoM & độ biến động theo slicer.',
+            (648, 96, 354, 64)
+        )]
     )
-    # Top slicers (y=112, h=55)
-    add(p, 'slicer', 'Nước xuất khẩu USDA', (32, 112, 180, 55), True, None, hide_slicer_header=True, Values=[col('USDAPrice', 'location_vi', 'Quốc gia')])
-    add(p, 'slicer', 'Phẩm cấp gạo USDA', (220, 112, 210, 55), True, None, hide_slicer_header=True, Values=[col('USDAPrice', 'commodity_class_vi', 'Phẩm cấp gạo')])
-    add(p, 'slicer', 'Kỳ tham chiếu USDA', (438, 112, 184, 55), False, None, hide_slicer_header=True, Values=[col('USDAPrice', 'reference_period', 'Kỳ tham chiếu')])
-    add(p, 'slicer', 'Chuỗi giá World Bank', (638, 112, 610, 55), True, None, hide_slicer_header=True,
+    # Top slicers (v03..v06, h=64)
+    add(p, 'slicer', 'Nước xuất khẩu USDA', (24, 96, 194, 64), True, None, hide_slicer_header=True, Values=[col('USDAPrice', 'location_vi', 'Quốc gia')])
+    add(p, 'slicer', 'Phẩm cấp gạo USDA', (226, 96, 208, 64), True, None, hide_slicer_header=True, Values=[col('USDAPrice', 'commodity_class_vi', 'Phẩm cấp gạo')])
+    add(p, 'slicer', 'Kỳ tham chiếu USDA', (442, 96, 190, 64), False, None, hide_slicer_header=True, Values=[col('USDAPrice', 'reference_period', 'Kỳ tham chiếu')])
+    add(p, 'slicer', 'Chuỗi giá World Bank', (1012, 96, 244, 64), True, None, hide_slicer_header=True,
         Values=[col('WB', 'series_name_vi', 'Chuỗi giá WB')])
 
-    # Fixed WB Cards (S2: never display "Chọn 1 chuỗi" at "All")
-    card(p, 'Latest WB Thai 5 Display', '[Gạo xay xát] Giá Thái 5% mới nhất', 638, y=172, w=200, h=62)
-    card(p, 'Latest WB VN 5 Display', '[Gạo xay xát] Giá Việt Nam 5% mới nhất', 843, y=172, w=200, h=62)
-    card(p, 'WB Spread VN5 vs Thai5 Display', '[Gạo xay xát] Chênh lệch VN 5% − Thái 5%', 1048, y=172, w=200, h=62)
+    # WB Cards (v07..v09) - 3-tier left-aligned cards (h=82, zero truncation)
+    card(p, 'Latest WB Thai 5 Hero', '[Gạo] Thái 5% mới nhất', 648, y=168, w=196, h=82, ref='Latest WB Thai 5 MoM Ref', font_size=14.5)
+    card(p, 'Latest WB VN 5 Hero', '[Gạo] VN 5% mới nhất', 854, y=168, w=196, h=82, ref='Latest WB VN 5 MoM Ref', font_size=14.5)
+    card(p, 'WB Spread VN5 vs Thai5 Display', '[Gạo] Chênh lệch VN5 − Thái5', 1060, y=168, w=196, h=82, ref='Latest Common WB Ref', font_size=14.5)
 
-    # USDA Line chart (Left top) - S2.4: compares 4 countries on 5-PERCENT BROKEN by default
-    add(p, 'lineChart', '', (32, 172, 590, 195),
+    # USDA Line chart (v10)
+    add(p, 'lineChart', '', (24, 168, 608, 200),
         x_axis=(1985, 2025, 'Năm tham chiếu'), y_axis=('USD/tấn', 1), dynamic_title_measure='USDA FOB Chart Title',
         Category=[col('USDAPrice', 'reference_year', 'Năm tham chiếu')], Series=[col('USDAPrice', 'location_vi', 'Quốc gia')], Y=[ms('USDA FOB Chart Price', 'USD/tấn')])
 
-    # Domestic Slicers (Left middle)
-    add(p, 'slicer', 'Thị trường nội địa VN', (32, 375, 285, 55), False, None, hide_slicer_header=True, Values=[col('VNQuote', 'market', 'Thị trường')])
-    add(p, 'slicer', 'Giống lúa & Loại giá', (325, 375, 297, 55), True, None, hide_slicer_header=True, Values=[col('VNQuote', 'series_label', 'Giống lúa & Loại giá')])
+    # Domestic Slicers (v11, v12, h=64)
+    add(p, 'slicer', 'Thị trường nội địa VN', (24, 376, 298, 64), False, None, hide_slicer_header=True, Values=[col('VNQuote', 'market', 'Thị trường')])
+    add(p, 'slicer', 'Giống lúa & Loại giá', (334, 376, 298, 64), True, None, hide_slicer_header=True, Values=[col('VNQuote', 'series_label', 'Giống lúa & Loại giá')])
 
-    # Domestic Quote Line chart (Left bottom) - defaults to standard IR 50404 fresh series when v12 unfiltered; follows v12 slicer & filters < 1000 unit errors via DAX
-    add(p, 'lineChart', '', (32, 435, 590, 205),
+    # Domestic Quote Line chart (v13)
+    add(p, 'lineChart', '', (24, 448, 608, 226),
         y_axis=('VND/kg', 1), dynamic_title_measure='Domestic Quote Chart Title',
         Category=[col('QuoteDate', 'Date', 'Ngày')], Series=[col('VNQuote', 'market', 'Thị trường')], Y=[ms('Domestic Quote Chart Price', 'VND/kg')])
 
-    # WB Benchmark Line chart (Right middle) - ID v14 (4 series preserved via NoFilter)
-    add(p, 'lineChart', '[Gạo xay xát] Benchmark giá gạo World Bank (USD/tấn)', (638, 240, 610, 190),
+    # WB Benchmark Line chart (v14)
+    add(p, 'lineChart', '[Gạo xay xát] Benchmark giá gạo World Bank (USD/tấn)', (648, 258, 608, 178),
         y_axis=('USD/tấn', 1),
         Category=[col('BenchmarkMonth', 'Date', 'Tháng')], Series=[col('WB', 'series_name_vi', 'Chuỗi giá')], Y=[ms('WB Price', 'USD/tấn')],
         Tooltips=[ms('WB MoM', 'MoM'), ms('WB Peak', 'Đỉnh'), ms('WB Minimum', 'Đáy')])
 
-    # WB MoM & Volatility charts (Right bottom side-by-side) - ID v15 & v16 (Thai 5% & VN 5% default when v06 unfiltered, or selected series from v06)
-    add(p, 'lineChart', '', (638, 436, 300, 204),
+    # WB MoM & Volatility charts (v15, v16)
+    add(p, 'lineChart', '', (648, 444, 298, 230),
         y_axis=('Biến động (%)', 1), dynamic_title_measure='WB MoM Title',
         Category=[col('BenchmarkMonth', 'Date', 'Tháng')], Series=[col('WB', 'series_name_vi', 'Chuỗi giá')], Y=[ms('WB MoM Comparison', 'MoM')])
-    add(p, 'lineChart', '', (948, 436, 300, 204),
-        y_axis=('Độ biến động (%)', 1), dynamic_title_measure='WB Volatility Title',
+    add(p, 'lineChart', '', (958, 444, 298, 230),
+        y_axis=('Biến động (%)', 1), dynamic_title_measure='WB Volatility Title',
         Category=[col('BenchmarkMonth', 'Date', 'Tháng')], Series=[col('WB', 'series_name_vi', 'Chuỗi giá')], Y=[ms('WB Volatility Comparison', 'Volatility 12M')])
 
     # ==============================================================================
-    # Page 6: Trade Exports (S5: Khôi phục thẻ Đơn giá bình quân; sửa nhãn bị cắt; S1: Triệu tấn/Tỷ USD)
+    # Page 6: Trade Exports
     # ==============================================================================
     p = page(
         'Thương mại lúa gạo quốc tế',
-        'Xuất khẩu gạo của Việt Nam sang các đối tác thương mại trọng điểm.',
-        f'Nguồn dữ liệu: Thương mại FAOSTAT · Mốc mới nhất: 2023 (2019–2023, 7 đối tác chính, không phải tổng xuất khẩu quốc gia) · {batch_tag}'
+        'Xuất khẩu gạo xay xát của Việt Nam sang 7 đối tác thương mại trọng điểm giai đoạn 2019–2023.',
+        f'Nguồn dữ liệu: Thương mại FAOSTAT · Mốc mới nhất: 2023 (2019–2023, 7 đối tác chính, không phải tổng xuất khẩu quốc gia) · {batch_tag}',
+        nav_label='06 · Thương mại',
+        pills=[(
+            'Phạm vi FAOSTAT Thương mại · 7 đối tác xuất khẩu trọng điểm (2019–2023)',
+            'Lọc Năm hoặc Đối tác để xem quy mô xuất khẩu, đơn giá và giá trị giao dịch.',
+            (24, 96, 800, 64)
+        )]
     )
-    # Top 6 KPI cards across the canvas (width ~194 each)
-    card(p, 'Trade Partners', '[Gạo xay xát] Số đối tác', 32, y=118, w=194, h=88)
-    card(p, 'Trade Paired Groups', '[Gạo xay xát] Cặp đối tác–năm', 236, y=118, w=194, h=88)
-    card(p, 'Latest Trade Quantity', '[Gạo xay xát] XK năm gần nhất', 440, y=118, w=194, h=88)
-    card(p, 'Trade Quantity', '[Gạo xay xát] XK 7 đối tác (2019–2023)', 644, y=118, w=194, h=88)
-    card(p, 'Trade Value', '[Gạo xay xát] Giá trị cộng dồn', 848, y=118, w=194, h=88)
-    card(p, 'Trade Unit Value', '[Gạo xay xát] Đơn giá bình quân', 1052, y=118, w=196, h=88)
+    # Row 1 Right Slicers (h=64)
+    add(p, 'slicer', 'Năm', (836, 96, 200, 64), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
+    add(p, 'slicer', 'Đối tác', (1048, 96, 208, 64), False, None, hide_slicer_header=True, Values=[col('Trade', 'partner_name_vi', 'Đối tác')])
 
-    # Slicers top right
-    add(p, 'slicer', 'Năm', (860, 28, 180, 80), False, None, hide_slicer_header=True, Values=[col('CalendarYear', 'Year', 'Năm')])
-    add(p, 'slicer', 'Đối tác', (1056, 28, 192, 80), False, None, hide_slicer_header=True, Values=[col('Trade', 'partner_name_vi', 'Đối tác')])
+    # Row 2: 6 symmetrical 3-tier KPI cards across 1232px (h=82)
+    card(p, 'Trade Partners', '[Gạo] Số đối tác', 24, y=168, w=196, h=82, ref='Trade Partners Ref', font_size=14.5)
+    card(p, 'Trade Paired Groups Hero', '[Gạo] Cặp đối tác–năm', 231, y=168, w=196, h=82, ref='Trade Paired Groups Ref', font_size=14.5)
+    card(p, 'Latest Trade Quantity Hero', '[Gạo] XK năm gần nhất', 438, y=168, w=196, h=82, ref='Latest Trade Year Ref', font_size=14.5)
+    card(p, 'Trade Quantity', '[Gạo] XK 7 nước (19–23)', 645, y=168, w=196, h=82, ref='Trade Span Ref', font_size=14.5)
+    card(p, 'Trade Value', '[Gạo] Giá trị cộng dồn', 852, y=168, w=196, h=82, ref='Trade Value Ref', font_size=14.5)
+    card(p, 'Trade Unit Value', '[Gạo] Đơn giá bình quân', 1059, y=168, w=197, h=82, ref='Trade Unit Value Ref', font_size=14.5)
 
-    # Charts (S1: Triệu tấn và Tỷ USD)
-    add(p, 'lineChart', '[Gạo xay xát] Lượng xuất khẩu theo đối tác (triệu tấn)', (32, 218, 590, 200),
+    # Charts
+    add(p, 'lineChart', '[Gạo xay xát] Lượng xuất khẩu theo đối tác (triệu tấn)', (24, 258, 610, 194),
         x_axis=(2019, 2023, 'Năm'), y_axis=('Triệu tấn', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('Trade', 'partner_name_vi', 'Đối tác')], Y=[ms('Trade Quantity Mil', 'Triệu tấn')])
-    add(p, 'lineChart', '[Gạo xay xát] Đơn giá báo cáo theo đối tác (USD/tấn)', (638, 218, 610, 200),
+    add(p, 'lineChart', '[Gạo xay xát] Đơn giá báo cáo theo đối tác (USD/tấn)', (646, 258, 610, 194),
         x_axis=(2019, 2023, 'Năm'), y_axis=('USD/tấn', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('Trade', 'partner_name_vi', 'Đối tác')], Y=[ms('Trade Unit Value', 'USD/tấn')])
-    add(p, 'lineChart', '[Gạo xay xát] Giá trị xuất khẩu theo năm và đối tác (tỷ USD)', (32, 428, 1216, 216),
+    add(p, 'lineChart', '[Gạo xay xát] Giá trị xuất khẩu theo năm và đối tác (tỷ USD)', (24, 460, 1232, 214),
         x_axis=(2019, 2023, 'Năm'), y_axis=('Tỷ USD', 1),
         Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('Trade', 'partner_name_vi', 'Đối tác')], Y=[ms('Trade Value Bil', 'Tỷ USD')])
 
     return specs
+
+
+def build_tlcn_theme():
+    """Modern airy SaaS TLCN Teal theme with 3-tier cardVisual KPIs, soft slate canvas, and subtle elevation."""
+    border_soft = [{'show': True, 'width': 1, 'radius': 10, 'color': {'solid': {'color': '#DCE4EC'}}}]
+    shadow_subtle = [{
+        'show': True, 'color': {'solid': {'color': '#0F172A'}}, 'preset': 'Custom',
+        'angle': 90, 'shadowDistance': 2, 'shadowBlur': 8, 'shadowSpread': 0, 'transparency': 93
+    }]
+    axis_base = {
+        'showAxisTitle': True, 'gridlineStyle': 'dotted',
+        'gridlineColor': {'solid': {'color': '#E2E8F0'}},
+        'fontSize': 9.5, 'titleFontSize': 9.5, 'labelColor': {'solid': {'color': '#475569'}}
+    }
+    return {
+        'name': 'TLCN Teal',
+        'dataColors': ['#0F6B5E', '#2B6CB0', '#D97706', '#7C3AED', '#14B8A6', '#DC2626', '#475569', '#0EA5E9'],
+        'foreground': '#0F172A',
+        'foregroundNeutralSecondary': '#475569',
+        'foregroundNeutralTertiary': '#64748B',
+        'background': '#FFFFFF',
+        'backgroundLight': '#F8FAFC',
+        'backgroundNeutral': '#E2E8F0',
+        'tableAccent': '#0F6B5E',
+        'shapeStroke': '#DCE4EC',
+        'good': '#16A34A',
+        'neutral': '#D97706',
+        'bad': '#DC2626',
+        'textClasses': {
+            'largeTitle': {'fontSize': 18, 'fontFace': 'Segoe UI Semibold', 'color': '#0E3B34'},
+            'title': {'fontSize': 10.5, 'fontFace': 'Segoe UI Semibold', 'color': '#0F172A'},
+            'header': {'fontSize': 10.5, 'fontFace': 'Segoe UI Semibold', 'color': '#0F172A'},
+            'callout': {'fontSize': 18, 'fontFace': 'Segoe UI Semibold', 'color': '#0F172A'},
+            'label': {'fontSize': 9.5, 'fontFace': 'Segoe UI', 'color': '#475569'}
+        },
+        'visualStyles': {
+            'page': {
+                '*': {
+                    'outspace': [{'color': {'solid': {'color': '#E4EAF1'}}}],
+                    'background': [{'color': {'solid': {'color': '#EFF3F7'}}, 'transparency': 0}]
+                }
+            },
+            '*': {
+                '*': {
+                    'background': [{'show': True, 'color': {'solid': {'color': '#FFFFFF'}}, 'transparency': 0}],
+                    'border': border_soft,
+                    'dropShadow': shadow_subtle,
+                    'padding': [{'top': 10, 'bottom': 10, 'left': 12, 'right': 12}],
+                    'title': [{
+                        'show': True, 'fontFamily': 'Segoe UI Semibold', 'fontSize': 10.5,
+                        'titleWrap': True
+                    }],
+                    'categoryAxis': [dict(axis_base, concatenateLabels=False)],
+                    'valueAxis': [axis_base],
+                    'legend': [{'show': True, 'position': 'Top', 'showTitle': False}],
+                    'lineStyles': [{'strokeWidth': 2.5}],
+                    'visualHeader': [{'show': True, 'foreground': {'solid': {'color': '#475569'}}, 'background': {'solid': {'color': '#FFFFFF'}}, 'border': {'solid': {'color': '#DCE4EC'}}, 'transparency': 10}],
+                    'outspacePane': [{'backgroundColor': {'solid': {'color': '#FFFFFF'}}, 'foregroundColor': {'solid': {'color': '#0F172A'}}, 'borderColor': {'solid': {'color': '#CBD5E1'}}, 'border': True}],
+                    'filterCard': [
+                        {'$id': 'Applied', 'backgroundColor': {'solid': {'color': '#F2F7F6'}}, 'foregroundColor': {'solid': {'color': '#0F172A'}}, 'borderColor': {'solid': {'color': '#0F6B5E'}}, 'border': True},
+                        {'$id': 'Available', 'backgroundColor': {'solid': {'color': '#FFFFFF'}}, 'foregroundColor': {'solid': {'color': '#0F172A'}}, 'borderColor': {'solid': {'color': '#DCE4EC'}}, 'border': True}
+                    ]
+                }
+            },
+            'textbox': {
+                '*': {
+                    'background': [{'show': False}],
+                    'border': [{'show': False}],
+                    'dropShadow': [{'show': False}],
+                    'visualHeader': [{'show': False}],
+                    'title': [{'show': False}],
+                    'padding': [{'top': 0, 'bottom': 0, 'left': 0, 'right': 0}]
+                }
+            },
+            'pageNavigator': {
+                '*': {
+                    'background': [{'show': False}],
+                    'border': [{'show': False}],
+                    'dropShadow': [{'show': False}],
+                    'visualHeader': [{'show': False}],
+                    'title': [{'show': False}],
+                    'padding': [{'top': 0, 'bottom': 0, 'left': 0, 'right': 0}],
+                    'shape': [{'$id': 'default', 'tileShape': 'rectangle', 'roundEdge': 8}],
+                    'layout': [{'cellPadding': 6}],
+                    'outline': [
+                        {'show': True},
+                        {'$id': 'default', 'lineColor': {'solid': {'color': '#D0DCE5'}}},
+                        {'$id': 'hover', 'lineColor': {'solid': {'color': '#0F6B5E'}}},
+                        {'$id': 'press', 'lineColor': {'solid': {'color': '#0A4A41'}}},
+                        {'$id': 'selected', 'lineColor': {'solid': {'color': '#0F6B5E'}}}
+                    ],
+                    'fill': [
+                        {'show': True},
+                        {'$id': 'default', 'fillColor': {'solid': {'color': '#FFFFFF'}}, 'transparency': 0},
+                        {'$id': 'hover', 'fillColor': {'solid': {'color': '#E6F4F1'}}, 'transparency': 0},
+                        {'$id': 'press', 'fillColor': {'solid': {'color': '#CCE3DF'}}, 'transparency': 0},
+                        {'$id': 'selected', 'fillColor': {'solid': {'color': '#0F6B5E'}}, 'transparency': 0}
+                    ],
+                    'text': [
+                        {'$id': 'default', 'fontColor': {'solid': {'color': '#1E3A36'}}, 'fontSize': 9.5, 'fontFamily': 'Segoe UI Semibold', 'leftMargin': 8, 'rightMargin': 8, 'topMargin': 4, 'bottomMargin': 4},
+                        {'$id': 'hover', 'fontColor': {'solid': {'color': '#0F6B5E'}}, 'fontSize': 9.5, 'fontFamily': 'Segoe UI Semibold'},
+                        {'$id': 'press', 'fontColor': {'solid': {'color': '#0A4A41'}}, 'fontSize': 9.5, 'fontFamily': 'Segoe UI Semibold'},
+                        {'$id': 'selected', 'fontColor': {'solid': {'color': '#FFFFFF'}}, 'fontSize': 9.5, 'fontFamily': 'Segoe UI Semibold'}
+                    ]
+                }
+            },
+            'slicer': {
+                '*': {
+                    'visualHeader': [{'show': False}],
+                    'border': [{'show': True, 'width': 1, 'radius': 10, 'color': {'solid': {'color': '#DCE4EC'}}}],
+                    'dropShadow': [{'show': True, 'color': {'solid': {'color': '#0F172A'}}, 'preset': 'Custom', 'angle': 90, 'shadowDistance': 2, 'shadowBlur': 8, 'shadowSpread': 0, 'transparency': 93}],
+                    'items': [{'fontFamily': 'Segoe UI', 'textSize': 9.5, 'fontColor': {'solid': {'color': '#0F172A'}}, 'background': {'solid': {'color': '#FFFFFF'}}, 'padding': 2}],
+                    'title': [{'show': True, 'fontFamily': 'Segoe UI Semibold', 'fontSize': 9.5, 'titleWrap': False}],
+                    'padding': [{'top': 4, 'bottom': 6, 'left': 10, 'right': 10}]
+                }
+            },
+            'cardVisual': {
+                '*': {
+                    'background': [{'show': True, 'color': {'solid': {'color': '#FFFFFF'}}, 'transparency': 0}],
+                    'border': [{'show': True, 'width': 1, 'radius': 10, 'color': {'solid': {'color': '#DCE4EC'}}}],
+                    'dropShadow': [{'show': True, 'color': {'solid': {'color': '#0F172A'}}, 'preset': 'Custom', 'angle': 90, 'shadowDistance': 2, 'shadowBlur': 8, 'shadowSpread': 0, 'transparency': 93}],
+                    'visualHeader': [{'show': False}],
+                    'title': [{'show': False}],
+                    'layout': [{'alignment': 'middle', 'cellPadding': 0, 'maxTiles': 3, 'calloutSize': 70, 'backgroundShow': False, 'paddingIndividual': False, 'paddingUniform': 0}],
+                    'shapeCustomRectangle': [{'$id': 'default', 'tileShape': 'rectangleRoundedByPixel', 'rectangleRoundedCurve': 10, 'rectangleRoundedCurveCustomStyle': False}],
+                    'fillCustom': [{'$id': 'default', 'show': False}],
+                    'outline': [{'$id': 'default', 'show': False}],
+                    'shadowCustom': [{'$id': 'default', 'show': False}],
+                    'padding': [{'$id': 'default', 'paddingSelection': 'Custom', 'paddingIndividual': True, 'topMargin': 0, 'rightMargin': 0, 'bottomMargin': 0, 'leftMargin': 0}],
+                    'spacing': [{'$id': 'default', 'verticalSpacing': 5}],
+                    'divider': [{'$id': 'default', 'show': False}],
+                    'label': [{'$id': 'default', 'position': 'aboveValue', 'horizontalAlignment': 'left', 'alignBaselines': False, 'textWrap': False, 'fontSize': 9, 'fontFamily': 'Segoe UI', 'fontColor': {'solid': {'color': '#475569'}}}],
+                    'value': [{'$id': 'default', 'horizontalAlignment': 'left', 'bold': True, 'fontFamily': "'Segoe UI Semibold', wf_segoe-ui_semibold, helvetica, arial, sans-serif", 'fontColor': {'solid': {'color': '#0F172A'}}}],
+                    'referenceLabel': [{'$id': 'default', 'backgroundShow': False, 'paddingIndividual': False, 'paddingUniform': 0}],
+                    'referenceLabelTitle': [{'$id': 'default', 'show': False}],
+                    'referenceLabelValue': [{'$id': 'default', 'valueFontFamily': "'Segoe UI Semibold', wf_segoe-ui_semibold, helvetica, arial, sans-serif", 'valueFontSize': 9, 'valueBold': True, 'valueFontColor': {'solid': {'color': '#475569'}}}],
+                    'referenceLabelLayout': [{'$id': 'default', 'arrangement': 'rows', 'style': 'sentence', 'horizontalAlignment': 'left', 'verticalAlignment': 'middle', 'labelSpace': 0, 'outerPadding': 0}]
+                }
+            },
+            'card': {
+                '*': {
+                    'visualHeader': [{'show': False}],
+                    'border': [{'show': True, 'width': 1, 'radius': 10, 'color': {'solid': {'color': '#DCE4EC'}}}],
+                    'title': [{'show': True, 'fontFamily': 'Segoe UI Semibold', 'fontSize': 9.5, 'titleWrap': True}],
+                    'padding': [{'top': 6, 'bottom': 6, 'left': 6, 'right': 6}]
+                }
+            },
+            'tableEx': {
+                '*': {
+                    'stylePreset': [{'name': 'None'}],
+                    'grid': [{'gridHorizontal': True, 'gridHorizontalColor': {'solid': {'color': '#E2E8F0'}}, 'gridHorizontalWeight': 1, 'rowPadding': 6, 'outlineColor': {'solid': {'color': '#0F6B5E'}}}],
+                    'columnHeaders': [{'fontColor': {'solid': {'color': '#FFFFFF'}}, 'backColor': {'solid': {'color': '#0F6B5E'}}, 'fontFamily': 'Segoe UI Semibold'}],
+                    'values': [{'backColorPrimary': {'solid': {'color': '#FFFFFF'}}, 'backColorSecondary': {'solid': {'color': '#F8FAFC'}}}],
+                    'total': [{'fontColor': {'solid': {'color': '#0F5C51'}}, 'backColor': {'solid': {'color': '#E8F2EF'}}}]
+                }
+            },
+            'barChart': {
+                '*': {
+                    'legend': [{'show': False}],
+                    'categoryAxis': [{'showAxisTitle': False}],
+                    'valueAxis': [{'showAxisTitle': True, 'gridlineStyle': 'dotted'}]
+                }
+            },
+            'scatterChart': {
+                '*': {
+                    'legend': [{'show': True, 'position': 'Top', 'showTitle': False}],
+                    'fillPoint': [{'show': True}],
+                    'bubbles': [{'bubbleSize': 0, 'markerRangeType': 'auto'}]
+                }
+            }
+        }
+    }
+
+
+def styled_textbox(identifier, paragraphs, x, y, w, h, bg, border_color=None, radius=6, shadow=False, padding=(6, 6, 12, 12)):
+    """Build a styled textbox visual with explicit background, optional border/shadow, and hidden header."""
+    tb = visual(identifier, 'textbox', '', x, y, w, h)
+    pad_top, pad_bottom, pad_left, pad_right = padding
+    c_objs = {
+        'title': [{'properties': {'show': literal(False)}}],
+        'visualHeader': [{'properties': {'show': literal(False)}}],
+        'background': [{'properties': {'show': literal(True), 'color': {'solid': {'color': literal(bg)}}, 'transparency': literal(0)}}],
+        'border': [{'properties': (
+            {'show': literal(True), 'color': {'solid': {'color': literal(border_color)}}, 'radius': literal(radius), 'width': literal(1)}
+            if border_color else {'show': literal(False)}
+        )}],
+        'dropShadow': [{'properties': (
+            {'show': literal(True), 'color': {'solid': {'color': literal('#0D2F2A')}}, 'preset': literal('Custom'),
+             'angle': literal(90), 'shadowDistance': literal(2), 'shadowBlur': literal(6), 'shadowSpread': literal(0), 'transparency': literal(88)}
+            if shadow else {'show': literal(False)}
+        )}],
+        'padding': [{'properties': {'top': literal(pad_top), 'bottom': literal(pad_bottom), 'left': literal(pad_left), 'right': literal(pad_right)}}]
+    }
+    tb['visual']['visualContainerObjects'] = c_objs
+    tb['visual']['objects'] = {'general': [{'properties': {'paragraphs': [{'textRuns': [run]} for run in paragraphs]}}]}
+    return tb
 
 
 def build_project(root, bundle):
@@ -717,7 +1196,7 @@ def build_project(root, bundle):
     rd.mkdir(parents=True, exist_ok=True)
     write_json(rd / 'version.json', {'$schema': BASE + 'item/report/definition/versionMetadata/1.0.0/schema.json', 'version': '2.0.0'})
 
-    theme = {'name': 'TLCN Teal', 'dataColors': ['#136F63', '#3274A1', '#D69832', '#8E649A', '#50A897', '#C65D5B'], 'background': '#F4F7F6', 'foreground': '#17342F', 'tableAccent': '#136F63'}
+    theme = build_tlcn_theme()
     write_json(root / 'theme.json', theme)
     write_json(report / 'StaticResources/RegisteredResources/TLCN.json', theme)
     write_json(rd / 'report.json', {
@@ -739,7 +1218,7 @@ def build_project(root, bundle):
         page_data = {
             '$schema': BASE + 'item/report/definition/page/2.0.0/schema.json',
             'name': pid,
-            'displayName': f'{i:02} · ' + p['title'],
+            'displayName': p.get('nav_label') or f'{i:02} · ' + p['title'],
             'displayOption': 'FitToPage',
             'width': 1280,
             'height': 720
@@ -773,9 +1252,17 @@ def build_project(root, bundle):
             }
         write_json(pd / 'page.json', page_data)
 
-        # Header title and navigation
-        all_visuals = [visual('v01', 'textbox', '', 32, 10, 1216, 52), visual('v02', 'pageNavigator', '', 32, 64, 770, 42)]
-        all_visuals[0]['visual']['objects'] = {'general': [{'properties': {'paragraphs': [{'textRuns': [{'value': p['title'], 'textStyle': {'fontFamily': 'Segoe UI', 'fontSize': '20pt', 'fontWeight': 'bold', 'color': '#136F63'}}]}]}}]}
+        # Header banner (full width) + unified single-row pill navigation bar
+        banner = styled_textbox(
+            'v01',
+            [
+                {'value': p['title'], 'textStyle': {'fontFamily': 'Segoe UI Semibold', 'fontSize': '14pt', 'fontWeight': 'bold', 'color': '#FFFFFF'}},
+                {'value': p['note'], 'textStyle': {'fontFamily': 'Segoe UI', 'fontSize': '8.5pt', 'color': '#C5E3DC'}}
+            ],
+            0, 0, 1280, 52, bg='#0E4D44', border_color=None, radius=0, shadow=True, padding=(6, 4, 24, 24)
+        )
+        nav = visual('v02', 'pageNavigator', '', 24, 57, 1232, 34)
+        all_visuals = [banner, nav]
 
         for j, item in enumerate(p['visuals'], 3):
             kind, title, pos, roles = item[0], item[1], item[2], item[3]
@@ -786,25 +1273,31 @@ def build_project(root, bundle):
             hide_slicer_header = item[8] if len(item) > 8 else False
             filter_config = item[9] if len(item) > 9 else None
             dynamic_title_measure = item[10] if len(item) > 10 else None
+            card_meta = item[11] if len(item) > 11 else None
             all_visuals.append(visual(
                 f'v{j:02}', kind, title, *pos, roles=roles, single_select=single_select, sort=sort,
                 x_axis=x_axis, y_axis=y_axis, hide_slicer_header=hide_slicer_header, filter_config=filter_config,
-                dynamic_title_measure=dynamic_title_measure
+                dynamic_title_measure=dynamic_title_measure, card_meta=card_meta
             ))
 
-        for v in all_visuals:
-            if v['visual']['visualType'] == 'slicer':
-                if v['position']['height'] < 55:
-                    v['position']['height'] = 55
-                elif v['position']['y'] < 120 and v['position']['height'] > 70:
-                    v['position']['y'] = 28
-                    v['position']['height'] = 88
-
-        # Clean business footer per page
-        note_text = p['footer']
-        note = visual('v90', 'textbox', '', 32, 654, 1216, 56)
-        note['visual']['objects'] = {'general': [{'properties': {'paragraphs': [{'textRuns': [{'value': note_text, 'textStyle': {'fontFamily': 'Segoe UI', 'fontSize': '10pt', 'color': '#435B55'}}]}]}}]}
+        # Subtle styled business footer bar per page
+        note = styled_textbox(
+            'v90',
+            [{'value': p['footer'], 'textStyle': {'fontFamily': 'Segoe UI', 'fontSize': '8.5pt', 'color': '#475569'}}],
+            24, 680, 1232, 30, bg='#E5EBF1', border_color='#D3DCE6', radius=8, shadow=False, padding=(6, 4, 12, 12)
+        )
         all_visuals.append(note)
+
+        # Optional context / section pills (v91, v92) so v03..v16 indices stay stable
+        for idx, (pill_title, pill_sub, pill_pos) in enumerate(p.get('pills', []), 91):
+            all_visuals.append(styled_textbox(
+                f'v{idx:02}',
+                [
+                    {'value': pill_title, 'textStyle': {'fontFamily': 'Segoe UI Semibold', 'fontSize': '9.5pt', 'fontWeight': 'bold', 'color': '#0F5C51'}},
+                    {'value': pill_sub, 'textStyle': {'fontFamily': 'Segoe UI', 'fontSize': '8.5pt', 'color': '#475569'}}
+                ],
+                *pill_pos, bg='#FFFFFF', border_color='#DCE4EC', radius=10, shadow=False, padding=(10, 6, 12, 12)
+            ))
 
         # Clean existing visual dirs on disk for this page before writing
         page_vis_dir = pd / 'visuals'
