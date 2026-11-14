@@ -1,59 +1,84 @@
 table PSD
+	lineageTag: 665f4b0c-45da-4af1-a7c5-84e6276043a6
+
 	column market_year
 		dataType: int64
+		lineageTag: d44215b6-984f-406b-8610-4d980d2304a8
 		summarizeBy: none
 		sourceColumn: market_year
+
 	column crop_year
 		dataType: string
+		lineageTag: b3f9601b-7fd7-4012-829f-af4aaa59adab
 		summarizeBy: none
 		sourceColumn: crop_year
+
 	column geography_key
 		dataType: string
+		lineageTag: bece9bf5-ffae-4d95-b3ff-4ed66b7db69e
 		summarizeBy: none
 		sourceColumn: geography_key
+
 	column country
 		dataType: string
+		lineageTag: 82d094b9-4625-477f-aade-43d006b2fe04
 		summarizeBy: none
 		sourceColumn: country
+
 	column product_key
 		dataType: string
+		lineageTag: 668fe596-fc54-4ca1-b7ca-b621f1aa1efb
 		summarizeBy: none
 		sourceColumn: product_key
+
 	column product
 		dataType: string
+		lineageTag: 6dade124-5fed-4a12-b442-f1c9085939c3
 		summarizeBy: none
 		sourceColumn: product
+
 	column attribute
 		dataType: string
+		lineageTag: ce7fb7ba-2a05-4d18-a779-cdeef5261b4b
 		summarizeBy: none
 		sourceColumn: attribute
+
 	column unit
 		dataType: string
+		lineageTag: 5dfad706-c9dc-40fd-b5c1-6f4c56a44afa
 		summarizeBy: none
 		sourceColumn: unit
+
 	column value
 		dataType: double
+		lineageTag: ad8f91ad-1296-4242-b781-712a288af713
 		summarizeBy: none
 		sourceColumn: value
+
 	column observation_present
 		dataType: boolean
+		lineageTag: f0fa7262-2992-4a01-b322-f155dbefdfb3
 		summarizeBy: none
 		sourceColumn: observation_present
+
 	column aggregation_rule
 		dataType: string
+		lineageTag: 4aa4b2e1-a169-4c4f-aa06-b5295b701e56
 		summarizeBy: none
 		sourceColumn: aggregation_rule
+
 	partition PSD = m
 		mode: import
 		source =
-			let
-			    Raw = Csv.Document(File.Contents(ExportFolder & "\usda_psd.csv"), [Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
-			    Checked = if Table.ColumnNames(Headers) = {"market_year", "crop_year", "geography_key", "country", "product_key", "product", "attribute", "unit", "value", "observation_present", "aggregation_rule"} then Headers else error "CSV schema mismatch",
-			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
-			    Typed = Table.TransformColumnTypes(Missing, {{"market_year", Int64.Type}, {"crop_year", type text}, {"geography_key", type text}, {"country", type text}, {"product_key", type text}, {"product", type text}, {"attribute", type text}, {"unit", type text}, {"value", type number}, {"observation_present", type logical}, {"aggregation_rule", type text}}, "en-US"),
-			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
-			    Entry = Record.Field(Manifest[outputs], "usda_psd.csv"),
-			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
-			in
-			    Accepted
+				let
+				    Raw = Csv.Document(File.Contents(ExportFolder & "\usda_psd.csv"), [Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+				    Checked = if Table.ColumnNames(Headers) = {"market_year", "crop_year", "geography_key", "country", "product_key", "product", "attribute", "unit", "value", "observation_present", "aggregation_rule"} then Headers else error "CSV schema mismatch",
+				    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+				    Typed = Table.TransformColumnTypes(Missing, {{"market_year", Int64.Type}, {"crop_year", type text}, {"geography_key", type text}, {"country", type text}, {"product_key", type text}, {"product", type text}, {"attribute", type text}, {"unit", type text}, {"value", type number}, {"observation_present", type logical}, {"aggregation_rule", type text}}, "en-US"),
+				    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+				    Entry = Record.Field(Manifest[outputs], "usda_psd.csv"),
+				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
+				in
+				    Accepted
+

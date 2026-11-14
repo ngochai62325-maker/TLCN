@@ -1,69 +1,102 @@
 table WB
+	lineageTag: 9b7b162d-6bbf-406c-a436-383636b42136
+
 	column month_date
 		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: 2d30dccd-740e-4d53-8638-2180718ff6e0
 		summarizeBy: none
 		sourceColumn: month_date
-		formatString: yyyy-MM-dd
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	column year
 		dataType: int64
+		lineageTag: a3d9572b-c981-49f2-bab0-de6e6cae5fdb
 		summarizeBy: none
 		sourceColumn: year
+
 	column month_key
 		dataType: int64
+		lineageTag: f702c011-54bd-4fcd-bc85-c1a825649ca4
 		summarizeBy: none
 		sourceColumn: month_key
+
 	column series_key
 		dataType: string
+		lineageTag: f78d1259-5752-4b17-b219-3f8524f2ee17
 		summarizeBy: none
 		sourceColumn: series_key
+
 	column series_code
 		dataType: string
+		lineageTag: b7ed517b-017c-4da6-aca1-518cf10145ff
 		summarizeBy: none
 		sourceColumn: series_code
+
 	column unit
 		dataType: string
+		lineageTag: 2730eab1-0e64-4694-994c-1b331c6f3ed3
 		summarizeBy: none
 		sourceColumn: unit
+
 	column price_usd_t
 		dataType: double
+		lineageTag: 92ac7818-d3c3-4174-8862-221d0b026ed7
 		summarizeBy: none
 		sourceColumn: price_usd_t
+
 	column observation_present
 		dataType: boolean
+		lineageTag: 36f3e8c9-ce97-437e-a280-ecad059c0e32
 		summarizeBy: none
 		sourceColumn: observation_present
+
 	column numeric_present
 		dataType: boolean
+		lineageTag: 4f0f1a9c-cd63-4973-bc3c-b2c285481f0a
 		summarizeBy: none
 		sourceColumn: numeric_present
+
 	column previous_month_numeric
 		dataType: boolean
+		lineageTag: fe6b3493-131a-4ba9-8e4a-45b7cb4b9e20
 		summarizeBy: none
 		sourceColumn: previous_month_numeric
+
 	column monthly_change_pct
 		dataType: double
+		lineageTag: b2919eca-ca52-4148-87da-fe0f41a6f29c
 		summarizeBy: none
 		sourceColumn: monthly_change_pct
+
 	column volatility_12m_pct
 		dataType: double
+		lineageTag: 7905a3f8-c239-46f0-9fcd-d17f6bbab565
 		summarizeBy: none
 		sourceColumn: volatility_12m_pct
+
 	column series_name_vi
 		dataType: string
+		lineageTag: 9b227d61-d0a1-4f64-be59-57cefca68573
 		summarizeBy: none
 		sourceColumn: series_name_vi
+
 	partition WB = m
 		mode: import
 		source =
-			let
-			    Raw = Csv.Document(File.Contents(ExportFolder & "\wb_benchmark.csv"), [Delimiter=",", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
-			    Checked = if Table.ColumnNames(Headers) = {"month_date", "year", "month_key", "series_key", "series_code", "unit", "price_usd_t", "observation_present", "numeric_present", "previous_month_numeric", "monthly_change_pct", "volatility_12m_pct"} then Headers else error "CSV schema mismatch",
-			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
-			    Typed = Table.TransformColumnTypes(Missing, {{"month_date", type date}, {"year", Int64.Type}, {"month_key", Int64.Type}, {"series_key", type text}, {"series_code", type text}, {"unit", type text}, {"price_usd_t", type number}, {"observation_present", type logical}, {"numeric_present", type logical}, {"previous_month_numeric", type logical}, {"monthly_change_pct", type number}, {"volatility_12m_pct", type number}}, "en-US"),
-			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
-			    Entry = Record.Field(Manifest[outputs], "wb_benchmark.csv"),
-			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
-			    With_series_name_vi = Table.AddColumn(Accepted, "series_name_vi", each if [series_code] = "rice_thai_5" then "Gạo Thái 5% tấm" else if [series_code] = "rice_thai_25" then "Gạo Thái 25% tấm" else if [series_code] = "rice_thai_a_1" then "Gạo Thái A1 đặc biệt" else if [series_code] = "rice_viet_namese_5" then "Gạo Việt Nam 5% tấm" else [series_code], type text)
-			in
-			    With_series_name_vi
+				let
+				    Raw = Csv.Document(File.Contents(ExportFolder & "\wb_benchmark.csv"), [Delimiter=",", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+				    Checked = if Table.ColumnNames(Headers) = {"month_date", "year", "month_key", "series_key", "series_code", "unit", "price_usd_t", "observation_present", "numeric_present", "previous_month_numeric", "monthly_change_pct", "volatility_12m_pct"} then Headers else error "CSV schema mismatch",
+				    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+				    Typed = Table.TransformColumnTypes(Missing, {{"month_date", type date}, {"year", Int64.Type}, {"month_key", Int64.Type}, {"series_key", type text}, {"series_code", type text}, {"unit", type text}, {"price_usd_t", type number}, {"observation_present", type logical}, {"numeric_present", type logical}, {"previous_month_numeric", type logical}, {"monthly_change_pct", type number}, {"volatility_12m_pct", type number}}, "en-US"),
+				    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+				    Entry = Record.Field(Manifest[outputs], "wb_benchmark.csv"),
+				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
+				    With_series_name_vi = Table.AddColumn(Accepted, "series_name_vi", each if [series_code] = "rice_thai_5" then "Gạo Thái 5% tấm" else if [series_code] = "rice_thai_25" then "Gạo Thái 25% tấm" else if [series_code] = "rice_thai_a_1" then "Gạo Thái A1 đặc biệt" else if [series_code] = "rice_viet_namese_5" then "Gạo Việt Nam 5% tấm" else [series_code], type text)
+				in
+				    With_series_name_vi
+
+	annotation PBI_ResultType = Table
+

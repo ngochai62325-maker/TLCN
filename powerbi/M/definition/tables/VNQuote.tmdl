@@ -1,73 +1,108 @@
 table VNQuote
+	lineageTag: a76b9cb2-32aa-4368-9861-4d57c1b8599f
+
 	column date
 		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: 392f906d-7492-4b2b-bd79-a5832a9bd609
 		summarizeBy: none
 		sourceColumn: date
-		formatString: yyyy-MM-dd
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	column year
 		dataType: int64
+		lineageTag: 2763d6a2-1024-4acb-aa79-61042118d72e
 		summarizeBy: none
 		sourceColumn: year
+
 	column series_key
 		dataType: string
+		lineageTag: cf657e96-df6e-4317-b5b7-6b34ed6c13b8
 		summarizeBy: none
 		sourceColumn: series_key
+
 	column market
 		dataType: string
+		lineageTag: 879d616d-78f4-46c4-88d0-8b9d9bcf6517
 		summarizeBy: none
 		sourceColumn: market
+
 	column commodity
 		dataType: string
+		lineageTag: 89b30395-1c31-4412-8764-bab0201f6fb8
 		summarizeBy: none
 		sourceColumn: commodity
+
 	column price_type
 		dataType: string
+		lineageTag: c766e663-ab18-4717-87b5-23e86a8fb874
 		summarizeBy: none
 		sourceColumn: price_type
+
 	column unit
 		dataType: string
+		lineageTag: d820ae21-dd7b-454c-bd09-562bd67f6112
 		summarizeBy: none
 		sourceColumn: unit
+
 	column currency
 		dataType: string
+		lineageTag: ec654f3f-edfb-4c3a-b99b-c505fdc4afca
 		summarizeBy: none
 		sourceColumn: currency
+
 	column information_source
 		dataType: string
+		lineageTag: 14b3b01c-91a8-4652-8231-595028c89bc5
 		summarizeBy: none
 		sourceColumn: information_source
+
 	column price_vnd_kg
 		dataType: double
+		lineageTag: d622416a-a0db-4220-b10c-ae18814817c1
 		summarizeBy: none
 		sourceColumn: price_vnd_kg
+
 	column observation_present
 		dataType: boolean
+		lineageTag: 25e62daa-7e58-4e95-ba4d-66f85138ac9b
 		summarizeBy: none
 		sourceColumn: observation_present
+
 	column numeric_present
 		dataType: boolean
+		lineageTag: 88acc497-d638-492e-9367-a3ef453aeea1
 		summarizeBy: none
 		sourceColumn: numeric_present
+
 	column days_since_previous_quote
 		dataType: int64
+		lineageTag: 04ddb212-5d4c-4a0c-9f3f-de491455e97e
 		summarizeBy: none
 		sourceColumn: days_since_previous_quote
+
 	column series_label
 		dataType: string
+		lineageTag: afeba3a3-5434-41c4-b784-c84c936a7c64
 		summarizeBy: none
 		sourceColumn: series_label
+
 	partition VNQuote = m
 		mode: import
 		source =
-			let
-			    Raw = Csv.Document(File.Contents(ExportFolder & "\vn_quote.csv"), [Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
-			    Checked = if Table.ColumnNames(Headers) = {"date", "year", "series_key", "market", "commodity", "price_type", "unit", "currency", "information_source", "price_vnd_kg", "observation_present", "numeric_present", "days_since_previous_quote"} then Headers else error "CSV schema mismatch",
-			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
-			    Typed = Table.TransformColumnTypes(Missing, {{"date", type date}, {"year", Int64.Type}, {"series_key", type text}, {"market", type text}, {"commodity", type text}, {"price_type", type text}, {"unit", type text}, {"currency", type text}, {"information_source", type text}, {"price_vnd_kg", type number}, {"observation_present", type logical}, {"numeric_present", type logical}, {"days_since_previous_quote", Int64.Type}}, "en-US"),
-			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
-			    Entry = Record.Field(Manifest[outputs], "vn_quote.csv"),
-			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
-			    With_series_label = Table.AddColumn(Accepted, "series_label", each [commodity] & " · " & [price_type], type text)
-			in
-			    With_series_label
+				let
+				    Raw = Csv.Document(File.Contents(ExportFolder & "\vn_quote.csv"), [Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+				    Checked = if Table.ColumnNames(Headers) = {"date", "year", "series_key", "market", "commodity", "price_type", "unit", "currency", "information_source", "price_vnd_kg", "observation_present", "numeric_present", "days_since_previous_quote"} then Headers else error "CSV schema mismatch",
+				    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+				    Typed = Table.TransformColumnTypes(Missing, {{"date", type date}, {"year", Int64.Type}, {"series_key", type text}, {"market", type text}, {"commodity", type text}, {"price_type", type text}, {"unit", type text}, {"currency", type text}, {"information_source", type text}, {"price_vnd_kg", type number}, {"observation_present", type logical}, {"numeric_present", type logical}, {"days_since_previous_quote", Int64.Type}}, "en-US"),
+				    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+				    Entry = Record.Field(Manifest[outputs], "vn_quote.csv"),
+				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
+				    With_series_label = Table.AddColumn(Accepted, "series_label", each [commodity] & " · " & [price_type], type text)
+				in
+				    With_series_label
+
+	annotation PBI_ResultType = Table
+

@@ -1,635 +1,1038 @@
 table Overview
-	column fact_name
-		dataType: string
-		summarizeBy: none
-		sourceColumn: fact_name
-	column rows_total
-		dataType: int64
-		summarizeBy: none
-		sourceColumn: rows_total
-		formatString: #,0
-	column numeric_rows
-		dataType: int64
-		summarizeBy: none
-		sourceColumn: numeric_rows
-		formatString: #,0
-	column present_null_rows
-		dataType: int64
-		summarizeBy: none
-		sourceColumn: present_null_rows
-		formatString: #,0
-	column numeric_coverage_pct
-		dataType: double
-		summarizeBy: none
-		sourceColumn: numeric_coverage_pct
-	column period_min
-		dataType: string
-		summarizeBy: none
-		sourceColumn: period_min
-	column period_max
-		dataType: string
-		summarizeBy: none
-		sourceColumn: period_max
-	column represented_periods
-		dataType: int64
-		summarizeBy: none
-		sourceColumn: represented_periods
-		formatString: #,0
-	column period_grain
-		dataType: string
-		summarizeBy: none
-		sourceColumn: period_grain
-	column null_pct
-		dataType: double
-		summarizeBy: none
-		sourceColumn: null_pct
-		formatString: 0.00%
-	column fact_name_vi
-		dataType: string
-		summarizeBy: none
-		sourceColumn: fact_name_vi
-	column period_grain_vi
-		dataType: string
-		summarizeBy: none
-		sourceColumn: period_grain_vi
+	lineageTag: 2e272955-d2dc-4551-a7ce-662c1c4c5b44
+
 	/// Tổng số quan sát toàn hệ thống Gold (tính từ fact_overview).
 	measure 'Total Observations' = SUM(Overview[rows_total])
 		formatString: #,0
+		lineageTag: a9858090-3b1c-46f9-944a-e6bb0ec0358c
+
 	/// Số quan sát có dữ liệu số thực tế (tính từ fact_overview).
 	measure 'Numeric Observations' = SUM(Overview[numeric_rows])
 		formatString: #,0
+		lineageTag: 8a8bacb9-93ea-4c9d-ba5e-0fe574886871
+
 	/// Số quan sát khuyết có ghi nhận (tính từ fact_overview).
 	measure 'Present NULL' = SUM(Overview[present_null_rows])
 		formatString: #,0
+		lineageTag: 36f20c88-0a1c-4e41-9341-552e6dcb3c67
+
 	/// Tỷ lệ quan sát có số trên tổng quan sát.
 	measure 'Numeric Coverage' = DIVIDE([Numeric Observations], [Total Observations])
 		formatString: 0.00%
-	/// Tỷ lệ quan sát khuyết trên tổng quan sát.
-	measure 'Null Percentage' = DIVIDE([Present NULL], [Total Observations])
-		formatString: 0.00%
-	/// Tỷ lệ quan sát khuyết cao nhất trong 9 fact.
-	measure 'Highest Null Fact Pct' = MAXX(Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]))
-		formatString: 0.00%
-	/// Tên tiếng Việt và tỷ lệ của fact có tỷ lệ khuyết cao nhất.
-	measure 'Highest Null Fact Display' = VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) VAR pct = MAXX(maxFact, DIVIDE(Overview[present_null_rows], Overview[rows_total])) VAR factName = MAXX(maxFact, Overview[fact_name_vi]) RETURN factName & ": " & FORMAT(pct, "0.00%")
-		formatString: @
+		lineageTag: 46a51617-fce3-4504-8df2-426229b0274d
+
 	/// V06.12 national annual quantity tonnes; one calendar year only; NULL remains blank; no SUM across years.
 	measure 'Annual Production' = IF(HASONEVALUE(CalendarYear[Year]), SUM(NSOAnnual[production_t]))
 		formatString: #,0
+		lineageTag: 44845719-dce0-4c32-85d0-c1e4bc29d7ef
+
 	/// V06.12 national annual quantity hectares; one calendar year only; NULL remains blank; no SUM across years.
 	measure 'Annual Area' = IF(HASONEVALUE(CalendarYear[Year]), SUM(NSOAnnual[area_ha]))
 		formatString: #,0
+		lineageTag: 190b8871-2c32-4401-9bd5-4d1742f7299e
+
 	/// V06.14 national annual reported kg/ha; one calendar year only; NULL remains blank; no SUM across years.
 	measure 'Reported Yield' = IF(HASONEVALUE(CalendarYear[Year]), SUM(NSOYield[yield_kg_ha]))
 		formatString: #,0.00
+		lineageTag: 2c257eb3-4e8e-4b4f-8d87-b832858aca4e
+
 	/// V06.12 source seasons, never includes annual; one calendar year only; NULL remains blank; no SUM across years.
 	measure 'Seasonal Production' = IF(HASONEVALUE(CalendarYear[Year]), SUM(NSOSeasonal[production_t]))
 		formatString: #,0
+		lineageTag: 1283d499-58ab-4c19-a33b-5e5c69e2c250
+
 	/// CPC0113 selected non-overlapping source areas, tonnes; one calendar year only; NULL remains blank; no SUM across years.
 	measure 'FAO Production' = IF(HASONEVALUE(CalendarYear[Year]), SUM(FAO[production_t]))
 		formatString: #,0
+		lineageTag: 35c6ad59-4478-4bad-941f-cb812d9f7c6b
+
 	/// CPC0113 selected non-overlapping source areas, hectares; one calendar year only; NULL remains blank; no SUM across years.
 	measure 'FAO Area' = IF(HASONEVALUE(CalendarYear[Year]), SUM(FAO[area_ha]))
 		formatString: #,0
+		lineageTag: bd356677-0a36-46e6-ae5e-0f4206b70e33
+
 	/// First selected numeric V06.12 annual year.
 	measure 'First Production Year' = MINX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Annual Production]))), CalendarYear[Year])
 		formatString: 0
+		lineageTag: 5ca41872-7fdc-4db2-a7f7-d7cb61b7de7f
+
 	/// Latest selected numeric V06.12 annual year.
 	measure 'Latest Production Year' = MAXX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Annual Production]))), CalendarYear[Year])
 		formatString: 0
+		lineageTag: bcf85c05-b0ca-4630-b01c-aa70b9d98202
+
 	/// First numeric selected annual production, V06.12 tonnes.
 	measure 'First Production' = VAR y=[First Production Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Annual Production], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
 		formatString: #,0
+		lineageTag: ce4e6a3c-893b-4648-b482-92fb7657d42a
+
 	/// Latest numeric selected annual production, V06.12 tonnes.
 	measure 'Latest Production' = VAR y=[Latest Production Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Annual Production], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
 		formatString: #,0
+		lineageTag: 8fe24d26-8d40-48a8-80d2-4d14e027e21d
+
 	/// Requires two distinct numeric comparable years; tonnes.
 	measure 'Production Change' = IF([First Production Year]<[Latest Production Year], [Latest Production]-[First Production])
 		formatString: +#,0;-#,0;0
+		lineageTag: 8716004a-2e1c-49e6-b9d9-117236947017
+
 	/// Endpoint ratio; positive first denominator; full selected scope recalculated.
 	measure 'Production Change Pct' = IF([First Production]>0 && [First Production Year]<[Latest Production Year], DIVIDE([Production Change],[First Production]))
 		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: fe824511-ac45-408e-9f81-63ad60dc1e78
+
 	/// Exact previous calendar year; never previous available row.
 	measure 'Production YoY' = VAR y=SELECTEDVALUE(CalendarYear[Year]) VAR prev=CALCULATE([Annual Production],REMOVEFILTERS(CalendarYear),CalendarYear[Year]=y-1) VAR currentValue=[Annual Production] RETURN IF(NOT ISBLANK(y) && NOT ISBLANK(currentValue) && prev>0,DIVIDE(currentValue-prev,prev))
 		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: 29575a52-86eb-4149-b393-06072a21a20b
+
 	/// YoY at latest numeric selected year, exact prior year.
 	measure 'Latest Production YoY' = VAR y=[Latest Production Year] RETURN IF(NOT ISBLANK(y),CALCULATE([Production YoY],REMOVEFILTERS(CalendarYear),CalendarYear[Year]=y))
 		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: ed6b8d33-bfd6-40e8-a0df-0f170f372d7e
+
 	/// Observed numeric peak within selected V06.12 years, not a forecast.
 	measure 'Peak Production' = MAXX(ALLSELECTED(CalendarYear[Year]),CALCULATE([Annual Production]))
 		formatString: #,0
+		lineageTag: 006067f5-5dbd-4fd2-b888-dd228dd2e78f
+
 	/// Earliest year if selected observed peaks tie.
 	measure 'Peak Year' = VAR peak=[Peak Production] RETURN IF(NOT ISBLANK(peak), MINX(FILTER(ALLSELECTED(CalendarYear[Year]),CALCULATE([Annual Production])=peak),CalendarYear[Year]))
 		formatString: 0
+		lineageTag: e1d03f4e-3fb2-4f79-9720-9bfba07adbea
+
 	/// Selected endpoint vs selected observed peak.
 	measure 'Latest vs Peak Pct' = IF([Peak Production]>0,DIVIDE([Latest Production]-[Peak Production],[Peak Production]))
 		formatString: +0.00%;-0.00%;0.00%
-	/// First selected numeric V06.12 annual area year.
-	measure 'First Area Year' = MINX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Annual Area]))), CalendarYear[Year])
-		formatString: 0
-	/// Latest selected numeric V06.12 annual area year.
-	measure 'Latest Area Year' = MAXX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Annual Area]))), CalendarYear[Year])
-		formatString: 0
-	/// First numeric selected annual area, V06.12 hectares.
-	measure 'First Area' = VAR y=[First Area Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Annual Area], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
-		formatString: #,0
-	/// Latest numeric selected annual area, V06.12 hectares.
-	measure 'Latest Area' = VAR y=[Latest Area Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Annual Area], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
-		formatString: #,0
-	/// Tăng trưởng diện tích gieo trồng cả giai đoạn.
-	measure 'Area Change Pct' = IF([First Area]>0 && [First Area Year]<[Latest Area Year], DIVIDE([Latest Area]-[First Area], [First Area]))
-		formatString: +0.00%;-0.00%;0.00%
-	/// First selected numeric V06.14 reported yield year.
-	measure 'First Yield Year' = MINX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Reported Yield]))), CalendarYear[Year])
-		formatString: 0
-	/// Latest selected numeric V06.14 reported yield year.
-	measure 'Latest Yield Year' = MAXX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Reported Yield]))), CalendarYear[Year])
-		formatString: 0
-	/// First numeric selected reported yield, V06.14 kg/ha.
-	measure 'First Yield' = VAR y=[First Yield Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Reported Yield], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
-		formatString: #,0.00
-	/// Latest numeric selected reported yield, V06.14 kg/ha.
-	measure 'Latest Yield' = VAR y=[Latest Yield Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Reported Yield], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
-		formatString: #,0.00
-	/// Tăng trưởng năng suất lúa công bố cả giai đoạn.
-	measure 'Yield Change Pct' = IF([First Yield]>0 && [First Yield Year]<[Latest Yield Year], DIVIDE([Latest Yield]-[First Yield], [First Yield]))
-		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: 087bb5d5-cf20-4630-914a-8a2b5c69367b
+
 	/// Dynamic descriptive scope; all numeric facts come from current filters.
 	measure 'NSO Insight' = IF(ISBLANK([First Production Year]),"Không có dữ liệu trong phạm vi chọn.",IF([First Production Year]=[Latest Production Year],"V06.12 · chỉ một năm có số: " & FORMAT([Latest Production Year],"0") & ". Thay đổi đầu–cuối: Không áp dụng. Yield V06.14 chỉ có từ 1995.","V06.12 · " & FORMAT([First Production Year],"0") & "–" & FORMAT([Latest Production Year],"0") & ": " & FORMAT([Production Change Pct],"+0.00%;-0.00%") & ". Đỉnh quan sát " & FORMAT([Peak Year],"0") & " (" & FORMAT([Peak Production]/1000000,"#,0.00") & " tr tấn); cuối kỳ so với đỉnh " & FORMAT([Latest vs Peak Pct],"+0.00%;-0.00%") & ". Diện tích: " & FORMAT([Area Change Pct],"+0.00%;-0.00%") & ", Năng suất: " & FORMAT([Yield Change Pct],"+0.00%;-0.00%") & ". Không suy quan hệ nhân quả."))
 		formatString: @
+		lineageTag: 228d7005-7845-437a-9973-4b1be0785119
+
 	/// Same eligible country/year population as paired area, tonnes.
 	measure 'FAO Paired Production' = IF(HASONEVALUE(CalendarYear[Year]),SUM(FAO[paired_production_t]))
 		formatString: #,0
+		lineageTag: 0c95619d-e5c8-40d0-823a-b5e1e39746a6
+
 	/// Only pairs with numeric production and positive numeric area, hectares.
 	measure 'FAO Paired Area' = IF(HASONEVALUE(CalendarYear[Year]),SUM(FAO[paired_area_ha]))
 		formatString: #,0
+		lineageTag: 880edf29-09c1-491a-8124-a18de1a2b8a1
+
 	/// kg/ha, single calendar year, ratio of paired sums over selected non-overlapping area universe; never AVG yields.
 	measure 'FAO Weighted Yield' = DIVIDE(1000*[FAO Paired Production],[FAO Paired Area])
 		formatString: #,0.00
+		lineageTag: 0a8833cc-36bd-4470-93fe-0e88eedba204
+
 	/// Source reported kg/ha, one source area/year; not combined across areas.
 	measure 'FAO Reported Yield' = IF(HASONEVALUE(CalendarYear[Year]) && HASONEVALUE(FAO[geography_key]),MAX(FAO[reported_yield_kg_ha]))
 		formatString: #,0.00
+		lineageTag: 91233c19-be96-4dac-b2ab-0a5dc75a8060
+
 	/// Latest selected year with valid paired measures for every selected area; selected universe only.
 	measure 'FAO Common Year' = MAXX(FILTER(ALLSELECTED(CalendarYear[Year]), VAR n=CALCULATE(DISTINCTCOUNT(FAO[geography_key]),ALLSELECTED(FAO[area_name]),FAO[paired_valid]=TRUE()) VAR expected=CALCULATE(DISTINCTCOUNT(FAO[geography_key]),ALLSELECTED(FAO[area_name]),REMOVEFILTERS(CalendarYear)) RETURN n=expected && n>0),CalendarYear[Year])
 		formatString: 0
+		lineageTag: 6959adc9-40cb-4efc-b4b4-c64a04800340
+
 	/// Production at selected common year, not world total.
 	measure 'FAO Common Production' = VAR y=[FAO Common Year] RETURN IF(NOT ISBLANK(y), CALCULATE([FAO Production],REMOVEFILTERS(CalendarYear),CalendarYear[Year]=y))
 		formatString: #,0
+		lineageTag: c6a5c63b-6967-4fcf-b987-53c7caad7ae0
+
 	/// Rank only among admitted selected source areas, common paired year.
 	measure 'FAO Common Rank' = IF(NOT ISBLANK([FAO Common Production]),RANKX(ALLSELECTED(FAO[area_name]),[FAO Common Production],,DESC,Dense))
 		formatString: 0
+		lineageTag: a89b9e12-bf4c-4279-adcd-aaa127278cb5
+
 	/// Active year for FAO scatter: selected single year, or common paired year when all years are selected.
 	measure 'FAO Scatter Year' = IF(HASONEVALUE(CalendarYear[Year]), SELECTEDVALUE(CalendarYear[Year]), [FAO Common Year])
 		formatString: 0
+		lineageTag: 1b05fb03-71be-4780-b1af-96343e0b96c0
+
 	/// Area at selected year or default common year.
 	measure 'FAO Scatter Area' = VAR y=[FAO Scatter Year] RETURN IF(NOT ISBLANK(y), CALCULATE(SUM(FAO[area_ha]), REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
 		formatString: #,0
+		lineageTag: 411fec89-b021-4447-a0d5-27b12efaceee
+
 	/// Production at selected year or default common year.
 	measure 'FAO Scatter Production' = VAR y=[FAO Scatter Year] RETURN IF(NOT ISBLANK(y), CALCULATE(SUM(FAO[production_t]), REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
 		formatString: #,0
+		lineageTag: 0c5a5cb5-05ed-4728-8030-9fdb76f3f51e
+
 	/// Weighted yield at selected year or default common year.
 	measure 'FAO Scatter Yield' = VAR y=[FAO Scatter Year] RETURN IF(NOT ISBLANK(y), CALCULATE([FAO Weighted Yield], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
 		formatString: #,0.00
-	/// Chỉ số sản lượng lúa so với năm gốc 1961 (1961=100); loại trừ chênh lệch quy mô tuyệt đối.
-	measure 'FAO Production Index' = VAR cur=[FAO Production] VAR base=CALCULATE([FAO Production],REMOVEFILTERS(CalendarYear),CalendarYear[Year]=1961) RETURN IF(NOT ISBLANK(cur) && base>0,DIVIDE(cur,base)*100)
-		formatString: #,0.00
-	/// Tiêu đề động biểu đồ sản lượng lúa theo năm chung.
-	measure 'FAO Common Production Title' = "[Lúa] Sản lượng lúa tại năm chung (" & FORMAT([FAO Common Year],"0") & ")"
-		formatString: @
+		lineageTag: 827ecda2-5563-4e3c-b297-92f31f08a571
+
 	/// One SUA calendar year/element, M49 704/CPC23161.02; NULL stays blank; no cross-element SUM.
 	measure 'SUA Selected Value' = IF(HASONEVALUE(CalendarYear[Year]) && HASONEVALUE(SUA[element_code]),MAX(SUA[value_t]))
 		formatString: #,0.00
+		lineageTag: 89a954a9-d570-40bc-ad84-86fb573b635f
+
 	/// SUA element 5141; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Food Supply' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5141")
 		formatString: #,0.00
+		lineageTag: 449fd73e-7f12-4753-afc5-a0ca5eaae3bd
+
 	/// SUA element 5113; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Opening Stocks' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5113")
 		formatString: #,0.00
+		lineageTag: ba7b1baf-bbb9-4a3f-acfb-fa2098061848
+
 	/// SUA element 5071; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Stock Variation' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5071")
 		formatString: #,0.00
+		lineageTag: 90086569-acc5-4bfc-a37f-1bf7ba4fff6e
+
 	/// SUA element 5023; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Processed' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5023")
 		formatString: #,0.00
+		lineageTag: 949fc6cd-51b0-4fa8-891d-f296492f4e7c
+
 	/// SUA element 5520; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Feed' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5520")
 		formatString: #,0.00
+		lineageTag: 6c5e4b87-4df7-4665-bc65-c10fd7c4ec0e
+
 	/// SUA element 5525; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Seed' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5525")
 		formatString: #,0.00
+		lineageTag: 2cd4f593-8834-41bf-ab20-2332df9700e2
+
 	/// SUA element 5016; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Loss' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5016")
 		formatString: #,0.00
+		lineageTag: 69183840-aa1d-43b8-9ad4-6073732472c1
+
 	/// SUA element 5910; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Exports' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5910")
 		formatString: #,0.00
+		lineageTag: c7249040-7a2a-476f-8871-f3ec2e84d32e
+
 	/// SUA element 5165; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Other Uses' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5165")
 		formatString: #,0.00
+		lineageTag: 9a1a552e-eafd-41a5-967e-8dbc73f9b6ed
+
 	/// SUA element 5166; one calendar year, tonnes; no sum over years or invented balance.
 	measure 'SUA Residuals' = CALCULATE([SUA Selected Value],REMOVEFILTERS(SUA[element_code]),REMOVEFILTERS(SUA[metric]),SUA[element_code]="5166")
 		formatString: #,0.00
+		lineageTag: c09b74c4-714d-4943-8086-1952d1d20e57
+
 	/// One marketing year and attribute; unit from row. No mixing MY/TY/rough/milled, rates or stocks.
 	measure 'PSD Selected Value' = IF(HASONEVALUE(PSD[market_year]) && HASONEVALUE(PSD[attribute]),MAX(PSD[value]))
 		formatString: #,0.00
+		lineageTag: 19081279-9e34-4bd7-81fc-dbafd4de7142
+
 	/// USDA Vietnam/Rice, Milled Production tonnes at one market year; no stock sum across time.
 	measure 'PSD Production' = CALCULATE([PSD Selected Value],REMOVEFILTERS(PSD[attribute]),PSD[attribute]="Production")
 		formatString: #,0
+		lineageTag: 029deb42-92c8-4903-b481-6febc7562313
+
 	/// USDA Vietnam/Rice, Milled Domestic Consumption tonnes at one market year; no stock sum across time.
 	measure 'PSD Consumption' = CALCULATE([PSD Selected Value],REMOVEFILTERS(PSD[attribute]),PSD[attribute]="Domestic Consumption")
 		formatString: #,0
+		lineageTag: 04b86f83-c1ec-4887-ab57-0409a0f4500d
+
 	/// USDA Vietnam/Rice, Milled Ending Stocks tonnes at one market year; no stock sum across time.
 	measure 'PSD Ending Stocks' = CALCULATE([PSD Selected Value],REMOVEFILTERS(PSD[attribute]),PSD[attribute]="Ending Stocks")
 		formatString: #,0
-	/// Sản lượng lúa cả năm triệu tấn.
-	measure 'Annual Production Mil' = [Annual Production] / 1000000
-		formatString: #,0.00
-	/// Diện tích lúa cả năm triệu ha.
-	measure 'Annual Area Mil' = [Annual Area] / 1000000
-		formatString: #,0.00
-	/// Sản lượng lúa theo vụ triệu tấn.
-	measure 'Seasonal Production Mil' = [Seasonal Production] / 1000000
-		formatString: #,0.00
-	/// Sản lượng lúa tại năm chung triệu tấn.
-	measure 'FAO Common Production Mil' = [FAO Common Production] / 1000000
-		formatString: #,0.0
-	/// Diện tích scatter triệu ha.
-	measure 'FAO Scatter Area Mil' = [FAO Scatter Area] / 1000000
-		formatString: #,0.0
-	/// Sản lượng scatter triệu tấn.
-	measure 'FAO Scatter Production Mil' = [FAO Scatter Production] / 1000000
-		formatString: #,0.0
-	/// Tiêu thụ thực phẩm triệu tấn.
-	measure 'SUA Food Supply Mil' = [SUA Food Supply] / 1000000
-		formatString: #,0.00
-	/// Chế biến triệu tấn.
-	measure 'SUA Processed Mil' = [SUA Processed] / 1000000
-		formatString: #,0.00
-	/// Tồn kho đầu kỳ triệu tấn.
-	measure 'SUA Opening Stocks Mil' = [SUA Opening Stocks] / 1000000
-		formatString: #,0.00
-	/// Biến động tồn kho triệu tấn.
-	measure 'SUA Stock Variation Mil' = [SUA Stock Variation] / 1000000
-		formatString: #,0.00
-	/// Sai số thống kê triệu tấn.
-	measure 'SUA Residuals Mil' = [SUA Residuals] / 1000000
-		formatString: #,0.00
-	/// Sản xuất USDA PSD triệu tấn.
-	measure 'PSD Production Mil' = [PSD Production] / 1000000
-		formatString: #,0.00
-	/// Tiêu dùng USDA PSD triệu tấn.
-	measure 'PSD Consumption Mil' = [PSD Consumption] / 1000000
-		formatString: #,0.00
-	/// Tồn kho cuối kỳ USDA PSD triệu tấn.
-	measure 'PSD Ending Stocks Mil' = [PSD Ending Stocks] / 1000000
-		formatString: #,0.00
-	/// Lượng xuất khẩu triệu tấn.
-	measure 'Trade Quantity Mil' = [Trade Quantity] / 1000000
-		formatString: #,0.00
-	/// Giá trị xuất khẩu tỷ USD.
-	measure 'Trade Value Bil' = [Trade Value] / 1000000000
-		formatString: #,0.00
+		lineageTag: baac2385-06f4-4297-a6e9-de573af5efbc
+
 	/// USDA FOB export price reference USD/tonne; guardrail: yêu cầu chọn đúng 1 quốc gia và 1 phẩm cấp.
 	measure 'USDA Price' = IF(HASONEVALUE(USDAPrice[location]) && HASONEVALUE(USDAPrice[commodity_class]), IF(HASONEVALUE(USDAPrice[reference_year]), AVERAGE(USDAPrice[price_usd_t]), AVERAGE(USDAPrice[price_usd_t])))
 		formatString: #,0.00
-	/// Giá FOB USDA đối sánh 4 nước (mặc định Gạo 5% tấm nếu chưa chọn).
-	measure 'USDA FOB Chart Price' = VAR chosen_class = SELECTEDVALUE(USDAPrice[commodity_class], "5-PERCENT BROKEN") RETURN CALCULATE(AVERAGE(USDAPrice[price_usd_t]), KEEPFILTERS(USDAPrice[commodity_class] = chosen_class))
-		formatString: #,0.00
-	/// Tiêu đề động biểu đồ giá FOB USDA.
-	measure 'USDA FOB Chart Title' = VAR chosen_class_vi = SELECTEDVALUE(USDAPrice[commodity_class_vi]) RETURN IF(ISBLANK(chosen_class_vi), "[Gạo xay xát] Giá FOB USDA – Gạo 5% tấm (đối sánh 4 nước) (USD/tấn)", "[Gạo xay xát] Giá FOB USDA – " & chosen_class_vi & " (USD/tấn)")
-		formatString: @
+		lineageTag: 17ad4ff7-2f28-4731-b2a3-6f920b244800
+
 	/// World Bank benchmark monthly USD/tonne level; guardrail: yêu cầu đúng 1 chuỗi giá và 1 tháng.
 	measure 'WB Price' = IF(HASONEVALUE(WB[series_code]) && HASONEVALUE(BenchmarkMonth[Date]), MAX(WB[price_usd_t]))
 		formatString: #,0.00
+		lineageTag: 6983ddeb-8a1f-47bb-8223-501f0d65d85e
+
 	/// Exact calendar previous month for single selected WB series; guardrail cấm trộn chuỗi.
 	measure 'WB MoM' = IF(HASONEVALUE(WB[series_code]) && HASONEVALUE(BenchmarkMonth[Date]), MAX(WB[monthly_change_pct])/100)
 		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: c96de0c1-2c6a-4de7-978c-833573912d07
+
 	/// Trailing 12 log-return sample std for single selected WB series; guardrail cấm trộn chuỗi.
 	measure 'WB Volatility' = IF(HASONEVALUE(WB[series_code]) && HASONEVALUE(BenchmarkMonth[Date]), MAX(WB[volatility_12m_pct])/100)
 		formatString: 0.00%
+		lineageTag: cd0c5fa9-9f32-4e51-bd0c-2b75f490c484
+
 	/// Observed maximum benchmark in selected months, USD/tonne.
 	measure 'WB Peak' = MAXX(ALLSELECTED(BenchmarkMonth[Date]),CALCULATE([WB Price]))
 		formatString: #,0.00
+		lineageTag: bbd2788a-724b-4ea7-a13c-bf0fb274228a
+
 	/// Observed numeric minimum selected monthly benchmark, USD/tonne.
 	measure 'WB Minimum' = MINX(FILTER(ALLSELECTED(BenchmarkMonth[Date]),NOT ISBLANK(CALCULATE([WB Price]))),CALCULATE([WB Price]))
 		formatString: #,0.00
+		lineageTag: 043d7d38-c1bd-46b2-99c1-cba60f0aa38b
+
 	/// Numeric monthly prices in selected calendar; no imputation.
 	measure 'WB Numeric Months' = COALESCE(CALCULATE(COUNTROWS(WB),WB[numeric_present]=TRUE()),0)
 		formatString: #,0
+		lineageTag: b23a83fb-e1e7-448d-9d41-e5d0e270a1ff
+
 	/// Count of calendar rows with no source observation.
 	measure 'WB Absent Months' = COALESCE(CALCULATE(COUNTROWS(WB),WB[observation_present]=FALSE()),0)
 		formatString: #,0
-	/// Tháng mới nhất có giá World Bank trong phạm vi chọn.
-	measure 'Latest WB Month' = MAXX(FILTER(ALLSELECTED(BenchmarkMonth[Date]), NOT ISBLANK(CALCULATE(MAX(WB[price_usd_t])))), BenchmarkMonth[Date])
-		formatString: @
-	/// Mức giá World Bank tại tháng mới nhất của chuỗi đang chọn.
-	measure 'Latest WB Price' = VAR m=[Latest WB Month] RETURN IF(NOT ISBLANK(m) && HASONEVALUE(WB[series_code]), CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(BenchmarkMonth), BenchmarkMonth[Date]=m))
-		formatString: #,0.00
-	/// Thay đổi MoM tại tháng mới nhất của chuỗi đang chọn.
-	measure 'Latest WB MoM' = VAR m=[Latest WB Month] RETURN IF(NOT ISBLANK(m) && HASONEVALUE(WB[series_code]), CALCULATE(MAX(WB[monthly_change_pct])/100, REMOVEFILTERS(BenchmarkMonth), BenchmarkMonth[Date]=m))
-		formatString: +0.00%;-0.00%;0.00%
-	/// Thẻ giá WB mới nhất kèm MoM.
-	measure 'Latest WB Price Display' = IF(ISBLANK([Latest WB Price]), "Chọn 1 chuỗi", FORMAT([Latest WB Price], "$#,0.00") & " /tấn (" & FORMAT([Latest WB MoM], "+0.00%;-0.00%") & ")")
-		formatString: @
-	/// Thẻ đỉnh giá WB.
-	measure 'WB Peak Display' = IF(ISBLANK([WB Peak]), "Chọn 1 chuỗi", FORMAT([WB Peak], "$#,0.00") & " /tấn")
-		formatString: @
-	/// Thẻ đáy giá WB.
-	measure 'WB Minimum Display' = IF(ISBLANK([WB Minimum]), "Chọn 1 chuỗi", FORMAT([WB Minimum], "$#,0.00") & " /tấn")
-		formatString: @
-	/// Thẻ số tháng có giá WB.
-	measure 'WB Numeric Months Display' = FORMAT([WB Numeric Months], "#,0") & " tháng"
-		formatString: @
-	/// Giá Gạo Thái 5% mới nhất.
-	measure 'Latest WB Thai 5 Price' = VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_thai_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_thai_5", WB[month_date] = m)
-		formatString: #,0.00
-	/// Biến động MoM Gạo Thái 5% mới nhất.
-	measure 'Latest WB Thai 5 MoM' = VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_thai_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[monthly_change_pct]) / 100, REMOVEFILTERS(WB), WB[series_code] = "rice_thai_5", WB[month_date] = m)
-		formatString: +0.00%;-0.00%;0.00%
-	/// Thẻ giá Thái 5% mới nhất kèm MoM.
-	measure 'Latest WB Thai 5 Display' = FORMAT([Latest WB Thai 5 Price], "$#,0.00") & " /tấn (" & FORMAT([Latest WB Thai 5 MoM], "+0.00%;-0.00%") & ")"
-		formatString: @
-	/// Giá Gạo Việt Nam 5% mới nhất.
-	measure 'Latest WB VN 5 Price' = VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_viet_namese_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m)
-		formatString: #,0.00
-	/// Biến động MoM Gạo Việt Nam 5% mới nhất.
-	measure 'Latest WB VN 5 MoM' = VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_viet_namese_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[monthly_change_pct]) / 100, REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m)
-		formatString: +0.00%;-0.00%;0.00%
-	/// Thẻ giá Việt Nam 5% mới nhất kèm MoM.
-	measure 'Latest WB VN 5 Display' = FORMAT([Latest WB VN 5 Price], "$#,0.00") & " /tấn (" & FORMAT([Latest WB VN 5 MoM], "+0.00%;-0.00%") & ")"
-		formatString: @
-	/// Tháng mới nhất chung có giá của cả Thái 5% và VN 5%.
-	measure 'Latest Common WB Month' = MAXX(FILTER(ALL(WB[month_date]), VAR m = WB[month_date] RETURN CALCULATE(COUNTROWS(WB), REMOVEFILTERS(WB), WB[month_date] = m, WB[series_code] = "rice_thai_5", NOT ISBLANK(WB[price_usd_t])) > 0 && CALCULATE(COUNTROWS(WB), REMOVEFILTERS(WB), WB[month_date] = m, WB[series_code] = "rice_viet_namese_5", NOT ISBLANK(WB[price_usd_t])) > 0), WB[month_date])
-		formatString: yyyy-MM-dd
-	/// Chênh lệch giá World Bank: Việt Nam 5% − Thái 5% (USD/tấn).
-	measure 'WB Spread VN5 vs Thai5' = VAR m = [Latest Common WB Month] VAR vn = CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m) VAR thai = CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_thai_5", WB[month_date] = m) RETURN IF(NOT ISBLANK(vn) && NOT ISBLANK(thai), vn - thai)
-		formatString: #,0.00
-	/// Thẻ chênh lệch giá VN 5% − Thái 5%.
-	measure 'WB Spread VN5 vs Thai5 Display' = IF(ISBLANK([WB Spread VN5 vs Thai5]), "Không áp dụng", FORMAT([WB Spread VN5 vs Thai5], "+$#,0.00;-$#,0.00;$0.00") & " /tấn")
-		formatString: @
-	/// Tiêu đề động biểu đồ phân tán diện tích – sản lượng.
-	measure 'FAO Scatter Title' = IF(ISBLANK([FAO Scatter Year]), "[Lúa] Diện tích và sản lượng · Không áp dụng", "[Lúa] Diện tích và sản lượng (năm " & FORMAT([FAO Scatter Year], "0") & ")")
-		formatString: @
-	/// Biến động MoM: 2 chuỗi 5% đối sánh mặc định khi chưa lọc, hoặc chuỗi được chọn trên slicer.
-	measure 'WB MoM Comparison' = VAR selected_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALLSELECTED(WB), REMOVEFILTERS(BenchmarkMonth)) VAR total_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALL(WB)) VAR cur_code = SELECTEDVALUE(WB[series_code]) RETURN IF(NOT ISBLANK(cur_code) && (selected_cnt < total_cnt || cur_code IN {"rice_thai_5", "rice_viet_namese_5"}), [WB MoM])
-		formatString: +0.00%;-0.00%;0.00%
-	/// Độ biến động 12M: 2 chuỗi 5% đối sánh mặc định khi chưa lọc, hoặc chuỗi được chọn trên slicer.
-	measure 'WB Volatility Comparison' = VAR selected_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALLSELECTED(WB), REMOVEFILTERS(BenchmarkMonth)) VAR total_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALL(WB)) VAR cur_code = SELECTEDVALUE(WB[series_code]) RETURN IF(NOT ISBLANK(cur_code) && (selected_cnt < total_cnt || cur_code IN {"rice_thai_5", "rice_viet_namese_5"}), [WB Volatility])
-		formatString: 0.00%
-	/// Tiêu đề động biểu đồ MoM.
-	measure 'WB MoM Title' = IF(HASONEVALUE(WB[series_code]), "[Gạo xay xát] Biến động MoM – " & SELECTEDVALUE(WB[series_name_vi]) & " (%)", "[Gạo xay xát] Biến động MoM – Gạo Thái 5% & VN 5% (%)")
-		formatString: @
-	/// Tiêu đề động biểu đồ biến động 12M kèm ghi chú khoảng khuyết dữ liệu khi hiển thị chuỗi VN.
-	measure 'WB Volatility Title' = IF(HASONEVALUE(WB[series_code]), "[Gạo xay xát] Biến động 12M – " & SELECTEDVALUE(WB[series_name_vi]) & IF(SELECTEDVALUE(WB[series_code]) = "rice_viet_namese_5", " (VN khuyết 12/2005–03/2010)", " (%)"), "[Gạo xay xát] Biến động 12M – Thái 5% & VN 5% (VN khuyết 12/2005–03/2010)")
-		formatString: @
+		lineageTag: 5a38551a-09ed-47d4-80cc-5a3ce73955e1
+
 	/// Vietnam domestic quote VND/kg; guardrail: yêu cầu chọn đúng 1 giống lúa và 1 loại giá xác định.
 	measure 'Domestic Quote' = IF(HASONEVALUE(VNQuote[commodity]) && HASONEVALUE(VNQuote[price_type]), IF(HASONEVALUE(QuoteDate[Date]), MAX(VNQuote[price_vnd_kg]), AVERAGE(VNQuote[price_vnd_kg])))
 		formatString: #,0
+		lineageTag: d5ba24d3-861f-4af7-94c9-216386804913
+
 	/// Số ngày có báo giá duy nhất trong phạm vi chọn.
 	measure 'Domestic Quoted Dates' = DISTINCTCOUNT(VNQuote[date])
 		formatString: #,0
-	/// Giá nội địa theo chuỗi chọn trên slicer (mặc định IR 50404 tươi · Thương lái thu mua); lọc bỏ giá < 1000 VND/kg và trả BLANK() khi thiếu quan sát.
-	measure 'Domestic Quote Chart Price' = VAR chosen_series = IF(ISFILTERED(VNQuote[series_label]) && COUNTROWS(FILTERS(VNQuote[series_label])) = 1, MAXX(FILTERS(VNQuote[series_label]), VNQuote[series_label]), "Lúa IR 50404 (lúa tươi) · Thương lái thu mua") VAR valid_rows = FILTER(VNQuote, VNQuote[series_label] = chosen_series && NOT ISBLANK(VNQuote[price_vnd_kg]) && VNQuote[price_vnd_kg] >= 1000) RETURN IF(COUNTROWS(valid_rows) > 0, AVERAGEX(valid_rows, VNQuote[price_vnd_kg]), BLANK())
-		formatString: #,0
-	/// Tiêu đề động biểu đồ giá nội địa liệt kê đúng chuỗi đang chọn và tập thị trường hợp lệ.
-	measure 'Domestic Quote Chart Title' = VAR chosen_series = IF(ISFILTERED(VNQuote[series_label]) && COUNTROWS(FILTERS(VNQuote[series_label])) = 1, MAXX(FILTERS(VNQuote[series_label]), VNQuote[series_label]), "Lúa IR 50404 (lúa tươi) · Thương lái thu mua") VAR valid_markets = FILTER(VALUES(VNQuote[market]), CALCULATE(COUNTROWS(VNQuote), VNQuote[series_label] = chosen_series, NOT ISBLANK(VNQuote[price_vnd_kg]), VNQuote[price_vnd_kg] >= 1000) > 0) VAR market_list = CONCATENATEX(valid_markets, VNQuote[market], ", ", VNQuote[market], ASC) RETURN IF(ISBLANK(market_list) || market_list = "", "[Lúa] Giá nội địa – " & chosen_series & " (không có dữ liệu)", "[Lúa] Giá nội địa (" & market_list & ") – " & chosen_series & " (VND/kg)")
-		formatString: @
+		lineageTag: 18ee9874-f738-47e5-83c1-6ccabfc70d98
+
 	/// Reported export tonnes; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
 	measure 'Trade Quantity' = SUM(Trade[quantity_t])
 		formatString: #,0.00
+		lineageTag: b9bd6b93-8bb6-45aa-a6f8-6612ef9d492b
+
 	/// Reported export USD; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
 	measure 'Trade Value' = SUM(Trade[value_usd])
 		formatString: #,0.00
+		lineageTag: cce4c7e6-c0be-4fa0-8ffa-5d167e20f416
+
 	/// Numeric quantity paired with numeric monetary value and q>0; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
 	measure 'Trade Paired Quantity' = SUM(Trade[paired_quantity_t])
 		formatString: #,0.00
+		lineageTag: db154af3-1bd1-4159-ac9f-cc2a7b753d04
+
 	/// Same eligible contributor population as paired quantity; reporter704/CPC23161.02/export/2019–2023. Additive over disjoint selected partner-year groups; blanks retained.
 	measure 'Trade Paired Value' = SUM(Trade[paired_value_usd])
 		formatString: #,0.00
+		lineageTag: 76a263dc-a4b6-4436-97da-0509f1fc393c
+
 	/// USD/tonne = ratio of paired sums under current year/partner selection; never average row ratios; positive paired denominator.
 	measure 'Trade Unit Value' = DIVIDE([Trade Paired Value],[Trade Paired Quantity])
 		formatString: #,0.00
-	/// Số lượng quốc gia đối tác xuất khẩu thực tế trong phạm vi lọc (7 đối tác).
-	measure 'Trade Partners' = DISTINCTCOUNT(Trade[partner_name])
-		formatString: #,0
-	/// Năm xuất khẩu mới nhất có dữ liệu.
-	measure 'Latest Trade Year' = MAXX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Trade Quantity]))), CalendarYear[Year])
-		formatString: 0
-	/// Reported export tonnes in latest selected year.
-	measure 'Latest Trade Quantity' = VAR y=[Latest Trade Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Trade Quantity], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
-		formatString: #,0.00
+		lineageTag: c0327a70-02df-4236-aff7-2a0e5c2f4af1
+
 	/// Eligible paired reporter-partner-product-year groups; coverage of selected partner scope (35 cặp).
 	measure 'Trade Paired Groups' = COALESCE(COUNTROWS(FILTER(Trade, NOT ISBLANK(Trade[paired_quantity_t]) && NOT ISBLANK(Trade[paired_value_usd]))), 0)
 		formatString: #,0
+		lineageTag: b2690912-671e-47ab-a90e-0b6b928fb94a
+
 	/// Dynamic paired coverage and ratio; no global denominator.
 	measure 'Trade Insight' = IF([Trade Paired Groups]=0,"Không có cặp đủ điều kiện trong phạm vi chọn.","Việt Nam → " & CONCATENATEX(VALUES(Trade[partner_name_vi]),Trade[partner_name_vi],", ") & " · " & FORMAT(MIN(Trade[year]),"0") & "–" & FORMAT(MAX(Trade[year]),"0") & " · CPC23161.02. " & FORMAT([Trade Partners],"0") & " đối tác (" & FORMAT([Trade Paired Groups],"0") & " cặp năm–đối tác); đơn giá bình quân " & FORMAT([Trade Unit Value],"#,0.00") & " USD/t. Tỷ số giá trị/lượng báo cáo; không phải giá thị trường độc lập.")
 		formatString: @
+		lineageTag: 3393a21f-76b5-4f0c-aba8-80f33120b0b0
+
 	/// Tổng quan sát format vi-VN.
 	measure 'Total Observations Display' = FORMAT([Total Observations], "#,0")
 		formatString: @
+		lineageTag: 496be040-cc1d-4230-acf0-05af5a4d7f5a
+
 	/// Tỷ lệ có số format vi-VN.
 	measure 'Numeric Coverage Display' = FORMAT([Numeric Coverage], "0.00%")
 		formatString: @
-	/// Tỷ lệ khuyết format vi-VN.
-	measure 'Null Percentage Display' = FORMAT([Null Percentage], "0.00%")
-		formatString: @
-	/// Tỷ lệ khuyết cao nhất format vi-VN.
-	measure 'Highest Null Fact Pct Display' = FORMAT([Highest Null Fact Pct], "0.00%")
-		formatString: @
+		lineageTag: e21d20c3-b02f-4580-a92d-1098feaceee7
+
 	/// Sản lượng kỳ đầu triệu tấn.
 	measure 'First Production Display' = IF(ISBLANK([First Production]),"Không áp dụng",FORMAT([First Production]/1000000,"#,0.00") & " tr tấn")
 		formatString: @
+		lineageTag: 7db01fb0-90d7-40e7-a299-c08aeaefbabf
+
 	/// Sản lượng kỳ cuối triệu tấn.
 	measure 'Latest Production Display' = IF(ISBLANK([Latest Production]),"Không áp dụng",FORMAT([Latest Production]/1000000,"#,0.00") & " tr tấn")
 		formatString: @
+		lineageTag: 8ade6a4a-2d00-4bff-a4ba-6e21e7827e9c
+
 	/// Thay đổi sản lượng đầu–cuối.
 	measure 'Production Change Pct Display' = IF(ISBLANK([Production Change Pct]),"Không áp dụng",FORMAT([Production Change Pct],"+0.00%;-0.00%"))
 		formatString: @
+		lineageTag: 995c6b9b-9bc6-4f2f-9d5d-691f141cf575
+
 	/// YoY kỳ cuối.
 	measure 'Latest Production YoY Display' = IF(ISBLANK([Latest Production YoY]),"Không áp dụng",FORMAT([Latest Production YoY],"+0.00%;-0.00%"))
 		formatString: @
-	/// Đỉnh sản lượng kèm năm.
-	measure 'Peak Production Display' = IF(ISBLANK([Peak Production]),"Không áp dụng",FORMAT([Peak Production]/1000000,"#,0.00") & " tr tấn (" & FORMAT([Peak Year],"0") & ")")
-		formatString: @
-	/// Cuối kỳ so với đỉnh.
-	measure 'Latest vs Peak Pct Display' = IF(ISBLANK([Latest vs Peak Pct]),"Không áp dụng",FORMAT([Latest vs Peak Pct],"+0.00%;-0.00%"))
-		formatString: @
-	/// Thay đổi diện tích đầu–cuối.
-	measure 'Area Change Pct Display' = IF(ISBLANK([Area Change Pct]),"Không áp dụng",FORMAT([Area Change Pct],"+0.00%;-0.00%"))
-		formatString: @
-	/// Thay đổi năng suất đầu–cuối.
-	measure 'Yield Change Pct Display' = IF(ISBLANK([Yield Change Pct]),"Không áp dụng",FORMAT([Yield Change Pct],"+0.00%;-0.00%"))
-		formatString: @
+		lineageTag: 1586cc7f-8269-4238-92bf-e34019445dce
+
 	/// Formatted export quantity in million tonnes.
 	measure 'Trade Quantity Display' = IF(ISBLANK([Trade Quantity]),"Không áp dụng",FORMAT([Trade Quantity]/1000000,"#,0.00") & " tr tấn")
 		formatString: @
-	/// Formatted export quantity in million tonnes for latest year.
-	measure 'Latest Trade Quantity Display' = VAR y=[Latest Trade Year] RETURN IF(ISBLANK([Latest Trade Quantity]),"Không áp dụng",FORMAT([Latest Trade Quantity]/1000000,"#,0.00") & " tr tấn · " & FORMAT(y,"0"))
-		formatString: @
+		lineageTag: ae4c25f2-9151-4432-ab45-c7d52f3dbce4
+
 	/// Formatted export value in billion USD.
 	measure 'Trade Value Display' = IF(ISBLANK([Trade Value]),"Không áp dụng",FORMAT([Trade Value]/1000000000,"$#,0.00") & " tỷ USD")
 		formatString: @
+		lineageTag: 3734c726-b716-4eff-8a51-dea7a88852e3
+
 	/// Formatted unit value USD/tonne.
 	measure 'Trade Unit Value Display' = IF(ISBLANK([Trade Unit Value]),"Không áp dụng",FORMAT([Trade Unit Value],"$#,0.00") & " /tấn")
 		formatString: @
-	/// Formatted distinct partner count.
-	measure 'Trade Partners Display' = IF(ISBLANK([Trade Partners]),"Không áp dụng",FORMAT([Trade Partners],"#,0") & " đối tác")
-		formatString: @
+		lineageTag: a63cab28-091d-4641-8a50-cba34c15370f
+
 	/// Formatted paired groups count as partner-year pairs.
 	measure 'Trade Paired Groups Display' = IF(ISBLANK([Trade Paired Groups]),"Không áp dụng",FORMAT([Trade Paired Groups],"#,0") & " cặp đối tác–năm")
 		formatString: @
+		lineageTag: 407bb629-e765-4ff2-9f21-39e80a25e27e
+
+	/// Tỷ lệ quan sát khuyết trên tổng quan sát.
+	measure 'Null Percentage' = DIVIDE([Present NULL], [Total Observations])
+		formatString: 0.00%
+		lineageTag: 24ef286a-1b09-4566-992f-8a671f1cc927
+
+	/// Tỷ lệ quan sát khuyết cao nhất trong 9 fact.
+	measure 'Highest Null Fact Pct' = MAXX(Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]))
+		formatString: 0.00%
+		lineageTag: 65724582-1c74-4780-8683-9887f9c03322
+
+	/// Tên tiếng Việt và tỷ lệ của fact có tỷ lệ khuyết cao nhất.
+	measure 'Highest Null Fact Display' = VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) VAR pct = MAXX(maxFact, DIVIDE(Overview[present_null_rows], Overview[rows_total])) VAR factName = MAXX(maxFact, Overview[fact_name_vi]) RETURN factName & ": " & FORMAT(pct, "0.00%")
+		formatString: @
+		lineageTag: d96e4f3a-ab97-4e29-9a4f-be2c9cbc94ff
+
+	/// First selected numeric V06.12 annual area year.
+	measure 'First Area Year' = MINX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Annual Area]))), CalendarYear[Year])
+		formatString: 0
+		lineageTag: 05b1f9d8-1972-4d7b-9224-fef713ff1780
+
+	/// Latest selected numeric V06.12 annual area year.
+	measure 'Latest Area Year' = MAXX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Annual Area]))), CalendarYear[Year])
+		formatString: 0
+		lineageTag: fcc9edcd-42a7-44f5-b44d-12f037d80046
+
+	/// First numeric selected annual area, V06.12 hectares.
+	measure 'First Area' = VAR y=[First Area Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Annual Area], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
+		formatString: #,0
+		lineageTag: 180d66ca-4aea-41bc-9605-0b325e3c38ce
+
+	/// Latest numeric selected annual area, V06.12 hectares.
+	measure 'Latest Area' = VAR y=[Latest Area Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Annual Area], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
+		formatString: #,0
+		lineageTag: ffb8e151-fbe1-451d-a430-e0fe7acf15f7
+
+	/// Tăng trưởng diện tích gieo trồng cả giai đoạn.
+	measure 'Area Change Pct' = IF([First Area]>0 && [First Area Year]<[Latest Area Year], DIVIDE([Latest Area]-[First Area], [First Area]))
+		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: 38693a17-fbd1-4413-99fb-4fa880ee413f
+
+	/// First selected numeric V06.14 reported yield year.
+	measure 'First Yield Year' = MINX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Reported Yield]))), CalendarYear[Year])
+		formatString: 0
+		lineageTag: 0dd20b49-1b5d-4481-9c1d-fcd00b7a7ba7
+
+	/// Latest selected numeric V06.14 reported yield year.
+	measure 'Latest Yield Year' = MAXX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Reported Yield]))), CalendarYear[Year])
+		formatString: 0
+		lineageTag: 7b2720b4-e643-49aa-9869-147ac15b69b6
+
+	/// First numeric selected reported yield, V06.14 kg/ha.
+	measure 'First Yield' = VAR y=[First Yield Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Reported Yield], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
+		formatString: #,0.00
+		lineageTag: ca8f84d7-92b4-4d87-a474-0ac7134a0fdb
+
+	/// Latest numeric selected reported yield, V06.14 kg/ha.
+	measure 'Latest Yield' = VAR y=[Latest Yield Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Reported Yield], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
+		formatString: #,0.00
+		lineageTag: 4d7361f2-fdf5-4da8-98ba-d94d0a1d7aba
+
+	/// Tăng trưởng năng suất lúa công bố cả giai đoạn.
+	measure 'Yield Change Pct' = IF([First Yield]>0 && [First Yield Year]<[Latest Yield Year], DIVIDE([Latest Yield]-[First Yield], [First Yield]))
+		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: 49acc56d-eab6-4d21-8a32-69018bfe0f2b
+
+	/// Chỉ số sản lượng lúa so với năm gốc 1961 (1961=100); loại trừ chênh lệch quy mô tuyệt đối.
+	measure 'FAO Production Index' = VAR cur=[FAO Production] VAR base=CALCULATE([FAO Production],REMOVEFILTERS(CalendarYear),CalendarYear[Year]=1961) RETURN IF(NOT ISBLANK(cur) && base>0,DIVIDE(cur,base)*100)
+		formatString: #,0.00
+		lineageTag: ea368818-1269-409e-8f4f-5a9ff33bc2b6
+
+	/// Tiêu đề động biểu đồ sản lượng lúa theo năm chung.
+	measure 'FAO Common Production Title' = "[Lúa] Sản lượng lúa tại năm chung (" & FORMAT([FAO Common Year],"0") & ")"
+		formatString: @
+		lineageTag: a77c3e6e-2e6e-450a-bb2f-8a543b865f99
+
+	/// Tháng mới nhất có giá World Bank trong phạm vi chọn.
+	measure 'Latest WB Month' = MAXX(FILTER(ALLSELECTED(BenchmarkMonth[Date]), NOT ISBLANK(CALCULATE(MAX(WB[price_usd_t])))), BenchmarkMonth[Date])
+		formatString: @
+		lineageTag: 3e6286a0-8577-4660-8abf-b3af18cebe92
+
+	/// Mức giá World Bank tại tháng mới nhất của chuỗi đang chọn.
+	measure 'Latest WB Price' = VAR m=[Latest WB Month] RETURN IF(NOT ISBLANK(m) && HASONEVALUE(WB[series_code]), CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(BenchmarkMonth), BenchmarkMonth[Date]=m))
+		formatString: #,0.00
+		lineageTag: f413f3ac-8be2-48a4-9282-56a76ca2f0a3
+
+	/// Thay đổi MoM tại tháng mới nhất của chuỗi đang chọn.
+	measure 'Latest WB MoM' = VAR m=[Latest WB Month] RETURN IF(NOT ISBLANK(m) && HASONEVALUE(WB[series_code]), CALCULATE(MAX(WB[monthly_change_pct])/100, REMOVEFILTERS(BenchmarkMonth), BenchmarkMonth[Date]=m))
+		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: f259c4b7-ba2d-41b3-830c-f8b66d1d5b92
+
+	/// Thẻ giá WB mới nhất kèm MoM.
+	measure 'Latest WB Price Display' = IF(ISBLANK([Latest WB Price]), "Chọn 1 chuỗi", FORMAT([Latest WB Price], "$#,0.00") & " /tấn (" & FORMAT([Latest WB MoM], "+0.00%;-0.00%") & ")")
+		formatString: @
+		lineageTag: 71d7fa77-0c92-4936-9c0f-bc7afb00a6c1
+
+	/// Thẻ đỉnh giá WB.
+	measure 'WB Peak Display' = IF(ISBLANK([WB Peak]), "Chọn 1 chuỗi", FORMAT([WB Peak], "$#,0.00") & " /tấn")
+		formatString: @
+		lineageTag: 332e21c4-771a-45a4-92cc-c8e8a261970d
+
+	/// Thẻ đáy giá WB.
+	measure 'WB Minimum Display' = IF(ISBLANK([WB Minimum]), "Chọn 1 chuỗi", FORMAT([WB Minimum], "$#,0.00") & " /tấn")
+		formatString: @
+		lineageTag: e09a0457-4624-44e1-b033-6bb5047ea06b
+
+	/// Thẻ số tháng có giá WB.
+	measure 'WB Numeric Months Display' = FORMAT([WB Numeric Months], "#,0") & " tháng"
+		formatString: @
+		lineageTag: 76aefaf3-70c3-4278-96b6-196ad2d18153
+
+	/// Tiêu đề động biểu đồ biến động 12M kèm ghi chú khoảng khuyết dữ liệu khi hiển thị chuỗi VN.
+	measure 'WB Volatility Title' = IF(HASONEVALUE(WB[series_code]), "[Gạo xay xát] Biến động 12M – " & SELECTEDVALUE(WB[series_name_vi]) & IF(SELECTEDVALUE(WB[series_code]) = "rice_viet_namese_5", " (VN khuyết 12/2005–03/2010)", " (%)"), "[Gạo xay xát] Biến động 12M – Thái 5% & VN 5% (VN khuyết 12/2005–03/2010)")
+		formatString: @
+		lineageTag: 7c8cb218-8bdf-49df-adee-3bf9e57b1c69
+
+	/// Số lượng quốc gia đối tác xuất khẩu thực tế trong phạm vi lọc (7 đối tác).
+	measure 'Trade Partners' = DISTINCTCOUNT(Trade[partner_name])
+		formatString: #,0
+		lineageTag: a2cb4e9c-5d59-4394-8435-94f4e12ee657
+
+	/// Năm xuất khẩu mới nhất có dữ liệu.
+	measure 'Latest Trade Year' = MAXX(FILTER(ALLSELECTED(CalendarYear[Year]), NOT ISBLANK(CALCULATE([Trade Quantity]))), CalendarYear[Year])
+		formatString: 0
+		lineageTag: 63c0047a-4112-4e70-82cb-774061292119
+
+	/// Reported export tonnes in latest selected year.
+	measure 'Latest Trade Quantity' = VAR y=[Latest Trade Year] RETURN IF(NOT ISBLANK(y), CALCULATE([Trade Quantity], REMOVEFILTERS(CalendarYear), CalendarYear[Year]=y))
+		formatString: #,0.00
+		lineageTag: e08e4b00-898f-453c-aae6-75579eb1a853
+
+	/// Tỷ lệ khuyết format vi-VN.
+	measure 'Null Percentage Display' = FORMAT([Null Percentage], "0.00%")
+		formatString: @
+		lineageTag: 4d7775a4-0167-4fd0-9243-3c4fd18fdec6
+
+	/// Tỷ lệ khuyết cao nhất format vi-VN.
+	measure 'Highest Null Fact Pct Display' = FORMAT([Highest Null Fact Pct], "0.00%")
+		formatString: @
+		lineageTag: 5e36886f-6cb3-4b1f-92b9-cbf1d766b8bc
+
+	/// Đỉnh sản lượng kèm năm.
+	measure 'Peak Production Display' = IF(ISBLANK([Peak Production]),"Không áp dụng",FORMAT([Peak Production]/1000000,"#,0.00") & " tr tấn (" & FORMAT([Peak Year],"0") & ")")
+		formatString: @
+		lineageTag: 9dee0f07-5b7c-4a5a-8e0a-32669ecd0739
+
+	/// Cuối kỳ so với đỉnh.
+	measure 'Latest vs Peak Pct Display' = IF(ISBLANK([Latest vs Peak Pct]),"Không áp dụng",FORMAT([Latest vs Peak Pct],"+0.00%;-0.00%"))
+		formatString: @
+		lineageTag: 808af5cc-80fc-4e40-9ad8-3a6638dfb899
+
+	/// Thay đổi diện tích đầu–cuối.
+	measure 'Area Change Pct Display' = IF(ISBLANK([Area Change Pct]),"Không áp dụng",FORMAT([Area Change Pct],"+0.00%;-0.00%"))
+		formatString: @
+		lineageTag: a192a09f-7630-45fb-86f8-0a2c7acdae25
+
+	/// Thay đổi năng suất đầu–cuối.
+	measure 'Yield Change Pct Display' = IF(ISBLANK([Yield Change Pct]),"Không áp dụng",FORMAT([Yield Change Pct],"+0.00%;-0.00%"))
+		formatString: @
+		lineageTag: 7fdd59eb-21ea-46ee-a5d7-2a1adb1dbd36
+
+	/// Formatted export quantity in million tonnes for latest year.
+	measure 'Latest Trade Quantity Display' = VAR y=[Latest Trade Year] RETURN IF(ISBLANK([Latest Trade Quantity]),"Không áp dụng",FORMAT([Latest Trade Quantity]/1000000,"#,0.00") & " tr tấn · " & FORMAT(y,"0"))
+		formatString: @
+		lineageTag: 01d78c84-8875-4ad9-a5a5-c1025123dca8
+
+	/// Formatted distinct partner count.
+	measure 'Trade Partners Display' = IF(ISBLANK([Trade Partners]),"Không áp dụng",FORMAT([Trade Partners],"#,0") & " đối tác")
+		formatString: @
+		lineageTag: 1df31362-5f38-471f-a884-678007e41269
+
+	/// Sản lượng lúa cả năm triệu tấn.
+	measure 'Annual Production Mil' = [Annual Production] / 1000000
+		formatString: #,0.00
+		lineageTag: cd5e384d-828d-45b8-b669-f3b8387bfd3c
+
+	/// Diện tích lúa cả năm triệu ha.
+	measure 'Annual Area Mil' = [Annual Area] / 1000000
+		formatString: #,0.00
+		lineageTag: dbadc5fb-823c-4d8c-994e-a0c34975e759
+
+	/// Sản lượng lúa theo vụ triệu tấn.
+	measure 'Seasonal Production Mil' = [Seasonal Production] / 1000000
+		formatString: #,0.00
+		lineageTag: 06d71bba-9916-4f0f-9a0d-70987af9c2c0
+
+	/// Sản lượng lúa tại năm chung triệu tấn.
+	measure 'FAO Common Production Mil' = [FAO Common Production] / 1000000
+		formatString: #,0.0
+		lineageTag: 76c1ecba-56fa-48a2-a691-3e0bea4d481f
+
+	/// Diện tích scatter triệu ha.
+	measure 'FAO Scatter Area Mil' = [FAO Scatter Area] / 1000000
+		formatString: #,0.0
+		lineageTag: 7673185e-ca98-4569-b196-f028a3699e34
+
+	/// Sản lượng scatter triệu tấn.
+	measure 'FAO Scatter Production Mil' = [FAO Scatter Production] / 1000000
+		formatString: #,0.0
+		lineageTag: d5796bac-2670-4a56-b11e-19be39d39307
+
+	/// Tiêu thụ thực phẩm triệu tấn.
+	measure 'SUA Food Supply Mil' = [SUA Food Supply] / 1000000
+		formatString: #,0.00
+		lineageTag: cf49b7c5-80a8-4674-b847-8d4a70e8d00a
+
+	/// Chế biến triệu tấn.
+	measure 'SUA Processed Mil' = [SUA Processed] / 1000000
+		formatString: #,0.00
+		lineageTag: f9edf192-ab4a-4d55-8b22-dd2d534a13e1
+
+	/// Tồn kho đầu kỳ triệu tấn.
+	measure 'SUA Opening Stocks Mil' = [SUA Opening Stocks] / 1000000
+		formatString: #,0.00
+		lineageTag: 451b106a-28c0-4bdb-97a7-e1c361b50fef
+
+	/// Biến động tồn kho triệu tấn.
+	measure 'SUA Stock Variation Mil' = [SUA Stock Variation] / 1000000
+		formatString: #,0.00
+		lineageTag: f2851859-54b9-4211-9531-80315f45ee55
+
+	/// Sai số thống kê triệu tấn.
+	measure 'SUA Residuals Mil' = [SUA Residuals] / 1000000
+		formatString: #,0.00
+		lineageTag: f9d543de-503a-4fbc-bb1a-d9b7d143dfee
+
+	/// Sản xuất USDA PSD triệu tấn.
+	measure 'PSD Production Mil' = [PSD Production] / 1000000
+		formatString: #,0.00
+		lineageTag: b0c492f5-ab6d-4cea-b5b8-58d41a3ec53d
+
+	/// Tiêu dùng USDA PSD triệu tấn.
+	measure 'PSD Consumption Mil' = [PSD Consumption] / 1000000
+		formatString: #,0.00
+		lineageTag: 8f4885c3-7018-4b9e-abdc-ef8e629afa10
+
+	/// Tồn kho cuối kỳ USDA PSD triệu tấn.
+	measure 'PSD Ending Stocks Mil' = [PSD Ending Stocks] / 1000000
+		formatString: #,0.00
+		lineageTag: 4028918d-043b-492c-aaee-46347837e240
+
+	/// Lượng xuất khẩu triệu tấn.
+	measure 'Trade Quantity Mil' = [Trade Quantity] / 1000000
+		formatString: #,0.00
+		lineageTag: a5b120cb-c4b8-4e2b-ac42-6ed216f1bc1a
+
+	/// Giá trị xuất khẩu tỷ USD.
+	measure 'Trade Value Bil' = [Trade Value] / 1000000000
+		formatString: #,0.00
+		lineageTag: c6f44fec-d2bf-44f6-82ae-5953567eb68a
+
+	/// Giá FOB USDA đối sánh 4 nước (mặc định Gạo 5% tấm nếu chưa chọn).
+	measure 'USDA FOB Chart Price' = VAR chosen_class = SELECTEDVALUE(USDAPrice[commodity_class], "5-PERCENT BROKEN") RETURN CALCULATE(AVERAGE(USDAPrice[price_usd_t]), KEEPFILTERS(USDAPrice[commodity_class] = chosen_class))
+		formatString: #,0.00
+		lineageTag: f1ed9217-cde2-44a0-b2f2-fb4ff14de1df
+
+	/// Tiêu đề động biểu đồ giá FOB USDA.
+	measure 'USDA FOB Chart Title' = VAR chosen_class_vi = SELECTEDVALUE(USDAPrice[commodity_class_vi]) RETURN IF(ISBLANK(chosen_class_vi), "[Gạo xay xát] Giá FOB USDA – Gạo 5% tấm (đối sánh 4 nước) (USD/tấn)", "[Gạo xay xát] Giá FOB USDA – " & chosen_class_vi & " (USD/tấn)")
+		formatString: @
+		lineageTag: 557f5763-c5ca-4d62-9f39-0fbc495b4eee
+
+	/// Giá Gạo Thái 5% mới nhất.
+	measure 'Latest WB Thai 5 Price' = VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_thai_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_thai_5", WB[month_date] = m)
+		formatString: #,0.00
+		lineageTag: df97770e-44a4-4e07-8063-f1ecd1f26a92
+
+	/// Biến động MoM Gạo Thái 5% mới nhất.
+	measure 'Latest WB Thai 5 MoM' = VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_thai_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[monthly_change_pct]) / 100, REMOVEFILTERS(WB), WB[series_code] = "rice_thai_5", WB[month_date] = m)
+		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: 33766ba5-b66e-4fe8-a414-543bb234e64f
+
+	/// Thẻ giá Thái 5% mới nhất kèm MoM.
+	measure 'Latest WB Thai 5 Display' = FORMAT([Latest WB Thai 5 Price], "$#,0.00") & " /tấn (" & FORMAT([Latest WB Thai 5 MoM], "+0.00%;-0.00%") & ")"
+		formatString: @
+		lineageTag: 00d6ca8c-52dd-4084-9b70-425e742c85b7
+
+	/// Giá Gạo Việt Nam 5% mới nhất.
+	measure 'Latest WB VN 5 Price' = VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_viet_namese_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m)
+		formatString: #,0.00
+		lineageTag: e55cc2dc-8254-4de5-a2d6-4aeefc8a269d
+
+	/// Biến động MoM Gạo Việt Nam 5% mới nhất.
+	measure 'Latest WB VN 5 MoM' = VAR m = MAXX(FILTER(ALL(WB), WB[series_code] = "rice_viet_namese_5" && NOT ISBLANK(WB[price_usd_t])), WB[month_date]) RETURN CALCULATE(MAX(WB[monthly_change_pct]) / 100, REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m)
+		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: d1aa3b2a-3ae9-46d9-9ba1-cea85e220143
+
+	/// Thẻ giá Việt Nam 5% mới nhất kèm MoM.
+	measure 'Latest WB VN 5 Display' = FORMAT([Latest WB VN 5 Price], "$#,0.00") & " /tấn (" & FORMAT([Latest WB VN 5 MoM], "+0.00%;-0.00%") & ")"
+		formatString: @
+		lineageTag: 4661a687-f8a6-4f32-ba38-4d188264c972
+
+	/// Tháng mới nhất chung có giá của cả Thái 5% và VN 5%.
+	measure 'Latest Common WB Month' = MAXX(FILTER(ALL(WB[month_date]), VAR m = WB[month_date] RETURN CALCULATE(COUNTROWS(WB), REMOVEFILTERS(WB), WB[month_date] = m, WB[series_code] = "rice_thai_5", NOT ISBLANK(WB[price_usd_t])) > 0 && CALCULATE(COUNTROWS(WB), REMOVEFILTERS(WB), WB[month_date] = m, WB[series_code] = "rice_viet_namese_5", NOT ISBLANK(WB[price_usd_t])) > 0), WB[month_date])
+		formatString: yyyy-MM-dd
+		lineageTag: 589d93ed-a81d-43ab-bbd0-3b7bdeff7d76
+
+	/// Chênh lệch giá World Bank: Việt Nam 5% − Thái 5% (USD/tấn).
+	measure 'WB Spread VN5 vs Thai5' = VAR m = [Latest Common WB Month] VAR vn = CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_viet_namese_5", WB[month_date] = m) VAR thai = CALCULATE(MAX(WB[price_usd_t]), REMOVEFILTERS(WB), WB[series_code] = "rice_thai_5", WB[month_date] = m) RETURN IF(NOT ISBLANK(vn) && NOT ISBLANK(thai), vn - thai)
+		formatString: #,0.00
+		lineageTag: 5433924e-2b64-45c5-add9-007643abebf3
+
+	/// Thẻ chênh lệch giá VN 5% − Thái 5%.
+	measure 'WB Spread VN5 vs Thai5 Display' = IF(ISBLANK([WB Spread VN5 vs Thai5]), "Không áp dụng", FORMAT([WB Spread VN5 vs Thai5], "+$#,0.00;-$#,0.00;$0.00") & " /tấn")
+		formatString: @
+		lineageTag: 633e00bd-8f36-4d50-8bf4-c6af40079d5f
+
+	/// Biến động MoM: 2 chuỗi 5% đối sánh mặc định khi chưa lọc, hoặc chuỗi được chọn trên slicer.
+	measure 'WB MoM Comparison' = VAR selected_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALLSELECTED(WB), REMOVEFILTERS(BenchmarkMonth)) VAR total_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALL(WB)) VAR cur_code = SELECTEDVALUE(WB[series_code]) RETURN IF(NOT ISBLANK(cur_code) && (selected_cnt < total_cnt || cur_code IN {"rice_thai_5", "rice_viet_namese_5"}), [WB MoM])
+		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: b27f9dfa-70ef-4f9e-8ad9-0ee5f53ce4de
+
+	/// Độ biến động 12M: 2 chuỗi 5% đối sánh mặc định khi chưa lọc, hoặc chuỗi được chọn trên slicer.
+	measure 'WB Volatility Comparison' = VAR selected_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALLSELECTED(WB), REMOVEFILTERS(BenchmarkMonth)) VAR total_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALL(WB)) VAR cur_code = SELECTEDVALUE(WB[series_code]) RETURN IF(NOT ISBLANK(cur_code) && (selected_cnt < total_cnt || cur_code IN {"rice_thai_5", "rice_viet_namese_5"}), [WB Volatility])
+		formatString: 0.00%
+		lineageTag: 4b5a7c06-200a-4a9e-b64c-af8633f4d63a
+
+	/// Tiêu đề động biểu đồ MoM.
+	measure 'WB MoM Title' = IF(HASONEVALUE(WB[series_code]), "[Gạo xay xát] Biến động MoM – " & SELECTEDVALUE(WB[series_name_vi]) & " (%)", "[Gạo xay xát] Biến động MoM – Gạo Thái 5% & VN 5% (%)")
+		formatString: @
+		lineageTag: d6be42d9-69e6-435a-8061-83b8287ea267
+
+	/// Giá nội địa theo chuỗi chọn trên slicer (mặc định IR 50404 tươi · Thương lái thu mua); lọc bỏ giá < 1000 VND/kg và trả BLANK() khi thiếu quan sát.
+	measure 'Domestic Quote Chart Price' = VAR chosen_series = IF(ISFILTERED(VNQuote[series_label]) && COUNTROWS(FILTERS(VNQuote[series_label])) = 1, MAXX(FILTERS(VNQuote[series_label]), VNQuote[series_label]), "Lúa IR 50404 (lúa tươi) · Thương lái thu mua") VAR valid_rows = FILTER(VNQuote, VNQuote[series_label] = chosen_series && NOT ISBLANK(VNQuote[price_vnd_kg]) && VNQuote[price_vnd_kg] >= 1000) RETURN IF(COUNTROWS(valid_rows) > 0, AVERAGEX(valid_rows, VNQuote[price_vnd_kg]), BLANK())
+		formatString: #,0
+		lineageTag: 328d5b48-1aac-486d-9a2d-5a293f4dad69
+
+	/// Tiêu đề động biểu đồ giá nội địa liệt kê đúng chuỗi đang chọn và tập thị trường hợp lệ.
+	measure 'Domestic Quote Chart Title' = VAR chosen_series = IF(ISFILTERED(VNQuote[series_label]) && COUNTROWS(FILTERS(VNQuote[series_label])) = 1, MAXX(FILTERS(VNQuote[series_label]), VNQuote[series_label]), "Lúa IR 50404 (lúa tươi) · Thương lái thu mua") VAR valid_markets = FILTER(VALUES(VNQuote[market]), CALCULATE(COUNTROWS(VNQuote), VNQuote[series_label] = chosen_series, NOT ISBLANK(VNQuote[price_vnd_kg]), VNQuote[price_vnd_kg] >= 1000) > 0) VAR market_list = CONCATENATEX(valid_markets, VNQuote[market], ", ", VNQuote[market], ASC) RETURN IF(ISBLANK(market_list) || market_list = "", "[Lúa] Giá nội địa – " & chosen_series & " (không có dữ liệu)", "[Lúa] Giá nội địa (" & market_list & ") – " & chosen_series & " (VND/kg)")
+		formatString: @
+		lineageTag: 8c5d58ba-7584-4c03-97fc-ca46201ae22e
+
+	/// Tiêu đề động biểu đồ phân tán diện tích – sản lượng.
+	measure 'FAO Scatter Title' = IF(ISBLANK([FAO Scatter Year]), "[Lúa] Diện tích và sản lượng · Không áp dụng", "[Lúa] Diện tích và sản lượng (năm " & FORMAT([FAO Scatter Year], "0") & ")")
+		formatString: @
+		lineageTag: 933e0150-a597-42ab-a36f-30fd50e0a59c
+
 	/// Phạm vi 9 bảng Fact.
 	measure 'Overview Scope Ref' = "9 bảng Fact · Gold layer"
 		formatString: @
+		lineageTag: 2b4af87d-a423-4e17-b337-9d334fa6ab12
+
 	/// Màu chú thích cho Overview Scope Ref.
 	measure 'Overview Scope Ref Color' = "#64748B"
 		formatString: @
+		lineageTag: f6dbafd1-c315-4e8b-8826-4213b252e1e0
+
 	/// Số quan sát có giá trị số.
 	measure 'Overview Numeric Ref' = FORMAT([Numeric Observations], "#,0") & " có số thực"
 		formatString: @
+		lineageTag: 9faf234d-727e-4e21-b514-4f6b819a7750
+
 	/// Màu chú thích cho Overview Numeric Ref.
 	measure 'Overview Numeric Ref Color' = "#16A34A"
 		formatString: @
+		lineageTag: c10059a5-c72a-4606-b02d-0b143e31759c
+
 	/// Số quan sát khuyết có ghi nhận.
 	measure 'Overview Null Ref' = FORMAT([Present NULL], "#,0") & " giá trị NULL"
 		formatString: @
+		lineageTag: f0911c32-5807-44c9-90f2-e458f7079fb4
+
 	/// Màu chú thích cho Overview Null Ref.
 	measure 'Overview Null Ref Color' = "#64748B"
 		formatString: @
+		lineageTag: 2b023647-acec-4382-898f-8a8923381b78
+
 	/// Tên nguồn có tỷ lệ khuyết cao nhất.
 	measure 'Highest Null Fact Ref' = VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) RETURN "Nguồn: " & MAXX(maxFact, Overview[fact_name_vi])
 		formatString: @
+		lineageTag: b960bb17-14b9-435b-8901-22952e816b2b
+
 	/// Màu chú thích cho Highest Null Fact Ref.
 	measure 'Highest Null Fact Ref Color' = "#64748B"
 		formatString: @
+		lineageTag: cda5a106-abf1-4709-8fb3-9b5b7e1ea621
+
 	/// Đỉnh sản lượng triệu tấn.
 	measure 'Peak Production Hero' = IF(ISBLANK([Peak Production]), "Không áp dụng", FORMAT([Peak Production]/1000000, "#,0.00") & " tr tấn")
 		formatString: @
+		lineageTag: 84e73260-2e4c-4dd3-831b-dda2e662c33d
+
 	/// Năm bắt đầu giai đoạn chọn.
 	measure 'First Production Year Ref' = IF(ISBLANK([First Production Year]), "Không áp dụng", "Năm " & FORMAT([First Production Year], "0"))
 		formatString: @
+		lineageTag: b3eb6418-5cb1-4d12-b626-d8c1e298ee2a
+
 	/// Màu chú thích cho First Production Year Ref.
 	measure 'First Production Year Ref Color' = "#64748B"
 		formatString: @
+		lineageTag: 57a16bb2-1ee6-4058-aaae-fdaffaba9dab
+
 	/// Tăng trưởng YoY kỳ cuối.
 	measure 'Latest Production YoY Ref' = VAR v = [Latest Production YoY] RETURN IF(ISBLANK(v), "Không áp dụng", IF(v > 0, "▲ " & FORMAT(v, "0.00%") & " YoY", IF(v < 0, "▼ " & FORMAT(v, "0.00%") & " YoY", "• 0,00%" & " YoY")))
 		formatString: @
+		lineageTag: 1ebf3995-c0e7-4c31-98a8-ac7e2199934f
+
 	/// Màu ngữ nghĩa cho Latest Production YoY Ref.
 	measure 'Latest Production YoY Ref Color' = VAR v = [Latest Production YoY] RETURN IF(ISBLANK(v), "#64748B", IF(v > 0, "#16A34A", IF(v < 0, "#DC2626", "#64748B")))
 		formatString: @
+		lineageTag: 8b5339cb-b97c-439a-8f86-acda29d45081
+
 	/// Mức tăng/giảm tuyệt đối đầu–cuối.
 	measure 'Production Change Abs Ref' = IF(ISBLANK([Production Change]), "Không áp dụng", IF([Production Change] > 0, "▲ +" & FORMAT([Production Change]/1000000, "#,0.00") & " tr tấn", IF([Production Change] < 0, "▼ " & FORMAT([Production Change]/1000000, "#,0.00") & " tr tấn", "• 0,00 tr tấn")))
 		formatString: @
+		lineageTag: cba5adf9-22a7-4067-acb5-7c0b87542fe0
+
 	/// Màu ngữ nghĩa cho Production Change Abs Ref.
 	measure 'Production Change Abs Ref Color' = IF(ISBLANK([Production Change]), "#64748B", IF([Production Change] > 0, "#16A34A", IF([Production Change] < 0, "#DC2626", "#64748B")))
 		formatString: @
+		lineageTag: 22422677-ad98-453b-88b8-fe80f19c29fd
+
 	/// Kỳ so sánh YoY mới nhất.
 	measure 'Latest Production Period Ref' = IF(ISBLANK([Latest Production Year]), "Không áp dụng", IF([Latest Production YoY] >= 0, "▲ ", "▼ ") & FORMAT([Latest Production Year], "0") & " so " & FORMAT([Latest Production Year] - 1, "0"))
 		formatString: @
+		lineageTag: 66e8b2b0-ab32-4614-b67e-00ad2a5afe1e
+
 	/// Năm đạt đỉnh sản lượng.
 	measure 'Peak Year Ref' = IF(ISBLANK([Peak Year]), "Không áp dụng", "Kỷ lục năm " & FORMAT([Peak Year], "0"))
 		formatString: @
+		lineageTag: 00c260d6-0ad0-4b66-bbd9-76d827476809
+
 	/// Màu chú thích cho Peak Year Ref.
 	measure 'Peak Year Ref Color' = "#0F6B5E"
 		formatString: @
+		lineageTag: 1e4dd449-e783-41e7-9a82-9ca64562b572
+
 	/// So sánh kỳ cuối với đỉnh.
 	measure 'Latest vs Peak Ref' = IF(ISBLANK([Latest vs Peak Pct]), "Không áp dụng", IF([Latest vs Peak Pct] < 0, "▼ Dưới đỉnh " & FORMAT([Peak Year], "0"), "▲ Đạt đỉnh " & FORMAT([Peak Year], "0")))
 		formatString: @
+		lineageTag: debf0867-cb8c-4f8b-876e-acb913e7c199
+
 	/// Màu ngữ nghĩa cho Latest vs Peak Ref.
 	measure 'Latest vs Peak Ref Color' = IF(ISBLANK([Latest vs Peak Pct]), "#64748B", IF([Latest vs Peak Pct] < 0, "#DC2626", "#16A34A"))
 		formatString: @
+		lineageTag: 4f645bb7-1845-47e8-87d0-9a797512d945
+
 	/// Khoảng thời gian diện tích.
 	measure 'Area Span Ref' = IF(ISBLANK([Area Change Pct]), "Không áp dụng", IF([Area Change Pct] >= 0, "▲ ", "▼ ") & FORMAT([First Area Year], "0") & "–" & FORMAT([Latest Area Year], "0"))
 		formatString: @
+		lineageTag: 6a1c606d-e736-4b72-8ac6-c5054492f43f
+
 	/// Màu ngữ nghĩa thay đổi diện tích.
 	measure 'Area Span Ref Color' = IF(ISBLANK([Area Change Pct]), "#64748B", IF([Area Change Pct] >= 0, "#16A34A", "#DC2626"))
 		formatString: @
+		lineageTag: 2a53b1ae-7108-4afb-9736-de29584382e1
+
 	/// Khoảng thời gian năng suất.
 	measure 'Yield Span Ref' = IF(ISBLANK([Yield Change Pct]), "Không áp dụng", IF([Yield Change Pct] >= 0, "▲ ", "▼ ") & FORMAT([First Yield Year], "0") & "–" & FORMAT([Latest Yield Year], "0"))
 		formatString: @
+		lineageTag: a0a6acae-cb25-4491-b8e4-a2622a9e9d5e
+
 	/// Màu ngữ nghĩa thay đổi năng suất.
 	measure 'Yield Span Ref Color' = IF(ISBLANK([Yield Change Pct]), "#64748B", IF([Yield Change Pct] >= 0, "#16A34A", "#DC2626"))
 		formatString: @
+		lineageTag: d88d5aa5-3d83-4711-aeae-e61b173aef14
+
 	/// Giá gạo Thái 5% mới nhất.
 	measure 'Latest WB Thai 5 Hero' = FORMAT([Latest WB Thai 5 Price], "$#,0.00") & " /tấn"
 		formatString: @
+		lineageTag: f4198f51-8b28-4be9-8b42-2ea5fbbb704a
+
 	/// Giá gạo Việt Nam 5% mới nhất.
 	measure 'Latest WB VN 5 Hero' = FORMAT([Latest WB VN 5 Price], "$#,0.00") & " /tấn"
 		formatString: @
+		lineageTag: 999d26fe-75c4-44bc-983b-f0b519f7d8c1
+
 	/// Biến động MoM gạo Thái 5%.
 	measure 'Latest WB Thai 5 MoM Ref' = VAR v = [Latest WB Thai 5 MoM] RETURN IF(ISBLANK(v), "Không áp dụng", IF(v > 0, "▲ " & FORMAT(v, "0.00%") & " MoM", IF(v < 0, "▼ " & FORMAT(v, "0.00%") & " MoM", "• 0,00%" & " MoM")))
 		formatString: @
+		lineageTag: 01676b6f-4dce-4430-bb83-6c7f508d1f64
+
 	/// Màu ngữ nghĩa cho Latest WB Thai 5 MoM Ref.
 	measure 'Latest WB Thai 5 MoM Ref Color' = VAR v = [Latest WB Thai 5 MoM] RETURN IF(ISBLANK(v), "#64748B", IF(v > 0, "#16A34A", IF(v < 0, "#DC2626", "#64748B")))
 		formatString: @
+		lineageTag: 53c38e9d-40e2-47ca-b257-ed1fc6532fd3
+
 	/// Biến động MoM gạo VN 5%.
 	measure 'Latest WB VN 5 MoM Ref' = VAR v = [Latest WB VN 5 MoM] RETURN IF(ISBLANK(v), "Không áp dụng", IF(v > 0, "▲ " & FORMAT(v, "0.00%") & " MoM", IF(v < 0, "▼ " & FORMAT(v, "0.00%") & " MoM", "• 0,00%" & " MoM")))
 		formatString: @
+		lineageTag: c3676838-d6db-4963-9a1e-5c826df729de
+
 	/// Màu ngữ nghĩa cho Latest WB VN 5 MoM Ref.
 	measure 'Latest WB VN 5 MoM Ref Color' = VAR v = [Latest WB VN 5 MoM] RETURN IF(ISBLANK(v), "#64748B", IF(v > 0, "#16A34A", IF(v < 0, "#DC2626", "#64748B")))
 		formatString: @
+		lineageTag: 67238ed0-b4da-4392-9134-4f2bd6725b25
+
 	/// Tháng chung mới nhất.
 	measure 'Latest Common WB Ref' = IF(ISBLANK([Latest Common WB Month]), "Không áp dụng", "Kỳ chung: " & FORMAT([Latest Common WB Month], "MM/yyyy"))
 		formatString: @
+		lineageTag: 6afb126c-85f3-4b25-82be-7761040abdfc
+
 	/// Màu chú thích cho Latest Common WB Ref.
 	measure 'Latest Common WB Ref Color' = "#64748B"
 		formatString: @
+		lineageTag: e1caf111-e7c7-46c0-838f-bd11dedc6a73
+
 	/// Số cặp đối tác–năm.
 	measure 'Trade Paired Groups Hero' = IF(ISBLANK([Trade Paired Groups]), "Không áp dụng", FORMAT([Trade Paired Groups], "#,0") & " cặp")
 		formatString: @
+		lineageTag: 7cf7e2d8-0c63-45d4-877a-1ca69ad611c7
+
 	/// Sản lượng xuất khẩu năm gần nhất.
 	measure 'Latest Trade Quantity Hero' = IF(ISBLANK([Latest Trade Quantity]), "Không áp dụng", FORMAT([Latest Trade Quantity]/1000000, "#,0.00") & " tr tấn")
 		formatString: @
+		lineageTag: 1587a99c-0f8c-46af-96d5-dd3f3a3788c2
+
 	/// Phụ đề số đối tác.
 	measure 'Trade Partners Ref' = "Thị trường trọng điểm"
 		formatString: @
+		lineageTag: 2e5b5099-39b8-456f-84b9-c984a1625131
+
 	/// Màu chú thích cho Trade Partners Ref.
 	measure 'Trade Partners Ref Color' = "#64748B"
 		formatString: @
+		lineageTag: ac24c6d1-0907-4a65-90bd-13e79df62d38
+
 	/// Phụ đề cặp đối tác–năm.
 	measure 'Trade Paired Groups Ref' = "Cặp đối tác–năm"
 		formatString: @
+		lineageTag: 93869e95-a066-428c-a5fa-954e4c16a806
+
 	/// Màu chú thích cho Trade Paired Groups Ref.
 	measure 'Trade Paired Groups Ref Color' = "#64748B"
 		formatString: @
+		lineageTag: b67a5d69-270f-4032-88e4-680a36ac1b90
+
 	/// Năm xuất khẩu gần nhất.
 	measure 'Latest Trade Year Ref' = IF(ISBLANK([Latest Trade Year]), "Không áp dụng", "Năm " & FORMAT([Latest Trade Year], "0"))
 		formatString: @
+		lineageTag: 93911d57-b5d8-4b83-82ea-b1f73cb9b978
+
 	/// Màu chú thích cho Latest Trade Year Ref.
 	measure 'Latest Trade Year Ref Color' = "#0F6B5E"
 		formatString: @
+		lineageTag: 72673dcd-7e58-4ca2-b487-67a7de0cee2a
+
 	/// Khoảng năm thương mại.
 	measure 'Trade Span Ref' = IF(ISBLANK(MIN(Trade[year])), "Không áp dụng", "Giai đoạn " & FORMAT(MIN(Trade[year]), "0") & "–" & FORMAT(MAX(Trade[year]), "0"))
 		formatString: @
+		lineageTag: c2f8fd51-e185-4648-8bf2-f077390cbe3b
+
 	/// Màu chú thích cho Trade Span Ref.
 	measure 'Trade Span Ref Color' = "#64748B"
 		formatString: @
+		lineageTag: 099e0e36-91dd-4210-9cc0-ffbc16385faf
+
 	/// Phụ đề kim ngạch xuất khẩu.
 	measure 'Trade Value Ref' = "Tổng kim ngạch 7 nước"
 		formatString: @
+		lineageTag: ee9c9ff1-5cc0-4977-9613-85c372fc50a7
+
 	/// Màu chú thích cho Trade Value Ref.
 	measure 'Trade Value Ref Color' = "#64748B"
 		formatString: @
+		lineageTag: 3ba2d001-14c4-467a-8f63-a9fbc364ab90
+
 	/// Phụ đề đơn giá bình quân.
 	measure 'Trade Unit Value Ref' = "Tỷ số Giá trị / Lượng"
 		formatString: @
+		lineageTag: 02f611bf-d38b-4875-aa52-e033e1cad6cc
+
 	/// Màu chú thích cho Trade Unit Value Ref.
 	measure 'Trade Unit Value Ref Color' = "#64748B"
 		formatString: @
+		lineageTag: da405a90-902f-4348-9afe-20ad29d753b8
+
+	column fact_name
+		dataType: string
+		lineageTag: 70776c28-e938-493b-b38d-736298959c89
+		summarizeBy: none
+		sourceColumn: fact_name
+
+	column rows_total
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9cefb5fa-7508-460e-89b4-b71fb3eba3e1
+		summarizeBy: none
+		sourceColumn: rows_total
+
+	column numeric_rows
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3f3c3bab-382c-4bf6-beba-ebf9cca77b37
+		summarizeBy: none
+		sourceColumn: numeric_rows
+
+	column present_null_rows
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2e284ab8-9a04-4f91-a869-9eba1f0155a1
+		summarizeBy: none
+		sourceColumn: present_null_rows
+
+	column numeric_coverage_pct
+		dataType: double
+		lineageTag: 1f7275ec-4987-4306-bfc6-2f1cc13b31c2
+		summarizeBy: none
+		sourceColumn: numeric_coverage_pct
+
+	column period_min
+		dataType: string
+		lineageTag: 9651061a-d29c-4fdd-8ea4-f3ef2540ffc7
+		summarizeBy: none
+		sourceColumn: period_min
+
+	column period_max
+		dataType: string
+		lineageTag: fb5fb75e-b1a3-4511-be52-d20f3e205443
+		summarizeBy: none
+		sourceColumn: period_max
+
+	column represented_periods
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0b2bd439-9695-4073-95f2-1834ef2747d5
+		summarizeBy: none
+		sourceColumn: represented_periods
+
+	column period_grain
+		dataType: string
+		lineageTag: 6b88bffe-aa34-46a6-bf0b-85ddd6f5e2e2
+		summarizeBy: none
+		sourceColumn: period_grain
+
+	column null_pct
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 82ef611d-45c8-4dc2-ac98-723e58a20d21
+		summarizeBy: none
+		sourceColumn: null_pct
+
+	column fact_name_vi
+		dataType: string
+		lineageTag: a9c7462e-faa3-4d24-973f-75a40aefe41e
+		summarizeBy: none
+		sourceColumn: fact_name_vi
+
+	column period_grain_vi
+		dataType: string
+		lineageTag: 526b0590-decb-401d-a660-d320c3b38b9c
+		summarizeBy: none
+		sourceColumn: period_grain_vi
+
 	partition Overview = m
 		mode: import
 		source =
-			let
-			    Raw = Csv.Document(File.Contents(ExportFolder & "\fact_overview.csv"), [Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
-			    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
-			    Checked = if Table.ColumnNames(Headers) = {"fact_name", "rows_total", "numeric_rows", "present_null_rows", "numeric_coverage_pct", "period_min", "period_max", "represented_periods", "period_grain"} then Headers else error "CSV schema mismatch",
-			    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
-			    Typed = Table.TransformColumnTypes(Missing, {{"fact_name", type text}, {"rows_total", Int64.Type}, {"numeric_rows", Int64.Type}, {"present_null_rows", Int64.Type}, {"numeric_coverage_pct", type number}, {"period_min", type text}, {"period_max", type text}, {"represented_periods", Int64.Type}, {"period_grain", type text}}, "en-US"),
-			    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
-			    Entry = Record.Field(Manifest[outputs], "fact_overview.csv"),
-			    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
-			    With_null_pct = Table.AddColumn(Accepted, "null_pct", each [present_null_rows] / [rows_total], type number),
-			    With_fact_name_vi = Table.AddColumn(With_null_pct, "fact_name_vi", each if [fact_name] = "fact_usda_price_reference" then "USDA · Giá xuất khẩu tham chiếu" else if [fact_name] = "fact_fao_trade_observation" then "FAOSTAT · Thương mại xuất nhập khẩu" else if [fact_name] = "fact_fao_production_observation" then "FAOSTAT · Sản lượng lúa toàn cầu" else if [fact_name] = "fact_fao_sua_observation" then "FAOSTAT SUA · Cân đối cung sử dụng" else if [fact_name] = "fact_usda_psd_observation" then "USDA PSD · Cân đối cung cầu niên vụ" else if [fact_name] = "fact_nso_observation" then "NSO · Sản xuất lúa Việt Nam" else if [fact_name] = "fact_fao_price_annual" then "FAOSTAT · Giá sản xuất hằng năm" else if [fact_name] = "fact_vn_market_quote_daily" then "ĐBSCL · Báo giá lúa nội địa" else if [fact_name] = "fact_price_monthly" then "World Bank · Benchmark giá tháng" else [fact_name], type text),
-			    With_period_grain_vi = Table.AddColumn(With_fact_name_vi, "period_grain_vi", each if [period_grain] = "calendar_year" then "Năm dương lịch" else if [period_grain] = "reference_year" then "Năm tham chiếu" else if [period_grain] = "marketing_year" then "Niên vụ thương mại" else if [period_grain] = "calendar_month" then "Tháng dương lịch" else if [period_grain] = "calendar_date" then "Ngày dương lịch" else [period_grain], type text)
-			in
-			    With_period_grain_vi
+				let
+				    Raw = Csv.Document(File.Contents(ExportFolder & "\fact_overview.csv"), [Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Raw, [PromoteAllScalars=true]),
+				    Checked = if Table.ColumnNames(Headers) = {"fact_name", "rows_total", "numeric_rows", "present_null_rows", "numeric_coverage_pct", "period_min", "period_max", "represented_periods", "period_grain"} then Headers else error "CSV schema mismatch",
+				    Missing = Table.ReplaceValue(Checked, "", null, Replacer.ReplaceValue, Table.ColumnNames(Checked)),
+				    Typed = Table.TransformColumnTypes(Missing, {{"fact_name", type text}, {"rows_total", Int64.Type}, {"numeric_rows", Int64.Type}, {"present_null_rows", Int64.Type}, {"numeric_coverage_pct", type number}, {"period_min", type text}, {"period_max", type text}, {"represented_periods", Int64.Type}, {"period_grain", type text}}, "en-US"),
+				    Manifest = Json.Document(File.Contents(ExportFolder & "\export_manifest.json")),
+				    Entry = Record.Field(Manifest[outputs], "fact_overview.csv"),
+				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh",
+				    With_null_pct = Table.AddColumn(Accepted, "null_pct", each [present_null_rows] / [rows_total], type number),
+				    With_fact_name_vi = Table.AddColumn(With_null_pct, "fact_name_vi", each if [fact_name] = "fact_usda_price_reference" then "USDA · Giá xuất khẩu tham chiếu" else if [fact_name] = "fact_fao_trade_observation" then "FAOSTAT · Thương mại xuất nhập khẩu" else if [fact_name] = "fact_fao_production_observation" then "FAOSTAT · Sản lượng lúa toàn cầu" else if [fact_name] = "fact_fao_sua_observation" then "FAOSTAT SUA · Cân đối cung sử dụng" else if [fact_name] = "fact_usda_psd_observation" then "USDA PSD · Cân đối cung cầu niên vụ" else if [fact_name] = "fact_nso_observation" then "NSO · Sản xuất lúa Việt Nam" else if [fact_name] = "fact_fao_price_annual" then "FAOSTAT · Giá sản xuất hằng năm" else if [fact_name] = "fact_vn_market_quote_daily" then "ĐBSCL · Báo giá lúa nội địa" else if [fact_name] = "fact_price_monthly" then "World Bank · Benchmark giá tháng" else [fact_name], type text),
+				    With_period_grain_vi = Table.AddColumn(With_fact_name_vi, "period_grain_vi", each if [period_grain] = "calendar_year" then "Năm dương lịch" else if [period_grain] = "reference_year" then "Năm tham chiếu" else if [period_grain] = "marketing_year" then "Niên vụ thương mại" else if [period_grain] = "calendar_month" then "Tháng dương lịch" else if [period_grain] = "calendar_date" then "Ngày dương lịch" else [period_grain], type text)
+				in
+				    With_period_grain_vi
+

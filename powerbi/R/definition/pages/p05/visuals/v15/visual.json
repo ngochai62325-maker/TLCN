@@ -1,17 +1,97 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "v15",
   "position": {
     "x": 648,
     "y": 444,
     "z": 15,
-    "width": 298,
     "height": 230,
+    "width": 298,
     "tabOrder": 15
   },
   "visual": {
     "visualType": "lineChart",
-    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BenchmarkMonth"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "BenchmarkMonth.Date",
+              "active": true,
+              "displayName": "Tháng"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WB"
+                    }
+                  },
+                  "Property": "series_name_vi"
+                }
+              },
+              "queryRef": "WB.series_name_vi",
+              "displayName": "Chuỗi giá"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Overview"
+                    }
+                  },
+                  "Property": "WB MoM Comparison"
+                }
+              },
+              "queryRef": "Overview.WB MoM Comparison",
+              "displayName": "MoM"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "valueAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Biến động (%)'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -88,85 +168,6 @@
         }
       ]
     },
-    "query": {
-      "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "BenchmarkMonth"
-                    }
-                  },
-                  "Property": "Date"
-                }
-              },
-              "queryRef": "BenchmarkMonth.Date",
-              "displayName": "Tháng"
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "WB"
-                    }
-                  },
-                  "Property": "series_name_vi"
-                }
-              },
-              "queryRef": "WB.series_name_vi",
-              "displayName": "Chuỗi giá"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "WB MoM Comparison"
-                }
-              },
-              "queryRef": "Overview.WB MoM Comparison",
-              "displayName": "MoM"
-            }
-          ]
-        }
-      }
-    },
-    "objects": {
-      "valueAxis": [
-        {
-          "properties": {
-            "titleText": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Biến động (%)'"
-                }
-              }
-            },
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            }
-          }
-        }
-      ]
-    }
+    "drillFilterOtherVisuals": true
   }
 }

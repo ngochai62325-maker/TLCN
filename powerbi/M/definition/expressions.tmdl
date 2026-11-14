@@ -1,2 +1,5 @@
 expression ExportFolder = "C:\Users\phucb\Documents\TLCN\exports\powerbi\2fde7c72c691_20261114T174901Z_678939bf" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
-	kind: m
+	lineageTag: 6c83629d-e22e-4b87-9735-e4937275f822
+
+	annotation PBI_ResultType = Text
+
