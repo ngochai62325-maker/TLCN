@@ -2,7 +2,7 @@ import contextlib
 import io
 import json
 from decimal import Decimal
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 
 import pytest
 
@@ -133,3 +133,24 @@ def test_code_fingerprint_mismatch_never_runs_sql():
          patch('gold.admission.code_fingerprint',return_value='tampered'),patch('analytics.access.execute') as sql:
         with pytest.raises(RuntimeError,match='fingerprint'):run_query('fact_overview',{'fact':'fact_nso_observation'},None)
         sql.assert_not_called()
+
+
+def test_clock_skew_and_freshness_boundaries():
+    from analytics.access import admission
+    import time
+    now = time.time()
+    # Stale ticket (> 30s) rejected
+    with pytest.raises(RuntimeError, match='resource admission'):
+        with admission({'windows_available_bytes': 3*1024**3, 'measured_at': now - 31.0}): pass
+    # Severe future clock skew (< -5s) rejected
+    with pytest.raises(RuntimeError, match='resource admission'):
+        with admission({'windows_available_bytes': 3*1024**3, 'measured_at': now + 6.0}): pass
+
+    class PassedTicketCheck(Exception): pass
+    # Negative delta within tolerance (-2s) passes the ticket check and proceeds past line 18
+    with patch.dict('sys.modules', {'ingestion.storage.metadata_repository': MagicMock()}):
+        with patch('gold.admission.runtime_resources', side_effect=PassedTicketCheck):
+            with pytest.raises(PassedTicketCheck):
+                with admission({'windows_available_bytes': 3*1024**3, 'measured_at': now + 2.0}): pass
+
+

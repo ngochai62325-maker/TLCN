@@ -15,7 +15,7 @@ from analytics.transport import execute, MAX_BYTES
 def admission(ticket):
     if (type(ticket) is not dict or set(ticket) != {"windows_available_bytes", "measured_at"}
             or type(ticket["windows_available_bytes"]) is not int or ticket["windows_available_bytes"] < 2*1024**3
-            or type(ticket["measured_at"]) not in (float, int) or not 0 <= time.time()-ticket["measured_at"] <= 30):
+            or type(ticket["measured_at"]) not in (float, int) or not -5.0 <= time.time()-ticket["measured_at"] <= 30.0):
         raise RuntimeError("Missing/stale/insufficient Windows resource admission")
     from gold.admission import runtime_resources
     from ingestion.storage.metadata_repository import MetadataRepository
