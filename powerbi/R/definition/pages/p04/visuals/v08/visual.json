@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "v08",
   "position": {
-    "x": 32,
-    "y": 515,
+    "x": 24,
+    "y": 522,
     "z": 8,
-    "height": 130,
-    "width": 590,
+    "height": 152,
+    "width": 610,
     "tabOrder": 8
   },
   "visual": {
@@ -143,7 +143,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "10.5D"
                 }
               }
             },
@@ -152,7 +152,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#17342F'"
+                      "Value": "'#0F172A'"
                     }
                   }
                 }
@@ -161,7 +161,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'[Gạo xay xát] FAOSTAT SUA · Năm dương lịch: Biến động tồn & Sai số (triệu tấn)'"
+                  "Value": "'[Gạo xay xát] FAOSTAT SUA · Biến động tồn & Sai số (triệu tấn)'"
                 }
               }
             }

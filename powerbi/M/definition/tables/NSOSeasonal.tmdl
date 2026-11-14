@@ -1,45 +1,45 @@
 table NSOSeasonal
-	lineageTag: e942d554-00c6-4b9a-95e6-82cad4633f31
+	lineageTag: 1de1bb53-2af5-4dfe-84af-d660fa990d08
 
 	column year
 		dataType: int64
-		lineageTag: 3724e913-a327-4de1-af4e-8c4b85cd1c4f
+		lineageTag: b773a158-47ce-45ef-b2d7-f93827012551
 		summarizeBy: none
 		sourceColumn: year
 
 	column season
 		dataType: string
-		lineageTag: fbc51cd1-48bf-4ac3-8d72-9b4e1eef588c
+		lineageTag: f42b3114-c553-4437-9161-ace0ea922f5a
 		summarizeBy: none
 		sourceColumn: season
 
 	column production_t
 		dataType: double
-		lineageTag: 1853cb4f-9dda-41c7-b135-eb6892b1827e
+		lineageTag: f2d08f7e-1e6b-4292-a8f8-76cddfaf2a30
 		summarizeBy: none
 		sourceColumn: production_t
 
 	column publication
 		dataType: string
-		lineageTag: c9ae23f9-c5ff-4dfc-b586-270e091577b1
+		lineageTag: f4e844db-3e65-4394-8fa0-fba5cb020f1a
 		summarizeBy: none
 		sourceColumn: publication
 
 	column geography_scope
 		dataType: string
-		lineageTag: a62e8cd7-4001-4571-929d-f52571065376
+		lineageTag: 0f86f441-fc84-4dd7-8d52-487ec3358a3b
 		summarizeBy: none
 		sourceColumn: geography_scope
 
 	column production_present
 		dataType: boolean
-		lineageTag: 4613e817-85e1-4bd0-908f-127e0f2c5484
+		lineageTag: 9c9b70ae-6dac-4ce9-9903-77ab097ae187
 		summarizeBy: none
 		sourceColumn: production_present
 
 	column season_label_vi
 		dataType: string
-		lineageTag: f35b71e5-8565-43c2-9515-b0485dcb41fd
+		lineageTag: 070eff4b-4000-4add-839b-de0803b2e888
 		summarizeBy: none
 		sourceColumn: season_label_vi
 

@@ -6,38 +6,38 @@
     {
       "page": "p01",
       "title": "Tổng quan dữ liệu lúa gạo",
-      "visuals": 8,
-      "note": "Bảng thống kê 9 tập dữ liệu lúa gạo, sắp xếp theo tỷ lệ dữ liệu khuyết giảm dần."
+      "visuals": 9,
+      "note": "Thống kê 9 bảng Fact lớp Gold (GSO, FAOSTAT, USDA, World Bank, ĐBSCL), sắp xếp theo tỷ lệ dữ liệu khuyết giảm dần."
     },
     {
       "page": "p02",
       "title": "Sản xuất lúa Việt Nam",
-      "visuals": 16,
-      "note": "Số liệu chính thức theo Niên giám Thống kê Việt Nam, tách biệt số cả năm và số theo mùa vụ."
+      "visuals": 17,
+      "note": "Số liệu chính thức theo Niên giám Thống kê Việt Nam (GSO), tách biệt số cả năm và số theo mùa vụ."
     },
     {
       "page": "p03",
       "title": "Sản xuất lúa gạo quốc tế",
-      "visuals": 9,
-      "note": "5 quốc gia sản xuất lúa lớn: Ấn Độ, Indonesia, Pakistan, Thái Lan và Việt Nam."
+      "visuals": 10,
+      "note": "Đối chiếu 5 quốc gia sản xuất & xuất khẩu chủ lực: Ấn Độ, Indonesia, Pakistan, Thái Lan và Việt Nam (1961–2024)."
     },
     {
       "page": "p04",
       "title": "Cung cầu và tồn kho lúa gạo",
-      "visuals": 10,
-      "note": "Trái: Cân đối cung sử dụng FAOSTAT SUA. Phải: Cân đối cung cầu gạo USDA PSD."
+      "visuals": 12,
+      "note": "Tách biệt hai nguồn theo đúng đơn vị thời gian: Trái — FAOSTAT SUA (năm dương lịch); Phải — USDA PSD (niên vụ)."
     },
     {
       "page": "p05",
       "title": "Biến động giá lúa gạo",
-      "visuals": 17,
-      "note": "Giá FOB USDA theo phẩm cấp; Benchmark giá World Bank; Giá lúa nội địa ĐBSCL theo giống."
+      "visuals": 18,
+      "note": "Giá FOB xuất khẩu (USDA), giá chuẩn quốc tế (World Bank) và giá lúa thu mua nội địa ĐBSCL theo giống."
     },
     {
       "page": "p06",
       "title": "Thương mại lúa gạo quốc tế",
-      "visuals": 14,
-      "note": "Xuất khẩu gạo của Việt Nam sang các đối tác thương mại trọng điểm."
+      "visuals": 15,
+      "note": "Xuất khẩu gạo xay xát của Việt Nam sang 7 đối tác thương mại trọng điểm giai đoạn 2019–2023."
     }
   ],
   "measures": {
@@ -552,7 +552,7 @@
       "description": "Thẻ giá Việt Nam 5% mới nhất kèm MoM."
     },
     "Latest Common WB Month": {
-      "dax": "MAXX(FILTER(ALL(WB[month_date]), CALCULATE(COUNTROWS(WB), WB[series_code] = \"rice_thai_5\", NOT ISBLANK(WB[price_usd_t])) > 0 && CALCULATE(COUNTROWS(WB), WB[series_code] = \"rice_viet_namese_5\", NOT ISBLANK(WB[price_usd_t])) > 0), WB[month_date])",
+      "dax": "MAXX(FILTER(ALL(WB[month_date]), VAR m = WB[month_date] RETURN CALCULATE(COUNTROWS(WB), REMOVEFILTERS(WB), WB[month_date] = m, WB[series_code] = \"rice_thai_5\", NOT ISBLANK(WB[price_usd_t])) > 0 && CALCULATE(COUNTROWS(WB), REMOVEFILTERS(WB), WB[month_date] = m, WB[series_code] = \"rice_viet_namese_5\", NOT ISBLANK(WB[price_usd_t])) > 0), WB[month_date])",
       "format": "yyyy-MM-dd",
       "description": "Tháng mới nhất chung có giá của cả Thái 5% và VN 5%."
     },
@@ -565,6 +565,11 @@
       "dax": "IF(ISBLANK([WB Spread VN5 vs Thai5]), \"Không áp dụng\", FORMAT([WB Spread VN5 vs Thai5], \"+$#,0.00;-$#,0.00;$0.00\") & \" /tấn\")",
       "format": "@",
       "description": "Thẻ chênh lệch giá VN 5% − Thái 5%."
+    },
+    "FAO Scatter Title": {
+      "dax": "IF(ISBLANK([FAO Scatter Year]), \"[Lúa] Diện tích và sản lượng · Không áp dụng\", \"[Lúa] Diện tích và sản lượng (năm \" & FORMAT([FAO Scatter Year], \"0\") & \")\")",
+      "format": "@",
+      "description": "Tiêu đề động biểu đồ phân tán diện tích – sản lượng."
     },
     "WB MoM Comparison": {
       "dax": "VAR selected_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALLSELECTED(WB), REMOVEFILTERS(BenchmarkMonth)) VAR total_cnt = CALCULATE(DISTINCTCOUNT(WB[series_code]), ALL(WB)) VAR cur_code = SELECTEDVALUE(WB[series_code]) RETURN IF(NOT ISBLANK(cur_code) && (selected_cnt < total_cnt || cur_code IN {\"rice_thai_5\", \"rice_viet_namese_5\"}), [WB MoM])",
@@ -745,6 +750,236 @@
       "dax": "IF(ISBLANK([Trade Paired Groups]),\"Không áp dụng\",FORMAT([Trade Paired Groups],\"#,0\") & \" cặp đối tác–năm\")",
       "format": "@",
       "description": "Formatted paired groups count as partner-year pairs."
+    },
+    "Overview Scope Ref": {
+      "dax": "\"9 bảng Fact · Gold layer\"",
+      "format": "@",
+      "description": "Phạm vi 9 bảng Fact."
+    },
+    "Overview Scope Ref Color": {
+      "dax": "\"#64748B\"",
+      "format": "@",
+      "description": "Màu chú thích cho Overview Scope Ref."
+    },
+    "Overview Numeric Ref": {
+      "dax": "FORMAT([Numeric Observations], \"#,0\") & \" có số thực\"",
+      "format": "@",
+      "description": "Số quan sát có giá trị số."
+    },
+    "Overview Numeric Ref Color": {
+      "dax": "\"#16A34A\"",
+      "format": "@",
+      "description": "Màu chú thích cho Overview Numeric Ref."
+    },
+    "Overview Null Ref": {
+      "dax": "FORMAT([Present NULL], \"#,0\") & \" giá trị NULL\"",
+      "format": "@",
+      "description": "Số quan sát khuyết có ghi nhận."
+    },
+    "Overview Null Ref Color": {
+      "dax": "\"#64748B\"",
+      "format": "@",
+      "description": "Màu chú thích cho Overview Null Ref."
+    },
+    "Highest Null Fact Ref": {
+      "dax": "VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) RETURN \"Nguồn: \" & MAXX(maxFact, Overview[fact_name_vi])",
+      "format": "@",
+      "description": "Tên nguồn có tỷ lệ khuyết cao nhất."
+    },
+    "Highest Null Fact Ref Color": {
+      "dax": "\"#64748B\"",
+      "format": "@",
+      "description": "Màu chú thích cho Highest Null Fact Ref."
+    },
+    "Peak Production Hero": {
+      "dax": "IF(ISBLANK([Peak Production]), \"Không áp dụng\", FORMAT([Peak Production]/1000000, \"#,0.00\") & \" tr tấn\")",
+      "format": "@",
+      "description": "Đỉnh sản lượng triệu tấn."
+    },
+    "First Production Year Ref": {
+      "dax": "IF(ISBLANK([First Production Year]), \"Không áp dụng\", \"Năm \" & FORMAT([First Production Year], \"0\"))",
+      "format": "@",
+      "description": "Năm bắt đầu giai đoạn chọn."
+    },
+    "First Production Year Ref Color": {
+      "dax": "\"#64748B\"",
+      "format": "@",
+      "description": "Màu chú thích cho First Production Year Ref."
+    },
+    "Latest Production YoY Ref": {
+      "dax": "VAR v = [Latest Production YoY] RETURN IF(ISBLANK(v), \"Không áp dụng\", IF(v > 0, \"▲ \" & FORMAT(v, \"0.00%\") & \" YoY\", IF(v < 0, \"▼ \" & FORMAT(v, \"0.00%\") & \" YoY\", \"• 0,00%\" & \" YoY\")))",
+      "format": "@",
+      "description": "Tăng trưởng YoY kỳ cuối."
+    },
+    "Latest Production YoY Ref Color": {
+      "dax": "VAR v = [Latest Production YoY] RETURN IF(ISBLANK(v), \"#64748B\", IF(v > 0, \"#16A34A\", IF(v < 0, \"#DC2626\", \"#64748B\")))",
+      "format": "@",
+      "description": "Màu ngữ nghĩa cho Latest Production YoY Ref."
+    },
+    "Production Change Abs Ref": {
+      "dax": "IF(ISBLANK([Production Change]), \"Không áp dụng\", IF([Production Change] > 0, \"▲ +\" & FORMAT([Production Change]/1000000, \"#,0.00\") & \" tr tấn\", IF([Production Change] < 0, \"▼ \" & FORMAT([Production Change]/1000000, \"#,0.00\") & \" tr tấn\", \"• 0,00 tr tấn\")))",
+      "format": "@",
+      "description": "Mức tăng/giảm tuyệt đối đầu–cuối."
+    },
+    "Production Change Abs Ref Color": {
+      "dax": "IF(ISBLANK([Production Change]), \"#64748B\", IF([Production Change] > 0, \"#16A34A\", IF([Production Change] < 0, \"#DC2626\", \"#64748B\")))",
+      "format": "@",
+      "description": "Màu ngữ nghĩa cho Production Change Abs Ref."
+    },
+    "Latest Production Period Ref": {
+      "dax": "IF(ISBLANK([Latest Production Year]), \"Không áp dụng\", IF([Latest Production YoY] >= 0, \"▲ \", \"▼ \") & FORMAT([Latest Production Year], \"0\") & \" so \" & FORMAT([Latest Production Year] - 1, \"0\"))",
+      "format": "@",
+      "description": "Kỳ so sánh YoY mới nhất."
+    },
+    "Peak Year Ref": {
+      "dax": "IF(ISBLANK([Peak Year]), \"Không áp dụng\", \"Kỷ lục năm \" & FORMAT([Peak Year], \"0\"))",
+      "format": "@",
+      "description": "Năm đạt đỉnh sản lượng."
+    },
+    "Peak Year Ref Color": {
+      "dax": "\"#0F6B5E\"",
+      "format": "@",
+      "description": "Màu chú thích cho Peak Year Ref."
+    },
+    "Latest vs Peak Ref": {
+      "dax": "IF(ISBLANK([Latest vs Peak Pct]), \"Không áp dụng\", IF([Latest vs Peak Pct] < 0, \"▼ Dưới đỉnh \" & FORMAT([Peak Year], \"0\"), \"▲ Đạt đỉnh \" & FORMAT([Peak Year], \"0\")))",
+      "format": "@",
+      "description": "So sánh kỳ cuối với đỉnh."
+    },
+    "Latest vs Peak Ref Color": {
+      "dax": "IF(ISBLANK([Latest vs Peak Pct]), \"#64748B\", IF([Latest vs Peak Pct] < 0, \"#DC2626\", \"#16A34A\"))",
+      "format": "@",
+      "description": "Màu ngữ nghĩa cho Latest vs Peak Ref."
+    },
+    "Area Span Ref": {
+      "dax": "IF(ISBLANK([Area Change Pct]), \"Không áp dụng\", IF([Area Change Pct] >= 0, \"▲ \", \"▼ \") & FORMAT([First Area Year], \"0\") & \"–\" & FORMAT([Latest Area Year], \"0\"))",
+      "format": "@",
+      "description": "Khoảng thời gian diện tích."
+    },
+    "Area Span Ref Color": {
+      "dax": "IF(ISBLANK([Area Change Pct]), \"#64748B\", IF([Area Change Pct] >= 0, \"#16A34A\", \"#DC2626\"))",
+      "format": "@",
+      "description": "Màu ngữ nghĩa thay đổi diện tích."
+    },
+    "Yield Span Ref": {
+      "dax": "IF(ISBLANK([Yield Change Pct]), \"Không áp dụng\", IF([Yield Change Pct] >= 0, \"▲ \", \"▼ \") & FORMAT([First Yield Year], \"0\") & \"–\" & FORMAT([Latest Yield Year], \"0\"))",
+      "format": "@",
+      "description": "Khoảng thời gian năng suất."
+    },
+    "Yield Span Ref Color": {
+      "dax": "IF(ISBLANK([Yield Change Pct]), \"#64748B\", IF([Yield Change Pct] >= 0, \"#16A34A\", \"#DC2626\"))",
+      "format": "@",
+      "description": "Màu ngữ nghĩa thay đổi năng suất."
+    },
+    "Latest WB Thai 5 Hero": {
+      "dax": "FORMAT([Latest WB Thai 5 Price], \"$#,0.00\") & \" /tấn\"",
+      "format": "@",
+      "description": "Giá gạo Thái 5% mới nhất."
+    },
+    "Latest WB VN 5 Hero": {
+      "dax": "FORMAT([Latest WB VN 5 Price], \"$#,0.00\") & \" /tấn\"",
+      "format": "@",
+      "description": "Giá gạo Việt Nam 5% mới nhất."
+    },
+    "Latest WB Thai 5 MoM Ref": {
+      "dax": "VAR v = [Latest WB Thai 5 MoM] RETURN IF(ISBLANK(v), \"Không áp dụng\", IF(v > 0, \"▲ \" & FORMAT(v, \"0.00%\") & \" MoM\", IF(v < 0, \"▼ \" & FORMAT(v, \"0.00%\") & \" MoM\", \"• 0,00%\" & \" MoM\")))",
+      "format": "@",
+      "description": "Biến động MoM gạo Thái 5%."
+    },
+    "Latest WB Thai 5 MoM Ref Color": {
+      "dax": "VAR v = [Latest WB Thai 5 MoM] RETURN IF(ISBLANK(v), \"#64748B\", IF(v > 0, \"#16A34A\", IF(v < 0, \"#DC2626\", \"#64748B\")))",
+      "format": "@",
+      "description": "Màu ngữ nghĩa cho Latest WB Thai 5 MoM Ref."
+    },
+    "Latest WB VN 5 MoM Ref": {
+      "dax": "VAR v = [Latest WB VN 5 MoM] RETURN IF(ISBLANK(v), \"Không áp dụng\", IF(v > 0, \"▲ \" & FORMAT(v, \"0.00%\") & \" MoM\", IF(v < 0, \"▼ \" & FORMAT(v, \"0.00%\") & \" MoM\", \"• 0,00%\" & \" MoM\")))",
+      "format": "@",
+      "description": "Biến động MoM gạo VN 5%."
+    },
+    "Latest WB VN 5 MoM Ref Color": {
+      "dax": "VAR v = [Latest WB VN 5 MoM] RETURN IF(ISBLANK(v), \"#64748B\", IF(v > 0, \"#16A34A\", IF(v < 0, \"#DC2626\", \"#64748B\")))",
+      "format": "@",
+      "description": "Màu ngữ nghĩa cho Latest WB VN 5 MoM Ref."
+    },
+    "Latest Common WB Ref": {
+      "dax": "IF(ISBLANK([Latest Common WB Month]), \"Không áp dụng\", \"Kỳ chung: \" & FORMAT([Latest Common WB Month], \"MM/yyyy\"))",
+      "format": "@",
+      "description": "Tháng chung mới nhất."
+    },
+    "Latest Common WB Ref Color": {
+      "dax": "\"#64748B\"",
+      "format": "@",
+      "description": "Màu chú thích cho Latest Common WB Ref."
+    },
+    "Trade Paired Groups Hero": {
+      "dax": "IF(ISBLANK([Trade Paired Groups]), \"Không áp dụng\", FORMAT([Trade Paired Groups], \"#,0\") & \" cặp\")",
+      "format": "@",
+      "description": "Số cặp đối tác–năm."
+    },
+    "Latest Trade Quantity Hero": {
+      "dax": "IF(ISBLANK([Latest Trade Quantity]), \"Không áp dụng\", FORMAT([Latest Trade Quantity]/1000000, \"#,0.00\") & \" tr tấn\")",
+      "format": "@",
+      "description": "Sản lượng xuất khẩu năm gần nhất."
+    },
+    "Trade Partners Ref": {
+      "dax": "\"Thị trường trọng điểm\"",
+      "format": "@",
+      "description": "Phụ đề số đối tác."
+    },
+    "Trade Partners Ref Color": {
+      "dax": "\"#64748B\"",
+      "format": "@",
+      "description": "Màu chú thích cho Trade Partners Ref."
+    },
+    "Trade Paired Groups Ref": {
+      "dax": "\"Cặp đối tác–năm\"",
+      "format": "@",
+      "description": "Phụ đề cặp đối tác–năm."
+    },
+    "Trade Paired Groups Ref Color": {
+      "dax": "\"#64748B\"",
+      "format": "@",
+      "description": "Màu chú thích cho Trade Paired Groups Ref."
+    },
+    "Latest Trade Year Ref": {
+      "dax": "IF(ISBLANK([Latest Trade Year]), \"Không áp dụng\", \"Năm \" & FORMAT([Latest Trade Year], \"0\"))",
+      "format": "@",
+      "description": "Năm xuất khẩu gần nhất."
+    },
+    "Latest Trade Year Ref Color": {
+      "dax": "\"#0F6B5E\"",
+      "format": "@",
+      "description": "Màu chú thích cho Latest Trade Year Ref."
+    },
+    "Trade Span Ref": {
+      "dax": "IF(ISBLANK(MIN(Trade[year])), \"Không áp dụng\", \"Giai đoạn \" & FORMAT(MIN(Trade[year]), \"0\") & \"–\" & FORMAT(MAX(Trade[year]), \"0\"))",
+      "format": "@",
+      "description": "Khoảng năm thương mại."
+    },
+    "Trade Span Ref Color": {
+      "dax": "\"#64748B\"",
+      "format": "@",
+      "description": "Màu chú thích cho Trade Span Ref."
+    },
+    "Trade Value Ref": {
+      "dax": "\"Tổng kim ngạch 7 nước\"",
+      "format": "@",
+      "description": "Phụ đề kim ngạch xuất khẩu."
+    },
+    "Trade Value Ref Color": {
+      "dax": "\"#64748B\"",
+      "format": "@",
+      "description": "Màu chú thích cho Trade Value Ref."
+    },
+    "Trade Unit Value Ref": {
+      "dax": "\"Tỷ số Giá trị / Lượng\"",
+      "format": "@",
+      "description": "Phụ đề đơn giá bình quân."
+    },
+    "Trade Unit Value Ref Color": {
+      "dax": "\"#64748B\"",
+      "format": "@",
+      "description": "Màu chú thích cho Trade Unit Value Ref."
     }
   },
   "tables": {

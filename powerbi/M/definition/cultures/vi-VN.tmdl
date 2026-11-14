@@ -12,7 +12,19 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Total Observations"
 			        }
 			      },
-			      "State": "Generated"
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Quan sát": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    },
 			    "overview.numeric_observations": {
 			      "Definition": {
@@ -21,7 +33,19 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Numeric Observations"
 			        }
 			      },
-			      "State": "Generated"
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Có số": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    },
 			    "overview.present_null": {
 			      "Definition": {
@@ -30,7 +54,19 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Present NULL"
 			        }
 			      },
-			      "State": "Generated"
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "NULL": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    },
 			    "overview.numeric_coverage": {
 			      "Definition": {
@@ -111,7 +147,7 @@ cultureInfo vi-VN
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Số kỳ hiện diện": {
+			          "Số kỳ": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -840,7 +876,7 @@ cultureInfo vi-VN
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "[Gạo xay xát] XK 7 đối tác (2019–2023)": {
+			          "[Gạo] XK 7 nước (19–23)": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -861,7 +897,7 @@ cultureInfo vi-VN
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "[Gạo xay xát] Giá trị cộng dồn": {
+			          "[Gạo] Giá trị cộng dồn": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -882,7 +918,7 @@ cultureInfo vi-VN
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "[Gạo xay xát] Đơn giá bình quân": {
+			          "[Gạo] Đơn giá bình quân": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -900,19 +936,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Trade Paired Groups Display"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "[Gạo xay xát] Cặp đối tác–năm": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.fao_scatter_area": {
 			      "Definition": {
@@ -1167,19 +1191,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "rows_total"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Số quan sát": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.numeric_rows": {
 			      "Definition": {
@@ -1188,19 +1200,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "numeric_rows"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Có số": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.present_null_rows": {
 			      "Definition": {
@@ -1209,19 +1209,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "present_null_rows"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "NULL": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.null_percentage": {
 			      "Definition": {
@@ -1254,7 +1242,7 @@ cultureInfo vi-VN
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Đơn vị thời gian": {
+			          "Đơn vị": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -1272,19 +1260,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Peak Production Display"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "[Lúa] Đỉnh sản lượng (năm)": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.latest_vs_peak_pct_display": {
 			      "Definition": {
@@ -1407,7 +1383,7 @@ cultureInfo vi-VN
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "[Gạo xay xát] Số đối tác": {
+			          "[Gạo] Số đối tác": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -1425,19 +1401,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Latest Trade Quantity Display"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "[Gạo xay xát] XK năm gần nhất": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "fao.area_name_vi": {
 			      "Definition": {
@@ -1585,7 +1549,7 @@ cultureInfo vi-VN
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Fact khuyết cao nhất: USDA · Giá XK tham chiếu": {
+			          "Tỷ lệ NULL cao nhất": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -1897,19 +1861,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Latest WB Thai 5 Display"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "[Gạo xay xát] Giá Thái 5% mới nhất": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.latest_wb_vn_5_display": {
 			      "Definition": {
@@ -1918,19 +1870,7 @@ cultureInfo vi-VN
 			          "ConceptualProperty": "Latest WB VN 5 Display"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "[Gạo xay xát] Giá Việt Nam 5% mới nhất": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "overview.wb_spread_vn5_vs_thai5_display": {
 			      "Definition": {
@@ -1942,7 +1882,7 @@ cultureInfo vi-VN
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "[Gạo xay xát] Chênh lệch VN 5% − Thái 5%": {
+			          "[Gạo] Chênh lệch VN5 − Thái5": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -2069,6 +2009,111 @@ cultureInfo vi-VN
 			      "Terms": [
 			        {
 			          "Tỷ USD": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.peak_production_hero": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Peak Production Hero"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "[Lúa] Đỉnh sản lượng": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.latest_wb_thai_5_hero": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Latest WB Thai 5 Hero"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "[Gạo] Thái 5% mới nhất": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.latest_wb_vn_5_hero": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Latest WB VN 5 Hero"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "[Gạo] VN 5% mới nhất": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.trade_paired_groups_hero": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Trade Paired Groups Hero"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "[Gạo] Cặp đối tác–năm": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "overview.latest_trade_quantity_hero": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Overview",
+			          "ConceptualProperty": "Latest Trade Quantity Hero"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "[Gạo] XK năm gần nhất": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

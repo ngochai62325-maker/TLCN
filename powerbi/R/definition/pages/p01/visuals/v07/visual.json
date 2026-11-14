@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "v07",
   "position": {
-    "x": 32,
-    "y": 220,
+    "x": 24,
+    "y": 190,
     "z": 7,
-    "height": 424,
-    "width": 1216,
+    "height": 484,
+    "width": 844,
     "tabOrder": 7
   },
   "visual": {
@@ -31,44 +31,44 @@
             },
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "rows_total"
+                  "Property": "Total Observations"
                 }
               },
-              "queryRef": "Overview.rows_total",
-              "displayName": "Số quan sát"
+              "queryRef": "Overview.Total Observations",
+              "displayName": "Quan sát"
             },
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "numeric_rows"
+                  "Property": "Numeric Observations"
                 }
               },
-              "queryRef": "Overview.numeric_rows",
+              "queryRef": "Overview.Numeric Observations",
               "displayName": "Có số"
             },
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
                       "Entity": "Overview"
                     }
                   },
-                  "Property": "present_null_rows"
+                  "Property": "Present NULL"
                 }
               },
-              "queryRef": "Overview.present_null_rows",
+              "queryRef": "Overview.Present NULL",
               "displayName": "NULL"
             },
             {
@@ -125,7 +125,7 @@
                 }
               },
               "queryRef": "Overview.represented_periods",
-              "displayName": "Số kỳ hiện diện"
+              "displayName": "Số kỳ"
             },
             {
               "field": {
@@ -139,7 +139,7 @@
                 }
               },
               "queryRef": "Overview.period_grain_vi",
-              "displayName": "Đơn vị thời gian"
+              "displayName": "Đơn vị"
             }
           ]
         }
@@ -176,7 +176,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "10.5D"
                 }
               }
             },
@@ -185,7 +185,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#17342F'"
+                      "Value": "'#0F172A'"
                     }
                   }
                 }

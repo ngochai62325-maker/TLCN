@@ -3,10 +3,10 @@
   "name": "v13",
   "position": {
     "x": 438,
-    "y": 255,
+    "y": 274,
     "z": 13,
-    "height": 175,
-    "width": 390,
+    "height": 182,
+    "width": 402,
     "tabOrder": 13
   },
   "visual": {
@@ -115,7 +115,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "10.5D"
                 }
               }
             },
@@ -124,7 +124,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#17342F'"
+                      "Value": "'#0F172A'"
                     }
                   }
                 }

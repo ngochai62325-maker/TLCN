@@ -1,69 +1,69 @@
 table SUA
-	lineageTag: ba3d07aa-d26b-4c61-b0a7-299e6b3e73c8
+	lineageTag: 02da25da-9a4e-4242-8ce4-158c6c527b6e
 
 	column year
 		dataType: int64
-		lineageTag: 56389785-24c6-4a0e-b06b-97e6ba5b99d5
+		lineageTag: b096c7cd-8d9b-4e37-afc6-f982500a9c20
 		summarizeBy: none
 		sourceColumn: year
 
 	column geography_key
 		dataType: string
-		lineageTag: 262d4c31-f8cb-409f-ae24-c35d3951fa89
+		lineageTag: 38198db5-8dc2-47ca-b343-a76aa97c641e
 		summarizeBy: none
 		sourceColumn: geography_key
 
 	column area_code
 		dataType: string
-		lineageTag: b38a67a9-deff-4197-9875-b5d5ae6a1124
+		lineageTag: a604323f-1b26-4206-b094-4fd4a6273148
 		summarizeBy: none
 		sourceColumn: area_code
 
 	column product_key
 		dataType: string
-		lineageTag: 269ba71a-6dd4-4227-863a-257aae081347
+		lineageTag: 475ec4ef-9737-4b28-b349-3f8f25fc1438
 		summarizeBy: none
 		sourceColumn: product_key
 
 	column product_code
 		dataType: string
-		lineageTag: c7ca7a49-a263-4e0b-98cc-820595694443
+		lineageTag: 32114780-b711-4619-9689-6241c7b61247
 		summarizeBy: none
 		sourceColumn: product_code
 
 	column element_code
 		dataType: string
-		lineageTag: b5553198-2de9-462e-9bf2-df7361a7bd46
+		lineageTag: 2080bfc1-d3db-432c-b1ca-1528eecfc59d
 		summarizeBy: none
 		sourceColumn: element_code
 
 	column metric
 		dataType: string
-		lineageTag: ff1efd37-22eb-4646-ae1c-75372802112f
+		lineageTag: 4af1fe69-3778-4a9b-a3f4-5feb1ae7cd52
 		summarizeBy: none
 		sourceColumn: metric
 
 	column unit
 		dataType: string
-		lineageTag: 2ce9e2f7-33ed-4cdc-b2fe-e73bf2813caf
+		lineageTag: 01fb173f-425b-4102-ad60-71f6ee361b87
 		summarizeBy: none
 		sourceColumn: unit
 
 	column value_t
 		dataType: double
-		lineageTag: 33918491-89b0-4105-8d9f-c8fca4fe4840
+		lineageTag: 10052591-a54b-417a-b229-2672e7ccc7c4
 		summarizeBy: none
 		sourceColumn: value_t
 
 	column observation_present
 		dataType: boolean
-		lineageTag: 8ac20930-7e5e-4609-803e-65b5f9e0690f
+		lineageTag: c0f66544-da8d-426a-8680-30dd5b6d8066
 		summarizeBy: none
 		sourceColumn: observation_present
 
 	column aggregation_rule
 		dataType: string
-		lineageTag: 9f48abcd-8233-4898-8ad0-d40cc6f5ab26
+		lineageTag: 1735b34d-d71b-413f-abfa-069d2efdab15
 		summarizeBy: none
 		sourceColumn: aggregation_rule
 
