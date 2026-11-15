@@ -1,5 +1,6 @@
 compose.yaml text eol=lf
 contracts/silver/*.yaml text eol=lf
+config/silver/nso_v2_metadata.json text eol=lf
 config/ingestion/source_registry.yaml text eol=crlf -whitespace
 data/raw/faostat/*.csv text eol=crlf -whitespace
 data/raw/usda/usda.xls text eol=crlf -whitespace
