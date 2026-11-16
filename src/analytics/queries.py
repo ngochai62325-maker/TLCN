@@ -1,4 +1,17 @@
-"""Finite templates and typed filters. No caller-supplied SQL/identifiers."""
+"""Analytics SQL Compiler — Binds `queries/analytics/*.sql` to Published Gold Snapshots.
+
+Overview for Thesis Defense:
+============================
+1. `validate(name, params)`: Verifies that the requested query name (`NAMES`) and filter
+   parameters (years, keys, geography lists) match strict allowlists.
+2. `compile_query(name, params, manifest)`:
+   - Loads the SQL template from `queries/analytics/<name>.sql`.
+   - Binds every `{{table}}` placeholder to the exact published Iceberg snapshot
+     (`iceberg.gold_local.<table> FOR VERSION AS OF <snapshot_id>`).
+   - For `fao_production`, `sua`, and `trade`, injects the corresponding Gold semantic view
+     SQL (`queries/gold/*.sql`) pre-filtered by year, geography, and product.
+   - Returns the ready-to-run Trino SQL string and its SHA-256 provenance hash.
+"""
 import hashlib
 import json
 import re

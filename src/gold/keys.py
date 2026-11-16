@@ -1,4 +1,17 @@
-"""K1 keys and lossless canonical serialization shared by Spark and tests."""
+"""Gold Star Schema — Human-Readable Dimension/Foreign Keys & Canonical JSON.
+
+Overview for Thesis Defense:
+============================
+Generates deterministic, human-readable ASCII slug keys (`*_key`, max 64 chars) so that
+inspecting Fact and Dimension tables in DBeaver/Trino is immediately understandable:
+- `dim_source_system`: returns the exact `source_id` (e.g., `'faostat_production'`, `'nso'`).
+- Other dimensions (`dim_source_geography`, `dim_source_product`, `dim_observation_type`,
+  `dim_price_series`): builds a clean lowercase ASCII slug from the natural key parts
+  (folding Vietnamese accents to ASCII), appending a 6-char SHA-256 suffix (`_<6hex>`)
+  when needed to guarantee 100% collision-free uniqueness across complex keys.
+- Both `key()` (Python) and `spark_key()` (Catalyst JVM expressions) produce the exact
+  same output string for every input tuple so Dimension PKs and Fact FKs match 100%.
+"""
 import hashlib
 import json
 import math

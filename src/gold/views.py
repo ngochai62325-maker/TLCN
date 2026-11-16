@@ -1,4 +1,16 @@
-"""Versioned read-only semantic queries over exact Gold snapshots; no catalog views."""
+"""Gold Star Schema — 4 Semantic SQL Views & Trino Validation (`queries/gold/*.sql`).
+
+Overview for Thesis Defense:
+============================
+Instead of creating mutable catalog views, Gold binds 4 versioned SQL templates in
+`queries/gold/*.sql` to the exact published Iceberg `snapshot_id`s (`FOR VERSION AS OF ...`):
+1. `vw_nso_source_observations`: Joins `fact_nso_observation` + `dim_source_geography`.
+2. `vw_fao_production_yield`: Pivots FAO area (`5312`), production (`5510`), reported yield (`5412`),
+   and computes `computed_yield_kg_ha = 1000 * production_t / area_ha`.
+3. `vw_sua_supported_balance`: Pivots the 12 FAO Supply Utilization Accounts (SUA) elements.
+4. `vw_trade_reported_unit_values`: Pivots bilateral import/export quantities and values and
+   computes `reported_import_unit_value_usd_t` and `reported_export_unit_value_usd_t`.
+"""
 import hashlib
 import json
 import os

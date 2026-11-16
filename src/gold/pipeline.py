@@ -1,4 +1,22 @@
-"""Serial stage executor shared by the allowlisted runner and manual Airflow DAG."""
+"""Gold Layer Orchestrator (Star Schema: 8 Dimensions + 9 Facts + 4 Semantic Views).
+
+Mental Model — 4-Step Gold Execution Flow:
+==========================================
+- Step 1: Admission & Preflight (`action="preflight"`)
+    Verify that all 9 Silver tables succeeded in Airflow, check snapshot UUIDs,
+    and run input data-quality rules (`validate_input`) before any Gold write.
+- Step 2: Build 8 Dimensions (`action="dimensions"`, see `dimensions.py`)
+    Build and checkpoint `dim_source_system`, `dim_year`, `dim_month`, `dim_date`,
+    `dim_source_geography`, `dim_source_product`, `dim_observation_type`, and
+    `dim_price_series` into `iceberg.gold_local.*`.
+- Step 3: Build 9 Facts & Quality Gates (`action="fact"`, see `facts.py` & `quality.py`)
+    Project each Silver source into its Gold fact table(s), verify primary/foreign
+    keys (`validate_table`), write the Iceberg snapshot, and reconcile row counts
+    and values against Silver (`reconcile`).
+- Step 4: Validate Semantic SQL Views & Publish (`action="validate"` -> `"publish"`, see `views.py`)
+    Bind the 4 semantic SQL queries (`queries/gold/*.sql`) to exact Gold snapshot IDs,
+    validate them through Trino, and atomically publish `latest.json` in MinIO.
+"""
 import logging
 
 from gold import OUTPUT_NAMESPACE, ACTIONS
@@ -14,7 +32,12 @@ from gold.views import require_semantic_definitions, validate_semantic_queries
 LOG = logging.getLogger(__name__)
 
 
+# ---------------------------------------------------------------------------
+# Input & Catalog Helpers
+# ---------------------------------------------------------------------------
+
 def inventory(spark, specs, verify_ownership=True):
+    """Ensure `iceberg.gold_local` only contains known Star Schema tables."""
     namespaces = [r[0] for r in spark.sql("SHOW NAMESPACES IN iceberg").collect()]
     if "gold_local" not in namespaces:
         return
@@ -27,6 +50,7 @@ def inventory(spark, specs, verify_ownership=True):
 
 
 def read_inputs(spark, proof, dq, validate=False, only_sources=None):
+    """Read pinned Silver snapshots (`option('snapshot-id', ...)`) for reproducibility."""
     from silver.contract.loader import SilverContractLoader
     from silver.local_profile import local_contract
     loader = SilverContractLoader(str(ROOT / "contracts/silver"))
@@ -46,13 +70,20 @@ def read_inputs(spark, proof, dq, validate=False, only_sources=None):
 
 
 def current_dimensions(spark, specs):
+    """Load the 8 already-built Dimension tables from `iceberg.gold_local`."""
     return {name: spark.table(f"{OUTPUT_NAMESPACE}.{name}") for name in specs if name.startswith("dim_") and spark.catalog.tableExists(f"{OUTPUT_NAMESPACE}.{name}")}
 
 
+# ---------------------------------------------------------------------------
+# 4-Step Gold Execution Pipeline
+# ---------------------------------------------------------------------------
+
 def execute(spark, action, owner_run_id, silver_run_id=None, source=None):
+    """Execute one stage of the 4-step Gold pipeline under an advisory writer lock."""
     if action not in ACTIONS or not owner_run_id or (action == "fact" and source not in BUILD_ORDER):
         raise ValueError("Unapproved Gold stage/source/owner")
     with writer_guard() as guard:
+        # --- STEP 1: Admission & Preflight check (verify Silver inputs) ---
         proof = success_context(silver_run_id)
         specs = load_spec()
         inventory(spark, specs, verify_ownership=(action in {"preflight", "dimensions"}))
@@ -72,6 +103,7 @@ def execute(spark, action, owner_run_id, silver_run_id=None, source=None):
         if action == "preflight":
             store.check_claim(context, owner_run_id)
             return {"status": "READY", "context": context, "resources": resources, "dq": dq.results}
+
         state = store.claim(context, owner_run_id)
         state["resources"] = resources
         if state["status"] == "FAILED_NOT_PUBLISHED":
@@ -80,6 +112,8 @@ def execute(spark, action, owner_run_id, silver_run_id=None, source=None):
         try:
             guard()
             spark.sql("CREATE NAMESPACE IF NOT EXISTS iceberg.gold_local")
+
+            # --- STEP 2: Build 8 Dimensions (`dimensions.py`) ---
             if action == "dimensions":
                 dimensions = {}
                 for name, raw in build_dimensions(spark, inputs):
@@ -94,6 +128,8 @@ def execute(spark, action, owner_run_id, silver_run_id=None, source=None):
                         pass
                     store.save(state)
                 state["status"] = "DIMENSIONS_BUILT"
+
+            # --- STEP 3: Build 9 Facts (`facts.py`) & Quality gates (`quality.py`) ---
             elif action == "fact":
                 from pyspark import StorageLevel
                 expected_previous = list(BUILD_ORDER[:BUILD_ORDER.index(source)])
@@ -130,6 +166,8 @@ def execute(spark, action, owner_run_id, silver_run_id=None, source=None):
                 if source not in state["completed_sources"]:
                     state["completed_sources"].append(source)
                 state["status"] = "FACTS_BUILDING"
+
+            # --- STEP 4A: Validate 4 Semantic SQL Views (`views.py`) & Cross-table DQ ---
             elif action == "validate":
                 if set(state["completed_sources"]) != set(BUILD_ORDER) or set(state["outputs"]) != set(specs):
                     raise ValueError("Cannot validate incomplete Gold scope")
@@ -144,6 +182,8 @@ def execute(spark, action, owner_run_id, silver_run_id=None, source=None):
                 semantic_checks(outputs, dq)
                 state["reconciliation"] = {s: {"silver_rows": proof["proofs"][s]["commit_verified"]["rows"], "key_set": "EXACT", "values_and_lineage": "EXACT"} for s in BUILD_ORDER}
                 state["status"] = "VERIFIED"
+
+            # --- STEP 4B: Publish Semantic SQL Views & Record Audit Metadata ---
             elif action == "publish":
                 if state["status"] not in {"VERIFIED", "PUBLISHED"}:
                     raise ValueError("Publication requires completed readback/DQ")
@@ -156,6 +196,7 @@ def execute(spark, action, owner_run_id, silver_run_id=None, source=None):
                 state["dq"].extend(dq.results)
                 store.publish(state)
                 return {"status": "PUBLISHED", "batch": state["batch"], "outputs": state["outputs"]}
+
             state["dq"].extend(dq.results)
             store.save(state)
             return {"status": state["status"], "batch": state["batch"], "outputs": {n: {"rows": v["rows"], "snapshot_id": v["snapshot_id"], "write": v["write"]} for n, v in state["outputs"].items()}}
@@ -168,7 +209,7 @@ def execute(spark, action, owner_run_id, silver_run_id=None, source=None):
 
 
 def semantic_checks(outputs, dq):
-    """Scope restrictions are explicit: no unsupported aggregate is published."""
+    """Cross-table Star Schema rules checked before publishing a batch."""
     metrics = outputs["dim_observation_type"]
     from pyspark.sql import functions as F
     from gold.dimensions import ZERO_GEOGRAPHY

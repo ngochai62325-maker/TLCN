@@ -1,4 +1,18 @@
-"""Single contract-driven Bronze to Silver pipeline shared by CLI and Airflow."""
+"""Silver Layer — Contract-Driven 5-Step Transformation Framework (`iceberg.silver_local.*`).
+
+Overview for Thesis Defense:
+============================
+Every dataset in Silver is processed through the exact same 5-step Template Method inside `run()`:
+1. `read_bronze`: Read the pinned Iceberg snapshot from `iceberg.bronze.<source>` (supports full or incremental filter).
+2. `transform`: Run source-specific `transformers/<source>.py` (`preprocess` / `preprocess_with_read_context`)
+   followed by contract schema projection & type casting (`normalize()`).
+3. `validate_quality`: Evaluate SQL Data Quality rules from `contracts/silver/<source>.yaml` via `SilverQualityEngine`
+   to split rows into valid rows (`dq_errors == []`), warnings (`_dq_warnings`), and failed rows (`dq_errors > 0`).
+4. `quarantine_bad_rows`: Route invalid rows and structural exclusions to `iceberg.silver_local.dead_letters`
+   with full `_source_payload` JSON so zero raw records are silently lost.
+5. `merge_to_silver`: Deduplicate valid rows by `business_key` and atomically `MERGE INTO` the target Silver
+   Iceberg table via `IcebergMergeEngine` (skipping no-op merges via `xxhash64`).
+"""
 import importlib
 import copy
 import logging
@@ -143,6 +157,7 @@ class SilverTransformationFramework:
         read_snapshot_id = None
         logger.info("silver_start dataset=%s pipeline_run_id=%s mode=%s", dataset_id, pipeline_run_id, mode)
         try:
+            # --- STEP 1: read_bronze (Read pinned Bronze Iceberg snapshot) ---
             current = self.spark.sql(f"SELECT snapshot_id FROM {contract.bronze_input}.refs WHERE name = 'main'").first()
             read_snapshot_id = current[0] if current else None
             if bronze_snapshot_id is not None and read_snapshot_id != int(bronze_snapshot_id):
@@ -165,6 +180,8 @@ class SilverTransformationFramework:
                 bronze = bronze.withColumn("_source_payload", F.struct(*[F.col(c) for c in sorted(bronze.columns)]))
             if dataset_id == "usda_psd":
                 bronze = bronze.localCheckpoint(eager=True)
+
+            # --- STEP 2: transform (Source-specific preprocess + Contract normalize) ---
             stage = "transformation"
             transformer = self.transformer(dataset_id)
             observation_metrics = {}
@@ -187,6 +204,8 @@ class SilverTransformationFramework:
             else:
                 prepared = transformer.preprocess(bronze) if transformer else bronze
             normalized = self.normalize(prepared, contract)
+
+            # --- STEP 3: validate_quality (Evaluate YAML contract DQ rules) ---
             rules = list(contract.data_quality_rules)
             required = set(contract.business_key) | {c["name"] for c in contract.columns if not c.get("nullable", True)}
             for name in sorted(required):
@@ -216,6 +235,8 @@ class SilverTransformationFramework:
             quarantine_count = stats["quarantine_count"] or 0
             valid_count = prepared_count - quarantine_count
             quarantine = checked.filter(F.size("dq_errors") > 0)
+
+            # --- STEP 4: quarantine_bad_rows (Route failed/excluded rows to dead_letters) ---
             stage = "quarantine"
             self.quarantine_manager.ensure_table()
             if exclusions is not None:
@@ -229,6 +250,8 @@ class SilverTransformationFramework:
             valid = checked.filter(F.size("dq_errors") == 0).select(
                 *[c["name"] for c in contract.columns],
                 *[c for c in AUDIT_COLUMNS if c in checked.columns], "_dq_warnings")
+
+            # --- STEP 5: merge_to_silver (Deduplicate by business_key & Iceberg MERGE INTO) ---
             stage = "deduplication"
             dedup_raw = self.merge_engine.deduplicate(valid, contract.business_key)
             if dedup_raw is valid:

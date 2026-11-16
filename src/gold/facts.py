@@ -1,4 +1,21 @@
-"""G02–G10: lossless per-source fact projections, with no physical pivot."""
+"""Gold Star Schema — 9 Fact Tables Builder (`iceberg.gold_local.fact_*`).
+
+Overview for Thesis Defense:
+============================
+Projects the 9 Silver tables into 9 lossless Star Schema Fact tables without physical pivoting:
+- `fact_price_monthly`           <- `worldbank_pinksheet` + `faostat_monthly_price` (monthly branch)
+- `fact_fao_price_annual`        <- `faostat_monthly_price` (annual branch)
+- `fact_fao_production_observation` <- `faostat_production`
+- `fact_fao_sua_observation`     <- `faostat_supply_utilization`
+- `fact_fao_trade_observation`   <- `faostat_trade`
+- `fact_usda_psd_observation`    <- `usda_psd`
+- `fact_nso_observation`         <- `nso_rice_statistics`
+- `fact_vn_market_quote_daily`   <- `thitruongnongsan`
+- `fact_usda_price_reference`    <- `usda_rice_yearbook`
+
+Each Fact table uses a natural composite primary key (`year_key`/`month_key`/`date_key` +
+`geography_key`/`product_key`/`observation_type_key`/`price_series_key`) that joins 1:N to the 8 Dimensions.
+"""
 from pyspark.sql import functions as F, types as T
 
 from gold import BUILD_ORDER

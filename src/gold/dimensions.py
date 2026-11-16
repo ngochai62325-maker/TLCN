@@ -1,4 +1,18 @@
-"""Eight dimensions using exact source identities; only narrow dictionaries shuffle."""
+"""Gold Star Schema — 8 Dimension Tables Builder (`iceberg.gold_local.dim_*`).
+
+Overview for Thesis Defense:
+============================
+Builds all 8 Dimension tables from the 9 validated Silver tables before Fact tables run:
+1. `dim_source_system`: 9 data providers/datasets (`faostat_production`, `nso`, `usda_psd`, ...).
+2. `dim_year`: Calendar years (`year_key`, `decade`, `is_leap_year`).
+3. `dim_month`: Calendar months (`month_key` YYYYMM, `year_key`, `quarter_number`, `month_start`).
+4. `dim_date`: Daily calendar (`date_key` YYYYMMDD, `full_date`, `month_key`, `iso_weekday`).
+5. `dim_source_geography`: Countries, Vietnamese regions/provinces, and market locations (`geography_key`).
+6. `dim_source_product`: Rice commodities and product classes (`product_key`).
+7. `dim_observation_type`: Statistical metrics (`area`, `production`, `yield`, `import/export`, `stocks`)
+   with canonical unit conversion factors and aggregation rules (`SUM`, `NO_SUM_OVER_TIME`, `NEVER_SUM`).
+8. `dim_price_series`: Price series definitions across WB Pink Sheet, FAOSTAT Monthly, USDA Yearbook, and VN Market.
+"""
 import calendar
 from datetime import date, timedelta
 from functools import reduce
@@ -18,6 +32,10 @@ SERIES_COLUMNS = {
     "thitruongnongsan": ("market", "commodity", "price_type", "unit", "currency", "source"),
 }
 
+
+# ---------------------------------------------------------------------------
+# Key & Column Mapping Helpers (shared with `facts.py` for 1:N FK joins)
+# ---------------------------------------------------------------------------
 
 def union(frames):
     return reduce(lambda a, b: a.unionByName(b), frames)
