@@ -13,21 +13,30 @@ Every dataset in Silver is processed through the exact same 5-step Template Meth
 5. `merge_to_silver`: Deduplicate valid rows by `business_key` and atomically `MERGE INTO` the target Silver
    Iceberg table via `IcebergMergeEngine` (skipping no-op merges via `xxhash64`).
 """
-import importlib
-import copy
-import logging
-from datetime import datetime, timezone
-from dataclasses import dataclass
-from typing import Optional, Protocol, runtime_checkable
+from __future__ import annotations
 
-from pyspark import StorageLevel
-from pyspark.sql import SparkSession, functions as F, types as T
+import copy
+from dataclasses import dataclass
+from datetime import datetime, timezone
+import hashlib
+import importlib
+import json
+import logging
+import os
+from pathlib import Path
+from typing import Optional, Protocol, runtime_checkable
+import urllib.error
+import urllib.request
 
 from ingestion.storage.bronze_writer import sanitize_column_name
-from silver.contract.loader import SilverContract, SilverContractLoader
-from silver.engine.quality import SilverQualityEngine, ERROR_TYPE
-from silver.engine.quarantine import SilverQuarantineManager
-from silver.engine.merge import IcebergMergeEngine
+from silver.engine import (
+    ERROR_TYPE,
+    IcebergMergeEngine,
+    SilverContract,
+    SilverContractLoader,
+    SilverQualityEngine,
+    SilverQuarantineManager,
+)
 
 logger = logging.getLogger("silver.framework")
 RELEASE_NAMESPACE = "silver_v2_release_20261013"
@@ -38,6 +47,120 @@ AUDIT_COLUMNS = (
     "_ingestion_timestamp", "_source_id", "_source_file",
     "_source_checksum", "_source_snapshot_id",
 )
+
+# ---------------------------------------------------------------------------
+# Local Profile & Routing (formerly `local_profile.py`)
+# ---------------------------------------------------------------------------
+
+PROFILE = "local_nine"
+NAMESPACE = "silver_local"
+MAPPINGS = (
+    ("faostat_production", "faostat_production", "faostat_production"),
+    ("faostat_monthly_price", "faostat_monthly_price", "faostat_monthly_price"),
+    ("faostat_supply_utilization", "faostat_supply_utilization", "faostat_supply_utilization"),
+    ("faostat_trade", "faostat_trade", "faostat_trade"),
+    ("usda_psd", "usda_psd", "usda_rice_psd"),
+    ("usda_rice_yearbook", "usda_rice_yearbook", "usda_rice_yearbook"),
+    ("worldbank_pinksheet", "worldbank_pinksheet", "worldbank_commodity_monthly"),
+    ("thitruongnongsan", "thitruongnongsan", "thitruongnongsan"),
+    ("nso", "nso", "nso_rice_statistics"),
+)
+BRONZE_SOURCES = tuple(m[0] for m in MAPPINGS)
+DATASETS = tuple(m[1] for m in MAPPINGS)
+REGISTRY_SHA256 = "c8ae17ad7e5a538ef9a6e44427bc5ec2c443dc285788c34fb2275bd8acb7b1f3"
+NSO_CONTRACT_SHA256 = "9246124b891138c18d851356a95d62b2fe177adb2c73df7968fb6d7e5ee0eb8b"
+
+
+def active_profile():
+    profile, enabled = os.getenv("SILVER_LOCAL_PROFILE"), os.getenv("SILVER_LOCAL_ENABLED", "0")
+    if not profile and enabled == "0":
+        return None
+    if profile != PROFILE or enabled != "1":
+        raise ValueError("local_nine requires explicit SILVER_LOCAL_PROFILE and SILVER_LOCAL_ENABLED=1")
+    if (os.getenv("SILVER_ACCEPTED_RELEASE") or os.getenv("SILVER_PRODUCTION_ENABLED", "0") != "0"
+            or os.getenv("SILVER_CANARY_ONLY", "0") != "0" or os.getenv("SILVER_BRONZE_SCHEDULE")):
+        raise ValueError("local_nine conflicts with release/production/canary/schedule flags")
+    return PROFILE
+
+
+def require_profile(profile, release=None):
+    if profile != PROFILE or release or active_profile() != PROFILE:
+        raise ValueError("Explicit activated local_nine profile required; no release/default fallback")
+
+
+def mapping(dataset):
+    for source, name, target in MAPPINGS:
+        if dataset == name:
+            return source, target
+    raise ValueError(f"Dataset outside local_nine: {dataset}")
+
+
+def validate_registry(registry=None):
+    require_profile(PROFILE)
+    from ingestion.config.registry import SourceRegistry
+    registry = registry or SourceRegistry()
+    registry.load()
+    sources = registry.get_all_sources()
+    if hashlib.sha256(Path(registry.registry_path).read_bytes()).hexdigest() != REGISTRY_SHA256:
+        raise ValueError("local_nine registry checksum drift")
+    for name in BRONZE_SOURCES:
+        config = sources.get(name)
+        if (config is None or not config.enabled or config.source_id != name
+                or config.source_type.value != "LOCAL_FILE" or "fixtures" in (config.local_path or "").split("/")):
+            raise ValueError(f"Missing/disabled/unapproved local_nine registry source: {name}")
+    return [sources[name] for name in BRONZE_SOURCES]
+
+
+def local_contract(loader, dataset):
+    require_profile(PROFILE)
+    source, target = mapping(dataset)
+    original = loader.load_contract(dataset)
+    if original.bronze_input != f"iceberg.bronze.{source}" or original.silver_output != f"iceberg.silver.{target}":
+        raise ValueError(f"local_nine source/target contract routing mismatch: {dataset}")
+    data = copy.deepcopy(original._data)
+    if dataset == "nso":
+        path = Path(loader.contract_dir) / (dataset + ".yaml")
+        if original.status != "READY" or hashlib.sha256(path.read_bytes()).hexdigest() != NSO_CONTRACT_SHA256:
+            raise ValueError("local_nine NSO contract requires the exact approved READY contract")
+    original.validate_executable()
+    data["dataset"]["silver_output"] = f"iceberg.{NAMESPACE}.{target}"
+    contract = SilverContract(data)
+    contract.validate_executable()
+    return contract
+
+
+# ---------------------------------------------------------------------------
+# Airflow-to-Runner HTTP Bridge (formerly `orchestration.py`)
+# ---------------------------------------------------------------------------
+
+def trigger_spark_job(job_file="run_all_silver.py", mode="full", run_id=None,
+                      dataset="all", pipeline_run_id=None, action="run", watermark=None, release=None,
+                      profile=None, bronze_snapshot_id=None):
+    url = os.environ.get("SPARK_API_URL", "http://spark-iceberg:5005/run")
+    if release or profile:
+        with urllib.request.urlopen(url.rsplit("/", 1)[0] + "/health", timeout=10) as response:
+            health = json.loads(response.read().decode("utf-8"))
+        if profile:
+            require_profile(profile, release)
+            if health.get("local_profile") != profile:
+                raise RuntimeError("Spark API lacks activated local_nine routing")
+        elif health.get("silver_release") != release:
+            raise RuntimeError("Spark API lacks approved release routing; reload it at owner-approved cutover")
+    payload = {"job": job_file, "mode": mode, "run_id": run_id,
+               "dataset": dataset, "pipeline_run_id": pipeline_run_id, "action": action, "watermark": watermark,
+               "release": release}
+    if profile:
+        payload.update(profile=profile, bronze_snapshot_id=bronze_snapshot_id)
+    req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"),
+                                 headers={"Content-Type": "application/json"}, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=3600) as response:
+            result = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        raise RuntimeError(f"Spark job failed HTTP {exc.code}: {exc.read().decode('utf-8')}") from exc
+    if result.get("status") != "SUCCESS" or "result" not in result:
+        raise RuntimeError(f"Spark job returned no successful result: {result}")
+    return result["result"]
 
 
 @dataclass(frozen=True)
@@ -102,6 +225,7 @@ class SilverTransformationFramework:
 
     def normalize(self, df, contract):
         """One projection prevents alias collisions and repeated withColumn plans."""
+        from pyspark.sql import functions as F, types as T
         if "_source_payload" not in df.columns:
             df = df.withColumn("_source_payload", F.to_json(
                 F.struct(*[F.col(c) for c in sorted(df.columns)]),
@@ -145,6 +269,8 @@ class SilverTransformationFramework:
 
     def run(self, dataset_id: str, pipeline_run_id: str, mode="full", run_id=None, watermark=None,
             bronze_snapshot_id=None):
+        from pyspark import StorageLevel
+        from pyspark.sql import functions as F, types as T
         contract = self.contract(dataset_id)
         if self.release or self.profile:
             self.quarantine_manager.target_table = contract.silver_output.rsplit(".", 1)[0] + ".dead_letters"
@@ -294,3 +420,87 @@ class SilverTransformationFramework:
                     logger.warning("silver_cache_cleanup_failed dataset=%s; preserve original pipeline outcome", dataset_id)
 
     _sanitize_column_name = staticmethod(sanitize_column_name)
+
+
+# ---------------------------------------------------------------------------
+# Readiness & Audit Checks (formerly `audit.py`)
+# ---------------------------------------------------------------------------
+
+def check_bronze(spark, contracts, profile=None):
+    from pyspark.sql import functions as F
+    results = {}
+    for contract in contracts:
+        contract.validate_executable()
+        framework = SilverTransformationFramework(spark, **({"profile": profile} if profile else {}))
+        source_id = contract.source_id
+        source = spark.table(contract.bronze_input)
+        transformer = framework.transformer(source_id)
+        if transformer and hasattr(transformer, "validate_bronze_schema"):
+            transformer.validate_bronze_schema(source)
+        if isinstance(transformer, ReadContextTransformer):
+            snapshot = spark.sql(f"SELECT snapshot_id FROM {contract.bronze_input}.refs WHERE name = 'main'").first()[0]
+            source = spark.read.format("iceberg").option("snapshot-id", str(snapshot)).load(contract.bronze_input)
+            bound = source.withColumn("_bronze_read_snapshot_id", F.lit(snapshot).cast("long"))
+            bound._is_full_snapshot = True
+            bound._is_schema_probe = True
+            prepared = transformer.preprocess_with_read_context(bound, BronzeReadContext(contract.bronze_input, snapshot))
+        else:
+            probe = source.limit(0)
+            probe._is_schema_probe = True
+            prepared = transformer.preprocess(probe) if transformer else probe
+            if source_id in {"usda_psd", "worldbank_pinksheet"}:
+                prepared = spark.createDataFrame([], prepared.schema)
+        normalized = framework.normalize(prepared, contract)
+        rules = contract.data_quality_rules + (transformer.quality_rules() if transformer and hasattr(transformer, "quality_rules") else [])
+        SilverQualityEngine(rules).evaluate(normalized).schema
+        if source.limit(1).count() == 0:
+            raise ValueError(f"Bronze readiness failed: {contract.bronze_input} has no rows; ingest source data before running the Silver DAG")
+        results[source_id] = {"ready": True, "table": contract.bronze_input}
+    return {"status": "PASSED", "tables": results}
+
+
+def audit_tables(spark, contracts):
+    from pyspark.sql import functions as F, types as T
+    results = {}
+    for contract in contracts:
+        contract.validate_executable()
+        df = spark.table(contract.silver_output)
+        fields = {field.name: field.dataType for field in df.schema}
+        for definition in contract.columns:
+            expected = T._parse_datatype_string(definition["data_type"])
+            if fields.get(definition["name"]) != expected:
+                raise ValueError(f"Silver audit schema mismatch: {contract.silver_output}.{definition['name']}")
+        required = set(contract.business_key) | {c["name"] for c in contract.columns if not c.get("nullable", True)}
+        missing = None
+        for key in sorted(required):
+            condition = F.col(key).isNull()
+            missing = condition if missing is None else missing | condition
+        blocking = [r for r in contract.data_quality_rules if r.get("action", "QUARANTINE") == "QUARANTINE"]
+        checked = SilverQualityEngine(blocking).evaluate(df)
+        bk_hash = F.xxhash64(*[F.col(f"`{k}`") for k in contract.business_key])
+        stats = (
+            checked.groupBy(bk_hash.alias("_bk_h"))
+            .agg(
+                F.count("*").alias("_cnt"),
+                F.max(F.when(missing, 1).otherwise(0)).alias("_null"),
+                F.max(F.when(F.size("dq_errors") > 0, 1).otherwise(0)).alias("_inv"),
+            )
+            .agg(
+                F.coalesce(F.sum("_cnt"), F.lit(0)).alias("rows"),
+                F.max("_null").alias("has_null"),
+                F.max(F.when(F.col("_cnt") > 1, 1).otherwise(0)).alias("has_dup"),
+                F.max("_inv").alias("has_invalid"),
+            )
+            .first()
+            .asDict()
+        )
+        if stats["has_dup"] and len(contract.business_key) > 1:
+            stats["has_dup"] = checked.groupBy(*contract.business_key).count().where("count > 1").limit(1).count()
+        if stats["has_null"]:
+            raise ValueError(f"Silver audit null required field: {contract.silver_output}")
+        if stats["has_dup"]:
+            raise ValueError(f"Silver audit duplicate keys: {contract.silver_output}")
+        if stats["has_invalid"]:
+            raise ValueError(f"Silver audit blocking DQ failure: {contract.silver_output}")
+        results[contract.silver_output] = {"rows": stats["rows"] or 0, "status": "PASSED"}
+    return {"status": "PASSED", "tables": results}

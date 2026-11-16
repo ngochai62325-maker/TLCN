@@ -21,7 +21,7 @@ from pyspark.sql import functions as F, types as T
 from gold import BUILD_ORDER
 from gold.dimensions import geography_key, product_key, series_key
 from gold.keys import key, spark_key
-from gold.rules import metric_rule, checked_decimal
+from gold.spec import metric_rule, checked_decimal
 
 TARGETS = {
     "worldbank_pinksheet": ("fact_price_monthly",),

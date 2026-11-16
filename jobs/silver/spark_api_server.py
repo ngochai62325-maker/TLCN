@@ -14,17 +14,14 @@ import sys
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT_DIR / "src"))
-from silver.local_profile import active_profile, require_profile, DATASETS
-from gold.admission import code_fingerprint
+from silver.framework import active_profile, require_profile, DATASETS, audit_tables, check_bronze, SilverTransformationFramework
+from gold.pipeline import code_fingerprint
 from gold.views import SEMANTIC_VERSION
 
 GOLD_CODE_FINGERPRINT = code_fingerprint()
 
 JOBS_DIR = Path(__file__).resolve().parent
-ALLOWED_JOBS = {"run_all_silver.py", "job_faostat_trade.py", "job_usda_psd.py",
-                "job_usda_export_price.py", "job_worldbank.py", "job_faostat_production.py",
-                "job_faostat_monthly_price.py", "job_faostat_supply_utilization.py", "job_thitruongnongsan.py",
-                "job_nso.py"}
+ALLOWED_JOBS = {"run_all_silver.py"}
 logger = logging.getLogger("spark_api_server")
 JOB_LOCK = Lock()
 _WARM_SPARK = None
@@ -71,7 +68,7 @@ def _get_warm_spark(ansi=False):
         "--conf spark.sql.defaultCatalog=spark_catalog pyspark-shell"
     )
     if _WARM_SPARK is None:
-        from silver.core.spark_session import get_spark_session
+        from silver.engine import get_spark_session
         _WARM_SPARK = get_spark_session("RiceLakehouseRunner")
     _WARM_SPARK.catalog.clearCache()
     _WARM_SPARK.conf.set("spark.sql.ansi.enabled", "true" if ansi else "false")
@@ -151,8 +148,6 @@ class SparkApiHandler(BaseHTTPRequestHandler):
                         from jobs.silver.run_all_silver import datasets as load_datasets, run_pipeline, selected_sources
                         contract_dir = str(ROOT_DIR / "contracts/silver")
                         if action in ("check-bronze", "audit"):
-                            from silver.audit import audit_tables, check_bronze
-                            from silver.framework import SilverTransformationFramework
                             contracts = load_datasets(contract_dir)
                             framework = SilverTransformationFramework(spark, contract_dir, release=request.get("release"), profile=profile)
                             selected = [framework.contract(k) for k in selected_sources(request["dataset"], contracts, request.get("release"), profile, contract_dir)]
@@ -201,13 +196,12 @@ class SparkApiHandler(BaseHTTPRequestHandler):
         with JOB_LOCK:
             if _use_in_process():
                 try:
-                    from gold.admission import runtime_resources, success_context
+                    from gold.pipeline import runtime_resources, success_context, execute
                     from gold.views import require_semantic_definitions
                     runtime_resources()
                     success_context(request.get("silver_run_id"))
                     require_semantic_definitions()
                     spark = _get_warm_spark(ansi=True)
-                    from gold.pipeline import execute
                     result = execute(spark, request["action"], request["owner_run_id"], request.get("silver_run_id"), request.get("source"))
                     if request["action"] == "publish":
                         _stop_warm_spark()

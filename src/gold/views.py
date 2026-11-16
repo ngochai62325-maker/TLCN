@@ -19,8 +19,7 @@ import time
 import urllib.request
 
 from gold.keys import fingerprint
-from gold.rules import SUA
-from gold.spec import ROOT, load_spec
+from gold.spec import SUA, ROOT, load_spec
 
 SEMANTIC_VERSION = "gold-semantic-20261026.1"
 VIEW_NAMES = ("vw_nso_source_observations", "vw_fao_production_yield", "vw_sua_supported_balance", "vw_trade_reported_unit_values")

@@ -99,7 +99,7 @@ def test_release_lock_fails_closed_and_covers_outcome(monkeypatch):
             assert kwargs["bronze_snapshot_id"] == "123"
             events.append("write")
             return {"status": "SUCCESS"}
-        with patch("jobs.silver.run_all_silver.SilverTransformationFramework") as factory, patch("jobs.silver.validate_silver_e2e.table_identity", side_effect=identity):
+        with patch("jobs.silver.run_all_silver.SilverTransformationFramework") as factory, patch("jobs.silver.run_all_silver.table_identity", side_effect=identity):
             factory.return_value.contract.return_value.silver_output = f"iceberg.{RELEASE_NAMESPACE}.usda_rice_psd"
             factory.return_value.run.side_effect = write
             run_pipeline("usda_psd", spark=MagicMock(), release=RELEASE_NAMESPACE)
@@ -124,7 +124,7 @@ def test_old_running_api_cannot_silently_write_legacy_for_release():
 
 
 def test_release_preflight_failure_prevents_every_write(monkeypatch, tmp_path):
-    import jobs.silver.validate_silver_e2e as validator
+    import jobs.silver.run_all_silver as validator
     from contextlib import nullcontext
     framework = SilverTransformationFramework(MagicMock(), release=RELEASE_NAMESPACE)
     framework.run = MagicMock()
@@ -150,7 +150,7 @@ def test_release_preflight_failure_prevents_every_write(monkeypatch, tmp_path):
 
 @pytest.mark.parametrize("partition_rows,unique_keys", [(2, 2), (1, 1), (2, 1)])
 def test_trino_partitioned_key_check_is_exact(monkeypatch, partition_rows, unique_keys):
-    import jobs.silver.verify_silver_trino as validator
+    import jobs.silver.run_all_silver as validator
     fields = [{"name": "year", "type": "integer"}, {"name": "id", "type": "string"},
               {"name": "_dq_warnings", "type": {}}]
     record = {"replay_verified": True, "incremental_replay_verified": True,
@@ -219,7 +219,7 @@ def test_release_unknown_commit_reads_catalog_under_lock_without_retry(monkeypat
         return {"snapshot_id": "123", "uuid": "test-uuid"}
     with patch("ingestion.storage.metadata_repository.MetadataRepository") as repository, \
          patch("jobs.silver.run_all_silver.SilverTransformationFramework") as factory, \
-         patch("jobs.silver.validate_silver_e2e.table_identity", side_effect=identity):
+         patch("jobs.silver.run_all_silver.table_identity", side_effect=identity):
         repository.return_value.source_lock.side_effect = locked
         factory.return_value.contract.return_value.silver_output = f"iceberg.{RELEASE_NAMESPACE}.usda_rice_psd"
         factory.return_value.run.side_effect = error
@@ -348,7 +348,7 @@ def test_local_runner_holds_bronze_source_lock_through_commit_readback(local_pro
         return {"snapshot_id":str(snapshot), "uuid":"test"}
     with patch("ingestion.storage.metadata_repository.MetadataRepository") as repo, \
          patch("jobs.silver.run_all_silver.SilverTransformationFramework") as factory, \
-         patch("jobs.silver.validate_silver_e2e.table_identity", side_effect=identity):
+         patch("jobs.silver.run_all_silver.table_identity", side_effect=identity):
         repo.return_value.source_lock.side_effect = lock
         factory.return_value.run.return_value = {"status":"SUCCESS"}
         run_pipeline("nso", spark=MagicMock(), profile="local_nine", bronze_snapshot_id=snapshot)

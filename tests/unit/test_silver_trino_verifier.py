@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from jobs.silver.verify_silver_trino import verify_nso
+from jobs.silver.run_all_silver import verify_nso
 
 
 def fixtures():
@@ -20,7 +20,7 @@ def fixtures():
 
 def test_unknown_missing_zero_and_review_are_valid():
     schema, counts = fixtures()
-    with patch("jobs.silver.verify_silver_trino.query", side_effect=[schema, [counts]]) as query:
+    with patch("jobs.silver.run_all_silver.query", side_effect=[schema, [counts]]) as query:
         assert verify_nso("http://trino:8080")["status"] == "PASSED"
         sql = query.call_args.args[1]
     assert '"iceberg"."silver_local"."nso_rice_statistics"' in sql
@@ -34,29 +34,29 @@ def test_unknown_missing_zero_and_review_are_valid():
 def test_invalid_contract_rule_fails(bad):
     schema, counts = fixtures()
     counts[bad] = 1
-    with patch("jobs.silver.verify_silver_trino.query", side_effect=[schema, [counts]]):
+    with patch("jobs.silver.run_all_silver.query", side_effect=[schema, [counts]]):
         with pytest.raises(ValueError, match="violation"):
             verify_nso("url")
 
 
 def test_schema_and_duplicates_fail():
     schema, counts = fixtures()
-    with patch("jobs.silver.verify_silver_trino.query", return_value=schema[1:]):
+    with patch("jobs.silver.run_all_silver.query", return_value=schema[1:]):
         with pytest.raises(ValueError, match="schema mismatch"):
             verify_nso("url")
     counts["unique_keys"] = 5
-    with patch("jobs.silver.verify_silver_trino.query", side_effect=[schema, [counts]]):
+    with patch("jobs.silver.run_all_silver.query", side_effect=[schema, [counts]]):
         with pytest.raises(ValueError, match="violation"):
             verify_nso("url")
 
 
 def test_cli_failure_replaces_stale_pass_artifact(tmp_path):
     import json
-    from jobs.silver.verify_silver_trino import main
+    from jobs.silver.run_all_silver import main
     report = tmp_path / "result.json"
     report.write_text('{"status":"PASSED"}', encoding="utf-8")
     with patch("sys.argv", ["verify", "--nso-only", "--output-json", str(report)]), \
-         patch("jobs.silver.verify_silver_trino.verify_nso", side_effect=ValueError("invalid source identity")):
+         patch("jobs.silver.run_all_silver.verify_nso", side_effect=ValueError("invalid source identity")):
         with pytest.raises(ValueError):
             main()
     assert json.loads(report.read_text(encoding="utf-8")) == {"status": "FAILED", "error": "invalid source identity"}

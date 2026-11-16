@@ -20,8 +20,7 @@ from functools import reduce
 from pyspark.sql import functions as F, types as T
 
 from gold.keys import canonical_json, key, spark_json, spark_key, spark_value_json
-from gold.rules import metric_rule, PRICE_UNITS
-from gold.spec import ROOT
+from gold.spec import metric_rule, PRICE_UNITS, ROOT
 
 ZERO_GEOGRAPHY = "not_geographic"
 METRIC_SOURCES = ("faostat_production", "faostat_supply_utilization", "faostat_trade", "usda_psd")

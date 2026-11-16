@@ -123,7 +123,7 @@ def test_complete_pipeline_real_iceberg(spark, tmp_path, dataset):
     assert snapshot_before == spark.table(table + ".snapshots").count()
     assert released.quarantine_manager.target_table == f"silver_test.{RELEASE_NAMESPACE}.dead_letters"
     assert spark.table(released.quarantine_manager.target_table).filter(F.col("source_dataset") == dataset).count() == 2
-    from jobs.silver.validate_silver_e2e import table_state, verify_iceberg_schema
+    from jobs.silver.run_all_silver import table_state, verify_iceberg_schema
     before = table_state(spark, contract)
     assert verify_iceberg_schema(spark, contract, before)
     for mode in ("full", "incremental"):
@@ -134,7 +134,7 @@ def test_complete_pipeline_real_iceberg(spark, tmp_path, dataset):
     assert before == table_state(spark, contract)
     if dataset == "faostat_production":
         from unittest.mock import patch
-        from jobs.silver.validate_silver_e2e import accept_source
+        from jobs.silver.run_all_silver import accept_source
         with patch.object(released.merge_engine, "merge", side_effect=RuntimeError("ambiguous commit")):
             with pytest.raises(RuntimeError) as failure:
                 accept_source(spark, released, dataset, {"snapshot_id": str(pinned), "run_id": "bronze-run", "rows": 3})
@@ -174,8 +174,7 @@ def test_new_raw_incremental_revisions_e2e(spark, tmp_path, monkeypatch):
     from ingestion.storage.metadata_repository import MetadataRepository
     from ingestion.storage.minio_storage import MinioStorage
     from ingestion.storage.bronze_writer import BronzeIcebergWriter
-    from jobs.silver.validate_silver_e2e import table_identity, table_state, trino_distributions, verify_values
-    from jobs.silver.verify_silver_trino import verify_record, query
+    from jobs.silver.run_all_silver import table_identity, table_state, trino_distributions, verify_values, verify_record, query
     from silver.framework import AUDIT_COLUMNS
 
     if os.getenv("TLCN_ISOLATED_REBUILD") != "1":

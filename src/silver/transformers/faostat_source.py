@@ -5,8 +5,7 @@ from __future__ import annotations
 from pyspark.sql import DataFrame, functions as F
 
 from ingestion.storage.bronze_writer import sanitize_column_name
-from silver.contract.loader import SilverContractLoader
-from silver.engine.quality import SilverQualityEngine
+from silver.engine import SilverContractLoader, SilverQualityEngine
 
 
 def text_column(name):

@@ -26,10 +26,9 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "jobs/silver"))
 from ingestion.config.registry import SourceRegistry
 from ingestion.storage.bronze_writer import sanitize_column_name
-from jobs.silver.validate_silver_e2e import verify_values, accept_source, input_state
-from silver.audit import audit_tables
-from silver.contract.loader import SilverContractLoader
-from silver.framework import SilverTransformationFramework, RELEASE_NAMESPACE
+from jobs.silver.run_all_silver import verify_values, accept_source, input_state
+from silver.framework import SilverTransformationFramework, RELEASE_NAMESPACE, audit_tables
+from silver.engine import SilverContractLoader
 from ingestion.utils.hashing import compute_file_checksum
 
 SOURCES = ("faostat_production", "faostat_monthly_price", "faostat_supply_utilization", "faostat_trade",
@@ -71,7 +70,7 @@ def configure_rebuild(spark_builder, temporary, configs, resume=False):
     from ingestion.storage.minio_storage import MinioStorage
     from ingestion.storage.bronze_writer import BronzeIcebergWriter
     from ingestion.core.ingestion_engine import IngestionEngine
-    from jobs.silver.verify_silver_trino import query
+    from jobs.silver.run_all_silver import query
 
     expected = {"TLCN_ISOLATED_REBUILD": "1", "MINIO_ENDPOINT": "minio-test:9000",
                 "ICEBERG_REST_URI": "http://rest-test:8181", "TRINO_HOST": "trino-test"}
