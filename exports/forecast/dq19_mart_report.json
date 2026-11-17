@@ -1,0 +1,73 @@
+{
+  "verified_at_utc": "2026-11-17T15:47:57.002127+00:00",
+  "mart_csv": "C:\\Windows_Application\\TLCN\\exports\\forecast\\forecasting_mart.csv",
+  "mart_csv_sha256": "4f50b757091433aadd28444f9a48f91bb28e95b23d092a925c6d5566577b61a1",
+  "raw_csv": "C:\\Windows_Application\\TLCN\\exports\\forecast\\gold_prices_monthly.csv",
+  "raw_csv_sha256": "58239c985a2a55b81f43b8289d4cd4aded2b380bae501f0fea29d1d755126039",
+  "gold_batch": "bc31b3261e918f094e37bb711c1b7135c9eed98ea3d4ab4d8b7b3e019a75a55e",
+  "dq19_status": "PASS",
+  "leakage_errors": 0,
+  "rows_checked": 192,
+  "train_rows": 156,
+  "test_rows": 36,
+  "feature_columns_checked": [
+    "y_lag_1",
+    "y_lag_2",
+    "y_lag_3",
+    "y_lag_6",
+    "y_lag_12",
+    "y_roll_mean_3",
+    "y_roll_mean_6",
+    "y_roll_mean_12",
+    "y_roll_std_3",
+    "y_roll_std_6",
+    "y_roll_std_12",
+    "month_of_year",
+    "urea_lag_1",
+    "crude_oil_lag_1",
+    "thai5_lag_1",
+    "india_parb_lag_1",
+    "pak5_lag_1",
+    "india_white_quote_missing_lag_1",
+    "india_parb_missing_lag_1",
+    "pak5_missing_lag_1",
+    "spread_vn_thai_lag_1",
+    "spread_vn_india_lag_1"
+  ],
+  "non_contemporaneous_checks": {
+    "y_lag_1": {
+      "raw_column": "wb_vn5_usd_t",
+      "rows_distinct_from_target_month": 192
+    },
+    "urea_lag_1": {
+      "raw_column": "wb_urea_usd_t",
+      "rows_distinct_from_target_month": 181
+    },
+    "crude_oil_lag_1": {
+      "raw_column": "wb_crude_oil_usd_bbl",
+      "rows_distinct_from_target_month": 192
+    },
+    "thai5_lag_1": {
+      "raw_column": "usda_thai5_usd_t",
+      "rows_distinct_from_target_month": 184
+    },
+    "india_parb_lag_1": {
+      "raw_column": "usda_india_parb5_usd_t",
+      "rows_distinct_from_target_month": 165
+    },
+    "pak5_lag_1": {
+      "raw_column": "usda_pak5_usd_t",
+      "rows_distinct_from_target_month": 186
+    }
+  },
+  "null_counts": {
+    "india_parb_lag_1": 20,
+    "pak5_lag_1": 1,
+    "spread_vn_india_lag_1": 20
+  },
+  "missing_flag_counts": {
+    "india_white_quote_missing_lag_1": 30,
+    "india_parb_missing_lag_1": 20,
+    "pak5_missing_lag_1": 1
+  }
+}

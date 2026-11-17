@@ -1,0 +1,84 @@
+{
+  "built_at_utc": "2026-11-17T15:32:34.634936+00:00",
+  "input_csv": "C:\\Windows_Application\\TLCN\\exports\\forecast\\gold_prices_monthly.csv",
+  "input_csv_sha256": "58239c985a2a55b81f43b8289d4cd4aded2b380bae501f0fea29d1d755126039",
+  "gold_batch": "bc31b3261e918f094e37bb711c1b7135c9eed98ea3d4ab4d8b7b3e019a75a55e",
+  "gold_snapshots": {
+    "dim_price_series": "5278158270858710718",
+    "fact_price_monthly": "4783131417795003331",
+    "fact_usda_price_reference": "4236247428015842257"
+  },
+  "decisions_applied": {
+    "D1": "Added target_delta = y - y_lag_1 alongside y for XGBoost delta learning",
+    "D2": {
+      "month_key": 200903,
+      "method": "linear_midpoint_from_neighbors",
+      "left_month_key": 200902,
+      "left_value": "418.0900",
+      "right_month_key": 200904,
+      "right_value": "430.0000",
+      "interpolated_value": "424.0450",
+      "used_only_for_lags_and_rolling": true
+    },
+    "D3": "One-step-ahead forecasting horizon h=1",
+    "D4": "Temporal split frozen at train 201001..202212 (156) / test 202301..202512 (36)",
+    "D5": "Preserved competitor missing values as NaN with explicit *_missing_lag_1 flags"
+  },
+  "rolling_std_ddof": 1,
+  "spread_definitions": {
+    "spread_vn_thai_lag_1": "y_lag_1 - thai5_lag_1",
+    "spread_vn_india_lag_1": "y_lag_1 - india_parb_lag_1"
+  },
+  "dq19_verification": {
+    "dq19_status": "PASS",
+    "leakage_errors": 0,
+    "total_rows": 192,
+    "train_rows": 156,
+    "test_rows": 36,
+    "test_india_parb_non_null_rows": 36,
+    "test_india_white_quote_missing_rows": 13,
+    "null_counts": {
+      "india_parb_lag_1": 20,
+      "pak5_lag_1": 1,
+      "spread_vn_india_lag_1": 20
+    },
+    "missing_flag_counts": {
+      "india_white_quote_missing_lag_1": 30,
+      "india_parb_missing_lag_1": 20,
+      "pak5_missing_lag_1": 1
+    }
+  },
+  "output_csv": {
+    "filename": "forecasting_mart.csv",
+    "rows": 192,
+    "columns": [
+      "month_key",
+      "split",
+      "y",
+      "target_delta",
+      "y_lag_1",
+      "y_lag_2",
+      "y_lag_3",
+      "y_lag_6",
+      "y_lag_12",
+      "y_roll_mean_3",
+      "y_roll_mean_6",
+      "y_roll_mean_12",
+      "y_roll_std_3",
+      "y_roll_std_6",
+      "y_roll_std_12",
+      "month_of_year",
+      "urea_lag_1",
+      "crude_oil_lag_1",
+      "thai5_lag_1",
+      "india_parb_lag_1",
+      "pak5_lag_1",
+      "india_white_quote_missing_lag_1",
+      "india_parb_missing_lag_1",
+      "pak5_missing_lag_1",
+      "spread_vn_thai_lag_1",
+      "spread_vn_india_lag_1"
+    ],
+    "sha256": "4f50b757091433aadd28444f9a48f91bb28e95b23d092a925c6d5566577b61a1"
+  }
+}

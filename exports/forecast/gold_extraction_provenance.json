@@ -1,0 +1,344 @@
+{
+  "extracted_at_utc": "2026-11-17T15:12:48.740702+00:00",
+  "trino_url": "http://localhost:18080",
+  "source_namespace": "iceberg.gold_local",
+  "period_range": {
+    "start_month_key": 200901,
+    "end_month_key": 202512
+  },
+  "gold_batch": "bc31b3261e918f094e37bb711c1b7135c9eed98ea3d4ab4d8b7b3e019a75a55e",
+  "gold_model": "gold-20261025.1",
+  "publication_status": "PUBLISHED",
+  "dq": "ACCEPT",
+  "batch_verified": true,
+  "snapshots": {
+    "dim_price_series": {
+      "snapshot_id": "5278158270858710718",
+      "committed_at": "2026-11-15 12:28:49.004 UTC",
+      "operation": "overwrite",
+      "uuid": "a409cbee-a2ad-46cf-b1da-4aab338c0b3b",
+      "rows": 1042
+    },
+    "fact_price_monthly": {
+      "snapshot_id": "4783131417795003331",
+      "committed_at": "2026-11-17 10:28:26.358 UTC",
+      "operation": "overwrite",
+      "uuid": "f47d71a4-7c72-4c5a-89c5-250a0ae995f7",
+      "rows": 61573
+    },
+    "fact_usda_price_reference": {
+      "snapshot_id": "4236247428015842257",
+      "committed_at": "2026-11-15 12:33:00.467 UTC",
+      "operation": "overwrite",
+      "uuid": "189ae260-3d6d-4b63-a201-35520ea75c26",
+      "rows": 12936
+    }
+  },
+  "series": {
+    "usda_india_broken5_usd_t": {
+      "price_series_key": "usda_rice_yearbook_india_5_percent_broken_freight_on_boar_3c14de",
+      "source_system_key": "usda_rice_yearbook",
+      "series_identity_json": "[\"INDIA\",\"5-PERCENT BROKEN\",\"FREIGHT ON BOARD PRICE\"]",
+      "unit": "USD/tonne",
+      "currency": "USD",
+      "price_kind": "reported_export_price",
+      "role": "competitor_shock_indicator"
+    },
+    "usda_india_parb5_usd_t": {
+      "price_series_key": "usda_rice_yearbook_india_5_percent_parboiled_freight_on_b_51dde4",
+      "source_system_key": "usda_rice_yearbook",
+      "series_identity_json": "[\"INDIA\",\"5-PERCENT PARBOILED\",\"FREIGHT ON BOARD PRICE\"]",
+      "unit": "USD/tonne",
+      "currency": "USD",
+      "price_kind": "reported_export_price",
+      "role": "competitor_feature"
+    },
+    "usda_pak5_usd_t": {
+      "price_series_key": "usda_rice_yearbook_pakistan_5_percent_broken_freight_on_b_5d49f7",
+      "source_system_key": "usda_rice_yearbook",
+      "series_identity_json": "[\"PAKISTAN\",\"5-PERCENT BROKEN\",\"FREIGHT ON BOARD PRICE\"]",
+      "unit": "USD/tonne",
+      "currency": "USD",
+      "price_kind": "reported_export_price",
+      "role": "competitor_feature"
+    },
+    "usda_thai5_usd_t": {
+      "price_series_key": "usda_rice_yearbook_thailand_5_percent_broken_freight_on_b_10e286",
+      "source_system_key": "usda_rice_yearbook",
+      "series_identity_json": "[\"THAILAND\",\"5-PERCENT BROKEN\",\"FREIGHT ON BOARD PRICE\"]",
+      "unit": "USD/tonne",
+      "currency": "USD",
+      "price_kind": "reported_export_price",
+      "role": "competitor_feature"
+    },
+    "usda_vn5_usd_t": {
+      "price_series_key": "usda_rice_yearbook_vietnam_5_percent_broken_freight_on_bo_dd22fa",
+      "source_system_key": "usda_rice_yearbook",
+      "series_identity_json": "[\"VIETNAM\",\"5-PERCENT BROKEN\",\"FREIGHT ON BOARD PRICE\"]",
+      "unit": "USD/tonne",
+      "currency": "USD",
+      "price_kind": "reported_export_price",
+      "role": "cross_source_reference"
+    },
+    "wb_crude_oil_usd_bbl": {
+      "price_series_key": "worldbank_pinksheet_crude_oil_average",
+      "source_system_key": "worldbank_pinksheet",
+      "series_identity_json": "[\"crude_oil_average\"]",
+      "unit": "USD/barrel",
+      "currency": "USD",
+      "price_kind": "benchmark_price",
+      "role": "cost_feature"
+    },
+    "wb_vn5_usd_t": {
+      "price_series_key": "worldbank_pinksheet_rice_viet_namese_5",
+      "source_system_key": "worldbank_pinksheet",
+      "series_identity_json": "[\"rice_viet_namese_5\"]",
+      "unit": "USD/tonne",
+      "currency": "USD",
+      "price_kind": "benchmark_price",
+      "role": "target"
+    },
+    "wb_urea_usd_t": {
+      "price_series_key": "worldbank_pinksheet_urea",
+      "source_system_key": "worldbank_pinksheet",
+      "series_identity_json": "[\"urea\"]",
+      "unit": "USD/tonne",
+      "currency": "USD",
+      "price_kind": "benchmark_price",
+      "role": "cost_feature"
+    }
+  },
+  "checks": {
+    "series_audit": {
+      "wb_vn5_usd_t": {
+        "rows_present_in_source": 204,
+        "non_null_2009_2025": 203,
+        "missing_2009_2025_count": 1,
+        "missing_2009_2025_months": [
+          200903
+        ],
+        "non_null_2010_2025": 192,
+        "missing_2010_2025_count": 0,
+        "missing_2010_2025_months": []
+      },
+      "wb_urea_usd_t": {
+        "rows_present_in_source": 204,
+        "non_null_2009_2025": 204,
+        "missing_2009_2025_count": 0,
+        "missing_2009_2025_months": [],
+        "non_null_2010_2025": 192,
+        "missing_2010_2025_count": 0,
+        "missing_2010_2025_months": []
+      },
+      "wb_crude_oil_usd_bbl": {
+        "rows_present_in_source": 204,
+        "non_null_2009_2025": 204,
+        "missing_2009_2025_count": 0,
+        "missing_2009_2025_months": [],
+        "non_null_2010_2025": 192,
+        "missing_2010_2025_count": 0,
+        "missing_2010_2025_months": []
+      },
+      "usda_vn5_usd_t": {
+        "rows_present_in_source": 204,
+        "non_null_2009_2025": 203,
+        "missing_2009_2025_count": 1,
+        "missing_2009_2025_months": [
+          200912
+        ],
+        "non_null_2010_2025": 192,
+        "missing_2010_2025_count": 0,
+        "missing_2010_2025_months": []
+      },
+      "usda_thai5_usd_t": {
+        "rows_present_in_source": 204,
+        "non_null_2009_2025": 204,
+        "missing_2009_2025_count": 0,
+        "missing_2009_2025_months": [],
+        "non_null_2010_2025": 192,
+        "missing_2010_2025_count": 0,
+        "missing_2010_2025_months": []
+      },
+      "usda_india_broken5_usd_t": {
+        "rows_present_in_source": 204,
+        "non_null_2009_2025": 163,
+        "missing_2009_2025_count": 41,
+        "missing_2009_2025_months": [
+          200901,
+          200902,
+          200903,
+          200904,
+          200905,
+          200906,
+          200907,
+          200908,
+          200909,
+          200910,
+          200911,
+          200912,
+          201001,
+          201002,
+          201003,
+          201004,
+          201005,
+          201006,
+          201007,
+          201008,
+          201009,
+          201010,
+          201101,
+          201102,
+          201103,
+          201104,
+          201105,
+          201106,
+          202308,
+          202309,
+          202310,
+          202311,
+          202312,
+          202401,
+          202402,
+          202403,
+          202404,
+          202405,
+          202406,
+          202407,
+          202408
+        ],
+        "non_null_2010_2025": 163,
+        "missing_2010_2025_count": 29,
+        "missing_2010_2025_months": [
+          201001,
+          201002,
+          201003,
+          201004,
+          201005,
+          201006,
+          201007,
+          201008,
+          201009,
+          201010,
+          201101,
+          201102,
+          201103,
+          201104,
+          201105,
+          201106,
+          202308,
+          202309,
+          202310,
+          202311,
+          202312,
+          202401,
+          202402,
+          202403,
+          202404,
+          202405,
+          202406,
+          202407,
+          202408
+        ]
+      },
+      "usda_india_parb5_usd_t": {
+        "rows_present_in_source": 204,
+        "non_null_2009_2025": 173,
+        "missing_2009_2025_count": 31,
+        "missing_2009_2025_months": [
+          200901,
+          200902,
+          200903,
+          200904,
+          200905,
+          200906,
+          200907,
+          200908,
+          200909,
+          200910,
+          200911,
+          200912,
+          201001,
+          201002,
+          201003,
+          201004,
+          201005,
+          201006,
+          201007,
+          201008,
+          201009,
+          201010,
+          201011,
+          201012,
+          201101,
+          201102,
+          201103,
+          201104,
+          201105,
+          201106,
+          202208
+        ],
+        "non_null_2010_2025": 173,
+        "missing_2010_2025_count": 19,
+        "missing_2010_2025_months": [
+          201001,
+          201002,
+          201003,
+          201004,
+          201005,
+          201006,
+          201007,
+          201008,
+          201009,
+          201010,
+          201011,
+          201012,
+          201101,
+          201102,
+          201103,
+          201104,
+          201105,
+          201106,
+          202208
+        ]
+      },
+      "usda_pak5_usd_t": {
+        "rows_present_in_source": 204,
+        "non_null_2009_2025": 203,
+        "missing_2009_2025_count": 1,
+        "missing_2009_2025_months": [
+          201009
+        ],
+        "non_null_2010_2025": 191,
+        "missing_2010_2025_count": 1,
+        "missing_2010_2025_months": [
+          201009
+        ]
+      }
+    },
+    "wb_vs_usda_vn5_2010_2025": {
+      "n_months": 192,
+      "pearson_r": 0.973079,
+      "mae_usd_t": 14.1344
+    }
+  },
+  "output_csv": {
+    "filename": "gold_prices_monthly.csv",
+    "rows": 204,
+    "columns": [
+      "month_key",
+      "month_date",
+      "wb_vn5_usd_t",
+      "wb_urea_usd_t",
+      "wb_crude_oil_usd_bbl",
+      "usda_vn5_usd_t",
+      "usda_thai5_usd_t",
+      "usda_india_broken5_usd_t",
+      "usda_india_parb5_usd_t",
+      "usda_pak5_usd_t",
+      "gold_batch",
+      "wb_snapshot_id",
+      "usda_snapshot_id"
+    ],
+    "sha256": "58239c985a2a55b81f43b8289d4cd4aded2b380bae501f0fea29d1d755126039"
+  }
+}
