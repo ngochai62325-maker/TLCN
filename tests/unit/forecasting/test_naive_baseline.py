@@ -14,6 +14,11 @@ def _make_sample_mart():
     return df.iloc[1:].reset_index(drop=True)
 
 
+def _sample_data():
+    mart = _make_sample_mart()
+    return mart, naive_mod.predict_naive(mart)
+
+
 def test_compute_error_metrics():
     res = m_mod.compute_error_metrics([100.0, 200.0], [90.0, 220.0])
     assert res["mae"] == pytest.approx(15.0)
@@ -22,8 +27,7 @@ def test_compute_error_metrics():
 
 
 def test_naive_predict_and_evaluate():
-    mart = _make_sample_mart()
-    pred = naive_mod.predict_naive(mart)
+    mart, pred = _sample_data()
     m_mod.validate_predictions(pred, mart, expected_models=("naive",))
 
     assert len(pred) == 36
@@ -38,9 +42,23 @@ def test_naive_predict_and_evaluate():
     assert np.allclose(scores["rmse"], 2.0)
 
 
-def test_validate_predictions_rejects_bad_rows():
+def test_build_submission_template_for_hoang_and_phuc():
     mart = _make_sample_mart()
-    pred = naive_mod.predict_naive(mart)
+
+    hoang_tpl = m_mod.build_submission_template(mart, ["sarima"])
+    assert len(hoang_tpl) == 36
+    assert list(hoang_tpl["model_name"].unique()) == ["sarima"]
+    assert hoang_tpl["predicted_usd_t"].isna().all()
+    assert hoang_tpl["actual_usd_t"].notna().all()
+
+    phuc_tpl = m_mod.build_submission_template(mart, ["xgb_base", "xgb_competitor"])
+    assert len(phuc_tpl) == 72
+    assert list(phuc_tpl["model_name"].unique()) == ["xgb_base", "xgb_competitor"]
+    assert not phuc_tpl.duplicated(["month_key", "model_name"]).any()
+
+
+def test_validate_predictions_rejects_bad_rows():
+    mart, pred = _sample_data()
 
     bad_nan = pred.copy()
     bad_nan.loc[0, "predicted_usd_t"] = np.nan
@@ -51,3 +69,36 @@ def test_validate_predictions_rejects_bad_rows():
     bad_actual.loc[0, "actual_usd_t"] += 1.0
     with pytest.raises(AssertionError, match="actual_usd_t"):
         m_mod.validate_predictions(bad_actual, mart)
+
+    dup = pd.concat([pred, pred.iloc[[0]]], ignore_index=True)
+    with pytest.raises(AssertionError, match="Duplicate"):
+        m_mod.validate_predictions(dup, mart)
+
+    with pytest.raises(AssertionError, match="Unexpected models"):
+        m_mod.validate_predictions(pred, mart, expected_models=("sarima",))
+
+    bad_str = pred.copy()
+    bad_str["predicted_usd_t"] = bad_str["predicted_usd_t"].astype(object)
+    bad_str.loc[0, "predicted_usd_t"] = "abc"
+    with pytest.raises(AssertionError, match="must be numeric"):
+        m_mod.validate_predictions(bad_str, mart)
+
+    for bad_val in (-12.5, 0.0):
+        bad_pos = pred.copy()
+        bad_pos.loc[0, "predicted_usd_t"] = bad_val
+        with pytest.raises(AssertionError, match="positive"):
+            m_mod.validate_predictions(bad_pos, mart)
+
+
+def test_metrics_cli_validate(tmp_path, capsys):
+    mart, pred = _sample_data()
+    mart_csv = tmp_path / "mart.csv"
+    pred_csv = tmp_path / "pred.csv"
+    mart.to_csv(mart_csv, index=False)
+    pred.to_csv(pred_csv, index=False)
+
+    exit_code = m_mod.main(["--validate", str(pred_csv), "--mart-csv", str(mart_csv), "--models", "naive"])
+    out = capsys.readouterr().out
+    assert exit_code == 0
+    assert "VALIDATION: PASS" in out
+    assert "2023-2025" in out

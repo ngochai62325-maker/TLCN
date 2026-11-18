@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 
 from jobs.forecasting.metrics import (
-    SUBMISSION_COLUMNS,
     build_prediction_frame,
+    build_submission_template,
     evaluate_predictions,
     validate_predictions,
 )
@@ -27,17 +27,6 @@ def predict_naive(mart_df):
     )
 
 
-def build_submission_template(mart_df):
-    test_df = mart_df[mart_df["split"] == "test"].sort_values("month_key")
-    return pd.DataFrame({
-        "month_key": test_df["month_key"].astype("int64"),
-        "model_name": "<sarima|xgb_base|xgb_competitor>",
-        "split": "test",
-        "actual_usd_t": test_df["y"].astype(float),
-        "predicted_usd_t": np.nan,
-    })[SUBMISSION_COLUMNS]
-
-
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--mart-csv", type=Path, default=MART_CSV)
@@ -52,7 +41,9 @@ def main(argv=None):
     args.output_dir.mkdir(parents=True, exist_ok=True)
     pred_df.to_csv(args.output_dir / "naive_predictions.csv", index=False)
     metrics_df.to_csv(args.output_dir / "naive_metrics.csv", index=False)
-    build_submission_template(mart_df).to_csv(args.output_dir / "submission_template_test.csv", index=False)
+    build_submission_template(mart_df, "<sarima|xgb_base|xgb_competitor>").to_csv(
+        args.output_dir / "submission_template_test.csv", index=False
+    )
 
     worst = pred_df.loc[pred_df["error_usd_t"].abs().nlargest(5).index]
     print("=== NAIVE METRICS (202301..202512) ===")
