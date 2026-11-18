@@ -1,0 +1,7 @@
+﻿scope,series,nobs,usedlag,adf_stat,p_value,crit_1pct,crit_5pct,stationary_5pct,stationary_1pct
+train_2010_2022,y_t,153,2,-2.9319,0.041764,-3.4738,-2.8806,True,False
+train_2010_2022,delta_y_t (d=1),153,1,-8.0595,0.0,-3.4738,-2.8806,True,True
+train_2010_2022,delta12_y_t (D=1),130,13,-3.4155,0.010442,-3.4817,-2.884,True,False
+train_2010_2022,"delta_delta12_y_t (d=1, D=1)",129,13,-4.8998,3.5e-05,-3.4821,-2.8842,True,True
+full_2010_2025_ref_only,y_t,189,2,-2.7295,0.069064,-3.4654,-2.877,False,False
+full_2010_2025_ref_only,delta_y_t (d=1),189,1,-8.096,0.0,-3.4654,-2.877,True,True
