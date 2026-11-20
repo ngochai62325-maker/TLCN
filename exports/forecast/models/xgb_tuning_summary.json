@@ -1,0 +1,80 @@
+{
+  "xgb_base": {
+    "n_train_rows": 156,
+    "n_test_rows": 36,
+    "n_features": 14,
+    "features": [
+      "y_lag_1",
+      "y_lag_2",
+      "y_lag_3",
+      "y_lag_6",
+      "y_lag_12",
+      "y_roll_mean_3",
+      "y_roll_mean_6",
+      "y_roll_mean_12",
+      "y_roll_std_3",
+      "y_roll_std_6",
+      "y_roll_std_12",
+      "month_of_year",
+      "urea_lag_1",
+      "crude_oil_lag_1"
+    ],
+    "train_in_sample_rmse": 14.3194,
+    "best_params": {
+      "max_depth": 3,
+      "learning_rate": 0.03,
+      "n_estimators": 50,
+      "min_child_weight": 3,
+      "reg_alpha": 1.0,
+      "reg_lambda": 5.0,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
+    },
+    "cv_rmse": 15.2517,
+    "cv_mae": 11.2576,
+    "n_splits": 5,
+    "n_candidates": 216
+  },
+  "xgb_competitor": {
+    "n_train_rows": 156,
+    "n_test_rows": 36,
+    "n_features": 20,
+    "features": [
+      "y_lag_1",
+      "y_lag_2",
+      "y_lag_3",
+      "y_lag_6",
+      "y_lag_12",
+      "y_roll_mean_3",
+      "y_roll_mean_6",
+      "y_roll_mean_12",
+      "y_roll_std_3",
+      "y_roll_std_6",
+      "y_roll_std_12",
+      "month_of_year",
+      "urea_lag_1",
+      "crude_oil_lag_1",
+      "thai5_lag_1",
+      "india_parb_lag_1",
+      "pak5_lag_1",
+      "india_white_quote_missing_lag_1",
+      "spread_vn_thai_lag_1",
+      "spread_vn_india_lag_1"
+    ],
+    "train_in_sample_rmse": 12.6414,
+    "best_params": {
+      "max_depth": 4,
+      "learning_rate": 0.03,
+      "n_estimators": 50,
+      "min_child_weight": 3,
+      "reg_alpha": 0.0,
+      "reg_lambda": 5.0,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
+    },
+    "cv_rmse": 14.7787,
+    "cv_mae": 11.0607,
+    "n_splits": 5,
+    "n_candidates": 216
+  }
+}
