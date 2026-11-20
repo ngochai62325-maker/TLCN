@@ -53,6 +53,7 @@ def main() -> None:
         "best_seasonal_order": list(result["best_seasonal_order"]),
         "use_log": use_log,
         "stationarity": result["stationarity"],
+        "rolling_1step_metrics": result["rolling_1step_metrics"],
         "sarima_backtest_metrics": result["sarima_metrics"],
         "seasonal_naive_backtest_metrics": result["seasonal_naive_metrics"],
         "diagnostics": diag,
@@ -71,9 +72,10 @@ def main() -> None:
     print(" KẾT QUẢ DỰ BÁO GIÁ GẠO HÀNG THÁNG (SARIMA)")
     print(f"Chuỗi dữ liệu : {meta['series_name']} ({meta['start_month']} -> {meta['end_month']}, {meta['total_months']} tháng, khuyết={meta['missing_count']})")
     print(f"Cấu hình tối ưu: SARIMA{result['best_order']}x{result['best_seasonal_order']} (use_log={use_log})")
-    print(f"Backtest SARIMA ({args.test_months} tháng): MAE={result['sarima_metrics']['MAE']} | RMSE={result['sarima_metrics']['RMSE']} | MAPE={result['sarima_metrics']['MAPE_pct']}% | sMAPE={result['sarima_metrics']['sMAPE_pct']}%")
-    print(f"Backtest Naive  ({args.test_months} tháng): MAE={result['seasonal_naive_metrics']['MAE']} | RMSE={result['seasonal_naive_metrics']['RMSE']} | MAPE={result['seasonal_naive_metrics']['MAPE_pct']}% | sMAPE={result['seasonal_naive_metrics']['sMAPE_pct']}%")
-    print(f"Kiểm định phần dư Ljung-Box (lag={diag['ljung_box_lag']}): p-value={diag['ljung_box_pvalue']} (white_noise={diag['residuals_white_noise']})")
+    print(f"Backtest Rolling 1-step ({args.test_months} tháng): MAE={result['rolling_1step_metrics']['MAE']} | RMSE={result['rolling_1step_metrics']['RMSE']} | MAPE={result['rolling_1step_metrics']['MAPE_pct']}% | sMAPE={result['rolling_1step_metrics']['sMAPE_pct']}%")
+    print(f"Backtest Static 12-step ({args.test_months} tháng): MAE={result['sarima_metrics']['MAE']} | RMSE={result['sarima_metrics']['RMSE']} | MAPE={result['sarima_metrics']['MAPE_pct']}% | sMAPE={result['sarima_metrics']['sMAPE_pct']}%")
+    print(f"Backtest Seasonal Naive ({args.test_months} tháng): MAE={result['seasonal_naive_metrics']['MAE']} | RMSE={result['seasonal_naive_metrics']['RMSE']} | MAPE={result['seasonal_naive_metrics']['MAPE_pct']}% | sMAPE={result['seasonal_naive_metrics']['sMAPE_pct']}%")
+    print(f"Phần dư (sau burn-in): resid_std={diag['resid_std']} | Ljung-Box (lag={diag['ljung_box_lag']}): p-value={diag['ljung_box_pvalue']} (white_noise={diag['residuals_white_noise']})")
     print(f"Đã lưu kết quả tại: {out_dir}")
 
 

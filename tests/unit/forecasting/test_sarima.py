@@ -11,6 +11,7 @@ from forecasting.sarima import (
     evaluate_metrics,
     fit_and_forecast,
     forecast_seasonal_naive,
+    rolling_backtest_sarima,
     split_train_test,
 )
 
@@ -86,3 +87,17 @@ def test_load_from_raw_excel_verified_201_clean_months():
     assert meta["missing_count"] == 0
     assert meta["raw_total_months"] == 265
     assert meta["raw_missing_count"] == 11
+
+
+def test_rolling_backtest_sarima_returns_exact_test_horizon(synthetic_seasonal_series):
+    rolling_pred = rolling_backtest_sarima(
+        synthetic_seasonal_series,
+        test_months=12,
+        order=(1, 1, 0),
+        seasonal_order=(0, 1, 0, 12),
+        use_log=True,
+    )
+    assert len(rolling_pred) == 12
+    assert rolling_pred.isna().sum() == 0
+    assert (rolling_pred > 0).all()
+

@@ -73,6 +73,12 @@
       "conclusion": "Chuỗi DỪNG (ADF bác bỏ nghiệm đơn vị p < 0.05 và KPSS không bác bỏ tính dừng p >= 0.05)."
     }
   },
+  "rolling_1step_metrics": {
+    "MAE": 10.54,
+    "RMSE": 15.98,
+    "MAPE_pct": 2.63,
+    "sMAPE_pct": 2.57
+  },
   "sarima_backtest_metrics": {
     "MAE": 115.62,
     "RMSE": 118.18,
@@ -101,10 +107,10 @@
     "aic": -722.25,
     "bic": -712.39,
     "ljung_box_lag": 12,
-    "ljung_box_pvalue": 0.108,
+    "ljung_box_pvalue": 0.6695,
     "residuals_white_noise": true,
-    "resid_mean": -0.00667,
-    "resid_std": 0.14493
+    "resid_mean": -0.00054,
+    "resid_std": 0.03856
   },
   "top_5_candidates": [
     {

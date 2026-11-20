@@ -186,8 +186,12 @@ def fit_and_forecast(
     else:
         point, lower, upper = point_raw, lower_raw, upper_raw
 
-    # Bỏ các kỳ đầu bị ảnh hưởng bởi khởi tạo sai phân khi kiểm định phần dư
-    burn_in = max(1, order[1] + seasonal_order[1] * seasonal_order[3])
+    # Bỏ các kỳ đầu bị ảnh hưởng bởi khởi tạo trạng thái Kalman và sai phân khi kiểm định phần dư
+    burn_in = max(
+        1,
+        int(getattr(res, "loglikelihood_burn", 0)),
+        order[0] + order[1] + seasonal_order[1] * seasonal_order[3],
+    )
     clean_resid = res.resid.iloc[burn_in:].dropna()
     lag = min(12, max(1, len(clean_resid) // 3))
     lb_df = acorr_ljungbox(clean_resid, lags=[lag], return_df=True)
@@ -218,6 +222,42 @@ def fit_and_forecast(
     return forecast_df, diagnostics
 
 
+def rolling_backtest_sarima(
+    series: pd.Series,
+    test_months: int,
+    order: tuple,
+    seasonal_order: tuple,
+    use_log: bool = True,
+) -> pd.Series:
+    """Backtest cuốn chiếu 1 bước (Rolling 1-step-ahead): dự báo từng tháng t+1 rồi cập nhật giá thực tế vào bộ lọc Kalman.
+
+    Cách đánh giá này phản ánh đúng vận hành thực tế hàng tháng: mỗi khi có giá đóng cửa tháng mới,
+    hệ thống cập nhật trạng thái (`res.append(..., refit=False)`) để dự báo tháng kế tiếp.
+    """
+    train, test = split_train_test(series, test_months=test_months)
+    y_train = np.log(train.astype(float)) if use_log else train.astype(float)
+    y_test = np.log(test.astype(float)) if use_log else test.astype(float)
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        model = SARIMAX(
+            y_train,
+            order=order,
+            seasonal_order=seasonal_order,
+            enforce_stationarity=False,
+            enforce_invertibility=False,
+        )
+        res = model.fit(disp=False, maxiter=150)
+        preds = []
+        for i in range(len(test)):
+            step_pred = float(res.forecast(steps=1).iloc[0])
+            preds.append(float(np.exp(step_pred)) if use_log else step_pred)
+            if i < len(test) - 1:
+                res = res.append(y_test.iloc[i : i + 1], refit=False)
+
+    return pd.Series(np.round(preds, 2), index=test.index, name="rolling_1step_pred")
+
+
 def run_sarima_pipeline(
     series: pd.Series,
     test_months: int = 12,
@@ -238,15 +278,18 @@ def run_sarima_pipeline(
     best_order = search["best_order"]
     best_seasonal = search["best_seasonal_order"]
 
-    # Backtest trên tập Test (ví dụ 12 tháng năm 2025)
+    # Backtest trên tập Test: cả 12-step Static lẫn 1-step Rolling
     bt_df, bt_diag = fit_and_forecast(train, best_order, best_seasonal, horizon=len(test), use_log=use_log)
+    rolling_pred = rolling_backtest_sarima(series, test_months=test_months, order=best_order, seasonal_order=best_seasonal, use_log=use_log)
     naive_pred = forecast_seasonal_naive(train, horizon=len(test))
     sarima_metrics = evaluate_metrics(test, bt_df["forecast"])
+    rolling_metrics = evaluate_metrics(test, rolling_pred)
     naive_metrics = evaluate_metrics(test, naive_pred)
 
     backtest_table = pd.DataFrame({
         "month_start": test.index,
         "actual": test.values,
+        "rolling_1step_pred": rolling_pred.values,
         "sarima_pred": bt_df["forecast"].values,
         "lower_95": bt_df["lower_95"].values,
         "upper_95": bt_df["upper_95"].values,
@@ -264,6 +307,7 @@ def run_sarima_pipeline(
         "best_seasonal_order": best_seasonal,
         "backtest_df": backtest_table,
         "backtest_diagnostics": bt_diag,
+        "rolling_1step_metrics": rolling_metrics,
         "sarima_metrics": sarima_metrics,
         "seasonal_naive_metrics": naive_metrics,
         "future_forecast_df": future_df,

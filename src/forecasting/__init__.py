@@ -6,6 +6,7 @@ from forecasting.sarima import (
     fit_and_forecast,
     forecast_seasonal_naive,
     grid_search_sarima,
+    rolling_backtest_sarima,
     run_sarima_pipeline,
     split_train_test,
 )
@@ -19,5 +20,6 @@ __all__ = [
     "forecast_seasonal_naive",
     "grid_search_sarima",
     "fit_and_forecast",
+    "rolling_backtest_sarima",
     "run_sarima_pipeline",
 ]

@@ -87,12 +87,34 @@ def load_monthly_rice_price(
         raise ValueError("Tham số source chỉ nhận 'raw' hoặc 'trino'")
 
     from analytics.client import EDAClient
+    import re
+
     client = EDAClient()
     cat = client.query("catalogue", kind="series")
-    wb = cat[cat["source_system_key"].eq("worldbank_pinksheet") & cat["series_identity_json"].str.contains(series_name.strip(), regex=False)]
-    if len(wb) != 1:
+    wb = cat[cat["source_system_key"].eq("worldbank_pinksheet")].copy()
+
+    target = series_name.strip()
+    slug = re.sub(r"[^a-z0-9]+", "_", target.lower()).strip("_")
+    text_cols = [c for c in ("series_identity_json", "price_series_key", "product_key") if c in wb.columns]
+    combined_text = wb[text_cols].astype(str).agg(" ".join, axis=1).str.lower()
+
+    matched = wb[
+        combined_text.str.contains(target.lower(), regex=False)
+        | combined_text.str.contains(slug, regex=False)
+    ]
+    if len(matched) != 1 and "product_key" in wb.columns:
+        try:
+            products = client.query("catalogue", kind="products")
+            prod_hit = products[products["source_labels_json"].astype(str).str.contains(target, case=False, regex=False)]
+            if not prod_hit.empty:
+                matched = wb[wb["product_key"].isin(prod_hit["product_key"])]
+        except Exception:
+            pass
+    if len(matched) != 1 and "viet" in target.lower() and "5" in target.lower():
+        matched = wb[combined_text.str.contains("viet", regex=False) & combined_text.str.contains("5", regex=False)]
+    if len(matched) != 1:
         raise ValueError(f"Không tìm thấy duy nhất chuỗi '{series_name}' trên Trino Gold")
-    series_key = wb.iloc[0]["price_series_key"]
+    series_key = matched.iloc[0]["price_series_key"]
 
     obs = client.query("price_observations", fact="fact_price_monthly", series=series_key, start_period=196001, end_period=203012)
     obs["month_key"] = obs["month_key"].astype(int)
