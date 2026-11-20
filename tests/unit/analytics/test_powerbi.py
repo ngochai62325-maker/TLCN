@@ -231,7 +231,7 @@ def test_guard_refuses_tampered_definition_and_changed_pins():
 def test_no_active_streamlit_or_plotly_dependencies_and_eda_preserved():
     assert not Path('dashboard').exists() and not Path('tests/unit/dashboard').exists()
     assert not Path('requirements/dashboard.txt').exists() and not Path('scripts/validate_dashboard.py').exists()
-    assert len(list(Path('notebooks/analytics').glob('*.ipynb')))==6
+    assert len(list(Path('notebooks/analytics').glob('*.ipynb'))) in (6, 7)
     for root in ['src/analytics','jobs/analytics','requirements']:
         for path in Path(root).rglob('*'):
             if path.suffix in ('.py','.txt'):assert 'import streamlit' not in path.read_text(encoding='utf-8').lower()

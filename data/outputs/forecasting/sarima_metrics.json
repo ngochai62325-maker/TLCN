@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "source": "raw_excel",
+    "series_name": "Rice, Viet Namese 5%",
+    "unit": "($/mt)",
+    "raw_start_month": "2003-12",
+    "raw_end_month": "2025-12",
+    "raw_total_months": 265,
+    "raw_missing_count": 11,
+    "raw_missing_months": [
+      "2005-12",
+      "2006-11",
+      "2006-12",
+      "2007-01",
+      "2007-12",
+      "2008-01",
+      "2008-02",
+      "2008-03",
+      "2008-04",
+      "2008-05",
+      "2009-03"
+    ],
+    "start_month": "2009-04",
+    "end_month": "2025-12",
+    "total_months": 201,
+    "missing_count": 0,
+    "missing_months": []
+  },
+  "best_order": [
+    2,
+    1,
+    0
+  ],
+  "best_seasonal_order": [
+    0,
+    0,
+    0,
+    12
+  ],
+  "use_log": true,
+  "stationarity": {
+    "raw_level": {
+      "n_obs": 198,
+      "adf_stat": -2.7644,
+      "adf_pvalue": 0.0635,
+      "adf_is_stationary": false,
+      "kpss_stat": 0.2776,
+      "kpss_pvalue": 0.1,
+      "kpss_is_stationary": true,
+      "is_stationary": false,
+      "conclusion": "Chuỗi bán dừng / có xu hướng cục bộ (nên lấy sai phân d=1)."
+    },
+    "log_level": {
+      "n_obs": 198,
+      "adf_stat": -2.7633,
+      "adf_pvalue": 0.0637,
+      "adf_is_stationary": false,
+      "kpss_stat": 0.2754,
+      "kpss_pvalue": 0.1,
+      "kpss_is_stationary": true,
+      "is_stationary": false,
+      "conclusion": "Chuỗi bán dừng / có xu hướng cục bộ (nên lấy sai phân d=1)."
+    },
+    "log_diff_1": {
+      "n_obs": 198,
+      "adf_stat": -9.0588,
+      "adf_pvalue": 0.0,
+      "adf_is_stationary": true,
+      "kpss_stat": 0.0488,
+      "kpss_pvalue": 0.1,
+      "kpss_is_stationary": true,
+      "is_stationary": true,
+      "conclusion": "Chuỗi DỪNG (ADF bác bỏ nghiệm đơn vị p < 0.05 và KPSS không bác bỏ tính dừng p >= 0.05)."
+    }
+  },
+  "sarima_backtest_metrics": {
+    "MAE": 115.62,
+    "RMSE": 118.18,
+    "MAPE_pct": 30.89,
+    "sMAPE_pct": 26.56
+  },
+  "seasonal_naive_backtest_metrics": {
+    "MAE": 177.49,
+    "RMSE": 178.69,
+    "MAPE_pct": 46.72,
+    "sMAPE_pct": 37.81
+  },
+  "diagnostics": {
+    "order": [
+      2,
+      1,
+      0
+    ],
+    "seasonal_order": [
+      0,
+      0,
+      0,
+      12
+    ],
+    "use_log": true,
+    "aic": -722.25,
+    "bic": -712.39,
+    "ljung_box_lag": 12,
+    "ljung_box_pvalue": 0.108,
+    "residuals_white_noise": true,
+    "resid_mean": -0.00667,
+    "resid_std": 0.14493
+  },
+  "top_5_candidates": [
+    {
+      "order": [
+        2,
+        1,
+        0
+      ],
+      "seasonal_order": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "AIC": -676.67,
+      "BIC": -667.0
+    },
+    {
+      "order": [
+        2,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "AIC": -674.85,
+      "BIC": -661.94
+    },
+    {
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "AIC": -673.42,
+      "BIC": -663.74
+    },
+    {
+      "order": [
+        0,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "AIC": -672.37,
+      "BIC": -665.92
+    },
+    {
+      "order": [
+        2,
+        1,
+        2
+      ],
+      "seasonal_order": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "AIC": -670.93,
+      "BIC": -654.82
+    }
+  ]
+}

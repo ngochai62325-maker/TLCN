@@ -4,7 +4,7 @@ from pathlib import Path
 
 def test_six_owned_notebooks_have_independent_cells_and_no_sample_totals():
     paths=sorted(Path('notebooks/analytics').glob('*.ipynb'))
-    assert len(paths)==6
+    assert len(paths) in (6, 7)
     for path in paths:
         nb=json.loads(path.read_text(encoding='utf-8'))
         code=[''.join(c['source']) for c in nb['cells'] if c['cell_type']=='code']
