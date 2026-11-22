@@ -1,9 +1,15 @@
+"""CLI tạo các file mẫu nộp kết quả dự báo cho SARIMA và XGBoost."""
 from pathlib import Path
+import sys
+
 import pandas as pd
 
-from jobs.forecasting.metrics import build_submission_template
-
 ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(ROOT / "src"))
+
+from forecasting.metrics import build_submission_template  # noqa: E402
+
 MART_CSV = ROOT / "exports" / "forecast" / "forecasting_mart.csv"
 TEMPLATE_DIR = ROOT / "exports" / "forecast" / "models" / "templates"
 TEMPLATES = {

@@ -1,5 +1,30 @@
-"""Module dự báo giá gạo hàng tháng bằng mô hình SARIMA (Business Problem 4)."""
-from forecasting.data_loader import load_from_raw_excel, load_monthly_rice_price
+"""Thư viện dự báo giá gạo hàng tháng (Data Loader, Mart, Metrics, Naive, SARIMA, XGBoost, Summary)."""
+from forecasting.data_loader import load_from_raw_excel, load_monthly_rice_price, load_series_from_mart
+from forecasting.mart import (
+    LAGS,
+    MART_COLUMNS,
+    TARGET_START,
+    TRAIN_END,
+    WINDOWS,
+    build_mart,
+    check_dq19,
+    warmup_target,
+)
+from forecasting.metrics import (
+    DEFAULT_TOL,
+    EVAL_PERIODS,
+    EXPECTED_MONTHS,
+    PREDICTION_COLUMNS,
+    REQUIRED_COLS,
+    SUBMISSION_COLUMNS,
+    build_prediction_frame,
+    build_submission_template,
+    compute_error_metrics,
+    evaluate_predictions,
+    validate_model_predictions,
+    validate_predictions,
+)
+from forecasting.naive import predict_naive
 from forecasting.sarima import (
     check_stationarity,
     evaluate_metrics,
@@ -10,10 +35,66 @@ from forecasting.sarima import (
     run_sarima_pipeline,
     split_train_test,
 )
+from forecasting.summary import (
+    ALL_MODELS,
+    METRIC_SPECS,
+    MODEL_FILES,
+    MODEL_STYLES,
+    PERIOD_ORDER,
+    PERIOD_SPECS,
+    SARIMA_MODEL_NAMES,
+    SHOCK_SPAN,
+    SPLIT_2024,
+    draw_actual_vs_pred,
+    load_and_merge_predictions,
+    plot_actual_vs_predicted,
+    plot_actual_vs_predicted_by_period,
+    plot_metrics_by_period,
+    upsert_forecast_metrics,
+    upsert_forecast_predictions,
+)
+from forecasting.xgboost_model import (
+    BASE_FEATURES,
+    COMPETITOR_EXTRA_FEATURES,
+    COMPETITOR_FEATURES,
+    DEFAULT_PARAM_GRID,
+    RANDOM_STATE,
+    SCENARIOS,
+    extract_feature_importance,
+    run_xgboost_pipeline,
+    tune_xgboost_timeseries,
+)
 
 __all__ = [
+    # data_loader
     "load_from_raw_excel",
     "load_monthly_rice_price",
+    "load_series_from_mart",
+    # mart
+    "TARGET_START",
+    "TRAIN_END",
+    "LAGS",
+    "WINDOWS",
+    "MART_COLUMNS",
+    "warmup_target",
+    "build_mart",
+    "check_dq19",
+    # metrics
+    "EVAL_PERIODS",
+    "SUBMISSION_COLUMNS",
+    "PREDICTION_COLUMNS",
+    "EXPECTED_MONTHS",
+    "REQUIRED_COLS",
+    "DEFAULT_TOL",
+    "compute_error_metrics",
+    "build_prediction_frame",
+    "evaluate_predictions",
+    "validate_predictions",
+    "build_submission_template",
+    "validate_model_predictions",
+    # naive
+    "predict_naive",
+    # sarima
     "check_stationarity",
     "split_train_test",
     "evaluate_metrics",
@@ -22,4 +103,31 @@ __all__ = [
     "fit_and_forecast",
     "rolling_backtest_sarima",
     "run_sarima_pipeline",
+    # xgboost_model
+    "BASE_FEATURES",
+    "COMPETITOR_EXTRA_FEATURES",
+    "COMPETITOR_FEATURES",
+    "SCENARIOS",
+    "DEFAULT_PARAM_GRID",
+    "RANDOM_STATE",
+    "tune_xgboost_timeseries",
+    "extract_feature_importance",
+    "run_xgboost_pipeline",
+    # summary
+    "MODEL_FILES",
+    "ALL_MODELS",
+    "SARIMA_MODEL_NAMES",
+    "MODEL_STYLES",
+    "SHOCK_SPAN",
+    "SPLIT_2024",
+    "PERIOD_SPECS",
+    "PERIOD_ORDER",
+    "METRIC_SPECS",
+    "load_and_merge_predictions",
+    "draw_actual_vs_pred",
+    "plot_actual_vs_predicted",
+    "plot_actual_vs_predicted_by_period",
+    "plot_metrics_by_period",
+    "upsert_forecast_predictions",
+    "upsert_forecast_metrics",
 ]

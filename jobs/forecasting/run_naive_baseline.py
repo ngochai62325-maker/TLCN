@@ -1,30 +1,25 @@
+"""CLI chạy mô hình cơ sở Naive và xuất kết quả ra exports/forecast/models/."""
 import argparse
 from pathlib import Path
-import numpy as np
+import sys
+
 import pandas as pd
 
-from jobs.forecasting.metrics import (
-    build_prediction_frame,
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(ROOT / "src"))
+
+from forecasting.metrics import (  # noqa: E402
     build_submission_template,
     evaluate_predictions,
     validate_predictions,
 )
+from forecasting.naive import predict_naive  # noqa: E402
 
-ROOT = Path(__file__).resolve().parents[2]
 MART_CSV = ROOT / "exports" / "forecast" / "forecasting_mart.csv"
 OUT_DIR = ROOT / "exports" / "forecast" / "models"
 
-
-def predict_naive(mart_df):
-    df = mart_df.sort_values("month_key").reset_index(drop=True)
-    assert np.allclose(df.loc[1:, "y_lag_1"], df["y"].shift(1).iloc[1:], atol=1e-8, rtol=0)
-    test_df = df[df["split"] == "test"]
-    return build_prediction_frame(
-        month_key=test_df["month_key"],
-        model_name="naive",
-        actual_usd_t=test_df["y"],
-        predicted_usd_t=test_df["y_lag_1"],
-    )
+__all__ = ["MART_CSV", "OUT_DIR", "predict_naive", "main"]
 
 
 def main(argv=None):

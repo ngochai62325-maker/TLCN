@@ -148,3 +148,23 @@ def load_monthly_rice_price(
         "missing_count": len(active_missing),
         "missing_months": active_missing,
     }
+
+
+def load_series_from_mart(mart_csv: str | Path) -> tuple[pd.Series, pd.DataFrame, dict]:
+    """Đọc chuỗi giá gạo mục tiêu y từ forecasting_mart.csv để đảm bảo đồng nhất cửa sổ Train/Test với Naive & XGBoost."""
+    mart_df = pd.read_csv(mart_csv).sort_values("month_key").reset_index(drop=True)
+    idx = pd.to_datetime(mart_df["month_key"].astype(str), format="%Y%m")
+    series = pd.Series(mart_df["y"].to_numpy(dtype=float), index=idx, name="Rice, Viet Namese 5%")
+    series.index.freq = "MS"
+    test_rows = int((mart_df["split"] == "test").sum())
+    meta = {
+        "source": "mart",
+        "series_name": "Rice, Viet Namese 5%",
+        "start_month": series.index[0].strftime("%Y-%m"),
+        "end_month": series.index[-1].strftime("%Y-%m"),
+        "total_months": len(series),
+        "train_months": int((mart_df["split"] == "train").sum()),
+        "test_months": test_rows,
+        "missing_count": int(series.isna().sum()),
+    }
+    return series, mart_df, meta
