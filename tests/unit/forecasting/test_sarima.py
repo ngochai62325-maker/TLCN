@@ -14,6 +14,7 @@ from forecasting.sarima import (
     rolling_backtest_sarima,
     split_train_test,
 )
+from jobs.forecasting.run_sarima import upsert_forecast_metrics, upsert_forecast_predictions
 
 
 @pytest.fixture
@@ -100,4 +101,39 @@ def test_rolling_backtest_sarima_returns_exact_test_horizon(synthetic_seasonal_s
     assert len(rolling_pred) == 12
     assert rolling_pred.isna().sum() == 0
     assert (rolling_pred > 0).all()
+
+
+def test_idempotent_upsert_preserves_naive_and_xgb_rows(tmp_path):
+    pred_csv = tmp_path / "forecast_predictions.csv"
+    metrics_csv = tmp_path / "forecast_metrics.csv"
+
+    existing_preds = pd.DataFrame([
+        {"month_key": 202501, "model_name": "naive", "split": "test", "actual_usd_t": 447.27, "predicted_usd_t": 495.67, "error_usd_t": -48.4, "abs_pct_error": 10.82},
+        {"month_key": 202501, "model_name": "xgb_base", "split": "test", "actual_usd_t": 447.27, "predicted_usd_t": 483.53, "error_usd_t": -36.26, "abs_pct_error": 8.11},
+    ])
+    existing_preds.to_csv(pred_csv, index=False)
+
+    existing_metrics = pd.DataFrame([
+        {"model_name": "naive", "eval_period": "2023-2025", "n_months": 36, "mae": 14.7094, "rmse": 20.1049, "mape": 3.0078},
+        {"model_name": "xgb_base", "eval_period": "2023-2025", "n_months": 36, "mae": 15.6914, "rmse": 21.4475, "mape": 3.162},
+    ])
+    existing_metrics.to_csv(metrics_csv, index=False)
+
+    sarima_preds = pd.DataFrame([
+        {"month_key": 202501, "model_name": "sarima", "split": "test", "actual_usd_t": 447.27, "predicted_usd_t": 460.0, "error_usd_t": -12.73, "abs_pct_error": 2.85},
+    ])
+    sarima_metrics = pd.DataFrame([
+        {"model_name": "sarima", "eval_period": "2023-2025", "n_months": 36, "mae": 13.5, "rmse": 19.0, "mape": 2.8},
+    ])
+
+    first_preds = upsert_forecast_predictions(pred_csv, sarima_preds)
+    second_preds = upsert_forecast_predictions(pred_csv, sarima_preds)
+    assert len(first_preds) == 3 and len(second_preds) == 3
+    assert second_preds["model_name"].tolist() == ["naive", "sarima", "xgb_base"]
+
+    first_metrics = upsert_forecast_metrics(metrics_csv, sarima_metrics)
+    second_metrics = upsert_forecast_metrics(metrics_csv, sarima_metrics)
+    assert len(first_metrics) == 3 and len(second_metrics) == 3
+    assert second_metrics["model_name"].tolist() == ["naive", "sarima", "xgb_base"]
+
 

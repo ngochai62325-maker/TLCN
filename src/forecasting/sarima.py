@@ -228,6 +228,7 @@ def rolling_backtest_sarima(
     order: tuple,
     seasonal_order: tuple,
     use_log: bool = True,
+    round_decimals: int | None = 2,
 ) -> pd.Series:
     """Backtest cuốn chiếu 1 bước (Rolling 1-step-ahead): dự báo từng tháng t+1 rồi cập nhật giá thực tế vào bộ lọc Kalman.
 
@@ -255,7 +256,8 @@ def rolling_backtest_sarima(
             if i < len(test) - 1:
                 res = res.append(y_test.iloc[i : i + 1], refit=False)
 
-    return pd.Series(np.round(preds, 2), index=test.index, name="rolling_1step_pred")
+    arr = np.round(preds, round_decimals) if round_decimals is not None else np.asarray(preds, dtype=float)
+    return pd.Series(arr, index=test.index, name="rolling_1step_pred")
 
 
 def run_sarima_pipeline(

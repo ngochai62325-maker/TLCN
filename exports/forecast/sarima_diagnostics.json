@@ -1,0 +1,297 @@
+{
+  "metadata": {
+    "source": "mart",
+    "series_name": "Rice, Viet Namese 5%",
+    "start_month": "2010-01",
+    "end_month": "2025-12",
+    "total_months": 192,
+    "train_months": 156,
+    "test_months": 36,
+    "missing_count": 0
+  },
+  "model_name": "sarima",
+  "best_order": [
+    2,
+    1,
+    1
+  ],
+  "best_seasonal_order": [
+    0,
+    0,
+    0,
+    12
+  ],
+  "use_log": true,
+  "stationarity": {
+    "raw_level": {
+      "n_obs": 189,
+      "adf_stat": -2.7295,
+      "adf_pvalue": 0.0691,
+      "adf_is_stationary": false,
+      "kpss_stat": 0.292,
+      "kpss_pvalue": 0.1,
+      "kpss_is_stationary": true,
+      "is_stationary": false,
+      "conclusion": "Chuỗi bán dừng / có xu hướng cục bộ (nên lấy sai phân d=1)."
+    },
+    "log_level": {
+      "n_obs": 189,
+      "adf_stat": -2.6817,
+      "adf_pvalue": 0.0773,
+      "adf_is_stationary": false,
+      "kpss_stat": 0.2894,
+      "kpss_pvalue": 0.1,
+      "kpss_is_stationary": true,
+      "is_stationary": false,
+      "conclusion": "Chuỗi bán dừng / có xu hướng cục bộ (nên lấy sai phân d=1)."
+    },
+    "log_diff_1": {
+      "n_obs": 189,
+      "adf_stat": -8.3126,
+      "adf_pvalue": 0.0,
+      "adf_is_stationary": true,
+      "kpss_stat": 0.0566,
+      "kpss_pvalue": 0.1,
+      "kpss_is_stationary": true,
+      "is_stationary": true,
+      "conclusion": "Chuỗi DỪNG (ADF bác bỏ nghiệm đơn vị p < 0.05 và KPSS không bác bỏ tính dừng p >= 0.05)."
+    }
+  },
+  "rolling_1step_metrics": {
+    "MAE": 14.29,
+    "RMSE": 18.49,
+    "MAPE_pct": 2.98,
+    "sMAPE_pct": 2.97
+  },
+  "static_multistep_metrics": {
+    "MAE": 93.22,
+    "RMSE": 112.72,
+    "MAPE_pct": 17.74,
+    "sMAPE_pct": 19.54
+  },
+  "seasonal_naive_metrics": {
+    "MAE": 102.7,
+    "RMSE": 123.62,
+    "MAPE_pct": 19.36,
+    "sMAPE_pct": 21.8
+  },
+  "eval_periods_metrics": [
+    {
+      "model_name": "sarima",
+      "eval_period": "2023-2025",
+      "n_months": 36,
+      "mae": 14.2896,
+      "rmse": 18.4902,
+      "mape": 2.9758
+    },
+    {
+      "model_name": "sarima",
+      "eval_period": "2023",
+      "n_months": 12,
+      "mae": 19.5844,
+      "rmse": 24.3368,
+      "mape": 3.6391
+    },
+    {
+      "model_name": "sarima",
+      "eval_period": "2024-2025",
+      "n_months": 24,
+      "mae": 11.6423,
+      "rmse": 14.7205,
+      "mape": 2.6441
+    }
+  ],
+  "train_diagnostics": {
+    "order": [
+      2,
+      1,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      0,
+      0,
+      12
+    ],
+    "use_log": true,
+    "aic": -567.06,
+    "bic": -554.94,
+    "ljung_box_lag": 12,
+    "ljung_box_pvalue": 0.7911,
+    "residuals_white_noise": true,
+    "resid_mean": -0.00029,
+    "resid_std": 0.03721
+  },
+  "full_series_diagnostics": {
+    "order": [
+      2,
+      1,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      0,
+      0,
+      12
+    ],
+    "use_log": true,
+    "aic": -706.06,
+    "bic": -693.09,
+    "ljung_box_lag": 12,
+    "ljung_box_pvalue": 0.9149,
+    "residuals_white_noise": true,
+    "resid_mean": -0.00034,
+    "resid_std": 0.03669
+  },
+  "top_5_candidates": [
+    {
+      "order": [
+        2,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "AIC": -567.06,
+      "BIC": -554.94
+    },
+    {
+      "order": [
+        1,
+        1,
+        0
+      ],
+      "seasonal_order": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "AIC": -566.83,
+      "BIC": -560.76
+    },
+    {
+      "order": [
+        0,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "AIC": -566.21,
+      "BIC": -560.15
+    },
+    {
+      "order": [
+        2,
+        1,
+        0
+      ],
+      "seasonal_order": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "AIC": -566.06,
+      "BIC": -556.97
+    },
+    {
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        0,
+        0,
+        12
+      ],
+      "AIC": -565.39,
+      "BIC": -556.3
+    }
+  ],
+  "future_forecast_2026": [
+    {
+      "month_start": "2026-01-01",
+      "forecast": 348.55,
+      "lower_95": 324.43,
+      "upper_95": 374.46
+    },
+    {
+      "month_start": "2026-02-01",
+      "forecast": 347.86,
+      "lower_95": 304.98,
+      "upper_95": 396.77
+    },
+    {
+      "month_start": "2026-03-01",
+      "forecast": 348.0,
+      "lower_95": 291.07,
+      "upper_95": 416.06
+    },
+    {
+      "month_start": "2026-04-01",
+      "forecast": 348.17,
+      "lower_95": 280.63,
+      "upper_95": 431.97
+    },
+    {
+      "month_start": "2026-05-01",
+      "forecast": 348.26,
+      "lower_95": 272.2,
+      "upper_95": 445.56
+    },
+    {
+      "month_start": "2026-06-01",
+      "forecast": 348.27,
+      "lower_95": 264.99,
+      "upper_95": 457.73
+    },
+    {
+      "month_start": "2026-07-01",
+      "forecast": 348.27,
+      "lower_95": 258.6,
+      "upper_95": 469.03
+    },
+    {
+      "month_start": "2026-08-01",
+      "forecast": 348.27,
+      "lower_95": 252.84,
+      "upper_95": 479.71
+    },
+    {
+      "month_start": "2026-09-01",
+      "forecast": 348.26,
+      "lower_95": 247.57,
+      "upper_95": 489.92
+    },
+    {
+      "month_start": "2026-10-01",
+      "forecast": 348.26,
+      "lower_95": 242.7,
+      "upper_95": 499.73
+    },
+    {
+      "month_start": "2026-11-01",
+      "forecast": 348.26,
+      "lower_95": 238.18,
+      "upper_95": 509.22
+    },
+    {
+      "month_start": "2026-12-01",
+      "forecast": 348.26,
+      "lower_95": 233.95,
+      "upper_95": 518.43
+    }
+  ]
+}
