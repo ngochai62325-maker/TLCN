@@ -50,6 +50,8 @@ from forecasting.summary import (
     plot_actual_vs_predicted,
     plot_actual_vs_predicted_by_period,
     plot_metrics_by_period,
+    plot_wb_vs_usda_zoom,
+    plot_metrics_and_importance,
     upsert_forecast_metrics,
     upsert_forecast_predictions,
 )
@@ -143,6 +145,8 @@ __all__ = [
     "plot_actual_vs_predicted",
     "plot_actual_vs_predicted_by_period",
     "plot_metrics_by_period",
+    "plot_wb_vs_usda_zoom",
+    "plot_metrics_and_importance",
     "upsert_forecast_predictions",
     "upsert_forecast_metrics",
     "ALLOWED_FEATURE_PREFIXES",

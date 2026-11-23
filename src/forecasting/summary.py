@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 import numpy as np
 import pandas as pd
 
@@ -156,7 +157,7 @@ def plot_metrics_by_period(metrics_df: pd.DataFrame, out_path: str | Path | None
     x = np.arange(len(PERIOD_ORDER))
     width = min(0.35, 0.75 / max(len(models), 1))
 
-    fig, axes = plt.subplots(1, len(METRIC_SPECS), figsize=(14, 4.8), dpi=180, squeeze=False)
+    fig, axes = plt.subplots(1, len(METRIC_SPECS), figsize=(15, 5.2), dpi=180, squeeze=False)
     axes = axes[0]
     for ax, (col, ylabel) in zip(axes, METRIC_SPECS):
         for idx, model_name in enumerate(models):
@@ -165,7 +166,7 @@ def plot_metrics_by_period(metrics_df: pd.DataFrame, out_path: str | Path | None
             offset = (idx - (len(models) - 1) / 2) * width
             style = MODEL_STYLES.get(model_name, {"label": model_name})
             bars = ax.bar(x + offset, vals, width=width * 0.92, label=style["label"], color=style.get("color"))
-            ax.bar_label(bars, fmt="%.2f", fontsize=7.5, padding=2)
+            ax.bar_label(bars, fmt="%.2f", fontsize=6.8, padding=2)
         ax.set_title(ylabel, fontsize=10.5, fontweight="bold")
         ax.set_xticks(x, PERIOD_ORDER)
         ax.set_ylim(0, ax.get_ylim()[1] * 1.18)
@@ -179,6 +180,105 @@ def plot_metrics_by_period(metrics_df: pd.DataFrame, out_path: str | Path | None
         fig.savefig(out_path, dpi=180, bbox_inches="tight")
     return fig
 
+def plot_wb_vs_usda_zoom(gold_df: pd.DataFrame, out_path: str | Path | None = None):
+    df = gold_df[gold_df["month_key"].between(201001, 202512)].copy()
+    df["month_date"] = pd.to_datetime(df["month_key"].astype(str), format="%Y%m")
+    zoom = df[df["month_key"].between(202301, 202512)]
+
+    fig, (ax1, ax2) = plt.subplots(
+        1, 2, figsize=(14, 4.8), dpi=180, gridspec_kw={"width_ratios": [1.5, 1.0]}
+    )
+
+    panels = [
+        (ax1, df, "Giai đoạn 2010–2025 (192 tháng)", mdates.YearLocator(2), "%Y"),
+        (ax2, zoom, "Phóng to 2023–2025 (36 tháng test)", mdates.MonthLocator(interval=4), "%m/%Y"),
+    ]
+    for ax, sub, title, locator, fmt in panels:
+        ax.plot(sub["month_date"], sub["wb_vn5_usd_t"], color="#1d3557", lw=2.0, label="World Bank (VN 5%)")
+        ax.plot(sub["month_date"], sub["usda_vn5_usd_t"], color="#e76f51", lw=1.7, ls="--", label="USDA (VN 5%)")
+        ax.axvspan(SHOCK_SPAN[0], SHOCK_SPAN[1], color="#ef4444", alpha=0.12, label="Ấn Độ cấm XK (07/2023–08/2024)")
+        r_val = sub["wb_vn5_usd_t"].corr(sub["usda_vn5_usd_t"])
+        mae_val = (sub["wb_vn5_usd_t"] - sub["usda_vn5_usd_t"]).abs().mean()
+        ax.text(
+            0.03,
+            0.95,
+            f"r = {r_val:.4f} | MAE = {mae_val:.2f} USD/t",
+            transform=ax.transAxes,
+            va="top",
+            fontsize=8.5,
+            bbox={"boxstyle": "round,pad=0.3", "fc": "#f8fafc", "ec": "#cbd5e1"},
+        )
+        ax.set_title(title, fontsize=10.5, fontweight="bold")
+        ax.xaxis.set_major_locator(locator)
+        ax.xaxis.set_major_formatter(mdates.DateFormatter(fmt))
+        ax.set_ylim(top=ax.get_ylim()[1] * 1.09)
+        ax.grid(axis="y", ls="--", alpha=0.35)
+
+    ax1.set_ylabel("Giá FOB (USD/tấn)")
+    ax2.tick_params(axis="x", rotation=25)
+    handles, labels = ax1.get_legend_handles_labels()
+    fig.suptitle("Biểu đồ 1: Đối chiếu giá gạo VN 5% tấm — World Bank vs USDA", fontsize=12.5, fontweight="bold", y=0.99)
+    fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 0.92), ncol=3, frameon=False, fontsize=9)
+    fig.tight_layout(rect=[0, 0, 1, 0.86])
+    if out_path is not None:
+        fig.savefig(out_path, dpi=180, bbox_inches="tight")
+    return fig
+
+def plot_metrics_and_importance(
+    metrics_df: pd.DataFrame,
+    fi_df: pd.DataFrame,
+    out_path: str | Path | None = None,
+    top_n: int = 10,
+):
+    models = metrics_df["model_name"].drop_duplicates().tolist()
+    x = np.arange(len(PERIOD_ORDER))
+    width = 0.19
+
+    fig = plt.figure(figsize=(15, 9.2), dpi=180, layout="constrained")
+    top_fig, bot_fig = fig.subfigures(2, 1, height_ratios=[1.0, 1.15])
+    metric_axes = top_fig.subplots(1, 3)
+
+    for ax, (col, ylabel) in zip(metric_axes, METRIC_SPECS):
+        for idx, model_name in enumerate(models):
+            sub = metrics_df[metrics_df["model_name"] == model_name].set_index("eval_period")
+            vals = [float(sub.loc[p, col]) for p in PERIOD_ORDER]
+            offset = (idx - (len(models) - 1) / 2) * width
+            style = MODEL_STYLES.get(model_name, {"label": model_name})
+            bars = ax.bar(x + offset, vals, width=width * 0.9, label=style["label"], color=style.get("color"))
+            ax.bar_label(bars, fmt="%.2f", fontsize=6.8, padding=2)
+        ax.set_title(ylabel, fontsize=10.5, fontweight="bold")
+        ax.set_xticks(x, PERIOD_ORDER)
+        ax.set_ylim(0, ax.get_ylim()[1] * 1.2)
+        ax.grid(axis="y", ls="--", alpha=0.35)
+
+    handles, labels = metric_axes[0].get_legend_handles_labels()
+    top_fig.legend(handles, labels, loc="outside upper center", ncol=len(models), frameon=False, fontsize=9)
+
+    fi = fi_df[fi_df["model_name"] == "xgb_competitor"].copy()
+    group_colors = {"competitor": "#2563eb", "base": "#94a3b8"}
+    fi_axes = bot_fig.subplots(1, 2)
+    fi_specs = [
+        (fi_axes[0], "gain_share_pct", "Feature Importance — Gain Share (%)", "%.1f%%"),
+        (fi_axes[1], "perm_test_rmse_mean", "Permutation Importance trên Test (ΔRMSE)", "%.2f"),
+    ]
+    for ax, col, title, fmt in fi_specs:
+        top = fi.nlargest(top_n, col).iloc[::-1]
+        colors = [group_colors.get(g, "#94a3b8") for g in top["feature_group"]]
+        bars = ax.barh(top["feature"], top[col], color=colors, height=0.68)
+        ax.bar_label(bars, fmt=fmt, fontsize=8, padding=3)
+        ax.set_title(title, fontsize=10.5, fontweight="bold")
+        ax.set_xlim(min(0, top[col].min() * 1.15), top[col].max() * 1.22)
+        ax.grid(axis="x", ls="--", alpha=0.35)
+
+    fi_legend = [
+        Patch(fc="#2563eb", label="Đối thủ (competitor)"),
+        Patch(fc="#94a3b8", label="Nội sinh & chi phí (base)"),
+    ]
+    fi_axes[0].legend(handles=fi_legend, loc="lower right", frameon=True, fontsize=8)
+    fig.suptitle("Biểu đồ 3: Sai số 3 giai đoạn & Feature Importance (xgb_competitor)", fontsize=12.5, fontweight="bold")
+    if out_path is not None:
+        fig.savefig(out_path, dpi=180, bbox_inches="tight")
+    return fig
 
 def upsert_forecast_predictions(
     csv_path: str | Path,
