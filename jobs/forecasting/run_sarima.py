@@ -142,7 +142,7 @@ def main(argv: list[str] | None = None) -> int:
     print(" KẾT QUẢ DỰ BÁO GIÁ GẠO HÀNG THÁNG (SARIMA — TÍCH HỢP EXPORTS/FORECAST)")
     print(f"Chuỗi dữ liệu : {meta['series_name']} ({meta['start_month']} -> {meta['end_month']}, {meta['total_months']} tháng, test={test_months} tháng)")
     print(f"Cấu hình tối ưu: SARIMA{result['best_order']}x{result['best_seasonal_order']} (use_log={use_log})")
-    print(f"Phần dư (sau burn-in): resid_std={diag['resid_std']} | Ljung-Box (lag={diag['ljung_box_lag']}): p-value={diag['ljung_box_pvalue']} (white_noise={diag['residuals_white_noise']})")
+    print(f"Phần dư train (sau burn-in): resid_std={bt_diag['resid_std']} | Ljung-Box (lag={bt_diag['ljung_box_lag']}): p-value={bt_diag['ljung_box_pvalue']} (white_noise={bt_diag['residuals_white_noise']})")
     print("\n=== BẢNG TỔNG HỢP SAI SỐ CÁC MÔ HÌNH (exports/forecast/forecast_metrics.csv) ===")
     print(all_metrics_df.to_string(index=False))
     print(f"\nTổng số dòng trong forecast_predictions.csv: {len(all_preds_df)} (models={all_preds_df['model_name'].drop_duplicates().tolist()})")

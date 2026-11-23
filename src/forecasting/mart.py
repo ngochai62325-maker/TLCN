@@ -95,6 +95,8 @@ def check_dq19(raw: pd.DataFrame, mart: pd.DataFrame) -> dict:
             assert _same_val(row[m_col], prev[r_col])
         assert _same_val(row["spread_vn_thai_lag_1"], past_y.iloc[-1] - prev["usda_thai5_usd_t"])
         assert _same_val(row["spread_vn_india_lag_1"], past_y.iloc[-1] - prev["usda_india_parb5_usd_t"])
+        assert int(row["month_of_year"]) == mk % 100, f"month_of_year mismatch at {mk}"
+        assert int(row["india_white_quote_missing_lag_1"]) == int(pd.isna(prev["usda_india_broken5_usd_t"])), f"india_white_quote_missing_lag_1 mismatch at {mk}"
 
     return {
         "dq19_status": "PASS",

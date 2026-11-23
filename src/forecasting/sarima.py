@@ -267,15 +267,15 @@ def run_sarima_pipeline(
     use_log: bool = True,
 ) -> dict:
     """Chạy trọn bộ quy trình dự báo SARIMA từ kiểm định tính dừng -> chọn mô hình -> backtest -> dự báo tương lai."""
-    log_s = np.log(series.dropna().astype(float))
-    diff_log_s = log_s.diff().dropna()
+    train, test = split_train_test(series, test_months=test_months)
+    log_train = np.log(train.dropna().astype(float))
+    diff_log_train = log_train.diff().dropna()
     stationarity = {
-        "raw_level": check_stationarity(series),
-        "log_level": check_stationarity(log_s),
-        "log_diff_1": check_stationarity(diff_log_s),
+        "raw_level": check_stationarity(train),
+        "log_level": check_stationarity(log_train),
+        "log_diff_1": check_stationarity(diff_log_train),
     }
 
-    train, test = split_train_test(series, test_months=test_months)
     search = grid_search_sarima(train, use_log=use_log)
     best_order = search["best_order"]
     best_seasonal = search["best_seasonal_order"]

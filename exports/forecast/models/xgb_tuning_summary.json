@@ -19,19 +19,19 @@
       "urea_lag_1",
       "crude_oil_lag_1"
     ],
-    "train_in_sample_rmse": 14.3194,
+    "train_in_sample_rmse": 14.3437,
     "best_params": {
       "max_depth": 3,
       "learning_rate": 0.03,
       "n_estimators": 50,
-      "min_child_weight": 3,
+      "min_child_weight": 5,
       "reg_alpha": 1.0,
       "reg_lambda": 5.0,
       "subsample": 0.8,
       "colsample_bytree": 0.8
     },
-    "cv_rmse": 15.2517,
-    "cv_mae": 11.2576,
+    "cv_rmse": 15.2446,
+    "cv_mae": 11.3671,
     "n_splits": 5,
     "n_candidates": 216
   },
@@ -61,19 +61,19 @@
       "spread_vn_thai_lag_1",
       "spread_vn_india_lag_1"
     ],
-    "train_in_sample_rmse": 12.6414,
+    "train_in_sample_rmse": 13.601,
     "best_params": {
-      "max_depth": 4,
+      "max_depth": 3,
       "learning_rate": 0.03,
       "n_estimators": 50,
       "min_child_weight": 3,
-      "reg_alpha": 0.0,
+      "reg_alpha": 1.0,
       "reg_lambda": 5.0,
       "subsample": 0.8,
       "colsample_bytree": 0.8
     },
-    "cv_rmse": 14.7787,
-    "cv_mae": 11.0607,
+    "cv_rmse": 14.9615,
+    "cv_mae": 11.2155,
     "n_splits": 5,
     "n_candidates": 216
   }

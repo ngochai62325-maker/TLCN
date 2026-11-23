@@ -64,6 +64,21 @@ from forecasting.xgboost_model import (
     run_xgboost_pipeline,
     tune_xgboost_timeseries,
 )
+from forecasting.audit import (
+    ALLOWED_EXACT_FEATURES,
+    ALLOWED_FEATURE_PREFIXES,
+    ALLOWED_FEATURE_SUFFIXES,
+    COMPETITOR_TOKENS,
+    FORBIDDEN_FEATURE_COLS,
+    PERTURB_MONTH,
+    PERTURB_NEXT_MONTH,
+    PERTURB_VALUE,
+    audit_contracts_and_merge,
+    audit_mart_dq19,
+    audit_sarima_logic,
+    audit_xgboost_logic,
+    run_dq19_cross_audit,
+)
 
 __all__ = [
     # data_loader
@@ -130,4 +145,17 @@ __all__ = [
     "plot_metrics_by_period",
     "upsert_forecast_predictions",
     "upsert_forecast_metrics",
+    "ALLOWED_FEATURE_PREFIXES",
+    "ALLOWED_FEATURE_SUFFIXES",
+    "ALLOWED_EXACT_FEATURES",
+    "FORBIDDEN_FEATURE_COLS",
+    "COMPETITOR_TOKENS",
+    "PERTURB_MONTH",
+    "PERTURB_NEXT_MONTH",
+    "PERTURB_VALUE",
+    "audit_mart_dq19",
+    "audit_sarima_logic",
+    "audit_xgboost_logic",
+    "audit_contracts_and_merge",
+    "run_dq19_cross_audit",
 ]

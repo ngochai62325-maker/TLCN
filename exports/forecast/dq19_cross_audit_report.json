@@ -1,0 +1,117 @@
+{
+  "overall_status": "PASS",
+  "mart_dq19": {
+    "status": "PASS",
+    "rows": 192,
+    "train_rows": 156,
+    "test_rows": 36,
+    "leakage_errors": 0,
+    "india_white_flag_errors": 0,
+    "month_of_year_errors": 0
+  },
+  "sarima": {
+    "status": "PASS",
+    "best_order": [
+      2,
+      1,
+      1
+    ],
+    "best_seasonal_order": [
+      0,
+      0,
+      0,
+      12
+    ],
+    "use_log": true,
+    "max_param_drift_refit_false": 0.0,
+    "counterfactual_diff_before_or_at_perturb": 0.0,
+    "counterfactual_diff_after_perturb": 34668.9412,
+    "saved_vs_local_max_diff": 0.0,
+    "stationarity_n_obs": 153,
+    "warnings": []
+  },
+  "xgboost": {
+    "status": "PASS",
+    "train_max_usd_t": 580.54,
+    "tscv_folds": [
+      {
+        "fold": 1,
+        "train_range": [
+          201001,
+          201202
+        ],
+        "val_range": [
+          201203,
+          201404
+        ]
+      },
+      {
+        "fold": 2,
+        "train_range": [
+          201001,
+          201404
+        ],
+        "val_range": [
+          201405,
+          201606
+        ]
+      },
+      {
+        "fold": 3,
+        "train_range": [
+          201001,
+          201606
+        ],
+        "val_range": [
+          201607,
+          201808
+        ]
+      },
+      {
+        "fold": 4,
+        "train_range": [
+          201001,
+          201808
+        ],
+        "val_range": [
+          201809,
+          202010
+        ]
+      },
+      {
+        "fold": 5,
+        "train_range": [
+          201001,
+          202010
+        ],
+        "val_range": [
+          202011,
+          202212
+        ]
+      }
+    ],
+    "scenarios": {
+      "xgb_base": {
+        "n_features": 14,
+        "counterfactual_diff": 0.0,
+        "saved_months_above_train_max": 6,
+        "saved_max_predicted_usd_t": 613.92,
+        "saved_vs_local_max_diff": 0.0
+      },
+      "xgb_competitor": {
+        "n_features": 20,
+        "counterfactual_diff": 0.0,
+        "saved_months_above_train_max": 6,
+        "saved_max_predicted_usd_t": 622.93,
+        "saved_vs_local_max_diff": 0.0
+      }
+    }
+  },
+  "contracts": {
+    "status": "PASS",
+    "merged_rows": 144,
+    "metrics_rows": 12,
+    "merge_max_diff": 0.0,
+    "metrics_max_diff": 0.0
+  }
+}
