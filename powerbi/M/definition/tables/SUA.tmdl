@@ -1,69 +1,69 @@
 table SUA
-	lineageTag: caa21eea-199e-4fd2-8c29-85878ff1c365
+	lineageTag: 97710e20-244c-4ea7-b9b2-4f4dcecb5be8
 
 	column year
 		dataType: int64
-		lineageTag: d883398b-0373-46ef-8195-30f49dbfa418
+		lineageTag: 72d1d630-ec3d-4a64-b88a-69cba585a982
 		summarizeBy: none
 		sourceColumn: year
 
 	column geography_key
 		dataType: string
-		lineageTag: 6e16baef-ab23-4299-acd9-2212645a3cc9
+		lineageTag: 8a4e5725-4b87-4204-9fe9-a97f7bb8afc4
 		summarizeBy: none
 		sourceColumn: geography_key
 
 	column area_code
 		dataType: string
-		lineageTag: 5ff02746-4bcd-476e-9bfd-62e96747e303
+		lineageTag: f8511546-09bf-4811-b4f5-4cdc90c369c2
 		summarizeBy: none
 		sourceColumn: area_code
 
 	column product_key
 		dataType: string
-		lineageTag: 27155c82-a760-46c1-a437-f13b78470b1a
+		lineageTag: bd82618e-6805-43af-956d-1de773207d17
 		summarizeBy: none
 		sourceColumn: product_key
 
 	column product_code
 		dataType: string
-		lineageTag: 4b59dabe-85a3-4cf2-be71-0bf5e6a2043f
+		lineageTag: 293fca52-c36a-48a1-b31e-3d76110d8efc
 		summarizeBy: none
 		sourceColumn: product_code
 
 	column element_code
 		dataType: string
-		lineageTag: f73609d6-d54d-450d-a6db-5d202f2a2ba0
+		lineageTag: b939c4c8-a2f9-4861-a94d-2580285a3bc6
 		summarizeBy: none
 		sourceColumn: element_code
 
 	column metric
 		dataType: string
-		lineageTag: e65a0cda-d494-4c29-98e2-8d2cf1d54dbf
+		lineageTag: cc1ffea5-97a4-42a0-9ff3-f184992b9463
 		summarizeBy: none
 		sourceColumn: metric
 
 	column unit
 		dataType: string
-		lineageTag: 1cc6ab3d-94bd-4d24-8d1d-845826f80886
+		lineageTag: f73a3da6-3349-4248-8ae1-0523380f8e81
 		summarizeBy: none
 		sourceColumn: unit
 
 	column value_t
 		dataType: double
-		lineageTag: 9cb36f80-4011-4e5e-9209-0d5f972a0ee8
+		lineageTag: 02838347-1643-4b01-9ce9-6e1af0b4a9a2
 		summarizeBy: none
 		sourceColumn: value_t
 
 	column observation_present
 		dataType: boolean
-		lineageTag: 22cd2882-ebfe-418e-ad9d-ec6fd4015f5c
+		lineageTag: 7382ea51-c2d3-4c2f-b7c4-0640acb2d507
 		summarizeBy: none
 		sourceColumn: observation_present
 
 	column aggregation_rule
 		dataType: string
-		lineageTag: 13d39625-9e0a-4762-b129-342b103363db
+		lineageTag: 6fe1e046-7e93-46f9-8fed-52f7e9a16852
 		summarizeBy: none
 		sourceColumn: aggregation_rule
 
@@ -81,6 +81,4 @@ table SUA
 				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
 				in
 				    Accepted
-
-	annotation PBI_ResultType = Table
 

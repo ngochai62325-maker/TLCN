@@ -64,7 +64,7 @@ Với 8 Dimensions, 9 Facts và 4 Semantic SQL, lớp Gold giải quyết **6 b�
 
 ## 3. Các Câu hỏi Phân tích Cụ thể mà Lớp Gold Trả lời Được (Kèm Bằng chứng Số liệu Thực tế)
 
-Toàn bộ các câu hỏi phân tích dưới đây đã được thực thi và kiểm chứng trực tiếp trên dữ liệu lớp Gold thông qua 6 Jupyter Notebooks ([`EDA_FINDINGS.md`](../analytics/EDA_FINDINGS.md)) và 6 trang Dashboard Power BI ([`REPORT_INSIGHTS.md`](../powerbi/REPORT_INSIGHTS.md)):
+Toàn bộ các câu hỏi phân tích dưới đây đã được thực thi và kiểm chứng trực tiếp trên dữ liệu lớp Gold thông qua 6 Jupyter Notebooks ([`EDA_FINDINGS.md`](../analytics/EDA_FINDINGS.md)) và 5 trang Dashboard Power BI nghiệp vụ ([`REPORT_INSIGHTS.md`](../powerbi/REPORT_INSIGHTS.md); nhóm F `OV01–OV03` được kiểm toán qua EDA notebooks & `export_manifest.json`):
 
 ### Nhóm A: Sản xuất Lúa gạo Việt Nam (Nguồn NSO — `fact_nso_observation` & `vw_nso_source_observations`)
 
@@ -135,7 +135,7 @@ flowchart LR
     D --> V --> P
 
     P --> U1["1. Chuyên viên Phân tích & Kinh tế Nông nghiệp\n(Jupyter EDA / Trino Semantic SQL)"]
-    P --> U2["2. Lãnh đạo, Nhà hoạch định & Doanh nghiệp\n(Power BI Desktop 6-Page Dashboard)"]
+    P --> U2["2. Lãnh đạo, Nhà hoạch định & Doanh nghiệp\n(Power BI Desktop 5-Page Dashboard)"]
     D --> U3["3. Kỹ sư Dữ liệu & Kiểm toán Dữ liệu\n(Airflow / DQ01-18 / Lineage & Reconciliation)"]
     P -.-> U4["4. Kỹ sư Khoa học Dữ liệu / ML (Mở rộng)\n(Chuỗi thời gian chuẩn hóa + Vintage Guard)"]
 ```
@@ -149,13 +149,13 @@ flowchart LR
 ### 4.2. Nhóm 2: Nhà Quản lý, Hoạch định Chính sách & Doanh nghiệp Xuất nhập khẩu Lúa gạo (BI Users / Decision Makers)
 - **Nhu cầu**: Theo dõi bức tranh tổng thể và trực quan qua các chỉ số KPI, biểu đồ xu hướng (Trend lines), so sánh thị trường xuất khẩu và theo dõi giá lúa gạo quốc tế/nội địa mà không cần viết câu lệnh SQL.
 - **Điểm chạm trong lớp Gold**:
-  - Khai thác thông qua **8 Analytics Data Marts (10 file CSV đã kiểm định)** được kết nối trực tiếp vào **Báo cáo Power BI Desktop 6 trang tiếng Việt** ([`TLCN_Rice_Analytics.pbip`](../../powerbi/TLCN_Rice_Analytics.pbip)):
-    - *Trang 1*: Tổng quan Độ phủ & Chất lượng Dữ liệu lớp Gold.
-    - *Trang 2*: Sản xuất Lúa gạo Việt Nam (NSO Quốc gia & Mùa vụ).
-    - *Trang 3*: Sản xuất & Năng suất Lúa Toàn cầu (Đối sánh FAOSTAT).
-    - *Trang 4*: Cân đối Cung – Cầu & Tồn kho (FAOSTAT SUA & USDA PSD).
-    - *Trang 5*: Biến động Giá Gạo Quốc tế (World Bank) & Giá Lúa Nội địa (An Giang).
-    - *Trang 6*: Thương mại Xuất khẩu Gạo Song phương Việt Nam (FAOSTAT Trade).
+  - Khai thác thông qua **8 Analytics Data Marts (10 CSV nghiệp vụ + `fact_overview.csv` đối soát manifest)** được kết nối trực tiếp vào **Báo cáo Power BI Desktop 5 trang nghiệp vụ tiếng Việt** ([`TLCN_Rice_Analytics.pbip`](../../powerbi/TLCN_Rice_Analytics.pbip)):
+    - *Trang 1*: Sản xuất Lúa gạo Việt Nam (NSO Quốc gia & Mùa vụ).
+    - *Trang 2*: Sản xuất & Năng suất Lúa Toàn cầu (Đối sánh FAOSTAT).
+    - *Trang 3*: Cân đối Cung – Cầu & Tồn kho (FAOSTAT SUA & USDA PSD).
+    - *Trang 4*: Biến động Giá Gạo Quốc tế (USDA FOB, World Bank) & Giá Lúa Nội địa (ĐBSCL).
+    - *Trang 5*: Thương mại Xuất khẩu Gạo Song phương Việt Nam (FAOSTAT Trade).
+  - *(Kiểm toán độ phủ & chất lượng 9 bảng Fact lớp Gold thuộc phạm vi Nhóm 3 — Kỹ sư Dữ liệu & Kiểm toán Dữ liệu qua EDA notebooks & `export_manifest.json`.)*
 
 ### 4.3. Nhóm 3: Kỹ sư Dữ liệu & Quản trị viên Dữ liệu (Data Engineers / Data Stewards)
 - **Nhu cầu**: Vận hành pipeline ổn định trên hạ tầng giới hạn tài nguyên (Laptop 16 GB RAM, Trino 512 MiB heap), đảm bảo tính toàn vẹn dữ liệu từ Silver sang Gold, kiểm soát phiên bản (Snapshot Isolation) và truy vết lỗi về tận file Raw/Bronze.

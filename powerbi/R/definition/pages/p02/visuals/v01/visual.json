@@ -192,7 +192,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Sản xuất lúa Việt Nam",
+                    "value": "Sản xuất lúa gạo quốc tế",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "14pt",
@@ -205,7 +205,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Số liệu chính thức theo Niên giám Thống kê Việt Nam (GSO), tách biệt số cả năm và số theo mùa vụ.",
+                    "value": "Đối chiếu 5 quốc gia sản xuất & xuất khẩu chủ lực: Ấn Độ, Indonesia, Pakistan, Thái Lan và Việt Nam (1961–2024).",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "8.5pt",

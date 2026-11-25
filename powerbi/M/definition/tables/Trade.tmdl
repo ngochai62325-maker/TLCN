@@ -1,111 +1,111 @@
 table Trade
-	lineageTag: fadfe4dd-e531-4155-a4e8-84909e7054be
+	lineageTag: 202521f2-db71-497e-ab60-8f98f8f7511d
 
 	column year
 		dataType: int64
-		lineageTag: 74d4f8e5-9ef2-41e7-84db-d700c4e7ed0f
+		lineageTag: a376c402-e6e7-4dea-b0a0-c9b559f11710
 		summarizeBy: none
 		sourceColumn: year
 
 	column reporter_key
 		dataType: string
-		lineageTag: 10565a00-7597-4b37-b839-1b032eff910c
+		lineageTag: 97e0842a-d9bd-411d-a8ea-8c542eee0b88
 		summarizeBy: none
 		sourceColumn: reporter_key
 
 	column reporter_code
 		dataType: string
-		lineageTag: 952a0d62-6647-4568-9613-88042024f9f9
+		lineageTag: 17b069f1-feff-43e7-9f90-c076f5857c5a
 		summarizeBy: none
 		sourceColumn: reporter_code
 
 	column partner_key
 		dataType: string
-		lineageTag: 10cdfac0-3541-4c56-8057-6305a5613553
+		lineageTag: 45db12a1-8523-418a-a478-05cdb1e2b18a
 		summarizeBy: none
 		sourceColumn: partner_key
 
 	column partner_code
 		dataType: string
-		lineageTag: 3a6f9d26-503d-48a0-9dbe-1f37c0aa3002
+		lineageTag: ede1701f-6fa2-403b-9809-13f9ec24beb4
 		summarizeBy: none
 		sourceColumn: partner_code
 
 	column partner_name
 		dataType: string
-		lineageTag: e7eba6d4-36ed-4695-89dc-25065672fc1a
+		lineageTag: a656438b-ffbd-4919-bcde-cf82cd02f5ba
 		summarizeBy: none
 		sourceColumn: partner_name
 
 	column product_key
 		dataType: string
-		lineageTag: 6e17bf1d-687e-4d62-802d-e897bb4cf5d1
+		lineageTag: 100ddbf3-99ce-4b01-98aa-e8ae24eb13a6
 		summarizeBy: none
 		sourceColumn: product_key
 
 	column product_code
 		dataType: string
-		lineageTag: 7d23da82-66e9-4d2d-9f84-85ba76073be5
+		lineageTag: ccb7e380-5d46-43ab-b721-a7ee1ea9731c
 		summarizeBy: none
 		sourceColumn: product_code
 
 	column direction
 		dataType: string
-		lineageTag: e2004db8-c39d-4410-9195-d18857635a38
+		lineageTag: d696cf2d-8087-43cf-825a-d3417a032a4b
 		summarizeBy: none
 		sourceColumn: direction
 
 	column quantity_t
 		dataType: double
-		lineageTag: 94a6b681-9d4d-44c3-be49-66af2e6957af
+		lineageTag: cba9baea-3256-484b-b074-0edf7a3da59d
 		summarizeBy: none
 		sourceColumn: quantity_t
 
 	column value_usd
 		dataType: double
-		lineageTag: b459f1c1-8aae-4c62-a949-fb1b7b5dd4a3
+		lineageTag: a41cbffc-0d14-44fc-8c25-5e8228b9aee6
 		summarizeBy: none
 		sourceColumn: value_usd
 
 	column unit_value_usd_t
 		dataType: double
-		lineageTag: 4a227f2b-cdbd-4bf5-8066-88f4fb50752d
+		lineageTag: 78ac3e12-93ab-48b4-ae09-7cd859bf20db
 		summarizeBy: none
 		sourceColumn: unit_value_usd_t
 
 	column quantity_present
 		dataType: boolean
-		lineageTag: b8177573-2f50-4414-bfa4-2ec8391f21c5
+		lineageTag: 84cc512c-5010-4ea4-a961-86507bd7fa2d
 		summarizeBy: none
 		sourceColumn: quantity_present
 
 	column value_present
 		dataType: boolean
-		lineageTag: fb3db403-82f1-4d60-980e-17d222de230c
+		lineageTag: f6c54cc8-94e8-4c50-a9ea-5ab0175e07e9
 		summarizeBy: none
 		sourceColumn: value_present
 
 	column denominator_valid
 		dataType: boolean
-		lineageTag: 881158d0-c3ad-473c-8595-2ad2d178674e
+		lineageTag: 6fd4dd18-0836-411e-9eff-ac9eb3a0a78a
 		summarizeBy: none
 		sourceColumn: denominator_valid
 
 	column paired_quantity_t
 		dataType: double
-		lineageTag: 20519fe9-2ddc-4ffc-a1cf-e9b2371e2579
+		lineageTag: 8366f04c-aec8-4752-af71-c778fe14ba7d
 		summarizeBy: none
 		sourceColumn: paired_quantity_t
 
 	column paired_value_usd
 		dataType: double
-		lineageTag: 3728f9e0-45f6-4628-bfec-d0f65602baa4
+		lineageTag: a76ff4ed-f3f6-4f1c-abb4-950d1cf6f596
 		summarizeBy: none
 		sourceColumn: paired_value_usd
 
 	column partner_name_vi
 		dataType: string
-		lineageTag: a9becfb4-de01-4be2-933f-0a07d87042e8
+		lineageTag: f880a5e9-0145-421a-9725-b0c98869c20a
 		summarizeBy: none
 		sourceColumn: partner_name_vi
 
@@ -124,6 +124,4 @@ table Trade
 				    With_partner_name_vi = Table.AddColumn(Accepted, "partner_name_vi", each if [partner_name] = "China, mainland" then "Trung Quốc" else if [partner_name] = "Côte d'Ivoire" then "Bờ Biển Ngà" else if [partner_name] = "Ghana" then "Ghana" else if [partner_name] = "Indonesia" then "Indonesia" else if [partner_name] = "Malaysia" then "Malaysia" else if [partner_name] = "Philippines" then "Philippines" else if [partner_name] = "Singapore" then "Singapore" else [partner_name], type text)
 				in
 				    With_partner_name_vi
-
-	annotation PBI_ResultType = Table
 

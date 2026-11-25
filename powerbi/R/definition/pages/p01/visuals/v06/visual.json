@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v06",
   "position": {
-    "x": 957,
-    "y": 96,
+    "x": 816,
+    "y": 98,
     "z": 6,
-    "width": 299,
-    "height": 84,
+    "width": 254,
+    "height": 80,
     "tabOrder": 6
   },
   "visual": {
@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Tỷ lệ NULL cao nhất'"
+                  "Value": "'[Lúa] YoY kỳ cuối'"
                 }
               }
             }
@@ -219,14 +219,14 @@
             "left": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "12D"
                 }
               }
             },
             "right": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "12D"
                 }
               }
             }
@@ -243,14 +243,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "Highest Null Fact Pct Display"
+                  "Property": "Latest Production YoY Display"
                 }
               },
-              "queryRef": "Overview.Highest Null Fact Pct Display",
-              "displayName": "Tỷ lệ NULL cao nhất"
+              "queryRef": "KeyMeasures.Latest Production YoY Display",
+              "displayName": "[Lúa] YoY kỳ cuối"
             }
           ]
         }
@@ -263,7 +263,7 @@
             "calloutSize": {
               "expr": {
                 "Literal": {
-                  "Value": "71D"
+                  "Value": "70D"
                 }
               }
             },
@@ -413,7 +413,7 @@
             "verticalSpacing": {
               "expr": {
                 "Literal": {
-                  "Value": "6D"
+                  "Value": "5D"
                 }
               }
             }
@@ -429,7 +429,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "16.5D"
+                  "Value": "15D"
                 }
               }
             },
@@ -549,7 +549,7 @@
       "referenceLabel": [
         {
           "selector": {
-            "metadata": "Overview.Highest Null Fact Pct Display",
+            "metadata": "KeyMeasures.Latest Production YoY Display",
             "id": "ref1",
             "data": [
               {
@@ -565,10 +565,10 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "Highest Null Fact Ref"
+                  "Property": "Latest Production Period Ref"
                 }
               }
             },
@@ -596,7 +596,7 @@
         },
         {
           "selector": {
-            "metadata": "Overview.Highest Null Fact Pct Display",
+            "metadata": "KeyMeasures.Latest Production YoY Display",
             "id": "ref1"
           },
           "properties": {
@@ -657,7 +657,7 @@
       "referenceLabelValue": [
         {
           "selector": {
-            "metadata": "Overview.Highest Null Fact Pct Display",
+            "metadata": "KeyMeasures.Latest Production YoY Display",
             "id": "ref1"
           },
           "properties": {
@@ -696,10 +696,10 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Overview"
+                          "Entity": "KeyMeasures"
                         }
                       },
-                      "Property": "Highest Null Fact Ref Color"
+                      "Property": "Latest Production YoY Ref Color"
                     }
                   }
                 }

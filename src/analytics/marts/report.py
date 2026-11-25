@@ -1,14 +1,15 @@
 """Reproducible PBIP/TMDL/PBIR source authoring; no proprietary PBIX rewriting."""
 import json
 from pathlib import Path
+import shutil
 import uuid
 
 from analytics.powerbi import SCHEMAS as BASE_SCHEMAS, verify_bundle
 from analytics.marts.powerbi import SCHEMAS as MART_SCHEMAS
 
+MEASURE_TABLE = 'KeyMeasures'
 BASE = 'https://developer.microsoft.com/json-schemas/fabric/'
 TABLES = {
-    'fact_overview.csv': 'Overview',
     'nso_national_annual.csv': 'NSOAnnual',
     'nso_national_seasonal.csv': 'NSOSeasonal',
     'nso_reported_yield.csv': 'NSOYield',
@@ -23,11 +24,6 @@ TABLES = {
 
 # Calculated / Added columns for Power Query M and TMDL schema
 TABLE_EXTRA_COLUMNS = {
-    'fact_overview.csv': [
-        ('null_pct', 'each [present_null_rows] / [rows_total]', 'type number', 'decimal?'),
-        ('fact_name_vi', 'each if [fact_name] = "fact_usda_price_reference" then "USDA · Giá xuất khẩu tham chiếu" else if [fact_name] = "fact_fao_trade_observation" then "FAOSTAT · Thương mại xuất nhập khẩu" else if [fact_name] = "fact_fao_production_observation" then "FAOSTAT · Sản lượng lúa toàn cầu" else if [fact_name] = "fact_fao_sua_observation" then "FAOSTAT SUA · Cân đối cung sử dụng" else if [fact_name] = "fact_usda_psd_observation" then "USDA PSD · Cân đối cung cầu niên vụ" else if [fact_name] = "fact_nso_observation" then "NSO · Sản xuất lúa Việt Nam" else if [fact_name] = "fact_fao_price_annual" then "FAOSTAT · Giá sản xuất hằng năm" else if [fact_name] = "fact_vn_market_quote_daily" then "ĐBSCL · Báo giá lúa nội địa" else if [fact_name] = "fact_price_monthly" then "World Bank · Benchmark giá tháng" else [fact_name]', 'type text', 'text'),
-        ('period_grain_vi', 'each if [period_grain] = "calendar_year" then "Năm dương lịch" else if [period_grain] = "reference_year" then "Năm tham chiếu" else if [period_grain] = "marketing_year" then "Niên vụ thương mại" else if [period_grain] = "calendar_month" then "Tháng dương lịch" else if [period_grain] = "calendar_date" then "Ngày dương lịch" else [period_grain]', 'type text', 'text')
-    ],
     'fao_production.csv': [
         ('area_name_vi', 'each if [area_name] = "India" then "Ấn Độ" else if [area_name] = "Indonesia" then "Indonesia" else if [area_name] = "Pakistan" then "Pakistan" else if [area_name] = "Thailand" then "Thái Lan" else if [area_name] = "Viet Nam" then "Việt Nam" else [area_name]', 'type text', 'text')
     ],
@@ -48,9 +44,9 @@ TABLE_EXTRA_COLUMNS = {
 
 CSV_SCHEMAS = {**BASE_SCHEMAS, **MART_SCHEMAS}
 SCHEMAS = {}
-for fname, schema_cols in CSV_SCHEMAS.items():
+for fname in TABLES:
     extra = [(c[0], c[3]) for c in TABLE_EXTRA_COLUMNS.get(fname, [])]
-    SCHEMAS[fname] = list(schema_cols) + extra
+    SCHEMAS[fname] = list(CSV_SCHEMAS[fname]) + extra
 
 MEASURES = {}
 
@@ -60,18 +56,7 @@ def measure(name, dax, unit, policy):
 
 
 # ==============================================================================
-# PAGE 1: OVERVIEW MEASURES (Kiểm toán độ phủ & chất lượng 9 Fact)
-# ==============================================================================
-measure('Total Observations', 'SUM(Overview[rows_total])', '#,0', 'Tổng số quan sát toàn hệ thống Gold (tính từ fact_overview).')
-measure('Numeric Observations', 'SUM(Overview[numeric_rows])', '#,0', 'Số quan sát có dữ liệu số thực tế (tính từ fact_overview).')
-measure('Present NULL', 'SUM(Overview[present_null_rows])', '#,0', 'Số quan sát khuyết có ghi nhận (tính từ fact_overview).')
-measure('Numeric Coverage', 'DIVIDE([Numeric Observations], [Total Observations])', '0.00%', 'Tỷ lệ quan sát có số trên tổng quan sát.')
-measure('Null Percentage', 'DIVIDE([Present NULL], [Total Observations])', '0.00%', 'Tỷ lệ quan sát khuyết trên tổng quan sát.')
-measure('Highest Null Fact Pct', 'MAXX(Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]))', '0.00%', 'Tỷ lệ quan sát khuyết cao nhất trong 9 fact.')
-measure('Highest Null Fact Display', 'VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) VAR pct = MAXX(maxFact, DIVIDE(Overview[present_null_rows], Overview[rows_total])) VAR factName = MAXX(maxFact, Overview[fact_name_vi]) RETURN factName & ": " & FORMAT(pct, "0.00%")', '@', 'Tên tiếng Việt và tỷ lệ của fact có tỷ lệ khuyết cao nhất.')
-
-# ==============================================================================
-# PAGE 2: NSO VIETNAM PRODUCTION MEASURES
+# PAGE 1: NSO VIETNAM PRODUCTION MEASURES
 # ==============================================================================
 for table, column, name, fmt, scope in [
     ('NSOAnnual', 'production_t', 'Annual Production', '#,0', 'V06.12 national annual quantity tonnes'),
@@ -112,7 +97,7 @@ measure('Yield Change Pct', 'IF([First Yield]>0 && [First Yield Year]<[Latest Yi
 measure('NSO Insight', 'IF(ISBLANK([First Production Year]),"Không có dữ liệu trong phạm vi chọn.",IF([First Production Year]=[Latest Production Year],"V06.12 · chỉ một năm có số: " & FORMAT([Latest Production Year],"0") & ". Thay đổi đầu–cuối: Không áp dụng. Yield V06.14 chỉ có từ 1995.","V06.12 · " & FORMAT([First Production Year],"0") & "–" & FORMAT([Latest Production Year],"0") & ": " & FORMAT([Production Change Pct],"+0.00%;-0.00%") & ". Đỉnh quan sát " & FORMAT([Peak Year],"0") & " (" & FORMAT([Peak Production]/1000000,"#,0.00") & " tr tấn); cuối kỳ so với đỉnh " & FORMAT([Latest vs Peak Pct],"+0.00%;-0.00%") & ". Diện tích: " & FORMAT([Area Change Pct],"+0.00%;-0.00%") & ", Năng suất: " & FORMAT([Yield Change Pct],"+0.00%;-0.00%") & ". Không suy quan hệ nhân quả."))', '@', 'Dynamic descriptive scope; all numeric facts come from current filters.')
 
 # ==============================================================================
-# PAGE 3: FAO INTERNATIONAL PRODUCTION MEASURES
+# PAGE 2: FAO INTERNATIONAL PRODUCTION MEASURES
 # ==============================================================================
 measure('FAO Paired Production', 'IF(HASONEVALUE(CalendarYear[Year]),SUM(FAO[paired_production_t]))', '#,0', 'Same eligible country/year population as paired area, tonnes.')
 measure('FAO Paired Area', 'IF(HASONEVALUE(CalendarYear[Year]),SUM(FAO[paired_area_ha]))', '#,0', 'Only pairs with numeric production and positive numeric area, hectares.')
@@ -129,7 +114,7 @@ measure('FAO Production Index', 'VAR cur=[FAO Production] VAR base=CALCULATE([FA
 measure('FAO Common Production Title', '"[Lúa] Sản lượng lúa tại năm chung (" & FORMAT([FAO Common Year],"0") & ")"', '@', 'Tiêu đề động biểu đồ sản lượng lúa theo năm chung.')
 
 # ==============================================================================
-# PAGE 4: SUA & USDA PSD BALANCE MEASURES
+# PAGE 3: SUA & USDA PSD BALANCE MEASURES
 # ==============================================================================
 measure('SUA Selected Value', 'IF(HASONEVALUE(CalendarYear[Year]) && HASONEVALUE(SUA[element_code]),MAX(SUA[value_t]))', '#,0.00', 'One SUA calendar year/element, M49 704/CPC23161.02; NULL stays blank; no cross-element SUM.')
 for code, name in [
@@ -146,17 +131,17 @@ for attr, name in [('Production', 'PSD Production'), ('Domestic Consumption', 'P
 # ==============================================================================
 # DISPLAY MEASURES FOR CHARTS (S1: Divided by 1e6 and 1e9 to match axis labels)
 # ==============================================================================
-# Page 2: Vietnam Production Chart Display Measures
+# Page 1: Vietnam Production Chart Display Measures
 measure('Annual Production Mil', '[Annual Production] / 1000000', '#,0.00', 'Sản lượng lúa cả năm triệu tấn.')
 measure('Annual Area Mil', '[Annual Area] / 1000000', '#,0.00', 'Diện tích lúa cả năm triệu ha.')
 measure('Seasonal Production Mil', '[Seasonal Production] / 1000000', '#,0.00', 'Sản lượng lúa theo vụ triệu tấn.')
 
-# Page 3: International Production Chart Display Measures
+# Page 2: International Production Chart Display Measures
 measure('FAO Common Production Mil', '[FAO Common Production] / 1000000', '#,0.0', 'Sản lượng lúa tại năm chung triệu tấn.')
 measure('FAO Scatter Area Mil', '[FAO Scatter Area] / 1000000', '#,0.0', 'Diện tích scatter triệu ha.')
 measure('FAO Scatter Production Mil', '[FAO Scatter Production] / 1000000', '#,0.0', 'Sản lượng scatter triệu tấn.')
 
-# Page 4: SUA & PSD Chart Display Measures
+# Page 3: SUA & PSD Chart Display Measures
 measure('SUA Food Supply Mil', '[SUA Food Supply] / 1000000', '#,0.00', 'Tiêu thụ thực phẩm triệu tấn.')
 measure('SUA Processed Mil', '[SUA Processed] / 1000000', '#,0.00', 'Chế biến triệu tấn.')
 measure('SUA Opening Stocks Mil', '[SUA Opening Stocks] / 1000000', '#,0.00', 'Tồn kho đầu kỳ triệu tấn.')
@@ -166,12 +151,12 @@ measure('PSD Production Mil', '[PSD Production] / 1000000', '#,0.00', 'Sản xu�
 measure('PSD Consumption Mil', '[PSD Consumption] / 1000000', '#,0.00', 'Tiêu dùng USDA PSD triệu tấn.')
 measure('PSD Ending Stocks Mil', '[PSD Ending Stocks] / 1000000', '#,0.00', 'Tồn kho cuối kỳ USDA PSD triệu tấn.')
 
-# Page 6: Trade Chart Display Measures
+# Page 5: Trade Chart Display Measures
 measure('Trade Quantity Mil', '[Trade Quantity] / 1000000', '#,0.00', 'Lượng xuất khẩu triệu tấn.')
 measure('Trade Value Bil', '[Trade Value] / 1000000000', '#,0.00', 'Giá trị xuất khẩu tỷ USD.')
 
 # ==============================================================================
-# PAGE 5: PRICES MEASURES (World Bank, USDA Price Reference, VN Domestic Quotes)
+# PAGE 4: PRICES MEASURES (World Bank, USDA Price Reference, VN Domestic Quotes)
 # ==============================================================================
 # USDA Price: guard both location and commodity_class
 measure('USDA Price', 'IF(HASONEVALUE(USDAPrice[location]) && HASONEVALUE(USDAPrice[commodity_class]), IF(HASONEVALUE(USDAPrice[reference_year]), AVERAGE(USDAPrice[price_usd_t]), AVERAGE(USDAPrice[price_usd_t])))', '#,0.00', 'USDA FOB export price reference USD/tonne; guardrail: yêu cầu chọn đúng 1 quốc gia và 1 phẩm cấp.')
@@ -231,7 +216,7 @@ measure('Domestic Quote Chart Price', f'{_CHOSEN_QUOTE_SERIES_DAX} VAR valid_row
 measure('Domestic Quote Chart Title', f'{_CHOSEN_QUOTE_SERIES_DAX} VAR valid_markets = FILTER(VALUES(VNQuote[market]), CALCULATE(COUNTROWS(VNQuote), VNQuote[series_label] = chosen_series, NOT ISBLANK(VNQuote[price_vnd_kg]), VNQuote[price_vnd_kg] >= 1000) > 0) VAR market_list = CONCATENATEX(valid_markets, VNQuote[market], ", ", VNQuote[market], ASC) RETURN IF(ISBLANK(market_list) || market_list = "", "[Lúa] Giá nội địa – " & chosen_series & " (không có dữ liệu)", "[Lúa] Giá nội địa (" & market_list & ") – " & chosen_series & " (VND/kg)")', '@', 'Tiêu đề động biểu đồ giá nội địa liệt kê đúng chuỗi đang chọn và tập thị trường hợp lệ.')
 
 # ==============================================================================
-# PAGE 6: TRADE EXPORTS MEASURES
+# PAGE 5: TRADE EXPORTS MEASURES
 # ==============================================================================
 for col, name, policy in [
     ('quantity_t', 'Trade Quantity', 'Reported export tonnes'),
@@ -251,12 +236,8 @@ measure('Trade Insight', 'IF([Trade Paired Groups]=0,"Không có cặp đủ đi
 # ==============================================================================
 # CARD DISPLAY MEASURES (Legacy strings kept intact; Hero + 3-tier Ref measures added)
 # ==============================================================================
-measure('Total Observations Display', 'FORMAT([Total Observations], "#,0")', '@', 'Tổng quan sát format vi-VN.')
-measure('Numeric Coverage Display', 'FORMAT([Numeric Coverage], "0.00%")', '@', 'Tỷ lệ có số format vi-VN.')
-measure('Null Percentage Display', 'FORMAT([Null Percentage], "0.00%")', '@', 'Tỷ lệ khuyết format vi-VN.')
-measure('Highest Null Fact Pct Display', 'FORMAT([Highest Null Fact Pct], "0.00%")', '@', 'Tỷ lệ khuyết cao nhất format vi-VN.')
 
-# Page 2 Card Displays
+# Page 1 Card Displays
 measure('First Production Display', 'IF(ISBLANK([First Production]),"Không áp dụng",FORMAT([First Production]/1000000,"#,0.00") & " tr tấn")', '@', 'Sản lượng kỳ đầu triệu tấn.')
 measure('Latest Production Display', 'IF(ISBLANK([Latest Production]),"Không áp dụng",FORMAT([Latest Production]/1000000,"#,0.00") & " tr tấn")', '@', 'Sản lượng kỳ cuối triệu tấn.')
 measure('Production Change Pct Display', 'IF(ISBLANK([Production Change Pct]),"Không áp dụng",FORMAT([Production Change Pct],"+0.00%;-0.00%"))', '@', 'Thay đổi sản lượng đầu–cuối.')
@@ -266,7 +247,7 @@ measure('Latest vs Peak Pct Display', 'IF(ISBLANK([Latest vs Peak Pct]),"Không 
 measure('Area Change Pct Display', 'IF(ISBLANK([Area Change Pct]),"Không áp dụng",FORMAT([Area Change Pct],"+0.00%;-0.00%"))', '@', 'Thay đổi diện tích đầu–cuối.')
 measure('Yield Change Pct Display', 'IF(ISBLANK([Yield Change Pct]),"Không áp dụng",FORMAT([Yield Change Pct],"+0.00%;-0.00%"))', '@', 'Thay đổi năng suất đầu–cuối.')
 
-# Page 6 Card Displays
+# Page 5 Card Displays
 measure('Trade Quantity Display', 'IF(ISBLANK([Trade Quantity]),"Không áp dụng",FORMAT([Trade Quantity]/1000000,"#,0.00") & " tr tấn")', '@', 'Formatted export quantity in million tonnes.')
 measure('Latest Trade Quantity Display', 'VAR y=[Latest Trade Year] RETURN IF(ISBLANK([Latest Trade Quantity]),"Không áp dụng",FORMAT([Latest Trade Quantity]/1000000,"#,0.00") & " tr tấn · " & FORMAT(y,"0"))', '@', 'Formatted export quantity in million tonnes for latest year.')
 measure('Trade Value Display', 'IF(ISBLANK([Trade Value]),"Không áp dụng",FORMAT([Trade Value]/1000000000,"$#,0.00") & " tỷ USD")', '@', 'Formatted export value in billion USD.')
@@ -302,13 +283,7 @@ def _static_ref(name, color_name, text_dax, color_hex, desc):
     measure(color_name, f'"{color_hex}"', '@', f'Màu chú thích cho {name}.')
 
 
-# Page 1 3-tier refs
-_static_ref('Overview Scope Ref', 'Overview Scope Ref Color', '"9 bảng Fact · Gold layer"', _SLATE, 'Phạm vi 9 bảng Fact.')
-_static_ref('Overview Numeric Ref', 'Overview Numeric Ref Color', 'FORMAT([Numeric Observations], "#,0") & " có số thực"', _GREEN, 'Số quan sát có giá trị số.')
-_static_ref('Overview Null Ref', 'Overview Null Ref Color', 'FORMAT([Present NULL], "#,0") & " giá trị NULL"', _SLATE, 'Số quan sát khuyết có ghi nhận.')
-_static_ref('Highest Null Fact Ref', 'Highest Null Fact Ref Color', 'VAR maxFact = TOPN(1, Overview, DIVIDE(Overview[present_null_rows], Overview[rows_total]), DESC) RETURN "Nguồn: " & MAXX(maxFact, Overview[fact_name_vi])', _SLATE, 'Tên nguồn có tỷ lệ khuyết cao nhất.')
-
-# Page 2 Hero + 3-tier refs
+# Page 1 Hero + 3-tier refs
 measure('Peak Production Hero', 'IF(ISBLANK([Peak Production]), "Không áp dụng", FORMAT([Peak Production]/1000000, "#,0.00") & " tr tấn")', '@', 'Đỉnh sản lượng triệu tấn.')
 _static_ref('First Production Year Ref', 'First Production Year Ref Color', 'IF(ISBLANK([First Production Year]), "Không áp dụng", "Năm " & FORMAT([First Production Year], "0"))', _SLATE, 'Năm bắt đầu giai đoạn chọn.')
 _trend_ref('Latest Production YoY Ref', 'Latest Production YoY Ref Color', '[Latest Production YoY]', 'Tăng trưởng YoY kỳ cuối.', suffix=' YoY')
@@ -323,14 +298,14 @@ measure('Area Span Ref Color', f'IF(ISBLANK([Area Change Pct]), "{_SLATE}", IF([
 measure('Yield Span Ref', 'IF(ISBLANK([Yield Change Pct]), "Không áp dụng", IF([Yield Change Pct] >= 0, "▲ ", "▼ ") & FORMAT([First Yield Year], "0") & "–" & FORMAT([Latest Yield Year], "0"))', '@', 'Khoảng thời gian năng suất.')
 measure('Yield Span Ref Color', f'IF(ISBLANK([Yield Change Pct]), "{_SLATE}", IF([Yield Change Pct] >= 0, "{_GREEN}", "{_RED}"))', '@', 'Màu ngữ nghĩa thay đổi năng suất.')
 
-# Page 5 Hero + 3-tier refs
+# Page 4 Hero + 3-tier refs
 measure('Latest WB Thai 5 Hero', 'FORMAT([Latest WB Thai 5 Price], "$#,0.00") & " /tấn"', '@', 'Giá gạo Thái 5% mới nhất.')
 measure('Latest WB VN 5 Hero', 'FORMAT([Latest WB VN 5 Price], "$#,0.00") & " /tấn"', '@', 'Giá gạo Việt Nam 5% mới nhất.')
 _trend_ref('Latest WB Thai 5 MoM Ref', 'Latest WB Thai 5 MoM Ref Color', '[Latest WB Thai 5 MoM]', 'Biến động MoM gạo Thái 5%.', suffix=' MoM')
 _trend_ref('Latest WB VN 5 MoM Ref', 'Latest WB VN 5 MoM Ref Color', '[Latest WB VN 5 MoM]', 'Biến động MoM gạo VN 5%.', suffix=' MoM')
 _static_ref('Latest Common WB Ref', 'Latest Common WB Ref Color', 'IF(ISBLANK([Latest Common WB Month]), "Không áp dụng", "Kỳ chung: " & FORMAT([Latest Common WB Month], "MM/yyyy"))', _SLATE, 'Tháng chung mới nhất.')
 
-# Page 6 Hero + 3-tier refs
+# Page 5 Hero + 3-tier refs
 measure('Trade Paired Groups Hero', 'IF(ISBLANK([Trade Paired Groups]), "Không áp dụng", FORMAT([Trade Paired Groups], "#,0") & " cặp")', '@', 'Số cặp đối tác–năm.')
 measure('Latest Trade Quantity Hero', 'IF(ISBLANK([Latest Trade Quantity]), "Không áp dụng", FORMAT([Latest Trade Quantity]/1000000, "#,0.00") & " tr tấn")', '@', 'Sản lượng xuất khẩu năm gần nhất.')
 _static_ref('Trade Partners Ref', 'Trade Partners Ref Color', '"Thị trường trọng điểm"', _SLATE, 'Phụ đề số đối tác.')
@@ -350,17 +325,15 @@ def quoted(name):
     return "'" + name.replace("'", "''") + "'"
 
 
-def tmdl_table(name, schema, partition, source, measures=None):
+def tmdl_table(name, schema, partition, source, measures=None, hidden_columns=()):
     lines = [f'table {name}']
     for col, kind in schema:
         dtype = 'dateTime' if col in ('month_date', 'date', 'Date') else {'integer': 'int64', 'decimal': 'double', 'boolean': 'boolean'}.get(kind.rstrip('?'), 'string')
         lines.extend([f'\tcolumn {col}', f'\t\tdataType: {dtype}', '\t\tsummarizeBy: none', f'\t\tsourceColumn: {col}'])
+        if col in hidden_columns:
+            lines.append('\t\tisHidden')
         if dtype == 'dateTime':
             lines.append('\t\tformatString: yyyy-MM-dd')
-        elif col in ('rows_total', 'numeric_rows', 'present_null_rows', 'represented_periods'):
-            lines.append('\t\tformatString: #,0')
-        elif col == 'null_pct':
-            lines.append('\t\tformatString: 0.00%')
     for label, definition in (measures or {}).items():
         lines.extend([f'\t/// {definition["description"]}', f'\tmeasure {quoted(label)} = {definition["dax"]}', f'\t\tformatString: {definition["format"]}'])
     lines.extend([f'\tpartition {name} = {partition}', '\t\tmode: import', '\t\tsource ='])
@@ -426,7 +399,7 @@ def visual(identifier, kind, title, x, y, w, h, roles=None, single_select=False,
         'fontColor': {'solid': {'color': literal(title_color)}}
     }
     if dynamic_title_measure:
-        title_obj['text'] = {'expr': {'Measure': {'Expression': {'SourceRef': {'Entity': 'Overview'}}, 'Property': dynamic_title_measure}}}
+        title_obj['text'] = {'expr': {'Measure': {'Expression': {'SourceRef': {'Entity': MEASURE_TABLE}}, 'Property': dynamic_title_measure}}}
     else:
         title_obj['text'] = literal(title)
 
@@ -520,7 +493,7 @@ def visual(identifier, kind, title, x, y, w, h, roles=None, single_select=False,
     objs = {}
     if kind == 'cardVisual' and roles:
         main_m = next(iter(roles.values()))[0][1]
-        main_qref = f'Overview.{main_m}'
+        main_qref = f'{MEASURE_TABLE}.{main_m}'
         meta = card_meta or {}
         font_size = meta.get('font_size') or (16.5 if h >= 84 else (15 if w >= 240 else 14.5))
         callout_size = 71 if h >= 84 else (70 if w >= 240 else 69)
@@ -588,7 +561,7 @@ def visual(identifier, kind, title, x, y, w, h, roles=None, single_select=False,
                     'data': [{'dataViewWildcard': {'matchingOption': 0}}]
                 },
                 'properties': {
-                    'value': {'expr': {'Measure': {'Expression': {'SourceRef': {'Entity': 'Overview'}}, 'Property': ref_m}}},
+                    'value': {'expr': {'Measure': {'Expression': {'SourceRef': {'Entity': MEASURE_TABLE}}, 'Property': ref_m}}},
                     'backgroundShow': literal(False)
                 }
             }]
@@ -614,7 +587,7 @@ def visual(identifier, kind, title, x, y, w, h, roles=None, single_select=False,
             }
             if ref_color_m:
                 ref_val_props['valueFontColor'] = {
-                    'solid': {'color': {'expr': {'Measure': {'Expression': {'SourceRef': {'Entity': 'Overview'}}, 'Property': ref_color_m}}}}
+                    'solid': {'color': {'expr': {'Measure': {'Expression': {'SourceRef': {'Entity': MEASURE_TABLE}}, 'Property': ref_color_m}}}}
                 }
             objs['referenceLabelValue'] = [{'selector': {'metadata': main_qref, 'id': 'ref1'}, 'properties': ref_val_props}]
     elif kind == 'card' and roles:
@@ -669,7 +642,7 @@ def visual(identifier, kind, title, x, y, w, h, roles=None, single_select=False,
 def pages(batch_short='UNBOUND', export_date='UNKNOWN'):
     """Native visual specifications; page-scoped filters never join incompatible time."""
     col = lambda t, n, label: (t, n, False, label)
-    ms = lambda n, label: ('Overview', n, True, label)
+    ms = lambda n, label: (MEASURE_TABLE, n, True, label)
     batch_tag = f'Batch: {batch_short} · Export: {export_date}'
     specs = []
 
@@ -698,44 +671,13 @@ def pages(batch_short='UNBOUND', export_date='UNKNOWN'):
         add(p, 'cardVisual', label, (x, y, w, h), False, None, None, None, False, None, None, card_meta, Data=[ms(m_name, label)])
 
     # ==============================================================================
-    # Page 1: Overview
-    # ==============================================================================
-    p = page(
-        'Tổng quan dữ liệu lúa gạo',
-        'Thống kê 9 bảng Fact lớp Gold (GSO, FAOSTAT, USDA, World Bank, ĐBSCL), sắp xếp theo tỷ lệ dữ liệu khuyết giảm dần.',
-        f'Nguồn dữ liệu: Tổng hợp 9 bảng Fact lớp Gold · Mốc dữ liệu mới nhất: 03/08/2026 · {batch_tag}',
-        nav_label='01 · Tổng quan'
-    )
-    card(p, 'Total Observations', 'Tổng quan sát', 24, y=96, w=299, h=84, ref='Overview Scope Ref', font_size=16.5)
-    card(p, 'Numeric Coverage', 'Tỷ lệ có số', 335, y=96, w=299, h=84, ref='Overview Numeric Ref', font_size=16.5)
-    card(p, 'Null Percentage', 'Tỷ lệ khuyết', 646, y=96, w=299, h=84, ref='Overview Null Ref', font_size=16.5)
-    card(p, 'Highest Null Fact Pct Display', 'Tỷ lệ NULL cao nhất', 957, y=96, w=299, h=84, ref='Highest Null Fact Ref', font_size=16.5)
-    add(p, 'tableEx', 'Danh mục 9 bảng Fact lớp Gold & Tỷ lệ khuyết (Present-NULL)', (24, 190, 844, 484),
-        sort=('Overview', 'Null Percentage', True, 'Descending'),
-        Values=[
-            col('Overview', 'fact_name_vi', 'Bộ dữ liệu'),
-            ms('Total Observations', 'Quan sát'),
-            ms('Numeric Observations', 'Có số'),
-            ms('Present NULL', 'NULL'),
-            ms('Null Percentage', '%NULL'),
-            col('Overview', 'period_min', 'Kỳ đầu'),
-            col('Overview', 'period_max', 'Kỳ cuối'),
-            col('Overview', 'represented_periods', 'Số kỳ'),
-            col('Overview', 'period_grain_vi', 'Đơn vị')
-        ])
-    add(p, 'barChart', 'Tỷ lệ dữ liệu khuyết theo bảng Fact (%)', (880, 190, 376, 484),
-        sort=('Overview', 'Null Percentage', True, 'Descending'),
-        y_axis=('%NULL', 1),
-        Category=[col('Overview', 'fact_name_vi', 'Bộ dữ liệu')], Y=[ms('Null Percentage', '%NULL')])
-
-    # ==============================================================================
-    # Page 2: Vietnam Production
+    # Page 1: Vietnam Production
     # ==============================================================================
     p = page(
         'Sản xuất lúa Việt Nam',
         'Số liệu chính thức theo Niên giám Thống kê Việt Nam (GSO), tách biệt số cả năm và số theo mùa vụ.',
         f'Nguồn dữ liệu: Niên giám Thống kê GSO · Mốc mới nhất: 2024 (Sản lượng, diện tích 1990–2024; Năng suất 1995–2024) · {batch_tag}',
-        nav_label='02 · SX Việt Nam',
+        nav_label='01 · SX Việt Nam',
         pills=[(
             'Phạm vi GSO quốc gia',
             'SL & DT: 1990–2024 · NS: 1995–2024',
@@ -771,13 +713,13 @@ def pages(batch_short='UNBOUND', export_date='UNKNOWN'):
         Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('NSOSeasonal', 'season_label_vi', 'Vụ')], Y=[ms('Seasonal Production Mil', 'Triệu tấn')])
 
     # ==============================================================================
-    # Page 3: International Production
+    # Page 2: International Production
     # ==============================================================================
     p = page(
         'Sản xuất lúa gạo quốc tế',
         'Đối chiếu 5 quốc gia sản xuất & xuất khẩu chủ lực: Ấn Độ, Indonesia, Pakistan, Thái Lan và Việt Nam (1961–2024).',
         f'Nguồn dữ liệu: FAOSTAT Sản xuất · Mốc mới nhất: 2024 (1961–2024; Nhóm 5 nước đã chọn: Ấn Độ, Indonesia, Pakistan, Thái Lan, Việt Nam) · {batch_tag}',
-        nav_label='03 · SX Quốc tế',
+        nav_label='02 · SX Quốc tế',
         pills=[(
             'Phạm vi đối chiếu FAOSTAT · 5 nước chủ lực (1961–2024)',
             'Chọn Năm để cắt lát từng năm hoặc để Tất cả để tự động đối chiếu năm chung mới nhất.',
@@ -795,7 +737,7 @@ def pages(batch_short='UNBOUND', export_date='UNKNOWN'):
         Category=[col('CalendarYear', 'Year', 'Năm')], Series=[col('FAO', 'area_name_vi', 'Quốc gia')], Y=[ms('FAO Weighted Yield', 'Năng suất (kg/ha)')])
 
     add(p, 'barChart', '[Lúa] Sản lượng lúa tại năm chung (triệu tấn)', (24, 426, 610, 248),
-        sort=('Overview', 'FAO Common Production Mil', True, 'Descending'),
+        sort=(MEASURE_TABLE, 'FAO Common Production Mil', True, 'Descending'),
         y_axis=('Sản lượng (triệu tấn)', 1), dynamic_title_measure='FAO Common Production Title',
         Category=[col('FAO', 'area_name_vi', 'Quốc gia')], Y=[ms('FAO Common Production Mil', 'Triệu tấn')],
         Tooltips=[ms('FAO Common Year', 'Năm chung'), ms('FAO Common Rank', 'Hạng trong nhóm')])
@@ -808,13 +750,13 @@ def pages(batch_short='UNBOUND', export_date='UNKNOWN'):
         Size=[ms('FAO Scatter Yield', 'Năng suất kg/ha')], Tooltips=[ms('FAO Scatter Year', 'Năm')])
 
     # ==============================================================================
-    # Page 4: Supply-Demand & Stocks
+    # Page 3: Supply-Demand & Stocks
     # ==============================================================================
     p = page(
         'Cung cầu và tồn kho lúa gạo',
         'Tách biệt hai nguồn theo đúng đơn vị thời gian: Trái — FAOSTAT SUA (năm dương lịch); Phải — USDA PSD (niên vụ).',
         f'Nguồn dữ liệu: FAOSTAT Cân đối cung sử dụng (2010–2023; chỉ công bố Thực phẩm & Chế biến) & Cân đối gạo USDA PSD (1960–2025) · {batch_tag}',
-        nav_label='04 · Cung & Cầu',
+        nav_label='03 · Cung & Cầu',
         pills=[
             ('FAOSTAT SUA · Năm dương lịch (2010–2023)', 'Thực phẩm, chế biến, tồn kho đầu kỳ và sai số thống kê.', (24, 96, 396, 64)),
             ('USDA PSD · Niên vụ Market Year (1960–2025)', 'Sản xuất, tiêu dùng nội địa và tồn kho cuối kỳ.', (646, 96, 396, 64))
@@ -841,17 +783,17 @@ def pages(batch_short='UNBOUND', export_date='UNKNOWN'):
         Category=[col('PSD', 'market_year', 'Niên vụ')], Y=[ms('PSD Ending Stocks Mil', 'Tồn cuối kỳ')])
 
     # ==============================================================================
-    # Page 5: Prices (Keep v03..v16 indices untouched!)
+    # Page 4: Prices (Keep v03..v16 indices untouched!)
     # ==============================================================================
-    p5_interactions = [
+    p4_interactions = [
         {'source': 'v06', 'target': 'v14', 'type': 'NoFilter'}
     ]
     p = page(
         'Biến động giá lúa gạo',
         'Giá FOB xuất khẩu (USDA), giá chuẩn quốc tế (World Bank) và giá lúa thu mua nội địa ĐBSCL theo giống.',
         f'Nguồn & Mốc mới nhất: World Bank (12/2025), USDA FOB (2025), Giá nội địa ĐBSCL (03/08/2026) · {batch_tag}',
-        interactions=p5_interactions,
-        nav_label='05 · Giá lúa gạo',
+        interactions=p4_interactions,
+        nav_label='04 · Giá lúa gạo',
         pills=[(
             'World Bank · Benchmark giá gạo tham chiếu',
             'Biểu đồ chính giữ đủ 4 chuỗi; MoM & độ biến động theo slicer.',
@@ -899,13 +841,13 @@ def pages(batch_short='UNBOUND', export_date='UNKNOWN'):
         Category=[col('BenchmarkMonth', 'Date', 'Tháng')], Series=[col('WB', 'series_name_vi', 'Chuỗi giá')], Y=[ms('WB Volatility Comparison', 'Volatility 12M')])
 
     # ==============================================================================
-    # Page 6: Trade Exports
+    # Page 5: Trade Exports
     # ==============================================================================
     p = page(
         'Thương mại lúa gạo quốc tế',
         'Xuất khẩu gạo xay xát của Việt Nam sang 7 đối tác thương mại trọng điểm giai đoạn 2019–2023.',
         f'Nguồn dữ liệu: Thương mại FAOSTAT · Mốc mới nhất: 2023 (2019–2023, 7 đối tác chính, không phải tổng xuất khẩu quốc gia) · {batch_tag}',
-        nav_label='06 · Thương mại',
+        nav_label='05 · Thương mại',
         pills=[(
             'Phạm vi FAOSTAT Thương mại · 7 đối tác xuất khẩu trọng điểm (2019–2023)',
             'Lọc Năm hoặc Đối tác để xem quy mô xuất khẩu, đơn giá và giá trị giao dịch.',
@@ -1134,10 +1076,10 @@ def styled_textbox(identifier, paragraphs, x, y, w, h, bg, border_color=None, ra
     return tb
 
 
-def build_project(root, bundle):
+def build_project(root, bundle, verify_sql_provenance=True):
     root = Path(root).resolve()
     bundle = Path(bundle).resolve()
-    manifest = verify_bundle(bundle)
+    manifest = verify_bundle(bundle, verify_sql_provenance=verify_sql_provenance)
     if manifest['format_version'] != 'powerbi-csv-2':
         raise ValueError('Report requires a verified mart bundle')
 
@@ -1176,7 +1118,7 @@ def build_project(root, bundle):
         added_cols = TABLE_EXTRA_COLUMNS.get(filename)
         full_table_schema = SCHEMAS[filename]
         m_code = m_import(filename, csv_schema, added_cols)
-        (tables / (name + '.tmdl')).write_text(tmdl_table(name, full_table_schema, 'm', m_code, MEASURES if name == 'Overview' else None), encoding='utf-8')
+        (tables / (name + '.tmdl')).write_text(tmdl_table(name, full_table_schema, 'm', m_code), encoding='utf-8')
 
     calendar = 'let ys=List.Combine({NSOAnnual[year],FAO[year],SUA[year],Trade[year]}), rows=Table.FromList({List.Min(ys)..List.Max(ys)},Splitter.SplitByNothing(),{"Year"}), typed=Table.TransformColumnTypes(rows,{{"Year",Int64.Type}}) in typed'
     (tables / 'CalendarYear.tmdl').write_text(tmdl_table('CalendarYear', [('Year', 'integer')], 'm', calendar), encoding='utf-8')
@@ -1184,6 +1126,16 @@ def build_project(root, bundle):
     for name, base, col in [('BenchmarkMonth', 'WB', 'month_date'), ('QuoteDate', 'VNQuote', 'date')]:
         source = 'let lo=List.Min(VNQuote[date]), hi=List.Max(VNQuote[date]), rows=Table.FromList(List.Dates(lo,Duration.Days(hi-lo)+1,#duration(1,0,0,0)),Splitter.SplitByNothing(),{"Date"}) in Table.TransformColumnTypes(rows,{{"Date",type date}})' if name == 'QuoteDate' else 'Table.RenameColumns(Table.Distinct(Table.SelectColumns(WB,{"month_date"})),{{"month_date","Date"}})'
         (tables / (name + '.tmdl')).write_text(tmdl_table(name, [('Date', 'text')], 'm', source), encoding='utf-8')
+
+    measures_source = 'let\n    Source = #table(type table [_placeholder = text], {})\nin\n    Source'
+    (tables / (MEASURE_TABLE + '.tmdl')).write_text(
+        tmdl_table(MEASURE_TABLE, [('_placeholder', 'text')], 'm', measures_source, measures=MEASURES, hidden_columns=('_placeholder',)),
+        encoding='utf-8'
+    )
+    expected_tables = set(TABLES.values()) | {'CalendarYear', 'BenchmarkMonth', 'QuoteDate', MEASURE_TABLE}
+    for existing in tables.glob('*.tmdl'):
+        if existing.stem not in expected_tables:
+            existing.unlink()
 
     relations = []
     for name in ('NSOAnnual', 'NSOSeasonal', 'NSOYield', 'FAO', 'SUA', 'Trade'):
@@ -1226,8 +1178,8 @@ def build_project(root, bundle):
         if p.get('interactions'):
             page_data['visualInteractions'] = p['interactions']
 
-        if i in (2, 3, 4, 6):
-            lo, hi = {2: (1990, 2024), 3: (1961, 2024), 4: (2010, 2023), 6: (2019, 2023)}[i]
+        if i in (1, 2, 3, 5):
+            lo, hi = {1: (1990, 2024), 2: (1961, 2024), 3: (2010, 2023), 5: (2019, 2023)}[i]
             page_data['filterConfig'] = {
                 'filters': [
                     {
@@ -1302,11 +1254,16 @@ def build_project(root, bundle):
         # Clean existing visual dirs on disk for this page before writing
         page_vis_dir = pd / 'visuals'
         if page_vis_dir.exists():
-            import shutil
             shutil.rmtree(page_vis_dir)
         for v in all_visuals:
             write_json(pd / 'visuals' / v['name'] / 'visual.json', v)
         inventory.append({'page': pid, 'title': p['title'], 'visuals': len(all_visuals), 'note': p['note']})
+
+    pages_root = rd / 'pages'
+    if pages_root.exists():
+        for existing in pages_root.iterdir():
+            if existing.is_dir() and existing.name not in page_ids:
+                shutil.rmtree(existing)
 
     write_json(rd / 'pages/pages.json', {'$schema': BASE + 'item/report/definition/pagesMetadata/1.0.0/schema.json', 'pageOrder': page_ids, 'activePageName': 'p01'})
     write_json(root / 'report_inventory.json', {
@@ -1316,6 +1273,7 @@ def build_project(root, bundle):
         'pages': inventory,
         'measures': MEASURES,
         'tables': TABLES,
+        'measure_table': MEASURE_TABLE,
         'desktop_validation': 'PENDING'
     })
     return root / 'TLCN_Rice_Analytics.pbip'

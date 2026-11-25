@@ -7,11 +7,11 @@ import sys
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'src'))
 
 
-def build(bundle):
+def build(bundle, verify_sql_provenance=True):
     from analytics.powerbi import verify_bundle,csv_read,SCHEMAS as old
     from analytics.marts.powerbi import SCHEMAS
     from analytics.marts.metrics import paired_ratio
-    verify_bundle(bundle);bundle=Path(bundle)
+    verify_bundle(bundle, verify_sql_provenance=verify_sql_provenance);bundle=Path(bundle)
     data={n:csv_read(bundle/n,s) for n,s in {**old,**SCHEMAS}.items()}
     tests=[]
     def add(name,expression,expected,tolerance='0.000001'):
@@ -19,13 +19,6 @@ def build(bundle):
         else:ok=f'NOT ISBLANK({expression}) && ABS(({expression})-({expected}))<={tolerance}'
         tests.append((name,ok))
     def cy(measure,year):return f'CALCULATE([{measure}],CalendarYear[Year]={year})'
-    overview_total=sum(r['rows_total'] for r in data['fact_overview.csv'])
-    overview_numeric=sum(r['numeric_rows'] for r in data['fact_overview.csv'])
-    overview_null=sum(r['present_null_rows'] for r in data['fact_overview.csv'])
-    add('overview_total','[Total Observations]',overview_total)
-    add('overview_numeric','[Numeric Observations]',overview_numeric)
-    add('overview_null','[Present NULL]',overview_null)
-    add('overview_ratio','[Numeric Coverage]',Decimal(overview_numeric)/Decimal(overview_total))
     for year in (1990,2015,2024):
         r=next(r for r in data['nso_national_annual.csv'] if r['year']==year)
         add('production_'+str(year),cy('Annual Production',year),r['production_t'])
@@ -91,5 +84,9 @@ def build(bundle):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--bundle',type=Path,required=True);a=p.parse_args();query,n=build(a.bundle)
+    p=argparse.ArgumentParser()
+    p.add_argument('--bundle',type=Path,required=True)
+    p.add_argument('--allow-historical-sql',action='store_true',help='Skip SQL template hash re-check when reading an older verified bundle')
+    a=p.parse_args()
+    query,n=build(a.bundle,verify_sql_provenance=not a.allow_historical_sql)
     out=ROOT/'powerbi/validation.dax';out.write_text(query,encoding='utf-8');print(str(out),n,'DAX assertions')

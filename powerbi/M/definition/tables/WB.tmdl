@@ -1,84 +1,82 @@
 table WB
-	lineageTag: 9b7b162d-6bbf-406c-a436-383636b42136
+	lineageTag: 028ed5a9-04e6-4d72-b760-c16328baeba2
 
 	column month_date
 		dataType: dateTime
 		formatString: yyyy-MM-dd
-		lineageTag: 2d30dccd-740e-4d53-8638-2180718ff6e0
+		lineageTag: c308d2eb-8bbd-440e-b97c-4be82dd104b3
 		summarizeBy: none
 		sourceColumn: month_date
 
-		annotation UnderlyingDateTimeDataType = Date
-
 	column year
 		dataType: int64
-		lineageTag: a3d9572b-c981-49f2-bab0-de6e6cae5fdb
+		lineageTag: db5a91ab-6c91-44b9-95df-e00a426a0238
 		summarizeBy: none
 		sourceColumn: year
 
 	column month_key
 		dataType: int64
-		lineageTag: f702c011-54bd-4fcd-bc85-c1a825649ca4
+		lineageTag: 9422ab61-7456-4f72-98c2-f37259e9abec
 		summarizeBy: none
 		sourceColumn: month_key
 
 	column series_key
 		dataType: string
-		lineageTag: f78d1259-5752-4b17-b219-3f8524f2ee17
+		lineageTag: 0ade455d-c83c-4195-9690-ea86ab44900b
 		summarizeBy: none
 		sourceColumn: series_key
 
 	column series_code
 		dataType: string
-		lineageTag: b7ed517b-017c-4da6-aca1-518cf10145ff
+		lineageTag: cf7b5291-6940-41f6-aa0a-09ab92315c68
 		summarizeBy: none
 		sourceColumn: series_code
 
 	column unit
 		dataType: string
-		lineageTag: 2730eab1-0e64-4694-994c-1b331c6f3ed3
+		lineageTag: 336d1d69-e8d8-4f43-982b-6795724b15a2
 		summarizeBy: none
 		sourceColumn: unit
 
 	column price_usd_t
 		dataType: double
-		lineageTag: 92ac7818-d3c3-4174-8862-221d0b026ed7
+		lineageTag: c9de9709-f90a-4193-aed3-e162f6745fb7
 		summarizeBy: none
 		sourceColumn: price_usd_t
 
 	column observation_present
 		dataType: boolean
-		lineageTag: 36f3e8c9-ce97-437e-a280-ecad059c0e32
+		lineageTag: 754aaee7-6590-4da2-9616-e972b3ff4466
 		summarizeBy: none
 		sourceColumn: observation_present
 
 	column numeric_present
 		dataType: boolean
-		lineageTag: 4f0f1a9c-cd63-4973-bc3c-b2c285481f0a
+		lineageTag: 3fe6bf42-5d94-4f01-ae4d-6d3c2c4c3b6f
 		summarizeBy: none
 		sourceColumn: numeric_present
 
 	column previous_month_numeric
 		dataType: boolean
-		lineageTag: fe6b3493-131a-4ba9-8e4a-45b7cb4b9e20
+		lineageTag: 1f351f07-7b87-498f-bc8f-bf29f01f6f59
 		summarizeBy: none
 		sourceColumn: previous_month_numeric
 
 	column monthly_change_pct
 		dataType: double
-		lineageTag: b2919eca-ca52-4148-87da-fe0f41a6f29c
+		lineageTag: d7158f60-d013-41bf-9e05-3f4d2798bad5
 		summarizeBy: none
 		sourceColumn: monthly_change_pct
 
 	column volatility_12m_pct
 		dataType: double
-		lineageTag: 7905a3f8-c239-46f0-9fcd-d17f6bbab565
+		lineageTag: 93852614-cefb-4641-a70a-f2a4c22d8665
 		summarizeBy: none
 		sourceColumn: volatility_12m_pct
 
 	column series_name_vi
 		dataType: string
-		lineageTag: 9b227d61-d0a1-4f64-be59-57cefca68573
+		lineageTag: 3a5efc49-c1bf-44be-afd3-da9879e6b987
 		summarizeBy: none
 		sourceColumn: series_name_vi
 
@@ -97,6 +95,4 @@ table WB
 				    With_series_name_vi = Table.AddColumn(Accepted, "series_name_vi", each if [series_code] = "rice_thai_5" then "Gạo Thái 5% tấm" else if [series_code] = "rice_thai_25" then "Gạo Thái 25% tấm" else if [series_code] = "rice_thai_a_1" then "Gạo Thái A1 đặc biệt" else if [series_code] = "rice_viet_namese_5" then "Gạo Việt Nam 5% tấm" else [series_code], type text)
 				in
 				    With_series_name_vi
-
-	annotation PBI_ResultType = Table
 

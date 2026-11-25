@@ -1,6 +1,6 @@
 # TLCN · Power BI Desktop Free
 
-**Hiện hành — 06/11/2026: DATA_MARTS_POWERBI_COMPLETE.** Đã dựng report sáu trang tiếng Việt từ tám subject marts/mười CSV thật, kiểm DAX trên Desktop và lưu/mở lại PBIX. Gold và sáu notebooks EDA giữ nguyên. Không Streamlit, web Dashboard, database hoặc Docker service mới.
+**Hiện hành (cập nhật bỏ Trang 1 Tổng quan):** Đã dựng report **năm trang nghiệp vụ tiếng Việt** (`p01`–`p05`) từ 10 CSV nghiệp vụ thuộc tám subject marts (giữ `fact_overview.csv` trong immutable bundle để đối soát manifest), dùng bảng thuần `KeyMeasures` (169 measures) trong semantic model `powerbi/M`. Gold và sáu notebooks EDA giữ nguyên. Không Streamlit, web Dashboard, database hoặc Docker service mới.
 
 Mở ngay: `powerbi/TLCN_Rice_Analytics.pbix` (local, Git-ignored). Editable source: [TLCN_Rice_Analytics.pbip](../../powerbi/TLCN_Rice_Analytics.pbip). Xem [triển khai và commands](REPORT_IMPLEMENTATION.md), [nghiệm thu](REPORT_VALIDATION.md), [insight matrix](REPORT_INSIGHTS.md), [evidence mới](report_acceptance.json), [mart design](../analytics/DATA_MART_DESIGN.md).
 

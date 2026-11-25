@@ -5,7 +5,7 @@ Overview for Thesis Defense:
 Called by `export_bundle(..., report=True)` in `src/analytics/powerbi.py` (which already
 builds `fact_overview.csv`, `nso_national_annual.csv`, `nso_national_seasonal.csv`, and
 `nso_reported_yield.csv`). This module queries Gold through `ExportSession` (Trino) and
-builds the remaining 7 CSV marts used by the 6-page Power BI report:
+builds the remaining 7 CSV marts used by the 5-page Power BI report:
 1. `fao_production.csv`: FAO area, production, reported yield & computed yield (`1000 * prod / area`).
 2. `wb_benchmark.csv`: World Bank monthly rice prices with MoM % change & 12-month volatility.
 3. `usda_price_reference.csv`: USDA Yearbook annual/reference export price quotes.

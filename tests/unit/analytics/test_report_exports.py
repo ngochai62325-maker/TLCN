@@ -163,17 +163,17 @@ def test_mart_cli_parses_before_any_export_or_docker_access(arguments,code):
     assert 'Traceback' not in result.stderr and 'RESOURCE_BLOCKED' not in result.stderr
 
 
-def test_page4_footer_excludes_cereal():
+def test_page3_footer_excludes_cereal():
     from pathlib import Path
     from analytics.marts.report import pages
     repo_root = Path(__file__).resolve().parents[3]
 
-    spec_p4 = next(p for p in pages('testbatch1234', '2026-11-11') if p['title'] == 'Cung cầu và tồn kho lúa gạo')
-    assert 'ngũ cốc' not in spec_p4['footer'].lower()
-    assert 'cân đối gạo usda psd' in spec_p4['footer'].lower()
-    assert 'Batch: testbatch1234 · Export: 2026-11-11' in spec_p4['footer']
+    spec_p3 = next(p for p in pages('testbatch1234', '2026-11-11') if p['title'] == 'Cung cầu và tồn kho lúa gạo')
+    assert 'ngũ cốc' not in spec_p3['footer'].lower()
+    assert 'cân đối gạo usda psd' in spec_p3['footer'].lower()
+    assert 'Batch: testbatch1234 · Export: 2026-11-11' in spec_p3['footer']
 
-    v90_path = repo_root / 'powerbi/R/definition/pages/p04/visuals/v90/visual.json'
+    v90_path = repo_root / 'powerbi/R/definition/pages/p03/visuals/v90/visual.json'
     v90 = json.loads(v90_path.read_text(encoding='utf-8'))
     runs = v90['visual']['objects']['general'][0]['properties']['paragraphs'][0]['textRuns']
     footer_text = ''.join(r.get('value', '') for r in runs)
@@ -181,17 +181,17 @@ def test_page4_footer_excludes_cereal():
     assert 'cân đối gạo usda psd' in footer_text.lower()
 
 
-def test_page5_v13_v15_v16_follow_slicers_without_locked_filters():
+def test_page4_v13_v15_v16_follow_slicers_without_locked_filters():
     from pathlib import Path
     from analytics.marts.report import MEASURES, pages
     repo_root = Path(__file__).resolve().parents[3]
 
     for vid in ('v13', 'v15', 'v16'):
-        visual_path = repo_root / f'powerbi/R/definition/pages/p05/visuals/{vid}/visual.json'
+        visual_path = repo_root / f'powerbi/R/definition/pages/p04/visuals/{vid}/visual.json'
         visual = json.loads(visual_path.read_text(encoding='utf-8'))
         assert not visual.get('filterConfig', {}).get('filters')
-    p05_visuals = pages()[4]['visuals']
-    assert all(not item[9] for item in p05_visuals if len(item) > 9)
+    price_visuals = next(p for p in pages() if p['title'] == 'Biến động giá lúa gạo')['visuals']
+    assert all(not item[9] for item in price_visuals if len(item) > 9)
     quote_price_dax = MEASURES['Domestic Quote Chart Price']['dax']
     quote_title_dax = MEASURES['Domestic Quote Chart Title']['dax']
     for dax in (quote_price_dax, quote_title_dax):
@@ -229,4 +229,43 @@ def test_vn_quote_series_selection_includes_kien_giang_and_filters_budget():
     assert 'Long Xuyên' not in {r['market'] for r in vn_rows}
     assert 'Gạo thơm' not in {r['commodity'] for r in vn_rows}
     assert len(vn_rows) <= 5000
+
+
+def test_five_page_report_removes_overview_and_uses_measures_table():
+    from pathlib import Path
+    from analytics.marts.report import MEASURE_TABLE, TABLES, pages
+
+    repo_root = Path(__file__).resolve().parents[3]
+    report_pages = pages()
+    assert len(report_pages) == 5
+    assert 'Tổng quan dữ liệu lúa gạo' not in [p['title'] for p in report_pages]
+    assert [p['nav_label'] for p in report_pages] == [
+        '01 · SX Việt Nam',
+        '02 · SX Quốc tế',
+        '03 · Cung & Cầu',
+        '04 · Giá lúa gạo',
+        '05 · Thương mại',
+    ]
+    assert 'fact_overview.csv' not in TABLES and MEASURE_TABLE == 'KeyMeasures'
+    assert MEASURE_TABLE.lower() != 'measures'
+
+    pages_meta = json.loads((repo_root / 'powerbi/R/definition/pages/pages.json').read_text(encoding='utf-8'))
+    assert pages_meta['pageOrder'] == ['p01', 'p02', 'p03', 'p04', 'p05']
+    assert pages_meta['activePageName'] == 'p01'
+    assert not (repo_root / 'powerbi/R/definition/pages/p06').exists()
+
+    tables_dir = repo_root / 'powerbi/M/definition/tables'
+    assert (tables_dir / 'KeyMeasures.tmdl').exists()
+    assert not (tables_dir / 'Overview.tmdl').exists()
+    assert not (tables_dir / 'Measures.tmdl').exists()
+
+    diagram = json.loads((repo_root / 'powerbi/M/diagramLayout.json').read_text(encoding='utf-8'))
+    nodes = diagram['diagrams'][0]['nodes']
+    assert all(isinstance(n.get('nodeIndex'), str) and n['nodeIndex'] and n['nodeIndex'] != 'Overview' for n in nodes)
+
+    for visual_path in (repo_root / 'powerbi/R/definition/pages').rglob('visual.json'):
+        raw = visual_path.read_text(encoding='utf-8')
+        assert 'Overview' not in raw
+        assert 'MEASURE_TABLE' not in raw
+        assert '"Entity": "Measures"' not in raw
 

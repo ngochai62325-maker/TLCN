@@ -1,90 +1,88 @@
 table VNQuote
-	lineageTag: a76b9cb2-32aa-4368-9861-4d57c1b8599f
+	lineageTag: 5be38fa8-c9bf-443d-a54f-cdaf46bf07d4
 
 	column date
 		dataType: dateTime
 		formatString: yyyy-MM-dd
-		lineageTag: 392f906d-7492-4b2b-bd79-a5832a9bd609
+		lineageTag: ff15af2e-a3a9-48f4-ac5e-d23d946a53ea
 		summarizeBy: none
 		sourceColumn: date
 
-		annotation UnderlyingDateTimeDataType = Date
-
 	column year
 		dataType: int64
-		lineageTag: 2763d6a2-1024-4acb-aa79-61042118d72e
+		lineageTag: 1b517334-c629-4bfc-8eee-1a28fab4f8dc
 		summarizeBy: none
 		sourceColumn: year
 
 	column series_key
 		dataType: string
-		lineageTag: cf657e96-df6e-4317-b5b7-6b34ed6c13b8
+		lineageTag: 4e140f45-8e2b-450c-89c8-5ae420cb42cd
 		summarizeBy: none
 		sourceColumn: series_key
 
 	column market
 		dataType: string
-		lineageTag: 879d616d-78f4-46c4-88d0-8b9d9bcf6517
+		lineageTag: 3e577f82-0817-4b2c-a113-bf2ed993cf26
 		summarizeBy: none
 		sourceColumn: market
 
 	column commodity
 		dataType: string
-		lineageTag: 89b30395-1c31-4412-8764-bab0201f6fb8
+		lineageTag: f5259bc3-8e5f-49fa-aab0-dc0b617a88b6
 		summarizeBy: none
 		sourceColumn: commodity
 
 	column price_type
 		dataType: string
-		lineageTag: c766e663-ab18-4717-87b5-23e86a8fb874
+		lineageTag: aa2a25ad-248c-4ebe-9ed0-9e0116f7284f
 		summarizeBy: none
 		sourceColumn: price_type
 
 	column unit
 		dataType: string
-		lineageTag: d820ae21-dd7b-454c-bd09-562bd67f6112
+		lineageTag: 89f36273-deec-484a-b471-9dfee1a8954c
 		summarizeBy: none
 		sourceColumn: unit
 
 	column currency
 		dataType: string
-		lineageTag: ec654f3f-edfb-4c3a-b99b-c505fdc4afca
+		lineageTag: 39f9b90f-f12d-484a-8a04-9e9f24bb97c2
 		summarizeBy: none
 		sourceColumn: currency
 
 	column information_source
 		dataType: string
-		lineageTag: 14b3b01c-91a8-4652-8231-595028c89bc5
+		lineageTag: b901def6-1973-4514-a390-f223b6fb6d40
 		summarizeBy: none
 		sourceColumn: information_source
 
 	column price_vnd_kg
 		dataType: double
-		lineageTag: d622416a-a0db-4220-b10c-ae18814817c1
+		lineageTag: 1a27c1a2-7d38-45cc-a6a1-2bebd10c3257
 		summarizeBy: none
 		sourceColumn: price_vnd_kg
 
 	column observation_present
 		dataType: boolean
-		lineageTag: 25e62daa-7e58-4e95-ba4d-66f85138ac9b
+		lineageTag: 8ed1af1c-cbba-4809-ab05-0b27c2028824
 		summarizeBy: none
 		sourceColumn: observation_present
 
 	column numeric_present
 		dataType: boolean
-		lineageTag: 88acc497-d638-492e-9367-a3ef453aeea1
+		lineageTag: d7ef9fc7-98f6-41a6-a9bd-9af1dcb718ff
 		summarizeBy: none
 		sourceColumn: numeric_present
 
 	column days_since_previous_quote
 		dataType: int64
-		lineageTag: 04ddb212-5d4c-4a0c-9f3f-de491455e97e
+		lineageTag: a758a23f-badc-41c4-bc36-8a9fca062139
 		summarizeBy: none
 		sourceColumn: days_since_previous_quote
 
 	column series_label
 		dataType: string
-		lineageTag: afeba3a3-5434-41c4-b784-c84c936a7c64
+		lineageTag: 95ccc702-b308-4a31-80b0-0f931e4fcd4f
 		summarizeBy: none
 		sourceColumn: series_label
 
@@ -103,6 +101,4 @@ table VNQuote
 				    With_series_label = Table.AddColumn(Accepted, "series_label", each [commodity] & " · " & [price_type], type text)
 				in
 				    With_series_label
-
-	annotation PBI_ResultType = Table
 

@@ -14,19 +14,18 @@ Không ghi dữ liệu vào 17 Gold tables. Đường đọc: published Gold →
 
 ## Semantic model
 
-13 tables: `Overview`, `NSOAnnual`, `NSOSeasonal`, `NSOYield`, `FAO`, `SUA`, `PSD`, `WB`, `VNQuote`, `Trade`, `CalendarYear`, `BenchmarkMonth`, `QuoteDate`.
+14 tables: `NSOAnnual`, `NSOSeasonal`, `NSOYield`, `FAO`, `SUA`, `PSD`, `WB`, `USDAPrice`, `VNQuote`, `Trade`, `CalendarYear`, `BenchmarkMonth`, `QuoteDate` và bảng thuần `KeyMeasures` (ẩn cột `_placeholder`, chỉ chứa DAX measures). (`fact_overview.csv` vẫn được giữ trong immutable bundle để `verify_bundle()` đối soát tổng quan sát với `export_manifest.json`, nhưng không nạp vào giao diện Power BI sau khi bỏ Trang 1 Tổng quan.)
 
-Tám relationships, many-to-one, single direction: CalendarYear tới sáu annual facts (NSOAnnual/NSOSeasonal/NSOYield/FAO/SUA/Trade), BenchmarkMonth tới WB, QuoteDate tới VNQuote. PSD giữ marketing year độc lập. Country/partner/source keys là attributes trong scoped marts; không tạo fact-to-fact joins hoặc universal country crosswalk. Overview không bị year slicer làm mất full-data totals.
+Tám relationships, many-to-one, single direction: `CalendarYear` tới sáu annual facts (`NSOAnnual`/`NSOSeasonal`/`NSOYield`/`FAO`/`SUA`/`Trade`), `BenchmarkMonth` tới `WB`, `QuoteDate` tới `VNQuote`. `PSD` giữ marketing year độc lập; `USDAPrice` giữ reference year độc lập. Country/partner/source keys là attributes trong scoped marts; không tạo fact-to-fact joins hoặc universal country crosswalk.
 
-CalendarYear là spine, không chứng minh observation tồn tại mỗi năm. Page NSO giới hạn 1990–2024, SUA calendar2010–2023, Trade2019–2023. Date domains theo imported datasets. Auto date/time tắt; refresh parallelism1. Không tự phát hiện thêm relationships khi vận hành report.
+CalendarYear là spine, không chứng minh observation tồn tại mỗi năm. Bộ lọc trang giới hạn `p01` (NSO) 1990–2024, `p02` (FAO) 1961–2024, `p03` (SUA) 2010–2023, `p05` (Trade) 2019–2023. Date domains theo imported datasets. Auto date/time tắt; refresh parallelism 1. Không tự phát hiện thêm relationships khi vận hành report.
 
-Power Query đọc đúng mười CSV từ **một parameter `ExportFolder`**. Header/order/type, format version/status và row counts phải khớp manifest. Empty numeric cells giữ NULL; presence flags riêng. Python verifier phải chạy trước refresh để kiểm SHA-256 và semantics; Power Query không tự kiểm SHA-256 tất cả files hoặc vào live Gold gate. Mô hình Import là bản trích xuất đã lưu, không tự cập nhật khi publication thay đổi.
+Power Query đọc đúng 10 CSV nghiệp vụ từ **một parameter `ExportFolder`** (và kiểm tra `export_manifest.json` của bundle 11 CSV). Header/order/type, format version/status và row counts phải khớp manifest. Empty numeric cells giữ NULL; presence flags riêng. Python verifier phải chạy trước refresh để kiểm SHA-256 và semantics; Power Query không tự kiểm SHA-256 tất cả files hoặc vào live Gold gate. Mô hình Import là bản trích xuất đã lưu, không tự cập nhật khi publication thay đổi.
 
-65 measures: 53 analytical/insight measures và 12 card presentation wrappers. Wrappers chỉ đổi cách hiển thị BLANK thành “Không áp dụng”, không thay numerical measures bằng zero. Code/DAX identifiers tiếng Anh; captions, titles và nhận xét tiếng Việt. Raw source labels/codes vẫn được giữ để đối chiếu.
+169 measures (trong bảng thuần `KeyMeasures`): gồm các analytical/insight measures, display measures chia đơn vị triệu/tỷ cho biểu đồ, và bộ card presentation wrappers / 3-tier reference measures. Wrappers chỉ đổi cách hiển thị BLANK thành “Không áp dụng”, không thay numerical measures bằng zero. Code/DAX identifiers tiếng Anh; captions, titles và nhận xét tiếng Việt. Raw source labels/codes vẫn được giữ để đối chiếu.
 
 | Quy tắc | Measure / công thức |
 |---|---|
-| Numeric coverage | SUM(numeric_rows)/SUM(rows_total); không AVG percentages |
 | Annual levels | Chỉ một calendar year; endpoint cards tính riêng trong ALLSELECTED |
 | YoY | Giá trị Y và exact Y−1, denominator dương; missing Y−1 → BLANK |
 | Weighted yield | 1000×SUM(paired_production_t)/SUM(paired_area_ha), một năm |
@@ -36,14 +35,13 @@ Power Query đọc đúng mười CSV từ **một parameter `ExportFolder`**. H
 | Volatility | Sample std của 12 consecutive log returns /13 positive monthly prices; không annualize |
 | Trade unit value | SUM(paired_value_usd)/SUM(paired_quantity_t), cùng eligible contributor population |
 
-## Sáu trang và thao tác
+## Năm trang và thao tác
 
-1. **Tổng quan:** counts/coverage cards, per-fact bars, inventory và min/max/represented-period diagnostics. Dùng scrollbar/tooltip để đọc đủ tên và chín facts.
-2. **Việt Nam:** V06.12 production/area, endpoint change, calendar YoY, peak trong insight; seasonal riêng và reported yield V06.14 riêng.
-3. **Quốc tế:** bốn source areas, production/yield trends, common-year ranking. Chọn **một năm** để scatter area/production có nghĩa; All years cố ý không vẽ scatter sai grain.
-4. **Cung cầu:** SUA calendar food/opening/signed stock variation; USDA MY production/consumption/ending stock riêng. Hai slicers tác động độc lập.
-5. **Giá:** WB rice_thai_5 USD/t và An Giang IR50404 VND/kg riêng; WB extrema trong tooltip, MoM/volatility và coverage. Hai date slicers không join lẫn nhau.
-6. **Trade:** VN exports sang đúng ba partners, quantity/value/unit-value trends, year/partner selection, paired coverage và descriptive note.
+1. **Việt Nam (`p01` · 01 · SX Việt Nam):** V06.12 production/area, endpoint change, calendar YoY, peak trong cards/insight; seasonal riêng và reported yield V06.14 riêng.
+2. **Quốc tế (`p02` · 02 · SX Quốc tế):** 5 source areas (Ấn Độ, Indonesia, Pakistan, Thái Lan, Việt Nam), production index (1961=100) / weighted yield trends, common-year ranking và scatter theo năm chọn hoặc năm chung.
+3. **Cung cầu (`p03` · 03 · Cung & Cầu):** SUA calendar food/processed/opening stocks/signed stock variation & residuals; USDA MY production/consumption/ending stocks riêng. Hai slicers tác động độc lập.
+4. **Giá (`p04` · 04 · Giá lúa gạo):** USDA FOB 4 nước/4 phẩm cấp, WB 4 chuỗi USD/t (mặc định đối sánh Thái 5% & VN 5% ở MoM/Volatility), và giá lúa nội địa ĐBSCL theo thị trường/giống. Hai date slicers không join lẫn nhau.
+5. **Thương mại (`p05` · 05 · Thương mại):** VN exports sang 7 đối tác trọng điểm (2019–2023), quantity/value/unit-value trends, year/partner selection và 6 cards đối chiếu paired coverage.
 
 Trong Desktop edit mode: **Ctrl+click** thanh navigation; click tabs bên dưới cũng được. Mở slicer dropdown, chọn một/nhiều values. Hover slicer và bấm **eraser** để clear, hoặc bỏ checkbox đã chọn; clear không xóa page scope constraints. Chọn data point để cross-filter trong trang; click lại hoặc click canvas để clear. Tooltip trên common-year bar có year/rank; price tooltip có extrema/MoM. Không có slicer country/source giả cho một mart chỉ chứa một source identity.
 

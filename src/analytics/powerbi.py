@@ -231,7 +231,7 @@ def check_rows(name, rows):
                 raise ValueError('Invalid seasonal identity')
 
 
-def verify_bundle(folder):
+def verify_bundle(folder, verify_sql_provenance=True):
     folder=Path(folder)
     manifest=json.loads((folder/'export_manifest.json').read_text(encoding='utf-8'))
     schemas=dict(SCHEMAS)
@@ -261,11 +261,12 @@ def verify_bundle(folder):
         if set(manifest.get('snapshots',{}))!=set(load_spec()) or manifest.get('source_namespace')!='iceberg.gold_local':raise ValueError('Incomplete mart snapshot context')
         counts=Counter(r['query'] for r in manifest.get('sql_definitions',[]))
         if not (counts['publication']==2 and counts['fact_overview']==9 and counts['nso_scope_catalogue']==2 and counts['nso_observations']==2 and counts['catalogue']==3 and counts['fao_production']==1 and counts['price_observations']>=2 and counts['sua']==1 and counts['psd']==1 and counts['trade']==5):raise ValueError('Incomplete mart SQL provenance inventory')
-        bound={'outputs':manifest['snapshots']}
-        from analytics.queries import compile_query
-        for record in manifest.get('sql_definitions',[]):
-            sql,digest=compile_query(record['query'],record['parameters'],bound)
-            if record['version']!=VERSION or digest!=record['definition_sha256'] or hashlib.sha256((sql or '').encode()).hexdigest()!=record['compiled_sql_sha256']:raise ValueError('Mart SQL provenance mismatch')
+        if verify_sql_provenance:
+            bound={'outputs':manifest['snapshots']}
+            from analytics.queries import compile_query
+            for record in manifest.get('sql_definitions',[]):
+                sql,digest=compile_query(record['query'],record['parameters'],bound)
+                if record['version']!=VERSION or digest!=record['definition_sha256'] or hashlib.sha256((sql or '').encode()).hexdigest()!=record['compiled_sql_sha256']:raise ValueError('Mart SQL provenance mismatch')
         overview=csv_read(folder/'fact_overview.csv',SCHEMAS['fact_overview.csv'])
         for field,col in [('fact_observations','rows_total'),('numeric_observations','numeric_rows'),('present_null_observations','present_null_rows')]:
             if manifest['reconciliation'][field]!=sum(r[col] for r in overview):raise ValueError('Manifest count reconciliation mismatch')

@@ -1,105 +1,105 @@
 table FAO
-	lineageTag: a70e5107-953b-4147-98e3-cf5b532c8b02
+	lineageTag: caccbd37-f25f-4a54-918b-a774a9ed3634
 
 	column year
 		dataType: int64
-		lineageTag: bd66e033-7b32-4d28-b1f0-b2d18e3f75a1
+		lineageTag: 29038bdc-a7a8-4845-ac42-1bfe5fff4627
 		summarizeBy: none
 		sourceColumn: year
 
 	column geography_key
 		dataType: string
-		lineageTag: fd79917d-1f5b-4c3a-9912-681360cbbad0
+		lineageTag: aa8bc0d1-9ee7-4a27-9b56-1279c55b6fa3
 		summarizeBy: none
 		sourceColumn: geography_key
 
 	column area_code
 		dataType: string
-		lineageTag: a71b3ddf-8482-43a1-991b-db311fc5f1b5
+		lineageTag: 23284b78-c91a-4685-b25d-77211c723be5
 		summarizeBy: none
 		sourceColumn: area_code
 
 	column area_name
 		dataType: string
-		lineageTag: 12b22ad4-2a2e-4180-b944-d3e5aaa1cb3f
+		lineageTag: 175aaf6b-2faf-428f-99f3-51de83a0bd85
 		summarizeBy: none
 		sourceColumn: area_name
 
 	column product_key
 		dataType: string
-		lineageTag: b4ab22b9-c143-433a-a1e2-a4864f21be7d
+		lineageTag: 6ff8e52c-6c37-4a22-8c91-a3c281cf19bf
 		summarizeBy: none
 		sourceColumn: product_key
 
 	column product_code
 		dataType: string
-		lineageTag: a96f8568-7a0f-42d3-8052-fd4c2caeffa7
+		lineageTag: 617b96f7-5946-43a0-a2f1-8a0886c7b93b
 		summarizeBy: none
 		sourceColumn: product_code
 
 	column production_t
 		dataType: double
-		lineageTag: 6cb3c984-2356-4045-bd1f-55decd0eed6f
+		lineageTag: 787ac333-813a-4a46-82d8-2169a053fd6a
 		summarizeBy: none
 		sourceColumn: production_t
 
 	column area_ha
 		dataType: double
-		lineageTag: 94969c16-14fc-4e5d-8097-e51af51efebc
+		lineageTag: cbac9bbd-9c54-4190-9828-01fb324f567f
 		summarizeBy: none
 		sourceColumn: area_ha
 
 	column reported_yield_kg_ha
 		dataType: double
-		lineageTag: 2f43ab2a-9929-4404-888c-78c4f8d9c616
+		lineageTag: 01111913-54e8-4bf4-920c-f323c63352e1
 		summarizeBy: none
 		sourceColumn: reported_yield_kg_ha
 
 	column computed_yield_kg_ha
 		dataType: double
-		lineageTag: 7a228ce1-d271-444d-9ada-9d33e25c0eab
+		lineageTag: 5920cea9-9364-4945-bddd-ec2ccf4ea95e
 		summarizeBy: none
 		sourceColumn: computed_yield_kg_ha
 
 	column production_present
 		dataType: boolean
-		lineageTag: 52c03fc8-5fc4-49fc-b135-f70676e875c2
+		lineageTag: 74189c02-6469-4b4a-8097-b0fe995a5397
 		summarizeBy: none
 		sourceColumn: production_present
 
 	column area_present
 		dataType: boolean
-		lineageTag: 44264580-ac3a-4d5e-9a36-3e2c1e13ff00
+		lineageTag: 8e1764ec-dd3d-4661-8ee1-cb6106b5ba93
 		summarizeBy: none
 		sourceColumn: area_present
 
 	column yield_present
 		dataType: boolean
-		lineageTag: 4fd8a8ef-e59a-4829-b8dd-67954b71d245
+		lineageTag: a288b116-b977-47db-92e9-b235127af000
 		summarizeBy: none
 		sourceColumn: yield_present
 
 	column paired_valid
 		dataType: boolean
-		lineageTag: 7153bb5d-56a7-48a0-869c-6253eca3eddc
+		lineageTag: 330cdd86-6a9d-4267-8f6a-4f8753b7ddef
 		summarizeBy: none
 		sourceColumn: paired_valid
 
 	column paired_production_t
 		dataType: double
-		lineageTag: 4a07fe7d-280e-4f17-8a6d-60017cb615e5
+		lineageTag: d8e0a463-47ae-4f24-a116-b158fb51129f
 		summarizeBy: none
 		sourceColumn: paired_production_t
 
 	column paired_area_ha
 		dataType: double
-		lineageTag: 651e6cea-3bcc-447f-9a2f-43cd329caf8b
+		lineageTag: 7a93be84-5a4c-4356-b44f-845bc3fd8ec2
 		summarizeBy: none
 		sourceColumn: paired_area_ha
 
 	column area_name_vi
 		dataType: string
-		lineageTag: bb3deb40-a4c3-4466-8b25-74e3a0fddd28
+		lineageTag: d43855fb-fd9b-413c-a12e-1a0ab7f7132c
 		summarizeBy: none
 		sourceColumn: area_name_vi
 
@@ -118,6 +118,4 @@ table FAO
 				    With_area_name_vi = Table.AddColumn(Accepted, "area_name_vi", each if [area_name] = "India" then "Ấn Độ" else if [area_name] = "Indonesia" then "Indonesia" else if [area_name] = "Pakistan" then "Pakistan" else if [area_name] = "Thailand" then "Thái Lan" else if [area_name] = "Viet Nam" then "Việt Nam" else [area_name], type text)
 				in
 				    With_area_name_vi
-
-	annotation PBI_ResultType = Table
 

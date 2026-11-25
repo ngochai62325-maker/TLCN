@@ -15,7 +15,7 @@ Gold MVP gồm **8 physical dimensions, 9 physical facts và 4 version-controlle
 python -m jobs.analytics.build_powerbi_marts
 ```
 
-**DATA_MARTS_POWERBI_COMPLETE.** Tám subject marts/mười CSV, sáu trang report tiếng Việt, 65 measures, 58 actual Desktop DAX checks và 589 unit tests PASS. Report thật đã Save As/mở lại tại `powerbi/TLCN_Rice_Analytics.pbix` (local, Git-ignored); mở bằng `Invoke-Item .\powerbi\TLCN_Rice_Analytics.pbix`. Source PBIP/TMDL/PBIR ở `powerbi/`. Dữ liệu là extract, không tự live refresh với Gold. [Cách dùng/refresh](docs/powerbi/REPORT_IMPLEMENTATION.md) · [Nghiệm thu](docs/powerbi/REPORT_VALIDATION.md) · [Mart design](docs/analytics/DATA_MART_DESIGN.md) · [EDA findings lịch sử](docs/analytics/EDA_FINDINGS.md). Default exporter v1 bốn CSV vẫn được giữ.
+**DATA_MARTS_POWERBI_COMPLETE (đã bỏ Trang 1 Tổng quan).** Tám subject marts/10 CSV nghiệp vụ (kèm `fact_overview.csv` trong bundle để đối soát manifest), năm trang report nghiệp vụ tiếng Việt (`p01`–`p05`), 14 bảng semantic model (gồm bảng thuần `KeyMeasures` chứa 169 measures) và 55 DAX checks trong `validation.dax`. Report thật đã Save As/mở lại tại `powerbi/TLCN_Rice_Analytics.pbix` (local, Git-ignored); mở bằng `Invoke-Item .\powerbi\TLCN_Rice_Analytics.pbix`. Source PBIP/TMDL/PBIR ở `powerbi/`. Dữ liệu là extract, không tự live refresh với Gold. [Cách dùng/refresh](docs/powerbi/REPORT_IMPLEMENTATION.md) · [Nghiệm thu](docs/powerbi/REPORT_VALIDATION.md) · [Mart design](docs/analytics/DATA_MART_DESIGN.md) · [EDA findings lịch sử](docs/analytics/EDA_FINDINGS.md). Default exporter v1 bốn CSV vẫn được giữ.
 
 ## 1. Dịch vụ & Cổng Localhost
 

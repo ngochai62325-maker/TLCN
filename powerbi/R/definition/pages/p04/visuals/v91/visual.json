@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v91",
   "position": {
-    "x": 24,
+    "x": 648,
     "y": 96,
     "z": 91,
-    "width": 396,
+    "width": 354,
     "height": 64,
     "tabOrder": 91
   },
@@ -164,7 +164,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "FAOSTAT SUA · Năm dương lịch (2010–2023)",
+                    "value": "World Bank · Benchmark giá gạo tham chiếu",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "9.5pt",
@@ -177,7 +177,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Thực phẩm, chế biến, tồn kho đầu kỳ và sai số thống kê.",
+                    "value": "Biểu đồ chính giữ đủ 4 chuỗi; MoM & độ biến động theo slicer.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "8.5pt",

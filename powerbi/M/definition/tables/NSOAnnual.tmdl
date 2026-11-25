@@ -1,45 +1,45 @@
 table NSOAnnual
-	lineageTag: 70a46d24-6ea1-43e0-8fa1-cc107409e075
+	lineageTag: e72cbca5-14d1-40f6-93f8-adccbe734cbd
 
 	column year
 		dataType: int64
-		lineageTag: 873e94f2-bbdb-4391-8229-4ce4a653a0ff
+		lineageTag: cd2a4b72-4fc1-4e6e-b068-7599758c2b92
 		summarizeBy: none
 		sourceColumn: year
 
 	column production_t
 		dataType: double
-		lineageTag: cc513765-57bf-4544-8aa8-c3e4ae92f14a
+		lineageTag: 709a44ba-ebaa-40ff-81ce-052f9a5c0461
 		summarizeBy: none
 		sourceColumn: production_t
 
 	column area_ha
 		dataType: double
-		lineageTag: 4a30fb11-6335-4943-9152-8abb2a0438bd
+		lineageTag: a75432fa-281b-4914-bf3f-42cd7fc8e07a
 		summarizeBy: none
 		sourceColumn: area_ha
 
 	column publication
 		dataType: string
-		lineageTag: 016ae4db-0819-4963-b0fe-0f3c8d1488c6
+		lineageTag: 474a19b9-f238-4026-b68a-f1f10a138910
 		summarizeBy: none
 		sourceColumn: publication
 
 	column geography_scope
 		dataType: string
-		lineageTag: 05b6aacc-31ab-4204-9b35-3c688b4f256e
+		lineageTag: a0542d15-03da-49a6-9268-5e2edb0c7807
 		summarizeBy: none
 		sourceColumn: geography_scope
 
 	column production_present
 		dataType: boolean
-		lineageTag: 4e7c5dca-8e67-47cf-86f9-d5b08340496d
+		lineageTag: 967ca50c-a186-429c-b67e-3612db6b286d
 		summarizeBy: none
 		sourceColumn: production_present
 
 	column area_present
 		dataType: boolean
-		lineageTag: 73bba617-fb5d-44f7-a0df-3299a468e3b4
+		lineageTag: b50c0b34-774b-4ce6-9e01-16ed08ff25d1
 		summarizeBy: none
 		sourceColumn: area_present
 
@@ -57,6 +57,4 @@ table NSOAnnual
 				    Accepted = if Manifest[status] = "COMPLETE" and Manifest[format_version] = "powerbi-csv-2" and Table.RowCount(Typed) = Entry[rows] then Typed else error "Verify the immutable mart bundle before refresh"
 				in
 				    Accepted
-
-	annotation PBI_ResultType = Table
 

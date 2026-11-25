@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v09",
   "position": {
-    "x": 1060,
+    "x": 852,
     "y": 168,
     "z": 9,
     "width": 196,
@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'[Gạo] Chênh lệch VN5 − Thái5'"
+                  "Value": "'[Gạo] Giá trị cộng dồn'"
                 }
               }
             }
@@ -243,14 +243,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "WB Spread VN5 vs Thai5 Display"
+                  "Property": "Trade Value Display"
                 }
               },
-              "queryRef": "Overview.WB Spread VN5 vs Thai5 Display",
-              "displayName": "[Gạo] Chênh lệch VN5 − Thái5"
+              "queryRef": "KeyMeasures.Trade Value Display",
+              "displayName": "[Gạo] Giá trị cộng dồn"
             }
           ]
         }
@@ -549,7 +549,7 @@
       "referenceLabel": [
         {
           "selector": {
-            "metadata": "Overview.WB Spread VN5 vs Thai5 Display",
+            "metadata": "KeyMeasures.Trade Value Display",
             "id": "ref1",
             "data": [
               {
@@ -565,10 +565,10 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "Latest Common WB Ref"
+                  "Property": "Trade Value Ref"
                 }
               }
             },
@@ -596,7 +596,7 @@
         },
         {
           "selector": {
-            "metadata": "Overview.WB Spread VN5 vs Thai5 Display",
+            "metadata": "KeyMeasures.Trade Value Display",
             "id": "ref1"
           },
           "properties": {
@@ -657,7 +657,7 @@
       "referenceLabelValue": [
         {
           "selector": {
-            "metadata": "Overview.WB Spread VN5 vs Thai5 Display",
+            "metadata": "KeyMeasures.Trade Value Display",
             "id": "ref1"
           },
           "properties": {
@@ -696,10 +696,10 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Overview"
+                          "Entity": "KeyMeasures"
                         }
                       },
-                      "Property": "Latest Common WB Ref Color"
+                      "Property": "Trade Value Ref Color"
                     }
                   }
                 }

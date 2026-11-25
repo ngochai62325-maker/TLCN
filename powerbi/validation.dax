@@ -1,9 +1,5 @@
 EVALUATE
 VAR Checks = UNION(
-    ROW("Test","overview_total","Passed",NOT ISBLANK([Total Observations]) && ABS(([Total Observations])-(1414527))<=0.000001),
-    ROW("Test","overview_numeric","Passed",NOT ISBLANK([Numeric Observations]) && ABS(([Numeric Observations])-(1402167))<=0.000001),
-    ROW("Test","overview_null","Passed",NOT ISBLANK([Present NULL]) && ABS(([Present NULL])-(12360))<=0.000001),
-    ROW("Test","overview_ratio","Passed",NOT ISBLANK([Numeric Coverage]) && ABS(([Numeric Coverage])-(0.9912620967998489954592595263))<=0.000001),
     ROW("Test","production_1990","Passed",NOT ISBLANK(CALCULATE([Annual Production],CalendarYear[Year]=1990)) && ABS((CALCULATE([Annual Production],CalendarYear[Year]=1990))-(19225100.00000000))<=0.000001),
     ROW("Test","area_1990","Passed",NOT ISBLANK(CALCULATE([Annual Area],CalendarYear[Year]=1990)) && ABS((CALCULATE([Annual Area],CalendarYear[Year]=1990))-(6042800.00000000))<=0.000001),
     ROW("Test","production_2015","Passed",NOT ISBLANK(CALCULATE([Annual Production],CalendarYear[Year]=2015)) && ABS((CALCULATE([Annual Production],CalendarYear[Year]=2015))-(45091000.00000000))<=0.000001),

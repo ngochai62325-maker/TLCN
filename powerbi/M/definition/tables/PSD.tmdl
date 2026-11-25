@@ -1,69 +1,69 @@
 table PSD
-	lineageTag: 665f4b0c-45da-4af1-a7c5-84e6276043a6
+	lineageTag: 08446579-4691-4ca8-b740-f2a0ec2d00ea
 
 	column market_year
 		dataType: int64
-		lineageTag: d44215b6-984f-406b-8610-4d980d2304a8
+		lineageTag: 1f2f0634-ca35-498b-ac94-857519995330
 		summarizeBy: none
 		sourceColumn: market_year
 
 	column crop_year
 		dataType: string
-		lineageTag: b3f9601b-7fd7-4012-829f-af4aaa59adab
+		lineageTag: 02385fd4-072e-4145-b39e-5d51cd60bf1a
 		summarizeBy: none
 		sourceColumn: crop_year
 
 	column geography_key
 		dataType: string
-		lineageTag: bece9bf5-ffae-4d95-b3ff-4ed66b7db69e
+		lineageTag: 28ef067c-6b08-403e-aac7-1eba9aadcf69
 		summarizeBy: none
 		sourceColumn: geography_key
 
 	column country
 		dataType: string
-		lineageTag: 82d094b9-4625-477f-aade-43d006b2fe04
+		lineageTag: 2e7171d0-53f0-4bf0-915b-13c445fb5e77
 		summarizeBy: none
 		sourceColumn: country
 
 	column product_key
 		dataType: string
-		lineageTag: 668fe596-fc54-4ca1-b7ca-b621f1aa1efb
+		lineageTag: 3a853a40-a573-4853-bf81-94962132daae
 		summarizeBy: none
 		sourceColumn: product_key
 
 	column product
 		dataType: string
-		lineageTag: 6dade124-5fed-4a12-b442-f1c9085939c3
+		lineageTag: 17117579-a089-4924-a5a3-71bd1fb4a1b5
 		summarizeBy: none
 		sourceColumn: product
 
 	column attribute
 		dataType: string
-		lineageTag: ce7fb7ba-2a05-4d18-a779-cdeef5261b4b
+		lineageTag: 293d847a-0534-44a6-994a-d5b93b61fedc
 		summarizeBy: none
 		sourceColumn: attribute
 
 	column unit
 		dataType: string
-		lineageTag: 5dfad706-c9dc-40fd-b5c1-6f4c56a44afa
+		lineageTag: fbbb6f1b-3c29-43ab-b3a4-e9025cad65fb
 		summarizeBy: none
 		sourceColumn: unit
 
 	column value
 		dataType: double
-		lineageTag: ad8f91ad-1296-4242-b781-712a288af713
+		lineageTag: ae0a666f-1c2a-48dc-baca-61296e5f5d01
 		summarizeBy: none
 		sourceColumn: value
 
 	column observation_present
 		dataType: boolean
-		lineageTag: f0fa7262-2992-4a01-b322-f155dbefdfb3
+		lineageTag: 3604755c-3677-41cd-a4ed-76637cc825e6
 		summarizeBy: none
 		sourceColumn: observation_present
 
 	column aggregation_rule
 		dataType: string
-		lineageTag: 4aa4b2e1-a169-4c4f-aa06-b5295b701e56
+		lineageTag: 8815bf17-9f5f-42a6-bc2f-fdf5a480635d
 		summarizeBy: none
 		sourceColumn: aggregation_rule
 

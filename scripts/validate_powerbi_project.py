@@ -14,7 +14,7 @@ sys.path.insert(0,str(ROOT/'src'))
 def validate_project(project,schemas,fetch=False):
     from jsonschema import Draft7Validator
     from referencing import Registry,Resource
-    from analytics.marts.report import TABLES,SCHEMAS,MEASURES
+    from analytics.marts.report import TABLES,SCHEMAS,MEASURES,MEASURE_TABLE
     schemas=Path(schemas)
     def retrieve(uri):
         prefix='https://developer.microsoft.com/json-schemas/'
@@ -43,7 +43,7 @@ def validate_project(project,schemas,fetch=False):
             resource=Resource.from_contents(schema)
             registry=registry.with_resource(schema['$id'],resource)
             registry=registry.with_resource('https://developer.microsoft.com/json-schemas/'+path.relative_to(schemas).as_posix(),resource)
-    fields={TABLES[n]:{c for c,_ in s} for n,s in SCHEMAS.items()}
+    fields={TABLES[n]:{c for c,_ in SCHEMAS[n]} for n in TABLES}
     fields.update(CalendarYear={'Year'},BenchmarkMonth={'Date'},QuoteDate={'Date'})
     checked=0;visuals=0
     def refs(value):
@@ -54,7 +54,7 @@ def validate_project(project,schemas,fetch=False):
                     table=sref.get('Entity');name=node['Property']
                     if table:
                         if kind=='Column' and name not in fields.get(table,set()):raise ValueError(f'Broken column reference {table}.{name}')
-                        if kind=='Measure' and (table!='Overview' or name not in MEASURES):raise ValueError(f'Broken measure reference {table}.{name}')
+                        if kind=='Measure' and (table!=MEASURE_TABLE or name not in MEASURES):raise ValueError(f'Broken measure reference {table}.{name}')
             for child in value.values():refs(child)
         elif isinstance(value,list):
             for child in value:refs(child)
@@ -75,7 +75,7 @@ def validate_project(project,schemas,fetch=False):
         if len(str(path.resolve()))>=260:raise ValueError('Windows path too long')
     pages=project/'R/definition/pages'
     order=json.loads((pages/'pages.json').read_text())['pageOrder']
-    if len(order)!=6 or len(set(order))!=6:raise ValueError('Exactly six unique report pages required')
+    if len(order)!=5 or len(set(order))!=5:raise ValueError('Exactly five unique report pages required')
     ids=[]
     for pid in order:
         page=pages/pid
