@@ -32,8 +32,8 @@ MODEL_STYLES = {
 SHOCK_SPAN = (pd.Timestamp("2023-07-01"), pd.Timestamp("2024-08-31"))
 SPLIT_2024 = pd.Timestamp("2024-01-01")
 PERIOD_SPECS = [
-    ("2023", 202301, 202312, "Giai đoạn 2023 — Cú sốc tăng giá", 2),
-    ("2024-2025", 202401, 202512, "Giai đoạn 2024–2025 — Nhịp điều chỉnh", 4),
+    ("2023", 202301, 202312, "Giai đoạn 2023 (Cú sốc tăng giá)", 2),
+    ("2024-2025", 202401, 202512, "Giai đoạn 2024-2025 (Điều chỉnh giảm)", 4),
 ]
 PERIOD_ORDER = ["2023-2025", "2023", "2024-2025"]
 METRIC_SPECS = [
@@ -102,7 +102,7 @@ def draw_actual_vs_pred(
     span_start = max(SHOCK_SPAN[0], actual["month_date"].min())
     span_end = min(SHOCK_SPAN[1], actual["month_date"].max())
     if span_start <= span_end:
-        ax.axvspan(span_start, span_end, color="#ef4444", alpha=0.12, label="Ấn Độ cấm XK (07/2023–08/2024)")
+        ax.axvspan(span_start, span_end, color="#ef4444", alpha=0.12, label="Ấn Độ cấm XK (07/2023-08/2024)")
 
     if show_split:
         ax.axvline(SPLIT_2024, color="#475569", ls=":", lw=1.4)
@@ -121,10 +121,10 @@ def plot_actual_vs_predicted(pred_df: pd.DataFrame, out_path: str | Path | None 
     draw_actual_vs_pred(
         ax,
         pred_df,
-        "So sánh Actual vs Predicted — Giá gạo VN 5% tấm (2023–2025)",
+        "So sánh giá thực tế và dự báo giá gạo VN 5% tấm (2023-2025)",
         show_split=True,
         tick_interval=3,
-        title_pad=38,
+        title_pad=46,
     )
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.01), ncol=3, frameon=False, fontsize=8.8)
     fig.tight_layout()
@@ -143,7 +143,7 @@ def plot_actual_vs_predicted_by_period(pred_df: pd.DataFrame, out_path: str | Pa
     for ax in axes[1:]:
         ax.set_ylabel("")
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.suptitle("Actual vs Predicted theo từng giai đoạn (2023 và 2024–2025)", fontsize=12.5, fontweight="bold", y=0.99)
+    fig.suptitle("Giá thực tế và dự báo theo từng giai đoạn (2023 và 2024-2025)", fontsize=12.5, fontweight="bold", y=0.99)
     fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 0.93), ncol=3, frameon=False, fontsize=8.8)
     fig.tight_layout(rect=[0, 0, 1, 0.85])
     if out_path is not None:
@@ -173,7 +173,7 @@ def plot_metrics_by_period(metrics_df: pd.DataFrame, out_path: str | Path | None
         ax.grid(axis="y", ls="--", alpha=0.35)
 
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.suptitle("So sánh sai số dự báo theo giai đoạn (2023–2025, 2023, 2024–2025)", fontsize=12.5, fontweight="bold", y=0.99)
+    fig.suptitle("So sánh sai số dự báo theo giai đoạn (2023-2025, 2023, 2024-2025)", fontsize=12.5, fontweight="bold", y=0.99)
     fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 0.92), ncol=max(len(models), 1), frameon=False, fontsize=9)
     fig.tight_layout(rect=[0, 0, 1, 0.85])
     if out_path is not None:
@@ -190,34 +190,23 @@ def plot_wb_vs_usda_zoom(gold_df: pd.DataFrame, out_path: str | Path | None = No
     )
 
     panels = [
-        (ax1, df, "Giai đoạn 2010–2025 (192 tháng)", mdates.YearLocator(2), "%Y"),
-        (ax2, zoom, "Phóng to 2023–2025 (36 tháng test)", mdates.MonthLocator(interval=4), "%m/%Y"),
+        (ax1, df, "Giai đoạn 2010-2025 (192 tháng)", mdates.YearLocator(2), "%Y"),
+        (ax2, zoom, "Giai đoạn 2023-2025 (36 tháng test)", mdates.MonthLocator(interval=4), "%m/%Y"),
     ]
     for ax, sub, title, locator, fmt in panels:
         ax.plot(sub["month_date"], sub["wb_vn5_usd_t"], color="#1d3557", lw=2.0, label="World Bank (VN 5%)")
         ax.plot(sub["month_date"], sub["usda_vn5_usd_t"], color="#e76f51", lw=1.7, ls="--", label="USDA (VN 5%)")
-        ax.axvspan(SHOCK_SPAN[0], SHOCK_SPAN[1], color="#ef4444", alpha=0.12, label="Ấn Độ cấm XK (07/2023–08/2024)")
-        r_val = sub["wb_vn5_usd_t"].corr(sub["usda_vn5_usd_t"])
-        mae_val = (sub["wb_vn5_usd_t"] - sub["usda_vn5_usd_t"]).abs().mean()
-        ax.text(
-            0.03,
-            0.95,
-            f"r = {r_val:.4f} | MAE = {mae_val:.2f} USD/t",
-            transform=ax.transAxes,
-            va="top",
-            fontsize=8.5,
-            bbox={"boxstyle": "round,pad=0.3", "fc": "#f8fafc", "ec": "#cbd5e1"},
-        )
+        ax.axvspan(SHOCK_SPAN[0], SHOCK_SPAN[1], color="#ef4444", alpha=0.12, label="Ấn Độ cấm XK (07/2023-08/2024)")
         ax.set_title(title, fontsize=10.5, fontweight="bold")
         ax.xaxis.set_major_locator(locator)
         ax.xaxis.set_major_formatter(mdates.DateFormatter(fmt))
-        ax.set_ylim(top=ax.get_ylim()[1] * 1.09)
+        ax.set_ylim(top=ax.get_ylim()[1] * 1.05)
         ax.grid(axis="y", ls="--", alpha=0.35)
 
     ax1.set_ylabel("Giá FOB (USD/tấn)")
     ax2.tick_params(axis="x", rotation=25)
     handles, labels = ax1.get_legend_handles_labels()
-    fig.suptitle("Biểu đồ 1: Đối chiếu giá gạo VN 5% tấm — World Bank vs USDA", fontsize=12.5, fontweight="bold", y=0.99)
+    fig.suptitle("Đối chiếu giá gạo VN 5% tấm: World Bank và USDA", fontsize=12.5, fontweight="bold", y=0.99)
     fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 0.92), ncol=3, frameon=False, fontsize=9)
     fig.tight_layout(rect=[0, 0, 1, 0.86])
     if out_path is not None:
@@ -258,7 +247,7 @@ def plot_metrics_and_importance(
     group_colors = {"competitor": "#2563eb", "base": "#94a3b8"}
     fi_axes = bot_fig.subplots(1, 2)
     fi_specs = [
-        (fi_axes[0], "gain_share_pct", "Feature Importance — Gain Share (%)", "%.1f%%"),
+        (fi_axes[0], "gain_share_pct", "Feature Importance - Gain Share (%)", "%.1f%%"),
         (fi_axes[1], "perm_test_rmse_mean", "Permutation Importance trên Test (ΔRMSE)", "%.2f"),
     ]
     for ax, col, title, fmt in fi_specs:
@@ -275,7 +264,7 @@ def plot_metrics_and_importance(
         Patch(fc="#94a3b8", label="Nội sinh & chi phí (base)"),
     ]
     fi_axes[0].legend(handles=fi_legend, loc="lower right", frameon=True, fontsize=8)
-    fig.suptitle("Biểu đồ 3: Sai số 3 giai đoạn & Feature Importance (xgb_competitor)", fontsize=12.5, fontweight="bold")
+    fig.suptitle("So sánh sai số 3 giai đoạn và mức độ quan trọng đặc trưng (xgb_competitor)", fontsize=12.5, fontweight="bold")
     if out_path is not None:
         fig.savefig(out_path, dpi=180, bbox_inches="tight")
     return fig
