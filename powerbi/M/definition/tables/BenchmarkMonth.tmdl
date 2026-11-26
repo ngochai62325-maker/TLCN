@@ -1,12 +1,14 @@
 table BenchmarkMonth
-	lineageTag: 034a3b28-9783-454e-98c3-1073e4a85bac
+	lineageTag: 6a726562-81d0-45a4-8754-8a462aa94462
 
 	column Date
 		dataType: dateTime
 		formatString: yyyy-MM-dd
-		lineageTag: 1dd7c9cf-1f64-4deb-8646-4189450c8978
+		lineageTag: d88d9e72-6b11-4fb7-9829-3c61fc740d5f
 		summarizeBy: none
 		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	partition BenchmarkMonth = m
 		mode: import

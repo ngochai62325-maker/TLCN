@@ -1,27 +1,27 @@
 table NSOYield
-	lineageTag: 26f6ab9c-d1c0-4490-a2e2-7b7928d1ac64
+	lineageTag: a564469b-90b6-4f35-a150-a8259a2f83c8
 
 	column year
 		dataType: int64
-		lineageTag: 7e70c7df-b324-48a8-9bc9-ae867cbb20bd
+		lineageTag: fc7d0e0d-6a52-482c-9d1a-1306e7428d0b
 		summarizeBy: none
 		sourceColumn: year
 
 	column yield_kg_ha
 		dataType: double
-		lineageTag: 29b134d0-5fde-4736-b9cc-4457fff1d811
+		lineageTag: 81209d58-35e7-4e38-867b-e89f338d5925
 		summarizeBy: none
 		sourceColumn: yield_kg_ha
 
 	column publication
 		dataType: string
-		lineageTag: c6dcad70-ca00-4b9d-98e3-8af9e202d13c
+		lineageTag: 01458ca3-6746-4dbc-bb7f-061970b86b75
 		summarizeBy: none
 		sourceColumn: publication
 
 	column yield_present
 		dataType: boolean
-		lineageTag: 946c9956-aaa2-4ab0-8c04-12ed081f4428
+		lineageTag: da58b485-68e7-4d53-af6a-e68255fd5464
 		summarizeBy: none
 		sourceColumn: yield_present
 

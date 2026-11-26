@@ -1,12 +1,14 @@
 table QuoteDate
-	lineageTag: a673e082-df4f-47c7-bb1c-5dacdd5b45ff
+	lineageTag: e4a625aa-7be8-4eb8-97dc-8583f03ce802
 
 	column Date
 		dataType: dateTime
 		formatString: yyyy-MM-dd
-		lineageTag: 06c40b77-cca2-49c3-8a68-d3f0aa536a0b
+		lineageTag: 61b263f0-2462-4843-ab76-56f1b24379f0
 		summarizeBy: none
 		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	partition QuoteDate = m
 		mode: import
