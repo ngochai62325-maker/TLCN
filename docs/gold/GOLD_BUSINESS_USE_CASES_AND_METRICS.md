@@ -57,14 +57,12 @@ Với 8 Dimensions, 9 Facts và 4 Semantic SQL, lớp Gold giải quyết **6 b�
 5. **Bài toán 5 — Giám sát Biến động Giá Lúa Gạo Đa Tầng (Từ Thị trường Thế giới đến Điểm Thu mua Nội địa)**:
    - Theo dõi các cú sốc giá lương thực toàn cầu và độ biến động rủi ro giá (`12M Volatility`) qua chuỗi giá chuẩn World Bank (`rice_thai_5`) và USDA Yearbook.
    - Giám sát sát sao biến động giá thu mua lúa tươi hàng ngày (`VND/kg`) tại các địa phương trọng điểm Đồng bằng sông Cửu Long (như An Giang, Long Xuyên...) theo từng giống lúa cụ thể (`IR 50404`, `OM 5451`...).
-6. **Bài toán 6 — Quản trị Chất lượng Dữ liệu Đa Nguồn, Kiểm toán (Data Auditing) và Minh bạch Hóa Độ Phủ (Data Coverage)**:
-   - Đánh giá tỷ lệ dữ liệu có giá trị số (`numeric_coverage_pct`), tỷ lệ dữ liệu khuyết có ghi nhận (`present_null_rows`) và khoảng trống thời gian (`absent_periods`) trên toàn bộ 1.414.527 quan sát trước khi đưa vào mô hình phân tích hoặc báo cáo quản trị.
 
 ---
 
 ## 3. Các Câu hỏi Phân tích Cụ thể mà Lớp Gold Trả lời Được (Kèm Bằng chứng Số liệu Thực tế)
 
-Toàn bộ các câu hỏi phân tích dưới đây đã được thực thi và kiểm chứng trực tiếp trên dữ liệu lớp Gold thông qua 6 Jupyter Notebooks ([`EDA_FINDINGS.md`](../analytics/EDA_FINDINGS.md)) và 6 trang Dashboard Power BI ([`REPORT_INSIGHTS.md`](../powerbi/REPORT_INSIGHTS.md)):
+Toàn bộ các câu hỏi phân tích dưới đây đã được thực thi và kiểm chứng trực tiếp trên dữ liệu lớp Gold thông qua 6 Jupyter Notebooks ([`EDA_FINDINGS.md`](../analytics/EDA_FINDINGS.md)) và 5 trang Dashboard Power BI nghiệp vụ ([`REPORT_INSIGHTS.md`](../powerbi/REPORT_INSIGHTS.md); nhóm F `OV01–OV03` được kiểm toán qua EDA notebooks & `export_manifest.json`):
 
 ### Nhóm A: Sản xuất Lúa gạo Việt Nam (Nguồn NSO — `fact_nso_observation` & `vw_nso_source_observations`)
 
@@ -110,14 +108,6 @@ Toàn bộ các câu hỏi phân tích dưới đây đã được thực thi v�
 | **TR03** | Thị trường nhập khẩu gạo lớn nhất của Việt Nam là Philippines (M49 `608`) đã tăng khối lượng nhập từ Việt Nam ra sao trong giai đoạn 2019–2023? | `vw_trade_reported_unit_values` (Reporter `704`, Partner `608`, CPC `23161.02`, `export_quantity_t`) | Tăng **+41,62%**, từ **2.129.613,10 tấn** (năm 2019) lên **3.015.899,86 tấn** (năm 2023). Tổng 5 năm (2019–2023) đạt **12.863.751,28 tấn** trị giá **6,295 tỷ USD**. |
 | **TR04** | Đơn giá xuất khẩu bình quân (`reported_export_unit_value_usd_t`) gạo xay xát của Việt Nam sang Philippines đã cải thiện như thế nào? | `vw_trade_reported_unit_values` (Reporter `704`, Partner `608`, CPC `23161.02`, `export_value_usd / export_quantity_t`) | Tăng **+35,16%**, từ **414,96 USD/tấn** (năm 2019) lên **560,88 USD/tấn** (năm 2023); đơn giá bình quân gia quyền cả giai đoạn 5 năm đạt **489,38 USD/tấn**. |
 
-### Nhóm F: Kiểm toán Độ phủ & Chất lượng Dữ liệu (Data Governance — Toàn bộ 17 bảng Gold)
-
-| Mã | Câu hỏi phân tích / Kiểm toán dữ liệu | Bảng / Chỉ số khai thác | Câu trả lời từ dữ liệu lớp Gold (Đã kiểm chứng) |
-|---|---|---|---|
-| **OV01** | Tỷ lệ quan sát có giá trị số thực tế so với các dòng khuyết (`Present-NULL`) trên toàn bộ lớp Gold là bao nhiêu? Nguồn nào có tỷ lệ khuyết cao nhất? | 9 bảng Fact (`rows_total`, `numeric_rows`, `present_null_rows`, `numeric_coverage_pct`) | Toàn bộ 9 bảng Fact có **1.414.527 quan sát**, trong đó **1.402.167 quan sát có số (99,13%)** và **12.360 quan sát `Present-NULL` (0,87%)**. Bảng `fact_usda_price_reference` có tỷ lệ `Present-NULL` cao nhất: **4.523 / 12.936 dòng (34,96%)** do nguồn USDA đánh dấu `NA` ở các tháng không có báo giá. |
-| **OV02** | Độ phủ thời gian (`Calendar Span` vs. `Represented Periods`) của từng bảng Fact có liên tục không? | 9 bảng Fact + `dim_year` / `dim_month` / `dim_date` | 8/9 bảng Fact theo năm và tháng có độ phủ kỳ đạt 100% trong khoảng thời gian nguồn (0 kỳ bị đứt quãng cấp toàn bảng). Riêng bảng giá nội địa theo ngày `fact_vn_market_quote_daily` có **1.211 ngày có báo giá** trên tổng khung lịch **2.038 ngày** (827 ngày không có báo giá do cuối tuần/nghỉ lễ/không phát sinh tin). |
-| **OV03** | Hệ thống danh mục (Dimensions) của lớp Gold quản lý bao nhiêu loại chỉ số, bao nhiêu chuỗi giá và bao nhiêu không gian định danh địa lý? | `dim_observation_type`, `dim_price_series`, `dim_source_geography`, `dim_source_product` | Quản lý chính xác **34 loại chỉ số đo lường (`dim_observation_type`)**, **1.042 chuỗi giá (`dim_price_series`)**, **295 định danh sản phẩm/phẩm cấp (`dim_source_product`)**, và **987 thực thể địa lý (`dim_source_geography`)** thuộc 6 `identity_namespace`. |
-
 ---
 
 ## 4. Đối tượng Sử dụng (Target Personas) của Lớp Gold là Ai?
@@ -135,7 +125,7 @@ flowchart LR
     D --> V --> P
 
     P --> U1["1. Chuyên viên Phân tích & Kinh tế Nông nghiệp\n(Jupyter EDA / Trino Semantic SQL)"]
-    P --> U2["2. Lãnh đạo, Nhà hoạch định & Doanh nghiệp\n(Power BI Desktop 6-Page Dashboard)"]
+    P --> U2["2. Lãnh đạo, Nhà hoạch định & Doanh nghiệp\n(Power BI Desktop 5-Page Dashboard)"]
     D --> U3["3. Kỹ sư Dữ liệu & Kiểm toán Dữ liệu\n(Airflow / DQ01-18 / Lineage & Reconciliation)"]
     P -.-> U4["4. Kỹ sư Khoa học Dữ liệu / ML (Mở rộng)\n(Chuỗi thời gian chuẩn hóa + Vintage Guard)"]
 ```
@@ -149,21 +139,15 @@ flowchart LR
 ### 4.2. Nhóm 2: Nhà Quản lý, Hoạch định Chính sách & Doanh nghiệp Xuất nhập khẩu Lúa gạo (BI Users / Decision Makers)
 - **Nhu cầu**: Theo dõi bức tranh tổng thể và trực quan qua các chỉ số KPI, biểu đồ xu hướng (Trend lines), so sánh thị trường xuất khẩu và theo dõi giá lúa gạo quốc tế/nội địa mà không cần viết câu lệnh SQL.
 - **Điểm chạm trong lớp Gold**:
-  - Khai thác thông qua **8 Analytics Data Marts (10 file CSV đã kiểm định)** được kết nối trực tiếp vào **Báo cáo Power BI Desktop 6 trang tiếng Việt** ([`TLCN_Rice_Analytics.pbip`](../../powerbi/TLCN_Rice_Analytics.pbip)):
-    - *Trang 1*: Tổng quan Độ phủ & Chất lượng Dữ liệu lớp Gold.
-    - *Trang 2*: Sản xuất Lúa gạo Việt Nam (NSO Quốc gia & Mùa vụ).
-    - *Trang 3*: Sản xuất & Năng suất Lúa Toàn cầu (Đối sánh FAOSTAT).
-    - *Trang 4*: Cân đối Cung – Cầu & Tồn kho (FAOSTAT SUA & USDA PSD).
-    - *Trang 5*: Biến động Giá Gạo Quốc tế (World Bank) & Giá Lúa Nội địa (An Giang).
-    - *Trang 6*: Thương mại Xuất khẩu Gạo Song phương Việt Nam (FAOSTAT Trade).
+  - Khai thác thông qua **8 Analytics Data Marts (10 CSV nghiệp vụ + `fact_overview.csv` đối soát manifest)** được kết nối trực tiếp vào **Báo cáo Power BI Desktop 5 trang nghiệp vụ tiếng Việt** ([`TLCN_Rice_Analytics.pbip`](../../powerbi/TLCN_Rice_Analytics.pbip)):
+    - *Trang 1*: Sản xuất Lúa gạo Việt Nam (NSO Quốc gia & Mùa vụ).
+    - *Trang 2*: Sản xuất & Năng suất Lúa Toàn cầu (Đối sánh FAOSTAT).
+    - *Trang 3*: Cân đối Cung – Cầu & Tồn kho (FAOSTAT SUA & USDA PSD).
+    - *Trang 4*: Biến động Giá Gạo Quốc tế (USDA FOB, World Bank) & Giá Lúa Nội địa (ĐBSCL).
+    - *Trang 5*: Thương mại Xuất khẩu Gạo Song phương Việt Nam (FAOSTAT Trade).
+  - *(Kiểm toán độ phủ & chất lượng 9 bảng Fact lớp Gold thuộc phạm vi Nhóm 3 — Kỹ sư Dữ liệu & Kiểm toán Dữ liệu qua EDA notebooks & `export_manifest.json`.)*
 
-### 4.3. Nhóm 3: Kỹ sư Dữ liệu & Quản trị viên Dữ liệu (Data Engineers / Data Stewards)
-- **Nhu cầu**: Vận hành pipeline ổn định trên hạ tầng giới hạn tài nguyên (Laptop 16 GB RAM, Trino 512 MiB heap), đảm bảo tính toàn vẹn dữ liệu từ Silver sang Gold, kiểm soát phiên bản (Snapshot Isolation) và truy vết lỗi về tận file Raw/Bronze.
-- **Điểm chạm trong lớp Gold**:
-  - Quản lý thông qua DAG [`rice_lakehouse_gold_pipeline`](../../dags/dag_gold_pipeline.py), 18 nhóm cổng chất lượng **DQ01–DQ18** ([`quality.py`](../../src/gold/quality.py)), đối chiếu tập hợp hai chiều `EXCEPT ALL` và cơ chế `Publication Manifest` / `Consumer Read Gate` ([`publication.py`](../../src/gold/publication.py), [`consumer.py`](../../src/gold/consumer.py)).
-  - Tra cứu 15 cột kỹ thuật trên mỗi bảng Fact (`silver_table_uuid`, `silver_read_snapshot_id`, `_ingestion_run_id`, `_source_file`, `_source_checksum`, `source_business_key_json`, `dq_warnings_json`) để kiểm toán bất kỳ con số nào xuất hiện trên báo cáo.
-
-### 4.4. Nhóm 4: Kỹ sư Khoa học Dữ liệu / Học máy (Data Scientists — Định hướng Mở rộng)
+### 4.3. Nhóm 3: Kỹ sư Khoa học Dữ liệu / Học máy (Data Scientists — Định hướng Mở rộng)
 - **Nhu cầu**: Xây dựng mô hình dự báo giá gạo hoặc sản lượng (Time-series Forecasting) mà không gặp lỗi rò rỉ dữ liệu tương lai (*Data Leakage*) hoặc lỗi nhảy kỳ do tháng bị khuyết.
 - **Điểm chạm trong lớp Gold**:
   - Sử dụng trục lịch liên tục (`dim_year`, `dim_month`, `dim_date`) kết hợp với chuỗi giá chuẩn hóa (`fact_price_monthly`, `fact_vn_market_quote_daily`).

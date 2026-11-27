@@ -1,5 +1,8 @@
 # Hướng dẫn Power BI Desktop Free — TLCN
 
+> [!NOTE]
+> **Tài liệu v1 lịch sử (27/10/2026):** Đây là hướng dẫn thao tác kéo thả thủ công cho bản v1 (gồm cả Trang 01 Tổng quan cũ). Bản PBIP hiện hành được sinh tự động bởi `src/analytics/marts/report.py` gồm **5 trang nghiệp vụ** (`p01`–`p05`, đã bỏ Trang 01 Tổng quan và tách bảng thuần `KeyMeasures`). Xem [REPORT_IMPLEMENTATION.md](REPORT_IMPLEMENTATION.md).
+
 Ngày 27/10/2026. Đây là hướng dẫn để **bạn tự kéo thả và lưu PBIX**, không phải `.pbix` đã được tạo/kiểm thử. CSV đến từ exporter thật trong repository, không phải bộ số liệu mock.
 
 Bản `TLCN_POWER_BI_DESKTOP_GUIDE.md` ở root là proposal của owner và được giữ nguyên. Bản hiện hành này đối chiếu proposal với exporter: giữ bốn filenames/required fields, bổ sung presence flags và `season_label_vi`, dùng immutable bundle + parameter `ExportFolder` thay vì ghi đè bốn CSV riêng lẻ. [Schemas và mapping đầy đủ](README.md).

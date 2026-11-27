@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "v03",
   "position": {
-    "x": 832,
+    "x": 430,
     "y": 96,
     "z": 3,
     "height": 64,
-    "width": 200,
+    "width": 204,
     "tabOrder": 3
   },
   "visual": {
@@ -114,7 +114,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Năm'"
+                  "Value": "'Năm FAOSTAT SUA'"
                 }
               }
             }

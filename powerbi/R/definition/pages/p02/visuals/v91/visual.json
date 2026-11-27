@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v91",
   "position": {
-    "x": 1080,
-    "y": 186,
+    "x": 24,
+    "y": 96,
     "z": 91,
-    "width": 176,
-    "height": 80,
+    "width": 796,
+    "height": 64,
     "tabOrder": 91
   },
   "visual": {
@@ -164,7 +164,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Phạm vi GSO quốc gia",
+                    "value": "Phạm vi đối chiếu FAOSTAT · 5 nước chủ lực (1961–2024)",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "9.5pt",
@@ -177,7 +177,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "SL & DT: 1990–2024 · NS: 1995–2024",
+                    "value": "Chọn Năm để cắt lát từng năm hoặc để Tất cả để tự động đối chiếu năm chung mới nhất.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "8.5pt",

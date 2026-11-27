@@ -1,16 +1,16 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "v07",
   "position": {
     "x": 24,
-    "y": 426,
+    "y": 368,
     "z": 7,
-    "height": 248,
+    "height": 144,
     "width": 610,
     "tabOrder": 7
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "lineChart",
     "query": {
       "queryState": {
         "Category": {
@@ -20,47 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FAO"
+                      "Entity": "CalendarYear"
                     }
                   },
-                  "Property": "area_name_vi"
+                  "Property": "Year"
                 }
               },
-              "queryRef": "FAO.area_name_vi",
+              "queryRef": "CalendarYear.Year",
               "active": true,
-              "displayName": "Quốc gia"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Common Year"
-                }
-              },
-              "queryRef": "Overview.FAO Common Year",
-              "displayName": "Năm chung"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Common Rank"
-                }
-              },
-              "queryRef": "Overview.FAO Common Rank",
-              "displayName": "Hạng trong nhóm"
+              "displayName": "Năm"
             }
           ]
         },
@@ -71,62 +39,41 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "FAO Common Production Mil"
+                  "Property": "SUA Opening Stocks Mil"
                 }
               },
-              "queryRef": "Overview.FAO Common Production Mil",
-              "displayName": "Triệu tấn"
+              "queryRef": "KeyMeasures.SUA Opening Stocks Mil",
+              "displayName": "Tồn đầu kỳ"
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Measure": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Overview"
-                  }
-                },
-                "Property": "FAO Common Production Mil"
-              }
-            },
-            "direction": "Descending"
-          }
-        ]
       }
     },
     "objects": {
-      "labels": [
+      "categoryAxis": [
         {
           "properties": {
-            "show": {
+            "start": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "2010D"
                 }
               }
             },
-            "fontSize": {
+            "end": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": "2023D"
                 }
               }
             },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#132E2A'"
-                    }
-                  }
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Năm'"
                 }
               }
             }
@@ -139,7 +86,7 @@
             "titleText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Sản lượng (triệu tấn)'"
+                  "Value": "'Triệu tấn'"
                 }
               }
             },
@@ -147,6 +94,13 @@
               "expr": {
                 "Literal": {
                   "Value": "1D"
+                }
+              }
+            },
+            "start": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }
@@ -185,13 +139,8 @@
             },
             "text": {
               "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Common Production Title"
+                "Literal": {
+                  "Value": "'[Gạo xay xát] FAOSTAT SUA · Tồn kho đầu kỳ (triệu tấn)'"
                 }
               }
             }

@@ -192,7 +192,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Tổng quan dữ liệu lúa gạo",
+                    "value": "Sản xuất lúa Việt Nam",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "14pt",
@@ -205,7 +205,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Thống kê 9 bảng Fact lớp Gold (GSO, FAOSTAT, USDA, World Bank, ĐBSCL), sắp xếp theo tỷ lệ dữ liệu khuyết giảm dần.",
+                    "value": "Số liệu chính thức theo Niên giám Thống kê Việt Nam (GSO), tách biệt số cả năm và số theo mùa vụ.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "8.5pt",

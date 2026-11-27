@@ -1,11 +1,11 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "v05",
   "position": {
     "x": 24,
     "y": 170,
     "z": 5,
-    "height": 246,
+    "height": 188,
     "width": 610,
     "tabOrder": 5
   },
@@ -32,24 +32,6 @@
             }
           ]
         },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FAO"
-                    }
-                  },
-                  "Property": "area_name_vi"
-                }
-              },
-              "queryRef": "FAO.area_name_vi",
-              "displayName": "Quốc gia"
-            }
-          ]
-        },
         "Y": {
           "projections": [
             {
@@ -57,14 +39,28 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "FAO Production Index"
+                  "Property": "SUA Food Supply Mil"
                 }
               },
-              "queryRef": "Overview.FAO Production Index",
-              "displayName": "Chỉ số 1961=100"
+              "queryRef": "KeyMeasures.SUA Food Supply Mil",
+              "displayName": "Thực phẩm"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KeyMeasures"
+                    }
+                  },
+                  "Property": "SUA Processed Mil"
+                }
+              },
+              "queryRef": "KeyMeasures.SUA Processed Mil",
+              "displayName": "Chế biến"
             }
           ]
         }
@@ -77,14 +73,14 @@
             "start": {
               "expr": {
                 "Literal": {
-                  "Value": "1961D"
+                  "Value": "2010D"
                 }
               }
             },
             "end": {
               "expr": {
                 "Literal": {
-                  "Value": "2024D"
+                  "Value": "2023D"
                 }
               }
             },
@@ -104,7 +100,7 @@
             "titleText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Chỉ số (1961=100)'"
+                  "Value": "'Triệu tấn'"
                 }
               }
             },
@@ -112,6 +108,13 @@
               "expr": {
                 "Literal": {
                   "Value": "1D"
+                }
+              }
+            },
+            "start": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }
@@ -151,7 +154,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'[Lúa] Chỉ số sản lượng lúa so với năm 1961 (1961=100)'"
+                  "Value": "'[Gạo xay xát] FAOSTAT SUA · Tiêu thụ thực phẩm & chế biến (triệu tấn)'"
                 }
               }
             }

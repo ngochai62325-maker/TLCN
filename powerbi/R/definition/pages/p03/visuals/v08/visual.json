@@ -1,16 +1,16 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "v08",
   "position": {
-    "x": 646,
-    "y": 426,
+    "x": 24,
+    "y": 522,
     "z": 8,
-    "height": 248,
+    "height": 152,
     "width": 610,
     "tabOrder": 8
   },
   "visual": {
-    "visualType": "scatterChart",
+    "visualType": "columnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -20,88 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FAO"
+                      "Entity": "CalendarYear"
                     }
                   },
-                  "Property": "area_name_vi"
+                  "Property": "Year"
                 }
               },
-              "queryRef": "FAO.area_name_vi",
+              "queryRef": "CalendarYear.Year",
               "active": true,
-              "displayName": "Quốc gia"
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FAO"
-                    }
-                  },
-                  "Property": "area_name_vi"
-                }
-              },
-              "queryRef": "FAO.area_name_vi",
-              "displayName": "Quốc gia"
-            }
-          ]
-        },
-        "Size": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Scatter Yield"
-                }
-              },
-              "queryRef": "Overview.FAO Scatter Yield",
-              "displayName": "Năng suất kg/ha"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Scatter Year"
-                }
-              },
-              "queryRef": "Overview.FAO Scatter Year",
               "displayName": "Năm"
-            }
-          ]
-        },
-        "X": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Scatter Area Mil"
-                }
-              },
-              "queryRef": "Overview.FAO Scatter Area Mil",
-              "active": true,
-              "displayName": "Diện tích triệu ha"
             }
           ]
         },
@@ -112,14 +39,28 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "FAO Scatter Production Mil"
+                  "Property": "SUA Stock Variation Mil"
                 }
               },
-              "queryRef": "Overview.FAO Scatter Production Mil",
-              "displayName": "Sản lượng triệu tấn"
+              "queryRef": "KeyMeasures.SUA Stock Variation Mil",
+              "displayName": "Biến động tồn"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KeyMeasures"
+                    }
+                  },
+                  "Property": "SUA Residuals Mil"
+                }
+              },
+              "queryRef": "KeyMeasures.SUA Residuals Mil",
+              "displayName": "Sai số thống kê (residual)"
             }
           ]
         }
@@ -129,10 +70,24 @@
       "categoryAxis": [
         {
           "properties": {
+            "start": {
+              "expr": {
+                "Literal": {
+                  "Value": "2010D"
+                }
+              }
+            },
+            "end": {
+              "expr": {
+                "Literal": {
+                  "Value": "2023D"
+                }
+              }
+            },
             "titleText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Diện tích (triệu ha)'"
+                  "Value": "'Năm'"
                 }
               }
             }
@@ -145,7 +100,7 @@
             "titleText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Sản lượng (triệu tấn)'"
+                  "Value": "''"
                 }
               }
             },
@@ -153,6 +108,20 @@
               "expr": {
                 "Literal": {
                   "Value": "1D"
+                }
+              }
+            },
+            "start": {
+              "expr": {
+                "Literal": {
+                  "Value": "-1.5D"
+                }
+              }
+            },
+            "end": {
+              "expr": {
+                "Literal": {
+                  "Value": "1.0D"
                 }
               }
             }
@@ -191,13 +160,8 @@
             },
             "text": {
               "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Overview"
-                    }
-                  },
-                  "Property": "FAO Scatter Title"
+                "Literal": {
+                  "Value": "'[Gạo xay xát] FAOSTAT SUA · Biến động tồn & Sai số (triệu tấn)'"
                 }
               }
             }

@@ -1,8 +1,8 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "v04",
   "position": {
-    "x": 226,
+    "x": 1048,
     "y": 96,
     "z": 4,
     "height": 64,
@@ -20,15 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "USDAPrice"
+                      "Entity": "Trade"
                     }
                   },
-                  "Property": "commodity_class_vi"
+                  "Property": "partner_name_vi"
                 }
               },
-              "queryRef": "USDAPrice.commodity_class_vi",
+              "queryRef": "Trade.partner_name_vi",
               "active": true,
-              "displayName": "Phẩm cấp gạo"
+              "displayName": "Đối tác"
             }
           ]
         }
@@ -54,14 +54,14 @@
             "singleSelect": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
             "selectAllCheckboxEnabled": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
@@ -114,7 +114,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Phẩm cấp gạo USDA'"
+                  "Value": "'Đối tác'"
                 }
               }
             }

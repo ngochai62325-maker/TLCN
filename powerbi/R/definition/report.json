@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.4.0/schema.json",
   "themeCollection": {
     "baseTheme": {
       "name": "CY24SU06",
@@ -31,17 +31,6 @@
           "type": "CustomTheme"
         }
       ]
-    },
-    {
-      "name": "SharedResources",
-      "type": "SharedResources",
-      "items": [
-        {
-          "name": "CY24SU06",
-          "path": "BaseThemes/CY24SU06.json",
-          "type": "BaseTheme"
-        }
-      ]
     }
   ],
   "settings": {
@@ -49,5 +38,6 @@
     "exportDataMode": "AllowSummarized",
     "defaultFilterActionIsDataFilter": true,
     "useEnhancedTooltips": false
-  }
+  },
+  "linguisticSchemaSyncVersion": 2
 }

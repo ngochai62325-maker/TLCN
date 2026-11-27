@@ -10,93 +10,35 @@ import sys
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "src"))
+if str(ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(ROOT / "src"))
 
-from forecasting.data_loader import load_monthly_rice_price
-from forecasting.sarima import rolling_backtest_sarima, run_sarima_pipeline
-from jobs.forecasting.metrics import (
-    EVAL_PERIODS,
-    PREDICTION_COLUMNS,
+from forecasting.data_loader import load_monthly_rice_price, load_series_from_mart  # noqa: E402
+from forecasting.metrics import (  # noqa: E402
     build_prediction_frame,
     evaluate_predictions,
+    validate_model_predictions,
     validate_predictions,
 )
-from jobs.forecasting.summarize_forecasts import ALL_MODELS, PERIOD_ORDER
-from jobs.forecasting.validate_model_predictions import validate_model_predictions
+from forecasting.sarima import rolling_backtest_sarima, run_sarima_pipeline  # noqa: E402
+from forecasting.summary import (  # noqa: E402
+    SARIMA_MODEL_NAMES,
+    upsert_forecast_metrics,
+    upsert_forecast_predictions,
+)
 
 DEFAULT_OUT_DIR = ROOT / "exports" / "forecast"
 DEFAULT_MART_CSV = DEFAULT_OUT_DIR / "forecasting_mart.csv"
-SARIMA_MODEL_NAMES = ("sarima", "sarima_rolling_1step", "sarima_static")
 
-
-def load_series_from_mart(mart_csv: Path) -> tuple[pd.Series, pd.DataFrame, dict]:
-    """Đọc chuỗi giá gạo mục tiêu y từ forecasting_mart.csv để đảm bảo đồng nhất cửa sổ Train/Test với Naive & XGBoost."""
-    mart_df = pd.read_csv(mart_csv).sort_values("month_key").reset_index(drop=True)
-    idx = pd.to_datetime(mart_df["month_key"].astype(str), format="%Y%m")
-    series = pd.Series(mart_df["y"].to_numpy(dtype=float), index=idx, name="Rice, Viet Namese 5%")
-    series.index.freq = "MS"
-    test_rows = int((mart_df["split"] == "test").sum())
-    meta = {
-        "source": "mart",
-        "series_name": "Rice, Viet Namese 5%",
-        "start_month": series.index[0].strftime("%Y-%m"),
-        "end_month": series.index[-1].strftime("%Y-%m"),
-        "total_months": len(series),
-        "train_months": int((mart_df["split"] == "train").sum()),
-        "test_months": test_rows,
-        "missing_count": int(series.isna().sum()),
-    }
-    return series, mart_df, meta
-
-
-def upsert_forecast_predictions(csv_path: Path, new_pred_df: pd.DataFrame) -> pd.DataFrame:
-    """Cập nhật lũy đẳng (idempotent upsert) dự báo SARIMA vào forecast_predictions.csv, giữ nguyên naive và xgb."""
-    if csv_path.is_file():
-        existing = pd.read_csv(csv_path)
-        kept = existing[~existing["model_name"].isin(SARIMA_MODEL_NAMES)].copy()
-        merged = pd.concat([kept, new_pred_df], ignore_index=True)
-    else:
-        merged = new_pred_df.copy()
-
-    rank = {name: i for i, name in enumerate(ALL_MODELS)}
-    merged["_model_rank"] = merged["model_name"].map(rank).fillna(99)
-    merged = (
-        merged.sort_values(["_model_rank", "model_name", "month_key"])
-        .drop(columns="_model_rank")
-        .drop_duplicates(["month_key", "model_name"], keep="last")
-        .reset_index(drop=True)
-    )
-    merged = merged[PREDICTION_COLUMNS]
-    csv_path.parent.mkdir(parents=True, exist_ok=True)
-    merged.to_csv(csv_path, index=False)
-    return merged
-
-
-def upsert_forecast_metrics(csv_path: Path, new_metrics_df: pd.DataFrame) -> pd.DataFrame:
-    """Cập nhật lũy đẳng (idempotent upsert) bảng sai số SARIMA vào forecast_metrics.csv, giữ nguyên naive và xgb."""
-    metric_cols = ["model_name", "eval_period", "n_months", "mae", "rmse", "mape"]
-    if csv_path.is_file():
-        existing = pd.read_csv(csv_path)
-        kept = existing[~existing["model_name"].isin(SARIMA_MODEL_NAMES)].copy()
-        merged = pd.concat([kept, new_metrics_df], ignore_index=True)
-    else:
-        merged = new_metrics_df.copy()
-
-    model_rank = {name: i for i, name in enumerate(ALL_MODELS)}
-    period_rank = {p: i for i, p in enumerate(PERIOD_ORDER)}
-    merged["_model_rank"] = merged["model_name"].map(model_rank).fillna(99)
-    merged["_period_rank"] = merged["eval_period"].map(period_rank).fillna(99)
-    merged = (
-        merged.sort_values(["_model_rank", "model_name", "_period_rank"])
-        .drop(columns=["_model_rank", "_period_rank"])
-        .drop_duplicates(["model_name", "eval_period"], keep="last")
-        .reset_index(drop=True)
-    )
-    merged = merged[metric_cols]
-    csv_path.parent.mkdir(parents=True, exist_ok=True)
-    merged.to_csv(csv_path, index=False)
-    return merged
+__all__ = [
+    "DEFAULT_OUT_DIR",
+    "DEFAULT_MART_CSV",
+    "SARIMA_MODEL_NAMES",
+    "load_series_from_mart",
+    "upsert_forecast_predictions",
+    "upsert_forecast_metrics",
+    "main",
+]
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -200,7 +142,7 @@ def main(argv: list[str] | None = None) -> int:
     print(" KẾT QUẢ DỰ BÁO GIÁ GẠO HÀNG THÁNG (SARIMA — TÍCH HỢP EXPORTS/FORECAST)")
     print(f"Chuỗi dữ liệu : {meta['series_name']} ({meta['start_month']} -> {meta['end_month']}, {meta['total_months']} tháng, test={test_months} tháng)")
     print(f"Cấu hình tối ưu: SARIMA{result['best_order']}x{result['best_seasonal_order']} (use_log={use_log})")
-    print(f"Phần dư (sau burn-in): resid_std={diag['resid_std']} | Ljung-Box (lag={diag['ljung_box_lag']}): p-value={diag['ljung_box_pvalue']} (white_noise={diag['residuals_white_noise']})")
+    print(f"Phần dư train (sau burn-in): resid_std={bt_diag['resid_std']} | Ljung-Box (lag={bt_diag['ljung_box_lag']}): p-value={bt_diag['ljung_box_pvalue']} (white_noise={bt_diag['residuals_white_noise']})")
     print("\n=== BẢNG TỔNG HỢP SAI SỐ CÁC MÔ HÌNH (exports/forecast/forecast_metrics.csv) ===")
     print(all_metrics_df.to_string(index=False))
     print(f"\nTổng số dòng trong forecast_predictions.csv: {len(all_preds_df)} (models={all_preds_df['model_name'].drop_duplicates().tolist()})")

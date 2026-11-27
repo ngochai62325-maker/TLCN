@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "v04",
   "position": {
-    "x": 1052,
+    "x": 226,
     "y": 96,
     "z": 4,
     "height": 64,
-    "width": 204,
+    "width": 208,
     "tabOrder": 4
   },
   "visual": {
@@ -20,15 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PSD"
+                      "Entity": "USDAPrice"
                     }
                   },
-                  "Property": "market_year"
+                  "Property": "commodity_class_vi"
                 }
               },
-              "queryRef": "PSD.market_year",
+              "queryRef": "USDAPrice.commodity_class_vi",
               "active": true,
-              "displayName": "Niên vụ"
+              "displayName": "Phẩm cấp gạo"
             }
           ]
         }
@@ -54,14 +54,14 @@
             "singleSelect": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
             "selectAllCheckboxEnabled": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
@@ -114,7 +114,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Niên vụ USDA PSD'"
+                  "Value": "'Phẩm cấp gạo USDA'"
                 }
               }
             }

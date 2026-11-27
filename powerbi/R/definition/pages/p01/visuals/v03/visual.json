@@ -3,10 +3,10 @@
   "name": "v03",
   "position": {
     "x": 24,
-    "y": 96,
+    "y": 98,
     "z": 3,
-    "width": 299,
-    "height": 84,
+    "width": 254,
+    "height": 80,
     "tabOrder": 3
   },
   "visual": {
@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Tổng quan sát'"
+                  "Value": "'[Lúa] Sản lượng kỳ đầu'"
                 }
               }
             }
@@ -219,14 +219,14 @@
             "left": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "12D"
                 }
               }
             },
             "right": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "12D"
                 }
               }
             }
@@ -243,14 +243,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "Total Observations Display"
+                  "Property": "First Production Display"
                 }
               },
-              "queryRef": "Overview.Total Observations Display",
-              "displayName": "Tổng quan sát"
+              "queryRef": "KeyMeasures.First Production Display",
+              "displayName": "[Lúa] Sản lượng kỳ đầu"
             }
           ]
         }
@@ -263,7 +263,7 @@
             "calloutSize": {
               "expr": {
                 "Literal": {
-                  "Value": "71D"
+                  "Value": "70D"
                 }
               }
             },
@@ -413,7 +413,7 @@
             "verticalSpacing": {
               "expr": {
                 "Literal": {
-                  "Value": "6D"
+                  "Value": "5D"
                 }
               }
             }
@@ -429,7 +429,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "16.5D"
+                  "Value": "15D"
                 }
               }
             },
@@ -549,7 +549,7 @@
       "referenceLabel": [
         {
           "selector": {
-            "metadata": "Overview.Total Observations Display",
+            "metadata": "KeyMeasures.First Production Display",
             "id": "ref1",
             "data": [
               {
@@ -565,10 +565,10 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "Overview Scope Ref"
+                  "Property": "First Production Year Ref"
                 }
               }
             },
@@ -596,7 +596,7 @@
         },
         {
           "selector": {
-            "metadata": "Overview.Total Observations Display",
+            "metadata": "KeyMeasures.First Production Display",
             "id": "ref1"
           },
           "properties": {
@@ -657,7 +657,7 @@
       "referenceLabelValue": [
         {
           "selector": {
-            "metadata": "Overview.Total Observations Display",
+            "metadata": "KeyMeasures.First Production Display",
             "id": "ref1"
           },
           "properties": {
@@ -696,10 +696,10 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Overview"
+                          "Entity": "KeyMeasures"
                         }
                       },
-                      "Property": "Overview Scope Ref Color"
+                      "Property": "First Production Year Ref Color"
                     }
                   }
                 }

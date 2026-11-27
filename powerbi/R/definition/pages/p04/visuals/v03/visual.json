@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "v03",
   "position": {
-    "x": 430,
+    "x": 24,
     "y": 96,
     "z": 3,
     "height": 64,
-    "width": 204,
+    "width": 194,
     "tabOrder": 3
   },
   "visual": {
@@ -20,15 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "CalendarYear"
+                      "Entity": "USDAPrice"
                     }
                   },
-                  "Property": "Year"
+                  "Property": "location_vi"
                 }
               },
-              "queryRef": "CalendarYear.Year",
+              "queryRef": "USDAPrice.location_vi",
               "active": true,
-              "displayName": "Năm"
+              "displayName": "Quốc gia"
             }
           ]
         }
@@ -54,14 +54,14 @@
             "singleSelect": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
             "selectAllCheckboxEnabled": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
@@ -114,7 +114,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Năm FAOSTAT SUA'"
+                  "Value": "'Nước xuất khẩu USDA'"
                 }
               }
             }

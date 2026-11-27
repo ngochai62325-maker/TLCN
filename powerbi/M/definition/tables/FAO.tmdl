@@ -1,105 +1,105 @@
 table FAO
-	lineageTag: a70e5107-953b-4147-98e3-cf5b532c8b02
+	lineageTag: 85dd14ee-b464-4f54-b7ec-0c3d4e2fc2ba
 
 	column year
 		dataType: int64
-		lineageTag: bd66e033-7b32-4d28-b1f0-b2d18e3f75a1
+		lineageTag: add03a42-57d7-4a04-98a4-54e0aff80b20
 		summarizeBy: none
 		sourceColumn: year
 
 	column geography_key
 		dataType: string
-		lineageTag: fd79917d-1f5b-4c3a-9912-681360cbbad0
+		lineageTag: 86868f72-69b7-44e1-9ad1-02df1cb8d2d8
 		summarizeBy: none
 		sourceColumn: geography_key
 
 	column area_code
 		dataType: string
-		lineageTag: a71b3ddf-8482-43a1-991b-db311fc5f1b5
+		lineageTag: d788322b-0b9a-4a26-a75d-30a1a26c76b4
 		summarizeBy: none
 		sourceColumn: area_code
 
 	column area_name
 		dataType: string
-		lineageTag: 12b22ad4-2a2e-4180-b944-d3e5aaa1cb3f
+		lineageTag: 638b400b-c4a1-4f15-bf62-b119c9458cc7
 		summarizeBy: none
 		sourceColumn: area_name
 
 	column product_key
 		dataType: string
-		lineageTag: b4ab22b9-c143-433a-a1e2-a4864f21be7d
+		lineageTag: 8cae8707-8708-4742-a2e3-913106cf4fd8
 		summarizeBy: none
 		sourceColumn: product_key
 
 	column product_code
 		dataType: string
-		lineageTag: a96f8568-7a0f-42d3-8052-fd4c2caeffa7
+		lineageTag: e0ba2ea5-8b52-4d2f-bcd2-a6cab104c708
 		summarizeBy: none
 		sourceColumn: product_code
 
 	column production_t
 		dataType: double
-		lineageTag: 6cb3c984-2356-4045-bd1f-55decd0eed6f
+		lineageTag: cfc41c30-f16a-4cc4-b362-58c07afa4a90
 		summarizeBy: none
 		sourceColumn: production_t
 
 	column area_ha
 		dataType: double
-		lineageTag: 94969c16-14fc-4e5d-8097-e51af51efebc
+		lineageTag: a22c917a-8a7d-4b89-9d0f-6103028010a1
 		summarizeBy: none
 		sourceColumn: area_ha
 
 	column reported_yield_kg_ha
 		dataType: double
-		lineageTag: 2f43ab2a-9929-4404-888c-78c4f8d9c616
+		lineageTag: 6d86dc92-60a5-4dbb-b385-3e6fe0b83ee7
 		summarizeBy: none
 		sourceColumn: reported_yield_kg_ha
 
 	column computed_yield_kg_ha
 		dataType: double
-		lineageTag: 7a228ce1-d271-444d-9ada-9d33e25c0eab
+		lineageTag: c326496a-efd0-418d-bd28-4cf7b2bf8dc7
 		summarizeBy: none
 		sourceColumn: computed_yield_kg_ha
 
 	column production_present
 		dataType: boolean
-		lineageTag: 52c03fc8-5fc4-49fc-b135-f70676e875c2
+		lineageTag: d9c3e098-465d-4879-a0cd-2a4bcf8bfbb2
 		summarizeBy: none
 		sourceColumn: production_present
 
 	column area_present
 		dataType: boolean
-		lineageTag: 44264580-ac3a-4d5e-9a36-3e2c1e13ff00
+		lineageTag: a783d10c-e8a3-4ecb-aead-6326235a426a
 		summarizeBy: none
 		sourceColumn: area_present
 
 	column yield_present
 		dataType: boolean
-		lineageTag: 4fd8a8ef-e59a-4829-b8dd-67954b71d245
+		lineageTag: 105cc152-03f0-44dc-929d-1cc9fb8cd2d1
 		summarizeBy: none
 		sourceColumn: yield_present
 
 	column paired_valid
 		dataType: boolean
-		lineageTag: 7153bb5d-56a7-48a0-869c-6253eca3eddc
+		lineageTag: 19f7b0e6-5b5f-480b-9aa8-fe22ac3db99e
 		summarizeBy: none
 		sourceColumn: paired_valid
 
 	column paired_production_t
 		dataType: double
-		lineageTag: 4a07fe7d-280e-4f17-8a6d-60017cb615e5
+		lineageTag: 0b282c7d-3a46-4402-8c1f-5713390963cc
 		summarizeBy: none
 		sourceColumn: paired_production_t
 
 	column paired_area_ha
 		dataType: double
-		lineageTag: 651e6cea-3bcc-447f-9a2f-43cd329caf8b
+		lineageTag: f010e855-ca10-446f-8985-06105a8e9c12
 		summarizeBy: none
 		sourceColumn: paired_area_ha
 
 	column area_name_vi
 		dataType: string
-		lineageTag: bb3deb40-a4c3-4466-8b25-74e3a0fddd28
+		lineageTag: 16f19295-2cbd-4c6f-861b-1eb65723cf63
 		summarizeBy: none
 		sourceColumn: area_name_vi
 

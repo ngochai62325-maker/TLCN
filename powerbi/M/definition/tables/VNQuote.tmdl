@@ -1,10 +1,10 @@
 table VNQuote
-	lineageTag: a76b9cb2-32aa-4368-9861-4d57c1b8599f
+	lineageTag: fdd0fe18-3055-4599-b137-4be640656936
 
 	column date
 		dataType: dateTime
 		formatString: yyyy-MM-dd
-		lineageTag: 392f906d-7492-4b2b-bd79-a5832a9bd609
+		lineageTag: 948acd2c-b668-4e2c-9a88-7ecc9cf57857
 		summarizeBy: none
 		sourceColumn: date
 
@@ -12,79 +12,79 @@ table VNQuote
 
 	column year
 		dataType: int64
-		lineageTag: 2763d6a2-1024-4acb-aa79-61042118d72e
+		lineageTag: 2f9a305b-044a-4b74-97d8-014f232fe837
 		summarizeBy: none
 		sourceColumn: year
 
 	column series_key
 		dataType: string
-		lineageTag: cf657e96-df6e-4317-b5b7-6b34ed6c13b8
+		lineageTag: 08293094-05a8-47ad-aa73-d134f62544ff
 		summarizeBy: none
 		sourceColumn: series_key
 
 	column market
 		dataType: string
-		lineageTag: 879d616d-78f4-46c4-88d0-8b9d9bcf6517
+		lineageTag: 38ca40c5-81ab-4ba1-aff5-ef8c82ce1db5
 		summarizeBy: none
 		sourceColumn: market
 
 	column commodity
 		dataType: string
-		lineageTag: 89b30395-1c31-4412-8764-bab0201f6fb8
+		lineageTag: 2367e440-dbb8-4a35-abb8-faa700d49b1a
 		summarizeBy: none
 		sourceColumn: commodity
 
 	column price_type
 		dataType: string
-		lineageTag: c766e663-ab18-4717-87b5-23e86a8fb874
+		lineageTag: 15c08795-1e37-4d2f-a385-08d304ef0402
 		summarizeBy: none
 		sourceColumn: price_type
 
 	column unit
 		dataType: string
-		lineageTag: d820ae21-dd7b-454c-bd09-562bd67f6112
+		lineageTag: 51f4cd61-94db-4b3d-907b-fd7812d3b143
 		summarizeBy: none
 		sourceColumn: unit
 
 	column currency
 		dataType: string
-		lineageTag: ec654f3f-edfb-4c3a-b99b-c505fdc4afca
+		lineageTag: 566cf991-6427-4883-9488-db0c9fb679a9
 		summarizeBy: none
 		sourceColumn: currency
 
 	column information_source
 		dataType: string
-		lineageTag: 14b3b01c-91a8-4652-8231-595028c89bc5
+		lineageTag: 711d6c64-2549-4547-b7ee-4a6d353c65ad
 		summarizeBy: none
 		sourceColumn: information_source
 
 	column price_vnd_kg
 		dataType: double
-		lineageTag: d622416a-a0db-4220-b10c-ae18814817c1
+		lineageTag: 0a281ef6-d6da-4e5f-b35a-04cff60f0422
 		summarizeBy: none
 		sourceColumn: price_vnd_kg
 
 	column observation_present
 		dataType: boolean
-		lineageTag: 25e62daa-7e58-4e95-ba4d-66f85138ac9b
+		lineageTag: 513b481e-39bb-4bc3-b737-e4bab542d4d5
 		summarizeBy: none
 		sourceColumn: observation_present
 
 	column numeric_present
 		dataType: boolean
-		lineageTag: 88acc497-d638-492e-9367-a3ef453aeea1
+		lineageTag: 3176c8f6-42ac-4e31-b7b5-d1614db39601
 		summarizeBy: none
 		sourceColumn: numeric_present
 
 	column days_since_previous_quote
 		dataType: int64
-		lineageTag: 04ddb212-5d4c-4a0c-9f3f-de491455e97e
+		lineageTag: af9aa1c8-05a0-450f-b9ea-99800ffae559
 		summarizeBy: none
 		sourceColumn: days_since_previous_quote
 
 	column series_label
 		dataType: string
-		lineageTag: afeba3a3-5434-41c4-b784-c84c936a7c64
+		lineageTag: 357e812f-a7f2-4482-9c7c-6bbe75bcaccd
 		summarizeBy: none
 		sourceColumn: series_label
 

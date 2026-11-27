@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "v05",
   "position": {
-    "x": 646,
-    "y": 96,
+    "x": 552,
+    "y": 98,
     "z": 5,
-    "width": 299,
-    "height": 84,
+    "width": 254,
+    "height": 80,
     "tabOrder": 5
   },
   "visual": {
@@ -44,7 +44,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Tỷ lệ khuyết'"
+                  "Value": "'[Lúa] Thay đổi đầu–cuối'"
                 }
               }
             }
@@ -219,14 +219,14 @@
             "left": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "12D"
                 }
               }
             },
             "right": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "12D"
                 }
               }
             }
@@ -243,14 +243,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "Null Percentage Display"
+                  "Property": "Production Change Pct Display"
                 }
               },
-              "queryRef": "Overview.Null Percentage Display",
-              "displayName": "Tỷ lệ khuyết"
+              "queryRef": "KeyMeasures.Production Change Pct Display",
+              "displayName": "[Lúa] Thay đổi đầu–cuối"
             }
           ]
         }
@@ -263,7 +263,7 @@
             "calloutSize": {
               "expr": {
                 "Literal": {
-                  "Value": "71D"
+                  "Value": "70D"
                 }
               }
             },
@@ -413,7 +413,7 @@
             "verticalSpacing": {
               "expr": {
                 "Literal": {
-                  "Value": "6D"
+                  "Value": "5D"
                 }
               }
             }
@@ -429,7 +429,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "16.5D"
+                  "Value": "15D"
                 }
               }
             },
@@ -549,7 +549,7 @@
       "referenceLabel": [
         {
           "selector": {
-            "metadata": "Overview.Null Percentage Display",
+            "metadata": "KeyMeasures.Production Change Pct Display",
             "id": "ref1",
             "data": [
               {
@@ -565,10 +565,10 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Overview"
+                      "Entity": "KeyMeasures"
                     }
                   },
-                  "Property": "Overview Null Ref"
+                  "Property": "Production Change Abs Ref"
                 }
               }
             },
@@ -596,7 +596,7 @@
         },
         {
           "selector": {
-            "metadata": "Overview.Null Percentage Display",
+            "metadata": "KeyMeasures.Production Change Pct Display",
             "id": "ref1"
           },
           "properties": {
@@ -657,7 +657,7 @@
       "referenceLabelValue": [
         {
           "selector": {
-            "metadata": "Overview.Null Percentage Display",
+            "metadata": "KeyMeasures.Production Change Pct Display",
             "id": "ref1"
           },
           "properties": {
@@ -696,10 +696,10 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Overview"
+                          "Entity": "KeyMeasures"
                         }
                       },
-                      "Property": "Overview Null Ref Color"
+                      "Property": "Production Change Abs Ref Color"
                     }
                   }
                 }

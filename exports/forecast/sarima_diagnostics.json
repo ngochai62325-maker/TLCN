@@ -24,33 +24,33 @@
   "use_log": true,
   "stationarity": {
     "raw_level": {
-      "n_obs": 189,
-      "adf_stat": -2.7295,
-      "adf_pvalue": 0.0691,
-      "adf_is_stationary": false,
-      "kpss_stat": 0.292,
-      "kpss_pvalue": 0.1,
+      "n_obs": 153,
+      "adf_stat": -2.9319,
+      "adf_pvalue": 0.0418,
+      "adf_is_stationary": true,
+      "kpss_stat": 0.3516,
+      "kpss_pvalue": 0.098,
       "kpss_is_stationary": true,
-      "is_stationary": false,
-      "conclusion": "Chuỗi bán dừng / có xu hướng cục bộ (nên lấy sai phân d=1)."
+      "is_stationary": true,
+      "conclusion": "Chuỗi DỪNG (ADF bác bỏ nghiệm đơn vị p < 0.05 và KPSS không bác bỏ tính dừng p >= 0.05)."
     },
     "log_level": {
-      "n_obs": 189,
-      "adf_stat": -2.6817,
-      "adf_pvalue": 0.0773,
-      "adf_is_stationary": false,
-      "kpss_stat": 0.2894,
+      "n_obs": 153,
+      "adf_stat": -2.877,
+      "adf_pvalue": 0.0481,
+      "adf_is_stationary": true,
+      "kpss_stat": 0.3452,
       "kpss_pvalue": 0.1,
       "kpss_is_stationary": true,
-      "is_stationary": false,
-      "conclusion": "Chuỗi bán dừng / có xu hướng cục bộ (nên lấy sai phân d=1)."
+      "is_stationary": true,
+      "conclusion": "Chuỗi DỪNG (ADF bác bỏ nghiệm đơn vị p < 0.05 và KPSS không bác bỏ tính dừng p >= 0.05)."
     },
     "log_diff_1": {
-      "n_obs": 189,
-      "adf_stat": -8.3126,
+      "n_obs": 153,
+      "adf_stat": -8.0924,
       "adf_pvalue": 0.0,
       "adf_is_stationary": true,
-      "kpss_stat": 0.0566,
+      "kpss_stat": 0.0662,
       "kpss_pvalue": 0.1,
       "kpss_is_stationary": true,
       "is_stationary": true,
@@ -80,15 +80,15 @@
       "model_name": "sarima",
       "eval_period": "2023-2025",
       "n_months": 36,
-      "mae": 14.2896,
-      "rmse": 18.4902,
-      "mape": 2.9758
+      "mae": 14.2894,
+      "rmse": 18.49,
+      "mape": 2.9757
     },
     {
       "model_name": "sarima",
       "eval_period": "2023",
       "n_months": 12,
-      "mae": 19.5844,
+      "mae": 19.5843,
       "rmse": 24.3368,
       "mape": 3.6391
     },
@@ -96,9 +96,9 @@
       "model_name": "sarima",
       "eval_period": "2024-2025",
       "n_months": 24,
-      "mae": 11.6423,
-      "rmse": 14.7205,
-      "mape": 2.6441
+      "mae": 11.6419,
+      "rmse": 14.72,
+      "mape": 2.644
     }
   ],
   "train_diagnostics": {
