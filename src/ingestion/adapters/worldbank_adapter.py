@@ -206,7 +206,3 @@ class WorldBankAdapter(BaseSourceAdapter):
     ) -> Generator[DataChunk, None, None]:
         """Incremental extraction not implemented for snapshot World Bank dataset."""
         raise NotImplementedError("Incremental extract not implemented for WorldBankAdapter")
-
-    def get_artifact_checksum(self, file_path: str) -> str:
-        """Compute SHA-256 checksum of file."""
-        return compute_file_checksum(file_path)

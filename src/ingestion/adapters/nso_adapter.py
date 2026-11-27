@@ -226,16 +226,3 @@ class NsoVietnamAdapter(BaseSourceAdapter):
 
             chunk_id += 1
             row_start += record_count
-
-    def extract_incremental(
-        self,
-        config: SourceConfig,
-        download_dir: str,
-        watermark: Any,
-    ) -> Generator[DataChunk, None, None]:
-        """Incremental extraction not implemented for snapshot NSO directory."""
-        raise NotImplementedError("Incremental extract not implemented for NsoVietnamAdapter")
-
-    def get_artifact_checksum(self, file_path: str) -> str:
-        """Compute SHA-256 checksum of a file."""
-        return compute_file_checksum(file_path)

@@ -260,15 +260,4 @@ class FaostatBulkAdapter(BaseSourceAdapter):
             logger.error(f"Error during extraction loop: {e}")
             raise PermanentError(f"Failed to extract full dataset: {e}")
 
-    def extract_incremental(
-        self,
-        config: SourceConfig,
-        download_dir: str,
-        watermark: Any,
-    ) -> Generator[DataChunk, None, None]:
-        """Incremental extraction not supported for bulk snapshot datasets."""
-        raise NotImplementedError("Incremental extract not implemented for FaostatBulkAdapter")
-
-    def get_artifact_checksum(self, file_path: str) -> str:
-        """Compute SHA-256 of downloaded or staged file."""
-        return compute_file_checksum(file_path)
+   

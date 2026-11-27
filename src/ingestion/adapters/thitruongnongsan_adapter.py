@@ -169,16 +169,3 @@ class ThitruongNongsanAdapter(BaseSourceAdapter):
             f"Yielded DataChunk from '{target_file}' sheet '{sheet_name}': {record_count} records, {len(df.columns)} columns"
         )
         yield data_chunk
-
-    def extract_incremental(
-        self,
-        config: SourceConfig,
-        download_dir: str,
-        watermark: Any,
-    ) -> Generator[DataChunk, None, None]:
-        """Incremental extraction not implemented for snapshot ThitruongNongsan dataset."""
-        raise NotImplementedError("Incremental extract not implemented for ThitruongNongsanAdapter")
-
-    def get_artifact_checksum(self, file_path: str) -> str:
-        """Compute SHA-256 checksum of file."""
-        return compute_file_checksum(file_path)

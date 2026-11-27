@@ -92,8 +92,4 @@ class SourceConfig:
     expected_schema: Optional[Dict[str, Any]] = None
     aliases: List[str] = field(default_factory=list)
 
-    @property
-    def source_url(self) -> Optional[str]:
-        """Convenience property mapping to endpoint for contract standard."""
-        return self.endpoint
-
+  

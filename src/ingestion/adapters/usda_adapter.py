@@ -183,18 +183,6 @@ class UsdaRiceYearbookAdapter(BaseSourceAdapter):
                 raise
             raise DataQualityError(f"Failed to read CSV '{target_file}': {e}")
 
-    def extract_incremental(
-        self,
-        config: SourceConfig,
-        download_dir: str,
-        watermark: Any,
-    ) -> Generator[DataChunk, None, None]:
-        """Incremental extraction not implemented for USDA Rice Yearbook snapshot dataset."""
-        raise NotImplementedError("Incremental extract not implemented for UsdaRiceYearbookAdapter")
-
-    def get_artifact_checksum(self, file_path: str) -> str:
-        """Compute SHA-256 checksum of file."""
-        return compute_file_checksum(file_path)
 
 
 # Backward-compatibility alias for registry and existing callers
@@ -395,19 +383,5 @@ class UsdaPsdAdapter(BaseSourceAdapter):
             f"{record_count} records, {len(df.columns)} columns"
         )
         yield data_chunk
-
-    def extract_incremental(
-        self,
-        config: SourceConfig,
-        download_dir: str,
-        watermark: Any,
-    ) -> Generator[DataChunk, None, None]:
-        """Incremental extraction not implemented for USDA PSD snapshot dataset."""
-        raise NotImplementedError("Incremental extract not implemented for UsdaPsdAdapter")
-
-    def get_artifact_checksum(self, file_path: str) -> str:
-        """Compute SHA-256 checksum of file."""
-        return compute_file_checksum(file_path)
-
 
 __all__ = ["UsdaRiceYearbookAdapter", "UsdaLocalAdapter", "UsdaPsdAdapter"]

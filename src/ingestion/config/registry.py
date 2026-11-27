@@ -273,13 +273,6 @@ class SourceRegistry:
                             f"Enabled remote source '{source_id}' has neither endpoint nor local fallback."
                         )
 
-    def register(self, config: SourceConfig) -> None:
-        """Programmatically register a source configuration with validation."""
-        if config.source_id in self._sources:
-            raise RegistryValidationError(f"Source '{config.source_id}' is already registered.")
-        self._sources[config.source_id] = config
-        for alias in config.aliases:
-            self._aliases[alias] = config.source_id
 
     def get_source(self, source_id: str) -> SourceConfig:
         """Retrieve source config by primary source_id or alias."""

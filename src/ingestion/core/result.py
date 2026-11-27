@@ -107,9 +107,6 @@ class IngestionResult:
     # Full manifest dict (written to manifest.json alongside artifact)
     manifest: Dict[str, Any] = field(default_factory=dict)
 
-    def is_success(self) -> bool:
-        return self.status in (IngestionStatus.SUCCESS, IngestionStatus.NO_NEW_DATA)
-
     def to_dict(self) -> Dict[str, Any]:
         """Serialise to a plain dict (JSON-safe after datetime conversion)."""
         d: Dict[str, Any] = {}
