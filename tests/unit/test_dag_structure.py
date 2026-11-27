@@ -62,17 +62,14 @@ def test_owner_approved_release_bronze_scope_excludes_nso_and_fixture(monkeypatc
     assert bronze.schedule_interval is None and silver.schedule_interval is None
     assert not bronze.catchup and not silver.catchup
     assert bronze.max_active_runs == silver.max_active_runs == 1
+    assert "trigger_silver_release" not in bronze.task_ids
     if production == "1":
-        trigger = bronze.get_task("trigger_silver_release")
-        assert trigger.wait_for_completion and not trigger.reset_dag_run and not trigger._defer
-        assert trigger.retries == 0 and trigger.execution_timeout.total_seconds() == 7200
-        assert trigger.conf == {"mode": "full", "release": "silver_v2_release_20261013"}
         gate = bronze.get_task("verify_bronze_batch")
         assert gate.upstream_task_ids == {"ingest_" + s for s in expected}
-        assert gate.trigger_rule == trigger.trigger_rule == "all_success"
-        assert trigger.upstream_task_ids == {gate.task_id}
-    else:
-        assert "trigger_silver_release" not in bronze.task_ids
+        assert gate.trigger_rule == "all_success"
+        assert "end_lakehouse_ingestion" in gate.downstream_task_ids
+    e2e = bag.dags.get("rice_lakehouse_end_to_end_pipeline")
+    assert e2e is not None and e2e.schedule_interval is None and not e2e.catchup
     transformations = [t for t in silver.tasks if t.task_id.startswith("transform_")]
     assert {t.op_args[0] for t in transformations} == expected
     assert all(t.retries == 0 for t in transformations)

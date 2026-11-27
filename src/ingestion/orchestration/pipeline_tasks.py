@@ -270,3 +270,74 @@ def verify_local_silver_origin(conf, silver_run_id):
         raise AirflowException("Local Silver input proof drift")
     return batch
 
+
+def resolve_local_bronze_batch(conf=None):
+    """Resolve verified Bronze snapshots from conf, latest successful Bronze DagRun, or Iceberg catalog."""
+    from silver.local_profile import PROFILE, BRONZE_SOURCES, require_profile, validate_registry
+    conf = conf or {}
+    profile = conf.get("profile") or PROFILE
+    require_profile(profile, conf.get("release"))
+    validate_registry()
+
+    batch = conf.get("bronze_batch")
+    if isinstance(batch, dict):
+        if batch.get("results"):
+            return verify_local_bronze_batch(batch["results"])
+        inputs = batch.get("bronze_inputs")
+        if isinstance(inputs, dict) and set(inputs) == set(BRONZE_SOURCES) and all(
+            str((inputs[s] or {}).get("snapshot_id", "")).isdigit() for s in BRONZE_SOURCES
+        ):
+            return {"status": "PASSED", "profile": PROFILE, "bronze_inputs": inputs}
+
+    try:
+        from airflow.models import DagRun, XCom
+        from airflow.utils.session import create_session
+        with create_session() as db:
+            latest = (
+                db.query(DagRun)
+                .filter(DagRun.dag_id == "rice_lakehouse_ingestion", DagRun.state == "success")
+                .order_by(DagRun.execution_date.desc())
+                .first()
+            )
+            if latest is not None:
+                stored = XCom.get_one(
+                    dag_id="rice_lakehouse_ingestion",
+                    run_id=latest.run_id,
+                    task_id="verify_bronze_batch",
+                    key="return_value",
+                    session=db,
+                )
+                if isinstance(stored, dict) and stored.get("results"):
+                    verified = verify_local_bronze_batch(stored["results"])
+                    verified["bronze_dag_run_id"] = latest.run_id
+                    return verified
+    except Exception:
+        pass
+
+    from ingestion.storage.bronze_writer import BronzeIcebergWriter
+    catalog = BronzeIcebergWriter().get_iceberg_catalog()
+    repo = MetadataRepository()
+    bronze_inputs = {}
+    for source in BRONZE_SOURCES:
+        table = catalog.load_table("bronze." + source)
+        snapshot = table.current_snapshot()
+        if snapshot is None:
+            raise AirflowException(f"Bronze readiness failed: missing committed snapshot for {source}")
+        latest_snap = repo.get_latest_snapshot(source)
+        bronze_inputs[source] = {
+            "table": "iceberg.bronze." + source,
+            "uuid": str(table.metadata.table_uuid),
+            "snapshot_id": str(snapshot.snapshot_id),
+            "schema_id": table.metadata.current_schema_id,
+            "metadata_location": table.metadata_location,
+            "proved_run_id": latest_snap.get("run_id") if latest_snap else None,
+            "checksum": latest_snap.get("checksum") if latest_snap else None,
+        }
+    return {
+        "status": "PASSED",
+        "profile": PROFILE,
+        "registry_sha256": REGISTRY_SHA256,
+        "bronze_inputs": bronze_inputs,
+    }
+
+

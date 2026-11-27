@@ -1,7 +1,8 @@
 """Airflow DAG for Vietnam Rice Market Data Lakehouse Bronze Ingestion.
 
-Implements the Airflow production DAG.
-Delegates all application logic to IngestionEngine via the `run_ingestion_task`.
+Runs Bronze ingestion independently and terminates cleanly after verification.
+Full sequential execution (Bronze -> Silver -> Gold -> Export Marts) is orchestrated
+by ``rice_lakehouse_end_to_end_pipeline``.
 """
 
 from __future__ import annotations
@@ -16,7 +17,6 @@ import pendulum
 from airflow import DAG
 from airflow.decorators import task
 from airflow.operators.empty import EmptyOperator
-from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 
 # Ensure src/ is on sys.path for container execution
 for p in ["/opt/airflow/src", os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))]:
@@ -26,7 +26,7 @@ for p in ["/opt/airflow/src", os.path.abspath(os.path.join(os.path.dirname(__fil
 from ingestion.config.registry import SourceRegistry
 from ingestion.orchestration.pipeline_tasks import (
     run_ingestion_task, validate_release_registry, verify_bronze_batch,
-    verify_silver_trigger_ready, silver_trigger_run_id, SILVER_RELEASE, RELEASE_SOURCES,
+    silver_trigger_run_id, SILVER_RELEASE, RELEASE_SOURCES,
 )
 from ingestion.storage.metadata_repository import MetadataRepository
 from silver.local_profile import active_profile, validate_registry as validate_local_registry, BRONZE_SOURCES
@@ -46,11 +46,6 @@ production = PRODUCTION_ENABLED == "1"
 schedule = (os.environ.get("SILVER_BRONZE_SCHEDULE") or None) if production else None
 
 
-def check_silver_before_trigger(context):
-    # Recheck at execution, since the target can pause/change after the batch gate.
-    verify_silver_trigger_ready(context["run_id"], **({"profile": LOCAL_PROFILE} if LOCAL_PROFILE else {}))
-
-
 default_args = {
     "owner": "data_engineering",
     "depends_on_past": False,
@@ -63,7 +58,7 @@ default_args = {
 with DAG(
     dag_id="rice_lakehouse_ingestion",
     default_args=default_args,
-    description="Orchestrates the Rice Lakehouse Bronze Ingestion using IngestionEngine",
+    description="Independent Bronze ingestion pipeline using IngestionEngine",
     schedule=schedule,  # No release schedule until the owner supplies one and enables production.
     start_date=pendulum.datetime(2026, 9, 26, tz="Asia/Bangkok"),
     catchup=False,
@@ -147,23 +142,14 @@ with DAG(
         if LOCAL_PROFILE:
             for previous, following in zip(ingestions, ingestions[1:]):
                 previous >> following  # Stop the local batch on a failed/unknown writer.
+
         @task(task_id="verify_bronze_batch")
         def batch_gate(results, **context):
             verified = verify_local_bronze_batch(results) if LOCAL_PROFILE else verify_bronze_batch(results)
             if LOCAL_PROFILE:
                 verified["bronze_dag_run_id"] = context["run_id"]
-            verified["silver_run_id"] = verify_silver_trigger_ready(context["run_id"], **({"profile": LOCAL_PROFILE} if LOCAL_PROFILE else {}))
             return verified
 
         verified = batch_gate(ingestions)
-        trigger = TriggerDagRunOperator(
-            task_id="trigger_silver_release", trigger_dag_id="rice_lakehouse_silver_pipeline",
-            trigger_run_id="{{ ti.xcom_pull(task_ids='verify_bronze_batch')['silver_run_id'] }}",
-            conf=({"mode": "full", "profile": LOCAL_PROFILE, "bronze_batch": verified} if LOCAL_PROFILE
-                  else {"mode": "full", "release": RELEASE}), reset_dag_run=False,
-            wait_for_completion=True, deferrable=False, retries=0,
-            pre_execute=check_silver_before_trigger,
-            execution_timeout=timedelta(hours=2), poke_interval=30,
-        )
-        verified >> trigger >> end_all
+        verified >> end_all
 

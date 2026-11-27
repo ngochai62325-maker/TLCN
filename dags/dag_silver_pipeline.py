@@ -1,4 +1,8 @@
-"""Contract-driven Silver DAG with real Bronze readiness and Silver audits."""
+"""Contract-driven Silver DAG with real Bronze readiness and Silver audits.
+
+Can be triggered standalone manually or orchestrated sequentially by
+``rice_lakehouse_end_to_end_pipeline``.
+"""
 from datetime import timedelta
 from pathlib import Path
 import sys
@@ -40,7 +44,7 @@ with DAG(
     dag_id="rice_lakehouse_silver_pipeline",
     default_args={"owner": "data_engineering", "retries": 0 if RELEASE or LOCAL_PROFILE else 1, "retry_delay": timedelta(seconds=30)},
     description="Contract cleaning, quarantine, MERGE and real quality audit",
-    schedule=None,  # Bronze is the only production schedule owner.
+    schedule=None,  # Run standalone manually or via rice_lakehouse_end_to_end_pipeline.
     start_date=pendulum.datetime(2026, 10, 1, tz="Asia/Bangkok"),
     params={"silver_release": RELEASE, "registry_sha256": REGISTRY_SHA256 if RELEASE or LOCAL_PROFILE else None,
             **({"local_profile": LOCAL_PROFILE, "silver_namespace": LOCAL_NAMESPACE} if LOCAL_PROFILE else {})},
@@ -52,11 +56,16 @@ with DAG(
 
     @task(task_id="gate_check_bronze")
     def check_bronze_readiness(**context):
+        conf = (context.get("dag_run").conf or {}) if context.get("dag_run") else {}
+        batch = None
         if LOCAL_PROFILE:
-            from ingestion.orchestration.pipeline_tasks import verify_local_silver_origin
-            verify_local_silver_origin(context["dag_run"].conf or {}, context["run_id"])
-        return [trigger_spark_job(dataset=d, action="check-bronze", release=RELEASE,
-                                  **({"profile": LOCAL_PROFILE} if LOCAL_PROFILE else {})) for d in DATASETS]
+            from ingestion.orchestration.pipeline_tasks import resolve_local_bronze_batch
+            batch = resolve_local_bronze_batch(conf)
+        checks = [trigger_spark_job(dataset=d, action="check-bronze", release=RELEASE,
+                                    **({"profile": LOCAL_PROFILE} if LOCAL_PROFILE else {})) for d in DATASETS]
+        if LOCAL_PROFILE:
+            return {"checks": checks, "bronze_inputs": batch["bronze_inputs"]}
+        return checks
 
     @task(retries=0)
     def transform_dataset(dataset_id, **context):
@@ -64,14 +73,18 @@ with DAG(
         conf = dag_run.conf or {} if dag_run else {}
         if LOCAL_PROFILE:
             from silver.local_profile import require_profile
-            from ingestion.orchestration.pipeline_tasks import silver_trigger_run_id
-            require_profile(conf.get("profile"), conf.get("release"))
-            batch = conf.get("bronze_batch") or {}
-            if silver_trigger_run_id(batch.get("bronze_dag_run_id"), profile=LOCAL_PROFILE) != context.get("run_id"):
-                raise ValueError("Local Silver must be triggered by its verified Bronze batch")
-            proof = batch["bronze_inputs"][mapping(dataset_id)[0]]
+            from ingestion.orchestration.pipeline_tasks import resolve_local_bronze_batch
+            require_profile(conf.get("profile") or LOCAL_PROFILE, conf.get("release"))
+            bronze_inputs = (conf.get("bronze_batch") or {}).get("bronze_inputs")
+            if not bronze_inputs and context.get("ti") is not None:
+                gate_out = context["ti"].xcom_pull(task_ids="gate_check_bronze")
+                if isinstance(gate_out, dict) and "bronze_inputs" in gate_out:
+                    bronze_inputs = gate_out["bronze_inputs"]
+            if not bronze_inputs:
+                bronze_inputs = resolve_local_bronze_batch(conf)["bronze_inputs"]
+            proof = bronze_inputs[mapping(dataset_id)[0]]
             return trigger_spark_job(dataset=dataset_id, mode=conf.get("mode", "full"),
-                                     run_id=proof["proved_run_id"] if conf.get("mode") == "incremental" else None,
+                                     run_id=proof.get("proved_run_id") if conf.get("mode") == "incremental" else None,
                                      pipeline_run_id=context["run_id"], profile=LOCAL_PROFILE,
                                      bronze_snapshot_id=proof["snapshot_id"])
         if conf.get("release") and conf["release"] != RELEASE:

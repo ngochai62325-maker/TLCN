@@ -46,6 +46,7 @@ x-airflow: &airflow
     MALLOC_ARENA_MAX: "2"
   volumes:
     - .:/workspace:ro
+    - ./exports:/workspace/exports
     - ${SILVER_TEST_RAW_ROOT:?Set complete Raw path}:/workspace/data/raw:ro
     - local_airflow_logs:/opt/airflow/logs
 
